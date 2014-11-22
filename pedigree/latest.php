@@ -18,7 +18,7 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 //path taken
 
-$xoopsOption['template_main'] = "pedigree_latest.html";
+$xoopsOption['template_main'] = "pedigree_latest.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -87,15 +87,15 @@ while ($row = $xoopsDB->fetchArray($result)) {
     }
 
     if ($row['d_foto'] != '') {
-        $camera = " <img src=\"images/camera.png\">";
+        $camera = " <img src=\"assets/images/camera.png\">";
     } else {
         $camera = "";
     }
 
     if ($row['d_roft'] == 0) {
-        $gender .= "<img src=\"images/male.gif\">";
+        $gender .= "<img src=\"assets/images/male.gif\">";
     } else {
-        $gender .= "<img src=\"images/female.gif\">";
+        $gender .= "<img src=\"assets/images/female.gif\">";
     }
     //create string for parents
     if ($row['f_naam'] == "") {

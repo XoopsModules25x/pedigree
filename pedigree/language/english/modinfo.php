@@ -52,16 +52,16 @@ define("_MI_PEDIGREE_PEDCOLOURS", "Pedigree colour information");
 define("_MI_PEDIGREE_PEDCOLOURS_DESC", "The value represents how the pedigree will look.<br />Use <a href=\"../animal/admin/colors.php\">this wizard</a> to set the colour information.");
 
 //menu items
-define("_MA_PEDIGREE_WEL", "Welcome");
-define("_MA_PEDIGREE_VSD", "View/Search dogs");
-define("_MA_PEDIGREE_VOB", "View owners/breeders");
-define("_MA_PEDIGREE_LA", "Latest additions");
-define("_MA_PEDIGREE_AOB", "Add an owner/breeder");
-define("_MA_PEDIGREE_AD", "Add a dog");
-define("_MA_PEDIGREE_M50", "Members top-50");
-define("_MA_PEDIGREE_AIO", "Advanced info & orphans");
-define("_MA_PEDIGREE_VM", "Virtual mating");
-define("_MA_PEDIGREE_AL", "Add a litter");
+//define("_MA_PEDIGREE_WEL", "Welcome");
+//define("_MA_PEDIGREE_VSD", "View/Search dogs");
+//define("_MA_PEDIGREE_VOB", "View owners/breeders");
+//define("_MA_PEDIGREE_LA", "Latest additions");
+//define("_MA_PEDIGREE_AOB", "Add an owner/breeder");
+//define("_MA_PEDIGREE_AD", "Add a dog");
+//define("_MA_PEDIGREE_M50", "Members top-50");
+//define("_MA_PEDIGREE_AIO", "Advanced info & orphans");
+//define("_MA_PEDIGREE_VM", "Virtual mating");
+//define("_MA_PEDIGREE_AL", "Add a litter");
 
 //notication items
 define("_MI_PEDIGREE_DATA_NOTIFY", "Changes");
@@ -100,14 +100,14 @@ define("_MI_PEDIGREE_OWNER_BLOCK_RECENT", "Owner Recent");
 define("_MI_PEDIGREE_OWNER_BLOCK_DAY", "Owner Today");
 define("_MI_PEDIGREE_OWNER_BLOCK_RANDOM", "Owner Random");
 define("_MI_PEDIGREE_PEDIGREE_TEMP_BLOCK_RECENT", "pedigree_temp Recent");
-define("_MI_PEDIGREE_PEDIGREE_TEMP_BLOCK_DAY", "pedigree_temp Today");
-define("_MI_PEDIGREE_PEDIGREE_TEMP_BLOCK_RANDOM", "pedigree_temp Random");
-define("_MI_PEDIGREE_PEDIGREE_BLOCK_RECENT", "pedigree Recent");
-define("_MI_PEDIGREE_PEDIGREE_BLOCK_DAY", "pedigree Today");
-define("_MI_PEDIGREE_PEDIGREE_BLOCK_RANDOM", "pedigree Random");
-define("_MI_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RECENT", "pedigree_config Recent");
-define("_MI_PEDIGREE_PEDIGREE_CONFIG_BLOCK_DAY", "pedigree_config Today");
-define("_MI_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RANDOM", "pedigree_config Random");
+define("_MI_PEDIGREE_PEDIGREE_TEMP_BLOCK_DAY", "Pedigree_temp Today");
+define("_MI_PEDIGREE_PEDIGREE_TEMP_BLOCK_RANDOM", "Pedigree_temp Random");
+define("_MI_PEDIGREE_PEDIGREE_BLOCK_RECENT", "Pedigree Recent");
+define("_MI_PEDIGREE_PEDIGREE_BLOCK_DAY", "Pedigree Today");
+define("_MI_PEDIGREE_PEDIGREE_BLOCK_RANDOM", "Pedigree Random");
+define("_MI_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RECENT", "Pedigree_config Recent");
+define("_MI_PEDIGREE_PEDIGREE_CONFIG_BLOCK_DAY", "Pedigree_config Today");
+define("_MI_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RANDOM", "Pedigree_config Random");
 
 //Config
 define("_MI_PEDIGREE_EDITOR", "Editor");
@@ -138,7 +138,7 @@ define("_MI_PEDIGREE_FBCOMMENTS_DESC", "Allow Facebook comments in the form");
 define("_MI_PEDIGREE_VIEW_SEARCH", "View/Search");
 define("_MI_PEDIGREE_ADD_ANIMAL", "Add an animal");
 define("_MI_PEDIGREE_ADD_LITTER", "Add a litter");
-define("_MI_PEDIGREE_VIEW_OWNERS", "View owners/breeders");
+define("_MI_PEDIGREE_VIEW_OWNERS", "View owner/breeder");
 define("_MI_PEDIGREE_ADD_OWNER", "Add owner/breeder");
 define("_MI_PEDIGREE_ADVANCED_INFO", "Advanced info");
 define("_MI_PEDIGREE_VIRTUAL_MATING", "Virtual Mating");
@@ -146,7 +146,9 @@ define("_MI_PEDIGREE_LATEST_ADDITIONS", "Latest additions");
 define("_MI_PEDIGREE_WEBMASTER_TOOLS", "Webmaster tools");
 //define("_MI_PEDIGREE_EDITOR","Editor");
 
-define('_MI_PEDIGREE_FILESUPLOADS_CONFIGS', "Files preferences");
+//define('_MI_PEDIGREE_FILESUPLOADS_CONFIGS', "Files preferences");
+define('_MI_PEDIGREE_FILESUPLOADS_CONFIGS', '<span style="font-weight: bold; color: #880966;"><b>Files preferences</span> ');
+
 define('_MI_PEDIGREE_FILESUPLOADS_CONFIGSDSC', "");
 define('_MI_PEDIGREE_MAXFILESIZE', "[upload files] Max file size (bytes)");
 define('_MI_PEDIGREE_MAXFILESIZEDSC', "Maximum file size permitted with file uploads.");
@@ -161,12 +163,38 @@ define('_MI_PEDIGREE_COLOR', "Color preferences");
 define('_MI_PEDIGREE_CHILDREN', 'Children language option');
 //TODO add descrpiptions
 
-define('_MI_PEDIGREE_MOTHER_DESC', ''); // "mother language option");
-define('_MI_PEDIGREE_FATHER_DESC', ''); // father language option");
-define('_MI_PEDIGREE_MALE_DESC', ''); // male language option");
-define('_MI_PEDIGREE_FEMALE_DESC', ''); // female language option");
-define('_MI_PEDIGREE_LITTER_DESC', ''); // litter language option");
-define('_MI_PEDIGREE_USELITTER_DESC', ''); // Should the add a litter feature be used ?");
-define('_MI_PEDIGREE_SHOWELCOME_DESC', ''); // Show the welcome screen ?");
+define('_MI_PEDIGREE_MOTHER_DESC', 'mother language option'); // "mother language option");
+define('_MI_PEDIGREE_FATHER_DESC', 'father language option'); // father language option");
+define('_MI_PEDIGREE_MALE_DESC', 'male language option'); // male language option");
+define('_MI_PEDIGREE_FEMALE_DESC', 'female language option'); // female language option");
+define('_MI_PEDIGREE_LITTER_DESC', 'litter language option'); // litter language option");
+define('_MI_PEDIGREE_USELITTER_DESC', 'Should the add a litter feature be used ?'); // Should the add a litter feature be used ?");
+define('_MI_PEDIGREE_SHOWELCOME_DESC', 'Show the welcome screen ?'); // Show the welcome screen ?");
 define('_MI_PEDIGREE_COLOR_DESC', 'Set Color Preferences');
-define('_MI_PEDIGREE_CHILDREN_DESC', ''); // "mother language option");
+define('_MI_PEDIGREE_CHILDREN_DESC', 'Children language option'); // "mother language option");
+
+//Templates
+
+define('_MI_PEDIGREE_TEMPL_INDEX', "Pedigree Index Template");
+define('_MI_PEDIGREE_TEMPL_TREE', "Pedigree-tree Template");
+define('_MI_PEDIGREE_TEMPL_RESULTS', "Pedigree results Template");
+define('_MI_PEDIGREE_TEMPL_LATEST', "Latest Additions Template");
+define('_MI_PEDIGREE_TEMPL_OWNER', "View Owner/Breeder Template");
+define('_MI_PEDIGREE_TEMPL_ANIMAL', "View Animal details Template");
+define('_MI_PEDIGREE_TEMPL_OWNER_DETAILS', "View Owner details Template");
+define('_MI_PEDIGREE_TEMPL_UPDATE', "Update details Template");
+define('_MI_PEDIGREE_TEMPL_SELECT', "select dog Template");
+define('_MI_PEDIGREE_TEMPL_COI', "Coefficient of Inbreeding Template");
+define('_MI_PEDIGREE_TEMPL_TOP50', "Members top 50 Template");
+define('_MI_PEDIGREE_TEMPL_ADVANCED_INFO', "Advanced info Template");
+define('_MI_PEDIGREE_TEMPL_ANIMAL_ADD', "Add a dog Template");
+define('_MI_PEDIGREE_TEMPL_LITTER_ADD', "Add litter Template");
+define('_MI_PEDIGREE_TEMPL_DELETE_CONFIRM', "Deletion conformation Template");
+define('_MI_PEDIGREE_TEMPL_WELCOME', "Welcome Template");
+define('_MI_PEDIGREE_TEMPL_VIRTUAL_MATING', "Virtual Mating Template");
+define('_MI_PEDIGREE_TEMPL_MEGAPEDIGREE', "Megapedigree Template");
+define('_MI_PEDIGREE_TEMPL_BOOK', "Pedigreebook Template");
+define('_MI_PEDIGREE_TEMPL_TOOLS', "Tools Template");
+define('_MI_PEDIGREE_TEMPL_PAGE_EDIT', "Edit page Template");
+define('_MI_PEDIGREE_TEMPL_TABLE_SORT', "Template for javascript table sort'");
+define('_MI_PEDIGREE_TEMPL_BREADCRUMB', "Breadcrumb");

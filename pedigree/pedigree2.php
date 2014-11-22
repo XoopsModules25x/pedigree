@@ -21,7 +21,7 @@ extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = "pedigree_pedigree.html";
+$xoopsOption['template_main'] = "pedigree_pedigree.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -337,8 +337,8 @@ function pedigree_main($ID)
     $xoopsTpl->assign("overview", $ov);
     $sign = $moduleConfig['gender'];
     if ($sign == 1) {
-        $xoopsTpl->assign("male", "<img src=\"images/male.gif\">");
-        $xoopsTpl->assign("female", "<img src=\"images/female.gif\">");
+        $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
+        $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
     }
     $addit = $moduleConfig['adinfo'];
     if ($addit == 1) {

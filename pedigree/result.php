@@ -17,7 +17,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_result.html";
+$xoopsOption['template_main'] = "pedigree_result.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -204,12 +204,12 @@ while ($row = $xoopsDB->fetchArray($result)) {
         }
     }
     if ($row['roft'] == 0) {
-        $gender .= "<img src=\"images/male.gif\">";
+        $gender .= "<img src=\"assets/images/male.gif\">";
     } else {
-        $gender .= "<img src=\"images/female.gif\">";
+        $gender .= "<img src=\"assets/images/female.gif\">";
     }
     if ($row['foto'] != '') {
-        $camera = " <img src=\"images/camera.png\">";
+        $camera = " <img src=\"assets/images/camera.png\">";
     } else {
         $camera = "";
     }

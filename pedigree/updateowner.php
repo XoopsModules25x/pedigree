@@ -13,7 +13,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
-$xoopsOption['template_main'] = "pedigree_update.html";
+$xoopsOption['template_main'] = "pedigree_update.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Update details");

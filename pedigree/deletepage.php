@@ -17,7 +17,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_delete.html";
+$xoopsOption['template_main'] = "pedigree_delete.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -49,8 +49,7 @@ if (!empty($dogname)) {
             }
         }
         if ($access == "1") {
-            $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_trash") . " SELECT * FROM " . $xoopsDB->prefix("pedigree_tree") . " WHERE " . $xoopsDB->prefix("pedigree_tree") . ".ID='"
-                . $dogid . "'";
+            $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_trash") . " SELECT * FROM " . $xoopsDB->prefix("pedigree_tree") . " WHERE " . $xoopsDB->prefix("pedigree_tree") . ".ID='" . $dogid . "'";
             mysql_query($sql);
             $delsql = "DELETE FROM " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID ='" . $row['ID'] . "'";
             mysql_query($delsql);

@@ -14,7 +14,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
-$xoopsOption['template_main'] = "pedigree_virtual.html";
+$xoopsOption['template_main'] = "pedigree_virtual.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Virtual Mating");
@@ -144,7 +144,7 @@ function virt()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"images/camera.png\">";
+            $camera = " <img src=\"assets/images/camera.png\">";
         } else {
             $camera = "";
         }
@@ -176,7 +176,7 @@ function virt()
         $dogs[] = array(
             'id'          => $row['d_id'],
             'name'        => $name,
-            'gender'      => '<img src="images/male.gif">',
+            'gender'      => '<img src="assets/images/male.gif">',
             'link'        => "<a href=\"virtual.php?f=dam&selsire=" . $row['d_id'] . "\">" . $name . "</a>",
             'colour'      => "",
             'number'      => "",
@@ -332,7 +332,7 @@ function dam()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"images/camera.png\">";
+            $camera = " <img src=\"assets/images/camera.png\">";
         } else {
             $camera = "";
         }
@@ -364,7 +364,7 @@ function dam()
         $dogs[] = array(
             'id'          => $row['d_id'],
             'name'        => $name,
-            'gender'      => '<img src="images/female.gif">',
+            'gender'      => '<img src="assets/images/female.gif">',
             'link'        => "<a href=\"virtual.php?f=check&selsire=" . $selsire . "&seldam=" . $row['d_id'] . "\">" . $name . "</a>",
             'colour'      => "",
             'number'      => "",

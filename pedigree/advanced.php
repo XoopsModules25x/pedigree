@@ -18,7 +18,7 @@ ob_start();
 include(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_eq_pie.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_advanced.html";
+$xoopsOption['template_main'] = "pedigree_advanced.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
@@ -63,7 +63,7 @@ $data[1][0] = strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['fe
 $data[1][1] = $countfemales;
 $data[1][2] = "#FFC8C8";
 
-$numbers_pie->MakePie('images/numbers.png', '200', '200', '10', $odd, $data, '1');
+$numbers_pie->MakePie('assets/images/numbers.png', '200', '200', '10', $odd, $data, '1');
 
 //create animal object
 
@@ -77,8 +77,7 @@ for ($i = 0; $i < count($fields); ++$i) {
     $fieldobject = new $fieldType($userfield, $animal);
     if ($userfield->active() && $userfield->inadvanced()) {
         $queryString
-                  =
-            "select count(p.user" . $fields[$i] . ") as X, p.user" . $fields[$i] . " as p_user" . $fields[$i] . ", b.ID as b_id, b.value as b_value from " . $xoopsDB->prefix("pedigree_tree")
+                  = "select count(p.user" . $fields[$i] . ") as X, p.user" . $fields[$i] . " as p_user" . $fields[$i] . ", b.ID as b_id, b.value as b_value from " . $xoopsDB->prefix("pedigree_tree")
             . " p LEFT JOIN " . $xoopsDB->prefix("pedigree_lookup" . $fields[$i]) . " b ON p.user" . $fields[$i] . " = b.ID GROUP BY p.user" . $fields[$i] . " ORDER BY X DESC";
         $result   = $xoopsDB->query($queryString);
         $piecount = 0;
@@ -107,10 +106,10 @@ for ($i = 0; $i < count($fields); ++$i) {
             } else {
                 $back = $odd;
             }
-if (isset($data)) {
-            $pie->MakePie('images/user' . $fields[$i] . '.png', '200', '200', '10', $back, $data, '1');
-            unset($pie);
-}
+            if (isset($data)) {
+                $pie->MakePie('images/user' . $fields[$i] . '.png', '200', '200', '10', $back, $data, '1');
+                unset($pie);
+            }
             $books[] = array('book' => "Chart", 'country' => '<img src="images/user' . $fields[$i] . '.png">');
         }
         $totpl[] = array('title' => $userfield->getSetting("FieldName"), 'content' => $books);
@@ -127,15 +126,15 @@ $xoopsTpl->assign("topfemales", "<a href=\"topstud.php?com=mother\">" . strtr(_M
 $xoopsTpl->assign("tnmftitle", strtr(_MA_PEDIGREE_ADV_TNMFTIT, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female'])));
 $xoopsTpl->assign(
     "countmales",
-    "<img src=\"images/male.gif\"> " . strtr(_MA_PEDIGREE_ADV_TCMA, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female'])) . " : <a href=\"result.php?f=roft&w=zero&o=NAAM\">"
-    . $countmales . "</a>"
+    "<img src=\"assets/images/male.gif\"> " . strtr(_MA_PEDIGREE_ADV_TCMA, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female']))
+    . " : <a href=\"result.php?f=roft&w=zero&o=NAAM\">" . $countmales . "</a>"
 );
 $xoopsTpl->assign(
     "countfemales",
-    "<img src=\"images/female.gif\"> " . strtr(_MA_PEDIGREE_ADV_TCFE, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female'])) . " : <a href=\"result.php?f=roft&w=1&o=NAAM\">"
-    . $countfemales
+    "<img src=\"assets/images/female.gif\"> " . strtr(_MA_PEDIGREE_ADV_TCFE, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female']))
+    . " : <a href=\"result.php?f=roft&w=1&o=NAAM\">" . $countfemales
 ) . "</a>";
-$xoopsTpl->assign("pienumber", "<img src=\"images/numbers.png\">");
+$xoopsTpl->assign("pienumber", "<img src=\"assets/images/numbers.png\">");
 $xoopsTpl->assign("totpl", $totpl);
 $xoopsTpl->assign("books", $books);
 

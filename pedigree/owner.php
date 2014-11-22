@@ -12,7 +12,7 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
@@ -22,9 +22,22 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = "pedigree_owner.html";
+$xoopsOption['template_main'] = "pedigree_owner.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
+
+$GLOBALS['xoTheme']->addScript("browse.php?Frameworks/jquery/jquery.js");
+$GLOBALS['xoTheme']->addScript("browse.php?modules/" . $mydirname . "/assets/js/jquery.magnific-popup.min.js");
+$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/" . $mydirname . "/assets/css/style.css");
+
+$GLOBALS['xoTheme']->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
+
+if (isset($GLOBALS['xoTheme'])) {
+    $GLOBALS['xoTheme']->addScript('include/color-picker.js');
+} else {
+    echo '<script type="text/javascript" src="' . XOOPS_URL . '/include/color-picker.js"></script>';
+}
+
 $xoopsTpl->assign('page_title', "Pedigree database - View Owner/Breeder details");
 
 //get module configuration

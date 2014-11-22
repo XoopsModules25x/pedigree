@@ -30,9 +30,9 @@ style.display = "none";
 						</td>
 						<td>
 							<{if $link.data == "pups"}>
-								<{include file="db:pedigree_result.html" numofcolumns=$numofcolumns nummatch=$nummatch pages=$pages columns=$columns dogs=$dogs width=$width}>
+								<{include file="db:pedigree_result.tpl" numofcolumns=$numofcolumns nummatch=$nummatch pages=$pages columns=$columns dogs=$dogs width=$width}>
 							<{elseif $link.data == "bas"}>
-								<{include file="db:pedigree_result.html" numofcolumns=$numofcolumns1 nummatch=$nummatch1 pages=$pages1 columns=$columns1 dogs=$dogs1 width=$width}>
+								<{include file="db:pedigree_result.tpl" numofcolumns=$numofcolumns1 nummatch=$nummatch1 pages=$pages1 columns=$columns1 dogs=$dogs1 width=$width}>
 							<{else}>
 								<{$link.data}>
 							<{/if}>

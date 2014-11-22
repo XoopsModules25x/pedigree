@@ -42,7 +42,7 @@ function pedigree_search($queryarray, $andor, $limit, $offset, $userid)
     // with the search results, build the links to the hits the search query made
     while ($myrow = $xoopsDB->fetchArray($result)) {
 
-        $ret[$i]['image'] = "images/pedigree.gif";
+        $ret[$i]['image'] = "assets/images/pedigree.gif";
         $ret[$i]['link']  = "pedigree.php?pedid=" . $myrow['id'];
         $ret[$i]['title'] = stripslashes($myrow['NAAM']);
         // do we need this ? (no time is set in the db for dog entry

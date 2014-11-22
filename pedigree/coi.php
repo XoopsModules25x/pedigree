@@ -15,7 +15,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
-$xoopsOption['template_main'] = "pedigree_coi.html";
+$xoopsOption['template_main'] = "pedigree_coi.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
@@ -169,6 +169,7 @@ function fetch_record($s)
     } else {
         $record = mysql_fetch_array($r);
     }
+
     return $record;
 }
 
@@ -192,6 +193,7 @@ function count_all($ind, $gen)
     if ($d && $gen < $nb_gen) {
         count_all($d, $gen + 1);
     }
+
     return 0;
 }
 
@@ -520,6 +522,7 @@ function calc_dist()       /* Common Ascendants and their distances */
     if (!$dmax) {
         $dmax = 2 * $nb_gen - 2;
     }
+
     return $distan;
 }
 
@@ -540,34 +543,33 @@ function mater_side($p, $m, $a, $ndist)
     if ($p == $m)   /* IMPLEX FOUND (node of consanguinity) { for Anim #A */ {
         $already_known = isset($ICknown[$p]) ? $ICknown[$p] : 0;
 
-    if (!$already_known) {
-        CONSANG($p);
-    }  // MAIN RECURSION:
-    $ICp = isset($COIs[$p]) ? $COIs[$p] : 0;                    // we need to know the IC of Parent for Wright's formula
-    if ($verbose && !$already_known && $ICp > 0.001 * $verbose) {
-        echo "IC of Animal $p is $ICp$nl";
-    }
+        if (!$already_known) {
+            CONSANG($p);
+        }  // MAIN RECURSION:
+        $ICp = isset($COIs[$p]) ? $COIs[$p] : 0;                    // we need to know the IC of Parent for Wright's formula
+        if ($verbose && !$already_known && $ICp > 0.001 * $verbose) {
+            echo "IC of Animal $p is $ICp$nl";
+        }
 
-    $incr = 1.0 / (1 << $ndist) * (1. + $ICp);    // ******** applying WRIGHT's formula ********
+        $incr = 1.0 / (1 << $ndist) * (1. + $ICp);    // ******** applying WRIGHT's formula ********
 
-    // [Note:  1 << $ndist is equal to 2 power $ndist]
-    $COIs[$a] = isset($COIs[$a]) ? $COIs[$a] : 0;
-    $COIs[$a] += $incr;  // incrementing the IC of AnimC
-    if ($a == 0) {
-        $deltaf[$p] += $incr;
-    }
-    /* contribution of Anim #P to IC of Anim #0 */
-    // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
-    //    echo "Animal $p is contributing for " . substr ($deltaf[$p], 0, 10) . " to the IC of Animal $a$nl" ;
+        // [Note:  1 << $ndist is equal to 2 power $ndist]
+        $COIs[$a] = isset($COIs[$a]) ? $COIs[$a] : 0;
+        $COIs[$a] += $incr;  // incrementing the IC of AnimC
+        if ($a == 0) {
+            $deltaf[$p] += $incr;
+        }
+        /* contribution of Anim #P to IC of Anim #0 */
+        // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
+        //    echo "Animal $p is contributing for " . substr ($deltaf[$p], 0, 10) . " to the IC of Animal $a$nl" ;
 
-   }
-    else {
+    } else {
         if (!$marked[$m] && $chrono[$m] < $paternal_rank) {
             mater_side($p, $fathers[$m], $a, $ndist + 1);
 
-        mater_side($p, $mothers[$m], $a, $ndist + 1);
+            mater_side($p, $mothers[$m], $a, $ndist + 1);
+        }
     }
-}
 
     return 0;
 }
@@ -619,6 +621,7 @@ function CONSANG($a)
     if (!$p || !$m) {
         $COIs[$a]    = $IC_if_deadend;
         $ICknown[$a] = 2;
+
         return 0;
     }
 
@@ -699,6 +702,7 @@ function boucle($nb_gen, $nloop)
     if ($new) {
         $nbtot = 0;
     }  /* Endless loop detected (see listing) */
+
     return $nbtot;
 }
 
@@ -711,14 +715,14 @@ function set_name($ID)
 {
     global $sql2, $sql2bis, $xoopsDB;
     $name = ' ';
-    $ani = array();
+    $ani  = array();
     if ($ID) {
         $sqlquery    = "SELECT ID, NAAM, roft from " . $xoopsDB->prefix("pedigree_tree") . " where ID = '$ID'";
         $queryresult = mysql_query($sqlquery);
         $ani         = mysql_fetch_array($queryresult);
 //        $name        = $ani[1];
         if ($sql2bis) {  // true for E.R.o'S. only
-        $name = html_accents ($name) ;
+            $name = html_accents($name);
             //$affx = $ani[5] ;  // affix-ID
             if ($affx) {
                 $affix  = fetch_record("$sql2bis '$affx'");
@@ -786,10 +790,10 @@ function one_animal($ID)
         $content .= $val;
     }
     if ($sex == 1) {
-        $geslacht = "<img src=\"images/female.gif\">";
+        $geslacht = "<img src=\"assets/images/female.gif\">";
     }
     if ($sex == 0) {
-        $geslacht = "<img src=\"images/male.gif\">";
+        $geslacht = "<img src=\"assets/images/male.gif\">";
     }
     $content .= "</td><td>" . $geslacht . "</td><td>" . $nb_children . _MA_PEDIGREE_COI_OFF . '</td></tr>';
 
@@ -845,7 +849,9 @@ if (isset($a)) {
     $a           = $rowhond['ID'];
     $s           = $rowhond['father'];
     $d           = $rowhond['mother'];
-} else {$a = 0;}
+} else {
+    $a = 0;
+}
 $a += 0;
 $s += 0;
 $d += 0;            // [IDs are numbers]
@@ -1119,7 +1125,7 @@ if ($detail) {
         CONSANG(2);
     }    // Dam
 //    $COR = 2.0 * $COIs[0] / sqrt((1. + $COIs[1]) * (1. + $COIs[2]));
-      $COR = 2.0 * (isset($COIs[0]) ? $COIs[0] : 0) / sqrt((1. + (isset($COIs[1]) ? $COIs[1] : 0)) * (1. + (isset($COIs[2]) ? $COIs[2] : 0)));
+    $COR = 2.0 * (isset($COIs[0]) ? $COIs[0] : 0) / sqrt((1. + (isset($COIs[1]) ? $COIs[1] : 0)) * (1. + (isset($COIs[2]) ? $COIs[2] : 0)));
     $COR = substr($COR, 0, 8);
     if (!$COR) {
         $COR = "n.a.";

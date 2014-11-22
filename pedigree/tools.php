@@ -15,7 +15,7 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
-$xoopsOption['template_main'] = "pedigree_tools.html";
+$xoopsOption['template_main'] = "pedigree_tools.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -38,7 +38,6 @@ $xoTheme->addScript(PEDIGREE_URL . '/assets/js/colpick.js');
 
 $xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/colpick.css');
 $xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
-
 
 global $field;
 //add JS routines
@@ -213,43 +212,43 @@ function colours()
     $head    = $colors[5];
     $body    = $colors[6];
     $title   = $colors[7];
-?>
-<script type="text/javascript">
+    ?>
+    <script type="text/javascript">
 
-$('.color-box').colpick({
-	colorScheme:'dark',
-	layout:'rgbhex',
-	color:'ff8800',
-	onSubmit:function(hsb,hex,rgb,el) {
-		$(el).css('background-color', '#'+hex);
-		$(el).colpickHide();
-	}
-})
-.css('background-color', '#ff8800');
+        $('.color-box').colpick({
+            colorScheme: 'dark',
+            layout     : 'rgbhex',
+            color      : 'ff8800',
+            onSubmit   : function (hsb, hex, rgb, el) {
+                $(el).css('background-color', '#' + hex);
+                $(el).colpickHide();
+            }
+        })
+            .css('background-color', '#ff8800');
 
-$('#picker').colpick({
-	layout:'hex',
-	submit:0,
-	colorScheme:'dark',
-	onChange:function(hsb,hex,rgb,el,bySetColor) {
-		$(el).css('border-color','#'+hex);
-		// Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
-		if(!bySetColor) $(el).val(hex);
-	}
-}).keyup(function(){
-	$(this).colpickSetColor(this.value);
-});
-
-
-</script>
-<?php
+        $('#picker').colpick({
+            layout     : 'hex',
+            submit     : 0,
+            colorScheme: 'dark',
+            onChange   : function (hsb, hex, rgb, el, bySetColor) {
+                $(el).css('border-color', '#' + hex);
+                // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+                if (!bySetColor) $(el).val(hex);
+            }
+        }).keyup(function () {
+            $(this).colpickSetColor(this.value);
+        });
 
 
-echo '
+    </script>
+    <?php
+
+
+    echo '
    <script type="text/javascript" src="assets/js/jscolor/jscolor.js"></script>
    ';
 
-   echo '
+    echo '
    <script language="javascript" type="text/javascript">
       function changeBackgroundColor(objDivID, colorvalue)
       {
@@ -262,9 +261,6 @@ echo '
    </script>
    ';
 
-
-
-
     $form = _MA_PEDIGREE_BGCOLOR . "<br /><br />";
     $form
         .= '<FORM NAME="myForm" action=\'tools.php?op=savecolours\' method=\'POST\'>
@@ -273,21 +269,21 @@ echo '
 <!--
     <tr><td>' . _MA_PEDIGREE_TXT_COLOR . '</td><td><INPUT TYPE="text" id="text" name="text" value="' . $text . '" size="11" maxlength="7">
     <a href="TCP.popup(document.forms[\'myForm\'].elements[\'text\'])">
-    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="images/sel.gif"></a></td></tr>
+    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="assets/images/sel.gif"></a></td></tr>
 
 
     <tr><td>' . _MA_PEDIGREE_LINK_COLOR . '</td><td><INPUT TYPE="text" id="actlink" name="actlink" value="' . $actlink . '" size="11" maxlength="7">
     <a href="TCP.popup(document.forms[\'myForm\'].elements[\'actlink\'])">
-    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="images/sel.gif"></a></td></tr>
+    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="assets/images/sel.gif"></a></td></tr>
 
 
     <tr><td>' . _MA_PEDIGREE_BACK1_COLOR . '</td><td><INPUT TYPE="text" id="even" name="even" value="' . $even . '" size="11" maxlength="7">
     <a href="TCP.popup(document.forms[\'myForm\'].elements[\'even\'])">
-    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="images/sel.gif"></a></td></tr>
+    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="assets/images/sel.gif"></a></td></tr>
 
     <tr><td>' . _MA_PEDIGREE_BACK2_COLOR . '</td><td><INPUT TYPE="text" id="body" name="body" value="' . $body . '" size="11" maxlength="7">
     <a href="TCP.popup(document.forms[\'myForm\'].elements[\'body\'])">
-    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="images/sel.gif"></a></td></tr>
+    <img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="assets/images/sel.gif"></a></td></tr>
 
 -->
 
@@ -307,19 +303,27 @@ echo '
 
 -->
 
-<tr><td>' . _MA_PEDIGREE_TXT_COLOR . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="text" maxlength="7" size="7" id="colorpickerField1" value="' . $text .'" />
+<tr><td>' . _MA_PEDIGREE_TXT_COLOR
+        . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="text" maxlength="7" size="7" id="colorpickerField1" value="'
+        . $text . '" />
 </td></tr>
 
 
-<tr><td>' . _MA_PEDIGREE_LINK_COLOR . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="actlink" maxlength="7" size="7" id="colorpickerField1" value="' . $actlink .'" />
+<tr><td>' . _MA_PEDIGREE_LINK_COLOR
+        . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="actlink" maxlength="7" size="7" id="colorpickerField1" value="'
+        . $actlink . '" />
 </td></tr>
 
 
-<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="even" maxlength="7" size="7" id="colorpickerField1" value="' . $even .'" />
+<tr><td>' . _MA_PEDIGREE_BACK1_COLOR
+        . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="even" maxlength="7" size="7" id="colorpickerField1" value="'
+        . $even . '" />
 </td></tr>
 
 
-<tr><td>' . _MA_PEDIGREE_BACK2_COLOR . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="body" maxlength="7" size="7" id="colorpickerField1" value="' . $body .'" />
+<tr><td>' . _MA_PEDIGREE_BACK2_COLOR
+        . '</td><td><input class="color {hash:true,caps:false}" onMouseOver="changeTextColor(\'back4\', this.value)" type="text" name="body" maxlength="7" size="7" id="colorpickerField1" value="'
+        . $body . '" />
 </td></tr>
 
     <tr><td><INPUT TYPE="submit" value="' . _MA_PEDIGREE_SUBMIT_BUTTON . '"></td><td>&nbsp;</td></tr>
@@ -328,7 +332,6 @@ echo '
 
 
     </form>';
-
 
     $xoopsTpl->assign("form", $form);
 }
@@ -374,21 +377,22 @@ function listuserfields()
         $form .= "<tr>";
         //display locked fields
         if ($row['locked'] == '1') {
-            $form .= "<td><a href=\"tools.php?op=togglelocked&field=" . $row['ID'] . "\"><img src=\"images/locked.gif\" alt=\"click to open this field\" /></a></td>";
+            $form .= "<td><a href=\"tools.php?op=togglelocked&field=" . $row['ID'] . "\"><img src=\"assets/images/locked.gif\" alt=\"click to open this field\" /></a></td>";
         } else {
-            $form .= "<td><a href=\"tools.php?op=togglelocked&field=" . $row['ID'] . "\"><img src=\"images/open.gif\" alt=\"click to lock this field\" /></a></td>";
+            $form .= "<td><a href=\"tools.php?op=togglelocked&field=" . $row['ID'] . "\"><img src=\"assets/images/open.gif\" alt=\"click to lock this field\" /></a></td>";
         }
 
         if ($count == 0) { //first row
             $form .= "<td style=\"width: 15px;\">&nbsp;</td><td style=\"width: 15px;\"><a href=\"tools.php?op=fieldmove&field=" . $row['ID']
-                . "&move=down\"><img src=\"images/down.gif\" alt=\"move field down\" /></a></td>";
+                . "&move=down\"><img src=\"assets/images/down.gif\" alt=\"move field down\" /></a></td>";
 
         } elseif ($count == $numrows - 1) { //last row
-            $form .= "<td><a href=\"tools.php?op=fieldmove&field=" . $row['ID'] . "&move=up\"><img src=\"images/up.gif\" alt=\"move field up\" /></a></td><td>&nbsp;</td>";
+            $form .= "<td><a href=\"tools.php?op=fieldmove&field=" . $row['ID'] . "&move=up\"><img src=\"assets/images/up.gif\" alt=\"move field up\" /></a></td><td>&nbsp;</td>";
         } else { //other rows
             $form
-                .= "<td><a href=\"tools.php?op=fieldmove&field=" . $row['ID'] . "&move=up\"><img src=\"images/up.gif\" alt=\"move field up\" /></a></td><td><a href=\"tools.php?op=fieldmove&field="
-                . $row['ID'] . "&move=down\"><img src=\"images/down.gif\" alt=\"move field down\" /></a></td>";
+                .=
+                "<td><a href=\"tools.php?op=fieldmove&field=" . $row['ID'] . "&move=up\"><img src=\"assets/images/up.gif\" alt=\"move field up\" /></a></td><td><a href=\"tools.php?op=fieldmove&field="
+                . $row['ID'] . "&move=down\"><img src=\"assets/images/down.gif\" alt=\"move field down\" /></a></td>";
         }
         $form
             .= "<td><a href=\"tools.php?op=deluserfield&id=" . $row['ID'] . "\"><img src=\"images/delete.gif\" alt=\"delete field\" /></a>&nbsp;<a href=\"tools.php?op=userfields&field=" . $row['ID']
@@ -538,7 +542,7 @@ function restoreuserfield($field)
 function editlookup($field)
 {
     global $xoopsDB, $xoopsTpl;
-    $form = _MA_PEDIGREE_LOOKUPFIELD;
+    $form    = _MA_PEDIGREE_LOOKUPFIELD;
     $sql     = "SELECT * FROM " . $xoopsDB->prefix("pedigree_lookup" . $field) . " ORDER BY `order`";
     $result  = $xoopsDB->query($sql);
     $numrows = $xoopsDB->getRowsNum($result);
@@ -548,17 +552,16 @@ function editlookup($field)
         $form .= "<tr>";
         if ($count == 0) { //first row
             $form .= "<td style=\"width: 15px;\">&nbsp;</td><td style=\"width: 15px;\"><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID']
-                . "&move=down\"><img src=\"images/down.gif\"></a></td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
+                . "&move=down\"><img src=\"assets/images/down.gif\"></a></td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
                 . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
         } elseif ($count == $numrows - 1) { //last row
             $form .= "<td><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID']
-                . "&move=up\"><img src=\"images/up.gif\"></a></td><td>&nbsp;</td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
-                . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
+                . "&move=up\"><img src=\"assets/images/up.gif\"></a></td><td>&nbsp;</td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
+                . "\"><img src=\"assets/images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
         } else { //other rows
             $form
-                .=
-                "<td><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID'] . "&move=up\"><img src=\"images/up.gif\"></a></td><td><a href=\"tools.php?op=lookupmove&field=" . $field
-                . "&id=" . $row['ID'] . "&move=down\"><img src=\"images/down.gif\"></a></td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
+                .= "<td><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID'] . "&move=up\"><img src=\"assets/images/up.gif\"></a></td><td><a href=\"tools.php?op=lookupmove&field="
+                . $field . "&id=" . $row['ID'] . "&move=down\"><img src=\"assets/images/down.gif\"></a></td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
                 . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
         }
         $form .= "</tr>";
@@ -1124,8 +1127,8 @@ function restore($id)
 {
     global $xoopsTpl, $xoopsDB;
     $queryvalues = '';
-    $sql    = "SELECT * from " . $xoopsDB->prefix("pedigree_trash") . " WHERE ID = " . $id;
-    $result = $xoopsDB->query($sql);
+    $sql         = "SELECT * from " . $xoopsDB->prefix("pedigree_trash") . " WHERE ID = " . $id;
+    $result      = $xoopsDB->query($sql);
     while ($row = $xoopsDB->fetchArray($result)) {
 
         foreach ($row as $key => $values) {

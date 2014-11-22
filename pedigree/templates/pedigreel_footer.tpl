@@ -2,7 +2,7 @@
 <{include file="db:system_social_bookmarks.html"}>
 <{/if}>
 <{if $fbcomments != 0}>
-<{include file="db:system_fbcomments.html"}>
+<{include file="db:system_fbcomments.tpl"}>
 <{/if}>
 <div class="left"><{$copyright}></div>
 <{if $pagenav != ''}>

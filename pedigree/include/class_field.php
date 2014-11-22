@@ -251,7 +251,7 @@ class Field
      */
     function lookup($fieldnumber)
     {
-     $ret = array();
+        $ret = array();
         global $xoopsDB;
         $SQL    = "SELECT * from " . $xoopsDB->prefix("pedigree_lookup" . $fieldnumber) . " ORDER BY 'order'";
         $result = $xoopsDB->query($SQL);
@@ -480,7 +480,7 @@ class selectbox extends Field
      */
     function showField()
     {
-        $choosenvalue = '';
+        $choosenvalue   = '';
         $lookupcontents = Field::lookup($this->fieldnumber);
         for ($i = 0; $i < count($lookupcontents); ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
@@ -491,9 +491,12 @@ class selectbox extends Field
         return $this->fieldname . " : " . $choosenvalue;
     }
 
+    /**
+     * @return string
+     */
     function showValue()
     {
-        $choosenvalue = '';
+        $choosenvalue   = '';
         $lookupcontents = Field::lookup($this->fieldnumber);
         for ($i = 0; $i < count($lookupcontents); ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
@@ -839,7 +842,7 @@ class Picture extends Field
      */
     function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, "<img src=\"images/thumbnails/" . $this->value . "_400.jpeg\">");
+        $view = new XoopsFormLabel($this->fieldname, "<img src=\"" . PEDIGREE_UPLOAD_URL . "/images/thumbnails/" . $this->value . "_400.jpeg\">");
 
         return $view;
     }
@@ -849,7 +852,7 @@ class Picture extends Field
      */
     function showField()
     {
-        return "<img src=\"images/thumbnails/" . $this->value . "_150.jpeg\">";
+        return "<img src=" . PEDIGREE_UPLOAD_URL . "\"/images/thumbnails/" . $this->value . "_150.jpeg\">";
     }
 
     /**
@@ -857,7 +860,7 @@ class Picture extends Field
      */
     function showValue()
     {
-        return "<img src=\"images/thumbnails/" . $this->value . "_400.jpeg\">";
+        return "<img src=" . PEDIGREE_UPLOAD_URL . "\"/images/thumbnails/" . $this->value . "_400.jpeg\">";
     }
 }
 

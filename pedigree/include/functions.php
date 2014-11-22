@@ -28,6 +28,7 @@
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/config.php");
 
 //get module configuration
 $module_handler =& xoops_gethandler('module');
@@ -63,11 +64,13 @@ function sorttable($columncount)
 function uploadedpict($num)
 {
     global $xoopsModule;
-    $max_imgsize       = 1024000;
-    $max_imgwidth      = 1500;
-    $max_imgheight     = 1000;
+    global $xoopsModule, $xoopsModuleConfig;
+    $max_imgsize       = $xoopsModuleConfig['maxfilesize']; //1024000;
+    $max_imgwidth      = $xoopsModuleConfig['maximgwidth']; //1500;
+    $max_imgheight     = $xoopsModuleConfig['maximgheight']; //1000;
     $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png');
-    $img_dir           = XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/images";
+//    $img_dir = XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/images" ;
+    $img_dir = $xoopsModuleConfig['uploaddir'] . '/images';
     include_once(XOOPS_ROOT_PATH . "/class/uploader.php");
     $field = $_POST["xoops_upload_file"][$num];
     if (!empty($field) || $field != "") {
@@ -90,8 +93,8 @@ function uploadedpict($num)
  * @return bool
  */
 function makethumbs($filename)
-{
-    require_once 'phpthumb/phpthumb.class.php';
+{/*
+    require_once('phpthumb/phpthumb.class.php');
     $thumbnail_widths = array(150, 400);
     foreach ($thumbnail_widths as $thumbnail_width) {
         $phpThumb = new phpThumb();
@@ -105,7 +108,7 @@ function makethumbs($filename)
             if ($output_filename) {
                 if ($phpThumb->RenderToFile($output_filename)) {
                     // do something on success
-                    echo 'Successfully rendered:<br><img src="' . $output_filename . '">';
+                    //echo 'Successfully rendered:<br><img src="'.$output_filename.'">';
                 } else {
                     echo 'Failed (size=' . $thumbnail_width . '):<pre>' . implode("\n\n", $phpThumb->debugmessages) . '</pre>';
                 }
@@ -117,6 +120,96 @@ function makethumbs($filename)
     }
 
     return true;
+
+    */
+
+    // load the image
+    global $xoopsModule;
+    require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . '/library/Zebra_Image.php');
+    $thumbnail_widths = array(150, 400);
+
+    // indicate a target image
+    // note that there's no extra property to set in order to specify the target
+    // image's type -simply by writing '.jpg' as extension will instruct the script
+    // to create a 'jpg' file
+    $config_output_format = 'jpeg';
+
+// create a new instance of the class
+    $image = new Zebra_Image();
+    // indicate a source image (a GIF, PNG or JPEG file)
+    $image->source_path = PEDIGREE_UPLOAD_PATH . '/images/' . $filename;
+
+    foreach ($thumbnail_widths as $thumbnail_width) {
+
+        // generate & output thumbnail
+        $output_filename    = PEDIGREE_UPLOAD_PATH . '/images/thumbnails/' . basename($filename) . '_' . $thumbnail_width . '.' . $config_output_format;
+        $image->target_path = $output_filename;
+        // since in this example we're going to have a jpeg file, let's set the output
+        // image's quality
+        $image->jpeg_quality = 100;
+        // some additional properties that can be set
+        // read about them in the documentation
+        $image->preserve_aspect_ratio  = true;
+        $image->enlarge_smaller_images = true;
+        $image->preserve_time          = true;
+
+        // resize the image to exactly 100x100 pixels by using the "crop from center" method
+        // (read more in the overview section or in the documentation)
+        //  and if there is an error, check what the error is about
+        if (!$image->resize($thumbnail_width, 0)) {
+            // if there was an error, let's see what the error is about
+            switch ($image->error) {
+
+                case 1:
+                    echo 'Source file could not be found!';
+                    break;
+                case 2:
+                    echo 'Source file is not readable!';
+                    break;
+                case 3:
+                    echo 'Could not write target file!';
+                    break;
+                case 4:
+                    echo 'Unsupported source file format!';
+                    break;
+                case 5:
+                    echo 'Unsupported target file format!';
+                    break;
+                case 6:
+                    echo 'GD library version does not support target file format!';
+                    break;
+                case 7:
+                    echo 'GD library is not installed!';
+                    break;
+                case 8:
+                    echo '"chmod" command is disabled via configuration!';
+                    break;
+            }
+
+            // if no errors
+        } else {
+            echo 'Success!';
+        }
+
+        /*
+                if ($phpThumb->GenerateThumbnail()) { // this line is VERY important, do not remove it!
+                    if ($output_filename) {
+                        if ($phpThumb->RenderToFile($output_filename)) {
+                            // do something on success
+                            //echo 'Successfully rendered:<br><img src="'.$output_filename.'">';
+                        } else {
+                            echo 'Failed (size='.$thumbnail_width.'):<pre>'.implode("\n\n", $phpThumb->debugmessages).'</pre>';
+                        }
+                    }
+                } else {
+                    echo 'Failed (size='.$thumbnail_width.'):<pre>'.implode("\n\n", $phpThumb->debugmessages).'</pre>';
+                }
+ */
+
+    }
+
+    unset($image);
+
 }
 
 /**
@@ -177,9 +270,9 @@ function pups($oid, $gender)
 
     while ($rowres = $xoopsDB->fetchArray($queryresult)) {
         if ($rowres['d_roft'] == "0") {
-            $gender = "<img src=\"images/male.gif\">";
+            $gender = "<img src=\"assets/images/male.gif\">";
         } else {
-            $gender = "<img src=\"images/female.gif\">";
+            $gender = "<img src=\"assets/images/female.gif\">";
         }
         $name = stripslashes($rowres['d_naam']);;
         //empty array
@@ -261,9 +354,9 @@ function bas($oid, $pa, $ma)
 
     while ($rowres = $xoopsDB->fetchArray($queryresult)) {
         if ($rowres['roft'] == "0") {
-            $gender = "<img src=\"images/male.gif\">";
+            $gender = "<img src=\"assets/images/male.gif\">";
         } else {
-            $gender = "<img src=\"images/female.gif\">";
+            $gender = "<img src=\"assets/images/female.gif\">";
         }
         $name = stripslashes($rowres['NAAM']);;
         //empty array
@@ -320,9 +413,9 @@ function breederof($oid, $breeder)
     $queryresult = $xoopsDB->query($sqlquery);
     while ($rowres = $xoopsDB->fetchArray($queryresult)) {
         if ($rowres['roft'] == "0") {
-            $gender = "<img src=\"images/male.gif\">";
+            $gender = "<img src=\"assets/images/male.gif\">";
         } else {
-            $gender = "<img src=\"images/female.gif\">";
+            $gender = "<img src=\"assets/images/female.gif\">";
         }
         $link = "<a href=\"dog.php?id=" . $rowres['ID'] . "\">" . stripslashes($rowres['NAAM']) . "</a>";
         $content .= $gender . " " . $link . "<br />";
@@ -430,12 +523,12 @@ function makelist($result, $prefix, $link, $element)
             }
         }
         if ($row['roft'] == 0) {
-            $gender .= "<img src=\"images/male.gif\">";
+            $gender .= "<img src=\"assets/images/male.gif\">";
         } else {
-            $gender .= "<img src=\"images/female.gif\">";
+            $gender .= "<img src=\"assets/images/female.gif\">";
         }
         if ($row['foto'] != '') {
-            $camera = " <img src=\"images/camera.png\">";
+            $camera = " <img src=\"assets/images/camera.png\">";
         } else {
             $camera = "";
         }
@@ -609,7 +702,7 @@ function pedigree_lettersChoice()
     $letterschoiceTpl          = new XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch("db:" . $pedigree->getModule()->dirname() . "_common_letterschoice.html");
+    $html = $letterschoiceTpl->fetch("db:" . $pedigree->getModule()->dirname() . "_common_letterschoice.tpl");
     unset($letterschoiceTpl);
 
     return $html;

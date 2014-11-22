@@ -17,7 +17,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_adddog.html";
+$xoopsOption['template_main'] = "pedigree_adddog.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Update details");
@@ -391,7 +391,7 @@ function sire()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"images/camera.png\">";
+            $camera = " <img src=\"assets/images/camera.png\">";
         } else {
             $camera = "";
         }
@@ -420,7 +420,7 @@ function sire()
         $dogs[] = array(
             'id'          => $row['ID'],
             'name'        => $name,
-            'gender'      => '<img src="images/male.gif">',
+            'gender'      => '<img src="assets/images/male.gif">',
             'link'        => "<a href=\"add_dog.php?f=dam&random=" . $random . "&selsire=" . $row['ID'] . "\">" . $name . "</a>",
             'colour'      => "",
             'number'      => "",
@@ -576,7 +576,7 @@ function dam()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"images/camera.png\">";
+            $camera = " <img src=\"assets/images/camera.png\">";
         } else {
             $camera = "";
         }
@@ -605,7 +605,7 @@ function dam()
         $dogs[] = array(
             'id'          => $row['ID'],
             'name'        => $name,
-            'gender'      => '<img src="images/female.gif">',
+            'gender'      => '<img src="assets/images/female.gif">',
             'link'        => "<a href=\"add_dog.php?f=check&random=" . $random . "&seldam=" . $row['ID'] . "\">" . $name . "</a>",
             'colour'      => "",
             'number'      => "",

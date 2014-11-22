@@ -43,42 +43,59 @@
 // $adminmenu[1]['link'] = "admin/colors.php";
 // $adminmenu[1]['title'] = "Create colours";
 
-$dirname                = basename(dirname(dirname(__FILE__)));
-$module_handler         =& xoops_gethandler("module");
-$xoopsModule            =& XoopsModule::getByDirname($dirname);
-$moduleInfo             =& $module_handler->get($xoopsModule->getVar("mid"));
-$pathIcon32             = $moduleInfo->getInfo("icons32");
-$adminmenu              = array();
-$i                      = 1;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU1;
-$adminmenu[$i]["link"]  = "admin/index.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/home.png";
-++$i;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU2;
-$adminmenu[$i]["link"]  = "admin/pedigree_trash.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/alert.png";
-++$i;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU3;
-$adminmenu[$i]["link"]  = "admin/owner.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/user-icon.png";
-++$i;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU4;
-$adminmenu[$i]["link"]  = "admin/pedigree_temp.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/wizard.png";
-++$i;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU5;
-$adminmenu[$i]["link"]  = "admin/pedigree.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/groupmod.png";
-++$i;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU6;
-$adminmenu[$i]["link"]  = "admin/pedigree_config.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/administration.png";
-//++$i;
-//$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU7;
-//$adminmenu[$i]["link"] = "admin/permissions.php";
-//$adminmenu[$i]["icon"] = $pathIcon32."/permissions.png";
-++$i;
-$adminmenu[$i]["title"] = _MI_PEDIGREE_ADMENU8;
-$adminmenu[$i]["link"]  = "admin/about.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . "/about.png";
-unset($i);
+$dirname        = basename(dirname(__DIR__));
+$module_handler =& xoops_gethandler("module");
+$xoopsModule    =& XoopsModule::getByDirname($dirname);
+$moduleInfo     =& $module_handler->get($xoopsModule->getVar("mid"));
+$pathIcon32     = $moduleInfo->getInfo("icons32");
+$adminmenu      = array();
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU1,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU2,
+    'link'  => 'admin/pedigree_trash.php',
+    'icon'  => $pathIcon32 . '/alert.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU3,
+    'link'  => 'admin/owner.php',
+    'icon'  => $pathIcon32 . '/user-icon.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU4,
+    'link'  => 'admin/pedigree_temp.php',
+    'icon'  => $pathIcon32 . '/wizard.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU5,
+    'link'  => 'admin/pedigree.php',
+    'icon'  => $pathIcon32 . '/groupmod.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU6,
+    'link'  => 'admin/pedigree_config.php',
+    'icon'  => $pathIcon32 . '/administration.png'
+);
+
+/*
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU7,
+    'link'  => 'admin/permissions.php',
+    'icon'  => $pathIcon32.'/permissions.png'
+);
+*/
+
+$adminmenu[] = array(
+    'title' => _MI_PEDIGREE_ADMENU8,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png'
+);

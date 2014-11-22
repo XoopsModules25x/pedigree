@@ -1,5 +1,5 @@
 <{if $sire}>
-	<{include file="db:pedigree_result.html" numofcolumns=$numofcolumns nummatch=$nummatch pages=$pages columns=$columns dogs=$dogs}>
+	<{include file="db:pedigree_result.tpl" numofcolumns=$numofcolumns nummatch=$nummatch pages=$pages columns=$columns dogs=$dogs}>
 <{/if}>
 
 <form name="<{$searchform.name}>" id="<{$searchform.name}>" action="<{$searchform.action}>" method="<{$searchform.method}>" <{$searchform.extra}> >

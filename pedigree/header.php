@@ -23,6 +23,15 @@ include_once __DIR__ . '/include/common.php';
 
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
+if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
+    include_once(XOOPS_ROOT_PATH . "/class/template.php");
+    $xoopsTpl = new XoopsTpl();
+}
+//$xoops = Xoops::getInstance();
+//$xoopsTpl = $xoops->tpl();
+
+
+$xoopsTpl->assign('mod_url', PEDIGREE_URL); //<{$mod_url}>
 
 
 // uncomment the below line only if you are using Protector 3.x module

@@ -16,7 +16,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
-$xoopsOption['template_main'] = "pedigree_mpedigree.html";
+$xoopsOption['template_main'] = "pedigree_mpedigree.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -315,8 +315,8 @@ function pedigree_main($ID)
     $xoopsTpl->assign('xoops_pagetitle', $d['d']['name'] . " -- mega pedigree");
     //assign dog(s)
     $xoopsTpl->assign("d", $d);
-    $xoopsTpl->assign("male", "<img src=\"images/male.gif\">");
-    $xoopsTpl->assign("female", "<img src=\"images/female.gif\">");
+    $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
+    $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
     //assign extra display options
     $xoopsTpl->assign("unknown", "Unknown");
     $xoopsTpl->assign("f2", (strtr(_MA_PEDIGREE_MPED_F2, array('[animalType]' => $moduleConfig['animalType']))));

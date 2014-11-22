@@ -1,7 +1,8 @@
 <?php
 
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php";
+include_once __DIR__ . '/include/config.php';
+include_once __DIR__ . '/include/functions.php';
 if (isset($_GET['dogid'])) {
     $dogid = $_GET['dogid'];
 } else {
@@ -84,8 +85,8 @@ function PrintPage()
         <table border="0" width="640">
             <tr>
                 <td>';
-        $male   = "<img src=\"images/male.gif\">";
-        $female = "<img src=\"images/female.gif\">";
+        $male   = "<img src=\"assets/images/male.gif\">";
+        $female = "<img src=\"assets/images/female.gif\">";
         if ($row['d_roft'] == 0) {
             $gender = $male;
         } else {
@@ -106,7 +107,7 @@ function PrintPage()
                         <td width="25%" rowspan="8">
                             ' . $gender . stripslashes($row['d_naam']);
         if ($row['d_foto'] != '') {
-            echo '<br /><img src="/modules/" . $xoopsModule->dirname() . "/images/thumbnails/' . $row['d_foto'] . '_150.jpeg" width="150">';
+            echo '<br /><img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['d_foto'] . '_150.jpeg" width="150">';
         }
         echo '
                         </td>
@@ -114,7 +115,7 @@ function PrintPage()
                         <td width="25%" rowspan="4">
                             ' . $male . stripslashes($row['f_naam']);
         if ($row['f_foto'] != '') {
-            echo '<br /><img src="/modules/" . $xoopsModule->dirname() . "/images/thumbnails/' . $row['f_foto'] . '_150.jpeg" width="150">';
+            echo '<br /><img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['f_foto'] . '_150.jpeg" width="150">';
         }
         echo '
                         </td>
@@ -122,7 +123,7 @@ function PrintPage()
                         <td width="25%" rowspan="2">
                             ' . $male . stripslashes($row['ff_naam']);
         if ($row['ff_foto'] != '') {
-            echo '<br /><img src="/modules/" . $xoopsModule->dirname() . "/images/thumbnails/' . $row['ff_foto'] . '_150.jpeg" width="150">';
+            echo '<br /><img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['ff_foto'] . '_150.jpeg" width="150">';
         }
         echo '
                         </td>
@@ -142,7 +143,7 @@ function PrintPage()
                         <td width="25%" rowspan="2">
                             ' . $female . stripslashes($row['fm_naam']);
         if ($row['fm_foto'] != '') {
-            echo '<br /><img src="/modules/" . $xoopsModule->dirname() . "/images/thumbnails/' . $row['fm_foto'] . '_150.jpeg" width="150">';
+            echo '<br /><img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['fm_foto'] . '_150.jpeg" width="150">';
         }
         echo '
                         </td>
@@ -162,7 +163,7 @@ function PrintPage()
                         <td width="25%" rowspan="4">
                             ' . $female . stripslashes($row['m_naam']);
         if ($row['m_foto'] != '') {
-            echo '<br /><img src="/modules/" . $xoopsModule->dirname() . "/images/thumbnails/' . $row['m_foto'] . '_150.jpeg" width="150">';
+            echo '<br /><img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['m_foto'] . '_150.jpeg" width="150">';
         }
         echo '
                         </td>
@@ -170,7 +171,7 @@ function PrintPage()
                         <td width="25%" rowspan="2">
                             ' . $male . stripslashes($row['mf_naam']);
         if ($row['mf_foto'] != '') {
-            echo '<br /><img src="/modules/" . $xoopsModule->dirname() . "/images/thumbnails/' . $row['mf_foto'] . '_150.jpeg" width="150">';
+            echo '<br /><img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['mf_foto'] . '_150.jpeg" width="150">';
         }
         echo '
                         </td>

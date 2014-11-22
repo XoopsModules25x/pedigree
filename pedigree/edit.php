@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/include/config.php';
 
 /*
 if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
@@ -11,14 +12,14 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 }
 */
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+xoops_loadLanguage('main', basename(__DIR__));
 
 //needed for generation of pie charts
 ob_start();
 include(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_eq_pie.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_edit.html";
+$xoopsOption['template_main'] = "pedigree_edit.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
@@ -113,7 +114,7 @@ function edit($id = 0)
                 $form->addElement(
                     new XoopsFormLabel(
                         "<b>" . strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father'])) . "</b>",
-                        "<img src=\"images/male.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=1&letter=a\">" . $rowfetch['NAAM'] . "</a>"
+                        "<img src=\"assets/images/male.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=1&letter=a\">" . $rowfetch['NAAM'] . "</a>"
                     )
                 );
             }
@@ -121,7 +122,7 @@ function edit($id = 0)
             $form->addElement(
                 new XoopsFormLabel(
                     "<b>" . strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father'])) . "</b>",
-                    "<img src=\"images/male.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=1&letter=a\">Unknown</a>"
+                    "<img src=\"assets/images/male.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=1&letter=a\">Unknown</a>"
                 )
             );
         }
@@ -134,7 +135,7 @@ function edit($id = 0)
                 $form->addElement(
                     new XoopsFormLabel(
                         "<b>" . strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother'])) . "</b>",
-                        "<img src=\"images/female.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=0&letter=a\">" . $rowfetch['NAAM'] . "</a>"
+                        "<img src=\"assets/images/female.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=0&letter=a\">" . $rowfetch['NAAM'] . "</a>"
                     )
                 );
             }
@@ -142,7 +143,7 @@ function edit($id = 0)
             $form->addElement(
                 new XoopsFormLabel(
                     "<b>" . strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother'])) . "</b>",
-                    "<img src=\"images/female.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=0&letter=a\">Unknown</a>"
+                    "<img src=\"assets/images/female.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=0&letter=a\">Unknown</a>"
                 )
             );
         }
@@ -168,7 +169,7 @@ function edit($id = 0)
         }
         //picture
         if ($row['foto'] != "") {
-            $picture = "<img src=images/thumbnails/" . $row['foto'] . "_400.jpeg>";
+            $picture = "<img src=" . PEDIGREE_UPLOAD_URL . "/images/thumbnails" . $row['foto'] . "_400.jpeg>";
             $form->addElement(new XoopsFormLabel('<b>Picture</b>', $picture));
         } else {
             $picture = "";

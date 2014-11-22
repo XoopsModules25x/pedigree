@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/include/config.php';
 
 //if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
 //    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
@@ -14,7 +15,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_update.html";
+$xoopsOption['template_main'] = "pedigree_update.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Update details");
@@ -67,9 +68,9 @@ while ($row = $xoopsDB->fetchArray($result)) {
     $curvalfok = $row['id_breeder'];
     //gender
     if ($row['roft'] == '0') {
-        $gender = "<img src=\"images/male.gif\"> " . _MA_PEDIGREE_FLD_MALE;
+        $gender = "<img src=\"assets/images/male.gif\"> " . _MA_PEDIGREE_FLD_MALE;
     } else {
-        $gender = "<img src=\"images/female.gif\"> " . _MA_PEDIGREE_FLD_FEMA;
+        $gender = "<img src=\"assets/images/female.gif\"> " . _MA_PEDIGREE_FLD_FEMA;
     }
     $curvalroft = $row['roft'];
     //Sire
@@ -77,7 +78,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
         $querysire = "SELECT NAAM from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $row['father'];
         $ressire   = $xoopsDB->query($querysire);
         while ($rowsire = $xoopsDB->fetchArray($ressire)) {
-            $sire = "<img src=\"images/male.gif\"><a href=\"dog.php?id=" . $row['father'] . "\">" . stripslashes($rowsire['NAAM']) . "</a>";
+            $sire = "<img src=\"assets/images/male.gif\"><a href=\"dog.php?id=" . $row['father'] . "\">" . stripslashes($rowsire['NAAM']) . "</a>";
         }
     }
     //Dam
@@ -85,13 +86,13 @@ while ($row = $xoopsDB->fetchArray($result)) {
         $querydam = "SELECT NAAM from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $row['mother'];
         $resdam   = $xoopsDB->query($querydam);
         while ($rowdam = $xoopsDB->fetchArray($resdam)) {
-            $dam = "<img src=\"images/female.gif\"><a href=\"dog.php?id=" . $row['mother'] . "\">" . stripslashes($rowdam['NAAM']) . "</a>";
+            $dam = "<img src=\"assets/images/female.gif\"><a href=\"dog.php?id=" . $row['mother'] . "\">" . stripslashes($rowdam['NAAM']) . "</a>";
         }
     }
     //picture
     $picture = '';
     if ($row['foto'] != "") {
-        $picture = "<img src=images/thumbnails/" . $row['foto'] . "_400.jpeg>";
+        $picture = "<img src=" . PEDIGREE_UPLOAD_URL . "/images/thumbnails/" . $row['foto'] . "_400.jpeg>";
         $foto    = $row['foto'];
     } else {
         $foto = "";

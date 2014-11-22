@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $uid = is_object($xoopsUser) ? (int)$xoopsUser->getVar('uid') : 0;
-
+/*
 $xoopsTpl->assign("wfdownloads_adminpage", "<a href='" . PEDIGREE_URL . "/admin/index.php'>" . _MD_PEDIGREE_ADMIN_PAGE . "</a>");
 
 $xoopsTpl->assign("isAdmin", $wfdownloads_isAdmin);
@@ -29,5 +29,50 @@ $xoopsTpl->assign(
     "ref_smartfactory",
     "WFDownloads is developed by The SmartFactory (http://www.smartfactory.ca), a division of InBox Solutions (http://www.inboxsolutions.net)"
 );
-
+*/
 include_once XOOPS_ROOT_PATH . '/footer.php';
+
+?>
+<script type="text/javascript">
+
+    $('.magnific_zoom').magnificPopup({
+        type               : 'image',
+        image              : {
+            cursor     : 'mfp-zoom-out-cur',
+            titleSrc   : "title",
+            verticalFit: true,
+            tError     : 'The image could not be loaded.' // Error message
+        },
+        iframe             : {
+            patterns: {
+                youtube : {
+                    index: 'youtube.com/',
+                    id   : 'v=',
+                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
+                }, vimeo: {
+                    index: 'vimeo.com/',
+                    id   : '/',
+                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
+                }, gmaps: {
+                    index: '//maps.google.',
+                    src  : '%id%&output=embed'
+                }
+            }
+        },
+        preloader          : true,
+        showCloseBtn       : true,
+        closeBtnInside     : false,
+        closeOnContentClick: true,
+        closeOnBgClick     : true,
+        enableEscapeKey    : true,
+        modal              : false,
+        alignTop           : false,
+        mainClass          : 'mfp-img-mobile mfp-fade',
+        zoom               : {
+            enabled : true,
+            duration: 300,
+            easing  : 'ease-in-out'
+        },
+        removalDelay       : 200
+    });
+</script>

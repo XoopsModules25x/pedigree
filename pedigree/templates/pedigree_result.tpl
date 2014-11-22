@@ -1,5 +1,5 @@
 <{if $tsarray}>
-<{include file="db:table_sort.html"}>
+<{include file="db:table_sort.tpl"}>
 <{/if}>
 
 <table width="100%" class="outer" cellspacing="1">
@@ -53,7 +53,7 @@
 </table>
 
 <{if $pages}>
-	<table width="100%" class="outer" cellspacing="1" id="Result">	
+	<table width="100%" class="outer" cellspacing="1" id="Result">
 		  <tr>
 				<td colspan="<{$numofcolumns}>" class="head" style="text-align: center">
 					<{$pages}>

@@ -14,7 +14,7 @@ xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
 // Include any common code for this module.
 require_once dirname(__DIR__) . "/include/functions.php";
 
-$xoopsOption['template_main'] = "pedigree_tools.html";
+$xoopsOption['template_main'] = "pedigree_tools.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Add owner/breeder");
@@ -234,7 +234,7 @@ function deleted()
     $sql    = "SELECT ID, NAAM	FROM " . $xoopsDB->prefix("pedigree_trash");
     $result = $xoopsDB->query($sql);
     while ($row = $xoopsDB->fetchArray($result)) {
-        $form .= "<a href=\"tools.php?op=delperm&id=" . $row['ID'] . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=restore&id=" . $row['ID'] . "\">" . $row['NAAM']
+        $form .= "<a href=\"tools.php?op=delperm&id=" . $row['ID'] . "\"><img src=\"assets/images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=restore&id=" . $row['ID'] . "\">" . $row['NAAM']
             . "</a><br />";
     }
     if ($xoopsDB->getRowsNum($result) > 0) {

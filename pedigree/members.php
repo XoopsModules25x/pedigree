@@ -20,7 +20,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = "pedigree_members.html";
+$xoopsOption['template_main'] = "pedigree_members.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -36,7 +36,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
     if ($star > 10000) {
         $sterretje = floor($star / 10000);
         for ($c = 0; $c < $sterretje; ++$c) {
-            $content .= "<img src=\"images/star.png\" border=\"0\">";
+            $content .= "<img src=\"assets/images/star.png\" border=\"0\">";
             $star = $star - 10000;
         }
 
@@ -44,7 +44,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
     if ($star > 1000) {
         $sterretje = floor($star / 1000);
         for ($c = 0; $c < $sterretje; ++$c) {
-            $content .= "<img src=\"images/star3.gif\" border=\"0\">";
+            $content .= "<img src=\"assets/images/star3.gif\" border=\"0\">";
             $star = $star - 1000;
         }
 
@@ -52,7 +52,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
     if ($star > 100) {
         $sterretje = floor($star / 100);
         for ($c = 0; $c < $sterretje; ++$c) {
-            $content .= "<img src=\"images/star2.gif\" border=\"0\">";
+            $content .= "<img src=\"assets/images/star2.gif\" border=\"0\">";
         }
     }
 

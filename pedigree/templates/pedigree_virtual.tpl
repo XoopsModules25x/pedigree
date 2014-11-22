@@ -22,7 +22,7 @@
 			<{$virtualsiretitle}>
 		</td>
 		<td class="even">
-			<img src="images/male.gif"><{$virtualsire}>
+			<img src="assets/images/male.gif"><{$virtualsire}>
 		</td>
 	</tr>
 	<{/if}>
@@ -32,7 +32,7 @@
 			<{$virtualdamtitle}>
 		</td>
 		<td class="even">
-			<img src="images/female.gif"><{$virtualdam}>
+			<img src="assets/images/female.gif"><{$virtualdam}>
 		</td>
 	</tr>
 	<{/if}>

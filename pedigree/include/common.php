@@ -28,9 +28,11 @@ define("PEDIGREE_ADMIN_URL", PEDIGREE_URL . '/admin');
 define("PEDIGREE_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
 
 xoops_loadLanguage('common', PEDIGREE_DIRNAME);
-if (!@include_once XOOPS_ROOT_PATH . "/language/" . $xoopsConfig['language'] . "/global.php") {
-    include_once XOOPS_ROOT_PATH . "/language/english/global.php";
-}
+//if (!@include_once XOOPS_ROOT_PATH . "/language/" . $xoopsConfig['language'] . "/global.php") {
+//    include_once XOOPS_ROOT_PATH . "/language/english/global.php";
+//}
+
+xoops_loadLanguage('global');
 
 include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 include_once XOOPS_ROOT_PATH . '/class/tree.php';

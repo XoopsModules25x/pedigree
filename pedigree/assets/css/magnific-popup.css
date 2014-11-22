@@ -1,4 +1,10 @@
 /* Magnific Popup CSS */
+.image-link {
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+}
+
 .mfp-bg {
     top: 0;
     left: 0;

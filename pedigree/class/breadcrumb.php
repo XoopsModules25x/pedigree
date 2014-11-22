@@ -16,7 +16,7 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Pedigree
  * @since       3.23
- * @version     $Id: breadcrumb.php 12841 2014-11-12 13:14:13Z beckmi $
+ * @version     $Id: breadcrumb.php 12277 2014-01-26 01:21:57Z beckmi $
  *
  * Example:
  * $breadcrumb = new PedigreeBreadcrumb();
@@ -32,8 +32,8 @@ defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
  */
 class PedigreeBreadcrumb
 {
-    var $dirname;
-    var $_bread = array();
+    public $dirname;
+    private $bread = array();
 
     /**
      *
@@ -51,7 +51,7 @@ class PedigreeBreadcrumb
      */
     function addLink($title = '', $link = '')
     {
-        $this->_bread[] = array(
+        $this->bread[] = array(
             'link'  => $link,
             'title' => $title
         );
@@ -70,8 +70,8 @@ class PedigreeBreadcrumb
 
         require_once $GLOBALS['xoops']->path('class/template.php');
         $breadcrumbTpl = new XoopsTpl();
-        $breadcrumbTpl->assign('breadcrumb', $this->_bread);
-        $html = $breadcrumbTpl->fetch("db:" . $this->dirname . "_common_breadcrumb.html");
+        $breadcrumbTpl->assign('breadcrumb', $this->bread);
+        $html = $breadcrumbTpl->fetch("db:" . $this->dirname . "_common_breadcrumb.tpl");
         unset($breadcrumbTpl);
 
         return $html;

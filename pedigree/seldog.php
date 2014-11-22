@@ -21,7 +21,7 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = "pedigree_sel.html";
+$xoopsOption['template_main'] = "pedigree_sel.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -160,7 +160,7 @@ if ($gend == '0') {
 while ($row = $xoopsDB->fetchArray($result)) {
     //create picture information
     if ($row['foto'] != '') {
-        $camera = " <img src=\"images/camera.png\">";
+        $camera = " <img src=\"assets/images/camera.png\">";
     } else {
         $camera = "";
     }
@@ -190,7 +190,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
         $dogs[] = array(
             'id'          => $row['ID'],
             'name'        => $name,
-            'gender'      => '<img src="images/male.gif">',
+            'gender'      => '<img src="assets/images/male.gif">',
             'link'        => "<a href=\"updatepage.php?gend=" . $gend . "&curval=" . $curval . "&thisid=" . $row['ID'] . "\">" . $name . "</a>",
             'colour'      => "",
             'number'      => "",
@@ -200,7 +200,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
         $dogs[] = array(
             'id'          => $row['ID'],
             'name'        => $name,
-            'gender'      => '<img src="images/female.gif">',
+            'gender'      => '<img src="assets/images/female.gif">',
             'link'        => "<a href=\"updatepage.php?gend=" . $gend . "&curval=" . $curval . "&thisid=" . $row['ID'] . "\">" . $name . "</a>",
             'colour'      => "",
             'number'      => "",

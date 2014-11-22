@@ -20,10 +20,17 @@
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 include_once __DIR__ . '/admin_header.php';
+include_once dirname(__DIR__) . '/class/pedigreeUtilities.php';
 
 //xoops_cp_header();
 
 $indexAdmin = new ModuleAdmin();
+
+foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+    pedigreeUtilities::prepareFolder($uploadFolders[$i]);
+    $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
+//    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+}
 
 echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();

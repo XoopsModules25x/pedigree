@@ -146,7 +146,7 @@ define("_MA_PEDIGREE_SEARCHNAME_EXPLAIN", "<hr><i>Search name is the name that w
 // English strings for displaying information in the templates
 define("_MA_PEDIGREE_SELECT", "Select the first letter of the [animalType] ");
 define("_MA_PEDIGREE_SEARCHNAME", "Search by name");
-define("_MA_PEDIGREE_SEARCHNAME_EX", "Here you can search for specific [animalTypes] by entering (part of) a name.<br><br>Searching for part of a name (a few letters) will find all [animalTypes] with those letters anywhere in the name.<br>Searching for <b>a</b> will not find [animalTypes] with <b>แ</b> or other special characters.");
+define("_MA_PEDIGREE_SEARCHNAME_EX", "Here you can search for specific [animalTypes] by entering (part of) a name.<br><br>Searching for part of a name (a few letters) will find all [animalTypes] with those letters anywhere in the name.<br>Searching for <b>a</b> will not find [animalTypes] with <b>รก</b> or other special characters.");
 define("_MA_PEDIGREE_SEARCH_SHORT", "At least 3 characters are needed to perform a search.");
 define("_MA_PEDIGREE_SEARCH_NO", "No [animalTypes] meeting your query have been found.");
 define("_MA_PEDIGREE_SEARCHNUMBER", "Search by pedigree number");

@@ -19,7 +19,7 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = "pedigree_result.html";
+$xoopsOption['template_main'] = "pedigree_result.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -95,9 +95,9 @@ $result = $xoopsDB->query($queryString);
 while ($row = $xoopsDB->fetchArray($result)) {
     $numofcolumns = 2;
     if ($com == "father") {
-        $gender = "<img src=\"images/male.gif\">";
+        $gender = "<img src=\"assets/images/male.gif\">";
     } else {
-        $gender = "<img src=\"images/female.gif\">";
+        $gender = "<img src=\"assets/images/female.gif\">";
     }
     //read coi% information if exists or create link if not
     if ($row['p_coi'] == "" || $row['p_coi'] == "0") {
@@ -109,7 +109,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
     $dob = $row['X'];
     //create array for dogs
     if ($row['p_foto'] != '') {
-        $camera = " <img src=\"images/camera.png\">";
+        $camera = " <img src=\"assets/images/camera.png\">";
     } else {
         $camera = "";
     }

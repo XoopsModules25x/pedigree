@@ -17,7 +17,7 @@
  * @package         animal
  * @since           2.5.x
  * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: pedigree_temp.php 12841 2014-11-12 13:14:13Z beckmi $
+ * @version         $Id: pedigree_temp.php 12277 2014-01-26 01:21:57Z beckmi $
  */
 
 include_once 'admin_header.php';
@@ -28,7 +28,7 @@ switch ($op) {
     default:
         echo $adminMenu->addNavigation('pedigree_temp.php');
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
-        echo $adminMenu->renderButton();
+        echo $adminMenu->renderButton('left');
         $criteria = new CriteriaCompo();
         $criteria->setSort("ID");
         $criteria->setOrder("ASC");

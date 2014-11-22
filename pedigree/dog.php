@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/include/config.php';
 
 /*
 if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
@@ -10,8 +11,8 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
     include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
 }
 */
-
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+$mydirname = basename(__DIR__);
+xoops_loadLanguage('main', $mydirname);
 
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
@@ -22,15 +23,28 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = "pedigree_dog.html";
+$xoopsOption['template_main'] = "pedigree_dog.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
+
+$GLOBALS['xoTheme']->addScript("browse.php?Frameworks/jquery/jquery.js");
+$GLOBALS['xoTheme']->addScript("browse.php?modules/" . $mydirname . "/assets/js/jquery.magnific-popup.min.js");
+//$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/".$mydirname ."/assets/css/magnific-popup.css");
+
+$GLOBALS['xoTheme']->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
+
+if (isset($GLOBALS['xoTheme'])) {
+    $GLOBALS['xoTheme']->addScript('include/color-picker.js');
+} else {
+    echo '<script type="text/javascript" src="' . XOOPS_URL . '/include/color-picker.js"></script>';
+}
 
 global $xoopsUser, $xoopsTpl, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
 $pathIcon16 = $xoopsModule->getInfo('icons16');
 
 xoops_load('XoopsUserUtility');
+$dam = $sire = '';
 
 //get module configuration
 $module_handler =& xoops_gethandler('module');
@@ -81,33 +95,34 @@ while ($row = $xoopsDB->fetchArray($result)) {
     }
     //gender
     if ($row['roft'] == 0) {
-        $gender = "<img src=\"images/male.gif\"> " . strtr(_MA_PEDIGREE_FLD_MALE, array('[male]' => $moduleConfig['male']));
+        $gender = "<img src=\"assets/images/male.gif\"> " . strtr(_MA_PEDIGREE_FLD_MALE, array('[male]' => $moduleConfig['male']));
     } else {
-        $gender = "<img src=\"images/female.gif\"> " . strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['female']));
+        $gender = "<img src=\"assets/images/female.gif\"> " . strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['female']));
     }
     //Sire
     if ($row['father'] != 0) {
         $querysire = "SELECT NAAM from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $row['father'];
         $ressire   = $xoopsDB->query($querysire);
         while ($rowsire = $xoopsDB->fetchArray($ressire)) {
-            $sire = "<img src=\"images/male.gif\"><a href=\"dog.php?id=" . $row['father'] . "\">" . stripslashes($rowsire['NAAM']) . "</a>";
+            $sire = "<img src=\"assets/images/male.gif\"><a href=\"dog.php?id=" . $row['father'] . "\">" . stripslashes($rowsire['NAAM']) . "</a>";
         }
     } else {
-        $sire = "<img src=\"images/male.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=0&letter=a\">" . _MA_PEDIGREE_UNKNOWN . "</a>";
+        $sire = "<img src=\"assets/images/male.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=0&letter=a\">" . _MA_PEDIGREE_UNKNOWN . "</a>";
     }
     //Dam
     if ($row['mother'] != 0) {
         $querydam = "SELECT NAAM from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $row['mother'];
         $resdam   = $xoopsDB->query($querydam);
         while ($rowdam = $xoopsDB->fetchArray($resdam)) {
-            $dam = "<img src=\"images/female.gif\"><a href=\"dog.php?id=" . $row['mother'] . "\">" . stripslashes($rowdam['NAAM']) . "</a>";
+            $dam = "<img src=\"assets/images/female.gif\"><a href=\"dog.php?id=" . $row['mother'] . "\">" . stripslashes($rowdam['NAAM']) . "</a>";
         }
     } else {
-        $dam = "<img src=\"images/female.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=1&letter=a\">" . _MA_PEDIGREE_UNKNOWN . "</a>";
+        $dam = "<img src=\"assets/images/female.gif\"><a href=\"seldog.php?curval=" . $row['ID'] . "&gend=1&letter=a\">" . _MA_PEDIGREE_UNKNOWN . "</a>";
     }
     //picture
     if ($row['foto'] != "") {
-        $picture = "<img src=images/thumbnails/" . $row['foto'] . "_400.jpeg>";
+        $picture    = "<img src=" . PEDIGREE_UPLOAD_URL . "/images/thumbnails/" . $row['foto'] . "_400.jpeg>";
+        $pictureBig = "<img src=" . PEDIGREE_UPLOAD_URL . "/images/" . $row['foto'] . ">";
     } else {
         $picture = "<a href=\"update.php?id=" . $row['ID'] . "&fld=pc\">" . _MA_PEDIGREE_UNKNOWN . "</a>";
     }

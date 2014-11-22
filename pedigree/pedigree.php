@@ -1,7 +1,20 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+
+$rootPath  = dirname(dirname(__DIR__));
+$mydirname = basename(__DIR__);
+$mydirpath = dirname(__DIR__);
+
+include_once $rootPath . '/mainfile.php';
+//include_once $rootPath . '/include/cp_functions.php';
+//require_once $rootPath . '/include/cp_header.php';
+//include_once $rootPath . '/class/xoopsformloader.php';
+
+
+//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+
+
 /*
 if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
     require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
@@ -10,7 +23,11 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 }
 */
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+//xoops_cp_header();
+
+xoops_loadLanguage('main', basename(__DIR__));
+
+include_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
@@ -21,12 +38,18 @@ extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = "pedigree_pedigree.html";
+$xoopsOption['template_main'] = "pedigree_pedigree.tpl";
+
+include XOOPS_ROOT_PATH . '/header.php';
+
+$GLOBALS['xoTheme']->addScript("browse.php?Frameworks/jquery/jquery.js");
+$GLOBALS['xoTheme']->addScript("browse.php?modules/" . $mydirname . "/assets/js/jquery.magnific-popup.min.js");
+$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/" . $mydirname . "/assets/css/style.css");
+$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/" . $mydirname . '/assets/css/magnific-popup.css');
 
 require_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-include XOOPS_ROOT_PATH . '/header.php';
 //get module configuration
 $module_handler =& xoops_gethandler('module');
 $module         =& $module_handler->getByDirname("pedigree");
@@ -37,7 +60,8 @@ $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 pedigree_main($_GET['pedid']);
 
 //comments and footer
-include XOOPS_ROOT_PATH . "/footer.php";
+//include XOOPS_ROOT_PATH . "/footer.php";
+include __DIR__ . "/footer.php";
 
 //
 // Displays the "Main" tab of the module
@@ -102,7 +126,8 @@ function pedigree_main($ID)
             } else {
                 //check if image exists
                 if ($row[$key . '_foto'] != '') {
-                    $d[$key]['photo'] = "images/thumbnails/" . $row[$key . '_foto'] . "_150.jpeg";
+                    $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . "/images/thumbnails/" . $row[$key . '_foto'] . "_150.jpeg";
+                    $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . "/images/" . $row[$key . '_foto'];
                 }
             }
 
@@ -135,8 +160,8 @@ function pedigree_main($ID)
     $xoopsTpl->assign("d", $d);
     //assign config options
 
-    $xoopsTpl->assign("male", "<img src=\"images/male.gif\">");
-    $xoopsTpl->assign("female", "<img src=\"images/female.gif\">");
+    $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
+    $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
 
     //assign extra display options
     $xoopsTpl->assign("unknown", "Unknown");

@@ -20,7 +20,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = "pedigree_breeder.html";
+$xoopsOption['template_main'] = "pedigree_breeder.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
@@ -148,8 +148,8 @@ while ($row = $xoopsDB->fetchArray($result)) {
     $access = "";
     if (!empty($xoopsUser)) {
         if ($row['user'] == $xoopsUser->getVar("uid") || $modadmin == true) {
-            //$access = "<a href=\"dog.php?id=".$row['ID']."\"><img src=\"images/edit.gif\" alt="._MA_PEDIGREE_BTN_EDIT."></a>";
-            $access .= "<a href=\"deletebreeder.php?id=" . $row['ID'] . "\"><img src=\"images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
+            //$access = "<a href=\"dog.php?id=".$row['ID']."\"><img src=\"assets/images/edit.gif\" alt="._MA_PEDIGREE_BTN_EDIT."></a>";
+            $access .= "<a href=\"deletebreeder.php?id=" . $row['ID'] . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
         } else {
             $access = "";
         }
