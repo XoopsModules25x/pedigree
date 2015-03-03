@@ -26,7 +26,6 @@ function xoops_module_update_animal()
 {
     global $xoopsDB;
 
-
     if (tableExists($xoopsDB->prefix('owner'))) {
         $sql    = sprintf(
             'ALTER TABLE ' . $xoopsDB->prefix('mod_pedigree_owner') . ' RENAME ' . $xoopsDB->prefix('pedigree_owner')
@@ -82,11 +81,7 @@ function xoops_module_update_animal()
         }
     }
 
-
 //----------------  OLD --------------------------
-
-
-
 
 
     if (tableExists($xoopsDB->prefix('owner'))) {
@@ -121,8 +116,6 @@ function xoops_module_update_animal()
             ++$errors;
         }
     }
-
-
 
     return true;
 

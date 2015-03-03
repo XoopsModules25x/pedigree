@@ -33,7 +33,6 @@ $xoTheme->addScript(PEDIGREE_URL . '/assets/js/colpick.js');
 $xoTheme->addStylesheet(PEDIGREE_URL . '/assets/js/colpick.css');
 $xoTheme->addStylesheet(PEDIGREE_URL . '/assets/js/magnific-popup.css');
 
-
 $xoTheme->addStylesheet(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox.css');
 $xoTheme->addStylesheet(PEDIGREE_URL . '/module.css');
 

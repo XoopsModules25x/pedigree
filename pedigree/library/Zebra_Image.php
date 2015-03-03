@@ -172,7 +172,7 @@ class Zebra_Image
      *
      *  Supported file types are <b>GIF</b>, <b>PNG</b> and <b>JPEG</b>.
      *
-     * @var    string
+     * @var string
      */
     var $source_path;
 
@@ -182,7 +182,7 @@ class Zebra_Image
      *  <i>Can be a different than {@link source_path} - the type of the transformed image will be as indicated by the
      *  file's extension (supported file types are GIF, PNG and JPEG)</i>.
      *
-     * @var    string
+     * @var string
      */
     var $target_path;
 

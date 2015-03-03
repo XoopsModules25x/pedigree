@@ -49,7 +49,7 @@ class Image_Color
     /**
      * First color that the class handles for ranges and mixes.
      *
-     * @var     array
+     * @var array
      * @access  public
      * @see     setColors()
      */
@@ -58,7 +58,7 @@ class Image_Color
     /**
      * Second color that the class handles for ranges and mixes.
      *
-     * @var     array
+     * @var array
      * @access  public
      * @see     setColors()
      */
@@ -68,7 +68,7 @@ class Image_Color
      * Boolean value for determining whether colors outputted should be limited
      * to the web safe pallet or not.
      *
-     * @var     boolean
+     * @var boolean
      * @access  private
      * @see     setWebSafe()
      */
@@ -110,8 +110,8 @@ class Image_Color
      * Determines whether colors the returned by this class will be rounded to
      * the nearest web safe value.
      *
-     * @param  boolean $bool Indicates if colors should be limited to the
-     *                       websafe pallet.
+     * @param boolean $bool Indicates if colors should be limited to the
+     *                      websafe pallet.
      *
      * @return void
      * @access  public
@@ -125,8 +125,8 @@ class Image_Color
     /**
      * Set the two colors this class uses for mixing and ranges.
      *
-     * @param  string $col1 The first color in hex format
-     * @param  string $col2 The second color in hex format
+     * @param string $col1 The first color in hex format
+     * @param string $col2 The second color in hex format
      *
      * @return void
      * @access  public
@@ -140,11 +140,11 @@ class Image_Color
     /**
      * Get the range of colors between the class's two colors, given a degree.
      *
-     * @param  integer $degrees How large a 'step' we should take between the
-     *                          colors.
+     * @param integer $degrees How large a 'step' we should take between the
+     *                         colors.
      *
-     * @return array   Returns an array of hex strings, one element for each
-     *                         color.
+     * @return array Returns an array of hex strings, one element for each
+     *               color.
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      * @todo    Allow for degrees for individual parts of the colors.
@@ -205,8 +205,8 @@ class Image_Color
     /**
      * Change the lightness of the class's two colors.
      *
-     * @param  integer $degree The degree of the change. Positive values
-     *                         lighten the color while negative values will darken it.
+     * @param integer $degree The degree of the change. Positive values
+     *                        lighten the color while negative values will darken it.
      *
      * @return void
      * @access  public
@@ -248,14 +248,14 @@ class Image_Color
      * RGB. You can change the dark and the light colors from their default
      * black and white.
      *
-     * @param  string $color The hex color to analyze
-     * @param  string $light The light color value to return if we should
-     *                       have light text.
-     * @param  string $dark  The dark color value to return if we should have
-     *                       dark text.
+     * @param string $color The hex color to analyze
+     * @param string $light The light color value to return if we should
+     *                      have light text.
+     * @param string $dark  The dark color value to return if we should have
+     *                      dark text.
      *
      * @return string The light or dark value which would make the text most
-     *                      readable.
+     *                readable.
      * @access  public
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
@@ -273,8 +273,8 @@ class Image_Color
     /**
      * Internal method to set the colors.
      *
-     * @param  string $col1 First color, either a name or hex value
-     * @param  string $col2 Second color, either a name or hex value
+     * @param string $col1 First color, either a name or hex value
+     * @param string $col2 Second color, either a name or hex value
      *
      * @return void
      * @access  private
@@ -293,9 +293,9 @@ class Image_Color
     /**
      * Given a color, properly split it up into a 3 element RGB array.
      *
-     * @param  string $color The color.
+     * @param string $color The color.
      *
-     * @return array  A three element RGB array.
+     * @return array A three element RGB array.
      * @access  private
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
@@ -329,7 +329,7 @@ class Image_Color
     /**
      * Convert an RGB array to a hex string.
      *
-     * @param  array $color 3 element RGB array.
+     * @param array $color 3 element RGB array.
      *
      * @return string Hex color string.
      * @access  public
@@ -346,10 +346,10 @@ class Image_Color
      * Convert a hex color string into an RGB array. An extra fourth element
      * will be returned with the original hex value.
      *
-     * @param  string $hex Hex color string.
+     * @param string $hex Hex color string.
      *
-     * @return array  RGB color array with an extra 'hex' element containing
-     *                    the original hex string.
+     * @return array RGB color array with an extra 'hex' element containing
+     *               the original hex string.
      * @access  public
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
@@ -366,11 +366,11 @@ class Image_Color
     /**
      * Convert an HSV (Hue, Saturation, Brightness) value to RGB.
      *
-     * @param  integer $h Hue
-     * @param  integer $s Saturation
-     * @param  integer $v Brightness
+     * @param integer $h Hue
+     * @param integer $s Saturation
+     * @param integer $v Brightness
      *
-     * @return array   RGB array.
+     * @return array RGB array.
      * @access  public
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
@@ -388,11 +388,11 @@ class Image_Color
      * Originally written by Jurgen Schwietering. Integrated into the class by
      * Jason Lotito.
      *
-     * @param  integer $h Hue
-     * @param  integer $s Saturation
-     * @param  integer $v Brightness
+     * @param integer $h Hue
+     * @param integer $s Saturation
+     * @param integer $v Brightness
      *
-     * @return string  The hex string.
+     * @return string The hex string.
      * @access  public
      * @static
      * @author  Jurgen Schwietering <jurgen@schwietering.com>
@@ -463,10 +463,10 @@ class Image_Color
      * User defined color specifications get translated into an array of RGB
      * values.
      *
-     * @param  resource     $img   Image handle
-     * @param  string|array $color Name or hex string or an RGB array.
+     * @param resource     $img   Image handle
+     * @param string|array $color Name or hex string or an RGB array.
      *
-     * @return resource     Image color handle.
+     * @return resource Image color handle.
      * @access  public
      * @static
      * @uses    ImageColorAllocate() to allocate the color.
@@ -485,9 +485,9 @@ class Image_Color
      * will be treated as a named color. If the named color is not known, black
      * will be returned.
      *
-     * @param  string $color
+     * @param string $color
      *
-     * @return array  RGB color
+     * @return array RGB color
      * @access  public
      * @static
      * @author  Laurent Laville <pear@laurent-laville.org>
@@ -511,10 +511,10 @@ class Image_Color
      * Convert a named color to an RGB array. If the color is unknown black
      * is returned.
      *
-     * @param  string $color Case insensitive color name.
+     * @param string $color Case insensitive color name.
      *
-     * @return array  RGB color array. If the color was unknown, the result
-     *                      will be black.
+     * @return array RGB color array. If the color was unknown, the result
+     *               will be black.
      * @access  public
      * @static
      * @author  Sebastian Bergmann <sb@sebastian-bergmann.de>
@@ -680,9 +680,9 @@ class Image_Color
     /**
      * Convert an RGB percentage string into an RGB array.
      *
-     * @param  string $color Percentage color string like "50%,20%,100%".
+     * @param string $color Percentage color string like "50%,20%,100%".
      *
-     * @return array  RGB color array.
+     * @return array RGB color array.
      * @access  public
      * @static
      */

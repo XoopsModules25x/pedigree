@@ -37,25 +37,25 @@ while ($row = $xoopsDB->fetchArray($result)) {
 }
 $colors = explode(";", $c);
 
-$mainBackColour 				= 	$colors[0];
-$selectedBackColour 			= 	$colors[1];
-$selectedTextColour				=	$colors[2];
-$selectedTextFont				=	$colors[3];
-$selectedTextSize				=	$colors[4];
-$selectedTextStyle				=	$colors[5];
-$maleBackColour					=	$colors[6];
-$maleTextColour					=	$colors[7];
-$maleTextFont					=	$colors[8];
-$maleTextSize					=	$colors[9];
-$maleTextStyle					=	$colors[10];
-$femaleBackColour				=	$colors[11];
-$femaleTextColour				=	$colors[12];
-$femaleTextFont					=	$colors[13];
-$femaleTextSize					=	$colors[14];
-$femaleTextStyle				=	$colors[15];
-$borderStyle					=	$colors[16];
-$borderWidth					=	$colors[17];
-$borderColour					=	$colors[18];
+$mainBackColour                =    $colors[0];
+$selectedBackColour            =    $colors[1];
+$selectedTextColour                =    $colors[2];
+$selectedTextFont                =    $colors[3];
+$selectedTextSize                =    $colors[4];
+$selectedTextStyle                =    $colors[5];
+$maleBackColour                    =    $colors[6];
+$maleTextColour                    =    $colors[7];
+$maleTextFont                    =    $colors[8];
+$maleTextSize                    =    $colors[9];
+$maleTextStyle                    =    $colors[10];
+$femaleBackColour                =    $colors[11];
+$femaleTextColour                =    $colors[12];
+$femaleTextFont                    =    $colors[13];
+$femaleTextSize                    =    $colors[14];
+$femaleTextStyle                =    $colors[15];
+$borderStyle                    =    $colors[16];
+$borderWidth                    =    $colors[17];
+$borderColour                    =    $colors[18];
 
 echo"<style type=\"text/css\">
 <!--

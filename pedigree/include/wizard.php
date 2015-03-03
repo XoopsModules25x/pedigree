@@ -58,8 +58,8 @@ class ZervWizard
      *
      * Constructor. Primarily sets up the container
      *
-     * @param   array  &$container Reference to container array
-     * @param   string $name       A unique name for the wizard for container storage
+     * @param array  &$container Reference to container array
+     * @param string $name       A unique name for the wizard for container storage
      */
     function ZervWizard(&$container, $name)
     {
@@ -93,10 +93,10 @@ class ZervWizard
      *
      * @todo    Need a way to jump between steps, e.g. from step 2 to 4 and validating all data
      *
-     * @param   string $action      The step being processed. This should correspond
-     *                              to a step created in addStep()
-     * @param   array  &$form       The unmodified form values to process
-     * @param   bool   $process     True if the step is being processed, false if being prepared
+     * @param string $action  The step being processed. This should correspond
+     *                        to a step created in addStep()
+     * @param array  &$form   The unmodified form values to process
+     * @param bool   $process True if the step is being processed, false if being prepared
      */
     function process($action, &$form, $process = true)
     {
@@ -206,7 +206,7 @@ class ZervWizard
      * Check if the form is complete. This can only be properly determined
      * after process() has been called.
      *
-     * @return  bool    True if the form is complete and valid, false if not
+     * @return bool True if the form is complete and valid, false if not
      */
     function isComplete()
     {
@@ -220,7 +220,7 @@ class ZervWizard
      * called internally but you may have reason to change the current
      * step.
      *
-     * @param   string $step The step to set as current
+     * @param string $step The step to set as current
      */
     function setCurrentStep($step)
     {
@@ -242,6 +242,7 @@ class ZervWizard
         if ($this->stepExists($step)) {
             return $step;
         }
+
         return null;
     }
 
@@ -250,9 +251,9 @@ class ZervWizard
      *
      * Check if the given step exists
      *
-     * @param   string $stepname The name of the step to check for
+     * @param string $stepname The name of the step to check for
      *
-     * @return  bool                True if the step exists, false if not
+     * @return bool True if the step exists, false if not
      */
     function stepExists($stepname)
     {
@@ -264,7 +265,7 @@ class ZervWizard
      *
      * Get the name of the current step
      *
-     * @return  string  The name of the current step
+     * @return string The name of the current step
      */
     function getStepName()
     {
@@ -277,9 +278,9 @@ class ZervWizard
      * Gets the step number (from 1 to N where N is the number of steps
      * in the wizard) of the current step
      *
-     * @param   string $step Optional. The step to get the number for. If null then uses current step
+     * @param string $step Optional. The step to get the number for. If null then uses current step
      *
-     * @return  int             The number of the step. 0 if something went wrong
+     * @return int The number of the step. 0 if something went wrong
      */
     function getStepNumber($step = null)
     {
@@ -330,10 +331,10 @@ class ZervWizard
      * Retrieve a property for a given step. At this stage, the only
      * property steps have is a title property.
      *
-     * @param   string $key     The key to get a property for
-     * @param   mixed  $default The value to return if the key isn't found
+     * @param string $key     The key to get a property for
+     * @param mixed  $default The value to return if the key isn't found
      *
-     * @return  mixed               The property value or the default value
+     * @return mixed The property value or the default value
      */
     function getStepProperty($key, $default = null)
     {
@@ -341,6 +342,7 @@ class ZervWizard
         if (isset($this->_steps[$step][$key])) {
             return $this->_steps[$step][$key];
         }
+
         return $default;
     }
 
@@ -349,7 +351,7 @@ class ZervWizard
      *
      * Get the step name of the first step
      *
-     * @return  string  The name of the first step, or null if no steps
+     * @return string The name of the first step, or null if no steps
      */
     function getFirstStep()
     {
@@ -439,8 +441,8 @@ class ZervWizard
      *
      * Adds a step to the wizard
      *
-     * @param   string $stepname The name of the step
-     * @param   string $title    The title of the current step
+     * @param string $stepname The name of the step
+     * @param string $title    The title of the current step
      */
     function addStep($stepname, $title)
     {
@@ -466,7 +468,7 @@ class ZervWizard
      *
      * Check if the current step is the first step
      *
-     * @return  bool    True if the current step is the first step
+     * @return bool True if the current step is the first step
      */
     function isFirstStep()
     {
@@ -480,7 +482,7 @@ class ZervWizard
      *
      * Check if the current step is the last step
      *
-     * @return  bool    True if the current step is the last step
+     * @return bool True if the current step is the last step
      */
     function isLastStep()
     {
@@ -494,8 +496,8 @@ class ZervWizard
      *
      * Sets a value in the container
      *
-     * @param   string $key The key for the value to set
-     * @param   mixed  $val The value
+     * @param string $key The key for the value to set
+     * @param mixed  $val The value
      */
     function setValue($key, $val)
     {
@@ -507,10 +509,10 @@ class ZervWizard
      *
      * Gets a value from the container
      *
-     * @param   string $key     The key for the value to get
-     * @param   mixed  $default The value to return if the key doesn't exist
+     * @param string $key     The key for the value to get
+     * @param mixed  $default The value to return if the key doesn't exist
      *
-     * @return  mixed               Either the key's value or the default value
+     * @return mixed Either the key's value or the default value
      */
     function getValue($key, $default = null)
     {
@@ -536,10 +538,10 @@ class ZervWizard
      * Initializes a variable, by returning either the variable
      * or a default value
      *
-     * @param   mixed &$var    The variable to fetch
-     * @param   mixed $default The value to return if variable doesn't exist or is null
+     * @param mixed &$var    The variable to fetch
+     * @param mixed $default The value to return if variable doesn't exist or is null
      *
-     * @return  mixed               The variable value or the default value
+     * @return mixed The variable value or the default value
      */
     function coalesce(&$var, $default = null)
     {
@@ -551,8 +553,8 @@ class ZervWizard
      *
      * Add an error
      *
-     * @param   string $key An identifier for the error (e.g. the field name)
-     * @param   string $val An error message
+     * @param string $key An identifier for the error (e.g. the field name)
+     * @param string $val An error message
      */
     function addError($key, $val)
     {
@@ -564,9 +566,9 @@ class ZervWizard
      *
      * Check if an error has occurred
      *
-     * @param   string $key The field to check for error. If none specified checks for any error
+     * @param string $key The field to check for error. If none specified checks for any error
      *
-     * @return  bool            True if an error has occurred, false if not
+     * @return bool True if an error has occurred, false if not
      */
     function isError($key = null)
     {
