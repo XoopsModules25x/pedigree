@@ -35,7 +35,7 @@ class PedigreeFields extends XoopsObject
      */
     function __construct()
     {
-        $this->XoopsObject();
+        parent::__construct();
         $this->initVar("ID", XOBJ_DTYPE_INT, null, false, 2);
         $this->initVar("isActive", XOBJ_DTYPE_INT, null, false, 1);
         $this->initVar("FieldName", XOBJ_DTYPE_TXTBOX, null, false, 50);

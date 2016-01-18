@@ -35,7 +35,7 @@ class PedigreeOwner extends XoopsObject
      */
     function __construct()
     {
-        $this->XoopsObject();
+        parent::__construct();
         $this->initVar("ID", XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar("firstname", XOBJ_DTYPE_TXTBOX, null, false, 30);
         $this->initVar("lastname", XOBJ_DTYPE_TXTBOX, null, false, 30);

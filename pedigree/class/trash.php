@@ -35,7 +35,7 @@ class PedigreeTrash extends XoopsObject
      */
     function __construct()
     {
-        $this->XoopsObject();
+        parent::__construct();
         $this->initVar("ID", XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar("NAAM", XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar("id_owner", XOBJ_DTYPE_INT, null, false, 11);
