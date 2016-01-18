@@ -1,0 +1,9 @@
+Credits
+===============
+
+Originally developed by:
+
+Programming : James Cotton
+Design & Layout : Ton van der Hagen
+
+Version 1.30 was updated to XOOPS 2.5.5 Standard GUI by Michael Beck (Mamba)

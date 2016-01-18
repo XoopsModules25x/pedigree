@@ -1,0 +1,65 @@
+---------------------------------------
+1.31 Alpha 5  NOT RELEASED
+---------------------------------------
+
+- replaced phpThumbnail with Zebra Image (mamba)
+- added "Magnific Popup" for images (mamba)
+- moved uploads to /uploads/pedigree (mamba)
+- simplified creation of upload folders, based on Hervet's Oledrion (mamba)
+- renamed templates from .html to .tpl (mamba)
+- moved images, .js and css files  to /assets (mamba)
+
+
+
+TODO:
+- updated Alphabet listing with Highlights (mamba)
+
+
+---------------------------------------
+1.31 Alpha 4  NOT RELEASED
+---------------------------------------
+
+- changes to COI templates  (mamba)
+- replaced ColorPicker with jsColor (mamba)
+- English corrections (mamba)
+
+---------------------------------------
+1.31 Alpha 3  2014-01-25
+---------------------------------------
+
+- converting more Dutch terms to English  (mamba)
+- fixing bugs reported originally by luwie  (mamba)
+
+---------------------------------------
+1.31 Alpha 2  2013-05-21
+---------------------------------------
+
+- fixed wrong table names in handlers (luwie/mamba)
+
+
+---------------------------------------
+1.31 Alpha 1  2013-04-12
+---------------------------------------
+
+- renamed to Pedigree (Mamba)
+- fixed several PHP 5.4 related bugs (Mamba)
+- standardized names of language variables (Mamba)
+- added cloning with SmartClone (Mamba)
+- sub-menus names will come from language files (mamba)
+
+
+---------------------------------------
+1.30 Beta 1  2013-03-03
+---------------------------------------
+
+- Converted to XOOPS 2.5.5 Admin GUI (Mamba)
+- Added classes for tables
+- renamed tables to follow XOOPS new standard "mod_module_table"
+- updated for PHP 5.4
+- added menu items to main menu
+- fixed two wrong handlers (flipse/mamba)
+
+---------------------------------------
+1.29 Final  ??????
+---------------------------------------
+released by James Cotton
