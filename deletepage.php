@@ -50,15 +50,15 @@ if (!empty($dogname)) {
         }
         if ($access == "1") {
             $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_trash") . " SELECT * FROM " . $xoopsDB->prefix("pedigree_tree") . " WHERE " . $xoopsDB->prefix("pedigree_tree") . ".ID='" . $dogid . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             $delsql = "DELETE FROM " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID ='" . $row['ID'] . "'";
-            mysql_query($delsql);
+            $xoopsDB->queryF($delsql);
             if ($row['roft'] == "0") {
                 $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET father = '0' where father = '" . $row['ID'] . "'";
             } else {
                 $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET mother = '0' where mother = '" . $row['ID'] . "'";
             }
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             $ch = 1;
         }
     }
