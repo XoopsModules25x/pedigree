@@ -32,7 +32,7 @@ echo "<input type=\"submit\"></form>";
 if ($_POST['naar'] != "") {
     $query = "update " . $xoopsDB->prefix("pedigree_tree") . " set user4 = '" . $_POST['naar'] . "' where user4 = '" . $_POST['van'] . "'";
     echo $query . "<br />";
-    mysql_query($query);
+    $xoopsDB->queryF($query);
 }
 
 $result = $xoopsDB->query("select user4, count('user4') as X from " . $xoopsDB->prefix("pedigree_tree") . " group by 'user4'");

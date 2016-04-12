@@ -250,7 +250,7 @@ function delperm($id)
 {
     global $xoopsTpl, $xoopsDB;
     $sql = "DELETE FROM " . $xoopsDB->prefix("pedigree_trash") . " WHERE ID = " . $id;
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     deleted();
 }
 
@@ -258,7 +258,7 @@ function delall()
 {
     global $xoopsTpl, $xoopsDB;
     $sql = "DELETE FROM " . $xoopsDB->prefix("pedigree_trash");
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     deleted();
 }
 
@@ -277,9 +277,9 @@ function restore($id)
         }
         $outgoing = substr_replace($queryvalues, "", -1);
         $query    = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES (" . $outgoing . ")";
-        mysql_query($query);
+        $xoopsDB->queryF($query);
         $delquery = "DELETE FROM " . $xoopsDB->prefix("pedigree_trash") . " WHERE ID = " . $id;
-        mysql_query($delquery);
+        $xoopsDB->queryF($delquery);
         $form .= "<li><a href=\"pedigree.php?pedid=" . $row['ID'] . "\">" . $row['NAAM'] . "</a> has been restored into the database.<hr>";
     }
     $xoopsTpl->assign("form", $form);

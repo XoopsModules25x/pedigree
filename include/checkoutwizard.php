@@ -363,22 +363,22 @@ class CheckoutWizard extends ZervWizard
                 . "', DefaultValue = '" . $this->getValue('defaultvalue') . "', FieldExplenation = '" . $this->getValue('explain') . "', HasSearch = '" . $search . "', Litter = '" . $Litter
                 . "', Generallitter = '" . $Generallitter . "', SearchName = '" . $searchname . "', SearchExplenation = '" . $searchexplain . "', ViewInPedigree = '" . $viewinpedigree
                 . "', ViewInAdvanced = '" . $viewinadvanced . "', ViewInPie = '" . $viewinpie . "', ViewInList = '" . $viewinlist . "' WHERE ID ='" . $this->getValue('field') . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             //possible change defaultvalue for userfield
             $sql
                 = "ALTER TABLE " . $xoopsDB->prefix("pedigree_tree") . " CHANGE `user" . $this->getValue('field') . "` `user" . $this->getValue(
                     'field'
                 ) . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             $sql
                 = "ALTER TABLE " . $xoopsDB->prefix("pedigree_temp") . " CHANGE `user" . $this->getValue('field') . "` `user" . $this->getValue(
                     'field'
                 ) . "` VARCHAR( 1024 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             $sql = "ALTER TABLE " . $xoopsDB->prefix("pedigree_trash") . " CHANGE `user" . $this->getValue('field') . "` `user" . $this->getValue(
                     'field'
                 ) . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
         } else { //this is a new field
             $sql    = "SELECT MAX(ID) AS lid from " . $xoopsDB->prefix("pedigree_fields") . " LIMIT 1";
             $result = $xoopsDB->query($sql);
@@ -392,7 +392,7 @@ class CheckoutWizard extends ZervWizard
                 $SQL = "ALTER TABLE " . $xoopsDB->prefix($table) . " ADD `user" . $nextfieldnum . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue(
                         'defaultvalue'
                     ) . "'";
-                mysql_query($SQL);
+                $xoopsDB->queryF($SQL);
             }
             //is a lookup table present
             $lookup = $this->getValue('lookup1');
@@ -402,14 +402,14 @@ class CheckoutWizard extends ZervWizard
                 $lookup = "1";
                 //create table for lookupfield
                 $createtable = "CREATE TABLE " . $xoopsDB->prefix("pedigree_lookup" . $nextfieldnum) . " (`ID` INT( 10 ) NOT NULL ,`value` VARCHAR( 255 ) NOT NULL, `order` INT( 10 )) ENGINE = MyISAM";
-                mysql_query($createtable);
+                $xoopsDB->queryF($createtable);
                 //fill table
                 $count = $this->getValue('fc');
                 for ($x = 1; $x < $count + 1; ++$x) {
                     $y = $x - 1;
                     $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_lookup" . $nextfieldnum) . " ( `ID` , `value`, `order`) VALUES ('" . $y . "', '" . $this->getValue('lookup' . $x) . "','" . $y
                         . "')";
-                    mysql_query($sql);
+                    $xoopsDB->queryF($sql);
                 }
 
             }
@@ -421,7 +421,7 @@ class CheckoutWizard extends ZervWizard
                     'explain'
                 ) . "', '" . $search . "', '" . $Litter . "', '" . $Generallitter . "', '" . $searchname . "', '" . $searchexplain . "', '" . $viewinpedigree . "', '" . $viewinadvanced . "', '"
                 . $viewinpie . "', '" . $viewinlist . "','','" . $nextfieldnum . "')";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
         }
     }
 

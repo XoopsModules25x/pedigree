@@ -122,7 +122,7 @@ function pedigree_config_post()
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
         $param_value = get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
-        $sql .= "'" . mysql_escape_string($param_value) . "'";
+        $sql .= "'" . $xoopsDB->escape($param_value) . "'";
         $first = false;
     }
     $sql .= " )";

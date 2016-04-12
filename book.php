@@ -6680,7 +6680,7 @@ for ($index = 0; $index < count($fok); ++$index) {
     while ($row = $xoopsDB->fetchArray($result)) {
         $UPD = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " set id_breeder = '" . $row['ID'] . "' where NAAM='" . $id . "'";
         //echo $UPD."<br />";
-        mysql_query($UPD);
+        $xoopsDB->queryF($UPD);
     }
 
 }
