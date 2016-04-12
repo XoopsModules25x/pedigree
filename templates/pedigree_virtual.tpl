@@ -45,5 +45,5 @@
 <{/if}>
 
 <{if $sire}>
-	<{include file="db:pedigree_result.html" numofcolumns=$numofcolumns nummatch=$nummatch pages=$pages columns=$columns dogs=$dogs}>
+	<{include file="db:pedigree_result.tpl" numofcolumns=$numofcolumns nummatch=$nummatch pages=$pages columns=$columns dogs=$dogs}>
 <{/if}>

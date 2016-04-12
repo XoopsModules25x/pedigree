@@ -12,7 +12,7 @@ class pedigreeUtilities
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
-     * @param string $folder Le chemin complet du répertoire à vérifier
+     * @param string $folder Le chemin complet du rÃ©pertoire Ã  vÃ©rifier
      *
      * @return void
      */
