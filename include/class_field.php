@@ -32,11 +32,9 @@ class Animal
             $SQL = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID = " . $animalnumber;
         }
         $result    = $xoopsDB->query($SQL);
-        $row       = $xoopsDB->fetchRow($result);
-        $numfields = mysql_num_fields($result);
-        for ($i = 0; $i < $numfields; ++$i) {
-            $key        = mysql_field_name($result, $i);
-            $this->$key = $row[$i];
+        $row       = $xoopsDB->fetchArray($result);
+        foreach ($row as $key => $value) {
+            $this->$key = $value;
         }
     }
 

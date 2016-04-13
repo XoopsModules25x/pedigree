@@ -52,7 +52,7 @@ $modversion['onUpdate']  = 'include/update_function.php';
 
 //about
 $modversion['release_date']        = '2014/11/22';
-$modversion["module_status"]       = "Alpha 5";
+$modversion["module_status"]       = "Alpha 6";
 $modversion["module_website_url"]  = "www.xoops.org";
 $modversion["module_website_name"] = "XOOPS";
 $modversion['min_php']             = '5.5';

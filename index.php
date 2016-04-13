@@ -20,7 +20,7 @@ xoops_loadLanguage('main', basename(dirname(__DIR__)));
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
-$xoopsOption['template_main'] = "pedigree_index.html";
+$xoopsOption['template_main'] = "pedigree_index.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 

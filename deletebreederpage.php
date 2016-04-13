@@ -49,11 +49,11 @@ if (!empty($ownername)) {
         }
         if ($access == "1") {
             $delsql = "DELETE FROM " . $xoopsDB->prefix("pedigree_owner") . " WHERE ID =" . $row['ID'];
-            mysql_query($delsql);
+            $xoopsDB->queryF($delsql);
             $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET id_owner = '0' where id_owner = " . $row['ID'];
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET id_breeder = '0' where id_breeder = " . $row['ID'];
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
             $ch = 1;
         }
     }

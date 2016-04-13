@@ -63,7 +63,7 @@ if (isset($_GET['id'])) {
 
 if (isset($_GET['delpicture']) && $_GET['delpicture'] == 'true') {
     $delpicsql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET foto = '' WHERE ID = '" . $id . "'";
-    mysql_query($delpicsql);
+    $xoopsDB->queryF($delpicsql);
 }
 //query
 $queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $id;

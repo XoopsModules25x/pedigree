@@ -671,11 +671,11 @@ function check()
         $query
             = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES ('','" . addslashes($row['NAAM']) . "','" . $row['id_owner'] . "','" . $row['id_breeder'] . "','" . $row['user'] . "','"
             . $row['roft'] . "','" . $_GET['seldam'] . "','" . $row['father'] . "','" . addslashes($row['foto']) . "',''" . $usersql . ")";
-        mysql_query($query);
+        $xoopsDB->queryF($query);
         //echo $query; die();
     }
     $sqlquery = "DELETE from " . $xoopsDB->prefix("pedigree_temp") . " where ID='" . $random . "'";
-    $xoopsDB->queryf($sqlquery);
+    $xoopsDB->queryF($sqlquery);
     redirect_header("latest.php", 1, strtr(_MA_PEDIGREE_ADD_OK, array('[animalType]' => $moduleConfig['animalType'])));
 }
 

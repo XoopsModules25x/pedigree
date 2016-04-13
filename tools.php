@@ -457,7 +457,7 @@ function lock($field)
 {
     global $xoopsDB;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET locked = '1' WHERE ID = '" . $field . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     return;
 }
@@ -469,7 +469,7 @@ function unlock($field)
 {
     global $xoopsDB;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET locked = '0' WHERE ID = '" . $field . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     return;
 }
@@ -505,12 +505,12 @@ function fieldmove($field, $move)
     }
     //move value with ID=nextid to original location
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET `order` = '127' WHERE `order` = '" . $nextorder . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET `order` = '" . $nextorder . "' WHERE `order` = '" . $currentorder . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     //move current value into nextvalue's spot
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET `order` = '" . $currentorder . "' WHERE `order` = '127'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     listuserfields();
 }
 
@@ -521,7 +521,7 @@ function deluserfield($field)
 {
     global $xoopsDB;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET isActive = '0' WHERE ID = " . $field;
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     listuserfields();
 }
 
@@ -532,7 +532,7 @@ function restoreuserfield($field)
 {
     global $xoopsDB;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET isActive = '1' WHERE ID = " . $field;
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     listuserfields();
 }
 
@@ -611,9 +611,9 @@ function lookupmove($field, $id, $move)
         $nextorder = $values[$arraylocation - 1]['orderof'];
     }
     $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $nextorder . "' WHERE `ID` = '" . $id . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $currentorder . "' WHERE `ID` = '" . $nextid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     editlookup($field);
 }
 
@@ -642,7 +642,7 @@ function savelookupvalue($field, $id)
 {
     global $xoopsDB;
     $SQL = "UPDATE " . $xoopsDB->prefix("pedigree_lookup" . $field) . " SET value = '" . $_POST['value'] . "' WHERE ID = " . $id;
-    mysql_query($SQL);
+    $xoopsDB->queryF($SQL);
     redirect_header("tools.php?op=editlookup&id=" . $field, 2, "The value has been saved.");
 }
 
@@ -663,17 +663,17 @@ function dellookupvalue($field, $id)
         redirect_header("tools.php?op=editlookup&id=" . $field, 3, _MA_PEDIGREE_NO_DELETE . $fieldobject->fieldname);
     }
     $sql = "DELETE FROM " . $xoopsDB->prefix("pedigree_lookup" . $field) . " WHERE ID = " . $id;
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     //change current values to default for deleted value
     $sql
         = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET user" . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $sql
         = "UPDATE " . $xoopsDB->prefix("pedigree_temp") . " SET user" . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $sql
         = "UPDATE " . $xoopsDB->prefix("pedigree_trash") . " SET user" . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     editlookup($field);
 }
 
@@ -689,7 +689,7 @@ function addlookupvalue($field)
         $count = $row['ID'];
         ++$count;
         $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_lookup" . $field) . " VALUES ('" . $count . "', '" . $_POST['value'] . "', '" . $count . "')";
-        mysql_query($sql);
+        $xoopsDB->queryF($sql);
     }
     redirect_header("tools.php?op=editlookup&id=" . $field, 2, "The value has been added.");
 }
@@ -1108,7 +1108,7 @@ function delperm($id)
 {
     global $xoopsTpl, $xoopsDB;
     $sql = "DELETE FROM " . $xoopsDB->prefix("pedigree_trash") . " WHERE ID = " . $id;
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     deleted();
 }
 
@@ -1116,7 +1116,7 @@ function delall()
 {
     global $xoopsTpl, $xoopsDB;
     $sql = "DELETE FROM " . $xoopsDB->prefix("pedigree_trash");
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     deleted();
 }
 
@@ -1136,9 +1136,9 @@ function restore($id)
         }
         $outgoing = substr_replace($queryvalues, "", -1);
         $query    = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES (" . $outgoing . ")";
-        mysql_query($query);
+        $xoopsDB->queryF($query);
         $delquery = "DELETE FROM " . $xoopsDB->prefix("pedigree_trash") . " WHERE ID = " . $id;
-        mysql_query($delquery);
+        $xoopsDB->queryF($delquery);
         $form = "<li><a href=\"pedigree.php?pedid=" . $row['ID'] . "\">" . $row['NAAM'] . "</a> has been restored into the database.<hr>";
     }
     if (isset($form)) {

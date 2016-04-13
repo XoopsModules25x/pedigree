@@ -59,7 +59,7 @@ for ($i = 0; $i < count($fields); ++$i) {
                 $newvalue = uploadedpict(0);
             }
             $sql = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $newvalue . "' WHERE ID='" . $dogid . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
 
             $ch = 1;
         }
@@ -70,7 +70,7 @@ for ($i = 0; $i < count($fields); ++$i) {
 if (!empty($name)) {
     $curval = $_POST['curvalname'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $name . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     $ch = 1;
 }
@@ -78,7 +78,7 @@ if (!empty($name)) {
 if (isset($_POST['id_owner'])) {
     $curval = $_POST['curvaleig'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['id_owner'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     $ch = 1;
 }
@@ -86,7 +86,7 @@ if (isset($_POST['id_owner'])) {
 if (isset($_POST['id_breeder'])) {
     $curval = $_POST['curvalfok'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['id_breeder'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     $ch = 1;
 }
@@ -94,7 +94,7 @@ if (isset($_POST['id_breeder'])) {
 if (!empty($_POST['roft']) || $_POST['roft'] == '0') {
     $curval = $_POST['curvalroft'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['roft'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     $ch = 1;
 }
@@ -105,10 +105,10 @@ if (isset($_GET['gend'])) {
     $table = "pedigree_tree";
     if ($_GET['gend'] == '0') {
         $sql = "UPDATE " . $xoopsDB->prefix($table) . " SET father='" . $_GET['thisid'] . "' WHERE ID='" . $curval . "'";
-        mysql_query($sql);
+        $xoopsDB->queryF($sql);
     } else {
         $sql = "UPDATE " . $xoopsDB->prefix($table) . " SET mother='" . $_GET['thisid'] . "' WHERE ID='" . $curval . "'";
-        mysql_query($sql);
+        $xoopsDB->queryF($sql);
     }
 
     $ch    = 1;
@@ -119,7 +119,7 @@ if ($_POST['dbfield'] == 'foto') {
     $curval = $_POST['curvalpic'];
     $foto   = uploadedpict(0);
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET foto='" . $foto . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
 
     $ch = 1;
 }
@@ -129,63 +129,63 @@ if ($_POST['dbfield'] == 'foto') {
 if (isset($_POST['naaml'])) {
     $curval = $_POST['curvalnamel'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['naaml'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //firstname
 if (isset($_POST['naamf'])) {
     $curval = $_POST['curvalnamef'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['naamf'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //streetname
 if (isset($_POST['street'])) {
     $curval = $_POST['curvalstreet'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['street'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //housenumber
 if (isset($_POST['housenumber'])) {
     $curval = $_POST['curvalhousenumber'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['housenumber'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //postcode
 if (isset($_POST['postcode'])) {
     $curval = $_POST['curvalpostcode'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['postcode'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //city
 if (isset($_POST['city'])) {
     $curval = $_POST['curvalcity'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['city'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //phonenumber
 if (isset($_POST['phonenumber'])) {
     $curval = $_POST['curvalphonenumber'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['phonenumber'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //email
 if (isset($_POST['email'])) {
     $curval = $_POST['curvalemail'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['email'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 //website
 if (isset($_POST['web'])) {
     $curval = $_POST['curvalweb'];
     $sql    = "UPDATE " . $xoopsDB->prefix($table) . " SET " . $field . "='" . $_POST['web'] . "' WHERE ID='" . $dogid . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $chow = 1;
 }
 

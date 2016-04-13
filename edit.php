@@ -58,11 +58,11 @@ function save()
                 $newvalue = uploadedpict(0);
             }
             $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET user" . $fields[$i] . "='" . $newvalue . "' WHERE ID='" . $a . "'";
-            mysql_query($sql);
+            $xoopsDB->queryF($sql);
         }
     }
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET NAAM = '" . $_POST['NAAM'] . "', roft = '" . $_POST['roft'] . "' WHERE ID='" . $a . "'";
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     $picturefield = $_FILES['photo']['name'];
     if (empty($picturefield) || $picturefield == "") {
         //llalalala
@@ -70,10 +70,10 @@ function save()
         $foto = uploadedpict(0);
         $sql  = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET foto='" . $foto . "' WHERE ID='" . $a . "'";
     }
-    mysql_query($sql);
+    $xoopsDB->queryF($sql);
     if ($moduleConfig['ownerbreeder'] == '1') {
         $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET id_owner = '" . $_POST['id_owner'] . "', id_breeder = '" . $_POST['id_breeder'] . "' WHERE ID='" . $a . "'";
-        mysql_query($sql);
+        $xoopsDB->queryF($sql);
     }
     redirect_header("dog.php?id=" . $a, 2, "Your changes have been saved");
 }
@@ -108,7 +108,7 @@ function edit($id = 0)
         //father
         $sql       = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID='" . $row['father'] . "'";
         $resfather = $xoopsDB->query($sql);
-        $numfields = mysql_num_rows($resfather);
+        $numfields = $xoopsDB->getRowsNum($resfather);
         if (!$numfields == "0") {
             while ($rowfetch = $xoopsDB->fetchArray($resfather)) {
                 $form->addElement(
@@ -129,7 +129,7 @@ function edit($id = 0)
         //mother
         $sql       = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID='" . $row['mother'] . "'";
         $resmother = $xoopsDB->query($sql);
-        $numfields = mysql_num_rows($resmother);
+        $numfields = $xoopsDB->getRowsNum($resmother);
         if (!$numfields == "0") {
             while ($rowfetch = $xoopsDB->fetchArray($resmother)) {
                 $form->addElement(

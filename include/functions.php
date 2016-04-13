@@ -516,8 +516,8 @@ function makelist($result, $prefix, $link, $element)
         $gender = "";
         if (!empty($xoopsUser)) {
             if ($row['user'] == $xoopsUser->getVar("uid") || $modadmin == true) {
-                $gender = "<a href=\"dog.php?id=" . $row['ID'] . "\"><img src=\"images/edit.gif\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['ID']
-                    . "\"><img src=\"images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
+                $gender = "<a href=\"dog.php?id=" . $row['ID'] . "\"><img src=\"assets/images/edit.gif\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['ID']
+                    . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
             } else {
                 $gender = "";
             }

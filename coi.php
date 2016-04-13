@@ -158,16 +158,17 @@ function chrono_sort()
  */
 function fetch_record($s)
 {
-    global $database;
-    $r = mysql_db_query($database, $s);
+    /** @var XoopsMySQLDatabase */
+    global $xoopsDB;
+    $r = $xoopsDB->query($s);
     $n = 0;
     if ($r) {
-        $n = mysql_num_rows($r);
+        $n = $xoopsDB->getRowsNum($r);
     }
     if ($n == 0) {
         $record = array('0');
     } else {
-        $record = mysql_fetch_array($r);
+        $record = $xoopsDB->fetchBoth($r);
     }
 
     return $record;
@@ -307,6 +308,8 @@ function SKETCH_PEDIGREE()
 function GENEALOGY()
 {
     global $IDs, $fathers, $mothers, $inds, $nb_gen, $nb_maxi, $nbani, $nl, $sql1;
+    global $xoopsDB;
+
     $impr       = 0;
     $fathers[0] = $IDs[1];
     $mothers[0] = $IDs[2];
@@ -331,8 +334,8 @@ function GENEALOGY()
         }
 
         // HERE IS FETCHED EACH TRIPLET [ID, sire_ID, dam_ID] :
-        $r = mysql_query("$sql1 IN ($list)");
-        while ($rec = mysql_fetch_array($r)) {
+        $r = $xoopsDB->query("$sql1 IN ($list)");
+        while ($rec = $xoopsDB->fetchBoth($r)) {
             $a = $rec[0] + 0;
             $s = $rec[1] + 0;
             $d = $rec[2] + 0;
@@ -718,8 +721,8 @@ function set_name($ID)
     $ani  = array();
     if ($ID) {
         $sqlquery    = "SELECT ID, NAAM, roft from " . $xoopsDB->prefix("pedigree_tree") . " where ID = '$ID'";
-        $queryresult = mysql_query($sqlquery);
-        $ani         = mysql_fetch_array($queryresult);
+        $queryresult = $xoopsDB->query($sqlquery);
+        $ani         = $xoopsDB->fetchBoth($queryresult);
 //        $name        = $ani[1];
         if ($sql2bis) {  // true for E.R.o'S. only
             $name = html_accents($name);
@@ -777,8 +780,8 @@ function one_animal($ID)
     $animal = set_name($ID);
     list ($ID, $name, $sex/*, $hd, $ems*/) = $animal;
     $sqlquery    = "select SQL_CACHE count(ID) from " . $xoopsDB->prefix("pedigree_tree") . " where father = '$ID' or mother = '$ID'";
-    $queryresult = mysql_query($sqlquery);
-    $nb          = mysql_fetch_array($queryresult);
+    $queryresult = $xoopsDB->($sqlquery);
+    $nb          = $xoopsDB->fetchBoth($queryresult);
     $nb_children = $nb[0];
     if ($nb_children == 0) {
         $nb_children = _MA_PEDIGREE_COI_NO;
@@ -819,8 +822,8 @@ if (isset($da)) {
 }
 //test for variables
 //echo "si=".$si." da=".$da." s=".$s." d=".$d;
-$utils = mysql_query("select user(), date_format(now(),'%d-%b-%Y')");
-list ($who, $jourj) = mysql_fetch_array($utils);
+$utils = $xoopsDB->query("select user(), date_format(now(),'%d-%b-%Y')");
+list ($who, $jourj) = $xoopsDB->fetchBoth($utils);
 
 if (isset ($IC)) {
     $detail = -1;
@@ -844,8 +847,8 @@ if (!isset($a)) {
 
 if (isset($a)) {
     $sqlquery    = "select ID, father, mother, roft from " . $xoopsDB->prefix("pedigree_tree") . " where ID  = '$a'";
-    $queryresult = mysql_query($sqlquery);
-    $rowhond     = mysql_fetch_array($queryresult);
+    $queryresult = $xoopsDB->query($sqlquery);
+    $rowhond     = $xoopsDB->fetchBoth($queryresult);
     $a           = $rowhond['ID'];
     $s           = $rowhond['father'];
     $d           = $rowhond['mother'];
@@ -895,8 +898,8 @@ if ($codec1 == $codec2) {
 }
 
 $sqlquery    = "select ID, father, mother, roft from " . $xoopsDB->prefix("pedigree_tree") . " where ID  = '$codec1'";
-$queryresult = mysql_query($sqlquery);
-$rowhond     = mysql_fetch_array($queryresult);
+$queryresult = $xoopsDB->query($sqlquery);
+$rowhond     = $xoopsDB->fetchBoth($queryresult);
 $a1          = $rowhond['ID'];
 $s1          = $rowhond['father'];
 $d1          = $rowhond['mother'];
@@ -905,8 +908,8 @@ $sex1        = $rowhond['roft'];
 // echo "sqlquery:".$sqlquery."<br />";
 
 $sqlquery    = "select ID, father, mother, roft from " . $xoopsDB->prefix("pedigree_tree") . " where ID  = '$codec2'";
-$queryresult = mysql_query($sqlquery);
-$rowhond     = mysql_fetch_array($queryresult);
+$queryresult = $xoopsDB->query($sqlquery);
+$rowhond     = $xoopsDB->fetchBoth($queryresult);
 $a2          = $rowhond['ID'];
 $s2          = $rowhond['father'];
 $d2          = $rowhond['mother'];
