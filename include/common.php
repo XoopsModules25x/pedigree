@@ -18,14 +18,14 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 // This must contain the name of the folder in which reside Pedigree
-define("PEDIGREE_DIRNAME", basename(dirname(__DIR__)));
-define("PEDIGREE_URL", XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
-define("PEDIGREE_IMAGES_URL", PEDIGREE_URL . '/images');
-define("PEDIGREE_ADMIN_URL", PEDIGREE_URL . '/admin');
-define("PEDIGREE_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
+define('PEDIGREE_DIRNAME', basename(dirname(__DIR__)));
+define('PEDIGREE_URL', XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
+define('PEDIGREE_IMAGES_URL', PEDIGREE_URL . '/images');
+define('PEDIGREE_ADMIN_URL', PEDIGREE_URL . '/admin');
+define('PEDIGREE_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
 
 xoops_loadLanguage('common', PEDIGREE_DIRNAME);
 //if (!@include_once XOOPS_ROOT_PATH . "/language/" . $xoopsConfig['language'] . "/global.php") {

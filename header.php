@@ -24,7 +24,7 @@ include_once __DIR__ . '/include/common.php';
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once(XOOPS_ROOT_PATH . "/class/template.php");
+    include_once(XOOPS_ROOT_PATH . '/class/template.php');
     $xoopsTpl = new XoopsTpl();
 }
 //$xoops = Xoops::getInstance();

@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: pedigree.php 12841 2014-11-12 13:14:13Z beckmi $
  */
-defined("XOOPS_ROOT_PATH") || die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
  * Class PedigreePedigree
@@ -79,7 +79,7 @@ class PedigreePedigree
             $this->initConfig();
         }
         if (!$name) {
-            $this->addLog("Getting all config");
+            $this->addLog('Getting all config');
 
             return $this->config;
         }

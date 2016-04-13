@@ -24,14 +24,14 @@ include_once 'admin_header.php';
 //It recovered the value of argument op in URL$
 $op = animal_CleanVars($_REQUEST, 'op', 'list', 'string');
 switch ($op) {
-    case "list":
+    case 'list':
     default:
         echo $adminMenu->addNavigation('pedigree_trash.php');
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
 //        echo $adminMenu->renderButton();
         $criteria = new CriteriaCompo();
-        $criteria->setSort("ID");
-        $criteria->setOrder("ASC");
+        $criteria->setSort('ID');
+        $criteria->setOrder('ASC');
         $numrows            = $pedigreeTrashHandler->getCount();
         $pedigree_trash_arr = $pedigreeTrashHandler->getall($criteria);
 
@@ -49,41 +49,41 @@ switch ($op) {
                         <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_TRASH_FOTO . "</th>
                         <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_TRASH_COI . "</th>
 
-                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . "</th>
-                </tr>";
+                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . '</th>
+                </tr>';
 
-            $class = "odd";
+            $class = 'odd';
 
             foreach (array_keys($pedigree_trash_arr) as $i) {
-                if ($pedigree_trash_arr[$i]->getVar("pedigree_trash_pid") == 0) {
+                if ($pedigree_trash_arr[$i]->getVar('pedigree_trash_pid') == 0) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class == "even") ? "odd" : "even";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("NAAM") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("id_owner") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("id_breeder") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("user") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("roft") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("mother") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("father") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("foto") . "</td>";
-                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar("coi") . "</td>";
+                    $class = ($class == 'even') ? 'odd' : 'even';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('NAAM') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('id_owner') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('id_breeder') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('user') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('roft') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('mother') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('father') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('foto') . '</td>';
+                    echo "<td align=\"center\">" . $pedigree_trash_arr[$i]->getVar('coi') . '</td>';
 
                     echo "<td align='center' width='10%'>
-                        <a href='pedigree_trash.php?op=edit_pedigree_trash&ID=" . $pedigree_trash_arr[$i]->getVar("ID") . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT
+                        <a href='pedigree_trash.php?op=edit_pedigree_trash&ID=" . $pedigree_trash_arr[$i]->getVar('ID') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT
                         . "'></a>
-                        <a href='pedigree_trash.php?op=delete_pedigree_trash&ID=" . $pedigree_trash_arr[$i]->getVar("ID") . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='"
+                        <a href='pedigree_trash.php?op=delete_pedigree_trash&ID=" . $pedigree_trash_arr[$i]->getVar('ID') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='"
                         . _DELETE . "'></a>
                         </td>";
-                    echo "</tr>";
+                    echo '</tr>';
                 }
             }
-            echo "</table><br /><br />";
+            echo '</table><br /><br />';
         }
 
         break;
 
-    case "new_pedigree_trash":
-        echo $adminMenu->addNavigation("pedigree_trash.php");
+    case 'new_pedigree_trash':
+        echo $adminMenu->addNavigation('pedigree_trash.php');
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
@@ -92,37 +92,37 @@ switch ($op) {
         $form->display();
         break;
 
-    case "save_pedigree_trash":
-        if (!$GLOBALS["xoopsSecurity"]->check()) {
-            redirect_header("pedigree_trash.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
+    case 'save_pedigree_trash':
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST["ID"])) {
-            $obj =& $pedigreeTrashHandler->get($_REQUEST["ID"]);
+        if (isset($_REQUEST['ID'])) {
+            $obj =& $pedigreeTrashHandler->get($_REQUEST['ID']);
         } else {
             $obj =& $pedigreeTrashHandler->create();
         }
 
         //Form NAAM
-        $obj->setVar("NAAM", $_REQUEST["NAAM"]);
+        $obj->setVar('NAAM', $_REQUEST['NAAM']);
         //Form id_owner
-        $obj->setVar("id_owner", $_REQUEST["id_owner"]);
+        $obj->setVar('id_owner', $_REQUEST['id_owner']);
         //Form id_breeder
-        $obj->setVar("id_breeder", $_REQUEST["id_breeder"]);
+        $obj->setVar('id_breeder', $_REQUEST['id_breeder']);
         //Form user
-        $obj->setVar("user", $_REQUEST["user"]);
+        $obj->setVar('user', $_REQUEST['user']);
         //Form roft
-        $obj->setVar("roft", $_REQUEST["roft"]);
+        $obj->setVar('roft', $_REQUEST['roft']);
         //Form mother
-        $obj->setVar("mother", $_REQUEST["mother"]);
+        $obj->setVar('mother', $_REQUEST['mother']);
         //Form father
-        $obj->setVar("father", $_REQUEST["father"]);
+        $obj->setVar('father', $_REQUEST['father']);
         //Form foto
-        $obj->setVar("foto", $_REQUEST["foto"]);
+        $obj->setVar('foto', $_REQUEST['foto']);
         //Form coi
-        $obj->setVar("coi", $_REQUEST["coi"]);
+        $obj->setVar('coi', $_REQUEST['coi']);
 
         if ($pedigreeTrashHandler->insert($obj)) {
-            redirect_header("pedigree_trash.php?op=list", 2, _AM_PEDIGREE_FORMOK);
+            redirect_header('pedigree_trash.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -130,29 +130,29 @@ switch ($op) {
         $form->display();
         break;
 
-    case "edit_pedigree_trash":
-        echo $adminMenu->addNavigation("pedigree_trash.php");
+    case 'edit_pedigree_trash':
+        echo $adminMenu->addNavigation('pedigree_trash.php');
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
         echo $adminMenu->renderButton();
-        $obj  = $pedigreeTrashHandler->get($_REQUEST["ID"]);
+        $obj  = $pedigreeTrashHandler->get($_REQUEST['ID']);
         $form = $obj->getForm();
         $form->display();
         break;
 
-    case "delete_pedigree_trash":
-        $obj =& $pedigreeTrashHandler->get($_REQUEST["ID"]);
-        if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
-            if (!$GLOBALS["xoopsSecurity"]->check()) {
-                redirect_header("pedigree_trash.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
+    case 'delete_pedigree_trash':
+        $obj =& $pedigreeTrashHandler->get($_REQUEST['ID']);
+        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($pedigreeTrashHandler->delete($obj)) {
-                redirect_header("pedigree_trash.php", 3, _AM_PEDIGREE_FORMDELOK);
+                redirect_header('pedigree_trash.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array("ok" => 1, "ID" => $_REQUEST["ID"], "op" => "delete_pedigree_trash"), $_SERVER["REQUEST_URI"], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar("pedigree_trash")));
+            xoops_confirm(array('ok' => 1, 'ID' => $_REQUEST['ID'], 'op' => 'delete_pedigree_trash'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_trash')));
         }
         break;
 }

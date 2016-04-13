@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//	pedigree
-//		Copyright 2004, James Cotton
-// 		http://www.dobermannvereniging.nl
-//	Template
-//		Copyright 2004 Thomas Hill
-//		<a href="http://www.worldware.com">worldware.com</a>
+//    pedigree
+//        Copyright 2004, James Cotton
+//         http://www.dobermannvereniging.nl
+//    Template
+//        Copyright 2004 Thomas Hill
+//        <a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -33,14 +33,14 @@ if (!defined('XOOPS_ROOT_PATH')) {
 $modversion['name']        = _MI_PEDIGREE_NAME;
 $modversion['version']     = 1.31;
 $modversion['description'] = _MI_PEDIGREE_DESC;
-$modversion['credits']     = "http://tech.groups.yahoo.com/group/animalpedigree/";
-$modversion['author']      = "James Cotton";
-$modversion['help']        = "page=pedigree_admin";
+$modversion['credits']     = 'http://tech.groups.yahoo.com/group/animalpedigree/';
+$modversion['author']      = 'James Cotton';
+$modversion['help']        = 'page=pedigree_admin';
 //$modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = "www.gnu.org/licenses/gpl-2.0.html";
+$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']    = 0;
-$modversion['image']       = "assets/images/logo.png";
+$modversion['image']       = 'assets/images/logo.png';
 $modversion['dirname']     = basename(__DIR__);
 
 $modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
@@ -52,11 +52,11 @@ $modversion['onUpdate']  = 'include/update_function.php';
 
 //about
 $modversion['release_date']        = '2014/11/22';
-$modversion["module_status"]       = "Alpha 6";
-$modversion["module_website_url"]  = "www.xoops.org";
-$modversion["module_website_name"] = "XOOPS";
+$modversion['module_status']       = 'Alpha 6';
+$modversion['module_website_url']  = 'www.xoops.org';
+$modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = "2.5.7.2";
+$modversion['min_xoops']           = '2.5.7.2';
 $modversion['min_admin']           = '1.1';
 $modversion['min_db']              = array(
     'mysql'  => '5.0.7',
@@ -64,22 +64,22 @@ $modversion['min_db']              = array(
 );
 
 // SQL file - All tables should not have any prefix!
-$modversion['sqlfile']['mysql'] = "sql/mysql.sql";
+$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 
 // Tables created by sql file (without prefix!)
 $modversion['tables'] = array(
-    "pedigree_tree",
-    "pedigree_fields",
-    "pedigree_temp",
-    "pedigree_trash",
-    "pedigree_owner"
+    'pedigree_tree',
+    'pedigree_fields',
+    'pedigree_temp',
+    'pedigree_trash',
+    'pedigree_owner'
 );
 
 // Admin things
 $modversion['hasAdmin']    = 1;
 $modversion['system_menu'] = 1;
-$modversion['adminindex']  = "admin/index.php";
-$modversion['adminmenu']   = "admin/menu.php";
+$modversion['adminindex']  = 'admin/index.php';
+$modversion['adminmenu']   = 'admin/menu.php';
 //admin settings
 
 $modversion['config'][] = array(
@@ -308,35 +308,35 @@ $modversion['hasMain'] = 1;
 
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_VIEW_SEARCH,
-    'url'  => "index.php"
+    'url'  => 'index.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_ADD_ANIMAL,
-    'url'  => "add_dog.php"
+    'url'  => 'add_dog.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_ADD_LITTER,
-    'url'  => "add_litter.php"
+    'url'  => 'add_litter.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_VIEW_OWNERS,
-    'url'  => "breeder.php"
+    'url'  => 'breeder.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_ADD_OWNER,
-    'url'  => "add_breeder.php"
+    'url'  => 'add_breeder.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_ADVANCED_INFO,
-    'url'  => "advanced.php"
+    'url'  => 'advanced.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_VIRTUAL_MATING,
-    'url'  => "virtual.php"
+    'url'  => 'virtual.php'
 );
 $modversion['sub'][] = array(
     'name' => _MI_PEDIGREE_LATEST_ADDITIONS,
-    'url'  => "latest.php"
+    'url'  => 'latest.php'
 );
 
 global $xoopsUser;
@@ -344,7 +344,7 @@ if (is_object($xoopsUser)) {
     if ($xoopsUser->isAdmin()) {
         $modversion['sub'][] = array(
             'name' => _MI_PEDIGREE_WEBMASTER_TOOLS,
-            'url'  => "tools.php?op=index"
+            'url'  => 'tools.php?op=index'
         );
     }
 }
@@ -448,18 +448,18 @@ $modversion['templates'][] = array(
 
 //this block shows the random pedigrees
 $modversion['blocks'][] = array(
-    'file'        => "menu_block.php",
+    'file'        => 'menu_block.php',
     'name'        => _MI_PEDIGREE_BLOCK_MENU_TITLE,
     'description' => _MI_PEDIGREE_BLOCK_MENU_DESC,
-    'show_func'   => "menu_block",
+    'show_func'   => 'menu_block',
     'template'    => 'pedigree_menu.tpl'
 );
 
 // Search function
 $modversion['hasSearch'] = 1;
 $modversion['search'][]  = array(
-    'file' => "include/search.inc.php",
-    'func' => "pedigree_search"
+    'file' => 'include/search.inc.php',
+    'func' => 'pedigree_search'
 );
 
 //comments function
@@ -483,7 +483,7 @@ $modversion['notification']['category'][] = array(
     'title'          => _MI_PEDIGREE_DOG_NOTIFY,
     'description'    => _MI_PEDIGREE_DOG_NOTIFY_DSC,
     'subscribe_from' => array('dog.php', 'pedigree.php'),
-    'item_name'      => "id",
+    'item_name'      => 'id',
     'allow_bookmark' => 1
 );
 $modversion['notification']['event'][]    = array(
@@ -492,7 +492,7 @@ $modversion['notification']['event'][]    = array(
     'title'         => _MI_PEDIGREE_DATA_NOTIFY,
     'caption'       => _MI_PEDIGREE_DATA_NOTIFYCAP,
     'description'   => _MI_PEDIGREE_DATA_NOTIFYDSC,
-    'mail_template' => "dog_data_notify",
+    'mail_template' => 'dog_data_notify',
     'mail_subject'  => _MI_PEDIGREE_DATA_NOTIFYSBJ
 );
 

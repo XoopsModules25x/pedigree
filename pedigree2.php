@@ -13,15 +13,15 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
-extract($_GET, EXTR_PREFIX_ALL, "param");
-extract($_POST, EXTR_PREFIX_ALL, "param");
+extract($_GET, EXTR_PREFIX_ALL, 'param');
+extract($_POST, EXTR_PREFIX_ALL, 'param');
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = "pedigree_pedigree.tpl";
+$xoopsOption['template_main'] = 'pedigree_pedigree.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -33,7 +33,7 @@ if (!$pedid) {
 pedigree_main($pedid);
 
 //comments and footer
-include XOOPS_ROOT_PATH . "/footer.php";
+include XOOPS_ROOT_PATH . '/footer.php';
 
 //
 // Displays the "Main" tab of the module
@@ -52,7 +52,7 @@ function pedigree_main($ID)
     }
 
     $queryString
-        = "
+        = '
     SELECT d.id as d_id,
     d.naam as d_naam,
     d.id_owner as d_id_owner,
@@ -157,7 +157,7 @@ function pedigree_main($ID)
     mmm.nhsb as mmm_nhsb,
     mmm.foto as mmm_foto,
     mmm.hd as mmm_hd
-    FROM " . $xoopsDB->prefix("pedigree_tree") . " d
+    FROM ' . $xoopsDB->prefix('pedigree_tree') . " d
     LEFT JOIN xoops_pedigree f ON d.father = f.id
     LEFT JOIN xoops_pedigree m ON d.mother = m.id
     LEFT JOIN xoops_pedigree ff ON f.father = ff.id
@@ -178,7 +178,7 @@ function pedigree_main($ID)
 
     //get module configuration
     $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
+    $module         =& $module_handler->getByDirname('pedigree');
     $config_handler =& xoops_gethandler('config');
     $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -331,24 +331,24 @@ function pedigree_main($ID)
     //add data to smarty template
     $xoopsTpl->assign('page_title', stripslashes($row['d_naam']));
     //assign dog
-    $xoopsTpl->assign("d", $d);
+    $xoopsTpl->assign('d', $d);
     //assign config options
     $ov = $moduleConfig['overview'];
-    $xoopsTpl->assign("overview", $ov);
+    $xoopsTpl->assign('overview', $ov);
     $sign = $moduleConfig['gender'];
     if ($sign == 1) {
-        $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
-        $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
+        $xoopsTpl->assign('male', "<img src=\"assets/images/male.gif\">");
+        $xoopsTpl->assign('female', "<img src=\"assets/images/female.gif\">");
     }
     $addit = $moduleConfig['adinfo'];
     if ($addit == 1) {
-        $xoopsTpl->assign("addinfo", "1");
+        $xoopsTpl->assign('addinfo', '1');
     }
-    $xoopsTpl->assign("pics", $pic);
+    $xoopsTpl->assign('pics', $pic);
     //assign extra display options
-    $xoopsTpl->assign("unknown", "Unknown");
-    $xoopsTpl->assign("SD", _MA_PEDIGREE_SD);
-    $xoopsTpl->assign("PA", _MA_PEDIGREE_PA);
-    $xoopsTpl->assign("GP", _MA_PEDIGREE_GP);
-    $xoopsTpl->assign("GGP", _MA_PEDIGREE_GGP);
+    $xoopsTpl->assign('unknown', 'Unknown');
+    $xoopsTpl->assign('SD', _MA_PEDIGREE_SD);
+    $xoopsTpl->assign('PA', _MA_PEDIGREE_PA);
+    $xoopsTpl->assign('GP', _MA_PEDIGREE_GP);
+    $xoopsTpl->assign('GGP', _MA_PEDIGREE_GGP);
 }

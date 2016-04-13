@@ -15,7 +15,7 @@ function PrintPage()
 
     //create data and variables
     $queryString
-        = "
+        = '
     SELECT d.id as d_id,
     d.naam as d_naam,
     d.roft as d_roft,
@@ -54,21 +54,21 @@ function PrintPage()
     mfm.naam as mfm_naam,
     mmm.id as mmm_id,
     mmm.naam as mmm_naam
-    FROM " . $xoopsDB->prefix("pedigree_tree") . " d
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " f ON d.father = f.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " m ON d.mother = m.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ff ON f.father = ff.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fff ON ff.father = fff.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ffm ON ff.mother = ffm.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mf ON m.father = mf.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mff ON mf.father = mff.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mfm ON mf.mother = mfm.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fm ON f.mother = fm.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmf ON fm.father = fmf.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmm ON fm.mother = fmm.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mm ON m.mother = mm.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmf ON mm.father = mmf.id
-    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmm ON mm.mother = mmm.id
+    FROM ' . $xoopsDB->prefix('pedigree_tree') . ' d
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' f ON d.father = f.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' m ON d.mother = m.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ff ON f.father = ff.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mf ON m.father = mf.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
+    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.id
     where d.id=$dogid";
 
     $result = $xoopsDB->query($queryString);

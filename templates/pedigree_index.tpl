@@ -155,7 +155,7 @@
 
 
             <{foreach item=link from=$usersearch}>
-            <{if $link <> NULL}>
+            <{if $link != NULL}>
             <!-- explanation starts here for usersearch -->
             <table border="0" width="100%" class="outer" cellspacing="1">
                 <tr>

@@ -24,11 +24,11 @@ require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 global $xoopsModule;
 if (!defined('PEDIGREE_MODULE_PATH')) {
-    define("PEDIGREE_DIRNAME", $xoopsModule->dirname());
-    define("PEDIGREE_PATH", XOOPS_ROOT_PATH . "/modules/" . PEDIGREE_DIRNAME);
-    define("PEDIGREE_URL", XOOPS_URL . "/modules/" . PEDIGREE_DIRNAME);
-    define("PEDIGREE_ADMIN", PEDIGREE_URL . "/admin/index.php");
-    define("PEDIGREE_AUTHOR_LOGOIMG", PEDIGREE_URL . "/assets/images/xoopsproject_logo.png");
+    define('PEDIGREE_DIRNAME', $xoopsModule->dirname());
+    define('PEDIGREE_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
+    define('PEDIGREE_URL', XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
+    define('PEDIGREE_ADMIN', PEDIGREE_URL . '/admin/index.php');
+    define('PEDIGREE_AUTHOR_LOGOIMG', PEDIGREE_URL . '/assets/images/xoopsproject_logo.png');
 
 }
 
@@ -36,9 +36,9 @@ if (!defined('PEDIGREE_MODULE_PATH')) {
 
 $img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'];
 
-define("PEDIGREE_UPLOAD_URL", XOOPS_UPLOAD_URL . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
+define('PEDIGREE_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
 //define("PEDIGREE_UPLOAD_PATH", $img_dir); // WITHOUT Trailing slash
-define("PEDIGREE_UPLOAD_PATH", XOOPS_UPLOAD_PATH . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
+define('PEDIGREE_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
 
 
 $uploadFolders = array(

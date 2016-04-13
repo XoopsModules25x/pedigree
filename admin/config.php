@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//	pedigree
-//		Copyright 2004, James Cotton
-// 		http://www.dobermannvereniging.nl
-//	Template
-//		Copyright 2004 Thomas Hill
-//		<a href="http://www.worldware.com">worldware.com</a>
+//  pedigree
+//      Copyright 2004, James Cotton
+//      http://www.dobermannvereniging.nl
+//  Template
+//      Copyright 2004 Thomas Hill
+//      <a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -29,22 +29,22 @@
 // ------------------------------------------------------------------------- //
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
+//require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/pedigree_includes.php');
 //require_once dirname(__DIR__) . "/include/pedigree_includes.php";
 /*
-if (file_exists("../language/" . $xoopsConfig['language'] . "/modinfo.php")) {
-    include_once '../language/' . $xoopsConfig['language'] . "/modinfo.php";
+if (file_exists('../language/' . $xoopsConfig['language'] . '/modinfo.php')) {
+    include_once '../language/' . $xoopsConfig['language'] . '/modinfo.php';
 } else {
     include_once '../language/english/modinfo.php';
 }
 */
 xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/admin/menu.php");
+require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php');
 
 // Get HTTP post/get parameters.
 //import_request_variables("gp", "param_");
-extract($_GET, EXTR_PREFIX_ALL, "param");
-extract($_POST, EXTR_PREFIX_ALL, "param");
+extract($_GET, EXTR_PREFIX_ALL, 'param');
+extract($_POST, EXTR_PREFIX_ALL, 'param');
 
 //
 // Writes out the form to get all config parameters.
@@ -65,7 +65,7 @@ function pedigree_config_form()
         if ($field == 'config_id') {
             continue;
         }
-        $pname = "param_" . $field;
+        $pname = 'param_' . $field;
         print "
                 <tr nowrap='nowrap'>\n
                 <td class ='head'>" . $prompt . "</td>\n
@@ -108,31 +108,31 @@ function pedigree_config_post()
     global $xoopsDB;
     $config_fields = pedigree_get_config_fields();
     foreach ($config_fields as $field => $prompt) {
-        $param = "param_" . $field;
+        $param = 'param_' . $field;
         global $$param;
     }
     $param_config_id = 1;
-    $sql             = "REPLACE INTO " . $xoopsDB->prefix("pedigree_config") . " (" . pedigree_to_string($config_fields) . ") VALUES (";
+    $sql             = 'REPLACE INTO ' . $xoopsDB->prefix('pedigree_config') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
 
     $first = true;
     foreach ($config_fields as $field => $prompt) {
-        $param = "param_" . $field;
+        $param = 'param_' . $field;
         if (!$first) {
-            $sql .= ", ";
+            $sql .= ', ';
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
         $param_value = get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
         $sql .= "'" . $xoopsDB->escape($param_value) . "'";
         $first = false;
     }
-    $sql .= " )";
+    $sql .= ' )';
     if (!$xoopsDB->query($sql)) {
         $error = $xoopsDB->error();
         xoops_cp_header();
         pedigree_show_sql_error(_AM_PEDIGREE_ERR_ADD_FAILED, $error, $sql);
         xoops_cp_footer();
     } else {
-        redirect_header("config.php", 1, _AM_PEDIGREE_OK_DB);
+        redirect_header('config.php', 1, _AM_PEDIGREE_OK_DB);
     }
     exit();
 }
@@ -142,10 +142,10 @@ if (!isset($param_op)) {
 }
 
 switch ($param_op) {
-    case "main":
+    case 'main':
         pedigree_config_main();
         break;
-    case "config":
+    case 'config':
         pedigree_config_post();
         break;
     default:

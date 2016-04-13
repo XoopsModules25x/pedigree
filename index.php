@@ -17,10 +17,10 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
+require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
+require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php');
 
-$xoopsOption['template_main'] = "pedigree_index.tpl";
+$xoopsOption['template_main'] = 'pedigree_index.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -47,14 +47,14 @@ $xoopsTpl->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
 $module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
+$module         =& $module_handler->getByDirname('pedigree');
 $config_handler =& xoops_gethandler('config');
 $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 index_main();
 
 //footer
-include XOOPS_ROOT_PATH . "/footer.php";
+include XOOPS_ROOT_PATH . '/footer.php';
 
 // Displays the "Main" tab of the module
 function index_main()
@@ -70,24 +70,24 @@ function index_main()
     for ($i = 0; $i < count($fields); ++$i) {
         $userfield = new Field($fields[$i], $animal->getconfig());
         if ($userfield->active() && $userfield->hassearch()) {
-            $fieldType   = $userfield->getSetting("FieldType");
+            $fieldType   = $userfield->getSetting('FieldType');
             $fieldobject = new $fieldType($userfield, $animal);
-            $function    = "user" . $fields[$i] . $fieldobject->getsearchstring();
+            $function    = 'user' . $fields[$i] . $fieldobject->getsearchstring();
             //echo $function."<br />";
             $usersearch[] = array(
-                'title'       => $userfield->getSetting("SearchName"),
-                'searchid'    => "user" . $fields[$i],
+                'title'       => $userfield->getSetting('SearchName'),
+                'searchid'    => 'user' . $fields[$i],
                 'function'    => $function,
-                'explenation' => $userfield->getSetting("SearchExplenation"),
+                'explenation' => $userfield->getSetting('SearchExplenation'),
                 'searchfield' => $fieldobject->searchfield()
             );
         }
     }
 
     //add data to smarty template
-    $xoopsTpl->assign("sselect", strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])));
-    $xoopsTpl->assign("explain", _MA_PEDIGREE_EXPLAIN);
-    $xoopsTpl->assign("sname", _MA_PEDIGREE_SEARCHNAME);
-    $xoopsTpl->assign("snameex", strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])));
-    $xoopsTpl->assign("usersearch", (isset($usersearch) ? $usersearch : ''));
+    $xoopsTpl->assign('sselect', strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])));
+    $xoopsTpl->assign('explain', _MA_PEDIGREE_EXPLAIN);
+    $xoopsTpl->assign('sname', _MA_PEDIGREE_SEARCHNAME);
+    $xoopsTpl->assign('snameex', strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])));
+    $xoopsTpl->assign('usersearch', (isset($usersearch) ? $usersearch : ''));
 }

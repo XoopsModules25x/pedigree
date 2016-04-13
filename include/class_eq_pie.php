@@ -57,8 +57,8 @@ class eq_pie
      */
     function MakePie($filename, $pieWidth, $pieHeight, $ShadowDistance, $pieBackgroundColor, $EQpieData, $legend)
     {
-        if (!function_exists("imagecreatetruecolor")) {
-            die("Error, GD Library 2 needed.");
+        if (!function_exists('imagecreatetruecolor')) {
+            die('Error, GD Library 2 needed.');
         }
 
         //set some limitations
@@ -112,7 +112,7 @@ class eq_pie
 
             $piePart = $value[1];
             if (isset($this->total) && $this->total > 0) {
-                $piePart100 = round(($piePart / $this->total * 100), 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
+                $piePart100 = round($piePart / $this->total * 100, 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
             } else {
                 $piePart100 = 0;
             }
@@ -132,7 +132,7 @@ class eq_pie
 
             //Here we create the shadow down-worths
             for ($i = 0; $i < $ShadowDistance; ++$i) {
-                ImageFilledArc($pie, $pieWidth / 2, ($pieHeight / 2 + $i), $pieWidth - 20, $pieHeight - 20, round($pieStart), round($pieStart + $piePart360), $ShadowColor, IMG_ARC_NOFILL);
+                ImageFilledArc($pie, $pieWidth / 2, $pieHeight / 2 + $i, $pieWidth - 20, $pieHeight - 20, round($pieStart), round($pieStart + $piePart360), $ShadowColor, IMG_ARC_NOFILL);
             }
 
             $pieStart = $pieStart + $piePart360;
@@ -146,7 +146,7 @@ class eq_pie
 
             $piePart = $value[1];
             if (isset($this->total) && $this->total > 0) {
-                $piePart100 = round(($piePart / $this->total * 100), 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
+                $piePart100 = round($piePart / $this->total * 100, 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
             } else {
                 $piePart100 = 0;
             }
@@ -170,7 +170,7 @@ class eq_pie
         ImageFill($finalPie, 0, 0, $pieBG);
 
         // resample with pieGraph inside (3x smaller)
-        ImageCopyResampled($finalPie, $pie, 0, 0, 0, 0, $pieWidth / 3, ($pieHeight + $ShadowDistance) / 3, $pieWidth, ($pieHeight + $ShadowDistance));
+        ImageCopyResampled($finalPie, $pie, 0, 0, 0, 0, $pieWidth / 3, ($pieHeight + $ShadowDistance) / 3, $pieWidth, $pieHeight + $ShadowDistance);
 
         // Create the ledgend ...
         if ($legendWidth > 0) {
@@ -195,7 +195,7 @@ class eq_pie
 
                 $piePart = $value[1];
                 if (isset($this->total) && $this->total > 0) {
-                    $piePart100 = round(($piePart / $this->total * 100), 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
+                    $piePart100 = round($piePart / $this->total * 100, 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
                 } else {
                     $piePart100 = 0;
                 }
@@ -207,7 +207,7 @@ class eq_pie
                 ImageFilledRectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $PartColor);
                 ImageRectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $borderColor);
 
-                $text = $value[0] . " " . $piePart100 . "%";
+                $text = $value[0] . ' ' . $piePart100 . '%';
                 ImageString($legendImage, 2, '20', $yOffset, $text, $textColor);
                 $yOffset = $yOffset + 15;
 

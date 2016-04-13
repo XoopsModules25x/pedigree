@@ -103,7 +103,7 @@ if ($op == 'list') {
                         $lcode = '[img align=left id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
                         $code  = '[img id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
                         $rcode = '[img align=right id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
-                        $src   = XOOPS_URL . "/image.php?id=" . $images[$i]->getVar('image_id');
+                        $src   = XOOPS_URL . '/image.php?id=' . $images[$i]->getVar('image_id');
                     } else {
                         $lcode = '[img align=left]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
                         $code  = '[img]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';

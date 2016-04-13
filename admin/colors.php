@@ -1,32 +1,28 @@
 <?php
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-/*
-if (file_exists("../language/" . $xoopsConfig['language'] . "/modinfo.php")) {
-    include_once '../language/' . $xoopsConfig['language'] . "/modinfo.php";
+
+if (file_exists('../language/' . $xoopsConfig['language'] . '/modinfo.php')) {
+    include_once '../language/' . $xoopsConfig['language'] . '/modinfo.php';
 } else {
     include_once '../language/english/modinfo.php';
 }
-*/
-xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
-
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/admin/menu.php");
+require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php');
 
 xoops_cp_header();
 
 global $xoopsDB;
 
 if (!isset($_GET['c'])) {
-    $SQL    = "SELECT conf_value from " . $xoopsDB->prefix("config") . " WHERE conf_name = 'pedigreeColours'";
+    $SQL    = 'SELECT conf_value from ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'pedigreeColours'";
     $result = $xoopsDB->query($SQL);
     while ($row = $xoopsDB->fetchArray($result)) {
         $c = $row['conf_value'];
     }
-
 } else {
     $c = $_GET['c'];
 }
-$colors = explode(";", $c);
+$colors = explode(';', $c);
 //define text-string makeup
 $mainBackColour     = $colors[0];
 $selectedBackColour = $colors[1];
@@ -72,92 +68,77 @@ echo '
     </tr>
     <tr>
         <!-- selected dog -->
-        <td width="25%" rowspan="8" style=" background-color: #' . $selectedBackColour . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth
-    . 'px; color: #' . $selectedTextColour . '; font-family: ' . $selectedTextFont . '; font-size: ' . $selectedTextSize . '; font-style: ' . $selectedTextStyle . ';" id="selected2">
+        <td width="25%" rowspan="8" style=" background-color: #' . $selectedBackColour . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px; color: #' . $selectedTextColour . '; font-family: ' . $selectedTextFont . '; font-size: ' . $selectedTextSize . '; font-style: ' . $selectedTextStyle . ';" id="selected2">
             Selected animal
         </td>
         <!-- father -->
-        <td width="25%" rowspan="4" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize
-    . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell1">
+        <td width="25%" rowspan="4" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell1">
             Father
         </td>
         <!-- father father -->
-        <td width="25%" rowspan="2" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize
-    . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell2">
+        <td width="25%" rowspan="2" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell2">
             Father Father
         </td>
         <!-- father father father -->
-        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: '
-    . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell3">
+        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell3">
             Father Father Father
         </td>
     </tr>
     <tr>
         <!-- father father mother -->
-        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: '
-    . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell1">
+        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell1">
             Father Father Mother
         </td>
     </tr>
     <tr>
         <!-- father mother -->
-        <td width="25%" rowspan="2" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . ';  font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize
-    . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell2">
+        <td width="25%" rowspan="2" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . ';  font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell2">
             Father Mother
         </td>
         <!-- father mother father -->
-        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: '
-    . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell4">
+        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell4">
             Father Mother Father
         </td>
     </tr>
     <tr>
         <!-- father mother mother -->
-        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . ';  font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize
-    . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell3">
+        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . ';  font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell3">
             Father Mother Mother
         </td>
     </tr>
     <tr>
         <!-- mother -->
-        <td width="25%" rowspan="4" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize
-    . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell4">
+        <td width="25%" rowspan="4" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell4">
             Mother
         </td>
         <!- mother father -->
-        <td width="25%" rowspan="2" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize
-    . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell5">
+        <td width="25%" rowspan="2" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell5">
             Mother Father
         </td>
         <!-- mother father father -->
-        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: '
-    . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell6">
+        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell6">
             Mother Father Father
         </td>
     </tr>
     <tr>
         <!-- mother father mother -->
-        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . ';  font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize
-    . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell5">
+        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . ';  font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell5">
             Mother Father Mother
         </td>
     </tr>
     <tr>
         <!-- mother mother -->
-        <td width="25%" rowspan="2" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize
-    . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell6">
+        <td width="25%" rowspan="2" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell6">
             Mother Mother
         </td>
         <!-- mother mother father -->
-        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: '
-    . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell7">
+        <td width="25%" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell7">
             Mother Mother Father
         </td>
     </tr>
     <tr>
         <!-- mother mother mother -->
-        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: '
-    . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell7">
+        <td width="25%" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell7">
             Mother Mother Mother
         </td>
     </tr>
@@ -178,7 +159,7 @@ echo '
 
 <table>
     <tr>
-        <td	width="25%" valign="top">
+        <td width="25%" valign="top">
             <div align="center">Selected properties</div>
             <FORM NAME="myForm" action=\'savecolors.php\' method=\'POST\'>
             <hr width="90%">
@@ -242,7 +223,7 @@ echo '
                 </tr>
             </table>
         </td>
-        <td	width="25%">
+        <td width="25%">
             <div align="center" valign="top">Male properties</div>
             <hr width="90%">
             <table width="100%">
@@ -305,7 +286,7 @@ echo '
                 </tr>
             </table>
         </td>
-        <td	width="25%" valign="top">
+        <td width="25%" valign="top">
             <div align="center">Female properties</div>
             <hr width="90%">
             <table width="100%">
@@ -369,7 +350,7 @@ echo '
             </table>
 
         </td>
-        <td	width="25%" valign="top">
+        <td width="25%" valign="top">
             <div align="center">Border properties</div>
             <hr width="90%">
             <table width="100%">
