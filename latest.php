@@ -23,10 +23,10 @@ $xoopsOption['template_main'] = "pedigree_latest.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 if (isset($st)) {
     $st = $_GET['st'];
@@ -39,7 +39,7 @@ global $xoopsTpl, $xoopsDB, $xoopsModuleConfig, $xoopsUser;
 
 //iscurrent user a module admin ?
 $modadmin    = false;
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (!empty($xoopsUser)) {
     if ($xoopsUser->isAdmin($xoopsModule->mid())) {
         $modadmin = true;

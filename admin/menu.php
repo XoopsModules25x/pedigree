@@ -44,9 +44,9 @@
 // $adminmenu[1]['title'] = "Create colours";
 
 $dirname        = basename(dirname(__DIR__));
-$module_handler =& xoops_gethandler("module");
-$xoopsModule    =& XoopsModule::getByDirname($dirname);
-$moduleInfo     =& $module_handler->get($xoopsModule->getVar("mid"));
+$module_handler = xoops_getHandler("module");
+$xoopsModule    = XoopsModule::getByDirname($dirname);
+$moduleInfo     = $module_handler->get($xoopsModule->getVar("mid"));
 $pathIcon32     = $moduleInfo->getInfo("icons32");
 $adminmenu      = array();
 

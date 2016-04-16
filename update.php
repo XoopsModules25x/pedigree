@@ -21,7 +21,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Update details");
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (empty($xoopsUser)) {
     redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
     exit();
@@ -33,10 +33,10 @@ global $xoopsDB;
 global $xoopsModuleConfig;
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 $myts = &MyTextSanitizer::getInstance();
 

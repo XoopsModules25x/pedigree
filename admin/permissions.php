@@ -72,7 +72,7 @@ switch ($permission) {
 }
 
 $permform = new XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, "admin/permissions.php");
-//	$xdir_cat_Handler=& xoops_getModuleHandler('xdirectory_xdir_cat', $xoopsModule->getVar("dirname"));
+//	$xdir_cat_Handler= xoops_getModuleHandler('xdirectory_xdir_cat', $xoopsModule->getVar("dirname"));
 $criteria = new CriteriaCompo();
 $criteria->setSort('title');
 $criteria->setOrder('ASC');

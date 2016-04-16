@@ -24,14 +24,14 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (empty($xoopsUser)) {
     redirect_header("index.php", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
     exit();
 }
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
+//$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
 
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.magnific-popup.min.js');
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/colpick.js');
@@ -47,10 +47,10 @@ echo '<script language="JavaScript" src="picker.js"></script>';
 $form = "";
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 if (isset($_GET['op'])) {
     $op = $_GET['op'];
@@ -966,10 +966,10 @@ function userfields($field = 0)
 function credits()
 {
     global $xoopsTpl;
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
     $form
                     = "Pedigree database module<br /><br /><li>Programming : James Cotton<br/><li>Design & Layout : Ton van der Hagen<br /><li>Version : " . round(
             $module->getVar('version') / 100,

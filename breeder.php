@@ -28,10 +28,10 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 $xoopsTpl->assign('page_title', "Pedigree database - View owner/breeder");
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 if (!isset($f)) {
     $f = "lastname";
@@ -64,7 +64,7 @@ global $xoopsModuleConfig;
 
 //iscurrent user a module admin ?
 $modadmin    = false;
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (!empty($xoopsUser)) {
     if ($xoopsUser->isAdmin($xoopsModule->mid())) {
         $modadmin = true;

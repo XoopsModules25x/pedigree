@@ -41,7 +41,7 @@ if (isset($HTTP_POST_VARS)) {
 if (!$xoopsUser) {
     $group = array(XOOPS_GROUP_ANONYMOUS);
 } else {
-    $group =& $xoopsUser->getGroups();
+    $group = $xoopsUser->getGroups();
 }
 if ($op == 'list') {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
@@ -50,8 +50,8 @@ if ($op == 'list') {
     $xoopsTpl->assign('sitename', $xoopsConfig['sitename']);
     $target = htmlspecialchars($HTTP_GET_VARS['target'], ENT_QUOTES);
     $xoopsTpl->assign('target', $target);
-    $imgcat_handler =& xoops_gethandler('imagecategory');
-    $catlist        =& $imgcat_handler->getList($group, 'imgcat_read', 1);
+    $imgcat_handler = xoops_getHandler('imagecategory');
+    $catlist        = $imgcat_handler->getList($group, 'imgcat_read', 1);
     $catcount       = count($catlist);
     $xoopsTpl->assign('lang_align', _ALIGN);
     $xoopsTpl->assign('lang_add', _ADD);
@@ -75,13 +75,13 @@ if ($op == 'list') {
         }
         $xoopsTpl->assign('cat_options', $cat_options);
         if ($catshow > 0) {
-            $image_handler = xoops_gethandler('image');
+            $image_handler = xoops_getHandler('image');
             $criteria      = new CriteriaCompo(new Criteria('imgcat_id', $catshow));
             $criteria->add(new Criteria('image_display', 1));
             $total = $image_handler->getCount($criteria);
             if ($total > 0) {
-                $imgcat_handler =& xoops_gethandler('imagecategory');
-                $imgcat         =& $imgcat_handler->get($catshow);
+                $imgcat_handler = xoops_getHandler('imagecategory');
+                $imgcat         = $imgcat_handler->get($catshow);
                 $xoopsTpl->assign('image_total', $total);
                 $xoopsTpl->assign('lang_image', _IMAGE);
                 $xoopsTpl->assign('lang_imagename', _IMAGENAME);
@@ -91,9 +91,9 @@ if ($op == 'list') {
                 $criteria->setStart($start);
                 $storetype = $imgcat->getVar('imgcat_storetype');
                 if ($storetype == 'db') {
-                    $images =& $image_handler->getObjects($criteria, false, true);
+                    $images = $image_handler->getObjects($criteria, false, true);
                 } else {
-                    $images =& $image_handler->getObjects($criteria, false, false);
+                    $images = $image_handler->getObjects($criteria, false, false);
                 }
                 $imgcount = count($images);
                 $max      = ($imgcount > 10) ? 10 : $imgcount;
@@ -143,14 +143,14 @@ if ($op == 'list') {
 }
 
 if ($op == 'upload') {
-    $imgcat_handler =& xoops_gethandler('imagecategory');
+    $imgcat_handler = xoops_getHandler('imagecategory');
     $imgcat_id      = intval($HTTP_GET_VARS['imgcat_id']);
-    $imgcat         =& $imgcat_handler->get($imgcat_id);
+    $imgcat         = $imgcat_handler->get($imgcat_id);
     $error          = false;
     if (!is_object($imgcat)) {
         $error = true;
     } else {
-        $imgcatperm_handler =& xoops_gethandler('groupperm');
+        $imgcatperm_handler = xoops_getHandler('groupperm');
         if ($xoopsUser) {
             if (!$imgcatperm_handler->checkRight('imgcat_write', $imgcat_id, $xoopsUser->getGroups())) {
                 $error = true;
@@ -194,13 +194,13 @@ if ($op == 'upload') {
 
 if ($op == 'doupload') {
     include_once XOOPS_ROOT_PATH . '/class/uploader.php';
-    $imgcat_handler =& xoops_gethandler('imagecategory');
-    $imgcat         =& $imgcat_handler->get(intval($imgcat_id));
+    $imgcat_handler = xoops_getHandler('imagecategory');
+    $imgcat         = $imgcat_handler->get(intval($imgcat_id));
     $error          = false;
     if (!is_object($imgcat)) {
         $error = true;
     } else {
-        $imgcatperm_handler =& xoops_gethandler('groupperm');
+        $imgcatperm_handler = xoops_getHandler('groupperm');
         if ($xoopsUser) {
             if (!$imgcatperm_handler->checkRight('imgcat_write', $imgcat_id, $xoopsUser->getGroups())) {
                 $error = true;
@@ -229,8 +229,8 @@ if ($op == 'doupload') {
         if (!$uploader->upload()) {
             $err = $uploader->getErrors();
         } else {
-            $image_handler =& xoops_gethandler('image');
-            $image         =& $image_handler->create();
+            $image_handler = xoops_getHandler('image');
+            $image         = $image_handler->create();
             $image->setVar('image_name', $uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);
             $image->setVar('image_mimetype', $uploader->getMediaType());

@@ -21,7 +21,7 @@ $xoopsOption['template_main'] = "pedigree_delete.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (empty($xoopsUser)) {
     redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
     exit();
@@ -38,7 +38,7 @@ if (!empty($ownername)) {
     while ($row = $xoopsDB->fetchArray($result)) {
         //check for edit rights
         $access      = 0;
-        $xoopsModule =& XoopsModule::getByDirname("pedigree");
+        $xoopsModule = XoopsModule::getByDirname("pedigree");
         if (!empty($xoopsUser)) {
             if ($xoopsUser->isAdmin($xoopsModule->mid())) {
                 $access = 1;

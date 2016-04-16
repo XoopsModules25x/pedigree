@@ -84,7 +84,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigree_tempHandler->create();
+        $obj  = $pedigree_tempHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -94,9 +94,9 @@ switch ($op) {
             redirect_header("pedigree_temp.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
         }
         if (isset($_REQUEST["ID"])) {
-            $obj =& $pedigree_tempHandler->get($_REQUEST["ID"]);
+            $obj = $pedigree_tempHandler->get($_REQUEST["ID"]);
         } else {
-            $obj =& $pedigree_tempHandler->create();
+            $obj = $pedigree_tempHandler->create();
         }
 
         //Form NAAM
@@ -123,7 +123,7 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -138,7 +138,7 @@ switch ($op) {
         break;
 
     case "delete_pedigree_temp":
-        $obj =& $pedigree_tempHandler->get($_REQUEST["ID"]);
+        $obj = $pedigree_tempHandler->get($_REQUEST["ID"]);
         if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
             if (!$GLOBALS["xoopsSecurity"]->check()) {
                 redirect_header("pedigree_temp.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));

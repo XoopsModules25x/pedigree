@@ -99,7 +99,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigreeFieldsHandler->create();
+        $obj  = $pedigreeFieldsHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -109,9 +109,9 @@ switch ($op) {
             redirect_header("pedigree_config.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
         }
         if (isset($_REQUEST["ID"])) {
-            $obj =& $pedigreeFieldsHandler->get($_REQUEST["ID"]);
+            $obj = $pedigreeFieldsHandler->get($_REQUEST["ID"]);
         } else {
-            $obj =& $pedigreeFieldsHandler->create();
+            $obj = $pedigreeFieldsHandler->create();
         }
 
         //Form isActive
@@ -154,7 +154,7 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -169,7 +169,7 @@ switch ($op) {
         break;
 
     case "delete_pedigree_config":
-        $obj =& $pedigreeFieldsHandler->get($_REQUEST["ID"]);
+        $obj = $pedigreeFieldsHandler->get($_REQUEST["ID"]);
         if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
             if (!$GLOBALS["xoopsSecurity"]->check()) {
                 redirect_header("pedigree_config.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
