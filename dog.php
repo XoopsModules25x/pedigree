@@ -47,12 +47,12 @@ xoops_load('XoopsUserUtility');
 $dam = $sire = '';
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
-$myts = &MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -150,7 +150,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
     }
     //check for edit rights
     $access      = 0;
-    $xoopsModule =& XoopsModule::getByDirname("pedigree");
+    $xoopsModule = XoopsModule::getByDirname("pedigree");
     if (!empty($xoopsUser)) {
         if ($xoopsUser->isAdmin($xoopsModule->mid())) {
             $access = 1;

@@ -177,10 +177,10 @@ function pedigree_main($ID)
     $result = $xoopsDB->query($queryString);
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     $pic = $moduleConfig['pics'];
     $hd  = $moduleConfig['hd'];

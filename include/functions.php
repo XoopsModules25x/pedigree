@@ -31,10 +31,10 @@ require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include
 require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/config.php");
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 /**
  * @param $columncount
@@ -68,7 +68,7 @@ function uploadedpict($num)
     $max_imgsize       = $xoopsModuleConfig['maxfilesize']; //1024000;
     $max_imgwidth      = $xoopsModuleConfig['maximgwidth']; //1500;
     $max_imgheight     = $xoopsModuleConfig['maximgheight']; //1000;
-    $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png');
+    $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
 //    $img_dir = XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/images" ;
     $img_dir = $xoopsModuleConfig['uploaddir'] . '/images';
     include_once(XOOPS_ROOT_PATH . "/class/uploader.php");
@@ -360,7 +360,8 @@ function bas($oid, $pa, $ma)
         }
         $name = stripslashes($rowres['NAAM']);;
         //empty array
-        unset($columnvalue1);
+        //unset($columnvalue1);
+        $columnvalue1 = array();
         //fill array
         for ($i = 1; $i < ($numofcolumns1); ++$i) {
             $x = $columns1[$i]['columnnumber'];
@@ -622,7 +623,7 @@ function animal_CleanVars(&$global, $key, $default = '', $type = 'int')
 function animal_meta_keywords($content)
 {
     global $xoopsTpl, $xoTheme;
-    $myts    =& MyTextSanitizer::getInstance();
+    $myts    = MyTextSanitizer::getInstance();
     $content = $myts->undoHtmlSpecialChars($myts->sanitizeForDisplay($content));
     if (isset($xoTheme) && is_object($xoTheme)) {
         $xoTheme->addMeta('meta', 'keywords', strip_tags($content));
@@ -637,7 +638,7 @@ function animal_meta_keywords($content)
 function animal_meta_description($content)
 {
     global $xoopsTpl, $xoTheme;
-    $myts    =& MyTextSanitizer::getInstance();
+    $myts    = MyTextSanitizer::getInstance();
     $content = $myts->undoHtmlSpecialChars($myts->displayTarea($content));
     if (isset($xoTheme) && is_object($xoTheme)) {
         $xoTheme->addMeta('meta', 'description', strip_tags($content));
@@ -767,7 +768,7 @@ function pedigree_tableExists($table)
 {
     $bRetVal = false;
     //Verifies that a MySQL table exists
-    $xoopsDB  =& XoopsDatabaseFactory::getDatabaseConnection();
+    $xoopsDB  = XoopsDatabaseFactory::getDatabaseConnection();
     $realName = $xoopsDB->prefix($table);
 
     $sql = "SHOW TABLES FROM " . XOOPS_DB_NAME;
@@ -796,7 +797,7 @@ function pedigree_tableExists($table)
  */
 function pedigree_getMeta($key)
 {
-    $xoopsDB =& XoopsDatabaseFactory::getDatabaseConnection();
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
     $sql     = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $xoopsDB->prefix('pedigree_meta'), $xoopsDB->quoteString($key));
     $ret     = $xoopsDB->query($sql);
     if (!$ret) {
@@ -822,7 +823,7 @@ function pedigree_getMeta($key)
  */
 function pedigree_setMeta($key, $value)
 {
-    $xoopsDB =& XoopsDatabaseFactory::getDatabaseConnection();
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
     if ($ret = pedigree_getMeta($key)) {
         $sql = sprintf(
             "UPDATE %s SET metavalue = %s WHERE metakey = %s",

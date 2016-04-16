@@ -36,13 +36,13 @@ function lookup($category, $item_id)
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
 
     if (empty($xoopsModule) || $xoopsModule->getVar('dirname') != 'pedigree') {
-        $module_handler =& xoops_gethandler('module');
-        $module         =& $module_handler->getByDirname("pedigree");
-        $config_handler =& xoops_gethandler('config');
-        $config         =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+        $module_handler = xoops_getHandler('module');
+        $module         = $module_handler->getByDirname("pedigree");
+        $config_handler = xoops_getHandler('config');
+        $config         = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
     } else {
-        $module =& $xoopsModule;
-        $config =& $xoopsModuleConfig;
+        $module = $xoopsModule;
+        $config = $xoopsModuleConfig;
     }
 
     if ($category == 'global') {

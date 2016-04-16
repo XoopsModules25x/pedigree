@@ -55,13 +55,13 @@ $pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
 $pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
 $pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 //load handlers
-$pedigreeTrashHandler  =& xoops_getModuleHandler('trash', $thisDirname);
-$pedigreeOwnerHandler  =& xoops_getModuleHandler('owner', $thisDirname);
-$pedigreeTempHandler   =& xoops_getModuleHandler('temp', $thisDirname);
-$pedigreeTreeHandler   =& xoops_getModuleHandler('tree', $thisDirname);
-$pedigreeFieldsHandler =& xoops_getModuleHandler('fields', $thisDirname);
+$pedigreeTrashHandler  = xoops_getModuleHandler('trash', $thisDirname);
+$pedigreeOwnerHandler  = xoops_getModuleHandler('owner', $thisDirname);
+$pedigreeTempHandler   = xoops_getModuleHandler('temp', $thisDirname);
+$pedigreeTreeHandler   = xoops_getModuleHandler('tree', $thisDirname);
+$pedigreeFieldsHandler = xoops_getModuleHandler('fields', $thisDirname);
 
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
     include_once(XOOPS_ROOT_PATH . "/class/template.php");
     $xoopsTpl = new XoopsTpl();

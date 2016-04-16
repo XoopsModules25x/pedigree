@@ -23,14 +23,14 @@
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 global $xoopsModule;
-if (!defined('PEDIGREE_MODULE_PATH')) {
+if (!defined('PEDIGREE_DIRNAME')) {
     define("PEDIGREE_DIRNAME", $xoopsModule->dirname());
     define("PEDIGREE_PATH", XOOPS_ROOT_PATH . "/modules/" . PEDIGREE_DIRNAME);
     define("PEDIGREE_URL", XOOPS_URL . "/modules/" . PEDIGREE_DIRNAME);
     define("PEDIGREE_ADMIN", PEDIGREE_URL . "/admin/index.php");
-    define("PEDIGREE_AUTHOR_LOGOIMG", PEDIGREE_URL . "/assets/images/xoopsproject_logo.png");
-
 }
+define("PEDIGREE_AUTHOR_LOGOIMG", PEDIGREE_URL . "/assets/images/xoopsproject_logo.png");
+
 
 // Define here the place where main upload path
 

@@ -41,10 +41,10 @@ if (isset($GLOBALS['xoTheme'])) {
 $xoopsTpl->assign('page_title', "Pedigree database - View Owner/Breeder details");
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 global $xoopsTpl, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
@@ -92,7 +92,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
 
     //check for edit rights
     $access      = 0;
-    $xoopsModule =& XoopsModule::getByDirname("pedigree");
+    $xoopsModule = XoopsModule::getByDirname("pedigree");
     if (!empty($xoopsUser)) {
         if ($xoopsUser->isAdmin($xoopsModule->mid())) {
             $access = 1;

@@ -87,7 +87,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigreeOwnerHandler->create();
+        $obj  = $pedigreeOwnerHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -97,9 +97,9 @@ switch ($op) {
             redirect_header("owner.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
         }
         if (isset($_REQUEST["ID"])) {
-            $obj =& $pedigreeOwnerHandler->get($_REQUEST["ID"]);
+            $obj = $pedigreeOwnerHandler->get($_REQUEST["ID"]);
         } else {
-            $obj =& $pedigreeOwnerHandler->create();
+            $obj = $pedigreeOwnerHandler->create();
         }
 
         //Form firstname
@@ -128,7 +128,7 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -143,7 +143,7 @@ switch ($op) {
         break;
 
     case "delete_owner":
-        $obj =& $pedigreeOwnerHandler->get($_REQUEST["ID"]);
+        $obj = $pedigreeOwnerHandler->get($_REQUEST["ID"]);
         if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
             if (!$GLOBALS["xoopsSecurity"]->check()) {
                 redirect_header("owner.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));

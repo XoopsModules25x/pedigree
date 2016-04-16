@@ -23,7 +23,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Update details");
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (empty($xoopsUser)) {
     redirect_header("index.php", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
     exit();
@@ -54,10 +54,10 @@ function adddog()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     //check for access
     if (empty($xoopsUser)) {
@@ -97,10 +97,10 @@ function checkname()
     global $xoopsTpl, $xoopsDB, $xoopsUser;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     $name = $_POST['NAAM'];
     //query
@@ -204,10 +204,10 @@ function sire()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
     $empty          = array(); // an empty array
 
     //check for access
@@ -445,14 +445,14 @@ function dam()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
     $empty          = array(); // an empty array
 
     //check for access
-    $xoopsModule =& XoopsModule::getByDirname("pedigree");
+    $xoopsModule = XoopsModule::getByDirname("pedigree");
     if (empty($xoopsUser)) {
         redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
         exit();
@@ -628,13 +628,13 @@ function check()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname("pedigree");
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname("pedigree");
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     //check for access
-    $xoopsModule =& XoopsModule::getByDirname("pedigree");
+    $xoopsModule = XoopsModule::getByDirname("pedigree");
     if (empty($xoopsUser)) {
         redirect_header("index.php", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
         exit();

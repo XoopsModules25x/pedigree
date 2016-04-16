@@ -19,10 +19,10 @@ $xoopsOption['template_main'] = "pedigree_coi.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 global $xoopsTpl, $xoopsDB, $moduleConfig;
 
@@ -657,7 +657,7 @@ function CONSANG($a)
  */
 function boucle($nb_gen, $nloop)
 {
-    global $fathers, $mothers, $nbanims, $listing, $nl;
+    global $fathers, $mothers, $nbanims, $listing, $nl, $IDs;
     $nbtot   = 0;
     $listing = "";
     if ($nloop < ($nb_gen + 20)) {
@@ -709,6 +709,13 @@ function boucle($nb_gen, $nloop)
     return $nbtot;
 }
 
+if (!function_exists('html_accents')) {
+    function html_accents($string)
+    {
+        return $string;
+    }
+}
+
 /**
  * @param $ID
  *
@@ -723,10 +730,10 @@ function set_name($ID)
         $sqlquery    = "SELECT ID, NAAM, roft from " . $xoopsDB->prefix("pedigree_tree") . " where ID = '$ID'";
         $queryresult = $xoopsDB->query($sqlquery);
         $ani         = $xoopsDB->fetchBoth($queryresult);
-//        $name        = $ani[1];
+        $name        = $ani[1];
         if ($sql2bis) {  // true for E.R.o'S. only
             $name = html_accents($name);
-            //$affx = $ani[5] ;  // affix-ID
+            $affx = $ani[5] ;  // affix-ID
             if ($affx) {
                 $affix  = fetch_record("$sql2bis '$affx'");
                 $type   = $affix[1];
@@ -780,7 +787,7 @@ function one_animal($ID)
     $animal = set_name($ID);
     list ($ID, $name, $sex/*, $hd, $ems*/) = $animal;
     $sqlquery    = "select SQL_CACHE count(ID) from " . $xoopsDB->prefix("pedigree_tree") . " where father = '$ID' or mother = '$ID'";
-    $queryresult = $xoopsDB->($sqlquery);
+    $queryresult = $xoopsDB->query($sqlquery);
     $nb          = $xoopsDB->fetchBoth($queryresult);
     $nb_children = $nb[0];
     if ($nb_children == 0) {

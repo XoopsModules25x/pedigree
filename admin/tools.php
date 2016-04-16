@@ -20,7 +20,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Add owner/breeder");
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname("pedigree");
+$xoopsModule = XoopsModule::getByDirname("pedigree");
 if (empty($xoopsUser)) {
     redirect_header("index.php", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
     exit();
@@ -33,10 +33,10 @@ echo '<script language="JavaScript" src="picker.js"></script>';
 $form = "";
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname("pedigree");
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname("pedigree");
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 switch ($_GET['op']) {
     case "lang":
@@ -124,7 +124,7 @@ function index()
 
 function colours()
 {
-    global $xoopsTpl;
+    global $xoopsTpl, $femaleTextColour;
     $form = "This will be the wizard to create and modify the website colourscheme.<hr>";
     $form .= '<FORM NAME="myForm" action=\'savecolors.php\' method=\'POST\'>';
     $form .= '<INPUT TYPE="text" id="ftxtcolor" name="ftxtcolor" value="#' . $femaleTextColour . '" size="11" maxlength="7">';
@@ -295,7 +295,7 @@ function settings()
     $select  = new XoopsFormSelect("<b>Number of results per page</b>", 'perpage', $value = $moduleConfig['perpage'], $size = 1, $multiple = false);
     $options = array('50' => 50, '100' => 100, '250' => 250, '500' => 500, '1000' => 1000, '2000' => 2000, '5000' => 5000, '10000' => 10000);
     foreach ($options as $key => $values) {
-        $select->addOption($key, $name = $values, $disabled = false);
+        $select->addOption($key, $name = $values);
     }
     unset($options);
     $form->addElement($select);
@@ -306,8 +306,8 @@ function settings()
         )
     );
     $radio = new XoopsFormRadio("<b>Use owner/breeder fields</b>", 'ownerbreeder', $value = $moduleConfig['ownerbreeder']);
-    $radio->addOption(1, $name = 'yes', $disabled = false);
-    $radio->addOption(0, $name = 'no', $disabled = false);
+    $radio->addOption(1, $name = 'yes');
+    $radio->addOption(0, $name = 'no');
     $form->addElement($radio);
     $form->addElement(
         new XoopsFormLabel(
@@ -316,8 +316,8 @@ function settings()
         )
     );
     $radiobr = new XoopsFormRadio("<b>Show brother & sister field</b>", 'brothers', $value = $moduleConfig['brothers']);
-    $radiobr->addOption(1, $name = 'yes', $disabled = false);
-    $radiobr->addOption(0, $name = 'no', $disabled = false);
+    $radiobr->addOption(1, $name = 'yes');
+    $radiobr->addOption(0, $name = 'no');
     $form->addElement($radiobr);
     $form->addElement(
         new XoopsFormLabel(
@@ -327,8 +327,8 @@ function settings()
         )
     );
     $radiolit = new XoopsFormRadio("<b>Use add a " . $moduleConfig['litter'] . " feature</b>", 'uselitter', $value = $moduleConfig['uselitter']);
-    $radiolit->addOption(1, $name = 'yes', $disabled = false);
-    $radiolit->addOption(0, $name = 'no', $disabled = false);
+    $radiolit->addOption(1, $name = 'yes');
+    $radiolit->addOption(0, $name = 'no');
     $form->addElement($radiolit);
     $form->addElement(
         new XoopsFormLabel(
@@ -336,8 +336,8 @@ function settings()
         )
     );
     $radioch = new XoopsFormRadio("<b>Show " . $moduleConfig['children'] . " field</b>", 'pups', $value = $moduleConfig['pups']);
-    $radioch->addOption(1, $name = 'yes', $disabled = false);
-    $radioch->addOption(0, $name = 'no', $disabled = false);
+    $radioch->addOption(1, $name = 'yes');
+    $radioch->addOption(0, $name = 'no');
     $form->addElement($radioch);
     $form->addElement(
         new XoopsFormLabel(

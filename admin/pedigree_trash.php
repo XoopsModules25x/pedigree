@@ -87,7 +87,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigreeTrashHandler->create();
+        $obj  = $pedigreeTrashHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -97,9 +97,9 @@ switch ($op) {
             redirect_header("pedigree_trash.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
         }
         if (isset($_REQUEST["ID"])) {
-            $obj =& $pedigreeTrashHandler->get($_REQUEST["ID"]);
+            $obj = $pedigreeTrashHandler->get($_REQUEST["ID"]);
         } else {
-            $obj =& $pedigreeTrashHandler->create();
+            $obj = $pedigreeTrashHandler->create();
         }
 
         //Form NAAM
@@ -126,7 +126,7 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -141,7 +141,7 @@ switch ($op) {
         break;
 
     case "delete_pedigree_trash":
-        $obj =& $pedigreeTrashHandler->get($_REQUEST["ID"]);
+        $obj = $pedigreeTrashHandler->get($_REQUEST["ID"]);
         if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
             if (!$GLOBALS["xoopsSecurity"]->check()) {
                 redirect_header("pedigree_trash.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
