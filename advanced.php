@@ -28,10 +28,10 @@ global $xoopsTpl, $xoopsDB;
 $totpl = array();
 $books = array();
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 //colour variables
 $colors  = explode(';', $moduleConfig['colourscheme']);

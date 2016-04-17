@@ -5,16 +5,16 @@
 //         http://www.dobermannvereniging.nl
 
 // Include any constants used for internationalizing templates.
-if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/language/' . $xoopsConfig['language'] . '/main.php')) {
-    require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/language/' . $xoopsConfig['language'] . '/main.php';
-} else {
-    include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/language/english/main.php';
-}
+xoops_loadLanguage('main', 'pedigree');
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php');
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
+//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
+//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once $GLOBALS['xoops']->path('modules/pedigree/include/class_field.php');
+require_once $GLOBALS['xoops']->path('modules/pedigree/include/functions.php');
 
 /**
+ * @todo: move hard coded language strings to language file
+ *
  * @return XoopsTpl
  */
 function menu_block()
@@ -22,10 +22,10 @@ function menu_block()
     global $xoopsTpl, $xoopsUser, $apppath;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname('pedigree');
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $moduleHandler = xoops_getHandler('module');
+    $module        = $moduleHandler->getByDirname('pedigree');
+    $configHandler = xoops_getHandler('config');
+    $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
     //colour variables
     $colors  = explode(';', $moduleConfig['colourscheme']);
@@ -37,35 +37,33 @@ function menu_block()
     $head    = $colors[5];
     $body    = $colors[6];
     $title   = $colors[7];
-//inline-css
+    //inline-css
     echo '<style>';
-//text-colour
-    echo 'body {margin: 0;padding: 0;background: ' . $body . ';color: ' . $text
-         . ";font-size: 62.5%; /* <-- Resets 1em to 10px */font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; text-align: left;}";
-//link-colour
+    //text-colour
+    echo 'body {margin: 0;padding: 0;background: ' . $body . ';color: ' . $text . ";font-size: 62.5%; /* <-- Resets 1em to 10px */font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; text-align: left;}";
+    //link-colour
     echo 'a, h2 a:hover, h3 a:hover { color: ' . $actlink . '; text-decoration: none; }';
-//link hover colour
+    //link hover colour
     echo 'a:hover { color: ' . $hovlink . '; text-decoration: underline; }';
-//th
+    //th
     echo 'th {padding: 2px;color: #ffffff;background: ' . $title . ';font-family: Verdana, Arial, Helvetica, sans-serif;vertical-align: middle;}';
     echo 'td#centercolumn th { color: #fff; background: ' . $title . '; vertical-align: middle; }';
-//head
+    //head
     echo '.head {background-color: ' . $head . '; padding: 3px; font-weight: normal;}';
-//even
+    //even
     echo '.even {background-color: ' . $even . '; padding: 3px;}';
     echo 'tr.even td {background-color: ' . $even . '; padding: 3px;}';
-//odd
+    //odd
     echo '.odd {background-color: ' . $odd . '; padding: 3px;}';
     echo 'tr.odd td {background-color: ' . $odd . '; padding: 3px;}';
     echo '</style>';
 
     //iscurrent user a module admin ?
-    $modadmin    = false;
-    $xoopsModule =& XoopsModule::getByDirname('pedigree');
-    if (!empty($xoopsUser)) {
-        if ($xoopsUser->isAdmin($xoopsModule->mid())) {
-            $modadmin = true;
-        }
+    $xoopsModule = XoopsModule::getByDirname('pedigree');
+    if ((!empty($xoopsUser)) && ($GLOBALS['xoopsUser'] instanceof XoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
+        $modadmin = true;
+    } else {
+        $modadmin = false;
     }
     $counter   = 1;
     $menuwidth = 4;
@@ -74,8 +72,8 @@ function menu_block()
     $lastpos = my_strrpos($x, '/');
     $len     = strlen($x);
     $curpage = substr($x, $lastpos, $len);
-    if ($moduleConfig['showwelcome'] == '1') {
-        if ($curpage == '/welcome.php') {
+    if (1 == $moduleConfig['showwelcome']) {
+        if ('/welcome.php' === $curpage) {
             $title = '<b>Welcome</b>';
         } else {
             $title = 'Welcome';
@@ -86,7 +84,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage == '/index.php' || $curpage == '/result.php') {
+    if ($curpage === '/index.php' || $curpage === '/result.php') {
         $title = '<b>View/Search ' . $moduleConfig['animalTypes'] . '</b>';
     } else {
         $title = 'View/Search ' . $moduleConfig['animalTypes'];
@@ -96,7 +94,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($curpage == '/add_dog.php') {
+    if ($curpage === '/add_dog.php') {
         $title = '<b>Add a ' . $moduleConfig['animalType'] . '</b>';
     } else {
         $title = 'Add a ' . $moduleConfig['animalType'];
@@ -107,7 +105,7 @@ function menu_block()
         $counter = 1;
     }
     if ($moduleConfig['uselitter'] == '1') {
-        if ($curpage == '/add_litter.php') {
+        if ($curpage === '/add_litter.php') {
             $title = '<b>Add a ' . $moduleConfig['litter'] . '</b>';
         } else {
             $title = 'Add a ' . $moduleConfig['litter'];
@@ -119,7 +117,7 @@ function menu_block()
         }
     }
     if ($moduleConfig['ownerbreeder'] == '1') {
-        if ($curpage == '/breeder.php' || $curpage == '/owner.php') {
+        if ($curpage === '/breeder.php' || $curpage === '/owner.php') {
             $title = '<b>View owners/breeders</b>';
         } else {
             $title = 'View owners/breeders';
@@ -129,7 +127,7 @@ function menu_block()
         if ($counter == $menuwidth) {
             $counter = 1;
         }
-        if ($curpage == '/add_breeder.php') {
+        if ($curpage === '/add_breeder.php') {
             $title = '<b>Add an owner/breeder</b>';
         } else {
             $title = 'Add an owner/breeder';
@@ -140,7 +138,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage == '/advanced.php') {
+    if ($curpage === '/advanced.php') {
         $title = '<b>Advanced info</b>';
     } else {
         $title = 'Advanced info';
@@ -151,7 +149,7 @@ function menu_block()
         $counter = 1;
     }
     if ($moduleConfig['proversion'] == '1') {
-        if ($curpage == '/virtual.php') {
+        if ($curpage === '/virtual.php') {
             $title = '<b>Virtual mating</b>';
         } else {
             $title = 'Virtual Mating';
@@ -162,7 +160,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage == '/latest.php') {
+    if ($curpage === '/latest.php') {
         $title = '<b>latest additions</b>';
     } else {
         $title = 'latest additions';
@@ -173,7 +171,7 @@ function menu_block()
         $counter = 1;
     }
     if ($modadmin == true) {
-        if ($curpage == '/tools.php') {
+        if ($curpage === '/tools.php') {
             $title = '<b>Webmaster tools</b>';
         } else {
             $title = 'Webmaster tools';
@@ -190,7 +188,7 @@ function menu_block()
             $counter = 1;
         }
     } else {
-        if ($curpage == '/user.php') {
+        if ($curpage === '/user.php') {
             $title = '<b>User login</b>';
         } else {
             $title = 'User login';

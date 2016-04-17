@@ -27,7 +27,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 global $xoopsTpl, $xoopsDB;
 
 $queryString = 'SELECT count(d.user) as X, d.user as d_user, u.uname as u_uname FROM ' . $xoopsDB->prefix('pedigree_tree') . ' d LEFT JOIN ' . $xoopsDB->prefix('users')
-               . ' u ON d.user = u.uid GROUP  BY user    ORDER BY X desc limit 50';
+               . ' u ON d.user = u.uid GROUP  BY user	ORDER BY X desc limit 50';
 $result      = $xoopsDB->query($queryString);
 $numpos      = 1;
 while ($row = $xoopsDB->fetchArray($result)) {

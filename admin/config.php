@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//  pedigree
-//      Copyright 2004, James Cotton
-//      http://www.dobermannvereniging.nl
-//  Template
-//      Copyright 2004 Thomas Hill
-//      <a href="http://www.worldware.com">worldware.com</a>
+//    pedigree
+//        Copyright 2004, James Cotton
+//         http://www.dobermannvereniging.nl
+//    Template
+//        Copyright 2004 Thomas Hill
+//        <a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -27,25 +27,20 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
-
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-//require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/pedigree_includes.php');
+//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
 //require_once dirname(__DIR__) . "/include/pedigree_includes.php";
-/*
-if (file_exists('../language/' . $xoopsConfig['language'] . '/modinfo.php')) {
-    include_once '../language/' . $xoopsConfig['language'] . '/modinfo.php';
-} else {
-    include_once '../language/english/modinfo.php';
-}
-*/
-xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php');
+
+xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
+xoops_load('XoopsRequest');
+require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 
 // Get HTTP post/get parameters.
 //import_request_variables("gp", "param_");
 extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
+$op = XoopsRequest::getCmd('op', 'main');
 //
 // Writes out the form to get all config parameters.
 //
@@ -62,15 +57,15 @@ function pedigree_config_form()
             <table width='100%' border='0' cellpadding='4' cellspacing='1'>\n";
 
     foreach ($config_fields as $field => $prompt) {
-        if ($field == 'config_id') {
+        if ($field === 'config_id') {
             continue;
         }
         $pname = 'param_' . $field;
         print "
                 <tr nowrap='nowrap'>\n
-                <td class ='head'>" . $prompt . "</td>\n
-                <td class='even' valign = 'top'>\n
-                    <input type='text' name='$field' size='32' maxlength='32' value ='" . $values[$field] . "'>\n
+                <td class ='head'>{$prompt}</td>\n
+                <td class='even aligntop'>\n
+                    <input type='text' name='{$field}' size='32' maxlength='32' value ='{$values[$field]}'>\n
                 </td></tr>\n
                 </tr>\n";
     }
@@ -87,9 +82,13 @@ function pedigree_config_form()
     </form>\n";
 }
 
-//
-// Displays the main admin interface
-//
+/**
+ *
+ * @todo: create pedigree_admin_hmenu - it doesn't exist
+ *
+ * Displays the main admin interface
+ *
+ */
 function pedigree_config_main()
 {
     //xoops_cp_header();
@@ -101,18 +100,23 @@ function pedigree_config_main()
     exit();
 }
 
-// Processes the configuration update request, by
-// getting the HTTP parameters, and putting them into the database.
+/**
+ *
+ * @todo: create pedigree_get_config_fields() method, it doesn't exist anywhere
+ * @todo: pedigree_config dB table doesn't exist should this be 'config' or something else?
+ *
+ * Processes the configuration update request, by
+ * getting the HTTP parameters, and putting them into the database.
+ */
 function pedigree_config_post()
 {
-    global $xoopsDB;
     $config_fields = pedigree_get_config_fields();
     foreach ($config_fields as $field => $prompt) {
         $param = 'param_' . $field;
         global $$param;
     }
     $param_config_id = 1;
-    $sql             = 'REPLACE INTO ' . $xoopsDB->prefix('pedigree_config') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
+    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_config') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
 
     $first = true;
     foreach ($config_fields as $field => $prompt) {
@@ -122,12 +126,12 @@ function pedigree_config_post()
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
         $param_value = get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
-        $sql .= "'" . $xoopsDB->escape($param_value) . "'";
+        $sql .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
         $first = false;
     }
     $sql .= ' )';
-    if (!$xoopsDB->query($sql)) {
-        $error = $xoopsDB->error();
+    if (!$GLOBALS['xoopsDB']->query($sql)) {
+        $error = $GLOBALS['xoopsDB']->error();
         xoops_cp_header();
         pedigree_show_sql_error(_AM_PEDIGREE_ERR_ADD_FAILED, $error, $sql);
         xoops_cp_footer();
@@ -137,11 +141,7 @@ function pedigree_config_post()
     exit();
 }
 
-if (!isset($param_op)) {
-    $param_op = 'main';
-}
-
-switch ($param_op) {
+switch ($op) {
     case 'main':
         pedigree_config_main();
         break;
@@ -150,6 +150,7 @@ switch ($param_op) {
         break;
     default:
         //xoops_cp_header();
-        print "<h1>Unknown method requested '$param_op'</h1>";
+        /* @todo: move hard coded language string to language file */
+        print "<h1>Unknown method requested ('{$op}')</h1>";
         xoops_cp_footer();
 }

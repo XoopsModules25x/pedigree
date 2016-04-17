@@ -26,10 +26,10 @@ $xoopsOption['template_main'] = 'pedigree_sel.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 $st = isset($_GET['st']) ? $_GET['st'] : '';
 if (!$st) {

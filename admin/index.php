@@ -10,29 +10,26 @@
  */
 
 /**
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
+ * @copyright    {@link http://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package      pedigree
  * @since
- * @author       XOOPS Development Team
- * @version      $Id $
+ * @author       XOOPS Module Dev Team
  */
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-include_once __DIR__ . '/admin_header.php';
+//require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once __DIR__ . '/admin_header.php';
 include_once dirname(__DIR__) . '/class/pedigreeUtilities.php';
-
-//xoops_cp_header();
-
+xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    pedigreeUtilities::prepareFolder($uploadFolders[$i]);
+    PedigreeUtilities::prepareFolder($uploadFolders[$i]);
     $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
-//    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
-echo $indexAdmin->addNavigation('index.php');
+echo $indexAdmin->addNavigation(basename(__FILE__));
 echo $indexAdmin->renderIndex();
 
 include_once __DIR__ . '/admin_footer.php';

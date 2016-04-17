@@ -9,24 +9,26 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * animal module for xoops
+ * Pedigree module for XOOPS
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
  * @license         GPL 2.0 or later
- * @package         animal
- * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: pedigree.php 12841 2014-11-12 13:14:13Z beckmi $
+ * @package         pedigree
+ * @since
+ * @author          XOOPS Module Dev Team (http://xoops.org)
  */
 
 include_once __DIR__ . '/admin_header.php';
+
+xoops_cp_header();
+$adminMenu = new ModuleAdmin();
+
 //It recovered the value of argument op in URL$
-$op = animal_CleanVars($_REQUEST, 'op', 'list', 'string');
+$op = XoopsRequest::getCmd('op', 'list');
 switch ($op) {
     case 'list':
     default:
-        echo $adminMenu->addNavigation('pedigree.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         echo $adminMenu->renderButton('left');
         $criteria = new CriteriaCompo();
@@ -57,7 +59,7 @@ switch ($op) {
             foreach (array_keys($pedigree_arr) as $i) {
                 if ($pedigree_arr[$i]->getVar('pedigree_pid') == 0) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class == 'even') ? 'odd' : 'even';
+                    $class = ($class === 'even') ? 'odd' : 'even';
                     echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('NAAM') . '</td>';
                     echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('id_breeder') . '</td>';
@@ -81,11 +83,11 @@ switch ($op) {
         break;
 
     case 'new_pedigree':
-        echo $adminMenu->addNavigation('pedigree.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigreeTreeHandler->create();
+        $obj  = $pedigreeTreeHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -95,9 +97,9 @@ switch ($op) {
             redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['ID'])) {
-            $obj =& $pedigreeTreeHandler->get($_REQUEST['ID']);
+            $obj = $pedigreeTreeHandler->get($_REQUEST['ID']);
         } else {
-            $obj =& $pedigreeTreeHandler->create();
+            $obj = $pedigreeTreeHandler->create();
         }
 
         //Form NAAM
@@ -124,12 +126,12 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
     case 'edit_pedigree':
-        echo $adminMenu->addNavigation('pedigree.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         echo $adminMenu->renderButton();
@@ -139,7 +141,7 @@ switch ($op) {
         break;
 
     case 'delete_pedigree':
-        $obj =& $pedigreeTreeHandler->get($_REQUEST['ID']);
+        $obj = $pedigreeTreeHandler->get($_REQUEST['ID']);
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

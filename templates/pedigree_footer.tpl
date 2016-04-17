@@ -2,7 +2,7 @@
 <div class="pedigree_adminlinks"><{$pedigree_adminpage}></div>
 <{/if}>
 
-<{if $com_rule != 0}>
+<{if $com_rule <> 0}>
 <a name="comments"></a>
 <div class="pedigree_foot_commentnav">
     <{$commentsnav}>

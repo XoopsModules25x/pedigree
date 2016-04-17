@@ -18,17 +18,17 @@ include XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsTpl, $xoopsDB, $myts;
 
-$myts =& MyTextSanitizer::getInstance(); // MyTextSanitizer object
+$myts = MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
 //query to count dogs
 $result = $xoopsDB->query('select count(*) from ' . $xoopsDB->prefix('pedigree_tree'));
 list($numdogs) = $xoopsDB->fetchRow($result);
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 $word = $myts->displayTarea(strtr($moduleConfig['welcome'], array('[numanimals]' => $numdogs, '[animalType]' => $moduleConfig['animalType'], '[animalTypes]' => $moduleConfig['animalTypes'])));
 

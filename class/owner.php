@@ -9,20 +9,16 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * animal module for xoops
+ * Pedigree module for XOOPS
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (http://xoops.org)
  * @license         GPL 2.0 or later
- * @package         animal
+ * @package         pedigree
  * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: const_entete.php 9860 2012-07-13 10:41:41Z txmodxoops $
+ * @author          XOOPS Module Dev Team (http://xoops.org)
  */
 
-if (!defined('XOOPS_ROOT_PATH')) {
-    die('XOOPS root path not defined');
-}
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
  * Class PedigreeOwner
@@ -33,7 +29,7 @@ class PedigreeOwner extends XoopsObject
     /**
      *
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->initVar('ID', XOBJ_DTYPE_INT, null, false, 11);
@@ -47,7 +43,6 @@ class PedigreeOwner extends XoopsObject
         $this->initVar('emailadres', XOBJ_DTYPE_TXTBOX, null, false, 40);
         $this->initVar('website', XOBJ_DTYPE_TXTBOX, null, false, 60);
         $this->initVar('user', XOBJ_DTYPE_TXTBOX, null, false, 20);
-
     }
 
     /**
@@ -55,9 +50,9 @@ class PedigreeOwner extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    function getForm($action = false)
+    public function getForm($action = false)
     {
-        global $xoopsDB, $xoopsModuleConfig;
+        global $xoopsModuleConfig;
 
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -104,9 +99,9 @@ class PedigreeOwner extends XoopsObject
 class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object $db
+     * @param null|object|XoopsDatabase $db
      */
-    function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'pedigree_owner', 'PedigreeOwner', 'ID', 'firstname');
     }

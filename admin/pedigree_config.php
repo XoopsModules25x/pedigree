@@ -9,24 +9,26 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * animal module for xoops
+ * Pedigree module for XOOPS
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
  * @license         GPL 2.0 or later
- * @package         animal
+ * @package         pedigree
  * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: pedigree_config.php 12277 2014-01-26 01:21:57Z beckmi $
+ * @author          XOOPS Module Dev Team (http://xoops.org)
  */
 
-include_once 'admin_header.php';
+include_once __DIR__ . '/admin_header.php';
+
+xoops_cp_header();
+$adminMenu = new ModuleAdmin();
+
 //It recovered the value of argument op in URL$
-$op = animal_CleanVars($_REQUEST, 'op', 'list', 'string');
+$op = XoopsRequest::getCmd('op', 'list');
 switch ($op) {
     case 'list':
     default:
-        echo $adminMenu->addNavigation('pedigree_config.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
         echo $adminMenu->renderButton('left');
         $criteria = new CriteriaCompo();
@@ -37,69 +39,70 @@ switch ($op) {
 
         //Table view
         if ($numrows > 0) {
-            echo "<table width='100%' cellspacing='1' class='outer'>
+            echo "<table cellspacing='1' class='outer width100'>
+                <thead>
                 <tr>
-                    <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_FIELDNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_DEFAULTVALUE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_FIELDEXPLENATION . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_HASSEARCH . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHEXPLENATION . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPEDIGREE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINADVANCED . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPIE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINLIST . "</th>
-
-                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . '</th>
-                </tr>';
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_FIELDNAME . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_DEFAULTVALUE . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_FIELDEXPLENATION . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_HASSEARCH . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHNAME . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHEXPLENATION . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPEDIGREE . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINADVANCED . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPIE . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINLIST . "</th>
+                    <th class='txtcenter width10'>" . _AM_PEDIGREE_FORMACTION . '</th>
+                </tr>
+                </thead>
+                <tbody>';
 
             $class = 'odd';
 
             foreach (array_keys($pedigree_config_arr) as $i) {
-                if ($pedigree_config_arr[$i]->getVar('pedigree_config_pid') == 0) {
-                    echo "<tr class='" . $class . "'>";
-                    $class = ($class == 'even') ? 'odd' : 'even';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('isActive') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('FieldName') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('FieldType') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('LookupTable') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('DefaultValue') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('FieldExplenation') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('HasSearch') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('Litter') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('Generallitter') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('SearchName') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('SearchExplenation') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('ViewInPedigree') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('ViewInAdvanced') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('ViewInPie') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_config_arr[$i]->getVar('ViewInList') . '</td>';
-
-                    echo "<td align='center' width='10%'>
-                        <a href='pedigree_config.php?op=edit_pedigree_config&ID=" . $pedigree_config_arr[$i]->getVar('ID') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='"
-                        . _EDIT . "'></a>
-                        <a href='pedigree_config.php?op=delete_pedigree_config&ID=" . $pedigree_config_arr[$i]->getVar('ID') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='"
-                        . _DELETE . "'></a>
+                if (0 == $pedigree_config_arr[$i]->getVar('pedigree_config_pid')) {
+                    echo "<tr class='{$class}'>";
+                    $class = ($class === 'even') ? 'odd' : 'even';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('isActive') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('FieldName') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('FieldType') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('LookupTable') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('DefaultValue') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('FieldExplenation') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('HasSearch') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('Litter') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('Generallitter') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('SearchName') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('SearchExplenation') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('ViewInPedigree') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('ViewInAdvanced') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('ViewInPie') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('ViewInList') . '</td>';
+                    echo "<td class='txtcenter width10'>
+                        <a href='pedigree_config.php?op=edit_pedigree_config&ID=" . $pedigree_config_arr[$i]->getVar('ID') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='pedigree_config.php?op=delete_pedigree_config&ID=" . $pedigree_config_arr[$i]->getVar('ID') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }
             }
-            echo '</table><br /><br />';
+            echo '</tbody>
+                  </table>
+                  <br /><br />';
         }
 
         break;
 
     case 'new_pedigree_config':
-        echo $adminMenu->addNavigation('pedigree_config.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigreeFieldsHandler->create();
+        $obj  = $pedigreeFieldsHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -108,69 +111,74 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST['ID'])) {
-            $obj =& $pedigreeFieldsHandler->get($_REQUEST['ID']);
+        $id = XoopsRequest::getInt('ID', 0, 'POST');
+        if ($id) {
+            $obj = $pedigreeFieldsHandler->get($id);
         } else {
-            $obj =& $pedigreeFieldsHandler->create();
+            $obj = $pedigreeFieldsHandler->create();
         }
-
         //Form isActive
-        $obj->setVar('isActive', $_REQUEST['isActive']);
+        $obj->setVar('isActive', XoopsRequest::getInt('isActive', 0, 'POST'));
         //Form FieldName
-        $obj->setVar('FieldName', $_REQUEST['FieldName']);
+        $obj->setVar('FieldName', XoopsRequest::getString('FieldName', '', 'POST'));
         //Form FieldType
-        $obj->setVar('FieldType', $_REQUEST['FieldType']);
+        $obj->setVar('FieldType', XoopsRequest::getString('FieldType', 'textbox', 'POST'));
         //Form LookupTable
-        $obj->setVar('LookupTable', $_REQUEST['LookupTable']);
+        $obj->setVar('LookupTable', XoopsRequest::getString('LookupTable', '', 'POST'));
         //Form DefaultValue
-        $obj->setVar('DefaultValue', $_REQUEST['DefaultValue']);
+        $obj->setVar('DefaultValue', XoopsRequest::getString('DefaultValue', '', 'POST'));
         //Form FieldExplenation
-        $obj->setVar('FieldExplenation', $_REQUEST['FieldExplenation']);
+        $obj->setVar('FieldExplenation', XoopsRequest::getString('FieldExplenation', '', 'POST'));
         //Form HasSearch
-        $obj->setVar('HasSearch', $_REQUEST['HasSearch']);
-        //Form Litter
-        $obj->setVar('Litter', $_REQUEST['Litter']);
-        //Form Generallitter
-        $obj->setVar('Generallitter', $_REQUEST['Generallitter']);
+        $obj->setVar('HasSearch', XoopsRequest::getInt('HasSearch', 0, 'POST'));
+        //Form Litter Types
+        $litterType = XoopsRequest::getString('litterType', 'Generallitter');
+        if ('Litter' === $litterType) {
+            $obj->setVar('Litter', 1);
+            $obj->setVar('Generallitter', 0);
+        } else {
+            $obj->setVar('Litter', 0);
+            $obj->setVar('Generallitter', 1);
+        }
         //Form SearchName
-        $obj->setVar('SearchName', $_REQUEST['SearchName']);
+        $obj->setVar('SearchName', XoopsRequest::getString('SearchName', '', 'POST'));
         //Form SearchExplenation
-        $obj->setVar('SearchExplenation', $_REQUEST['SearchExplenation']);
+        $obj->setVar('SearchExplenation', XoopsRequest::getString('SearchExplenation', '', 'POST'));
         //Form ViewInPedigree
-        $obj->setVar('ViewInPedigree', $_REQUEST['ViewInPedigree']);
+        $obj->setVar('ViewInPedigree', XoopsRequest::getInt('ViewInPedigree', 0, 'POST'));
         //Form ViewInAdvanced
-        $obj->setVar('ViewInAdvanced', $_REQUEST['ViewInAdvanced']);
+        $obj->setVar('ViewInAdvanced', XoopsRequest::getInt('ViewInAdvanced', 1, 'POST'));
         //Form ViewInPie
-        $obj->setVar('ViewInPie', $_REQUEST['ViewInPie']);
+        $obj->setVar('ViewInPie', XoopsRequest::getInt('ViewInPie', 0, 'POST'));
         //Form ViewInList
-        $obj->setVar('ViewInList', $_REQUEST['ViewInList']);
+        $obj->setVar('ViewInList', XoopsRequest::getInt('ViewInList', 0, 'POST'));
         //Form locked
-        $obj->setVar('locked', $_REQUEST['locked']);
+        $obj->setVar('locked', XoopsRequest::getInt('locked', 0, 'POST'));
         //Form order
-        $obj->setVar('order', $_REQUEST['order']);
+        $obj->setVar('order', XoopsRequest::getInt('order', 0, 'POST'));
 
         if ($pedigreeFieldsHandler->insert($obj)) {
             redirect_header('pedigree_config.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
     case 'edit_pedigree_config':
-        echo $adminMenu->addNavigation('pedigree_config.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
         echo $adminMenu->renderButton();
-        $obj  = $pedigreeFieldsHandler->get($_REQUEST['ID']);
+        $obj  = $pedigreeFieldsHandler->get(XoopsRequest::getInt('ID', 0));
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree_config':
-        $obj =& $pedigreeFieldsHandler->get($_REQUEST['ID']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        $obj = $pedigreeFieldsHandler->get($_REQUEST['Id']);
+        if (isset($_REQUEST['ok']) && (1 == $_REQUEST['ok'])) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -184,4 +192,4 @@ switch ($op) {
         }
         break;
 }
-include_once 'admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

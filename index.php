@@ -25,15 +25,15 @@ $xoopsOption['template_main'] = 'pedigree_index.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
+//$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
 
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.magnific-popup.min.js');
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/colpick.js');
 
-$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/js/colpick.css');
-$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/js/magnific-popup.css');
+$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/colpick.css');
+$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
 
-$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox.css');
+//$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/jquery.ThickBox/thickbox.css');
 $xoTheme->addStylesheet(PEDIGREE_URL . '/module.css');
 
 $xoopsTpl->assign('pedigree_url', PEDIGREE_URL . '/');
@@ -46,10 +46,10 @@ $xoopsTpl->assign('module_home', pedigree_module_home(false)); // this definitio
 $xoopsTpl->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 index_main();
 

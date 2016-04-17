@@ -22,7 +22,7 @@
 
 function b_waiting_animal()
 {
-    $xoopsDB =& XoopsDatabaseFactory::getDatabaseConnection();
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
     $ret     = array();
 
     // waiting pedigree_trash

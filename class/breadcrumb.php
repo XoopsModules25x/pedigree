@@ -11,12 +11,11 @@
 /**
  * PedigreeBreadcrumb Class
  *
- * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright   {@link http://xoops.org/ XOOPS Project}
+ * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Pedigree
  * @since       3.23
- * @version     $Id: breadcrumb.php 12277 2014-01-26 01:21:57Z beckmi $
  *
  * Example:
  * $breadcrumb = new PedigreeBreadcrumb();
@@ -25,7 +24,7 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
  * Class PedigreeBreadcrumb
@@ -38,7 +37,7 @@ class PedigreeBreadcrumb
     /**
      *
      */
-    function __construct()
+    public function __construct()
     {
         $this->dirname = basename(dirname(__DIR__));
     }
@@ -49,7 +48,7 @@ class PedigreeBreadcrumb
      * @param string $title
      * @param string $link
      */
-    function addLink($title = '', $link = '')
+    public function addLink($title = '', $link = '')
     {
         $this->bread[] = array(
             'link'  => $link,
@@ -61,10 +60,10 @@ class PedigreeBreadcrumb
      * Render Pedigree BreadCrumb
      *
      */
-    function render()
+    public function render()
     {
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('/class/theme.php');
+            include_once $GLOBALS['xoops']->path('class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
         }
 

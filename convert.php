@@ -20,10 +20,10 @@ require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include
 global $xoopsTpl, $xoopsDB;
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 echo "<form method=\"post\" action=\"convert.php\">convert:<input type=\"text\" name=\"van\">";
 echo "to:<input type=\"text\" name=\"naar\">";

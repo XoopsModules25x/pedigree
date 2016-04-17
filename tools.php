@@ -24,14 +24,14 @@ require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include
 require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname('pedigree');
 if (empty($xoopsUser)) {
     redirect_header('index.php', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
     exit();
 }
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
+//$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
 
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.magnific-popup.min.js');
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/colpick.js');
@@ -47,10 +47,10 @@ echo '<script language="JavaScript" src="picker.js"></script>';
 $form = '';
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 if (isset($_GET['op'])) {
     $op = $_GET['op'];
@@ -171,7 +171,7 @@ switch ($op) {
 $tools[] = array('title' => _MA_PEDIGREE_GENSTTINGS, 'link' => 'tools.php?op=settings', 'main' => '1');
 //if ($moduleConfig['proversion'] == '1')
 //{
-//    $tools[] = array ( 'title' => "Pro-version settings", 'link' => "tools.php?op=pro", 'main' => "1" );
+//	$tools[] = array ( 'title' => "Pro-version settings", 'link' => "tools.php?op=pro", 'main' => "1" );
 //}
 $tools[] = array('title' => _MA_PEDIGREE_LANG_OPTIONS, 'link' => 'tools.php?op=lang', 'main' => '1');
 $tools[] = array('title' => _MA_PEDIGREE_CREATE_USER_FIELD, 'link' => 'tools.php?op=userfields', 'main' => '1');
@@ -966,10 +966,10 @@ function userfields($field = 0)
 function credits()
 {
     global $xoopsTpl;
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname('pedigree');
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname('pedigree');
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
     $form
                     = 'Pedigree database module<br /><br /><li>Programming : James Cotton<br/><li>Design & Layout : Ton van der Hagen<br /><li>Version : ' . round(
             $module->getVar('version') / 100,
@@ -1088,7 +1088,7 @@ function deleted()
     global $xoopsTpl, $xoopsDB, $moduleConfig;
     $form
             = "Below the line are the animals which have been deleted from your database.<br /><br />By clicking on the name you can reinsert them into the database.<br />By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
-    $sql    = 'SELECT ID, NAAM    FROM ' . $xoopsDB->prefix('pedigree_trash');
+    $sql    = 'SELECT ID, NAAM	FROM ' . $xoopsDB->prefix('pedigree_trash');
     $result = $xoopsDB->query($sql);
     while ($row = $xoopsDB->fetchArray($result)) {
         $form

@@ -22,17 +22,17 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', 'Pedigree database - add a litter');
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname('pedigree');
 if (empty($xoopsUser)) {
     redirect_header('index.php', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
     exit();
 }
 
 //get module configuration
-$module_handler =& xoops_gethandler('module');
-$module         =& $module_handler->getByDirname('pedigree');
-$config_handler =& xoops_gethandler('config');
-$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('pedigree');
+$config_handler = xoops_getHandler('config');
+$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
 if (!isset($_GET['f'])) {
     addlitter();
@@ -54,10 +54,10 @@ function addlitter()
     global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsOption;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname('pedigree');
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname('pedigree');
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     //create xoopsform
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -138,13 +138,13 @@ function sire()
     //debug option !
     //print_r($_POST); die();
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname('pedigree');
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname('pedigree');
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     //check for access
-    $xoopsModule =& XoopsModule::getByDirname('pedigree');
+    $xoopsModule = XoopsModule::getByDirname('pedigree');
     if (empty($xoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
         exit();
@@ -388,10 +388,10 @@ function dam()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname('pedigree');
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname('pedigree');
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     if (empty($random)) {
         $random = $_POST['random'];
@@ -567,10 +567,10 @@ function check()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
 
     //get module configuration
-    $module_handler =& xoops_gethandler('module');
-    $module         =& $module_handler->getByDirname('pedigree');
-    $config_handler =& xoops_gethandler('config');
-    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $module_handler = xoops_getHandler('module');
+    $module         = $module_handler->getByDirname('pedigree');
+    $config_handler = xoops_getHandler('config');
+    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     if (empty($random)) {
         $random = $_POST['random'];

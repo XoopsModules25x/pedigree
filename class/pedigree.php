@@ -17,21 +17,20 @@
  * @subpackage      Utils
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: pedigree.php 12841 2014-11-12 13:14:13Z beckmi $
  */
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
  * Class PedigreePedigree
  */
 class PedigreePedigree
 {
-    var $dirname;
-    var $module;
-    var $handler;
-    var $config;
-    var $debug;
-    var $debugArray = array();
+    public $dirname;
+    public $module;
+    public $handler;
+    public $config;
+    public $debug;
+    public $debugArray = array();
 
     /**
      * @param $debug
@@ -47,19 +46,19 @@ class PedigreePedigree
      *
      * @return PedigreePedigree
      */
-    static function &getInstance($debug = false)
+    public static function getInstance($debug = false)
     {
-        static $instance = false;
-        if (!$instance) {
-            $instance = new self($debug);
+        static $instance;
+        if (!isset($instance)) {
+            $instance = new static($debug);
         }
-//error_log("istance: [" . print_r($istance,true) . "]");
-//phpinfo();
-//debug_print_backtrace ();
+        //error_log("istance: [" . print_r($istance,true) . "]");
+        //phpinfo();
+        //debug_print_backtrace ();
         return $instance;
     }
 
-    function &getModule()
+    public function &getModule()
     {
         if ($this->module == null) {
             $this->initModule();
@@ -73,7 +72,7 @@ class PedigreePedigree
      *
      * @return null
      */
-    function getConfig($name = null)
+    public function getConfig($name = null)
     {
         if ($this->config == null) {
             $this->initConfig();
@@ -99,7 +98,7 @@ class PedigreePedigree
      *
      * @return mixed
      */
-    function setConfig($name = null, $value = null)
+    public function setConfig($name = null, $value = null)
     {
         if ($this->config == null) {
             $this->initConfig();
@@ -115,48 +114,48 @@ class PedigreePedigree
      *
      * @return mixed
      */
-    function &getHandler($name)
+    public function &getHandler($name)
     {
-        if (!isset($this->handler[$name . '_handler'])) {
+        if (!isset($this->handler[$name . 'Handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name . '_handler'];
+        return $this->handler[$name . 'Handler'];
     }
 
-    function initModule()
+    public function initModule()
     {
         global $xoopsModule;
         if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
         } else {
-            $hModule      = xoops_gethandler('module');
+            $hModule      = xoops_getHandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
     }
 
-    function initConfig()
+    public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig   = xoops_gethandler('config');
+        $hModConfig   = xoops_getHandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
     /**
      * @param $name
      */
-    function initHandler($name)
+    public function initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
-        $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
+        $this->handler[$name . 'Handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
     /**
      * @param $log
      */
-    function addLog($log)
+    public function addLog($log)
     {
         if ($this->debug) {
             if (is_object($GLOBALS['xoopsLogger'])) {

@@ -9,15 +9,13 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * xdirectory module for xoops
+ * Pedigree module for xoops
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       {@link http://xoops.org/ XOOPS Project}
  * @license         GPL 2.0 or later
- * @package         xdirectory
- * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: const_entete.php 9860 2012-07-13 10:41:41Z txmodxoops $
+ * @package         pedigree
+ * @since
+ * @author          XOOPS Module Dev Team (http://xoops.org)
  */
 
 include_once __DIR__ . '/admin_header.php';
@@ -30,9 +28,9 @@ if (!empty($_POST['submit'])) {
 }
 
 $permissions_admin = new ModuleAdmin();
-echo $permissions_admin->addNavigation('permissions.php');
+echo $permissions_admin->addNavigation(basename(__FILE__));
 
-$permission                = animal_CleanVars($_POST, 'permission', 1, 'int');
+$permission                = XoopsRequest::getInt('permission', 1, 'POST');
 $selected                  = array('', '', '');
 $selected[$permission - 1] = ' selected';
 
@@ -72,11 +70,11 @@ switch ($permission) {
 }
 
 $permform = new XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, 'admin/permissions.php');
-//    $xdir_cat_Handler=& xoops_getModuleHandler('xdirectory_xdir_cat', $xoopsModule->getVar("dirname"));
+//    $xdir_catHandler= xoops_getModuleHandler('xdirectory_xdir_cat', $xoopsModule->getVar("dirname"));
 $criteria = new CriteriaCompo();
 $criteria->setSort('title');
 $criteria->setOrder('ASC');
-//    $xdir_cat_arr = $xdir_cat_Handler->getObjects($criteria);
+//    $xdir_cat_arr = $xdir_catHandler->getObjects($criteria);
 
 //foreach (array_keys($xdir_cat_arr) as $xdir_cat_id => $xdir_cat)
 foreach (array_keys($xdir_cat_arr) as $i) {
@@ -85,6 +83,6 @@ foreach (array_keys($xdir_cat_arr) as $i) {
 }
 echo $permform->render();
 echo "<br /><br /><br /><br />\n";
-unset ($permform);
+unset($permform);
 
 include_once __DIR__ . '/admin_footer.php';

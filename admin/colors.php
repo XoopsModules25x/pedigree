@@ -1,22 +1,16 @@
 <?php
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
 
-if (file_exists('../language/' . $xoopsConfig['language'] . '/modinfo.php')) {
-    include_once '../language/' . $xoopsConfig['language'] . '/modinfo.php';
-} else {
-    include_once '../language/english/modinfo.php';
-}
 require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php');
 
 xoops_cp_header();
 
-global $xoopsDB;
-
 if (!isset($_GET['c'])) {
-    $SQL    = 'SELECT conf_value from ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'pedigreeColours'";
-    $result = $xoopsDB->query($SQL);
-    while ($row = $xoopsDB->fetchArray($result)) {
+    $SQL    = 'SELECT conf_value from ' . $GLOBALS['xoopsDB']->prefix('config') . " WHERE conf_name = 'pedigreeColours'";
+    $result = $GLOBALS['xoopsDB']->query($SQL);
+    while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $c = $row['conf_value'];
     }
 } else {
@@ -111,7 +105,7 @@ echo '
         <td width="25%" rowspan="4" style=" background-color: #' . $femaleBackColour . '; color: #' . $femaleTextColour . '; font-family: ' . $femaleTextFont . '; font-size: ' . $femaleTextSize . '; font-style: ' . $femaleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="mothercell4">
             Mother
         </td>
-        <!- mother father -->
+        <!-- mother father -->
         <td width="25%" rowspan="2" style=" background-color: #' . $maleBackColour . '; color: #' . $maleTextColour . '; font-family: ' . $maleTextFont . '; font-size: ' . $maleTextSize . '; font-style: ' . $maleTextStyle . '; border-style: ' . $borderStyle . '; border-color: #' . $borderColour . '; border-width: ' . $borderWidth . 'px;" id="fathercell5">
             Mother Father
         </td>

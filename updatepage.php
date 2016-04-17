@@ -20,7 +20,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', 'Pedigree database - Update details');
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname('pedigree');
 if (empty($xoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
     exit();
@@ -41,6 +41,10 @@ $field   = $_POST['dbfield'];
 $dogname = $_POST['curname'];
 $name    = $_POST['NAAM'];
 $gender  = $_POST['roft'];
+
+if ('pedigree_' !== substr($table, 0, 9)) {
+    redirect_header(XOOPS_URL, 3, _NOPERM);
+}
 
 $a      = (!isset($_POST['dogid']) ? $a = '' : $a = $_POST['dogid']);
 $animal = new Animal($a);

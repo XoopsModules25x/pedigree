@@ -10,14 +10,13 @@
  */
 
 /**
- * @copyright    XOOPS Project (http://xoops.org)
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
+ * @copyright    {@link http://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package      pedigree
  * @since
- * @author       XOOPS Development Team
+ * @author       XOOPS Module Dev Team
  */
 
-echo "<div class='adminfooter'>\n" . "  <div style='text-align: center;'>\n" . "    <a href='http://xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" 
-    . "  </div>\n" . '  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" . '</div>';
+echo "<div class='adminfooter'>\n" . "  <div class='txtcenter'>\n" . "    <a href='http://www.xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" . "  </div>\n" . '  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" . '</div>';
 
 xoops_cp_footer();

@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
-//    Template
-//        Copyright 2004 Thomas Hill
-//        <a href="http://www.worldware.com">worldware.com</a>
+//	pedigree
+//		Copyright 2004, James Cotton
+// 		http://www.dobermannvereniging.nl
+//	Template
+//		Copyright 2004 Thomas Hill
+//		<a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //

@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
-//    Template
-//        Copyright 2004 Thomas Hill
-//        <a href="http://www.worldware.com">worldware.com</a>
+//  pedigree
+//      Copyright 2004, James Cotton
+//      http://www.dobermannvereniging.nl
+//  Template
+//      Copyright 2004 Thomas Hill
+//      <a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -44,9 +44,9 @@
 // $adminmenu[1]['title'] = "Create colours";
 
 $dirname        = basename(dirname(__DIR__));
-$module_handler =& xoops_gethandler('module');
-$xoopsModule    =& XoopsModule::getByDirname($dirname);
-$moduleInfo     =& $module_handler->get($xoopsModule->getVar('mid'));
+$moduleHandler = xoops_getHandler('module');
+$xoopsModule    = XoopsModule::getByDirname($dirname);
+$moduleInfo     = $moduleHandler->get($xoopsModule->getVar('mid'));
 $pathIcon32     = $moduleInfo->getInfo('icons32');
 $adminmenu      = array();
 

@@ -93,28 +93,26 @@ class PedigreeFields extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPIE, 'ViewInPie', 50, 255, $this->getVar('ViewInPie')), false);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINLIST, 'ViewInList', 50, 255, $this->getVar('ViewInList')), false);
 
-//            include_once(XOOPS_ROOT_PATH."/class/tree.php");
-//            $Handler =& xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
-//            $criteria = new CriteriaCompo();
+//			include_once(XOOPS_ROOT_PATH."/class/tree.php");
+//			$Handler = xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
+//			$criteria = new CriteriaCompo();
 //            $criteria->setSort('_id');
 //            $criteria->setOrder('ASC');
-//            $_arr = $Handler->getall();
-//            $mytree = new XoopsObjectTree($_arr, "_id", "_pid");
-//            $form->addElement(new XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
+//			$_arr = $Handler->getall();
+//			$mytree = new XoopsObjectTree($_arr, "_id", "_pid");
+//			$form->addElement(new XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
 //
-//            include_once(XOOPS_ROOT_PATH."/class/tree.php");
-//            $Handler =& xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
-//            $criteria = new CriteriaCompo();
+//			include_once(XOOPS_ROOT_PATH."/class/tree.php");
+//			$Handler = xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
+//			$criteria = new CriteriaCompo();
 //            $criteria->setSort('_id');
 //            $criteria->setOrder('ASC');
-//            $_arr = $Handler->getall();
-//            $mytree = new XoopsObjectTree($_arr, "_id", "_pid");
-//            $form->addElement(new XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_ORDER, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
+//			$_arr = $Handler->getall();
+//			$mytree = new XoopsObjectTree($_arr, "_id", "_pid");
+//			$form->addElement(new XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_ORDER, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
 
         include_once(XOOPS_ROOT_PATH . '/class/tree.php');
-//      $Handler =& xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
-        $Handler =& xoops_getModuleHandler('fields', $xoopsModule->getVar('dirname'));
-//        $Handler = & $pedigreeFieldsHandler;
+        $Handler = xoops_getModuleHandler('fields', $xoopsModule->getVar('dirname'));
         $criteria = new CriteriaCompo();
         $criteria->setSort('_id');
         $criteria->setOrder('ASC');

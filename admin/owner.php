@@ -9,24 +9,26 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * animal module for xoops
+ * Pedigree module for XOOPS
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (http://xoops.org)
  * @license         GPL 2.0 or later
- * @package         animal
+ * @package         pedigree
  * @since           2.5.x
  * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: owner.php 12277 2014-01-26 01:21:57Z beckmi $
  */
 
-include_once 'admin_header.php';
+include_once __DIR__ . '/admin_header.php';
+
+xoops_cp_header();
+$adminMenu = new ModuleAdmin();
+
 //It recovered the value of argument op in URL$
-$op = animal_CleanVars($_REQUEST, 'op', 'list', 'string');
+$op = XoopsRequest::getCmd('op', 'list');
 switch ($op) {
     case 'list':
     default:
-        echo $adminMenu->addNavigation('owner.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
         echo $adminMenu->renderButton('left');
         $criteria = new CriteriaCompo();
@@ -58,7 +60,7 @@ switch ($op) {
             foreach (array_keys($owner_arr) as $i) {
                 if ($owner_arr[$i]->getVar('owner_pid') == 0) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class == 'even') ? 'odd' : 'even';
+                    $class = ($class === 'even') ? 'odd' : 'even';
                     echo "<td align=\"center\">" . $owner_arr[$i]->getVar('firstname') . '</td>';
                     echo "<td align=\"center\">" . $owner_arr[$i]->getVar('lastname') . '</td>';
                     echo "<td align=\"center\">" . $owner_arr[$i]->getVar('postcode') . '</td>';
@@ -83,11 +85,11 @@ switch ($op) {
         break;
 
     case 'new_owner':
-        echo $adminMenu->addNavigation('owner.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
-        $obj  =& $pedigreeOwnerHandler->create();
+        $obj  = $pedigreeOwnerHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -97,9 +99,9 @@ switch ($op) {
             redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['ID'])) {
-            $obj =& $pedigreeOwnerHandler->get($_REQUEST['ID']);
+            $obj = $pedigreeOwnerHandler->get($_REQUEST['ID']);
         } else {
-            $obj =& $pedigreeOwnerHandler->create();
+            $obj = $pedigreeOwnerHandler->create();
         }
 
         //Form firstname
@@ -128,12 +130,12 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
     case 'edit_owner':
-        echo $adminMenu->addNavigation('owner.php');
+        echo $adminMenu->addNavigation(basename(__FILE__));
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
         $adminMenu->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         echo $adminMenu->renderButton();
@@ -143,7 +145,7 @@ switch ($op) {
         break;
 
     case 'delete_owner':
-        $obj =& $pedigreeOwnerHandler->get($_REQUEST['ID']);
+        $obj = $pedigreeOwnerHandler->get($_REQUEST['ID']);
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -158,4 +160,4 @@ switch ($op) {
         }
         break;
 }
-include_once 'admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

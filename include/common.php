@@ -65,7 +65,7 @@ if (is_object($pedigree->getModule())) {
 }
 
 // Load Xoops handlers
-$module_handler       = xoops_gethandler('module');
-$member_handler       = xoops_gethandler('member');
-$notification_handler = &xoops_gethandler('notification');
-$gperm_handler        = xoops_gethandler('groupperm');
+$module_handler       = xoops_getHandler('module');
+$member_handler       = xoops_getHandler('member');
+$notification_handler = xoops_getHandler('notification');
+$gperm_handler        = xoops_getHandler('groupperm');

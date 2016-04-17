@@ -22,7 +22,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
 
 //check for access
-$xoopsModule =& XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname('pedigree');
 if (empty($xoopsUser)) {
     redirect_header('index.php', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
     exit();
@@ -37,7 +37,7 @@ function check()
 {
     global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsModuleConfig;
     //check for access
-    $xoopsModule =& XoopsModule::getByDirname('pedigree');
+    $xoopsModule = XoopsModule::getByDirname('pedigree');
     if (empty($xoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
         exit();
@@ -55,7 +55,7 @@ function check()
 
 global $xoopsTpl, $xoopsUser, $xoopsDB;
 //check for access
-$xoopsModule =& XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname('pedigree');
 if (empty($xoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
     exit();
