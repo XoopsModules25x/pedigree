@@ -31,7 +31,7 @@ function menu_block()
     $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
     //colour variables
-    $colors  = explode(";", $moduleConfig['colourscheme']);
+    /*
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -40,6 +40,8 @@ function menu_block()
     $head    = $colors[5];
     $body    = $colors[6];
     $title   = $colors[7];
+    */
+    $colors  = explode(";", $moduleConfig['colourscheme']);
 /* WTF - WHY is this in a block???????
 //inline-css
     echo "<style>";

@@ -212,11 +212,11 @@ function sire()
         }
         //insert into pedigree_temp
         $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_temp") . " VALUES ('"
-            . XoopsRequest::getInt($random) . "','"
-            . XoopsRequest::getInt(unhtmlentities($name)) . "','0','"
-            . XoopsRequest::getInt($id_breeder) . "','"
-            . XoopsRequest::getInt($userid) . "','"
-            . XoopsRequest::getInt($roft) . "','','','', ''";
+            . $xoopsDB->escape($random) . "','"
+            . $xoopsDB->escape(unhtmlentities($name)) . "','0','"
+            . $xoopsDB->escape($id_breeder) . "','"
+            . $xoopsDB->escape($userid) . "','"
+            . $xoopsDB->escape($roft) . "','','','', ''";
         for ($i = 0; $i < count($fields); ++$i) {
             $userfield   = new Field($fields[$i], $animal->getconfig());
             $fieldType   = $userfield->getSetting("FieldType");
