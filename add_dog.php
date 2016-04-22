@@ -102,9 +102,10 @@ function checkname()
     $config_handler = xoops_getHandler('config');
     $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
-    $name = $_POST['NAAM'];
+    $name = XoopsRequest::getString('NAAM', '', 'post');
     //query
-    $queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE NAAM LIKE'%" . $name . "%' ORDER BY NAAM";
+    $queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE NAAM LIKE'%"
+        . $xoopsDB->escape($name) . "%' ORDER BY NAAM";
     $result      = $xoopsDB->query($queryString);
     $numresults  = $xoopsDB->getRowsNum($result);
     if ($numresults >= 1 && !(isset($_GET['r']))) {
@@ -281,8 +282,15 @@ function sire()
 
         //insert into pedigree_temp
         $query
-            = "INSERT INTO " . $xoopsDB->prefix("pedigree_temp") . " VALUES ('" . $random . "','" . unhtmlentities($name) . "','" . $id_owner . "','" . $id_breeder . "','" . $user . "','" . $roft
-            . "','','','" . $foto . "', ''" . $usersql . ")";
+            = "INSERT INTO " . $xoopsDB->prefix("pedigree_temp") . " VALUES ('"
+            . $xoopsDB->escape($random) . "','"
+            . $xoopsDB->escape(unhtmlentities($name)) . "','"
+            . $xoopsDB->escape($id_owner) . "','"
+            . $xoopsDB->escape($id_breeder) . "','"
+            . $xoopsDB->escape($user) . "','"
+            . $xoopsDB->escape($roft) . "','','','"
+            . $xoopsDB->escape($foto) . "', ''"
+            . $usersql . ")";
         //echo $query; die();
         $xoopsDB->query($query);
         redirect_header("add_dog.php?f=sire&random=" . $random . "&st=" . $st . "&r=1&l=a", 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, array('[father]' => $moduleConfig['father'])));
@@ -457,29 +465,16 @@ function dam()
         redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
         exit();
     }
-    if (empty($random)) {
-        $random = isset($_POST['random']) ? $_POST['random'] : null;
-    }
-    if (isset($_GET['random'])) {
-        $random = $_GET['random'];
-    }
-    if (empty($st)) {
-        $st = 0;
-    }
-    if (isset($_GET['st'])) {
-        $st = $_GET['st'];
-    }
+    $random = XoopsRequest::getInt('random', 0);
+    $st = XoopsRequest::getInt('st', 0, 'get');
     //find letter on which to start else set to 'a'
-    if (isset($_GET['l'])) {
-        $l = $_GET['l'];
-    } else {
-        $l = "a";
-    }
+    $l = XoopsRequest::getString('l', 'a', 'get');
     //make the redirect
     if (!isset($_GET['r'])) {
         //insert into pedigree_temp
-        $query = "UPDATE " . $xoopsDB->prefix("pedigree_temp") . " SET father =" . $_GET['selsire'] . " WHERE ID=" . $random;
-        $xoopsDB->queryf($query);
+        $query = "UPDATE " . $xoopsDB->prefix("pedigree_temp") . " SET father ="
+            . XoopsRequest::getInt('selsire', 0, 'get') . " WHERE ID=" . $random;
+        $xoopsDB->queryF($query);
         redirect_header("add_dog.php?f=dam&random=" . $random . "&st=" . $st . "&r=1&l=a", 1, strtr(_MA_PEDIGREE_ADD_SIREOK, array('[mother]' => $moduleConfig['mother'])));
     }
 
@@ -669,8 +664,15 @@ function check()
         }
         //insert into pedigree
         $query
-            = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES ('','" . addslashes($row['NAAM']) . "','" . $row['id_owner'] . "','" . $row['id_breeder'] . "','" . $row['user'] . "','"
-            . $row['roft'] . "','" . $_GET['seldam'] . "','" . $row['father'] . "','" . addslashes($row['foto']) . "',''" . $usersql . ")";
+            = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES ('','"
+            . $xoopsDB->escape($row['NAAM']) . "','"
+            . $xoopsDB->escape($row['id_owner']) . "','"
+            . $xoopsDB->escape($row['id_breeder']) . "','"
+            . $xoopsDB->escape($row['user']) . "','"
+            . $xoopsDB->escape($row['roft']) . "','"
+            . $xoopsDB->escape($_GET['seldam']) . "','"
+            . $xoopsDB->escape($row['father']) . "','"
+            . $xoopsDB->escape($row['foto']) . "',''" . $usersql . ")";
         $xoopsDB->queryF($query);
         //echo $query; die();
     }

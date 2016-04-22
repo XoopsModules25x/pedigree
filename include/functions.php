@@ -27,12 +27,15 @@
 // Site: http://www.chapi.de                                                 //
 // Project: The XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/config.php");
+
+XoopsLoad::load('xoopsrequest');
+$dirname = basename(dirname(__DIR__));
+require_once(XOOPS_ROOT_PATH . "/modules/" . $dirname . "/include/class_field.php");
+require_once(XOOPS_ROOT_PATH . "/modules/" . $dirname . "/include/config.php");
 
 //get module configuration
 $module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname("pedigree");
+$module         = $module_handler->getByDirname($dirname);
 $config_handler = xoops_getHandler('config');
 $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 

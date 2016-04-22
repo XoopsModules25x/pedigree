@@ -4,15 +4,16 @@
 //		Copyright 2004, James Cotton
 // 		http://www.dobermannvereniging.nl
 
+$dirname = basename(dirname(__DIR__));
 // Include any constants used for internationalizing templates.
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
+if (file_exists(XOOPS_ROOT_PATH . "/modules/{$dirname}/language/{$xoopsConfig['language']}/main.php")) {
+    require_once XOOPS_ROOT_PATH . "/modules/{$dirname}/language/{$xoopsConfig['language']}/main.php";
 } else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
+    include_once XOOPS_ROOT_PATH . "/modules/{$dirname}/language/english/main.php";
 }
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once(XOOPS_ROOT_PATH . "/modules/{$dirname}/include/class_field.php");
+require_once(XOOPS_ROOT_PATH . "/modules/{$dirname}/include/functions.php");
 
 /**
  * @return XoopsTpl
@@ -21,9 +22,11 @@ function menu_block()
 {
     global $xoopsTpl, $xoopsUser, $apppath;
 
+    $dirname = basename(dirname(__DIR__));
+
     //get module configuration
     $module_handler = xoops_getHandler('module');
-    $module         = $module_handler->getByDirname("pedigree");
+    $module         = $module_handler->getByDirname($dirname);
     $config_handler = xoops_getHandler('config');
     $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -37,11 +40,12 @@ function menu_block()
     $head    = $colors[5];
     $body    = $colors[6];
     $title   = $colors[7];
+/* WTF - WHY is this in a block???????
 //inline-css
     echo "<style>";
 //text-colour
     echo "body {margin: 0;padding: 0;background: " . $body . ";color: " . $text
-        . ";font-size: 62.5%; /* <-- Resets 1em to 10px */font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; text-align: left;}";
+        . ";font-size: 62.5%; font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; text-align: left;}";
 //link-colour
     echo "a, h2 a:hover, h3 a:hover { color: " . $actlink . "; text-decoration: none; }";
 //link hover colour
@@ -58,12 +62,11 @@ function menu_block()
     echo ".odd {background-color: " . $odd . "; padding: 3px;}";
     echo "tr.odd td {background-color: " . $odd . "; padding: 3px;}";
     echo "</style>";
-
+*/
     //iscurrent user a module admin ?
     $modadmin    = false;
-    $xoopsModule = XoopsModule::getByDirname("pedigree");
     if (!empty($xoopsUser)) {
-        if ($xoopsUser->isAdmin($xoopsModule->mid())) {
+        if ($xoopsUser->isAdmin($module->mid())) {
             $modadmin = true;
         }
     }
@@ -204,6 +207,7 @@ function menu_block()
 
     //create path taken
     //showpath();
+    $xoopsTpl->assign("modulename", $dirname);
     $xoopsTpl->assign("menuarray", $menuarray);
     //return the template contents
     return $xoopsTpl;

@@ -25,8 +25,9 @@ $colourString
         1
     );
 
-$sql = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value='" . $colourString . "' WHERE conf_name = 'pedigreeColours'";
-$xoopsDB->queryf($sql);
+$sql = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value='" .
+    $xoopsDB->escape($colourString) . "' WHERE conf_name = 'pedigreeColours'";
+$xoopsDB->queryF($sql);
 redirect_header("colors.php", 3, 'Your settings have been saved...');
 
 xoops_cp_footer();

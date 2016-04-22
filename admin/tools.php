@@ -273,7 +273,7 @@ function restore($id)
     while ($row = $xoopsDB->fetchArray($result)) {
 
         foreach ($row as $key => $values) {
-            $queryvalues .= "'" . $values . "',";
+            $queryvalues .= "'" . $xoopsDB->escape($values) . "',";
         }
         $outgoing = substr_replace($queryvalues, "", -1);
         $query    = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES (" . $outgoing . ")";
@@ -355,7 +355,8 @@ function settingssave()
     $settings = array('perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups');
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
-            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";
+            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" .
+                $xoopsDB->escape($values) . "' WHERE conf_name = '" . $xoopsDB->escape($key) . "'";
             $xoopsDB->query($query);
         }
     }
@@ -427,7 +428,8 @@ function langsave()
     $settings = array('animalType', 'animalTypes', 'male', 'female', 'children', 'mother', 'father', 'litter', 'welcome');
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
-            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";
+            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" 
+                . $xoopsDB->escape($values) . "' WHERE conf_name = '" . $xoopsDB->escape($key) . "'";
             $xoopsDB->query($query);
         }
     }

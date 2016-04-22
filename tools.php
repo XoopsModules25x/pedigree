@@ -357,7 +357,8 @@ function savecolours()
 
     $col = $_POST['actlink'] . ";" . $_POST['even'] . ";#" . $female . ";" . $_POST['text'] . ";#" . $dark . ";#" . $head . ";" . $_POST['body'] . ";" . $_POST['actlink'];
 
-    $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" . $col . "' WHERE conf_name = 'colourscheme'";
+    $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '"
+        . $xoopsDB->escape($col) . "' WHERE conf_name = 'colourscheme'";
     $xoopsDB->query($query);
     redirect_header("tools.php?op=colours", 1, "Your settings have been saved.");
 }
@@ -456,6 +457,7 @@ function togglelocked($field)
 function lock($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET locked = '1' WHERE ID = '" . $field . "'";
     $xoopsDB->queryF($sql);
 
@@ -468,6 +470,7 @@ function lock($field)
 function unlock($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET locked = '0' WHERE ID = '" . $field . "'";
     $xoopsDB->queryF($sql);
 
@@ -520,6 +523,7 @@ function fieldmove($field, $move)
 function deluserfield($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET isActive = '0' WHERE ID = " . $field;
     $xoopsDB->queryF($sql);
     listuserfields();
@@ -531,6 +535,7 @@ function deluserfield($field)
 function restoreuserfield($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET isActive = '1' WHERE ID = " . $field;
     $xoopsDB->queryF($sql);
     listuserfields();
@@ -610,9 +615,9 @@ function lookupmove($field, $id, $move)
         $nextid    = $values[$arraylocation - 1]['id'];
         $nextorder = $values[$arraylocation - 1]['orderof'];
     }
-    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $nextorder . "' WHERE `ID` = '" . $id . "'";
+    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $nextorder . "' WHERE `ID` = '" . (int) $id . "'";
     $xoopsDB->queryF($sql);
-    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $currentorder . "' WHERE `ID` = '" . $nextid . "'";
+    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $currentorder . "' WHERE `ID` = '" . (int) $nextid . "'";
     $xoopsDB->queryF($sql);
     editlookup($field);
 }
@@ -641,7 +646,8 @@ function editlookupvalue($field, $id)
 function savelookupvalue($field, $id)
 {
     global $xoopsDB;
-    $SQL = "UPDATE " . $xoopsDB->prefix("pedigree_lookup" . $field) . " SET value = '" . $_POST['value'] . "' WHERE ID = " . $id;
+    $value = $xoopsDB->escape(XoopsRequest::getString('value', '', 'post'));
+    $SQL = "UPDATE " . $xoopsDB->prefix("pedigree_lookup" . $field) . " SET value = '" . $value . "' WHERE ID = " . $id;
     $xoopsDB->queryF($SQL);
     redirect_header("tools.php?op=editlookup&id=" . $field, 2, "The value has been saved.");
 }
@@ -658,7 +664,7 @@ function dellookupvalue($field, $id)
     $userfield   = new Field($field, $animal->getconfig());
     $fieldType   = $userfield->getSetting("FieldType");
     $fieldobject = new $fieldType($userfield, $animal);
-    $default     = $fieldobject->defaultvalue;
+    $default     = $xoopsDB->escape($fieldobject->defaultvalue);
     if ($default == $id) {
         redirect_header("tools.php?op=editlookup&id=" . $field, 3, _MA_PEDIGREE_NO_DELETE . $fieldobject->fieldname);
     }
@@ -1132,7 +1138,7 @@ function restore($id)
     while ($row = $xoopsDB->fetchArray($result)) {
 
         foreach ($row as $key => $values) {
-            $queryvalues .= "'" . $values . "',";
+            $queryvalues .= "'" . $xoopsDB->escape($values) . "',";
         }
         $outgoing = substr_replace($queryvalues, "", -1);
         $query    = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES (" . $outgoing . ")";
@@ -1201,7 +1207,9 @@ function settingssave()
     $settings = array('perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups', 'showwelcome');
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
-            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";
+            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" 
+                . $xoopsDB->escape($values) . "' WHERE conf_name = '" 
+                . $xoopsDB->escape($key) . "'";
             $xoopsDB->query($query);
         }
     }

@@ -149,20 +149,12 @@ function sire()
         redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
         exit();
     }
-    $userid = $_POST['userid'];
-    if (empty($random)) {
-        $random = $_POST['random'];
-    }
-    if (isset($_GET['random'])) {
-        $random = $_GET['random'];
-    }
-    if (empty($st)) {
-        $st = 0;
-    }
-    if (isset($_GET['st'])) {
-        $st = $_GET['st'];
-    }
+    $userid = XoopsRequest::getInt('userid', 0, 'post');
+    $random = XoopsRequest::getInt('random', 0);
+    $st = XoopsRequest::getInt('st', 0);
     $userfields = "";
+    $name = '';
+    $roft = '';
     for ($count = 1; $count < 11; ++$count) {
         $namelitter = "name" . $count;
         $roftlitter = "roft" . $count;
@@ -219,7 +211,12 @@ function sire()
             $user{$fields[$i]} = $withinfield;
         }
         //insert into pedigree_temp
-        $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_temp") . " VALUES ('" . $random . "','" . unhtmlentities($name) . "','0','" . $id_breeder . "','" . $userid . "','" . $roft . "','','','', ''";
+        $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_temp") . " VALUES ('"
+            . XoopsRequest::getInt($random) . "','"
+            . XoopsRequest::getInt(unhtmlentities($name)) . "','0','"
+            . XoopsRequest::getInt($id_breeder) . "','"
+            . XoopsRequest::getInt($userid) . "','"
+            . XoopsRequest::getInt($roft) . "','','','', ''";
         for ($i = 0; $i < count($fields); ++$i) {
             $userfield   = new Field($fields[$i], $animal->getconfig());
             $fieldType   = $userfield->getSetting("FieldType");
@@ -234,11 +231,7 @@ function sire()
         redirect_header("add_litter.php?f=sire&random=" . $random . "&st=" . $st . "&r=1&l=a", 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, array('[father]' => $moduleConfig['father'])));
     }
     //find letter on which to start else set to 'a'
-    if (isset($_GET['l'])) {
-        $l = $_GET['l'];
-    } else {
-        $l = "a";
-    }
+    $l = XoopsRequest::getString('l', 'a', 'get');
     //assign 'sire' to the template
     $xoopsTpl->assign("sire", "1");
     //create list of males dog to select from
@@ -393,37 +386,25 @@ function dam()
     $config_handler = xoops_getHandler('config');
     $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
-    if (empty($random)) {
-        $random = $_POST['random'];
-    }
-    if (isset($_GET['random'])) {
-        $random = $_GET['random'];
-    }
-    if (empty($st)) {
-        $st = 0;
-    }
-    if (isset($_GET['st'])) {
-        $st = $_GET['st'];
-    }
+    $random = XoopsRequest::getInt('random', 0);
+    $st = XoopsRequest::getInt('st', 0, 'get');
     //make the redirect
     if (!isset($_GET['r'])) {
         //insert into pedigree_temp
-        $query = "UPDATE " . $xoopsDB->prefix("pedigree_temp") . " SET father =" . $_GET['selsire'] . " WHERE ID=" . $random;
-        $xoopsDB->queryf($query);
+        $query = "UPDATE " . $xoopsDB->prefix("pedigree_temp") . " SET father ="
+            . XoopsRequest::getInt('selsire', 0, 'get') . " WHERE ID=" . $random;
+        $xoopsDB->queryF($query);
         redirect_header("add_litter.php?f=dam&random=" . $random . "&st=" . $st . "&r=1", 1, strtr(_MA_PEDIGREE_ADD_SIREOK, array('[mother]' => $moduleConfig['mother'])));
     }
     //find letter on which to start else set to 'a'
-    if (isset($_GET['l'])) {
-        $l = $_GET['l'];
-    } else {
-        $l = "a";
-    }
+    $l = XoopsRequest::getString('l', 'a', 'get');
     //assign sire to the template
     $xoopsTpl->assign("sire", "1");
     //create list of males dog to select from
-    $perp = $moduleConfig['perpage'];
+    $perp = (int) $moduleConfig['perpage'];
     //count total number of dogs
-    $numdog = "SELECT ID from " . $xoopsDB->prefix("pedigree_tree") . " WHERE roft='1' and NAAM LIKE '" . $l . "%'";
+    $numdog = "SELECT ID from " . $xoopsDB->prefix("pedigree_tree") . " WHERE roft='1' and NAAM LIKE '"
+        . $xoopsDB->escape($l) . "%'";
     $numres = $xoopsDB->query($numdog);
     //total number of dogs the query will find
     $numresults = $xoopsDB->getRowsNum($numres);
@@ -581,6 +562,7 @@ function check()
     //query
     $queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_temp") . " WHERE ID = " . $random;
     $result      = $xoopsDB->query($queryString);
+    $seldam = XoopsRequest::getInt('seldam', 0, 'get');
     while ($row = $xoopsDB->fetchArray($result)) {
         //pull data apart.
         if ($row['NAAM'] !== "") {
@@ -589,8 +571,13 @@ function check()
             for ($c = 1; $c < count($names); ++$c) {
                 $query
                     =
-                    "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES ('','" . addslashes($names[$c]) . "','0','" . $row['id_breeder'] . "','" . $row['user'] . "','" . $genders[$c] . "','"
-                    . $_GET['seldam'] . "','" . $row['father'] . "','',''";
+                    "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES ('','"
+                    . $xoopsDB->escape($names[$c]) . "','0','"
+                    . $xoopsDB->escape($row['id_breeder']) . "','"
+                    . $xoopsDB->escape($row['user']) . "','"
+                    . $xoopsDB->escape($genders[$c]) . "','"
+                    . $xoopsDB->escape($seldam) . "','"
+                    . $xoopsDB->escape($row['father']) . "','',''";
                 //create animal object
                 $animal = new Animal();
                 //test to find out how many user fields there are..
@@ -603,7 +590,7 @@ function check()
                 }
                 //insert into pedigree
                 $query .= ");";
-                $xoopsDB->queryf($query);
+                $xoopsDB->queryF($query);
             }
 
         }

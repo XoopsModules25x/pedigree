@@ -57,22 +57,29 @@ function save()
             } else {
                 $newvalue = uploadedpict(0);
             }
-            $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET user" . $fields[$i] . "='" . $newvalue . "' WHERE ID='" . $a . "'";
+            $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET user" . $fields[$i] . "='" . $xoopsDB->escape($newvalue) . "' WHERE ID='" . $a . "'";
             $xoopsDB->queryF($sql);
         }
     }
-    $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET NAAM = '" . $_POST['NAAM'] . "', roft = '" . $_POST['roft'] . "' WHERE ID='" . $a . "'";
+    $NAAM = XoopsRequest::getString('NAAM', '', 'post');
+    $roft = XoopsRequest::getString('roft', '', 'post');
+    $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET NAAM = '" 
+        . $xoopsDB->escape($NAAM) . "', roft = '" 
+        . $xoopsDB->escape($roft) . "' WHERE ID='" . $a . "'";
     $xoopsDB->queryF($sql);
     $picturefield = $_FILES['photo']['name'];
     if (empty($picturefield) || $picturefield == "") {
         //llalalala
     } else {
         $foto = uploadedpict(0);
-        $sql  = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET foto='" . $foto . "' WHERE ID='" . $a . "'";
+        $sql  = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET foto='" 
+            . $xoopsDB->escape($foto) . "' WHERE ID='" . $a . "'";
     }
     $xoopsDB->queryF($sql);
     if ($moduleConfig['ownerbreeder'] == '1') {
-        $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET id_owner = '" . $_POST['id_owner'] . "', id_breeder = '" . $_POST['id_breeder'] . "' WHERE ID='" . $a . "'";
+        $sql = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET id_owner = '" 
+            . XoopsRequest::getInt('id_owner', 0, 'post') . "', id_breeder = '" 
+            . XoopsRequest::getInt('id_breeder', 0, 'post') . "' WHERE ID='" . $a . "'";
         $xoopsDB->queryF($sql);
     }
     redirect_header("dog.php?id=" . $a, 2, "Your changes have been saved");

@@ -415,12 +415,22 @@ class CheckoutWizard extends ZervWizard
             }
 
             //Insert new record into pedigree_config
-            $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_fields") . " VALUES ('" . $nextfieldnum . "', '1', '" . htmlSpecialChars(
-                    $this->getValue('name')
-                ) . "', '" . $this->getValue('fieldtype') . "', '" . $lookup . "', '" . $this->getValue('defaultvalue') . "', '" . $this->getValue(
-                    'explain'
-                ) . "', '" . $search . "', '" . $Litter . "', '" . $Generallitter . "', '" . $searchname . "', '" . $searchexplain . "', '" . $viewinpedigree . "', '" . $viewinadvanced . "', '"
-                . $viewinpie . "', '" . $viewinlist . "','','" . $nextfieldnum . "')";
+            $sql = "INSERT INTO " . $xoopsDB->prefix("pedigree_fields") . " VALUES ('" . $nextfieldnum . "', '1', '" 
+                . $xoopsDB->escape(htmlSpecialChars($this->getValue('name'))) . "', '" 
+                . $xoopsDB->escape($this->getValue('fieldtype')) . "', '" 
+                . $xoopsDB->escape($lookup) . "', '" 
+                . $xoopsDB->escape($this->getValue('defaultvalue')) . "', '" 
+                . $xoopsDB->escape($this->getValue('explain')) . "', '" 
+                . $xoopsDB->escape($search) . "', '" 
+                . $xoopsDB->escape($Litter) . "', '" 
+                . $xoopsDB->escape($Generallitter) . "', '" 
+                . $xoopsDB->escape($searchname) . "', '" 
+                . $xoopsDB->escape($searchexplain) . "', '" 
+                . $xoopsDB->escape($viewinpedigree) . "', '" 
+                . $xoopsDB->escape($viewinadvanced) . "', '"
+                . $xoopsDB->escape($viewinpie) . "', '" 
+                . $xoopsDB->escape($viewinlist) . "','','" 
+                . $xoopsDB->escape($nextfieldnum) . "')";
             $xoopsDB->queryF($sql);
         }
     }

@@ -1061,9 +1061,9 @@ $xoopsTpl->assign(
     strtr(_MA_PEDIGREE_COI_COIEX, array('[animalType]' => $moduleConfig['animalType'], '[animalTypes]' => $moduleConfig['animalTypes'], '[children]' => $moduleConfig['children']))
 );
 $xoopsTpl->assign("COIcoi", _MA_PEDIGREE_COI_COI);
-$dogid = isset($_GET['dogid']) ? $_GET['dogid'] : 0;
+$dogid = XoopsRequest::getInt('dogid', 0, 'get');
 $query = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " SET coi=" . $f1 . " WHERE ID = '$dogid'";
-$xoopsDB->queryf($query);
+$xoopsDB->queryF($query);
 arsort($deltaf);
 $j = 1;
 foreach ($deltaf as $i => $v) {
