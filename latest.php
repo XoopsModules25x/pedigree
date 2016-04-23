@@ -79,15 +79,15 @@ while ($row = $xoopsDB->fetchArray($result)) {
     $gender = "";
     if (!empty($xoopsUser)) {
         if ($row['d_user'] == $xoopsUser->getVar("uid") || $modadmin == true) {
-            $gender = "<a href=\"dog.php?id=" . $row['d_id'] . "\"><img src=\"assets/images/edit.gif\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['d_id']
-                . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
+            $gender = "<a href=\"dog.php?id=" . $row['d_id'] . "\"><img src=\"assets/images/edit.png\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['d_id']
+                . "\"><img src=\"assets/images/delete.png\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
         } else {
             $gender = "";
         }
     }
 
     if ($row['d_foto'] != '') {
-        $camera = " <img src=\"assets/images/camera.png\">";
+        $camera = " <img src=\"assets/images/file-picture-icon.png\">";
     } else {
         $camera = "";
     }

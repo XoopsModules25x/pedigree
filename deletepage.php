@@ -30,8 +30,8 @@ if (empty($xoopsUser)) {
 
 global $xoopsTpl, $xoopsDB, $xoopsUser;
 
-$dogid   = $_POST['dogid'];
-$dogname = $_POST['curname'];
+$dogid   = XoopsRequest::getInt('dogid', 0, 'post');
+$dogname = XoopsRequest::getString('curname', '', 'post');
 
 if (!empty($dogname)) {
     $queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $dogid;

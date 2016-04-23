@@ -29,8 +29,8 @@ if (empty($xoopsUser)) {
 
 global $xoopsTpl, $xoopsDB, $xoopsUser;
 
-$ownid     = $_POST['dogid'];
-$ownername = $_POST['curname'];
+$ownid     = XoopsRequest::getInt('dogid', 0, 'post');
+$ownername = XoopsRequest::getString('curname', '', 'post');
 
 if (!empty($ownername)) {
     $queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_owner") . " WHERE ID=" . $ownid;

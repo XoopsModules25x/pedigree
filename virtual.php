@@ -20,16 +20,13 @@ include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', "Pedigree database - Virtual Mating");
 
 //create function variable from url
-if (isset($_GET['f'])) {
-    $f = $_GET['f'];
-}
-if (!isset($f)) {
+$f = XoopsRequest::getString('f', '', 'get');
+
+if (empty($f)) {
     virt();
-}
-if (isset($f) && $f == "dam") {
+} elseif ($f === "dam") {
     dam();
-}
-if (isset($f) && $f == "check") {
+} elseif ($f === "check") {
     check();
 }
 
@@ -43,16 +40,8 @@ function virt()
     $config_handler = xoops_getHandler('config');
     $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
-    if (isset($_GET['st'])) {
-        $st = $_GET['st'];
-    } else {
-        $st = 0;
-    }
-    if (isset($_GET['l'])) {
-        $l = $_GET['l'];
-    } else {
-        $l = "A";
-    }
+    $st = XoopsRequest::getInt('st', 0, 'get');
+    $l = XoopsRequest::getString('l', 'a', 'get');
 
     $xoopsTpl->assign("sire", "1");
     //create list of males dog to select from
@@ -60,8 +49,8 @@ function virt()
     //count total number of dogs
     $numdog = "SELECT count(d.id) FROM " . $xoopsDB->prefix("pedigree_tree") . " d LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " m ON m.id = d.mother LEFT JOIN " . $xoopsDB->prefix(
             "pedigree_tree"
-        ) . " f ON f.id = d.father WHERE d.roft = '0' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.naam LIKE '" . $l
-        . "%'";
+        ) . " f ON f.id = d.father WHERE d.roft = '0' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.naam LIKE '"
+        . $xoopsDB->escape($l) . "%'";
     $numres = $xoopsDB->query($numdog);
     //total number of dogs the query will find
     list($numresults) = $xoopsDB->fetchRow($numres);
@@ -135,7 +124,7 @@ function virt()
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -144,7 +133,7 @@ function virt()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }
@@ -229,8 +218,8 @@ function dam()
     //count total number of dogs
     $numdog = "SELECT count(d.id) FROM " . $xoopsDB->prefix("pedigree_tree") . " d LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " m ON m.id = d.mother LEFT JOIN " . $xoopsDB->prefix(
             "pedigree_tree"
-        ) . " f ON f.id = d.father WHERE d.roft = '1' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.naam LIKE '" . $l
-        . "%'";
+        ) . " f ON f.id = d.father WHERE d.roft = '1' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.naam LIKE '" 
+        . $xoopsDB->escape($l) . "%'";
     $numres = $xoopsDB->query($numdog);
     //total number of dogs the query will find
     list($numresults) = $xoopsDB->fetchRow($numres);
@@ -323,7 +312,7 @@ function dam()
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -332,7 +321,7 @@ function dam()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }

@@ -9,7 +9,7 @@ else
 style.display = "none";
 }
 // -->
-</SCRIPT>
+</script>
 <{if $COIerror}>
 	<{$COIerror}>
 <{else}>

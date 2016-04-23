@@ -109,7 +109,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
     $dob = $row['X'];
     //create array for dogs
     if ($row['p_foto'] != '') {
-        $camera = " <img src=\"assets/images/camera.png\">";
+        $camera = " <img src=\"assets/images/file-picture-icon.png\">";
     } else {
         $camera = "";
     }

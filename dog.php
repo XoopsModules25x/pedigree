@@ -55,7 +55,7 @@ $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 $myts = MyTextSanitizer::getInstance();
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+    $id = XoopsRequest::getInt('id', 0, 'get');
 } else {
     echo "No dog has been selected";
     die();

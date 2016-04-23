@@ -183,7 +183,7 @@ for ($i = 0; $i < count($fields); ++$i) {
         }
         $columns[] = array(
             'columnname'   => $fieldobject->fieldname,
-            'columnnumber' => $userfield->getID(),
+            'columnnumber' => $userfield->getId(),
             'lookupval'    => $lookupvalues
         );
         ++$numofcolumns;
@@ -197,8 +197,8 @@ while ($row = $xoopsDB->fetchArray($result)) {
     if (!empty($xoopsUser)) {
         if ($row['user'] == $xoopsUser->getVar("uid") || $modadmin == true) {
             $gender
-                = "<a href=\"dog.php?id=" . $row['ID'] . "\"><img src=\"assets/images/edit.gif\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['ID']
-                . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
+                = "<a href=\"dog.php?id=" . $row['ID'] . "\"><img src=\"assets/images/edit.png\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['ID']
+                . "\"><img src=\"assets/images/delete.png\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
         } else {
             $gender = "";
         }
@@ -209,7 +209,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
         $gender .= "<img src=\"assets/images/female.gif\">";
     }
     if ($row['foto'] != '') {
-        $camera = " <img src=\"assets/images/camera.png\">";
+        $camera = " <img src=\"assets/images/file-picture-icon.png\">";
     } else {
         $camera = "";
     }

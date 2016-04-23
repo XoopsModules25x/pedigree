@@ -357,7 +357,8 @@ function savecolours()
 
     $col = $_POST['actlink'] . ";" . $_POST['even'] . ";#" . $female . ";" . $_POST['text'] . ";#" . $dark . ";#" . $head . ";" . $_POST['body'] . ";" . $_POST['actlink'];
 
-    $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" . $col . "' WHERE conf_name = 'colourscheme'";
+    $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '"
+        . $xoopsDB->escape($col) . "' WHERE conf_name = 'colourscheme'";
     $xoopsDB->query($query);
     redirect_header("tools.php?op=colours", 1, "Your settings have been saved.");
 }
@@ -395,7 +396,7 @@ function listuserfields()
                 . $row['ID'] . "&move=down\"><img src=\"assets/images/down.gif\" alt=\"move field down\" /></a></td>";
         }
         $form
-            .= "<td><a href=\"tools.php?op=deluserfield&id=" . $row['ID'] . "\"><img src=\"images/delete.gif\" alt=\"delete field\" /></a>&nbsp;<a href=\"tools.php?op=userfields&field=" . $row['ID']
+            .= "<td><a href=\"tools.php?op=deluserfield&id=" . $row['ID'] . "\"><img src=\"images/delete.png\" alt=\"delete field\" /></a>&nbsp;<a href=\"tools.php?op=userfields&field=" . $row['ID']
             . "\">" . $row['FieldName'] . "</a></td>";
         //can the filed be shown in a list
         if ($row['ViewInList'] == '1') {
@@ -456,6 +457,7 @@ function togglelocked($field)
 function lock($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET locked = '1' WHERE ID = '" . $field . "'";
     $xoopsDB->queryF($sql);
 
@@ -468,6 +470,7 @@ function lock($field)
 function unlock($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET locked = '0' WHERE ID = '" . $field . "'";
     $xoopsDB->queryF($sql);
 
@@ -520,6 +523,7 @@ function fieldmove($field, $move)
 function deluserfield($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET isActive = '0' WHERE ID = " . $field;
     $xoopsDB->queryF($sql);
     listuserfields();
@@ -531,6 +535,7 @@ function deluserfield($field)
 function restoreuserfield($field)
 {
     global $xoopsDB;
+    $field = (int) $field;
     $sql = "UPDATE " . $xoopsDB->prefix("pedigree_fields") . " SET isActive = '1' WHERE ID = " . $field;
     $xoopsDB->queryF($sql);
     listuserfields();
@@ -553,16 +558,16 @@ function editlookup($field)
         if ($count == 0) { //first row
             $form .= "<td style=\"width: 15px;\">&nbsp;</td><td style=\"width: 15px;\"><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID']
                 . "&move=down\"><img src=\"assets/images/down.gif\"></a></td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
-                . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
+                . "\"><img src=\"images/delete.png\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
         } elseif ($count == $numrows - 1) { //last row
             $form .= "<td><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID']
                 . "&move=up\"><img src=\"assets/images/up.gif\"></a></td><td>&nbsp;</td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
-                . "\"><img src=\"assets/images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
+                . "\"><img src=\"assets/images/delete.png\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
         } else { //other rows
             $form
                 .= "<td><a href=\"tools.php?op=lookupmove&field=" . $field . "&id=" . $row['ID'] . "&move=up\"><img src=\"assets/images/up.gif\"></a></td><td><a href=\"tools.php?op=lookupmove&field="
                 . $field . "&id=" . $row['ID'] . "&move=down\"><img src=\"assets/images/down.gif\"></a></td><td><a href=\"tools.php?op=dellookupvalue&field=" . $field . "&id=" . $row['ID']
-                . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
+                . "\"><img src=\"images/delete.png\" /></a>&nbsp;<a href=\"tools.php?op=editlookupvalue&field=" . $field . "&id=" . $row['ID'] . "\">" . $row['value'] . "</a></td>";
         }
         $form .= "</tr>";
         ++$count;
@@ -610,9 +615,9 @@ function lookupmove($field, $id, $move)
         $nextid    = $values[$arraylocation - 1]['id'];
         $nextorder = $values[$arraylocation - 1]['orderof'];
     }
-    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $nextorder . "' WHERE `ID` = '" . $id . "'";
+    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $nextorder . "' WHERE `ID` = '" . (int) $id . "'";
     $xoopsDB->queryF($sql);
-    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $currentorder . "' WHERE `ID` = '" . $nextid . "'";
+    $sql = "UPDATE `draaf_pedigree_lookup" . $field . "` SET `order` = '" . $currentorder . "' WHERE `ID` = '" . (int) $nextid . "'";
     $xoopsDB->queryF($sql);
     editlookup($field);
 }
@@ -641,7 +646,8 @@ function editlookupvalue($field, $id)
 function savelookupvalue($field, $id)
 {
     global $xoopsDB;
-    $SQL = "UPDATE " . $xoopsDB->prefix("pedigree_lookup" . $field) . " SET value = '" . $_POST['value'] . "' WHERE ID = " . $id;
+    $value = $xoopsDB->escape(XoopsRequest::getString('value', '', 'post'));
+    $SQL = "UPDATE " . $xoopsDB->prefix("pedigree_lookup" . $field) . " SET value = '" . $value . "' WHERE ID = " . $id;
     $xoopsDB->queryF($SQL);
     redirect_header("tools.php?op=editlookup&id=" . $field, 2, "The value has been saved.");
 }
@@ -658,7 +664,7 @@ function dellookupvalue($field, $id)
     $userfield   = new Field($field, $animal->getconfig());
     $fieldType   = $userfield->getSetting("FieldType");
     $fieldobject = new $fieldType($userfield, $animal);
-    $default     = $fieldobject->defaultvalue;
+    $default     = $xoopsDB->escape($fieldobject->defaultvalue);
     if ($default == $id) {
         redirect_header("tools.php?op=editlookup&id=" . $field, 3, _MA_PEDIGREE_NO_DELETE . $fieldobject->fieldname);
     }
@@ -1092,7 +1098,7 @@ function deleted()
     $result = $xoopsDB->query($sql);
     while ($row = $xoopsDB->fetchArray($result)) {
         $form
-            .= "<a href=\"tools.php?op=delperm&id=" . $row['ID'] . "\"><img src=\"images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=restore&id=" . $row['ID'] . "\">" . $row['NAAM']
+            .= "<a href=\"tools.php?op=delperm&id=" . $row['ID'] . "\"><img src=\"images/delete.png\" /></a>&nbsp;<a href=\"tools.php?op=restore&id=" . $row['ID'] . "\">" . $row['NAAM']
             . "</a><br />";
     }
     if ($xoopsDB->getRowsNum($result) > 0) {
@@ -1132,7 +1138,7 @@ function restore($id)
     while ($row = $xoopsDB->fetchArray($result)) {
 
         foreach ($row as $key => $values) {
-            $queryvalues .= "'" . $values . "',";
+            $queryvalues .= "'" . $xoopsDB->escape($values) . "',";
         }
         $outgoing = substr_replace($queryvalues, "", -1);
         $query    = "INSERT INTO " . $xoopsDB->prefix("pedigree_tree") . " VALUES (" . $outgoing . ")";
@@ -1156,39 +1162,39 @@ function settings()
     $select  = new XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $moduleConfig['perpage'], $size = 1, $multiple = false);
     $options = array('50' => 50, '100' => 100, '250' => 250, '500' => 500, '1000' => 1000, '2000' => 2000, '5000' => 5000, '10000' => 10000);
     foreach ($options as $key => $values) {
-        $select->addOption($key, $name = $values, $disabled = false);
+        $select->addOption($key, $name = $values);
     }
     unset($options);
     $form->addElement($select);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_EXPLAIN_NUMB));
     $radiowel = new XoopsFormRadio(_MA_PEDIGREE_SHOW_WELC, 'showwelcome', $value = $moduleConfig['showwelcome']);
-    $radiowel->addOption(1, $name = _MA_PEDIGREE_YES, $disabled = false);
-    $radiowel->addOption(0, $name = _MA_PEDIGREE_NO, $disabled = false);
+    $radiowel->addOption(1, $name = _MA_PEDIGREE_YES);
+    $radiowel->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiowel);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_WELC_SCREEN));
     $radio = new XoopsFormRadio(_MA_PEDIGREE_BREED_FIELD, 'ownerbreeder', $value = $moduleConfig['ownerbreeder']);
-    $radio->addOption(1, $name = _MA_PEDIGREE_YES, $disabled = false);
-    $radio->addOption(0, $name = _MA_PEDIGREE_NO, $disabled = false);
+    $radio->addOption(1, $name = _MA_PEDIGREE_YES);
+    $radio->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radio);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_OWN_EXPLAIN));
     $radiobr = new XoopsFormRadio(_MA_PEDIGREE_SHOW_BROT, 'brothers', $value = $moduleConfig['brothers']);
-    $radiobr->addOption(1, $name = _MA_PEDIGREE_YES, $disabled = false);
-    $radiobr->addOption(0, $name = _MA_PEDIGREE_NO, $disabled = false);
+    $radiobr->addOption(1, $name = _MA_PEDIGREE_YES);
+    $radiobr->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiobr);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_BROT_EXPLAIN));
     $radiolit = new XoopsFormRadio(_MA_PEDIGREE_USE_LITTER, 'uselitter', $value = $moduleConfig['uselitter']);
-    $radiolit->addOption(1, $name = _MA_PEDIGREE_YES, $disabled = false);
-    $radiolit->addOption(0, $name = _MA_PEDIGREE_NO, $disabled = false);
+    $radiolit->addOption(1, $name = _MA_PEDIGREE_YES);
+    $radiolit->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiolit);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_USE_LITTER_EXPLAIN));
     $radioch = new XoopsFormRadio(PED_SHOW_KITT_A . $moduleConfig['children'] . _MA_PEDIGREE_SHOW_KITT_B, 'pups', $value = $moduleConfig['pups']);
-    $radioch->addOption(1, $name = _MA_PEDIGREE_YES, $disabled = false);
-    $radioch->addOption(0, $name = _MA_PEDIGREE_NO, $disabled = false);
+    $radioch->addOption(1, $name = _MA_PEDIGREE_YES);
+    $radioch->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radioch);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_KITT_EXPLAIN));
     $radiosoi = new XoopsFormRadio(_MA_PEDIGREE_SHOW_PICT, 'lastimage', $value = $moduleConfig['lastimage']);
-    $radiosoi->addOption(1, $name = _MA_PEDIGREE_YES, $disabled = false);
-    $radiosoi->addOption(0, $name = _MA_PEDIGREE_NO, $disabled = false);
+    $radiosoi->addOption(1, $name = _MA_PEDIGREE_YES);
+    $radiosoi->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiosoi);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_PICT_EXPLAIN));
     $form->addElement(new XoopsFormButton('', 'button_id', 'Submit', 'submit'));
@@ -1201,7 +1207,9 @@ function settingssave()
     $settings = array('perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups', 'showwelcome');
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
-            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";
+            $query = "UPDATE " . $xoopsDB->prefix("config") . " SET conf_value = '"
+                . $xoopsDB->escape($values) . "' WHERE conf_name = '"
+                . $xoopsDB->escape($key) . "'";
             $xoopsDB->query($query);
         }
     }

@@ -42,13 +42,18 @@ function check()
         redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
         exit();
     }
-    $achternaam = $_POST['achternaam'];
-    $voornaam   = $_POST['voornaam'];
-    $email      = $_POST['email'];
-    $website    = $_POST['website'];
-    $user       = $_POST['user'];
+    $achternaam = XoopsRequest::getString('achternaam', '', 'post');
+    $voornaam   = XoopsRequest::getString('voornaam', '', 'post');
+    $email      = XoopsRequest::getEmail('email', '', 'post');
+    $website    = XoopsRequest::getUrl('website', '', 'post');
+    $user       = XoopsRequest::getString('user', '', 'post');
     //insert into owner
-    $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_owner") . " VALUES ('','" . $voornaam . "','" . $achternaam . "','','','','','','" . $email . "','" . $website . "','" . $user . "')";
+    $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_owner") . " VALUES ('','"
+        . $xoopsDB->escape($voornaam) . "','"
+        . $xoopsDB->escape($achternaam) . "','','','','','','"
+        . $xoopsDB->escape($email) . "','"
+        . $xoopsDB->escape($website) . "','"
+        . $xoopsDB->escape($user) . "')";
     $xoopsDB->query($query);
     redirect_header("index.php", 1, "The data has been stored.");
 }
