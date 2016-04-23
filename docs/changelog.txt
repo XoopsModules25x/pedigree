@@ -1,65 +1,24 @@
 ---------------------------------------
-1.31 Alpha 7              NOT RELEASED
----------------------------------------
-- created PedigreeAnimal class to replace Animal class (zyspec)
-- refactored install routine (zyspec)
-  - <uploads>/images and <uploads>/images/thumbnails directories were not being created
-- improved XOOPS 2.5.7 compatibility (zyspec)
-- fixed link alt/title tags incorrectly formatted (zyspec)
-- fixed display of picture in various places (zyspec)
-- switched filtering to use XoopsRequest (zyspec)
-- renamed some functions/methods to be more PSRx compliant (zyspec)
-- XOOPS 2.5.8 compatibility (mamba)
-- renamed "lookup" to "lookupField" (mamba)
-
-
-TODO:
-- refactor most of the module
-- move hard coded language strings to language files
-- some code assumes "dog" but should be expanded to include all animals
-- refactor PedigreeField::getForm() - it tries to use XoopsObjectTree which isn't
-  appropriate for the pedigree_fields dB structure
-- most text fields are only 30 chars long in dB, should be increased.
-  Make form entry fields match dB varchar length so users can know what's being
-  stored.
-- rewrite Waiting module plugin - currently doesn't work
-
----------------------------------------
-1.31 Alpha 6                2016-04-16
----------------------------------------
-- Convert mysql_* calls to database connector (geekwright)
-- Template name fixes (geekwright)
-- Cleanup (geekwright)
-- Convert to UTF-8 (geekwright)
-- Asset location issues (geekwright)
-- Bump to Alpha 6 (geekwright)
-- single quotes (mamba)
-- fix error reported at http://xoops.org/modules/newbb/viewtopic.php?post_id=360113#forumpost360113 (geekwright)
-- address assign by reference errors (geekwright)
-- fix functional issues in owner updates (geekwright)
-- cleanup of browser console errors (geekwright)
-- fix some issues noted in code inspection (geekwright)
-
----------------------------------------
 1.31 Alpha 5  NOT RELEASED
 ---------------------------------------
+
 - replaced phpThumbnail with Zebra Image (mamba)
 - added "Magnific Popup" for images (mamba)
 - moved uploads to /uploads/pedigree (mamba)
 - simplified creation of upload folders, based on Hervet's Oledrion (mamba)
 - renamed templates from .html to .tpl (mamba)
 - moved images, .js and css files  to /assets (mamba)
-- updated Alphabet listing with Highlights (mamba)
+
+
 
 TODO:
-- add alphabet to Breeder and Owner
-- create a front page with some "latest news"
-- improve security with XoopsRequest
+- updated Alphabet listing with Highlights (mamba)
 
 
 ---------------------------------------
 1.31 Alpha 4  NOT RELEASED
 ---------------------------------------
+
 - changes to COI templates  (mamba)
 - replaced ColorPicker with jsColor (mamba)
 - English corrections (mamba)
@@ -67,26 +26,32 @@ TODO:
 ---------------------------------------
 1.31 Alpha 3  2014-01-25
 ---------------------------------------
+
 - converting more Dutch terms to English  (mamba)
 - fixing bugs reported originally by luwie  (mamba)
 
 ---------------------------------------
 1.31 Alpha 2  2013-05-21
 ---------------------------------------
+
 - fixed wrong table names in handlers (luwie/mamba)
+
 
 ---------------------------------------
 1.31 Alpha 1  2013-04-12
 ---------------------------------------
+
 - renamed to Pedigree (Mamba)
 - fixed several PHP 5.4 related bugs (Mamba)
 - standardized names of language variables (Mamba)
 - added cloning with SmartClone (Mamba)
 - sub-menus names will come from language files (mamba)
 
+
 ---------------------------------------
 1.30 Beta 1  2013-03-03
 ---------------------------------------
+
 - Converted to XOOPS 2.5.5 Admin GUI (Mamba)
 - Added classes for tables
 - renamed tables to follow XOOPS new standard "mod_module_table"

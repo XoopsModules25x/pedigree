@@ -29,7 +29,7 @@ include_once dirname(dirname(__DIR__)) . '/mainfile.php';
 $com_itemid = isset($HTTP_GET_VARS['com_itemid']) ? intval($HTTP_GET_VARS['com_itemid']) : 0;
 if ($com_itemid > 0) {
     // Get link title
-    $sql            = 'SELECT NAAM FROM ' . $xoopsDB->prefix('pedigree_tree') . ' WHERE id=' . $com_itemid . '';
+    $sql            = "SELECT NAAM FROM " . $xoopsDB->prefix('pedigree_tree') . " WHERE id=" . $com_itemid . "";
     $result         = $xoopsDB->query($sql);
     $row            = $xoopsDB->fetchArray($result);
     $com_replytitle = stripslashes($row['NAAM']);

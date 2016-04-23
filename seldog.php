@@ -14,20 +14,20 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
-extract($_GET, EXTR_PREFIX_ALL, 'param');
-extract($_POST, EXTR_PREFIX_ALL, 'param');
+extract($_GET, EXTR_PREFIX_ALL, "param");
+extract($_POST, EXTR_PREFIX_ALL, "param");
 
-$xoopsOption['template_main'] = 'pedigree_sel.tpl';
+$xoopsOption['template_main'] = "pedigree_sel.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
 $module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname('pedigree');
+$module         = $module_handler->getByDirname("pedigree");
 $config_handler = xoops_getHandler('config');
 $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -40,7 +40,7 @@ $letter = $_GET['letter'];
 $gend   = $_GET['gend'];
 
 if (!$letter) {
-    $letter = 'a';
+    $letter = "a";
 }
 if (!$gend) {
     $gend = 0;
@@ -52,107 +52,107 @@ global $xoopsTpl;
 global $xoopsDB;
 global $xoopsModuleConfig;
 
-$xoopsTpl->assign('page_title', _MI_PEDIGREE_TITLE);
+$xoopsTpl->assign("page_title", _MI_PEDIGREE_TITLE);
 
 //count total number of dogs
-$numdog = 'SELECT ID from ' . $xoopsDB->prefix('pedigree_tree') . " WHERE NAAM LIKE '" . $letter . "%' and roft = '" . $gend . "'";
+$numdog = "SELECT ID from " . $xoopsDB->prefix("pedigree_tree") . " WHERE NAAM LIKE '" . $letter . "%' and roft = '" . $gend . "'";
 $numres = $xoopsDB->query($numdog);
 //total number of dogs the query will find
 $numresults = $xoopsDB->getRowsNum($numres);
 //total number of pages
-$numpages = floor($numresults / $perp) + 1;
+$numpages = (floor($numresults / $perp)) + 1;
 if (($numpages * $perp) == ($numresults + $perp)) {
     $numpages = $numpages - 1;
 }
 //find current page
-$cpage = floor($st / $perp) + 1;
+$cpage = (floor($st / $perp)) + 1;
 //create alphabet
-$pages = '';
+$pages = "";
 for ($i = 65; $i <= 90; ++$i) {
     if ($letter == chr($i)) {
-        $pages .= "<b><a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . '&letter=' . chr($i) . "\">" . chr($i) . '</a></b>&nbsp;';
+        $pages .= "<b><a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=" . chr($i) . "\">" . chr($i) . "</a></b>&nbsp;";
     } else {
-        $pages .= "<a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . '&letter=' . chr($i) . "\">" . chr($i) . '</a>&nbsp;';
+        $pages .= "<a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=" . chr($i) . "\">" . chr($i) . "</a>&nbsp;";
     }
 }
-$pages .= '-&nbsp;';
-$pages .= "<a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . "&letter=Ã…\">Ã…</a>&nbsp;";
-$pages .= "<a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . "&letter=Ã–\">Ã–</a>&nbsp;";
+$pages .= "-&nbsp;";
+$pages .= "<a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=Ã…\">Ã…</a>&nbsp;";
+$pages .= "<a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=Ã–\">Ã–</a>&nbsp;";
 //create linebreak
-$pages .= '<br />';
+$pages .= "<br />";
 //create previous button
 if ($numpages > 1) {
     if ($cpage > 1) {
-        $pages .= "<a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . '&letter=' . $letter . '&st=' . ($st - $perp) . "\">" . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
+        $pages .= "<a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=" . $letter . "&st=" . ($st - $perp) . "\">" . _MA_PEDIGREE_PREVIOUS . "</a>&nbsp;&nbsp";
     }
 }
 //create numbers
 for ($x = 1; $x < ($numpages + 1); ++$x) {
     //create line break after 20 number
     if (($x % 20) == 0) {
-        $pages .= '<br />';
+        $pages .= "<br />";
     }
     if ($x != $cpage) {
-        $pages .= "<a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . '&letter=' . $letter . '&st=' . ($perp * ($x - 1)) . "\">" . $x . '</a>&nbsp;&nbsp';
+        $pages .= "<a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=" . $letter . "&st=" . ($perp * ($x - 1)) . "\">" . $x . "</a>&nbsp;&nbsp";
     } else {
-        $pages .= $x . '&nbsp;&nbsp';
+        $pages .= $x . "&nbsp;&nbsp";
     }
 }
 //create next button
 if ($numpages > 1) {
-    if ($cpage < $numpages) {
-        $pages .= "<a href=\"seldog.php?gend=" . $gend . '&curval=' . $curval . '&letter=' . $letter . '&st=' . ($st + $perp) . "\">" . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
+    if ($cpage < ($numpages)) {
+        $pages .= "<a href=\"seldog.php?gend=" . $gend . "&curval=" . $curval . "&letter=" . $letter . "&st=" . ($st + $perp) . "\">" . _MA_PEDIGREE_NEXT . "</a>&nbsp;&nbsp";
     }
 }
 
 //query
-$queryString = 'SELECT * FROM ' . $xoopsDB->prefix('pedigree_tree') . " where NAAM like '" . $letter . "%' and roft = '" . $gend . "' order by NAAM LIMIT " . $st . ', ' . $perp;
+$queryString = "SELECT * FROM " . $xoopsDB->prefix("pedigree_tree") . " where NAAM like '" . $letter . "%' and roft = '" . $gend . "' order by NAAM LIMIT " . $st . ", " . $perp;
 $result      = $xoopsDB->query($queryString);
 
 $animal = new Animal();
 //test to find out how many user fields there are...
 $fields       = $animal->numoffields();
 $numofcolumns = 1;
-$columns[]    = array('columnname' => 'Name');
+$columns[]    = array('columnname' => "Name");
 for ($i = 0; $i < count($fields); ++$i) {
     $userfield   = new Field($fields[$i], $animal->getconfig());
-    $fieldType   = $userfield->getSetting('FieldType');
+    $fieldType   = $userfield->getSetting("FieldType");
     $fieldobject = new $fieldType($userfield, $animal);
     //create empty string
-    $lookupvalues = '';
+    $lookupvalues = "";
     if ($userfield->active() && $userfield->inlist()) {
         if ($userfield->haslookup()) {
             $lookupvalues = $userfield->lookup($fields[$i]);
             //debug information
             //print_r($lookupvalues);
         }
-        $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+        $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
         ++$numofcolumns;
         unset($lookupvalues);
     }
 }
 
-for ($i = 1; $i < $numofcolumns; ++$i) {
-    $empty[] = array('value' => '');
+for ($i = 1; $i < ($numofcolumns); ++$i) {
+    $empty[] = array('value' => "");
 }
 if ($gend == '0') {
     $dogs [] = array(
-        'id'          => '0',
-        'name'        => '',
-        'gender'      => '',
-        'link'        => "<a href=\"updatepage.php?gend=" . $gend . '&curval=' . $curval . "&thisid=0\">" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
-        'colour'      => '',
-        'number'      => '',
+        'id'          => "0",
+        'name'        => "",
+        'gender'      => "",
+        'link'        => "<a href=\"updatepage.php?gend=" . $gend . "&curval=" . $curval . "&thisid=0\">" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . "</a>",
+        'colour'      => "",
+        'number'      => "",
         'usercolumns' => $empty
     );
 } else {
     $dogs [] = array(
-        'id'          => '0',
-        'name'        => '',
-        'gender'      => '',
-        'link'        => "<a href=\"updatepage.php?gend=" . $gend . '&curval=' . $curval . "&thisid=0\">" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
-        'colour'      => '',
-        'number'      => '',
+        'id'          => "0",
+        'name'        => "",
+        'gender'      => "",
+        'link'        => "<a href=\"updatepage.php?gend=" . $gend . "&curval=" . $curval . "&thisid=0\">" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . "</a>",
+        'colour'      => "",
+        'number'      => "",
         'usercolumns' => $empty
     );
 }
@@ -160,15 +160,15 @@ if ($gend == '0') {
 while ($row = $xoopsDB->fetchArray($result)) {
     //create picture information
     if ($row['foto'] != '') {
-        $camera = " <img src=\"assets/images/camera.png\">";
+        $camera = " <img src=\"assets/images/file-picture-icon.png\">";
     } else {
-        $camera = '';
+        $camera = "";
     }
     $name = stripslashes($row['NAAM']) . $camera;
     //empty array
     unset($columnvalue);
     //fill array
-    for ($i = 1; $i < $numofcolumns; ++$i) {
+    for ($i = 1; $i < ($numofcolumns); ++$i) {
         $x = $columns[$i]['columnnumber'];
         if (is_array($columns[$i]['lookupval'])) {
             foreach ($columns[$i]['lookupval'] as $key => $keyvalue) {
@@ -180,7 +180,7 @@ while ($row = $xoopsDB->fetchArray($result)) {
             ///echo $columns[$i]['columnname']."is an array !";
         } //format value - cant use object because of query count
         elseif (substr($row['user' . $x], 0, 7) == 'http://') {
-            $value = "<a href=\"" . $row['user' . $x] . "\">" . $row['user' . $x] . '</a>';
+            $value = "<a href=\"" . $row['user' . $x] . "\">" . $row['user' . $x] . "</a>";
         } else {
             $value = $row['user' . $x];
         }
@@ -191,9 +191,9 @@ while ($row = $xoopsDB->fetchArray($result)) {
             'id'          => $row['ID'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/male.gif">',
-            'link'        => "<a href=\"updatepage.php?gend=" . $gend . '&curval=' . $curval . '&thisid=' . $row['ID'] . "\">" . $name . '</a>',
-            'colour'      => '',
-            'number'      => '',
+            'link'        => "<a href=\"updatepage.php?gend=" . $gend . "&curval=" . $curval . "&thisid=" . $row['ID'] . "\">" . $name . "</a>",
+            'colour'      => "",
+            'number'      => "",
             'usercolumns' => $columnvalue
         );
     } else {
@@ -201,9 +201,9 @@ while ($row = $xoopsDB->fetchArray($result)) {
             'id'          => $row['ID'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/female.gif">',
-            'link'        => "<a href=\"updatepage.php?gend=" . $gend . '&curval=' . $curval . '&thisid=' . $row['ID'] . "\">" . $name . '</a>',
-            'colour'      => '',
-            'number'      => '',
+            'link'        => "<a href=\"updatepage.php?gend=" . $gend . "&curval=" . $curval . "&thisid=" . $row['ID'] . "\">" . $name . "</a>",
+            'colour'      => "",
+            'number'      => "",
             'usercolumns' => $columnvalue
         );
     }
@@ -211,10 +211,10 @@ while ($row = $xoopsDB->fetchArray($result)) {
 
 //add data to smarty template
 //assign dog
-$xoopsTpl->assign('dogs', $dogs);
-$xoopsTpl->assign('columns', $columns);
-$xoopsTpl->assign('numofcolumns', $numofcolumns);
-$xoopsTpl->assign('tsarray', sorttable($numofcolumns));
+$xoopsTpl->assign("dogs", $dogs);
+$xoopsTpl->assign("columns", $columns);
+$xoopsTpl->assign("numofcolumns", $numofcolumns);
+$xoopsTpl->assign("tsarray", sorttable($numofcolumns));
 //add data to smarty template
 if ($gend == '0') {
     $seltitparent = strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father']));
@@ -223,7 +223,7 @@ if ($gend == '0') {
 }
 $seltitle = _MA_PEDIGREE_SEL . $seltitparent . _MA_PEDIGREE_FROM . getname($curval);
 
-$xoopsTpl->assign('seltitle', $seltitle);
+$xoopsTpl->assign("seltitle", $seltitle);
 
 //find last shown number
 if (($st + $perp) > $numresults) {
@@ -233,9 +233,9 @@ if (($st + $perp) > $numresults) {
 }
 //create string
 $matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
-$nummatchstr = $numresults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numpages . ' pages)';
-$xoopsTpl->assign('nummatch', $nummatchstr);
-$xoopsTpl->assign('pages', $pages);
-$xoopsTpl->assign('curval', $curval);
+$nummatchstr = $numresults . $matches . ($st + 1) . "-" . $lastshown . " (" . $numpages . " pages)";
+$xoopsTpl->assign("nummatch", $nummatchstr);
+$xoopsTpl->assign("pages", $pages);
+$xoopsTpl->assign("curval", $curval);
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+include XOOPS_ROOT_PATH . "/footer.php";

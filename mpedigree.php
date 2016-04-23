@@ -14,15 +14,15 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
-$xoopsOption['template_main'] = 'pedigree_mpedigree.tpl';
+$xoopsOption['template_main'] = "pedigree_mpedigree.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
 $module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname('pedigree');
+$module         = $module_handler->getByDirname("pedigree");
 $config_handler = xoops_getHandler('config');
 $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -32,7 +32,7 @@ $pedid = $_GET['pedid'];
 pedigree_main($pedid);
 
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+include XOOPS_ROOT_PATH . "/footer.php";
 
 //
 // Displays the "Main" tab of the module
@@ -45,7 +45,7 @@ function pedigree_main($ID)
     global $xoopsTpl, $xoopsDB, $moduleConfig;
 
     $queryString
-        = '
+        = "
     SELECT d.id as d_id,
     d.naam as d_naam,
     d.roft as d_roft,
@@ -109,37 +109,37 @@ function pedigree_main($ID)
     mfmm.naam as mfmm_naam,
     mmmm.id as mmmm_id,
     mmmm.naam as mmmm_naam
-    FROM ' . $xoopsDB->prefix('pedigree_tree') . ' d
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' f ON d.father = f.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' m ON d.mother = m.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ff ON f.father = ff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mf ON m.father = mf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmm ON mm.mother = mmm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ffff ON fff.father = ffff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ffmf ON ffm.father = ffmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmff ON fmf.father = fmff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmmf ON fmm.father = fmmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmff ON mmf.father = mmff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mfff ON mff.father = mfff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mfmf ON mfm.father = mfmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmmf ON mmm.father = mmmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fffm ON fff.mother = fffm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ffmm ON ffm.mother = ffmm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmfm ON fmf.mother = fmfm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmmm ON fmm.mother = fmmm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmfm ON mmf.mother = mmfm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mffm ON mff.mother = mffm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mfmm ON mfm.mother = mfmm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . " mmmm ON mmm.mother = mmmm.id
+    FROM " . $xoopsDB->prefix("pedigree_tree") . " d
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " f ON d.father = f.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " m ON d.mother = m.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ff ON f.father = ff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fff ON ff.father = fff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ffm ON ff.mother = ffm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mf ON m.father = mf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mff ON mf.father = mff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mfm ON mf.mother = mfm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fm ON f.mother = fm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmf ON fm.father = fmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmm ON fm.mother = fmm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mm ON m.mother = mm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmf ON mm.father = mmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmm ON mm.mother = mmm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ffff ON fff.father = ffff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ffmf ON ffm.father = ffmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmff ON fmf.father = fmff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmmf ON fmm.father = fmmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmff ON mmf.father = mmff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mfff ON mff.father = mfff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mfmf ON mfm.father = mfmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmmf ON mmm.father = mmmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fffm ON fff.mother = fffm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ffmm ON ffm.mother = ffmm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmfm ON fmf.mother = fmfm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmmm ON fmm.mother = fmmm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmfm ON mmf.mother = mmfm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mffm ON mff.mother = mffm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mfmm ON mfm.mother = mfmm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmmm ON mmm.mother = mmmm.id
     where d.id=$ID";
 
     $result = $xoopsDB->query($queryString);
@@ -183,7 +183,7 @@ function pedigree_main($ID)
         $d['d']['name'] = stripslashes($row['d_naam']);
         $d['d']['id']   = $row['d_id'];
         $d['d']['roft'] = $row['d_roft'];
-        $d['d']['col']  = 'transparant';
+        $d['d']['col']  = "transparant";
         //father
         $d['f']['name'] = stripslashes($row['f_naam']);
         $d['f']['id']   = $row['f_id'];
@@ -312,19 +312,19 @@ function pedigree_main($ID)
     }
 
     //add data to smarty template
-    $xoopsTpl->assign('xoops_pagetitle', $d['d']['name'] . ' -- mega pedigree');
+    $xoopsTpl->assign('xoops_pagetitle', $d['d']['name'] . " -- mega pedigree");
     //assign dog(s)
-    $xoopsTpl->assign('d', $d);
-    $xoopsTpl->assign('male', "<img src=\"assets/images/male.gif\">");
-    $xoopsTpl->assign('female', "<img src=\"assets/images/female.gif\">");
+    $xoopsTpl->assign("d", $d);
+    $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
+    $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
     //assign extra display options
-    $xoopsTpl->assign('unknown', 'Unknown');
-    $xoopsTpl->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, array('[animalType]' => $moduleConfig['animalType'])));
-    $xoopsTpl->assign('f3', strtr(_MA_PEDIGREE_MPED_F3, array('[animalType]' => $moduleConfig['animalType'])));
-    $xoopsTpl->assign('f4', strtr(_MA_PEDIGREE_MPED_F4, array('[animalType]' => $moduleConfig['animalType'])));
-    $xoopsTpl->assign('m2', strtr(_MA_PEDIGREE_MPED_M2, array('[animalType]' => $moduleConfig['animalType'])));
-    $xoopsTpl->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, array('[animalType]' => $moduleConfig['animalType'])));
-    $xoopsTpl->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, array('[animalType]' => $moduleConfig['animalType'])));
+    $xoopsTpl->assign("unknown", "Unknown");
+    $xoopsTpl->assign("f2", (strtr(_MA_PEDIGREE_MPED_F2, array('[animalType]' => $moduleConfig['animalType']))));
+    $xoopsTpl->assign("f3", (strtr(_MA_PEDIGREE_MPED_F3, array('[animalType]' => $moduleConfig['animalType']))));
+    $xoopsTpl->assign("f4", (strtr(_MA_PEDIGREE_MPED_F4, array('[animalType]' => $moduleConfig['animalType']))));
+    $xoopsTpl->assign("m2", (strtr(_MA_PEDIGREE_MPED_M2, array('[animalType]' => $moduleConfig['animalType']))));
+    $xoopsTpl->assign("m3", (strtr(_MA_PEDIGREE_MPED_M3, array('[animalType]' => $moduleConfig['animalType']))));
+    $xoopsTpl->assign("m4", (strtr(_MA_PEDIGREE_MPED_M4, array('[animalType]' => $moduleConfig['animalType']))));
 }
 
 /**
@@ -336,21 +336,21 @@ function pedigree_main($ID)
 function crcolour($sex, $item)
 {
     if ($item == '1') {
-        $col = 'transparant';
+        $col = "transparant";
     } elseif ($item == '2' && $sex == 'f') {
-        $col = '#C8C8FF';
+        $col = "#C8C8FF";
     } elseif ($item == 3 && $sex == 'f') {
-        $col = '#6464FF';
+        $col = "#6464FF";
     } elseif ($item == '4' && $sex == 'f') {
-        $col = '#0000FF';
+        $col = "#0000FF";
     } elseif ($item == '2' && $sex == 'm') {
-        $col = '#FFC8C8';
+        $col = "#FFC8C8";
     } elseif ($item == '3' && $sex == 'm') {
-        $col = '#FF6464';
+        $col = "#FF6464";
     } elseif ($item == '4' && $sex == 'm') {
-        $col = '#FF0000';
+        $col = "#FF0000";
     } else {
-        $col = 'transparant';
+        $col = "transparant";
     }
 
     return $col;

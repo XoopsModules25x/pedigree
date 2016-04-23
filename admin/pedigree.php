@@ -9,31 +9,29 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * Pedigree module for XOOPS
+ * animal module for xoops
  *
- * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
+ * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
+ * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GPL 2.0 or later
- * @package         pedigree
- * @since
- * @author          XOOPS Module Dev Team (http://xoops.org)
+ * @package         animal
+ * @since           2.5.x
+ * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
+ * @version         $Id: pedigree.php 12841 2014-11-12 13:14:13Z beckmi $
  */
 
 include_once __DIR__ . '/admin_header.php';
-
-xoops_cp_header();
-$adminMenu = new ModuleAdmin();
-
 //It recovered the value of argument op in URL$
-$op = XoopsRequest::getCmd('op', 'list');
+$op = animal_CleanVars($_REQUEST, 'op', 'list', 'string');
 switch ($op) {
-    case 'list':
+    case "list":
     default:
-        echo $adminMenu->addNavigation(basename(__FILE__));
+        echo $adminMenu->addNavigation('pedigree.php');
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         echo $adminMenu->renderButton('left');
         $criteria = new CriteriaCompo();
-        $criteria->setSort('ID');
-        $criteria->setOrder('ASC');
+        $criteria->setSort("ID");
+        $criteria->setOrder("ASC");
         $numrows      = $pedigreeTreeHandler->getCount();
         $pedigree_arr = $pedigreeTreeHandler->getall($criteria);
 
@@ -51,39 +49,39 @@ switch ($op) {
                         <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_FOTO . "</th>
                         <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_COI . "</th>
 
-                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . '</th>
-                </tr>';
+                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . "</th>
+                </tr>";
 
-            $class = 'odd';
+            $class = "odd";
 
             foreach (array_keys($pedigree_arr) as $i) {
-                if ($pedigree_arr[$i]->getVar('pedigree_pid') == 0) {
+                if ($pedigree_arr[$i]->getVar("pedigree_pid") == 0) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('NAAM') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('id_owner') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('id_breeder') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('user') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('roft') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('mother') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('father') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('foto') . '</td>';
-                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('coi') . '</td>';
+                    $class = ($class == "even") ? "odd" : "even";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("NAAM") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("id_owner") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("id_breeder") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("user") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("roft") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("mother") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("father") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("foto") . "</td>";
+                    echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar("coi") . "</td>";
 
                     echo "<td align='center' width='10%'>
-                        <a href='pedigree.php?op=edit_pedigree&ID=" . $pedigree_arr[$i]->getVar('ID') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href=" . PEDIGREE_URL . '/delete.php?id=' . $pedigree_arr[$i]->getVar('ID') . '><img src=' . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                        <a href='pedigree.php?op=edit_pedigree&ID=" . $pedigree_arr[$i]->getVar("ID") . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href=" . PEDIGREE_URL ."/delete.php?id=" . $pedigree_arr[$i]->getVar("ID") . "><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
-                    echo '</tr>';
+                    echo "</tr>";
                 }
             }
-            echo '</table><br /><br />';
+            echo "</table><br /><br />";
         }
 
         break;
 
-    case 'new_pedigree':
-        echo $adminMenu->addNavigation(basename(__FILE__));
+    case "new_pedigree":
+        echo $adminMenu->addNavigation("pedigree.php");
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         echo $adminMenu->renderButton();
 
@@ -92,37 +90,37 @@ switch ($op) {
         $form->display();
         break;
 
-    case 'save_pedigree':
-        if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+    case "save_pedigree":
+        if (!$GLOBALS["xoopsSecurity"]->check()) {
+            redirect_header("pedigree.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
         }
-        if (isset($_REQUEST['ID'])) {
-            $obj = $pedigreeTreeHandler->get($_REQUEST['ID']);
+        if (isset($_REQUEST["ID"])) {
+            $obj = $pedigreeTreeHandler->get($_REQUEST["ID"]);
         } else {
             $obj = $pedigreeTreeHandler->create();
         }
 
         //Form NAAM
-        $obj->setVar('NAAM', $_REQUEST['NAAM']);
+        $obj->setVar("NAAM", $_REQUEST["NAAM"]);
         //Form id_owner
-        $obj->setVar('id_owner', $_REQUEST['id_owner']);
+        $obj->setVar("id_owner", $_REQUEST["id_owner"]);
         //Form id_breeder
-        $obj->setVar('id_breeder', $_REQUEST['id_breeder']);
+        $obj->setVar("id_breeder", $_REQUEST["id_breeder"]);
         //Form user
-        $obj->setVar('user', $_REQUEST['user']);
+        $obj->setVar("user", $_REQUEST["user"]);
         //Form roft
-        $obj->setVar('roft', $_REQUEST['roft']);
+        $obj->setVar("roft", $_REQUEST["roft"]);
         //Form mother
-        $obj->setVar('mother', $_REQUEST['mother']);
+        $obj->setVar("mother", $_REQUEST["mother"]);
         //Form father
-        $obj->setVar('father', $_REQUEST['father']);
+        $obj->setVar("father", $_REQUEST["father"]);
         //Form foto
-        $obj->setVar('foto', $_REQUEST['foto']);
+        $obj->setVar("foto", $_REQUEST["foto"]);
         //Form coi
-        $obj->setVar('coi', $_REQUEST['coi']);
+        $obj->setVar("coi", $_REQUEST["coi"]);
 
         if ($pedigreeTreeHandler->insert($obj)) {
-            redirect_header('pedigree.php?op=list', 2, _AM_PEDIGREE_FORMOK);
+            redirect_header("pedigree.php?op=list", 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -130,29 +128,29 @@ switch ($op) {
         $form->display();
         break;
 
-    case 'edit_pedigree':
-        echo $adminMenu->addNavigation(basename(__FILE__));
+    case "edit_pedigree":
+        echo $adminMenu->addNavigation("pedigree.php");
         $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         echo $adminMenu->renderButton();
-        $obj  = $pedigreeTreeHandler->get($_REQUEST['ID']);
+        $obj  = $pedigreeTreeHandler->get($_REQUEST["ID"]);
         $form = $obj->getForm();
         $form->display();
         break;
 
-    case 'delete_pedigree':
-        $obj = $pedigreeTreeHandler->get($_REQUEST['ID']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
-            if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+    case "delete_pedigree":
+        $obj = $pedigreeTreeHandler->get($_REQUEST["ID"]);
+        if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
+            if (!$GLOBALS["xoopsSecurity"]->check()) {
+                redirect_header("pedigree.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
             }
             if ($pedigreeTreeHandler->delete($obj)) {
-                redirect_header('pedigree.php', 3, _AM_PEDIGREE_FORMDELOK);
+                redirect_header("pedigree.php", 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'ID' => $_REQUEST['ID'], 'op' => 'delete_pedigree'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree')));
+            xoops_confirm(array("ok" => 1, "ID" => $_REQUEST["ID"], "op" => "delete_pedigree"), $_SERVER["REQUEST_URI"], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar("pedigree")));
         }
         break;
 }

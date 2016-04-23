@@ -30,12 +30,12 @@
 
 global $xoopsDB;
 
-$SQL = 'SELECT conf_value from ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'pedigreeColours'";
+$SQL = "SELECT conf_value from ".$xoopsDB->prefix("config")." WHERE conf_name = 'pedigreeColours'";
 $result = $xoopsDB->query($SQL);
 while ($row = $xoopsDB->fetchArray($result)) {
     $c = $row['conf_value'];
 }
-$colors = explode(';', $c);
+$colors = explode(";", $c);
 
 $mainBackColour                =    $colors[0];
 $selectedBackColour            =    $colors[1];
@@ -60,64 +60,64 @@ $borderColour                    =    $colors[18];
 echo"<style type=\"text/css\">
 <!--
 td.even {
-    background-color : #".$maleBackColour . ';
-    color : #' . $maleTextColour . ';
-    font-family : ' . $maleTextFont . ';
-    font-size : ' . $maleTextSize . ';
-    font-style : ' . $maleTextStyle . ';
-    border-style : ' . $borderStyle . ';
-    border-width : ' . $borderWidth . 'px;
-    border-color : #' . $borderColour . ';
+    background-color : #".$maleBackColour.";
+    color : #".$maleTextColour.";
+    font-family : ".$maleTextFont.";
+    font-size : ".$maleTextSize.";
+    font-style : ".$maleTextStyle.";
+    border-style : ".$borderStyle.";
+    border-width : ".$borderWidth."px;
+    border-color : #".$borderColour.";
     }
 tr.even {
-    background-color : #' . $maleBackColour . ';
-    color : #' . $maleTextColour . ';
-    font-family : ' . $maleTextFont . ';
-    font-size : ' . $maleTextSize . ';
-    font-style : ' . $maleTextStyle . ';
-    border-style : ' . $borderStyle . ';
-    border-width : ' . $borderWidth . 'px;
-    border-color : #' . $borderColour . ';
+    background-color : #".$maleBackColour.";
+    color : #".$maleTextColour.";
+    font-family : ".$maleTextFont.";
+    font-size : ".$maleTextSize.";
+    font-style : ".$maleTextStyle.";
+    border-style : ".$borderStyle.";
+    border-width : ".$borderWidth."px;
+    border-color : #".$borderColour.";
     }
 td.odd {
-    background-color : #' . $femaleBackColour . ';
-    color : #' . $femaleTextColour . ';
-    font-family : ' . $femaleTextFont . ';
-    font-size : ' . $femaleTextSize . ';
-    font-style : ' . $femaleTextStyle . ';
-    border-style : ' . $borderStyle . ';
-    border-width : ' . $borderWidth . 'px;
-    border-color : #' . $borderColour . ';
+    background-color : #".$femaleBackColour.";
+    color : #".$femaleTextColour.";
+    font-family : ".$femaleTextFont.";
+    font-size : ".$femaleTextSize.";
+    font-style : ".$femaleTextStyle.";
+    border-style : ".$borderStyle.";
+    border-width : ".$borderWidth."px;
+    border-color : #".$borderColour.";
     }
 tr.odd {
-    background-color : #' . $femaleBackColour . ';
-    color : #' . $femaleTextColour . ';
-    font-family : ' . $femaleTextFont . ';
-    font-size : ' . $femaleTextSize . ';
-    font-style : ' . $femaleTextStyle . ';
-    border-style : ' . $borderStyle . ';
-    border-width : ' . $borderWidth . 'px;
-    border-color : #' . $borderColour . ';
+    background-color : #".$femaleBackColour.";
+    color : #".$femaleTextColour.";
+    font-family : ".$femaleTextFont.";
+    font-size : ".$femaleTextSize.";
+    font-style : ".$femaleTextStyle.";
+    border-style : ".$borderStyle.";
+    border-width : ".$borderWidth."px;
+    border-color : #".$borderColour.";
     }
 td.head {
-    background-color : #' . $selectedBackColour . ';
-    color : #' . $selectedTextColour . ';
-    font-family : ' . $selectedTextFont . ';
-    font-size : ' . $selectedTextSize . ';
-    font-style : ' . $selectedTextStyle . ';
-    border-style : ' . $borderStyle . ';
-    border-width : ' . $borderWidth . 'px;
-    border-color : #' . $borderColour . ';
+    background-color : #".$selectedBackColour.";
+    color : #".$selectedTextColour.";
+    font-family : ".$selectedTextFont.";
+    font-size : ".$selectedTextSize.";
+    font-style : ".$selectedTextStyle.";
+    border-style : ".$borderStyle.";
+    border-width : ".$borderWidth."px;
+    border-color : #".$borderColour.";
     }
 th {
-    background-color : #' . $selectedBackColour . ';
-    color : #' . $selectedTextColour . ';
-    font-family : ' . $selectedTextFont . ';
-    font-size : ' . $selectedTextSize . ';
-    font-style : ' . $selectedTextStyle . ';
-    border-style : ' . $borderStyle . ';
-    border-width : ' . $borderWidth . 'px;
-    border-color : #' . $borderColour . ';
+    background-color : #".$selectedBackColour.";
+    color : #".$selectedTextColour.";
+    font-family : ".$selectedTextFont.";
+    font-size : ".$selectedTextSize.";
+    font-style : ".$selectedTextStyle.";
+    border-style : ".$borderStyle.";
+    border-width : ".$borderWidth."px;
+    border-color : #".$borderColour.";
     }
 -->
-</style>';
+</style>";

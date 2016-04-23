@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
-//    Template
-//        Copyright 2004 Thomas Hill
-//        <a href="http://www.worldware.com">worldware.com</a>
+//	pedigree
+//		Copyright 2004, James Cotton
+// 		http://www.dobermannvereniging.nl
+//	Template
+//		Copyright 2004 Thomas Hill
+//		<a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -28,5 +28,12 @@
 //  ------------------------------------------------------------------------ //
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+//if (file_exists("../language/" . $xoopsConfig['language'] . "/modinfo.php")) {
+//    include_once '../language/' . $xoopsConfig['language'] . "/modinfo.php";
+//} else {
+//    include_once '../language/english/modinfo.php';
+//}
+
 xoops_loadLanguage('modinfo', basename(dirname(__DIR__)));
-require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->dirname() . '/admin/menu.php');
+
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/admin/menu.php");

@@ -14,9 +14,9 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/lang
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 
-$xoopsOption['template_main'] = 'pedigree_book.tpl';
+$xoopsOption['template_main'] = "pedigree_book.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
@@ -6675,17 +6675,17 @@ for ($index = 0; $index < count($fok); ++$index) {
     $lnaam = $fok[$index]['anaam'];
     $vnaam = $fok[$index]['vnaam'];
 
-    $sql    = 'SELECT ID from ' . $xoopsDB->prefix('pedigree_owner') . " where firstname = '" . $vnaam . "' AND lastname = '" . $lnaam . "'";
+    $sql    = "SELECT ID from " . $xoopsDB->prefix("pedigree_owner") . " where firstname = '" . $vnaam . "' AND lastname = '" . $lnaam . "'";
     $result = $xoopsDB->query($sql);
     while ($row = $xoopsDB->fetchArray($result)) {
-        $UPD = 'UPDATE ' . $xoopsDB->prefix('pedigree_tree') . " set id_breeder = '" . $row['ID'] . "' where NAAM='" . $id . "'";
+        $UPD = "UPDATE " . $xoopsDB->prefix("pedigree_tree") . " set id_breeder = '" . $row['ID'] . "' where NAAM='" . $id . "'";
         //echo $UPD."<br />";
         $xoopsDB->queryF($UPD);
     }
 
 }
 
-echo '<h1>GRRR</h1>';
+echo "<h1>GRRR</h1>";
 
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+include XOOPS_ROOT_PATH . "/footer.php";

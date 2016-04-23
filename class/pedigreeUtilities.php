@@ -6,23 +6,22 @@
  * Date: 2014-11-19
  * Time: 3:05
  */
-class PedigreeUtilities
+class pedigreeUtilities
 {
 
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
-     * @param string $folder The full path of the directory to check
+     * @param string $folder Le chemin complet du répertoire à vérifier
      *
      * @return void
      */
     public static function prepareFolder($folder)
     {
-//        $filteredFolder = XoopsFilterInput::clean($folder, 'PATH');
         if (!is_dir($folder)) {
-            mkdir($folder);
+            mkdir($folder, 0777);
             file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
         }
-//        chmod($filteredFolder, 0777);
+        chmod($folder, 0777);
     }
 }

@@ -37,7 +37,7 @@ function lookup($category, $item_id)
 
     if (empty($xoopsModule) || $xoopsModule->getVar('dirname') != 'pedigree') {
         $module_handler = xoops_getHandler('module');
-        $module         = $module_handler->getByDirname('pedigree');
+        $module         = $module_handler->getByDirname("pedigree");
         $config_handler = xoops_getHandler('config');
         $config         = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
     } else {
@@ -58,7 +58,7 @@ function lookup($category, $item_id)
         // Assume we have a valid forum id
         $sql = 'SELECT NAAM FROM ' . $xoopsDB->prefix('pedigree_tree') . ' WHERE ID = ' . $item_id;
         if (!$result = $xoopsDB->query($sql)) {
-            redirect_header('index.php', 2, _MD_ERRORFORUM);
+            redirect_header("index.php", 2, _MD_ERRORFORUM);
             exit();
         }
         $result_array = $xoopsDB->fetchArray($result);
@@ -73,7 +73,7 @@ function lookup($category, $item_id)
         $sql = 'SELECT t.topic_title,f.forum_id,f.forum_name FROM ' . $xoopsDB->prefix('bb_topics') . ' t, ' . $xoopsDB->prefix('bb_forums') . ' f WHERE t.forum_id = f.forum_id AND t.topic_id = '
             . $item_id . ' limit 1';
         if (!$result = $xoopsDB->query($sql)) {
-            redirect_header('index.php', 2, _MD_ERROROCCURED);
+            redirect_header("index.php", 2, _MD_ERROROCCURED);
             exit();
         }
         $result_array = $xoopsDB->fetchArray($result);
@@ -87,7 +87,7 @@ function lookup($category, $item_id)
         // Assume we have a valid post id
         $sql = 'SELECT subject,topic_id,forum_id FROM ' . $xoopsDB->prefix('bb_posts') . ' WHERE post_id = ' . $item_id . ' LIMIT 1';
         if (!$result = $xoopsDB->query($sql)) {
-            redirect_header('index.php', 2, _MD_ERROROCCURED);
+            redirect_header("index.php", 2, _MD_ERROROCCURED);
             exit();
         }
         $result_array = $xoopsDB->fetchArray($result);

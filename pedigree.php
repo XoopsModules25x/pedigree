@@ -30,29 +30,29 @@ xoops_loadLanguage('main', basename(__DIR__));
 include_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php');
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
 //require_once(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
-extract($_GET, EXTR_PREFIX_ALL, 'param');
-extract($_POST, EXTR_PREFIX_ALL, 'param');
+extract($_GET, EXTR_PREFIX_ALL, "param");
+extract($_POST, EXTR_PREFIX_ALL, "param");
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = 'pedigree_pedigree.tpl';
+$xoopsOption['template_main'] = "pedigree_pedigree.tpl";
 
 include XOOPS_ROOT_PATH . '/header.php';
 
-$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
-$GLOBALS['xoTheme']->addScript('browse.php?modules/' . $mydirname . '/assets/js/jquery.magnific-popup.min.js');
-$GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $mydirname . '/assets/css/style.css');
-$GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $mydirname . '/assets/css/magnific-popup.css');
+$GLOBALS['xoTheme']->addScript("browse.php?Frameworks/jquery/jquery.js");
+$GLOBALS['xoTheme']->addScript("browse.php?modules/" . $mydirname . "/assets/js/jquery.magnific-popup.min.js");
+$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/" . $mydirname . "/assets/css/style.css");
+$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/" . $mydirname . '/assets/css/magnific-popup.css');
 
-require_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php');
+require_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
+require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 
 //get module configuration
 $module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname('pedigree');
+$module         = $module_handler->getByDirname("pedigree");
 $config_handler = xoops_getHandler('config');
 $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -61,7 +61,7 @@ pedigree_main($_GET['pedid']);
 
 //comments and footer
 //include XOOPS_ROOT_PATH . "/footer.php";
-include __DIR__ . '/footer.php';
+include __DIR__ . "/footer.php";
 
 //
 // Displays the "Main" tab of the module
@@ -82,32 +82,32 @@ function pedigree_main($ID)
 
     $qarray = array('d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm');
 
-    $querystring = 'SELECT ';
+    $querystring = "SELECT ";
 
     foreach ($qarray as $key) {
-        $querystring .= $key . '.id as ' . $key . '_id, ';
-        $querystring .= $key . '.naam as ' . $key . '_naam, ';
-        $querystring .= $key . '.mother as ' . $key . '_mother, ';
-        $querystring .= $key . '.father as ' . $key . '_father, ';
-        $querystring .= $key . '.roft as ' . $key . '_roft, ';
-        $querystring .= $key . '.foto as ' . $key . '_foto, ';
+        $querystring .= $key . ".id as " . $key . "_id, ";
+        $querystring .= $key . ".naam as " . $key . "_naam, ";
+        $querystring .= $key . ".mother as " . $key . "_mother, ";
+        $querystring .= $key . ".father as " . $key . "_father, ";
+        $querystring .= $key . ".roft as " . $key . "_roft, ";
+        $querystring .= $key . ".foto as " . $key . "_foto, ";
     }
 
-    $querystring .= 'mmm.coi as mmm_coi FROM ' . $xoopsDB->prefix('pedigree_tree') . ' d
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' f ON d.father = f.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' m ON d.mother = m.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ff ON f.father = ff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mf ON m.father = mf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
-    LEFT JOIN ' . $xoopsDB->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.id
+    $querystring .= "mmm.coi as mmm_coi FROM " . $xoopsDB->prefix("pedigree_tree") . " d
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " f ON d.father = f.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " m ON d.mother = m.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ff ON f.father = ff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fff ON ff.father = fff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " ffm ON ff.mother = ffm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mf ON m.father = mf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mff ON mf.father = mff.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mfm ON mf.mother = mfm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fm ON f.mother = fm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmf ON fm.father = fmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " fmm ON fm.mother = fmm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mm ON m.mother = mm.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmf ON mm.father = mmf.id
+    LEFT JOIN " . $xoopsDB->prefix("pedigree_tree") . " mmm ON mm.mother = mmm.id
     where d.id=$ID";
 
     $result = $xoopsDB->query($querystring);
@@ -126,14 +126,14 @@ function pedigree_main($ID)
             } else {
                 //check if image exists
                 if ($row[$key . '_foto'] != '') {
-                    $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
-                    $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'];
+                    $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . "/images/thumbnails/" . $row[$key . '_foto'] . "_150.jpeg";
+                    $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . "/images/" . $row[$key . '_foto'];
                 }
             }
 
             $d[$key]['overig'] = '';
             // $pedidata to hold viewable data to be shown in pedigree
-            $pedidata = '';
+            $pedidata = "";
 
             if (!$d[$key]['id'] == '') {
                 //if exists create animal object
@@ -143,9 +143,9 @@ function pedigree_main($ID)
             for ($i = 0; $i < count($fields); ++$i) {
                 $userfield = new Field($fields[$i], $animal->getconfig());
                 if ($userfield->active() && $userfield->inpedigree()) {
-                    $fieldType   = $userfield->getSetting('FieldType');
+                    $fieldType   = $userfield->getSetting("FieldType");
                     $fieldobject = new $fieldType($userfield, $animal);
-                    $pedidata .= $fieldobject->showField() . '<br />';
+                    $pedidata .= $fieldobject->showField() . "<br />";
                 }
                 $d[$key]['hd'] = $pedidata;
             }
@@ -157,16 +157,16 @@ function pedigree_main($ID)
     //add data to smarty template
     $xoopsTpl->assign('page_title', stripslashes($row['d_naam']));
     //assign dog
-    $xoopsTpl->assign('d', $d);
+    $xoopsTpl->assign("d", $d);
     //assign config options
 
-    $xoopsTpl->assign('male', "<img src=\"assets/images/male.gif\">");
-    $xoopsTpl->assign('female', "<img src=\"assets/images/female.gif\">");
+    $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
+    $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
 
     //assign extra display options
-    $xoopsTpl->assign('unknown', 'Unknown');
-    $xoopsTpl->assign('SD', _MA_PEDIGREE_SD);
-    $xoopsTpl->assign('PA', _MA_PEDIGREE_PA);
-    $xoopsTpl->assign('GP', _MA_PEDIGREE_GP);
-    $xoopsTpl->assign('GGP', _MA_PEDIGREE_GGP);
+    $xoopsTpl->assign("unknown", "Unknown");
+    $xoopsTpl->assign("SD", _MA_PEDIGREE_SD);
+    $xoopsTpl->assign("PA", _MA_PEDIGREE_PA);
+    $xoopsTpl->assign("GP", _MA_PEDIGREE_GP);
+    $xoopsTpl->assign("GGP", _MA_PEDIGREE_GGP);
 }
