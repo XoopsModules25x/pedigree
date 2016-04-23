@@ -50,7 +50,7 @@ function check()
     //insert into owner
     $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_owner") . " VALUES ('','"
         . $xoopsDB->escape($voornaam) . "','"
-        . $xoopsDB->escape($achternaam) . "','','','','','','" 
+        . $xoopsDB->escape($achternaam) . "','','','','','','"
         . $xoopsDB->escape($email) . "','"
         . $xoopsDB->escape($website) . "','"
         . $xoopsDB->escape($user) . "')";

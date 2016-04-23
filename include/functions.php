@@ -265,7 +265,7 @@ function pups($oid, $gender)
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -349,7 +349,7 @@ function bas($oid, $pa, $ma)
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns1[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns1[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns1;
             unset($lookupvalues);
         }
@@ -500,12 +500,12 @@ function makelist($result, $prefix, $link, $element)
         $fieldobject = new $fieldType($userfield, $animal);
         if ($userfield->active() && $userfield->inlist()) {
             if ($userfield->haslookup()) {
-                $id = $userfield->getid();
+                $id = $userfield->getId();
                 $q  = $userfield->lookup($id);
             } else {
                 $q = "";
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookuparray' => $q);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookuparray' => $q);
             ++$numofcolumns;
         }
     }
@@ -520,8 +520,8 @@ function makelist($result, $prefix, $link, $element)
         $gender = "";
         if (!empty($xoopsUser)) {
             if ($row['user'] == $xoopsUser->getVar("uid") || $modadmin == true) {
-                $gender = "<a href=\"dog.php?id=" . $row['ID'] . "\"><img src=\"assets/images/edit.gif\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['ID']
-                    . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
+                $gender = "<a href=\"dog.php?id=" . $row['ID'] . "\"><img src=\"assets/images/editpng\" alt=" . _MA_PEDIGREE_BTN_EDIT . "></a><a href=\"delete.php?id=" . $row['ID']
+                    . "\"><img src=\"assets/images/delete.png\" alt=" . _MA_PEDIGREE_BTN_DELE . "></a>";
             } else {
                 $gender = "";
             }
@@ -532,7 +532,7 @@ function makelist($result, $prefix, $link, $element)
             $gender .= "<img src=\"assets/images/female.gif\">";
         }
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }

@@ -126,7 +126,7 @@ for ($i = 0; $i < count($fields); ++$i) {
             //debug information
             //print_r($lookupvalues);
         }
-        $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+        $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
         ++$numofcolumns;
         unset($lookupvalues);
     }
@@ -160,7 +160,7 @@ if ($gend == '0') {
 while ($row = $xoopsDB->fetchArray($result)) {
     //create picture information
     if ($row['foto'] != '') {
-        $camera = " <img src=\"assets/images/camera.png\">";
+        $camera = " <img src=\"assets/images/file-picture-icon.png\">";
     } else {
         $camera = "";
     }

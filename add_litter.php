@@ -34,19 +34,16 @@ $module         = $module_handler->getByDirname("pedigree");
 $config_handler = xoops_getHandler('config');
 $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
-if (!isset($_GET['f'])) {
+$f = XoopsRequest::getString('f', '', 'get');
+
+if (empty($f)) {
     addlitter();
-} else {
-    $f = $_GET['f'];
-    if ($f == "sire") {
-        sire();
-    }
-    if ($f == "dam") {
-        dam();
-    }
-    if ($f == "check") {
-        check();
-    }
+} elseif ($f === 'sire') {
+    sire();
+} elseif ($f === 'dam') {
+    dam();
+} elseif ($f === 'check') {
+    check();
 }
 
 function addlitter()
@@ -118,9 +115,9 @@ function addlitter()
         $breeder  = new XoopsFormSelect(_MA_PEDIGREE_FLD_BREE, 'id_breeder', $value = '', $size = 1, $multiple = false);
         $queryfok = "SELECT ID, firstname, lastname from " . $xoopsDB->prefix("pedigree_owner") . " order by `lastname`";
         $resfok   = $xoopsDB->query($queryfok);
-        $breeder->addOption(0, $name = 'Unknown', $disabled = false);
+        $breeder->addOption(0, $name = 'Unknown');
         while ($rowfok = $xoopsDB->fetchArray($resfok)) {
-            $breeder->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname'], $disabled = false);
+            $breeder->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname']);
         }
         $searchform->addElement($breeder);
     }
@@ -307,7 +304,7 @@ function sire()
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -329,7 +326,7 @@ function sire()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }
@@ -474,7 +471,7 @@ function dam()
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -496,7 +493,7 @@ function dam()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }

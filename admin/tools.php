@@ -234,7 +234,7 @@ function deleted()
     $sql    = "SELECT ID, NAAM	FROM " . $xoopsDB->prefix("pedigree_trash");
     $result = $xoopsDB->query($sql);
     while ($row = $xoopsDB->fetchArray($result)) {
-        $form .= "<a href=\"tools.php?op=delperm&id=" . $row['ID'] . "\"><img src=\"assets/images/delete.gif\" /></a>&nbsp;<a href=\"tools.php?op=restore&id=" . $row['ID'] . "\">" . $row['NAAM']
+        $form .= "<a href=\"tools.php?op=delperm&id=" . $row['ID'] . "\"><img src=\"assets/images/delete.png\" /></a>&nbsp;<a href=\"tools.php?op=restore&id=" . $row['ID'] . "\">" . $row['NAAM']
             . "</a><br />";
     }
     if ($xoopsDB->getRowsNum($result) > 0) {

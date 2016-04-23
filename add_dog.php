@@ -91,7 +91,6 @@ function adddog()
 }
 
 function checkname()
-
 {
     //configure global variables
     global $xoopsTpl, $xoopsDB, $xoopsUser;
@@ -152,9 +151,9 @@ function checkname()
             $breeder_select = new XoopsFormSelect("<b>" . _MA_PEDIGREE_FLD_BREE . "</b>", $name = "id_breeder", $value = '0', $size = 1, $multiple = false);
             $queryfok       = "SELECT ID, lastname, firstname from " . $xoopsDB->prefix("pedigree_owner") . " ORDER BY lastname";
             $resfok         = $xoopsDB->query($queryfok);
-            $breeder_select->addOption('0', $name = _MA_PEDIGREE_UNKNOWN, $disabled = false);
+            $breeder_select->addOption('0', $name = _MA_PEDIGREE_UNKNOWN);
             while ($rowfok = $xoopsDB->fetchArray($resfok)) {
-                $breeder_select->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname'], $disabled = false);
+                $breeder_select->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname']);
             }
             $form->addElement($breeder_select);
             $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_BREE_EX, array('[animalType]' => $moduleConfig['animalType']))));
@@ -163,9 +162,9 @@ function checkname()
             $owner_select = new XoopsFormSelect("<b>" . _MA_PEDIGREE_FLD_OWNE . "</b>", $name = "id_owner", $value = '0', $size = 1, $multiple = false);
             $queryfok     = "SELECT ID, lastname, firstname from " . $xoopsDB->prefix("pedigree_owner") . " ORDER BY lastname";
             $resfok       = $xoopsDB->query($queryfok);
-            $owner_select->addOption('0', $name = _MA_PEDIGREE_UNKNOWN, $disabled = false);
+            $owner_select->addOption('0', $name = _MA_PEDIGREE_UNKNOWN);
             while ($rowfok = $xoopsDB->fetchArray($resfok)) {
-                $owner_select->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname'], $disabled = false);
+                $owner_select->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname']);
             }
             $form->addElement($owner_select);
             $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_OWNE_EX, array('[animalType]' => $moduleConfig['animalType']))));
@@ -377,7 +376,7 @@ function sire()
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -399,7 +398,7 @@ function sire()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }
@@ -549,7 +548,7 @@ function dam()
                 //debug information
                 //print_r($lookupvalues);
             }
-            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getID(), 'lookupval' => $lookupvalues);
+            $columns[] = array('columnname' => $fieldobject->fieldname, 'columnnumber' => $userfield->getId(), 'lookupval' => $lookupvalues);
             ++$numofcolumns;
             unset($lookupvalues);
         }
@@ -571,7 +570,7 @@ function dam()
     while ($row = $xoopsDB->fetchArray($result)) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = " <img src=\"assets/images/file-picture-icon.png\">";
         } else {
             $camera = "";
         }

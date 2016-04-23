@@ -159,18 +159,18 @@ function edit($id = 0)
             $owner_select = new XoopsFormSelect("<b>" . _MA_PEDIGREE_FLD_OWNE . "</b>", $name = "id_owner", $value = $row['id_owner'], $size = 1, $multiple = false);
             $queryeig     = "SELECT ID, lastname, firstname from " . $xoopsDB->prefix("pedigree_owner") . " ORDER BY \"lastname\"";
             $reseig       = $xoopsDB->query($queryeig);
-            $owner_select->addOption(0, $name = _MA_PEDIGREE_UNKNOWN, $disabled = false);
+            $owner_select->addOption(0, $name = _MA_PEDIGREE_UNKNOWN);
             while ($roweig = $xoopsDB->fetchArray($reseig)) {
-                $owner_select->addOption($roweig['ID'], $name = $roweig['lastname'] . ", " . $roweig['firstname'], $disabled = false);
+                $owner_select->addOption($roweig['ID'], $name = $roweig['lastname'] . ", " . $roweig['firstname']);
             }
             $form->addElement($owner_select);
             //breeder
             $breeder_select = new XoopsFormSelect("<b>" . _MA_PEDIGREE_FLD_BREE . "</b>", $name = "id_breeder", $value = $row['id_breeder'], $size = 1, $multiple = false);
             $queryfok       = "SELECT ID, lastname, firstname from " . $xoopsDB->prefix("pedigree_owner") . " ORDER BY \"lastname\"";
             $resfok         = $xoopsDB->query($queryfok);
-            $breeder_select->addOption(0, $name = _MA_PEDIGREE_UNKNOWN, $disabled = false);
+            $breeder_select->addOption(0, $name = _MA_PEDIGREE_UNKNOWN);
             while ($rowfok = $xoopsDB->fetchArray($resfok)) {
-                $breeder_select->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname'], $disabled = false);
+                $breeder_select->addOption($rowfok['ID'], $name = $rowfok['lastname'] . ", " . $rowfok['firstname']);
             }
             $form->addElement($breeder_select);
         }

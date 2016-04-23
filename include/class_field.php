@@ -118,7 +118,7 @@ class Field
     /**
      * @return bool
      */
-    function islocked()
+    function isLocked()
     {
         $active = $this->getSetting("locked");
         if ($active == '1') {
@@ -325,7 +325,7 @@ class radiobutton extends Field
         $radio          = new XoopsFormRadio("<b>" . $this->fieldname . "</b>", 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = Field::lookup($this->fieldnumber);
         for ($i = 0; $i < count($lookupcontents); ++$i) {
-            $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"), $disabled = false);
+            $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"));
         }
 
         return $radio;
@@ -341,7 +341,7 @@ class radiobutton extends Field
         $radio          = new XoopsFormRadio("<b>" . $this->fieldname . "</b>", $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = Field::lookup($this->fieldnumber);
         for ($i = 0; $i < count($lookupcontents); ++$i) {
-            $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"), $disabled = false);
+            $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"));
         }
 
         return $radio;
@@ -435,7 +435,7 @@ class selectbox extends Field
         $select         = new XoopsFormSelect("<b>" . $this->fieldname . "</b>", 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
         $lookupcontents = Field::lookup($this->fieldnumber);
         for ($i = 0; $i < count($lookupcontents); ++$i) {
-            $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"), $disabled = false);
+            $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"));
         }
 
         return $select;
@@ -451,7 +451,7 @@ class selectbox extends Field
         $select         = new XoopsFormSelect("<b>" . $this->fieldname . "</b>", $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
         $lookupcontents = Field::lookup($this->fieldnumber);
         for ($i = 0; $i < count($lookupcontents); ++$i) {
-            $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"), $disabled = false);
+            $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . "<br />"));
         }
 
         return $select;
