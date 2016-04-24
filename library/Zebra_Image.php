@@ -191,7 +191,6 @@ class Zebra_Image
      *
      *  Initializes the class and the default properties
      *
-     * @return void
      */
     public function __construct()
     {
@@ -1407,8 +1406,7 @@ class Zebra_Image
      *  versions!</i>
      *
      * @param $image
-     *
-     * @return
+     * @return mixed
      * @internal param \identifier $identifier An image identifier
      *
      * @access   private
@@ -1424,7 +1422,7 @@ class Zebra_Image
             $matrix = array(
                 array(-1.2, -1, -1.2),
                 array(-1, 20, -1),
-                array(-1.2, -1, -1.2),
+                array(-1.2, -1, -1.2)
             );
 
             // the divisor of the matrix

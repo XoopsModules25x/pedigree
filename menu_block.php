@@ -83,7 +83,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage == '/result.php') {
+    if ($curpage === '/index.php' || $curpage === '/result.php') {
         $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $moduleConfig['animalTypes'] . '</b>';
     } else {
         $title = '_MA_PEDIGREE_VIEWSEARCH ' . $moduleConfig['animalTypes'];

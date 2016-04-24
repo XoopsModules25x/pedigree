@@ -57,7 +57,7 @@ function pedigree_config_form()
             <table width='100%' border='0' cellpadding='4' cellspacing='1'>\n";
 
     foreach ($config_fields as $field => $prompt) {
-        if ($field == 'config_id') {
+        if ($field === 'config_id') {
             continue;
         }
         $pname = 'param_' . $field;

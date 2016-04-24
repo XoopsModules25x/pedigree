@@ -47,7 +47,7 @@ $numresults = $GLOBALS['xoopsDB']->getRowsNum($numres);
 //total number of pages
 $numpages = floor($numresults / $perp) + 1;
 if (($numpages * $perp) == ($numresults + $perp)) {
-    $numpages -= 1;
+    --$numpages;
 }
 //find current page
 $cpage = floor($st / $perp) + 1;

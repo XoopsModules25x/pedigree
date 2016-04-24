@@ -31,7 +31,7 @@ function TCSelect(c) {
 function TCPaint(c, b_noPref) {
     c = (b_noPref ? '' : '#') + c.toUpperCase();
     if (this.o_samp)
-        this.o_samp.innerHTML = '<font face=Tahoma size=2>' + c + ' <font color=white>' + c + '</font></font>'
+        this.o_samp.innerHTML = '<font face=Tahoma size=2>' + c + ' <font color=white>' + c + '</font></font>';
     if (this.doc.layers)
         this.sample.bgColor = c;
     else {
@@ -157,11 +157,11 @@ function TCDraw(o_win, o_doc) {
             'layer visibility=hidden top=54 left=5 width=182' :
             'div style=visibility:hidden;position:absolute;left:6px;top:54px;width:182px;height:0',
         s_tag_openS = o_doc.layers ? 'layer top=32 left=6' : 'div',
-        s_tag_close = o_doc.layers ? 'layer' : 'div'
+        s_tag_close = o_doc.layers ? 'layer' : 'div';
 
     this.doc.write('<' + s_tag_openS + ' id=sam name=sam><table cellpadding=0 cellspacing=0 border=1 width=181 align=center class=bd><tr><td align=center height=18><div id="samp"><font face=Tahoma size=2>sample <font color=white>sample</font></font></div></td></tr></table></' + s_tag_close + '>');
     this.sample = o_doc.layers ? o_doc.layers['sam'] :
-        o_doc.getElementById ? o_doc.getElementById('sam').style : o_doc.all['sam'].style
+        o_doc.getElementById ? o_doc.getElementById('sam').style : o_doc.all['sam'].style;
 
     for (var k = 0; k < 4; k++) {
         this.doc.write('<' + s_tag_openT + ' id="p' + k + '" name="p' + k + '"><table cellpadding=0 cellspacing=0 border=1 align=center>' + this['build' + k]() + '</table></' + s_tag_close + '>');

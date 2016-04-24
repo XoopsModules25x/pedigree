@@ -655,12 +655,12 @@ function boucle($nb_gen, $nloop)
                 if (!$list[$s]) {
                     $new = 1;
                     if ($j < $nb_gen) {
-                        $nbtot += 1;
+                        ++$nbtot;
                     }
                 }
                 $list[$s] = $rank + 1;
                 if ($j < $nb_gen) {
-                    $nbtot += 1;
+                    ++$nbtot;
                 }
                 if ($j > $nloop - 10) {
                     $listing .= "Loop $j: Animal #$s " . $IDs[$s] . $nl;
@@ -670,12 +670,12 @@ function boucle($nb_gen, $nloop)
                 if (!$list[$d]) {
                     $new = 1;
                     if ($j < $nb_gen) {
-                        $nbtot += 1;
+                        ++$nbtot;
                     }
                 }
                 $list[$d] = $rank + 1;
                 if ($j < $nb_gen) {
-                    $nbtot += 1;
+                    ++$nbtot;
                 }
                 if ($j > $nloop - 10) {
                     $listing .= "Loop $j: Animal #$d " . $IDs[$d] . $nl;

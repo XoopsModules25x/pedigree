@@ -1,0 +1,553 @@
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+/**
+ * Wfdownloads module
+ *
+ * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @package         wfdownload
+ * @since           3.23
+ * @author          WF-Sections, Xoops Development Team, luciorota
+ * @version         svn:$Id$
+ */
+.pedigree_headertable {
+    padding: 0;
+    border-bottom: 1px solid;
+    margin: 0 0 10px;
+}
+
+.pedigree_modulename {
+    font-size: 10px;
+    text-align: left;
+    font-weight: bold;
+    padding-right: 0.3em;
+    line-height: 18px;
+}
+
+.pedigree_breadcrumb {
+    font-size: 10px;
+    line-height: 18px;
+}
+
+.pedigree_infotitle {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 250%;
+    line-height: 250%;
+    font-weight: bold;
+    display: block;
+}
+
+.pedigree_infotext {
+    margin-bottom: 8px;
+    line-height: 130%;
+    display: block;
+}
+
+.pedigree_adminlinks {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 18px;
+}
+
+.pedigree_indexfooter {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+
+.pedigree_itemfooter {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+
+ul {
+    padding: 2px;
+    list-style: disc;
+    text-align: left;
+}
+
+li {
+    margin-left: 5px;
+    color: #2F5376;
+}
+
+h4 {
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.pedigree_container {
+    height: 100%;
+    display: table;
+    width: 100%;
+    margin: 0 auto;
+    border: none;
+}
+
+.pedigree_static {
+    position: static;
+    clear: both;
+}
+
+/* ---------- global ---------- */
+.pedigree_pagenav {
+    text-align: right;
+}
+
+.pedigree_copyright {
+    text-align: center;
+}
+
+/* ---------- header.html ---------- */
+.pedigree_head_catimgheader {
+    text-align: center;
+}
+
+.pedigree_head_downimgheader {
+    text-align: center;
+}
+
+.pedigree_head_imgheader {
+    text-align: center;
+}
+
+.pedigree_head_catindexheader {
+    /*  text-align: center;  do not uncomment (will stop index alignment option working)  */
+}
+
+.pedigree_head_catletters {
+    text-align: center;
+    font-size: 80%;
+}
+
+.pedigree_head_cattoolbar {
+    text-align: center;
+}
+
+/* ---------- footer.html ---------- */
+.pedigree_foot_commentnav {
+    text-align: center;
+    padding: 3px;
+    margin: 3px;
+}
+
+.pedigree_foot_comments {
+    padding: 3px;
+    margin: 3px;
+}
+
+/* ---------- newlist.html ---------- */
+.pedigree_newlist_top {
+    text-align: center;
+    width: 100%;
+}
+
+.pedigree_newlist_top fieldset {
+    text-align: center;
+    border: 1px solid silver;
+    width: 450px;
+}
+
+.pedigree_newlist_totallast {
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+    font-size: large;
+}
+
+/* ---------- disclaimer.html ---------- */
+.pedigree_disc_imghead {
+    text-align: center;
+}
+
+.pedigree_disc_disclaimer {
+    text-align: center;
+}
+
+.pedigree_disc_discform {
+    text-align: center;
+}
+
+/* ---------- ratefile.html ---------- */
+.pedigree_rate_imghead {
+    text-align: center;
+}
+
+/* ---------- viewcat.html ---------- */
+.pedigree_view_top {
+}
+
+.pedigree_view_subs {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.pedigree_view_subs h3 {
+    text-align: center;
+    width: 100%;
+    background-color: #BEC8D1;
+}
+
+.pedigree_view_subs fieldset {
+}
+
+.pedigree_view_subslist {
+    text-align: left;
+    vertical-align: middle;
+    width: 90%;
+}
+
+.pedigree_view_catpath {
+    text-align: left;
+    margin-left: 5px;
+    padding: 0;
+    font-weight: bold;
+}
+
+.pedigree_view_sortlist {
+    text-align: center;
+    font-size: small;
+}
+
+/* ---------- download.html ---------- */
+.pedigree_down_title {
+    padding-top: 2.0em;
+}
+
+.pedigree_down_top_r {
+    float: right;
+    margin-right: 10px;
+    position: relative;
+}
+
+.pedigree_down_top_l {
+    float: left;
+}
+
+.pedigree_down_main_l {
+    width: 74%;
+    float: left;
+    height: 100%;
+    position: relative;
+    display: table;
+}
+
+.pedigree_down_main_l p {
+    padding-top: 10px;
+    margin: 0;
+}
+
+.pedigree_down_viewdetails {
+    text-align: right;
+}
+
+.pedigree_down_main_r {
+    width: 25%;
+    height: 100%;
+    float: right;
+    position: relative;
+    display: table;
+}
+
+.pedigree_down_main_r p {
+    padding-top: 10px;
+    margin: 0;
+}
+
+.pedigree_down_info_top {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 4px;
+    background-color: silver;
+    border-color: #999999;
+    font-size: .8em;
+}
+
+.pedigree_down_info_bottom {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 4px;
+    font-size: .8em;
+}
+
+.pedigree_down_main_b {
+    text-align: center;
+}
+
+.pedigree_down_main_bottom {
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.pedigree_down_main_bottom2 {
+    text-align: center;
+    background-color: silver;
+    width: 100%;
+    position: relative;
+    line-height: 150%;
+}
+
+.pedigree_down_custom {
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+/* ---------- singlefile.html ---------- */
+.pedigree_single_title {
+    padding-top: 2.0em;
+}
+
+.pedigree_single_title a {
+    color: #32529C;
+    background-color: inherit;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.pedigree_single_title a:hover {
+    color: #666;
+    background-color: inherit;
+    text-decoration: none;
+}
+
+.pedigree_single_top_r {
+    float: right;
+    margin-right: 10px;
+    position: relative;
+}
+
+.pedigree_single_top_l {
+    float: left;
+}
+
+.pedigree_single_main_l {
+    width: 74%;
+    height: 100%;
+    float: left;
+    position: relative;
+    display: table;
+}
+
+.pedigree_single_main_l p {
+    padding-top: 10px;
+    margin: 0;
+}
+
+.pedigree_single_main_r {
+    width: 25%;
+    float: right;
+    display: table-column;
+}
+
+.pedigree_single_info_top {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 4px;
+    background-color: silver;
+    border-color: #999999;
+    color: #333;
+    font-size: .8em;
+}
+
+.pedigree_single_info_dtimes {
+    margin-left: 4px;
+}
+
+.pedigree_single_main_custom {
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.pedigree_single_main_bottom {
+    text-align: center;
+    background-color: silver;
+    width: 100%;
+    position: relative;
+    float: bottom;
+}
+
+.pedigree_single_userrev {
+    padding: 3px;
+    margin: 3px;
+}
+
+.pedigree_single_usermir {
+    padding: 3px;
+    margin: 3px;
+}
+
+/* ---------- mirrors.html ---------- */
+.pedigree_mirrors_head, .pedigree_mirrors_head2, .pedigree_mirrors_head3 {
+    border-bottom: 2px solid #000000;
+    border-left: 1px solid #000000;
+    background-color: #BEC8D1;
+    text-align: left;
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #404040;
+}
+
+.pedigree_mirrors_head4 {
+    border-bottom: 2px solid #000000;
+    border-left: 1px solid #000000;
+    background-color: #BEC8D1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #404040;
+    width: 50px;
+}
+
+.pedigree_mirrors_head5 {
+    border-bottom: 2px solid #000000;
+    border-left: 0 solid #000000;
+    background-color: #BEC8D1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: #404040;
+    width: 30px;
+}
+
+tr.pedigree_mirrors_elist {
+    line-height: 25px;
+}
+
+.pedigree_mirrors_list, .pedigree_mirrors_list2, .pedigree_mirrors_list3 {
+    text-align: left;
+    border-right: 1px solid #000000;
+}
+
+.pedigree_mirrors_list4, .pedigree_mirrors_list5 {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pedigree_mirrors_found {
+}
+
+table.pedigree_mirrors {
+    width: 95%;
+    padding: 10px 10px 10px 10px;
+    border: 1px #000000 solid;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+tr.pedigree_mirrors_end {
+    background-color: #BEC8D1;
+}
+
+.pedigree_mirrors_foot, .pedigree_mirrors_foot a {
+    border-top: 2px solid #000000;
+    font-weight: bold;
+}
+
+.pedigree_mirrors_bottom {
+    font-weight: bold;
+}
+
+/* ---------- reviews.html ---------- */
+.pedigree_reviews_title {
+}
+
+.pedigree_reviews_desc {
+}
+
+.pedigree_reviews_catpath {
+}
+
+.pedigree_reviews_found {
+    width: 90%;
+    text-align: center;
+}
+
+.pedigree_reviews_revfound {
+    text-align: left;
+}
+
+.pedigree_reviews_addrev {
+    text-align: right;
+}
+
+.pedigree_reviews_reviewlist {
+    padding: 10px 10px 10px 10px;
+    border: 1px #000000 solid;
+    border-collapse: collapse;
+    width: 95%;
+}
+
+.pedigree_reviews_reviewer {
+    text-align: left;
+    width: 80%;
+    background-color: #BEC8D1;
+    /*  border-right: 1px solid #000000; */
+    border-bottom: 2px solid #000000;
+}
+
+.pedigree_reviews_reviewdate {
+    text-align: right;
+    width: 15%;
+    background-color: #BEC8D1;
+    border-bottom: 2px solid #000000;
+}
+
+.pedigree_reviews_revlistleft {
+    text-align: left;
+    border-right: 1px solid #000000;
+    width: 120px;
+}
+
+.pedigree_reviews_revlistright {
+    text-align: left;
+}
+
+.pedigree_reviews_revlistreview {
+    position: absolute;
+    top: 0;
+    left: 125px;
+    width: 90%;
+}
+
+.pedigree_reviews_revlisttitle {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 4px;
+    font-weight: bold;
+    color: #0000CC;
+}
+
+.pedigree_reviews_revlistrev {
+}
+
+.pedigree_reviews_foot {
+    background-color: #BEC8D1;
+    border: 2px solid #000000;
+    width: 95%;
+}
+
+.pedigree_reviews_addrev {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #BEC8D1;
+    border: 2px solid #000000;
+}

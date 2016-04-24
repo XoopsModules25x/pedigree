@@ -149,7 +149,7 @@ if (isset($_GET['gend'])) {
     $dogid = $curval;
 }
 //picture
-if ($_POST['dbfield'] == 'foto') {
+if ($_POST['dbfield'] === 'foto') {
     $curval = XoopsRequest::getString('curvalpic', '', 'POST');
     $foto   = PedigreeUtilities::uploadPicture(0);
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . " SET foto='" . $GLOBALS['xoopsDB']->escape($foto) . "' WHERE ID='{$dogid}'";

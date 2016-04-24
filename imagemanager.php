@@ -139,7 +139,7 @@ if ($op === 'list') {
     exit();
 }
 
-if ($op == 'upload') {
+if ($op === 'upload') {
     $imgcatHandler = xoops_getHandler('imagecategory');
     $imgcat_id     = (int)$HTTP_GET_VARS['imgcat_id'];
     $imgcat        = $imgcatHandler->get($imgcat_id);
@@ -160,7 +160,7 @@ if ($op == 'upload') {
     }
     if ($error != false) {
         xoops_header(false);
-        echo '</head><body><div style="text-align:center;"><input value="' . _BACK . '" type="button" onclick="javascript:history.go(-1);" /></div>';
+        echo '</head><body><div style="text-align:center;"><input value="' . _BACK . '" type="button" onclick="history.go(-1);" /></div>';
         xoops_footer();
         exit();
     }
@@ -210,7 +210,7 @@ if ($op === 'doupload') {
     }
     if ($error != false) {
         xoops_header(false);
-        echo '</head><body><div style="text-align:center;"><input value="' . _BACK . '" type="button" onclick="javascript:history.go(-1);" /></div>';
+        echo '</head><body><div style="text-align:center;"><input value="' . _BACK . '" type="button" onclick="history.go(-1);" /></div>';
         xoops_footer();
         exit();
     }
@@ -246,7 +246,7 @@ if ($op === 'doupload') {
     if (isset($err)) {
         xoops_header(false);
         xoops_error($err);
-        echo '</head><body><div style="text-align:center;"><input value="' . _BACK . '" type="button" onclick="javascript:history.go(-1);" /></div>';
+        echo '</head><body><div style="text-align:center;"><input value="' . _BACK . '" type="button" onclick="history.go(-1);" /></div>';
         xoops_footer();
         exit();
     }

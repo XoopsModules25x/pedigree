@@ -211,7 +211,7 @@ function sire()
         }
         //insert into pedigree_temp
         //      $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . PedigreeUtilities::unHtmlEntities($name) . "','0','" . $id_breeder . "','" . $userid . "','" . $roft . "','','','', ''";
-        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . XoopsRequest::getInt($random) . "','" . XoopsRequest::getInt(unhtmlentities($name)) . "','0','" . XoopsRequest::getInt($id_breeder) . "','" . XoopsRequest::getInt($userid) . "','" . XoopsRequest::getInt($roft) . "','','','', ''";
+        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . XoopsRequest::getInt($random) . "','" . XoopsRequest::getInt(unHtmlEntities($name)) . "','0','" . XoopsRequest::getInt($id_breeder) . "','" . XoopsRequest::getInt($userid) . "','" . XoopsRequest::getInt($roft) . "','','','', ''";
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
             $userField   = new Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
@@ -243,7 +243,7 @@ function sire()
     //total number of pages
     $numpages = floor($numresults / $perp) + 1;
     if (($numpages * $perp) == ($numresults + $perp)) {
-        $numpages -= 1;
+        --$numpages;
     }
     //find current page
     $cpage = floor($st / $perp) + 1;
@@ -428,7 +428,7 @@ function dam()
     //total number of pages
     $numpages = floor($numresults / $perp) + 1;
     if (($numpages * $perp) == ($numresults + $perp)) {
-        $numpages -= 1;
+        --$numpages ;
     }
     //find current page
     $cpage = floor($st / $perp) + 1;

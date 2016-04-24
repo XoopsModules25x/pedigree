@@ -266,7 +266,7 @@ function sire()
 
         //insert into pedigree_temp
         //        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . PedigreeUtilities::unHtmlEntities($name) . "','" . $id_owner . "','" . $id_breeder . "','" . $user . "','" . $roft . "','','','" . $foto . "', ''" . $usersql . ')';
-        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $GLOBALS['xoopsDB']->escape($random) . "','" . $GLOBALS['xoopsDB']->escape(unhtmlentities($name)) . "','" . $GLOBALS['xoopsDB']->escape($id_owner) . "','" . $GLOBALS['xoopsDB']->escape($id_breeder) . "','" . $GLOBALS['xoopsDB']->escape($user) . "','" . $GLOBALS['xoopsDB']->escape($roft) . "','','','" . $GLOBALS['xoopsDB']->escape($foto) . "', ''" . $usersql . ')';
+        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $GLOBALS['xoopsDB']->escape($random) . "','" . $GLOBALS['xoopsDB']->escape(unHtmlEntities($name)) . "','" . $GLOBALS['xoopsDB']->escape($id_owner) . "','" . $GLOBALS['xoopsDB']->escape($id_breeder) . "','" . $GLOBALS['xoopsDB']->escape($user) . "','" . $GLOBALS['xoopsDB']->escape($roft) . "','','','" . $GLOBALS['xoopsDB']->escape($foto) . "', ''" . $usersql . ')';
         //echo $query; die();
         $GLOBALS['xoopsDB']->query($query);
         redirect_header('add_dog.php?f=sire&random=' . $random . '&st=' . $st . '&r=1&l=a', 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, array('[father]' => $moduleConfig['father'])));
@@ -289,7 +289,7 @@ function sire()
     //total number of pages
     $numpages = floor($numresults / $perp) + 1;
     if (($numpages * $perp) == ($numresults + $perp)) {
-        $numpages -= 1;
+        --$numpages ;
     }
     //find current page
     $cpage = floor($st / $perp) + 1;
@@ -479,7 +479,7 @@ function dam()
     list($numresults) = $GLOBALS['xoopsDB']->fetchRow($numres);
     $numpages = floor($numresults / $perp) + 1;
     if (($numpages * $perp) == ($numresults + $perp)) {
-        $numpages -= 1;
+        --$numpages;
     }
     $cpage = floor($st / $perp) + 1;
     //create alphabet

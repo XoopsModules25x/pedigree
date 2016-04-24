@@ -50,7 +50,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'stars'    => $content,
         'nument'   => "<a href=\"result.php?f=user&l=0&w=" . $row['d_user'] . "&o=NAAM\">" . $row['X'] . '</a>'
     );
-    $numpos += 1;
+    ++$numpos;
 }
 $GLOBALS['xoopsTpl']->assign('members', $members);
 $GLOBALS['xoopsTpl']->assign('title', _MA_PEDIGREE_M50_TIT);
