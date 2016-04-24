@@ -134,6 +134,7 @@ $queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') 
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+    print_r();
     //check for access
     $access = '';
     if (!empty($xoopsUser)) {
@@ -150,7 +151,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $dogs[] = array(
         'id'   => $row['Id'],
         'name' => $name,
-        'city' => ''
+        'city' => $row['city']
     );
 }
 

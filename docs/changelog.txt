@@ -12,6 +12,8 @@
 - XOOPS 2.5.8 compatibility (mamba)
 - renamed "lookup" to "lookupField" (mamba)
 - more PSR-2 cleanup (mamba)
+- Welcome Message (Bleekk)
+- Replace old php pie chart with canvasjs (Bleekk)
 
 
 TODO (suggested by Zyspec):

@@ -83,11 +83,13 @@ $xoopsTpl->assign('catarray', $catarray);
 
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign(array(
-                                 'sselect'    => strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])),
-                                 'explain'    => _MA_PEDIGREE_EXPLAIN,
-                                 'sname'      => _MA_PEDIGREE_SEARCHNAME,
-                                 'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])),
-                                 'usersearch' => isset($usersearch) ? $usersearch : ''
+                                 'sselect'     => strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])),
+                                 'explain'     => _MA_PEDIGREE_EXPLAIN,
+                                 'sname'       => _MA_PEDIGREE_SEARCHNAME,
+                                 'snameex'     => strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])),
+                                 'usersearch'  => isset($usersearch) ? $usersearch : '',
+                                 'showwelcome' => $moduleConfig['showwelcome'],
+                                 'welcome'     => $GLOBALS['myts']->displayTarea($moduleConfig['welcome'])
                              ));
 
 include $GLOBALS['xoops']->path('footer.php');

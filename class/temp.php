@@ -75,7 +75,7 @@ class PedigreeTemp extends XoopsObject
 
         include_once $GLOBALS['xoops']->path('class/tree.php');
         //            $Handler = xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
-        $tempHandler = xoops_getModuleHandler('temp', 'pedigree');
+        $tempHandler = xoops_getModuleHandler('temp', PEDIGREE_DIRNAME);
         $criteria    = new CriteriaCompo();
         $criteria->setSort('Id');
         $criteria->setOrder('ASC');

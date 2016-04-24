@@ -7,7 +7,7 @@ xoops_loadLanguage('main', $moduleDirName);
 
 //needed for generation of pie charts
 ob_start();
-include(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_eq_pie.php');
+//include(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_eq_pie.php');
 require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php');
 
 $xoopsOption['template_main'] = 'pedigree_advanced.tpl';
@@ -15,6 +15,8 @@ $xoopsOption['template_main'] = 'pedigree_advanced.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
 require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php');
+$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.canvasjs.min.js');
 
 global $xoopsTpl, $xoopsDB;
 $totpl = array();
@@ -43,14 +45,20 @@ list($countmales) = $GLOBALS['xoopsDB']->fetchRow($result);
 //query to count female dogs
 $result = $GLOBALS['xoopsDB']->query('select count(id) from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where roft='1'");
 list($countfemales) = $GLOBALS['xoopsDB']->fetchRow($result);
-
+/*
 //create pie for number of males/females
 //construct new pie
 $numbers_pie = new eq_pie;
 $data[0][0]  = strtr(_MA_PEDIGREE_FLD_MALE, array('[male]' => $moduleConfig['male']));
 $data[0][1]  = $countmales;
 $data[0][2]  = '#C8C8FF';
+*/
 
+$totaldogs  = $countmales + $countfemales;
+$perc_mdogs = round(100 / $totaldogs * $countmales, 1);
+$perc_fdogs = round(100 / $totaldogs * $countfemales, 1);
+
+/*
 $data[1][0] = strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['female']));
 $data[1][1] = $countfemales;
 $data[1][2] = '#FFC8C8';
@@ -102,6 +110,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $totpl[] = array('title' => $userField->getSetting('FieldName'), 'content' => $books);
     }
 }
+*/
 //strtr(_MA_PEDIGREE_FLD_MALE, array( '[male]' => $moduleConfig['male'] ))
 //strtr(_MA_PEDIGREE_ADV_ORPMUM, array( '[mother]' => $moduleConfig['mother'], '[animalTypes]' => $moduleConfig['animalTypes'] ))
 if ($moduleConfig['proversion'] == '1') {
@@ -123,5 +132,8 @@ $xoopsTpl->assign('orpdad', "<a href=\"result.php?f=mother!=0 and father&w=zero&
 $xoopsTpl->assign('orpmum', "<a href=\"result.php?f=father!=0 and mother&w=zero&o=NAAM\">" . strtr(_MA_PEDIGREE_ADV_ORPMUM, array('[mother]' => $moduleConfig['mother'], '[animalTypes]' => $moduleConfig['animalTypes'])) . '</a>');
 $xoopsTpl->assign('position', _MA_PEDIGREE_M50_POS);
 $xoopsTpl->assign('numdogs', _MA_PEDIGREE_M50_NUMD);
+
+$xoopsTpl->assign("maledogs", $perc_mdogs);
+$xoopsTpl->assign("femaledogs", $perc_fdogs);
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';
