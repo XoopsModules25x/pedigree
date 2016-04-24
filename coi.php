@@ -200,7 +200,7 @@ function add_multi($ch, $niv)
     reset($implx);
     $first = 1;
     foreach ($implx as $im => $impl) {
-        if ($impl[0] == $ch or $impl[1] == $ch) {
+        if ($impl[0] == $ch || $impl[1] == $ch) {
             if ($niv > 1 && $first) {
                 echo "<br />$nl";
             } else {
@@ -231,7 +231,7 @@ function output_animal($ind, $gen, $class)
         return 0;
     }
     $cell_content = '&Oslash;';
-    if ($ind or $gen == 0) {
+    if ($ind || $gen == 0) {
         $ID           = $IDs[$ind];
         $ani          = set_name($ID);
         $name         = $ani[1];
@@ -242,12 +242,12 @@ function output_animal($ind, $gen, $class)
     echo '<td rowspan=' . $rowspan . ' align="center" class="' . $class . '">' . $cell_content . "</td>$nl";
     if ($gen < $depth) {
         $sire = 0;
-        if ($ind or $gen == 0) {
+        if ($ind || $gen == 0) {
             $sire = $fathers[$ind];
         }
         output_animal($sire, $gen + 1, '0');
         $dam = 0;
-        if ($ind or $gen == 0) {
+        if ($ind || $gen == 0) {
             $dam = $mothers[$ind];
         }
         output_animal($dam, $gen + 1, '1');
@@ -527,7 +527,7 @@ function calc_dist() /* Common Ascendants and their distances */
 function mater_side($p, $m, $a, $ndist)
 {
     global $fathers, $mothers, $marked, $COIs, $deltaf, $ICknown, $verbose, $nl, $chrono, $paternal_rank, $max_dist;
-    if (!$m or $ndist > $max_dist) {
+    if (!$m || $ndist > $max_dist) {
         return 0;
     }
     if ($p == $m) {
@@ -577,7 +577,7 @@ function pater_side($p, $m, $a, $pdist)
     }
     $paternal_rank = $chrono[$p];
     $marked[$p]    = 1; /* cut paternal side */
-    if ($mater[$p] or $a) {
+    if ($mater[$p] || $a) {
         mater_side($p, $m, $a, $pdist);
     }
     pater_side($fathers[$p], $m, $a, $pdist + 1);
@@ -595,7 +595,7 @@ function pater_side($p, $m, $a, $pdist)
 function CONSANG($a)
 {
     global $fathers, $mothers, $ICknown, $COIs, $nl;
-    if (!$a or $ICknown[$a]) {
+    if (!$a || $ICknown[$a]) {
         return 0;
     }
     if ($a == -1) {
@@ -605,7 +605,7 @@ function CONSANG($a)
     // if IC was already stored in the database for Aminal #A, it should be used here instead of 0.0
     $p = $fathers[$a];
     $m = $mothers[$a];
-    if (!$p or !$m) {
+    if (!$p || !$m) {
         $COIs[$a]    = $IC_if_deadend;
         $ICknown[$a] = 2;
 

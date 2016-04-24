@@ -175,7 +175,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($modadmin == true) {
+    if ($modadmin === true) {
         if ($curpage === '/tools.php') {
             $title = '<b>Webmaster tools</b>';
         } else {

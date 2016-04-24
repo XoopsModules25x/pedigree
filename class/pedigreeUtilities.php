@@ -509,7 +509,7 @@ class PedigreeUtilities
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             //reset $gender
             $gender = '';
-            if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof XoopsUser) && ($row['user'] == $GLOBALS['xoopsUser']->getVar('uid') || true == $modadmin)) {
+            if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof XoopsUser) && ($row['user'] == $GLOBALS['xoopsUser']->getVar('uid') || true === $modadmin)) {
                 $gender = "<a href='dog.php?id={$row['Id']}'><img src='images/edit.gif' alt='" . _EDIT . "'></a>
                      . <a href='delete.php?id={$row['Id']}'><img src='images/delete.gif' alt='" . _DELETE . "'></a>";
             }
@@ -654,7 +654,7 @@ class PedigreeUtilities
      * Create download by letter choice bar/menu
      * updated starting from this idea http://xoops.org/modules/news/article.php?storyid=6497
      *
-     * @param $myObject
+     * @param PedigreePedigree $myObject
      * @param $activeObject
      * @param $criteria
      * @param $name
@@ -665,7 +665,7 @@ class PedigreeUtilities
      * @access  public
      * @author  luciorota
      */
-    public static function lettersChoice($myObject, $activeObject, $criteria, $name, $file, $file2)
+    public static function lettersChoice(PedigreePedigree $myObject, $activeObject, $criteria, $name, $file, $file2)
     {
         /*
         $pedigree = PedigreePedigree::getInstance();

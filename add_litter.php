@@ -5,12 +5,13 @@ require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php');
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php');
+require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/class_field.php');
 
+$xoopsOption                  = array();
 $xoopsOption['template_main'] = 'pedigree_addlitter.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
-$xoopsTpl->assign('page_title', 'Pedigree database - add a litter');
+$GLOBALS['xoopsTpl']->assign('page_title', 'Pedigree database - add a litter');
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname('pedigree');
@@ -20,7 +21,7 @@ if (empty($xoopsUser)) {
 
 //get module configuration
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname('pedigree');
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -41,7 +42,7 @@ if (!isset($_GET['f'])) {
 
 function addlitter()
 {
-    global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsOption;
+    global $xoopsUser, $xoopsDB, $xoopsOption;
 
     //get module configuration
     $moduleHandler = xoops_getHandler('module');
@@ -61,8 +62,8 @@ function addlitter()
     //create animal object
     $animal = new PedigreeAnimal();
     //test to find out how many user fields there are...
-    $fields = $animal->getNumOfFields();
-
+    $fields  = $animal->getNumOfFields();
+    $textbox = $gender_radio = $newEntry = array();
     //create form contents
     for ($count = 1; $count < 11; ++$count) {
         //name
@@ -116,12 +117,14 @@ function addlitter()
     //submit button
     $searchform->addElement(new XoopsFormButton('', 'submit', strtr(_MA_PEDIGREE_ADD_SIRE, array('[father]' => $moduleConfig['father'])), 'submit'));
     //send to template
-    $searchform->assign($xoopsTpl);
+    $searchform->assign($GLOBALS['xoopsTpl']);
 }
 
 function sire()
 {
-    global $xoopsTpl, $xoopsUser, $xoopsDB;
+    global $xoopsUser, $xoopsDB;
+    $user  = $empty = $columnvalue = array();
+    $value = '';
     //debug option !
     //print_r($_POST); die();
     //get module configuration
@@ -232,7 +235,7 @@ function sire()
         $l = 'a';
     }
     //assign 'sire' to the template
-    $xoopsTpl->assign('sire', '1');
+    $GLOBALS['xoopsTpl']->assign('sire', '1');
     //create list of males dog to select from
     $perp = $moduleConfig['perpage'];
     //count total number of dogs
@@ -367,18 +370,19 @@ function sire()
 
     //add data to smarty template
     //assign dog
-    $xoopsTpl->assign('dogs', $dogs);
-    $xoopsTpl->assign('columns', $columns);
-    $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtilities::sortTable($numofcolumns));
-    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, array('[father]' => $moduleConfig['father'])));
-    $xoopsTpl->assign('pages', $pages);
+    $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
+    $GLOBALS['xoopsTpl']->assign('columns', $columns);
+    $GLOBALS['xoopsTpl']->assign('numofcolumns', $numofcolumns);
+    $GLOBALS['xoopsTpl']->assign('tsarray', PedigreeUtilities::sortTable($numofcolumns));
+    $GLOBALS['xoopsTpl']->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, array('[father]' => $moduleConfig['father'])));
+    $GLOBALS['xoopsTpl']->assign('pages', $pages);
 }
 
 function dam()
 {
-    global $xoopsTpl, $xoopsUser, $xoopsDB;
-
+    global $xoopsUser, $xoopsDB;
+    $value       = '';
+    $columnvalue = $empty = array();
     //get module configuration
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname('pedigree');
@@ -415,7 +419,7 @@ function dam()
     //    }
     $l = XoopsRequest::getString('l', 'a', 'get');
     //assign sire to the template
-    $xoopsTpl->assign('sire', '1');
+    $GLOBALS['xoopsTpl']->assign('sire', '1');
     //create list of males dog to select from
     //    $perp = $moduleConfig['perpage'];
     $perp = (int)$moduleConfig['perpage'];
@@ -428,7 +432,7 @@ function dam()
     //total number of pages
     $numpages = floor($numresults / $perp) + 1;
     if (($numpages * $perp) == ($numresults + $perp)) {
-        --$numpages ;
+        --$numpages;
     }
     //find current page
     $cpage = floor($st / $perp) + 1;
@@ -552,18 +556,18 @@ function dam()
 
     //add data to smarty template
     //assign dog
-    $xoopsTpl->assign('dogs', $dogs);
-    $xoopsTpl->assign('columns', $columns);
-    $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtilities::sortTable($numofcolumns));
-    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, array('[mother]' => $moduleConfig['mother'])));
-    $xoopsTpl->assign('pages', $pages);
+    $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
+    $GLOBALS['xoopsTpl']->assign('columns', $columns);
+    $GLOBALS['xoopsTpl']->assign('numofcolumns', $numofcolumns);
+    $GLOBALS['xoopsTpl']->assign('tsarray', PedigreeUtilities::sortTable($numofcolumns));
+    $GLOBALS['xoopsTpl']->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, array('[mother]' => $moduleConfig['mother'])));
+    $GLOBALS['xoopsTpl']->assign('pages', $pages);
 }
 
 function check()
 {
-    global $xoopsTpl, $xoopsUser, $xoopsDB;
-
+    global $xoopsUser, $xoopsDB;
+    $userfields = '';
     //get module configuration
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname('pedigree');
