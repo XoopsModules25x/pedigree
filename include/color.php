@@ -18,7 +18,7 @@
  * @author      Andrew Morton <drewish@katherinehouse.com>
  * @copyright   2003-2005 The PHP Group
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version     CVS: $Id: color.php,v 1.1 2006/04/30 13:44:19 Administrator Exp $
+ * @version     1.1 2006/04/30
  * @link        http://pear.php.net/package/Image_Color
  */
 
@@ -53,7 +53,7 @@ class Image_Color
      * @access  public
      * @see     setColors()
      */
-    var $color1 = array();
+    public $color1 = array();
 
     /**
      * Second color that the class handles for ranges and mixes.
@@ -62,7 +62,7 @@ class Image_Color
      * @access  public
      * @see     setColors()
      */
-    var $color2 = array();
+    public $color2 = array();
 
     /**
      * Boolean value for determining whether colors outputted should be limited
@@ -72,7 +72,7 @@ class Image_Color
      * @access  private
      * @see     setWebSafe()
      */
-    var $_websafeb = false;
+    private $websafeb = false;
 
     /**
      * Mix two colors together by finding their average. If the colors are not
@@ -84,13 +84,13 @@ class Image_Color
      * @return string The mixed color.
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
-     * @uses    _setColors() to assign the colors if any are passed to the
+     * @uses    setInternalColors() to assign the colors if any are passed to the
      *                class.
      */
-    function mixColors($col1 = false, $col2 = false)
+    public function mixColors($col1 = false, $col2 = false)
     {
         if ($col1) {
-            $this->_setColors($col1, $col2);
+            $this->setInternalColors($col1, $col2);
         }
 
         // after finding the average, it will be a float. add 0.5 and then
@@ -99,7 +99,7 @@ class Image_Color
         $color3[1] = (int)((($this->color1[1] + $this->color2[1]) / 2) + 0.5);
         $color3[2] = (int)((($this->color1[2] + $this->color2[2]) / 2) + 0.5);
 
-        if ($this->_websafeb) {
+        if ($this->websafeb) {
             array_walk($color3, '_makeWebSafe');
         }
 
@@ -117,9 +117,9 @@ class Image_Color
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function setWebSafe($bool = true)
+    public function setWebSafe($bool = true)
     {
-        $this->_websafeb = (boolean)$bool;
+        $this->websafeb = (boolean)$bool;
     }
 
     /**
@@ -132,9 +132,9 @@ class Image_Color
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function setColors($col1, $col2)
+    public function setColors($col1, $col2)
     {
-        $this->_setColors($col1, $col2);
+        $this->setInternalColors($col1, $col2);
     }
 
     /**
@@ -149,7 +149,7 @@ class Image_Color
      * @author  Jason Lotito <jason@lehighweb.com>
      * @todo    Allow for degrees for individual parts of the colors.
      */
-    function getRange($degrees = 2)
+    public function getRange($degrees = 2)
     {
         if ($degrees == 0) {
             $degrees = 1;
@@ -192,7 +192,7 @@ class Image_Color
                 }
             }
 
-            if ($this->_websafeb) {
+            if ($this->websafeb) {
                 array_walk($newcolor, '_makeWebSafe');
             }
 
@@ -214,7 +214,7 @@ class Image_Color
      * @uses    Image_Color::$color1 as an input and return value.
      * @uses    Image_Color::$color2 as an input and return value.
      */
-    function changeLightness($degree = 10)
+    public function changeLightness($degree = 10)
     {
         $color1 =& $this->color1;
         $color2 =& $this->color2;
@@ -260,9 +260,9 @@ class Image_Color
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
+    public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
-        $color = Image_Color::_splitColor($color);
+        $color = Image_Color::splitColor($color);
         if ($color[1] > hexdec('66')) {
             return $dark;
         } else {
@@ -280,13 +280,13 @@ class Image_Color
      * @access  private
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function _setColors($col1, $col2)
+    private function setInternalColors($col1, $col2)
     {
         if ($col1) {
-            $this->color1 = Image_Color::_splitColor($col1);
+            $this->color1 = Image_Color::splitColor($col1);
         }
         if ($col2) {
-            $this->color2 = Image_Color::_splitColor($col2);
+            $this->color2 = Image_Color::splitColor($col2);
         }
     }
 
@@ -300,7 +300,7 @@ class Image_Color
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function _splitColor($color)
+    private function splitColor($color)
     {
         $color = str_replace('#', '', $color);
         $c[]   = hexdec(substr($color, 0, 2));
@@ -321,7 +321,7 @@ class Image_Color
      *
      * @return string
      */
-    function _returnColor($color)
+    private function returnColor($color)
     {
         return Image_Color::rgb2hex($color);
     }
@@ -337,7 +337,7 @@ class Image_Color
      * @author  Jason Lotito <jason@lehighweb.com>
      * @see     hex2rgb()
      */
-    function rgb2hex($color)
+    public function rgb2hex($color)
     {
         return sprintf('%02X%02X%02X', $color[0], $color[1], $color[2]);
     }
@@ -355,9 +355,9 @@ class Image_Color
      * @author  Jason Lotito <jason@lehighweb.com>
      * @see     rgb2hex()
      */
-    function hex2rgb($hex)
+    public function hex2rgb($hex)
     {
-        $return        = Image_Color::_splitColor($hex);
+        $return        = Image_Color::splitColor($hex);
         $return['hex'] = $hex;
 
         return $return;
@@ -377,7 +377,7 @@ class Image_Color
      * @uses    hsv2hex() to convert the HSV value to Hex.
      * @uses    hex2rgb() to convert the Hex value to RGB.
      */
-    function hsv2rgb($h, $s, $v)
+    public function hsv2rgb($h, $s, $v)
     {
         return Image_Color::hex2rgb(Image_Color::hsv2hex($h, $s, $v));
     }
@@ -398,7 +398,7 @@ class Image_Color
      * @author  Jurgen Schwietering <jurgen@schwietering.com>
      * @uses    rgb2hex() to convert the return value to a hex string.
      */
-    function hsv2hex($h, $s, $v)
+    public function hsv2hex($h, $s, $v)
     {
         $s /= 256.0;
         $v /= 256.0;
@@ -469,14 +469,14 @@ class Image_Color
      * @return resource Image color handle.
      * @access  public
      * @static
-     * @uses    ImageColorAllocate() to allocate the color.
+     * @uses    imagefilledarc() to allocate the color.
      * @uses    color2RGB() to parse the color into RGB values.
      */
-    function allocateColor(&$img, $color)
+    public function allocateColor(&$img, $color)
     {
         $color = Image_Color::color2RGB($color);
 
-        return ImageColorAllocate($img, $color[0], $color[1], $color[2]);
+        return imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
 
     /**
@@ -494,11 +494,11 @@ class Image_Color
      * @uses    hex2rgb() to convert colors begining with the # character.
      * @uses    namedColor2RGB() to convert everything not starting with a #.
      */
-    function color2RGB($color)
+    public function color2RGB($color)
     {
         $c = array();
 
-        if ($color{0} == '#') {
+        if ($color{0} === '#') {
             $c = Image_Color::hex2rgb($color);
         } else {
             $c = Image_Color::namedColor2RGB($color);
@@ -519,7 +519,7 @@ class Image_Color
      * @static
      * @author  Sebastian Bergmann <sb@sebastian-bergmann.de>
      */
-    function namedColor2RGB($color)
+    public function namedColor2RGB($color)
     {
         static $colornames;
 
@@ -686,7 +686,7 @@ class Image_Color
      * @access  public
      * @static
      */
-    function percentageColor2RGB($color)
+    public function percentageColor2RGB($color)
     {
         // remove spaces
         $color = str_replace(' ', '', $color);
@@ -717,9 +717,9 @@ class Image_Color
 /**
  * Function for array_walk() to round colors to the closest web safe value.
  *
- * @param   integer $color One channel of an RGB color.
+ * @param integer $color One channel of an RGB color.
  *
- * @return  integer The websafe equivalent of the color channel.
+ * @return integer The websafe equivalent of the color channel.
  * @author  Jason Lotito <jason@lehighweb.com>
  * @author  Andrew Morton <drewish@katherinehouse.com>
  * @access  private

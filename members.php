@@ -3,51 +3,39 @@
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
-/*
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
-} else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
-}
-*/
-
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+$moduleDirName = basename(__DIR__);
+xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-
+/*
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
+*/
+$xoopsOption['template_main'] = 'pedigree_members.tpl';
 
-$xoopsOption['template_main'] = "pedigree_members.tpl";
+include $GLOBALS['xoops']->path('/header.php');
 
-include XOOPS_ROOT_PATH . '/header.php';
-
-global $xoopsTpl, $xoopsDB;
-
-$queryString = "SELECT count(d.user) as X, d.user as d_user, u.uname as u_uname FROM " . $xoopsDB->prefix("pedigree_tree") . " d LEFT JOIN " . $xoopsDB->prefix("users")
-    . " u ON d.user = u.uid GROUP  BY user	ORDER BY X desc limit 50";
-$result      = $xoopsDB->query($queryString);
+$queryString = 'SELECT COUNT(d.user) AS X, d.user AS d_user, u.uname AS u_uname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('users') . ' u ON d.user = u.uid GROUP  BY user    ORDER BY X desc limit 50';
+$result      = $GLOBALS['xoopsDB']->query($queryString);
 $numpos      = 1;
-while ($row = $xoopsDB->fetchArray($result)) {
-    $content = "";
+while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+    $content = '';
     $star    = $row['X'];
     if ($star > 10000) {
         $sterretje = floor($star / 10000);
         for ($c = 0; $c < $sterretje; ++$c) {
             $content .= "<img src=\"assets/images/star.png\" border=\"0\">";
-            $star = $star - 10000;
+            $star -= 10000;
         }
-
     }
     if ($star > 1000) {
         $sterretje = floor($star / 1000);
         for ($c = 0; $c < $sterretje; ++$c) {
             $content .= "<img src=\"assets/images/star3.gif\" border=\"0\">";
-            $star = $star - 1000;
+            $star -= 1000;
         }
-
     }
     if ($star > 100) {
         $sterretje = floor($star / 100);
@@ -58,15 +46,15 @@ while ($row = $xoopsDB->fetchArray($result)) {
 
     $members[] = array(
         'position' => $numpos,
-        'user'     => "<a href=\"../../userinfo.php?uid=" . $row['d_user'] . "\">" . $row['u_uname'] . "</a>",
+        'user'     => "<a href=\"../../userinfo.php?uid=" . $row['d_user'] . "\">" . $row['u_uname'] . '</a>',
         'stars'    => $content,
-        'nument'   => "<a href=\"result.php?f=user&l=0&w=" . $row['d_user'] . "&o=NAAM\">" . $row['X'] . "</a>"
+        'nument'   => "<a href=\"result.php?f=user&l=0&w=" . $row['d_user'] . "&o=NAAM\">" . $row['X'] . '</a>'
     );
-    $numpos    = $numpos + 1;
+    $numpos += 1;
 }
-$xoopsTpl->assign("members", $members);
-$xoopsTpl->assign("title", _MA_PEDIGREE_M50_TIT);
-$xoopsTpl->assign("position", _MA_PEDIGREE_M50_POS);
-$xoopsTpl->assign("numdogs", _MA_PEDIGREE_M50_NUMD);
+$GLOBALS['xoopsTpl']->assign('members', $members);
+$GLOBALS['xoopsTpl']->assign('title', _MA_PEDIGREE_M50_TIT);
+$GLOBALS['xoopsTpl']->assign('position', _MA_PEDIGREE_M50_POS);
+$GLOBALS['xoopsTpl']->assign('numdogs', _MA_PEDIGREE_M50_NUMD);
 //comments and footer
-include XOOPS_ROOT_PATH . "/footer.php";
+include $GLOBALS['xoops']->path('footer.php');

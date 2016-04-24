@@ -25,99 +25,97 @@
 // ------------------------------------------------------------------------- //
 // Author: Tobias Liegl (AKA CHAPI)                                          //
 // Site: http://www.chapi.de                                                 //
-// Project: The XOOPS Project                                                //
+// Project: XOOPS Project                                                //
 // ------------------------------------------------------------------------- //
 
-global $xoopsDB;
-
-$SQL = "SELECT conf_value from ".$xoopsDB->prefix("config")." WHERE conf_name = 'pedigreeColours'";
-$result = $xoopsDB->query($SQL);
-while ($row = $xoopsDB->fetchArray($result)) {
+$SQL    = 'SELECT conf_value from ' . $GLOBALS['xoopsDB']->prefix('config') . " WHERE conf_name = 'pedigreeColours'";
+$result = $GLOBALS['xoopsDB']->query($SQL);
+while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $c = $row['conf_value'];
 }
-$colors = explode(";", $c);
+$colors = explode(';', $c);
 
-$mainBackColour                =    $colors[0];
-$selectedBackColour            =    $colors[1];
-$selectedTextColour                =    $colors[2];
-$selectedTextFont                =    $colors[3];
-$selectedTextSize                =    $colors[4];
-$selectedTextStyle                =    $colors[5];
-$maleBackColour                    =    $colors[6];
-$maleTextColour                    =    $colors[7];
-$maleTextFont                    =    $colors[8];
-$maleTextSize                    =    $colors[9];
-$maleTextStyle                    =    $colors[10];
-$femaleBackColour                =    $colors[11];
-$femaleTextColour                =    $colors[12];
-$femaleTextFont                    =    $colors[13];
-$femaleTextSize                    =    $colors[14];
-$femaleTextStyle                =    $colors[15];
-$borderStyle                    =    $colors[16];
-$borderWidth                    =    $colors[17];
-$borderColour                    =    $colors[18];
+$mainBackColour     = $colors[0];
+$selectedBackColour = $colors[1];
+$selectedTextColour = $colors[2];
+$selectedTextFont   = $colors[3];
+$selectedTextSize   = $colors[4];
+$selectedTextStyle  = $colors[5];
+$maleBackColour     = $colors[6];
+$maleTextColour     = $colors[7];
+$maleTextFont       = $colors[8];
+$maleTextSize       = $colors[9];
+$maleTextStyle      = $colors[10];
+$femaleBackColour   = $colors[11];
+$femaleTextColour   = $colors[12];
+$femaleTextFont     = $colors[13];
+$femaleTextSize     = $colors[14];
+$femaleTextStyle    = $colors[15];
+$borderStyle        = $colors[16];
+$borderWidth        = $colors[17];
+$borderColour       = $colors[18];
 
-echo"<style type=\"text/css\">
+echo "<style type=\"text/css\">
 <!--
 td.even {
-    background-color : #".$maleBackColour.";
-    color : #".$maleTextColour.";
-    font-family : ".$maleTextFont.";
-    font-size : ".$maleTextSize.";
-    font-style : ".$maleTextStyle.";
-    border-style : ".$borderStyle.";
-    border-width : ".$borderWidth."px;
-    border-color : #".$borderColour.";
+    background-color : #" . $maleBackColour . ';
+    color : #' . $maleTextColour . ';
+    font-family : ' . $maleTextFont . ';
+    font-size : ' . $maleTextSize . ';
+    font-style : ' . $maleTextStyle . ';
+    border-style : ' . $borderStyle . ';
+    border-width : ' . $borderWidth . 'px;
+    border-color : #' . $borderColour . ';
     }
 tr.even {
-    background-color : #".$maleBackColour.";
-    color : #".$maleTextColour.";
-    font-family : ".$maleTextFont.";
-    font-size : ".$maleTextSize.";
-    font-style : ".$maleTextStyle.";
-    border-style : ".$borderStyle.";
-    border-width : ".$borderWidth."px;
-    border-color : #".$borderColour.";
+    background-color : #' . $maleBackColour . ';
+    color : #' . $maleTextColour . ';
+    font-family : ' . $maleTextFont . ';
+    font-size : ' . $maleTextSize . ';
+    font-style : ' . $maleTextStyle . ';
+    border-style : ' . $borderStyle . ';
+    border-width : ' . $borderWidth . 'px;
+    border-color : #' . $borderColour . ';
     }
 td.odd {
-    background-color : #".$femaleBackColour.";
-    color : #".$femaleTextColour.";
-    font-family : ".$femaleTextFont.";
-    font-size : ".$femaleTextSize.";
-    font-style : ".$femaleTextStyle.";
-    border-style : ".$borderStyle.";
-    border-width : ".$borderWidth."px;
-    border-color : #".$borderColour.";
+    background-color : #' . $femaleBackColour . ';
+    color : #' . $femaleTextColour . ';
+    font-family : ' . $femaleTextFont . ';
+    font-size : ' . $femaleTextSize . ';
+    font-style : ' . $femaleTextStyle . ';
+    border-style : ' . $borderStyle . ';
+    border-width : ' . $borderWidth . 'px;
+    border-color : #' . $borderColour . ';
     }
 tr.odd {
-    background-color : #".$femaleBackColour.";
-    color : #".$femaleTextColour.";
-    font-family : ".$femaleTextFont.";
-    font-size : ".$femaleTextSize.";
-    font-style : ".$femaleTextStyle.";
-    border-style : ".$borderStyle.";
-    border-width : ".$borderWidth."px;
-    border-color : #".$borderColour.";
+    background-color : #' . $femaleBackColour . ';
+    color : #' . $femaleTextColour . ';
+    font-family : ' . $femaleTextFont . ';
+    font-size : ' . $femaleTextSize . ';
+    font-style : ' . $femaleTextStyle . ';
+    border-style : ' . $borderStyle . ';
+    border-width : ' . $borderWidth . 'px;
+    border-color : #' . $borderColour . ';
     }
 td.head {
-    background-color : #".$selectedBackColour.";
-    color : #".$selectedTextColour.";
-    font-family : ".$selectedTextFont.";
-    font-size : ".$selectedTextSize.";
-    font-style : ".$selectedTextStyle.";
-    border-style : ".$borderStyle.";
-    border-width : ".$borderWidth."px;
-    border-color : #".$borderColour.";
+    background-color : #' . $selectedBackColour . ';
+    color : #' . $selectedTextColour . ';
+    font-family : ' . $selectedTextFont . ';
+    font-size : ' . $selectedTextSize . ';
+    font-style : ' . $selectedTextStyle . ';
+    border-style : ' . $borderStyle . ';
+    border-width : ' . $borderWidth . 'px;
+    border-color : #' . $borderColour . ';
     }
 th {
-    background-color : #".$selectedBackColour.";
-    color : #".$selectedTextColour.";
-    font-family : ".$selectedTextFont.";
-    font-size : ".$selectedTextSize.";
-    font-style : ".$selectedTextStyle.";
-    border-style : ".$borderStyle.";
-    border-width : ".$borderWidth."px;
-    border-color : #".$borderColour.";
+    background-color : #' . $selectedBackColour . ';
+    color : #' . $selectedTextColour . ';
+    font-family : ' . $selectedTextFont . ';
+    font-size : ' . $selectedTextSize . ';
+    font-style : ' . $selectedTextStyle . ';
+    border-style : ' . $borderStyle . ';
+    border-width : ' . $borderWidth . 'px;
+    border-color : #' . $borderColour . ';
     }
 -->
-</style>";
+</style>';

@@ -2,28 +2,22 @@
 // -------------------------------------------------------------------------
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-/*
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
-} else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
-}
-*/
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+$moduleDirName = basename(__DIR__);
+xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
-extract($_GET, EXTR_PREFIX_ALL, "param");
-extract($_POST, EXTR_PREFIX_ALL, "param");
+extract($_GET, EXTR_PREFIX_ALL, 'param');
+extract($_POST, EXTR_PREFIX_ALL, 'param');
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = "pedigree_pedigree.tpl";
+$xoopsOption['template_main'] = 'pedigree_pedigree.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+include $GLOBALS['xoops']->path('/header.php');
 
 //always start with Anika
 if (!$pedid) {
@@ -33,7 +27,7 @@ if (!$pedid) {
 pedigree_main($pedid);
 
 //comments and footer
-include XOOPS_ROOT_PATH . "/footer.php";
+include XOOPS_ROOT_PATH . '/footer.php';
 
 //
 // Displays the "Main" tab of the module
@@ -44,15 +38,13 @@ include XOOPS_ROOT_PATH . "/footer.php";
 function pedigree_main($ID)
 {
     global $xoopsTpl;
-    global $xoopsDB;
     global $xoopsModuleConfig;
 
     if (isset($HTTP_POST_VARS['detail'])) {
         $detail = trim($HTTP_POST_VARS['detail']);
     }
 
-    $queryString
-        = "
+    $queryString = '
     SELECT d.id as d_id,
     d.naam as d_naam,
     d.id_owner as d_id_owner,
@@ -157,7 +149,7 @@ function pedigree_main($ID)
     mmm.nhsb as mmm_nhsb,
     mmm.foto as mmm_foto,
     mmm.hd as mmm_hd
-    FROM " . $xoopsDB->prefix("pedigree_tree") . " d
+    FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " d
     LEFT JOIN xoops_pedigree f ON d.father = f.id
     LEFT JOIN xoops_pedigree m ON d.mother = m.id
     LEFT JOIN xoops_pedigree ff ON f.father = ff.id
@@ -174,17 +166,17 @@ function pedigree_main($ID)
     LEFT JOIN xoops_pedigree mmm ON mm.mother = mmm.id
     where d.id=$ID";
 
-    $result = $xoopsDB->query($queryString);
+    $result = $GLOBALS['xoopsDB']->query($queryString);
 
     //get module configuration
-    $module_handler = xoops_getHandler('module');
-    $module         = $module_handler->getByDirname("pedigree");
-    $config_handler = xoops_getHandler('config');
-    $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $moduleHandler = xoops_getHandler('module');
+    $module        = $moduleHandler->getByDirname('pedigree');
+    $configHandler = xoops_getHandler('config');
+    $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
     $pic = $moduleConfig['pics'];
     $hd  = $moduleConfig['hd'];
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create array for dog (and all parents)
         //selected dog
         $d['d']['name']   = stripslashes($row['d_naam']);
@@ -331,24 +323,24 @@ function pedigree_main($ID)
     //add data to smarty template
     $xoopsTpl->assign('page_title', stripslashes($row['d_naam']));
     //assign dog
-    $xoopsTpl->assign("d", $d);
+    $xoopsTpl->assign('d', $d);
     //assign config options
     $ov = $moduleConfig['overview'];
-    $xoopsTpl->assign("overview", $ov);
+    $xoopsTpl->assign('overview', $ov);
     $sign = $moduleConfig['gender'];
     if ($sign == 1) {
-        $xoopsTpl->assign("male", "<img src=\"assets/images/male.gif\">");
-        $xoopsTpl->assign("female", "<img src=\"assets/images/female.gif\">");
+        $xoopsTpl->assign('male', "<img src=\"assets/images/male.gif\">");
+        $xoopsTpl->assign('female', "<img src=\"assets/images/female.gif\">");
     }
     $addit = $moduleConfig['adinfo'];
     if ($addit == 1) {
-        $xoopsTpl->assign("addinfo", "1");
+        $xoopsTpl->assign('addinfo', '1');
     }
-    $xoopsTpl->assign("pics", $pic);
+    $xoopsTpl->assign('pics', $pic);
     //assign extra display options
-    $xoopsTpl->assign("unknown", "Unknown");
-    $xoopsTpl->assign("SD", _MA_PEDIGREE_SD);
-    $xoopsTpl->assign("PA", _MA_PEDIGREE_PA);
-    $xoopsTpl->assign("GP", _MA_PEDIGREE_GP);
-    $xoopsTpl->assign("GGP", _MA_PEDIGREE_GGP);
+    $xoopsTpl->assign('unknown', 'Unknown');
+    $xoopsTpl->assign('SD', _MA_PEDIGREE_SD);
+    $xoopsTpl->assign('PA', _MA_PEDIGREE_PA);
+    $xoopsTpl->assign('GP', _MA_PEDIGREE_GP);
+    $xoopsTpl->assign('GGP', _MA_PEDIGREE_GGP);
 }

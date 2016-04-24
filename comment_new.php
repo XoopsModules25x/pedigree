@@ -1,9 +1,9 @@
 <?php
-// $Id: comment_new.php,v 1.1 2006/04/30 13:44:15 Administrator Exp $
+// 
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                  Copyright (c) 2000-2016 XOOPS.org                        //
+//                       <http://xoops.org/>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -25,13 +25,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
-$com_itemid = isset($HTTP_GET_VARS['com_itemid']) ? intval($HTTP_GET_VARS['com_itemid']) : 0;
+include dirname(dirname(__DIR__)) . '/mainfile.php';
+$com_itemid = isset($HTTP_GET_VARS['com_itemid']) ? (int)$HTTP_GET_VARS['com_itemid'] : 0;
 if ($com_itemid > 0) {
     // Get link title
-    $sql            = "SELECT NAAM FROM " . $xoopsDB->prefix('pedigree_tree') . " WHERE id=" . $com_itemid . "";
-    $result         = $xoopsDB->query($sql);
-    $row            = $xoopsDB->fetchArray($result);
+    $sql            = 'SELECT NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $com_itemid . '';
+    $result         = $GLOBALS['xoopsDB']->query($sql);
+    $row            = $GLOBALS['xoopsDB']->fetchArray($result);
     $com_replytitle = stripslashes($row['NAAM']);
     include XOOPS_ROOT_PATH . '/include/comment_new.php';
 }

@@ -2,33 +2,28 @@
 // -------------------------------------------------------------------------
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-/*
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
-} else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
-}
-*/
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+//xoops_loadLanguage('main', basename(dirname(__DIR__)));
+$moduleDirName = basename(__DIR__);
+xoops_loadLanguage('main', $moduleDirName);
 
 include_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
-extract($_GET, EXTR_PREFIX_ALL, "param");
-extract($_POST, EXTR_PREFIX_ALL, "param");
+extract($_GET, EXTR_PREFIX_ALL, 'param');
+extract($_POST, EXTR_PREFIX_ALL, 'param');
 
-$xoopsOption['template_main'] = "pedigree_owner.tpl";
+$xoopsOption['template_main'] = 'pedigree_owner.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+include $GLOBALS['xoops']->path('/header.php');
 
-$GLOBALS['xoTheme']->addScript("browse.php?Frameworks/jquery/jquery.js");
-$GLOBALS['xoTheme']->addScript("browse.php?modules/" . $mydirname . "/assets/js/jquery.magnific-popup.min.js");
-$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/" . $mydirname . "/assets/css/style.css");
+$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
+$GLOBALS['xoTheme']->addScript('browse.php?modules/' . $mydirname . '/assets/js/jquery.magnific-popup.min.js');
+$GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $mydirname . '/assets/css/style.css');
 
 $GLOBALS['xoTheme']->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
 
@@ -38,32 +33,32 @@ if (isset($GLOBALS['xoTheme'])) {
     echo '<script type="text/javascript" src="' . XOOPS_URL . '/include/color-picker.js"></script>';
 }
 
-$xoopsTpl->assign('page_title', "Pedigree database - View Owner/Breeder details");
+$xoopsTpl->assign('page_title', 'Pedigree database - View Owner/Breeder details');
 
 //get module configuration
-$module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname("pedigree");
-$config_handler = xoops_getHandler('config');
-$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleHandler = xoops_getHandler('module');
+$module        = $moduleHandler->getByDirname('pedigree');
+$configHandler = xoops_getHandler('config');
+$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-global $xoopsTpl, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
+global $xoopsTpl, $xoopsModuleConfig, $xoopsModule;
 
-$pathIcon16 = $xoopsModule->getInfo('icons16');
+$pathIcon16 = $GLOBALS['xoopsModule']->getInfo('icons16');
 
 xoops_load('XoopsUserUtility');
 
 $ownid = $_GET['ownid'];
 
 //query
-$queryString = "SELECT * from " . $xoopsDB->prefix("pedigree_owner") . " WHERE ID=" . $ownid;
-$result      = $xoopsDB->query($queryString);
+$queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ID=' . $ownid;
+$result      = $GLOBALS['xoopsDB']->query($queryString);
 
-while ($row = $xoopsDB->fetchArray($result)) {
+while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //id
-    $id = $row['ID'];
+    $id = $row['Id'];
 
     //name
-    $naam = stripslashes($row['firstname']) . " " . stripslashes($row['lastname']);
+    $naam = stripslashes($row['firstname']) . ' ' . stripslashes($row['lastname']);
 
     //lastname
     $naaml = stripslashes($row['lastname']);
@@ -77,27 +72,27 @@ while ($row = $xoopsDB->fetchArray($result)) {
     //homepage
     $homepage = $row['website'];
     $check    = substr($homepage, 0, 7);
-    if ($check != "http://") {
-        $homepage = "http://" . $homepage;
+    if ($check !== 'http://') {
+        $homepage = 'http://' . $homepage;
     }
 
     //Owner of
-    $owner = breederof($row['ID'], 0);
+    $owner = breederof($row['Id'], 0);
 
     //Breeder of
-    $breeder = breederof($row['ID'], 1);
+    $breeder = breederof($row['Id'], 1);
 
     //entered into the database by
     $dbuser = XoopsUserUtility::getUnameFromId($row['user']);
 
     //check for edit rights
     $access      = 0;
-    $xoopsModule = XoopsModule::getByDirname("pedigree");
-    if (!empty($xoopsUser)) {
-        if ($xoopsUser->isAdmin($xoopsModule->mid())) {
+    $xoopsModule = XoopsModule::getByDirname('pedigree');
+    if (!empty($GLOBALS['xoopsUser'])) {
+        if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             $access = 1;
         }
-        if ($row['user'] == $xoopsUser->getVar("uid")) {
+        if ($row['user'] == $GLOBALS['xoopsUser']->getVar('uid')) {
             $access = 1;
         }
     }
@@ -105,58 +100,57 @@ while ($row = $xoopsDB->fetchArray($result)) {
     //lastname
     $items[] = array(
         'header' => _MA_PEDIGREE_OWN_LNAME,
-        'data'   => "<a href=\"owner.php?ownid=" . $row['ID'] . "\">" . $naaml . "</a>",
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['ID'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => "<a href=\"owner.php?ownid=" . $row['Id'] . "\">" . $naaml . '</a>',
+        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
     );
 
     //firstname
     $items[] = array(
         'header' => _MA_PEDIGREE_OWN_FNAME,
-        'data'   => "<a href=\"owner.php?ownid=" . $row['ID'] . "\">" . $naamf . "</a>",
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['ID'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => "<a href=\"owner.php?ownid=" . $row['Id'] . "\">" . $naamf . '</a>',
+        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
     );
 
     //email
     $items[] = array(
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
-        'data'   => "<a href=\"mailto:" . $email . "\">" . $email . "</a>",
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['ID'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => "<a href=\"mailto:" . $email . "\">" . $email . '</a>',
+        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
     );
     //homepage
     $items[] = array(
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
-        'data'   => "<a href=\"" . $homepage . "\" target=\"_blank\">" . $homepage . "</a>",
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['ID'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => "<a href=\"" . $homepage . "\" target=\"_blank\">" . $homepage . '</a>',
+        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
     );
     //owner of
     $items[] = array(
         'header' => _MA_PEDIGREE_OWN_OWN,
         'data'   => $owner,
-        'edit'   => ""
+        'edit'   => ''
     );
     //breeder of
     $items[] = array(
         'header' => _MA_PEDIGREE_OWN_BRE,
         'data'   => $breeder,
-        'edit'   => ""
+        'edit'   => ''
     );
 
     //database user
     $items[] = array(
         'header' => _MA_PEDIGREE_FLD_DBUS,
         'data'   => $dbuser,
-        'edit'   => ""
+        'edit'   => ''
     );
-
 }
 
 //add data to smarty template
-$xoopsTpl->assign("access", $access);
-$xoopsTpl->assign("dogs", $items);
-$xoopsTpl->assign("name", $naam);
-$xoopsTpl->assign("id", $id);
-//$xoopsTpl->assign("delete", _MA_PEDIGREE_BTN_DELE);
-$xoopsTpl->assign("delete", "<img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE />");
+$xoopsTpl->assign('access', $access);
+$xoopsTpl->assign('dogs', $items);
+$xoopsTpl->assign('name', $naam);
+$xoopsTpl->assign('id', $id);
+//$xoopsTpl->assign("delete", _DELETE);
+$xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE />");
 
 //comments and footer
-include XOOPS_ROOT_PATH . "/footer.php";
+include XOOPS_ROOT_PATH . '/footer.php';

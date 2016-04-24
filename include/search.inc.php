@@ -18,7 +18,7 @@ function pedigree_search($queryarray, $andor, $limit, $offset, $userid)
     // Start creating a sql string that will be used to retrieve the fields in the table
     // that your module is making available to search
 
-    $sql = "SELECT id,NAAM,nhsb,user FROM " . $xoopsDB->prefix("pedigree_tree") . " ";
+    $sql = 'SELECT id,NAAM,nhsb,user FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ';
 
     // because count() returns 1 even if a supplied variable
     // is not an array, we must check if $querryarray is really an array
@@ -29,25 +29,24 @@ function pedigree_search($queryarray, $andor, $limit, $offset, $userid)
             $sql .= " $andor ";
             $sql .= "(NAAM LIKE '%$queryarray[$i]%' OR nhsb LIKE '%$queryarray[$i]%')";
         }
-        $sql .= ") ";
+        $sql .= ') ';
     } // end if
     if ($userid != 0) {
-        $sql .= " WHERE user=" . $userid . " ";
+        $sql .= ' WHERE user=' . $userid . ' ';
     }
-    $sql .= "ORDER BY NAAM ASC";
+    $sql .= 'ORDER BY NAAM ASC';
 
-    $result = $xoopsDB->query($sql, $limit, $offset);
+    $result = $GLOBALS['xoopsDB']->query($sql, $limit, $offset);
     $ret    = array();
     $i      = 0;
     // with the search results, build the links to the hits the search query made
-    while ($myrow = $xoopsDB->fetchArray($result)) {
-
-        $ret[$i]['image'] = "assets/images/pedigree.gif";
-        $ret[$i]['link']  = "pedigree.php?pedid=" . $myrow['id'];
+    while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {
+        $ret[$i]['image'] = 'assets/images/pedigree.gif';
+        $ret[$i]['link']  = 'pedigree.php?pedid=' . $myrow['id'];
         $ret[$i]['title'] = stripslashes($myrow['NAAM']);
         // do we need this ? (no time is set in the db for dog entry
         // time should be in a unix timestamp format.
-        $ret[$i]['time'] = "";
+        $ret[$i]['time'] = '';
         $ret[$i]['uid']  = $myrow['user'];
         ++$i;
     }

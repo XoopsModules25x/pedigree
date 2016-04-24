@@ -27,31 +27,31 @@
 class ZervWizard
 {
     // whether or not all steps of the form are complete
-    var $_complete = false;
+    public $_complete = false;
 
     // internal array to store the various steps
-    var $_steps = array();
+    public $_steps = array();
 
     // the current step
-    var $_currentStep = null;
+    public $_currentStep = null;
 
     // the prefix of the container key where form values are stored
-    var $_containerPrefix = '__wiz_';
+    public $_containerPrefix = '__wiz_';
 
     // an array of any errors that have occurred
-    var $_errors = array();
+    public $_errors = array();
 
     // key in container where step status is stored
-    var $_step_status_key = '__step_complete';
+    public $_step_status_key = '__step_complete';
 
     // key in container where expected action is stored
-    var $_step_expected_key = '__expected_action';
+    public $_step_expected_key = '__expected_action';
 
     // options to use for the wizard
-    var $options = array('redirectAfterPost' => true);
+    public $options = array('redirectAfterPost' => true);
 
     // action that resets the container
-    var $resetAction = '__reset';
+    public $resetAction = '__reset';
 
     /**
      * ZervWizard
@@ -61,7 +61,7 @@ class ZervWizard
      * @param array  &$container Reference to container array
      * @param string $name       A unique name for the wizard for container storage
      */
-    function ZervWizard(&$container, $name)
+    public function __construct($container, $name)
     {
         if (!is_array($container)) {
             $this->addError('container', 'Container not valid');
@@ -98,7 +98,7 @@ class ZervWizard
      * @param array  &$form   The unmodified form values to process
      * @param bool   $process True if the step is being processed, false if being prepared
      */
-    function process($action, &$form, $process = true)
+    public function process($action, $form, $process = true)
     {
         if ($action == $this->resetAction) {
             $this->clearContainer();
@@ -117,7 +117,7 @@ class ZervWizard
             $this->_errors = array();
 
             // processing callback must exist and validate to proceed
-            $callback = 'process_' . $action;
+            $callback = 'process' . $action;
             $complete = method_exists($this, $callback) && $this->$callback($form);
 
             $this->container[$this->_step_status_key][$action] = $complete;
@@ -126,7 +126,7 @@ class ZervWizard
             $proceed = false;
 
             // check if the step to be processed is valid
-            if (strlen($action) == 0) {
+            if ('' === $action) {
                 $action = $this->getExpectedStep();
             }
 
@@ -139,13 +139,12 @@ class ZervWizard
             }
 
             if ($proceed) {
-
                 if ($process) {
                     // clear out errors
                     $this->_errors = array();
 
                     // processing callback must exist and validate to proceed
-                    $callback = 'process_' . $action;
+                    $callback = 'process' . $action;
                     $complete = method_exists($this, $callback) && $this->$callback($form);
 
                     $this->container[$this->_step_status_key][$action] = $complete;
@@ -166,18 +165,18 @@ class ZervWizard
                 } else {
                     $this->setCurrentStep($action);
                 }
-            } else // when initally starting the wizard
-            {
+            } else {
+                // when initally starting the wizard
+
                 $this->setCurrentStep($this->getFirstIncompleteStep());
             }
         }
 
         // setup any required data for this step
-        $callback = 'prepare_' . $this->getStepName();
+        $callback = 'prepare' . $this->getStepName();
         if (method_exists($this, $callback)) {
             $this->$callback();
         }
-
     }
 
     /**
@@ -186,11 +185,11 @@ class ZervWizard
      * Function to run once the final step has been processed and is valid.
      * This should be overwritten in child classes
      */
-    function completeCallback()
+    public function completeCallback()
     {
     }
 
-    function doRedirect()
+    public function doRedirect()
     {
         if ($this->coalesce($this->options['redirectAfterPost'], false)) {
             $redir = $_SERVER['REQUEST_URI'];
@@ -208,7 +207,7 @@ class ZervWizard
      *
      * @return bool True if the form is complete and valid, false if not
      */
-    function isComplete()
+    public function isComplete()
     {
         return $this->_complete;
     }
@@ -222,7 +221,7 @@ class ZervWizard
      *
      * @param string $step The step to set as current
      */
-    function setCurrentStep($step)
+    public function setCurrentStep($step)
     {
         if (is_null($step) || !$this->stepExists($step)) {
             $this->_complete                            = true;
@@ -236,7 +235,7 @@ class ZervWizard
     /**
      * @return mixed|null
      */
-    function getExpectedStep()
+    public function getExpectedStep()
     {
         $step = $this->coalesce($this->container[$this->_step_expected_key], null);
         if ($this->stepExists($step)) {
@@ -255,7 +254,7 @@ class ZervWizard
      *
      * @return bool True if the step exists, false if not
      */
-    function stepExists($stepname)
+    public function stepExists($stepname)
     {
         return array_key_exists($stepname, $this->_steps);
     }
@@ -267,7 +266,7 @@ class ZervWizard
      *
      * @return string The name of the current step
      */
-    function getStepName()
+    public function getStepName()
     {
         return $this->_currentStep;
     }
@@ -282,12 +281,12 @@ class ZervWizard
      *
      * @return int The number of the step. 0 if something went wrong
      */
-    function getStepNumber($step = null)
+    public function getStepNumber($step = null)
     {
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
 
-        if (strlen($step) == 0) {
+        if ('' === $step) {
             $step = $this->getStepName();
         }
 
@@ -306,7 +305,7 @@ class ZervWizard
      *
      * @return bool
      */
-    function stepCanBeProcessed($step)
+    public function stepCanBeProcessed($step)
     {
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
@@ -336,7 +335,7 @@ class ZervWizard
      *
      * @return mixed The property value or the default value
      */
-    function getStepProperty($key, $default = null)
+    public function getStepProperty($key, $default = null)
     {
         $step = $this->getStepName();
         if (isset($this->_steps[$step][$key])) {
@@ -353,7 +352,7 @@ class ZervWizard
      *
      * @return string The name of the first step, or null if no steps
      */
-    function getFirstStep()
+    public function getFirstStep()
     {
         $steps = array_keys($this->_steps);
 
@@ -363,7 +362,7 @@ class ZervWizard
     /**
      * @return null
      */
-    function getFirstIncompleteStep()
+    public function getFirstIncompleteStep()
     {
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
@@ -389,7 +388,7 @@ class ZervWizard
      *
      * @return string The name of the previous step, or null
      */
-    function getPreviousStep($step)
+    public function getPreviousStep($step)
     {
         $ret   = null;
         $steps = array_keys($this->_steps);
@@ -416,7 +415,7 @@ class ZervWizard
      *
      * @return string The name of the next step, or null
      */
-    function getFollowingStep($step)
+    public function getFollowingStep($step)
     {
         $ret   = null;
         $steps = array_keys($this->_steps);
@@ -444,7 +443,7 @@ class ZervWizard
      * @param string $stepname The name of the step
      * @param string $title    The title of the current step
      */
-    function addStep($stepname, $title)
+    public function addStep($stepname, $title)
     {
         if (array_key_exists($stepname, $this->_steps)) {
             $this->addError('step', 'Step with name ' . $stepname . ' already exists');
@@ -470,7 +469,7 @@ class ZervWizard
      *
      * @return bool True if the current step is the first step
      */
-    function isFirstStep()
+    public function isFirstStep()
     {
         $steps = array_keys($this->_steps);
 
@@ -484,7 +483,7 @@ class ZervWizard
      *
      * @return bool True if the current step is the last step
      */
-    function isLastStep()
+    public function isLastStep()
     {
         $steps = array_keys($this->_steps);
 
@@ -499,7 +498,7 @@ class ZervWizard
      * @param string $key The key for the value to set
      * @param mixed  $val The value
      */
-    function setValue($key, $val)
+    public function setValue($key, $val)
     {
         $this->container[$key] = $val;
     }
@@ -514,7 +513,7 @@ class ZervWizard
      *
      * @return mixed Either the key's value or the default value
      */
-    function getValue($key, $default = null)
+    public function getValue($key, $default = null)
     {
         return $this->coalesce($this->container[$key], $default);
     }
@@ -525,7 +524,7 @@ class ZervWizard
      * Removes all data from the container. This is primarily used
      * to reset the wizard data completely
      */
-    function clearContainer()
+    public function clearContainer()
     {
         foreach ($this->container as $k => $v) {
             unset($this->container[$k]);
@@ -543,7 +542,7 @@ class ZervWizard
      *
      * @return mixed The variable value or the default value
      */
-    function coalesce(&$var, $default = null)
+    public function coalesce(&$var, $default = null)
     {
         return isset($var) && !is_null($var) ? $var : $default;
     }
@@ -556,7 +555,7 @@ class ZervWizard
      * @param string $key An identifier for the error (e.g. the field name)
      * @param string $val An error message
      */
-    function addError($key, $val)
+    public function addError($key, $val)
     {
         $this->_errors[$key] = $val;
     }
@@ -570,7 +569,7 @@ class ZervWizard
      *
      * @return bool True if an error has occurred, false if not
      */
-    function isError($key = null)
+    public function isError($key = null)
     {
         if (!is_null($key)) {
             return array_key_exists($key, $this->_errors);
@@ -584,7 +583,7 @@ class ZervWizard
      *
      * @return null
      */
-    function getError($key)
+    public function getError($key)
     {
         return array_key_exists($key, $this->_errors) ? $this->_errors[$key] : null;
     }

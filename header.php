@@ -9,30 +9,29 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Wfdownloads module
+ * pedigree module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package         wfdownload
- * @since           3.23
- * @author          Xoops Development Team
- * @version         svn:$id$
+ * @copyright       {@link http://xoops.org/  XOOPS Project}
+ * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package         pedigree
+ * @author          Xoops Module Dev Team
  */
 include_once dirname(dirname(__DIR__)) . '/mainfile.php';
 include_once __DIR__ . '/include/common.php';
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+$moduleDirName = basename(__DIR__);
+xoops_loadLanguage('main', $moduleDirName);
+xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('XoopsRequest');
 
-if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once(XOOPS_ROOT_PATH . "/class/template.php");
-    $xoopsTpl = new XoopsTpl();
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    include_once $GLOBALS['xoops']->path('class/template.php');
+    $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
 //$xoops = Xoops::getInstance();
 //$xoopsTpl = $xoops->tpl();
 
-
-$xoopsTpl->assign('mod_url', PEDIGREE_URL); //<{$mod_url}>
-
+$GLOBALS['xoopsTpl']->assign('mod_url', PEDIGREE_URL); //<{$mod_url}>
 
 // uncomment the below line only if you are using Protector 3.x module
 // and you trust your users when uploading files, it is recommended to not allow anonymous uploads if you do so!!

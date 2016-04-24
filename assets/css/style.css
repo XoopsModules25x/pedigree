@@ -1,46 +1,45 @@
 .verticalcenter {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 div.container3 {
-   height: 10em;
-   position: relative               /* 1 */
+    height: 10em;
+    position: relative; /* 1 */
 }
+
 div.container3 p {
-   margin: 0;
-   position: absolute;               /* 2 */
-   top: 50%;                         /* 3 */
-   transform: translate(0, -20%)    /* 4 */
+    margin: 0;
+    position: absolute; /* 2 */
+    top: 50%; /* 3 */
+    transform: translate(0, -20%); /* 4 */
 }
-
-
 
 .block {
-  text-align: center;
-  background: #c0c0c0;
-  border: #a0a0a0 solid 1px;
-  margin: 20px;
+    text-align: center;
+    background: #c0c0c0;
+    border: #a0a0a0 solid 1px;
+    margin: 20px;
 }
 
 .block:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -0.25em; /* Adjusts for spacing */
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
 
-  /* For visualization
-  background: #808080; width: 5px;
-  */
- }
+    /* For visualization
+    background: #808080; width: 5px;
+    */
+}
 
 .centered {
-  display: inline-block;
-  vertical-align: middle;
-  width: 300px;
-  padding: 10px 15px;
-  border: #a0a0a0 solid 1px;
-  background: #f5f5f5;
- }
+    display: inline-block;
+    vertical-align: middle;
+    width: 300px;
+    padding: 10px 15px;
+    border: #a0a0a0 solid 1px;
+    background: #f5f5f5;
+}

@@ -10,10 +10,13 @@
     // -->
 </SCRIPT>
 
+<{include file='db:pedigree_header.tpl'}>
+
 <table width="100%">
     <tr>
-        <td valign="top" width="50%">
+        <td valign="top">
             <!-- alphabet table -->
+            <!--
             <table border="0" width="100%" class="outer" cellspacing="1">
                 <tr>
                     <th colspan="6">
@@ -121,7 +124,7 @@
                     </td>
                 </tr>
             </table>
-
+-->
         </td>
         <td width="7">
         </td>
@@ -150,45 +153,41 @@
             <div id="searchname" style="display: none;">
                 <{$snameex}>
             </div>
-            <!-- end explenation for search by name -->
+            <!-- end explanation for search by name -->
             <br/>
 
 
             <{foreach item=link from=$usersearch}>
-            <{if $link <> NULL}>
-            <!-- explanation starts here for usersearch -->
-            <table border="0" width="100%" class="outer" cellspacing="1">
-                <tr>
-                    <th>
-                        <{$link.title}>
-                    </th>
-                </tr>
-                <tr>
-                    <td class="odd">
-                        <a href="#" OnClick="showHide('<{$link.searchid}>');return false"><{$explain}></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="even">
-                        <form method="POST" action="result.php?f=<{$link.function}>">
-                            <{$link.searchfield}>&nbsp;&nbsp;
-                            <input type="submit" value="Search">
-                        </form>
-                    </td>
-                </tr>
-            </table>
-            <div id="<{$link.searchid}>" style="display: none;">
-                <{$link.explenation}>
-            </div>
-            <!-- end explenation for usersearch -->
-            <br/>
-            <{/if}>
+                <{if $link != NULL}>
+                    <!-- explanation starts here for usersearch -->
+                    <table border="0" width="100%" class="outer" cellspacing="1">
+                        <tr>
+                            <th>
+                                <{$link.title}>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="odd">
+                                <a href="#" OnClick="showHide('<{$link.searchid}>');return false"><{$explain}></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="even">
+                                <form method="POST" action="result.php?f=<{$link.function}>">
+                                    <{$link.searchfield}>&nbsp;&nbsp;
+                                    <input type="submit" value="Search">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="<{$link.searchid}>" style="display: none;">
+                        <{$link.explanation}>
+                    </div>
+                    <!-- end explanation for usersearch -->
+                    <br/>
+                <{/if}>
             <{/foreach}>
-
 
         </td>
     </tr>
 </table>
-
-
-

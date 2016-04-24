@@ -11,7 +11,10 @@
  */
 class eq_pie
 {
-    function eq_pie()
+    /**
+     * eq_pie constructor.
+     */
+    public function __construct()
     {
     }
 
@@ -20,7 +23,7 @@ class eq_pie
      *
      * @return mixed
      */
-    function GetColor($number)
+    public function GetColor($number)
     {
         $color = array(
             '#ff0000',
@@ -55,10 +58,10 @@ class eq_pie
      * @param $EQpieData
      * @param $legend
      */
-    function MakePie($filename, $pieWidth, $pieHeight, $ShadowDistance, $pieBackgroundColor, $EQpieData, $legend)
+    public function MakePie($filename, $pieWidth, $pieHeight, $ShadowDistance, $pieBackgroundColor, $EQpieData, $legend)
     {
-        if (!function_exists("imagecreatetruecolor")) {
-            die("Error, GD Library 2 needed.");
+        if (!function_exists('imagecreatetruecolor')) {
+            die('Error, GD Library 2 needed.');
         }
 
         //set some limitations
@@ -72,18 +75,18 @@ class eq_pie
             $ShadowDistance = 10;
         }
 
-        $pieWidth           = $pieWidth * 3;
-        $pieHeight          = $pieHeight * 3;
-        $ShadowDistance     = $ShadowDistance * 3;
+        $pieWidth *= 3;
+        $pieHeight *= 3;
+        $ShadowDistance *= 3;
         $pieBackgroundColor = $pieBackgroundColor;
 
-        $pie = @ImageCreateTrueColor($pieWidth, $pieHeight + $ShadowDistance);
+        $pie = @imagecreatetruecolor($pieWidth, $pieHeight + $ShadowDistance);
 
         $colR  = hexdec(substr($pieBackgroundColor, 1, 2));
         $colG  = hexdec(substr($pieBackgroundColor, 3, 2));
         $colB  = hexdec(substr($pieBackgroundColor, 5, 2));
-        $pieBG = ImageColorAllocate($pie, $colR, $colG, $colB);
-        ImageFill($pie, 0, 0, $pieBG);
+        $pieBG = imagefilledarc($pie, $colR, $colG, $colB);
+        imagefill($pie, 0, 0, $pieBG);
 
         // get the total value for percentage calculations
         $this->total = 0;
@@ -94,12 +97,11 @@ class eq_pie
             if (strlen($value[0]) > $maxStringLenght) {
                 $maxStringLenght = strlen($value[0]);
             }
-
         }
 
         $pieParts = $i + 1;
         reset($EQpieData);
-        $legendWidth = (($legend > 0) ? ImageFontWidth(2) * ($maxStringLenght + 6) + 40 : 0);
+        $legendWidth = (($legend > 0) ? imagefontwidth(2) * ($maxStringLenght + 6) + 40 : 0);
 
         // the first pie-part starts with offset in degrees up from horizantal right, looks better this way
         $pieStart = 135;
@@ -112,7 +114,7 @@ class eq_pie
 
             $piePart = $value[1];
             if (isset($this->total) && $this->total > 0) {
-                $piePart100 = round(($piePart / $this->total * 100), 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
+                $piePart100 = round($piePart / $this->total * 100, 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
             } else {
                 $piePart100 = 0;
             }
@@ -122,31 +124,29 @@ class eq_pie
             $colR      = hexdec(substr($value[2], 1, 2));
             $colG      = hexdec(substr($value[2], 3, 2));
             $colB      = hexdec(substr($value[2], 5, 2));
-            $PartColor = ImageColorAllocate($pie, $colR, $colG, $colB);
+            $PartColor = imagefilledarc($pie, $colR, $colG, $colB);
 
             $ShadowColR = (($colR > 79) ? $colR - 80 : 0);
             $ShadowColG = (($colG > 79) ? $colG - 80 : 0);
             $ShadowColB = (($colB > 79) ? $colB - 80 : 0);
 
-            $ShadowColor = ImageColorAllocate($pie, $ShadowColR, $ShadowColG, $ShadowColB);
+            $ShadowColor = imagefilledarc($pie, $ShadowColR, $ShadowColG, $ShadowColB);
 
             //Here we create the shadow down-worths
             for ($i = 0; $i < $ShadowDistance; ++$i) {
-                ImageFilledArc($pie, $pieWidth / 2, ($pieHeight / 2 + $i), $pieWidth - 20, $pieHeight - 20, round($pieStart), round($pieStart + $piePart360), $ShadowColor, IMG_ARC_NOFILL);
+                imagefilledarc($pie, $pieWidth / 2, $pieHeight / 2 + $i, $pieWidth - 20, $pieHeight - 20, round($pieStart), round($pieStart + $piePart360), $ShadowColor, IMG_ARC_NOFILL);
             }
 
-            $pieStart = $pieStart + $piePart360;
-
+            $pieStart += $piePart360;
         }
         reset($EQpieData);
 
         $pieStart = 135;
 
         foreach ($EQpieData as $i => $value) {
-
             $piePart = $value[1];
             if (isset($this->total) && $this->total > 0) {
-                $piePart100 = round(($piePart / $this->total * 100), 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
+                $piePart100 = round($piePart / $this->total * 100, 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
             } else {
                 $piePart100 = 0;
             }
@@ -155,76 +155,71 @@ class eq_pie
             $colR      = hexdec(substr($value[2], 1, 2));
             $colG      = hexdec(substr($value[2], 3, 2));
             $colB      = hexdec(substr($value[2], 5, 2));
-            $PartColor = ImageColorAllocate($pie, $colR, $colG, $colB);
+            $PartColor = imagefilledarc($pie, $colR, $colG, $colB);
 
             //Here we create the real pie chart
-            ImageFilledArc($pie, $pieWidth / 2, $pieHeight / 2, $pieWidth - 20, $pieHeight - 20, round($pieStart), round($pieStart + $piePart360), $PartColor, IMG_ARC_PIE);
+            imagefilledarc($pie, $pieWidth / 2, $pieHeight / 2, $pieWidth - 20, $pieHeight - 20, round($pieStart), round($pieStart + $piePart360), $PartColor, IMG_ARC_PIE);
 
-            $pieStart = $pieStart + $piePart360;
-
+            $pieStart += $piePart360;
         }
         reset($EQpieData);
 
         // create final pie picture with proper background color
-        $finalPie = ImageCreateTrueColor($pieWidth / 3 + $legendWidth, ($pieHeight + $ShadowDistance) / 3);
-        ImageFill($finalPie, 0, 0, $pieBG);
+        $finalPie = imagecreatetruecolor($pieWidth / 3 + $legendWidth, ($pieHeight + $ShadowDistance) / 3);
+        imagefill($finalPie, 0, 0, $pieBG);
 
         // resample with pieGraph inside (3x smaller)
-        ImageCopyResampled($finalPie, $pie, 0, 0, 0, 0, $pieWidth / 3, ($pieHeight + $ShadowDistance) / 3, $pieWidth, ($pieHeight + $ShadowDistance));
+        imagecopyresampled($finalPie, $pie, 0, 0, 0, 0, $pieWidth / 3, ($pieHeight + $ShadowDistance) / 3, $pieWidth, $pieHeight + $ShadowDistance);
 
         // Create the ledgend ...
         if ($legendWidth > 0) {
             // Legend Box
             $leg_width   = $legendWidth - 10;
-            $leg_height  = $pieParts * (ImageFontHeight(2) + 2) + 2;
-            $legendImage = ImageCreateTrueColor($leg_width, $leg_height);
+            $leg_height  = $pieParts * (imagefontheight(2) + 2) + 2;
+            $legendImage = imagecreatetruecolor($leg_width, $leg_height);
             //ImageFill($legendImage, 0, 0, $pieBG);
 
-            $borderColor = ImageColorAllocate($pie, '155', '155', '155');
-            $boxColor    = ImageColorAllocate($pie, '255', '255', '255');
-            $textColor   = ImageColorAllocate($pie, '55', '55', '55');
+            $borderColor = imagefilledarc($pie, '155', '155', '155');
+            $boxColor    = imagefilledarc($pie, '255', '255', '255');
+            $textColor   = imagefilledarc($pie, '55', '55', '55');
 
-            ImageFilledRectangle($legendImage, 0, 0, $leg_width, $leg_height, $boxColor);
-            ImageRectangle($legendImage, 0, 0, $leg_width - 1, $leg_height - 1, $borderColor);
+            imagefilledrectangle($legendImage, 0, 0, $leg_width, $leg_height, $boxColor);
+            imagerectangle($legendImage, 0, 0, $leg_width - 1, $leg_height - 1, $borderColor);
 
-            $box_width  = ImageFontHeight(2) - 5;
-            $box_height = ImageFontHeight(2) - 5;
+            $box_width  = imagefontwidth(2) - 5;
+            $box_height = imagefontheight(2) - 5;
             $yOffset    = 2;
 
             foreach ($EQpieData as $i => $value) {
-
                 $piePart = $value[1];
                 if (isset($this->total) && $this->total > 0) {
-                    $piePart100 = round(($piePart / $this->total * 100), 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
+                    $piePart100 = round($piePart / $this->total * 100, 2);  // value in percentage, the rounding and * 100 for extra accuracy for pie w/o gaps
                 } else {
                     $piePart100 = 0;
                 }
                 $colR      = hexdec(substr($value[2], 1, 2));
                 $colG      = hexdec(substr($value[2], 3, 2));
                 $colB      = hexdec(substr($value[2], 5, 2));
-                $PartColor = ImageColorAllocate($legendImage, $colR, $colG, $colB);
+                $PartColor = imagefilledarc($legendImage, $colR, $colG, $colB);
 
-                ImageFilledRectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $PartColor);
-                ImageRectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $borderColor);
+                imagefilledrectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $PartColor);
+                imagerectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $borderColor);
 
-                $text = $value[0] . " " . $piePart100 . "%";
-                ImageString($legendImage, 2, '20', $yOffset, $text, $textColor);
-                $yOffset = $yOffset + 15;
-
+                $text = $value[0] . ' ' . $piePart100 . '%';
+                imagestring($legendImage, 2, '20', $yOffset, $text, $textColor);
+                $yOffset += 15;
             }
 
             reset($EQpieData); // reset pointer in array to first
 
-            ImageCopyResampled($finalPie, $legendImage, $pieWidth / 3, 10, 0, 0, $leg_width, $leg_height, $leg_width, $leg_height);
-            ImageDestroy($legendImage);
-
+            imagecopyresampled($finalPie, $legendImage, $pieWidth / 3, 10, 0, 0, $leg_width, $leg_height, $leg_width, $leg_height);
+            imagedestroy($legendImage);
         }
         header('Content-type: image/png');
         imagepng($finalPie, $filename);
-        ImageDestroy($pie);
-        ImageDestroy($finalPie);
+        imagedestroy($pie);
+        imagedestroy($finalPie);
 
         return;
     }
-
 }
