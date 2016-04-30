@@ -13,7 +13,7 @@ CREATE TABLE `pedigree_owner` (
   `emailadres`  VARCHAR(40) NOT NULL DEFAULT '',
   `website`     VARCHAR(60) NOT NULL DEFAULT '',
   `user`        VARCHAR(20) NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`Id`),
   KEY `lastname` (`lastname`(5))
 )
   ENGINE = MyISAM
@@ -37,7 +37,7 @@ CREATE TABLE `pedigree_tree` (
   `father`     INT(5)                NOT NULL DEFAULT '0',
   `foto`       VARCHAR(255)          NOT NULL DEFAULT '',
   `coi`        VARCHAR(10)           NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`Id`),
   KEY `mother` (`mother`),
   KEY `father` (`father`)
 )
@@ -54,7 +54,7 @@ CREATE TABLE `pedigree_fields` (
   `Id`                TINYINT(2)                                                                                    NOT NULL AUTO_INCREMENT,
   `isactive`          TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `fieldname`         VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
-  `fieldtype`         ENUM ('dataselect', 'textbox', 'selectbox', 'radiobutton', 'textarea', 'urlfield', 'picture') NOT NULL DEFAULT 'dataselect',
+  `fieldtype`         ENUM ('dateselect', 'textbox', 'selectbox', 'radiobutton', 'textarea', 'urlfield', 'picture') NOT NULL DEFAULT 'dateselect',
   `lookuptable`       TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `defaultvalue`      VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
   `fieldexplanation`  TINYTEXT                                                                                      NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `pedigree_fields` (
   `viewinlist`        TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `locked`            TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `order`             TINYINT(3)                                                                                    NOT NULL DEFAULT '0',
-  UNIQUE KEY `ID` (`ID`)
+  UNIQUE KEY `ID` (`Id`)
 )
   ENGINE = MyISAM
   AUTO_INCREMENT = 1;
@@ -91,7 +91,7 @@ CREATE TABLE `pedigree_temp` (
   `father`     INT(5)       NOT NULL DEFAULT '0',
   `foto`       VARCHAR(255) NOT NULL DEFAULT '',
   `coi`        VARCHAR(10)  NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`Id`),
   KEY `mother` (`mother`),
   KEY `father` (`father`)
 )
@@ -115,7 +115,7 @@ CREATE TABLE `pedigree_trash` (
   `father`     INT(5)       NOT NULL DEFAULT '0',
   `foto`       VARCHAR(255) NOT NULL DEFAULT '',
   `coi`        VARCHAR(10)  NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`Id`)
 )
   ENGINE = MyISAM
   AUTO_INCREMENT = 1

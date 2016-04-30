@@ -70,8 +70,8 @@ switch ($op) {
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('father') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('foto') . '</td>';
                     echo "<td class-'txtcenter width10'>
-                        <a href='pedigree_temp.php?op=edit_pedigree_temp&ID=" . $pedigree_temp_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='pedigree_temp.php?op=delete_pedigree_temp&ID=" . $pedigree_temp_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                        <a href='pedigree_temp.php?op=edit_pedigree_temp&Id=" . $pedigree_temp_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='pedigree_temp.php?op=delete_pedigree_temp&Id=" . $pedigree_temp_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }

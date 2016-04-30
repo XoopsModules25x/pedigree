@@ -1,5 +1,5 @@
 <?php
-// 
+//
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                  Copyright (c) 2000-2016 XOOPS.org                        //
@@ -34,63 +34,49 @@
 
 function lookup($category, $item_id)
 {
-    global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
-
-    if (empty($xoopsModule) || $xoopsModule->getVar('dirname') !== 'pedigree') {
-        $moduleHandler = xoops_getHandler('module');
-        $module        = $moduleHandler->getByDirname('pedigree');
-        $configHandler = xoops_getHandler('config');
-        $config        = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    } else {
-        $module = $xoopsModule;
-        $config = $xoopsModuleConfig;
-    }
-
-    if ($category === 'global') {
-        $item['name'] = '';
-        $item['url']  = '';
-
-        return $item;
-    }
+    global $xoopsModule, $xoopsDB, $xoopsModuleConfig, $xoopsConfig;
+    $moduleDirName = basename(dirname(__DIR__));
     $item_id = (int)$item_id;
 
-    global $xoopsDB;
-    if ($category === 'dog') {
-        // Assume we have a valid forum id
-        $sql = 'SELECT NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ID = ' . $item_id;
-        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
-            redirect_header('index.php', 2, _MD_ERRORFORUM);
-        }
-        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
-        $item['name'] = $result_array['NAAM'];
-        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/dog.php?id=' . $item_id;
+    switch (strtolower($category)) {
+        case 'global':
+            $item['name'] = '';
+            $item['url']  = '';
+            break;
 
-        return $item;
+        case 'dog':
+            // Assume we have a valid forum id
+            $sql = 'SELECT NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE Id = ' . $item_id;
+            if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+                redirect_header('index.php', 2, _MD_ERRORFORUM);
+            }
+            $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
+            $item['name'] = $result_array['NAAM'];
+            $item['url']  = XOOPS_URL . "/modules/{$moduleDirName}/dog.php?Id={$item_id}";
+            break;
+
+        case 'thread':
+            // Assume we have a valid topid id
+            $sql = 'SELECT t.topic_title,f.forum_id,f.forum_name FROM ' . $GLOBALS['xoopsDB']->prefix('bb_topics') . ' t, ' . $GLOBALS['xoopsDB']->prefix('bb_forums') . ' f WHERE t.forum_id = f.forum_id AND t.topic_id = ' . $item_id . ' limit 1';
+            if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+                redirect_header('index.php', 2, _MD_ERROROCCURED);
+            }
+            $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
+            $item['name'] = $result_array['topic_title'];
+            $item['url']  = XOOPS_URL . "/modules/{$moduleDirName}/viewtopic.php?forum=" . $result_array['forum_id'] . "&topic_id={$item_id}";
+            break;
+
+        case 'post':
+            // Assume we have a valid post id
+            $sql = 'SELECT subject,topic_id,forum_id FROM ' . $GLOBALS['xoopsDB']->prefix('bb_posts') . ' WHERE post_id = ' . $item_id . ' LIMIT 1';
+            if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+                redirect_header('index.php', 2, _MD_ERROROCCURED);
+            }
+            $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
+            $item['name'] = $result_array['subject'];
+            $item['url']  = XOOPS_URL . "/modules/{$moduleDirName}/viewtopic.php?forum=" . $result_array['forum_id'] . '&amp;topic_id=' . $result_array['topic_id'] . "#forumpost{$item_id}";
+            break;
     }
 
-    if ($category === 'thread') {
-        // Assume we have a valid topid id
-        $sql = 'SELECT t.topic_title,f.forum_id,f.forum_name FROM ' . $GLOBALS['xoopsDB']->prefix('bb_topics') . ' t, ' . $GLOBALS['xoopsDB']->prefix('bb_forums') . ' f WHERE t.forum_id = f.forum_id AND t.topic_id = ' . $item_id . ' limit 1';
-        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
-            redirect_header('index.php', 2, _MD_ERROROCCURED);
-        }
-        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
-        $item['name'] = $result_array['topic_title'];
-        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum=' . $result_array['forum_id'] . '&topic_id=' . $item_id;
-
-        return $item;
-    }
-
-    if ($category === 'post') {
-        // Assume we have a valid post id
-        $sql = 'SELECT subject,topic_id,forum_id FROM ' . $GLOBALS['xoopsDB']->prefix('bb_posts') . ' WHERE post_id = ' . $item_id . ' LIMIT 1';
-        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
-            redirect_header('index.php', 2, _MD_ERROROCCURED);
-        }
-        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
-        $item['name'] = $result_array['subject'];
-        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum= ' . $result_array['forum_id'] . '&amp;topic_id=' . $result_array['topic_id'] . '#forumpost' . $item_id;
-
-        return $item;
-    }
+    return $item;
 }

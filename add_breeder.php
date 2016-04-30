@@ -5,53 +5,48 @@ require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
+xoops_load('XoopsRequest');
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php');
-
-$xoopsOption['template_main'] = 'pedigree_adddog.tpl';
-
-include XOOPS_ROOT_PATH . '/header.php';
-$xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
+require_once XOOPS_ROOT_PATH . "/modules/{$moduleDirName}/include/common.php";
 
 //check for access
-$xoopsModule = XoopsModule::getByDirname('pedigree');
-if (empty($xoopsUser)) {
+if (!$xoopsUser instanceof XoopsUser) {
     redirect_header('index.php', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
 }
 
-$f = isset($_GET['f']) ? $_GET['f'] : '';
-if ($f === 'check') {
-    check();
-}
+$xoopsOption['template_main'] = 'pedigree_adddog.tpl';
+include XOOPS_ROOT_PATH . '/header.php';
 
-function check()
-{
-    global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsModuleConfig;
-    //check for access
-    $xoopsModule = XoopsModule::getByDirname('pedigree');
-    if (empty($xoopsUser)) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+//@todo - move language string to language file
+$xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
+
+global $xoopsTpl, $xoopsUser, $xoopsDB;
+
+$f = XoopsRequest::getCmd('f', '', 'POST');
+if ('check' === $f) {
+    //check security token here
+    if (!$GLOBALS['xoopsSecurity']->check()) {
+        redirect_header($_SERVER['PHP_SELF'], 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
-    $achternaam = XoopsRequest::getString('achternaam', '', 'post');
-    $voornaam   = XoopsRequest::getString('voornaam', '', 'post');
-    $email      = XoopsRequest::getEmail('email', '', 'post');
-    $website    = XoopsRequest::getUrl('website', '', 'post');
-    $user       = XoopsRequest::getString('user', '', 'post');
+
+    $achternaam = XoopsRequest::getString('achternaam', '', 'POST');
+    $voornaam   = XoopsRequest::getString('voornaam', '', 'POST');
+    $email      = XoopsRequest::getEmail('email', '', 'POST');
+    $website    = XoopsRequest::getUrl('website', '', 'POST');
+    $user       = XoopsRequest::getString('user', '', 'POST');
 
     //insert into owner
     //$query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " VALUES ('','" . $voornaam . "','" . $achternaam . "','','','','','','" . $email . "','" . $website . "','" . $user . "')";
     $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " VALUES ('','" . $GLOBALS['xoopsDB']->escape($voornaam) . "','" . $GLOBALS['xoopsDB']->escape($achternaam) . "','','','','','','" . $GLOBALS['xoopsDB']->escape($email) . "','" . $GLOBALS['xoopsDB']->escape($website) . "','" . $GLOBALS['xoopsDB']->escape($user) . "')";
 
     $GLOBALS['xoopsDB']->query($query);
+    //@todo - move language string to language file
     redirect_header('index.php', 1, 'The data has been stored.');
 }
 
-global $xoopsTpl, $xoopsUser, $xoopsDB;
 //check for access
 $xoopsModule = XoopsModule::getByDirname('pedigree');
-if (empty($xoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
-}
+
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $form = new XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'POST');

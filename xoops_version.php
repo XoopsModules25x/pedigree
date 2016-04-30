@@ -51,8 +51,8 @@ $modversion['onInstall'] = 'include/install_function.php';
 $modversion['onUpdate']  = 'include/update_function.php';
 
 //about
-$modversion['release_date']        = '2016/04/22';
-$modversion['module_status']       = 'Alpha 7';
+$modversion['release_date']        = '2016/04/28';
+$modversion['module_status']       = 'Alpha 8';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';

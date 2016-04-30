@@ -10,8 +10,8 @@ $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
+require_once XOOPS_ROOT_PATH . "/modules/{$moduleDirName}/include/common.php";
 
 /**
  * @return XoopsTpl

@@ -12,7 +12,7 @@
             <{else}>
                 <{$female}>
             <{/if}>
-            <a href="dog.php?id=<{$d.d.id}>"><{$d.d.name}></a>
+            <a href="dog.php?Id=<{$d.d.id}>"><{$d.d.name}></a>
         </td>
         <td rowspan=8 width="20%" class="even" style="background-color: <{$d.f.col}>;">
             <{$male}><a href="mpedigree.php?pedid=<{$d.f.id}>"><{$d.f.name}></a>

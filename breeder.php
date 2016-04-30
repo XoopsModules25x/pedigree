@@ -63,7 +63,7 @@ if (!empty($xoopsUser)) {
 }
 
 //count total number of owners
-$numowner = 'SELECT count(ID) from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "'";
+$numowner = 'SELECT COUNT(Id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "'";
 $numres   = $GLOBALS['xoopsDB']->query($numowner);
 //total number of owners the query will find
 list($numresults) = $GLOBALS['xoopsDB']->fetchRow($numres);
@@ -139,8 +139,8 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $access = '';
     if (!empty($xoopsUser)) {
         if ($row['user'] == $xoopsUser->getVar('uid') || $modadmin === true) {
-            //$access = "<a href=\"dog.php?id=".$row['Id']."\"><img src=\"assets/images/edit.gif\" alt="._MA_PEDIGREE_BTN_EDIT."></a>";
-            $access .= "<a href=\"deletebreeder.php?id=" . $row['Id'] . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . '></a>';
+            //$access = "<a href=\"dog.php?Id=".$row['Id']."\"><img src=\"assets/images/edit.gif\" alt="._MA_PEDIGREE_BTN_EDIT."></a>";
+            $access .= "<a href=\"deletebreeder.php?Id=" . $row['Id'] . "\"><img src=\"assets/images/delete.gif\" alt=" . _MA_PEDIGREE_BTN_DELE . '></a>';
         } else {
             $access = '';
         }

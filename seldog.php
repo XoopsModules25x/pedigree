@@ -39,7 +39,7 @@ $perp = $moduleConfig['perpage'];
 $GLOBALS['xoopsTpl']->assign('page_title', _MI_PEDIGREE_TITLE);
 
 //count total number of dogs
-$numdog = 'SELECT ID FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE NAAM LIKE '{$letter}%' AND roft = '{$gend}'";
+$numdog = 'SELECT Id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE NAAM LIKE '{$letter}%' AND roft = '{$gend}'";
 $numres = $GLOBALS['xoopsDB']->query($numdog);
 //total number of dogs the query will find
 $numresults = $GLOBALS['xoopsDB']->getRowsNum($numres);
@@ -98,7 +98,7 @@ $numofcolumns = 1;
 $columns[]    = array('columnname' => 'Name');
 for ($i = 0; $i < $fieldsCount; ++$i) {
     $userField = new Field($fields[$i], $animal->getConfig());
-    $fieldType = $userField->getSetting('FieldType');
+    $fieldType = $userField->getSetting('fieldtype');
     $fieldObj  = new $fieldType($userField, $animal);
     //create empty string
     if ($userField->isActive() && $userField->inList()) {

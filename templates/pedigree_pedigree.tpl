@@ -14,7 +14,7 @@
                 <{$female}>
             <{/if}>
             <{if $d.d.id}>
-                <a href='dog.php?id=<{$d.d.id}>'><{$d.d.name}></a>
+                <a href='dog.php?Id=<{$d.d.id}>'><{$d.d.name}></a>
                 <br/>
                 <{if $d.d.photo}>
                     <img src='<{$d.d.photo}>' border="0">

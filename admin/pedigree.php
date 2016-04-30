@@ -71,8 +71,8 @@ switch ($op) {
                     echo "<td align=\"center\">" . $pedigree_arr[$i]->getVar('coi') . '</td>';
 
                     echo "<td align='center' width='10%'>
-                        <a href='pedigree.php?op=edit_pedigree&ID=" . $pedigree_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href=" . PEDIGREE_URL . '/delete.php?id=' . $pedigree_arr[$i]->getVar('Id') . '><img src=' . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                        <a href='pedigree.php?op=edit_pedigree&Id=" . $pedigree_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='" . PEDIGREE_URL . "/delete.php?Id=" . $pedigree_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }

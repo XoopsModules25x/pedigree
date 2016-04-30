@@ -61,9 +61,9 @@
                 <table>
                     <tr class="even">
                         <td align="left">
-                            <a href="edit.php?id=<{$id}>"> <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>" title="<{$smarty.const._EDIT}>"/></a>
+                            <a href="edit.php?Id=<{$id}>"> <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>" title="<{$smarty.const._EDIT}>"/></a>
 
-                            <a href="delete.php?id=<{$id}>"> <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>" title="<{$smarty.const._DELETE}>"/></a>
+                            <a href="delete.php?Id=<{$id}>"> <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>" title="<{$smarty.const._DELETE}>"/></a>
                         </td>
                     </tr>
                 </table>

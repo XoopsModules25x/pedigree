@@ -96,7 +96,7 @@ if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser
 }
 
 //count total number of dogs
-$numdog = 'SELECT COUNT(ID) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "'";
+$numdog = 'SELECT COUNT(Id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "'";
 $numres = $GLOBALS['xoopsDB']->query($numdog);
 //total number of dogs the query will find
 list($numresults) = $GLOBALS['xoopsDB']->fetchRow($numres);
@@ -164,7 +164,7 @@ $numofcolumns = 1;
 $columns      = array(array('columnname' => 'Name'));
 for ($i = 0; $i < $fieldsCount; ++$i) {
     $userField   = new Field($fields[$i], $animal->getConfig());
-    $fieldType   = $userField->getSetting('FieldType');
+    $fieldType   = $userField->getSetting('fieldtype');
     $fieldObject = new $fieldType($userField, $animal);
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
@@ -190,13 +190,13 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
     $gender = '';
     if ((!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) && (($row['user'] == $xoopsUser->getVar('uid')) || (true === $modadmin))) {
-        $gender = "<a href='dog.php?id={$row['Id']}'><img src=" . $pathIcon16 . '/edit.png alt=' . _EDIT . "'></a>
-            .  <a href='delete.php?id={$row['Id']}'><img src=" . $pathIcon16 . '/delete.png alt=' . _DELETE . "'></a>";
+        $gender = "<a href='dog.php?Id={$row['Id']}'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "'></a>
+            .  <a href='delete.php?Id={$row['Id']}'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "'></a>";
     }
     if ($row['roft'] == 0) {
-        $gender .= "<img src='assets/images/male.gif'>";
+        $gender .= "<img src='assets/images/male.gif' alt='" . _MA_PEDIGREE_MALE . "'>";
     } else {
-        $gender .= "<img src='assets/images/female.gif'>";
+        $gender .= "<img src='assets/images/female.gif' alt='" . _MA_PEDIGREE_FEMALE . "'>";
     }
     $camera = ('' != $row['foto']) ? " <img src='assets/images/dog-icon25.png'>" : '';
     $name   = stripslashes($row['NAAM']) . $camera;

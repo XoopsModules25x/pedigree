@@ -25,15 +25,13 @@ if (!defined('PEDIGREE_DIRNAME')) {
     define('PEDIGREE_URL', XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
     define('PEDIGREE_ADMIN', PEDIGREE_URL . '/admin/index.php');
     define('PEDIGREE_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
+    //@todo - the image xoopsproject_logo.png doesn't exist... Either create it or reference
+    //        something like $GLOBALS['xoops']->url("www/{$pathIcon32}/xoopsmicrobutton.gif")
     define('PEDIGREE_AUTHOR_LOGOIMG', PEDIGREE_URL . '/assets/images/xoopsproject_logo.png');
 }
 
-// Define here the place where main upload path
-
-//$img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'];
-
+// Define the main upload path
 define('PEDIGREE_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
-//define("PEDIGREE_UPLOAD_PATH", $img_dir); // WITHOUT Trailing slash
 define('PEDIGREE_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
 
 $uploadFolders = array(

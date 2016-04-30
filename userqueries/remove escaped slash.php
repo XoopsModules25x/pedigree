@@ -5,6 +5,6 @@ $queryString = 'select * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') .
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $form .= "<a href=\"pedigree.php?pedid=" . $row['Id'] . "\">" . $row['NAAM'] . '</a><br />';
-    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET NAAM = \"" . stripslashes($row['NAAM']) . "\" WHERE ID = '" . $row['Id'] . "'";
+    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET NAAM = \"" . stripslashes($row['NAAM']) . "\" WHERE Id = '" . $row['Id'] . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
 }

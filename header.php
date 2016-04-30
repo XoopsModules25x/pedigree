@@ -16,12 +16,13 @@
  * @package         pedigree
  * @author          Xoops Module Dev Team
  */
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once __DIR__ . '/include/common.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once __DIR__ . '/include/common.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_load('PedigreeAnimal', $moduleDirName);
+
+require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
 xoops_load('XoopsRequest');
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {

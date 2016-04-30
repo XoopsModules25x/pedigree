@@ -42,15 +42,15 @@ switch ($op) {
             echo "<table width='100%' cellspacing='1' class='outer'>
                 <tr>
                     <th align=\"center\">" . _AM_PEDIGREE_OWNER_FIRSTNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_LASTNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_POSTCODE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_CITY . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_STREETNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_HOUSENUMBER . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_PHONENUMBER . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_EMAILADRES . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_WEBSITE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_USER . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_LASTNAME . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_POSTCODE . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_CITY . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_STREETNAME . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_HOUSENUMBER . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_PHONENUMBER . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_EMAILADRES . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_WEBSITE . "</th>
+                        <th class=\"center\">" . _AM_PEDIGREE_OWNER_USER . "</th>
 
                     <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . '</th>
                 </tr>';
@@ -61,20 +61,20 @@ switch ($op) {
                 if ($owner_arr[$i]->getVar('owner_pid') == 0) {
                     echo "<tr class='" . $class . "'>";
                     $class = ($class === 'even') ? 'odd' : 'even';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('firstname') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('lastname') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('postcode') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('city') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('streetname') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('housenumber') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('phonenumber') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('emailadres') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('website') . '</td>';
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar('user') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('firstname') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('lastname') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('postcode') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('city') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('streetname') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('housenumber') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('phonenumber') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('emailadres') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('website') . '</td>';
+                    echo "<td class=\"center\">" . $owner_arr[$i]->getVar('user') . '</td>';
 
-                    echo "<td align='center' width='10%'>
-                        <a href='owner.php?op=edit_owner&ID=" . $owner_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='owner.php?op=delete_owner&ID=" . $owner_arr[$i]->getVar('Id') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                    echo "<td class='center width10'>
+                        <a href='owner.php?op=edit_owner&Id=" . $owner_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='owner.php?op=delete_owner&Id=" . $owner_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }

@@ -1,7 +1,7 @@
 <?php
 
 $form     = 'This is an example of a userquery.<br /><br />Shown below are the animals in your database that have a picture.<hr>';
-$sql      = 'SELECT ID, NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE foto != ''";
+$sql      = 'SELECT Id, NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE foto != ''";
 $result   = $GLOBALS['xoopsDB']->query($sql);
 $countpic = 0;
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {

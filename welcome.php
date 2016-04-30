@@ -37,14 +37,14 @@ $numdogs     = $treeHandler->getCount();
 $result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_tree"));
 list($numdogs) = $GLOBALS['xoopsDB']->fetchRow($result);
 */
-
+/*
 //get module configuration
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-
-$word = $myts->displayTarea(strtr($moduleConfig['welcome'], array('[numanimals]' => $numdogs, '[animalType]' => $moduleConfig['animalType'], '[animalTypes]' => $moduleConfig['animalTypes'])));
+*/
+$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $pedigree->getConfig('animalType'), '[animalTypes]' => $pedigree->getConfig('animalTypes'))));
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);
 $GLOBALS['xoopsTpl']->assign('word', $word);
