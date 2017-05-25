@@ -17,7 +17,7 @@
  * @since           3.23
  * @author          Xoops Module Dev Team
  */
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted Access');
 include_once __DIR__ . '/config.php';
 
 // This must contain the name of the folder in which reside Pedigree
@@ -28,7 +28,7 @@ include_once __DIR__ . '/config.php';
 //define('PEDIGREE_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
 //define('PEDIGREE_AUTHOR_LOGOIMG', PEDIGREE_URL . '/assets/images/xoopsproject_logo.png');
 
-xoops_loadLanguage('common', PEDIGREE_DIRNAME);
+//xoops_loadLanguage('common', PEDIGREE_DIRNAME);
 xoops_loadLanguage('global');
 
 include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -39,20 +39,19 @@ include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 //include_once PEDIGREE_ROOT_PATH . '/include/constants.php';
 //include_once PEDIGREE_ROOT_PATH . '/class/session.php'; // PedigreeSession class
 include_once PEDIGREE_ROOT_PATH . '/class/pedigree.php'; // PedigreePedigree class
-//include_once PEDIGREE_ROOT_PATH . '/class/request.php'; // PedigreeRequest class
 include_once PEDIGREE_ROOT_PATH . '/class/breadcrumb.php'; // PedigreeBreadcrumb class
-include_once PEDIGREE_ROOT_PATH . '/class/tree.php'; // PedigreeObjectTree class
+include_once PEDIGREE_ROOT_PATH . '/class/tree.php'; // PedigreeTree class
 //include_once PEDIGREE_ROOT_PATH . '/class/xoopstree.php'; // PedigreeXoopsTree class
 //include_once PEDIGREE_ROOT_PATH . '/class/formelementchoose.php'; // PedigreeFormElementChoose class
-include_once PEDIGREE_ROOT_PATH . '/class/pedigreeUtilities.php'; // PedigreeUtilities class
-include_once PEDIGREE_ROOT_PATH . '/class/animal.php'; // PedigreeUtilities class
+include_once PEDIGREE_ROOT_PATH . '/class/utilities.php'; // PedigreeUtilities class
+include_once PEDIGREE_ROOT_PATH . '/class/animal.php'; // PedigreeAnimal class
 
 xoops_load('XoopsUserUtility');
 // MyTextSanitizer object
 $myts = MyTextSanitizer::getInstance();
 
 $debug    = false;
-$pedigree = PedigreePedigree::getInstance($debug);
+$pedigree = PedigreePedigree::getInstance($debug); //get module helper class
 
 //This is needed or it will not work in blocks.
 global $pedigree_isAdmin;

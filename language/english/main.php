@@ -229,6 +229,7 @@ define('_MA_PEDIGREE_FLD_PUPS', '[children]');
 define('_MA_PEDIGREE_FLD_DBUS', 'Added by');
 define('_MA_PEDIGREE_FLD_CHAN', 'Changed');
 define('_MA_PEDIGREE_FLD_DELE', 'Removed');
+define('_MA_PEDIGREE_FLD_UNKNOWN', 'Unknown');
 
 //genders
 define('_MA_PEDIGREE_FLD_MALE', '[male]');

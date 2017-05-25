@@ -25,10 +25,14 @@ global $xoopsModuleConfig;
 
 $myts = MyTextSanitizer::getInstance();
 
+$fld = XoopsRequest::getWord('fld', '', 'GET');
+$id  = XoopsRequest::getInt('Id', 0, 'GET');
+/*
 $fld = $_GET['fld'];
 $id  = $_GET['id'];
+*/
 //query (find values for this owner/breeder (and format them))
-$queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ID=' . $id;
+$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE Id=' . $id;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -38,7 +42,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $naaml    = htmlentities(stripslashes($row['lastname']), ENT_QUOTES);
     $naamf    = htmlentities(stripslashes($row['firstname']), ENT_QUOTES);
     $naam     = $naaml . ', ' . $naamf;
-    $namelink = "<a href=\"dog.php?id=" . $row['Id'] . "\">" . stripslashes($row['NAAM']) . '</a>';
+    $namelink = "<a href=\"dog.php?Id=" . $row['Id'] . "\">" . stripslashes($row['NAAM']) . '</a>';
     //street
     $street = stripslashes($row['streetname']);
     //housenumber

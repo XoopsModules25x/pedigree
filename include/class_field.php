@@ -11,6 +11,7 @@
 
 /**
  * Class SystemMessage
+ * @deprecated
  */
 class SystemMessage
 {
@@ -83,6 +84,7 @@ class Animal
  */
 class Field
 {
+    protected $id;
     /**
      * @param $fieldnumber
      * @param $config
@@ -90,7 +92,8 @@ class Field
     public function __construct($fieldnumber, $config)
     {
         //find key where ID = $fieldnumber;
-        for ($x = 0, $xMax = count($config); $x < $xMax; ++$x) {
+        $configCount = count($config);
+        for ($x = 0; $x < $configCount; ++$x) {
             if ($config[$x]['Id'] = $fieldnumber) {
                 foreach ($config[$x] as $key => $values) {
                     $this->$key = $values;
@@ -119,11 +122,8 @@ class Field
     public function inAdvanced()
     {
         $active = $this->getSetting('ViewInAdvanced');
-        if ($active == '1') {
-            return true;
-        }
 
-        return false;
+        return ('1' == $active) ? true : false;
     }
 
     /**
@@ -170,7 +170,7 @@ class Field
      */
     public function generalLitter()
     {
-        $active = $this->getSetting('Generallitter');
+        $active = $this->getSetting('generalLitter');
         if ($active == '1') {
             return true;
         }
@@ -327,7 +327,7 @@ class RadioButton extends Field
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
         if ($this->lookuptable == '0') {
-            new Systemmessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
     }
 
@@ -440,7 +440,7 @@ class SelectBox extends Field
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
         if ($this->lookuptable == '0') {
-            new Systemmessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
     }
 
@@ -554,13 +554,13 @@ class TextBox extends Field
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
         if ($this->lookuptable == '1') {
-            new Systemmessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
         if ($parentObject->ViewInAdvanced == '1') {
-            new Systemmessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
+            new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
         if ($parentObject->ViewInPie == '1') {
-            new Systemmessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
 
@@ -611,13 +611,13 @@ class TextArea extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         if ($parentObject->LookupTable == '1') {
-            new Systemmessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
         if ($parentObject->ViewInAdvanced == '1') {
-            new Systemmessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
+            new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
         if ($parentObject->ViewInPie == '1') {
-            new Systemmessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
 
@@ -668,13 +668,13 @@ class DataSelect extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         if ($parentObject->lookuptable == '1') {
-            new Systemmessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
         if ($parentObject->ViewInAdvanced == '1') {
-            new Systemmessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
+            new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
         if ($parentObject->ViewInPie == '1') {
-            new Systemmessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
 
@@ -727,13 +727,13 @@ class UrlField extends Field
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
         if ($this->lookuptable == '1') {
-            new Systemmessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
         if ($parentObject->ViewInAdvanced == '1') {
-            new Systemmessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
+            new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
         if ($parentObject->ViewInPie == '1') {
-            new Systemmessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
 
@@ -811,19 +811,19 @@ class Picture extends Field
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
         if ($this->lookuptable == '1') {
-            new Systemmessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
         if ($parentObject->ViewInAdvanced == '1') {
-            new Systemmessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
+            new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
         if ($parentObject->ViewInPie == '1') {
-            new Systemmessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
+            new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
         if ($parentObject->ViewInList == '1') {
-            new Systemmessage('userfield' . $this->fieldnumber . ' cannot be included in listview');
+            new SystemMessage('userfield' . $this->fieldnumber . ' cannot be included in listview');
         }
         if ($parentObject->HasSearch == '1') {
-            new Systemmessage('Search cannot be defined for userfield' . $this->fieldnumber);
+            new SystemMessage('Search cannot be defined for userfield' . $this->fieldnumber);
         }
     }
 

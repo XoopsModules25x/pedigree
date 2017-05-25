@@ -6,7 +6,7 @@ $moduleDirName = basename(__DIR__);
 //$moduleDirName = $xoopsModule->dirname();
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 $xoopsOption['template_main'] = 'pedigree_book.tpl';
 
@@ -6661,16 +6661,17 @@ $fok[] = array('Id' => 'Kenyee Deon', 'vnaam' => '', 'anaam' => '');
 $fok[] = array('Id' => 'Uto de l\'Etoile Saint Hubert', 'vnaam' => 'Hubert', 'anaam' => 'Ducrot');
 $fok[] = array('Id' => '', 'vnaam' => '', 'anaam' => '');
 
-for ($index = 0, $indexMax = count($fok); $index < $indexMax; ++$index) {
+$fokCount = count($fok);
+for ($index = 0; $index < $fokCount; ++$index) {
     //echo $dad[$index]['Id']."<br />";
     $id    = $fok[$index]['Id'];
     $lnaam = $fok[$index]['anaam'];
     $vnaam = $fok[$index]['vnaam'];
 
-    $sql    = 'SELECT ID from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " where firstname = '" . $vnaam . "' AND lastname = '" . $lnaam . "'";
+    $sql    = 'SELECT Id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " WHERE firstname = '" . $vnaam . "' AND lastname = '" . $lnaam . "'";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $UPD = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " set id_breeder = '" . $row['Id'] . "' where NAAM='" . $id . "'";
+        $UPD = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET id_breeder = '" . $row['Id'] . "' WHERE NAAM='" . $id . "'";
         //echo $UPD."<br />";
         $GLOBALS['xoopsDB']->query($UPD);
     }

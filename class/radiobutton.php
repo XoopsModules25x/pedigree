@@ -41,18 +41,18 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
      *
      * @todo move hard coded language string to language file
      *
-     * @param object $parentObject {@see PedigreeField}
-     * @param object $animalObject {@see PedigreeAnimal}
+     * @param Field $parentObject
+     * @param PedigreeAnimal $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
         $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->FieldName;
+        $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->LookupTable;
-        if (0 == $this->lookuptable) {
-            echo "<span style='color: red;'><h3>A lookuptable must be specified for userfield" . $this->fieldnumber . '</h3></span>';
+        $this->lookuptable  = $parentObject->hasLookup();
+        if (!$this->lookuptable) {
+            xoops_error("A lookuptable must be specified for userfield " . $this->fieldnumber, get_class($this));
         }
     }
 
@@ -129,7 +129,8 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
     public function showValue()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
+        $lcCount = count($lookupcontents);
+        for ($i = 0; $i < $lcCount; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
@@ -155,9 +156,10 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
     }
 
     /**
-     *
+     * return void
      */
     public function getSearchString()
     {
+        return;
     }
 }

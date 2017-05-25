@@ -82,7 +82,7 @@ if ($numpages > 1) {
     }
 }
 //query
-$queryString = 'SELECT count( d.' . $com . ' ) AS X, d.' . $com . ', p.NAAM as p_NAAM, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' p ON d.' . $com . ' = p.id WHERE d.' . $com . ' !=0 GROUP BY d.' . $com . ' ORDER BY X DESC LIMIT ' . $st . ', ' . $perp;
+$queryString = 'SELECT count( d.' . $com . ' ) AS X, d.' . $com . ', p.NAAM as p_NAAM, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' p ON d.' . $com . ' = p.Id WHERE d.' . $com . ' !=0 GROUP BY d.' . $com . ' ORDER BY X DESC LIMIT ' . $st . ', ' . $perp;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {

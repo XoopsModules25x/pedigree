@@ -19,7 +19,9 @@
 
 //require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once __DIR__ . '/admin_header.php';
-include_once dirname(__DIR__) . '/class/pedigreeUtilities.php';
+if (!class_exists('PedigreeUtilities')) {
+    xoops_load('utilities', $moduleDirName);
+}
 xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 

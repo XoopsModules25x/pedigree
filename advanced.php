@@ -8,7 +8,7 @@ xoops_loadLanguage('main', $moduleDirName);
 //needed for generation of pie charts
 ob_start();
 //include(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_eq_pie.php');
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/field.php';
 
 $xoopsOption['template_main'] = 'pedigree_advanced.tpl';
 

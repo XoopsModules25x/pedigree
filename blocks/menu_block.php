@@ -11,8 +11,8 @@ xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 //require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 //require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
-require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/include/class_field.php');
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/field.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
  * @todo: move hard coded language strings to language file
@@ -21,16 +21,20 @@ require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
  */
 function menu_block()
 {
-    global $xoopsTpl, $xoopsUser;
+    global $xoopsTpl, $xoopsUser, $pedigree;
     $moduleDirName = basename(dirname(__DIR__));
+    if (!class_exists('PedigreePedigree')) {
+        $pedigree = PedigreePedigree::getInstance(false);
+    }
+/*
     //get module configuration
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-
+*/
     //colour variables
-    $colors  = explode(',', $moduleConfig['colourscheme']);
+    $colors  = explode(',', $pedigree->getConfig('colourscheme'));
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -77,7 +81,7 @@ function menu_block()
     $lastpos = my_strrpos($x, '/');
     $len     = strlen($x);
     $curpage = substr($x, $lastpos, $len);
-    if (1 == $moduleConfig['showwelcome']) {
+    if (1 == $pedigree->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>Welcome</b>';
         } else {
@@ -90,9 +94,9 @@ function menu_block()
         }
     }
     if ($curpage === '/index.php' || $curpage === '/result.php') {
-        $title = '<b>View/Search ' . $moduleConfig['animalTypes'] . '</b>';
+        $title = '<b>View/Search ' . $pedigree->getConfig('animalTypes') . '</b>';
     } else {
-        $title = 'View/Search ' . $moduleConfig['animalTypes'];
+        $title = 'View/Search ' . $pedigree->getConfig('animalTypes');
     }
     $menuarray[] = array('title' => $title, 'link' => 'index.php', 'counter' => $counter);
     ++$counter;
@@ -100,20 +104,20 @@ function menu_block()
         $counter = 1;
     }
     if ($curpage === '/add_dog.php') {
-        $title = '<b>Add a ' . $moduleConfig['animalType'] . '</b>';
+        $title = '<b>Add a ' . $pedigree->getConfig('animalType') . '</b>';
     } else {
-        $title = 'Add a ' . $moduleConfig['animalType'];
+        $title = 'Add a ' . $pedigree->getConfig('animalType');
     }
     $menuarray[] = array('title' => $title, 'link' => 'add_dog.php', 'counter' => $counter);
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($moduleConfig['uselitter'] == '1') {
+    if ('1' == $pedigree->getConfig('uselitter')) {
         if ($curpage === '/add_litter.php') {
-            $title = '<b>Add a ' . $moduleConfig['litter'] . '</b>';
+            $title = '<b>Add a ' . $pedigree->getConfig('litter') . '</b>';
         } else {
-            $title = 'Add a ' . $moduleConfig['litter'];
+            $title = 'Add a ' . $pedigree->getConfig('litter');
         }
         $menuarray[] = array('title' => $title, 'link' => 'add_litter.php', 'counter' => $counter);
         ++$counter;
@@ -121,7 +125,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($moduleConfig['ownerbreeder'] == '1') {
+    if ('1' == $pedigree->getConfig('ownerbreeder')) {
         if ($curpage === '/breeder.php' || $curpage === '/owner.php') {
             $title = '<b>View owners/breeders</b>';
         } else {
@@ -153,7 +157,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($moduleConfig['proversion'] == '1') {
+    if ('1' == $pedigree->getConfig('proversion')) {
         if ($curpage === '/virtual.php') {
             $title = '<b>Virtual mating</b>';
         } else {

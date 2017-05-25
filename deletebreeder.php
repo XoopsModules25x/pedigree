@@ -27,14 +27,14 @@ global $xoopsTpl;
 global $xoopsDB;
 global $xoopsModuleConfig;
 
-$id = $_GET['id'];
+$id = XoopsRequest::getInt('id', 0, 'GET');
 //query (find values for this dog (and format them))
-$queryString = 'SELECT lastname, firstname, user from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ID=' . $id;
+$queryString = 'SELECT lastname, firstname, user FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE Id=' . $id;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
-    $id = $row['Id'];
+//    $id = $row['Id'];
     //name
     $naam     = htmlentities(stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']), ENT_QUOTES);
     $namelink = "<a href=\"owner.php?ownid=" . $row['Id'] . "\">" . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . '</a>';
@@ -48,15 +48,15 @@ $form = new XoopsThemeForm($naam, 'deletedata', 'deletebreederpage.php', 'POST')
 //hidden value current record owner
 $form->addElement(new XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID
-$form->addElement(new XoopsFormHidden('dogid', $_GET['id']));
+$form->addElement(new XoopsFormHidden('dogid', $id));
 $form->addElement(new XoopsFormHidden('curname', $naam));
 $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DELE_CONF_OWN . '<b>' . $naam . '</b>?'));
-$breeder = breederof($_GET['id'], 1);
-if ($breeder != '') {
+$breeder = PedigreeUtilities::breederof($id, 1);
+if ('' != $breeder) {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_BREEDER, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '<br /><br />' . $breeder));
 }
-$owner = breederof($_GET['id'], 0);
+$owner = PedigreeUtilities::breederof($id, 0);
 if ($owner != '') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_OWNER, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '<br /><br />' . $owner));
 }

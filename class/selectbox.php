@@ -36,8 +36,8 @@ class PedigreeSelectBox extends PedigreeHtmlInputAbstract
     /**
      * Constructor
      *
-     * @param $parentObject
-     * @param $animalObject
+     * @param Field $parentObject
+     * @param PedigreeAnimal $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
@@ -45,9 +45,9 @@ class PedigreeSelectBox extends PedigreeHtmlInputAbstract
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
-        if (0 == $this->lookuptable) {
-            echo "<span style='color: red;'><h3>A lookuptable must be specified for userfield" . $this->fieldnumber . '</h3></span>';
+        $this->lookuptable  = $parentObject->hasLookup();
+        if (!$this->lookuptable) {
+            xoops_error("A lookuptable must be specified for userfield " . $this->fieldnumber, get_class($this));
         }
     }
 

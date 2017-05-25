@@ -8,16 +8,21 @@
  */
 
 $moduleDirName = basename(dirname(__DIR__));
-require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/class_field.php');
-require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/config.php');
-xoops_load('PedigreeAnimal', $moduleDirName);
-
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
+require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
+if (!class_exists('PedigreeAnimal')) {
+    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
+}
+if (!class_exists('PedigreeField')) {
+    $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
+}
+/*
 //get module configuration
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-
+*/
 /**
  * Class PedigreeUtilities
  */
@@ -236,9 +241,9 @@ class PedigreeUtilities
         global $numofcolumns, $nummatch, $pages, $columns, $dogs;
         $content = '';
         if ($gender == 0) {
-            $sqlquery = 'SELECT d.id as d_id, d.naam as d_naam, d.roft as d_roft, d.* FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id where d.father=' . $oid . ' order by d.naam';
+            $sqlquery = 'SELECT d.Id AS d_id, d.NAAM AS d_naam, d.roft AS d_roft, d.* FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.Id LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.Id WHERE d.father=' . $oid . ' ORDER BY d.NAAM';
         } else {
-            $sqlquery = 'SELECT d.id as d_id, d.naam as d_naam, d.roft as d_roft, d.* FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id where d.mother=' . $oid . ' order by d.naam';
+            $sqlquery = 'SELECT d.Id AS d_id, d.NAAM AS d_naam, d.roft AS d_roft, d.* FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.Id LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.Id WHERE d.mother=' . $oid . ' ORDER BY d.NAAM';
         }
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         $nummatch    = $GLOBALS['xoopsDB']->getRowsNum($queryresult);
@@ -249,8 +254,8 @@ class PedigreeUtilities
         $numofcolumns = 1;
         $columns[]    = array('columnname' => 'Name');
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new Field($fields[$i], $animal->getConfig());
-            $fieldType   = $userField->getSetting('FieldType');
+            $userField   = new PedigreeField($fields[$i], $animal->getConfig());
+            $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
             $lookupvalues = '';
@@ -298,7 +303,7 @@ class PedigreeUtilities
                 'id'          => $rowres['d_id'],
                 'name'        => $name,
                 'gender'      => $gender,
-                'link'        => "<a href=\"dog.php?id=" . $rowres['d_id'] . "\">" . $name . '</a>',
+                'link'        => "<a href=\"dog.php?Id=" . $rowres['d_id'] . "\">" . $name . '</a>',
                 'colour'      => '',
                 'number'      => '',
                 'usercolumns' => $columnvalue
@@ -319,9 +324,9 @@ class PedigreeUtilities
     {
         global $numofcolumns1, $nummatch1, $pages1, $columns1, $dogs1;
         if ($pa == '0' && $ma == '0') {
-            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' where father = ' . $pa . ' and mother = ' . $ma . ' and ID != ' . $oid . " and father != '0' and mother !='0' order by NAAM";
+            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' where father = ' . $pa . ' and mother = ' . $ma . ' and Id != ' . $oid . " and father != '0' and mother !='0' order by NAAM";
         } else {
-            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' where father = ' . $pa . ' and mother = ' . $ma . ' and ID != ' . $oid . ' order by NAAM';
+            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' where father = ' . $pa . ' and mother = ' . $ma . ' and Id != ' . $oid . ' order by NAAM';
         }
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         $nummatch1   = $GLOBALS['xoopsDB']->getRowsNum($queryresult);
@@ -332,8 +337,8 @@ class PedigreeUtilities
         $numofcolumns1 = 1;
         $columns1[]    = array('columnname' => 'Name');
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new Field($fields[$i], $animal->getConfig());
-            $fieldType   = $userField->getSetting('FieldType');
+            $userField   = new PedigreeField($fields[$i], $animal->getConfig());
+            $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
             $lookupvalues = '';
@@ -382,7 +387,7 @@ class PedigreeUtilities
                 'id'          => $rowres['Id'],
                 'name'        => $name,
                 'gender'      => $gender,
-                'link'        => "<a href=\"dog.php?id=" . $rowres['Id'] . "\">" . $name . '</a>',
+                'link'        => "<a href=\"dog.php?Id=" . $rowres['Id'] . "\">" . $name . '</a>',
                 'colour'      => '',
                 'number'      => '',
                 'usercolumns' => $columnvalue1
@@ -403,9 +408,9 @@ class PedigreeUtilities
         $content = '';
 
         if (0 == $breeder) {
-            $sqlquery = 'SELECT ID, NAAM, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id_owner = '" . $oid . "' order by NAAM";
+            $sqlquery = 'SELECT Id, NAAM, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id_owner = '" . $oid . "' order by NAAM";
         } else {
-            $sqlquery = 'SELECT ID, NAAM, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id_breeder = '" . $oid . "' order by NAAM";
+            $sqlquery = 'SELECT Id, NAAM, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id_breeder = '" . $oid . "' order by NAAM";
         }
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
@@ -414,7 +419,7 @@ class PedigreeUtilities
             } else {
                 $gender = "<img src=\"assets/images/female.gif\">";
             }
-            $link = "<a href=\"dog.php?id=" . $rowres['Id'] . "\">" . stripslashes($rowres['NAAM']) . '</a>';
+            $link = "<a href=\"dog.php?Id=" . $rowres['Id'] . "\">" . stripslashes($rowres['NAAM']) . '</a>';
             $content .= $gender . ' ' . $link . '<br />';
         }
 
@@ -429,7 +434,7 @@ class PedigreeUtilities
     public static function getName($oid)
     {
         $oid         = (int)$oid;
-        $sqlquery    = 'SELECT NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE ID = '{$oid}'";
+        $sqlquery    = 'SELECT NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE Id = '{$oid}'";
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
             $an = stripslashes($rowres['NAAM']);
@@ -443,7 +448,7 @@ class PedigreeUtilities
      */
     public static function showParent($PA)
     {
-        $sqlquery    = 'SELECT NAAM from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where ID='" . $PA . "'";
+        $sqlquery    = 'SELECT NAAM FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE Id='" . $PA . "'";
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
             $result = $rowres['NAAM'];
@@ -462,7 +467,7 @@ class PedigreeUtilities
      */
     public static function findId($naam_hond)
     {
-        $sqlquery    = 'SELECT ID from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where NAAM= '$naam_hond'";
+        $sqlquery    = 'SELECT Id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE NAAM= '$naam_hond'";
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
             $result = $rowres['Id'];
@@ -486,8 +491,8 @@ class PedigreeUtilities
         $numofcolumns = 1;
         $columns[]    = array('columnname' => 'Name');
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new Field($fields[$i], $animal->getConfig());
-            $fieldType   = $userField->getSetting('FieldType');
+            $userField   = new PedigreeField($fields[$i], $animal->getConfig());
+            $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive() && $userField->inList()) {
                 if ($userField->hasLookup()) {
@@ -510,8 +515,8 @@ class PedigreeUtilities
             //reset $gender
             $gender = '';
             if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof XoopsUser) && ($row['user'] == $GLOBALS['xoopsUser']->getVar('uid') || true === $modadmin)) {
-                $gender = "<a href='dog.php?id={$row['Id']}'><img src='images/edit.gif' alt='" . _EDIT . "'></a>
-                     . <a href='delete.php?id={$row['Id']}'><img src='images/delete.gif' alt='" . _DELETE . "'></a>";
+                $gender = "<a href='dog.php?Id={$row['Id']}'><img src='images/edit.gif' alt='" . _EDIT . "'></a>
+                     . <a href='delete.php?Id={$row['Id']}'><img src='images/delete.gif' alt='" . _DELETE . "'></a>";
             }
 
             $genImg = (0 == $row['roft']) ? 'male.gif' : 'female.gif';
@@ -561,19 +566,26 @@ class PedigreeUtilities
 
     /***************Blocks**************
      *
-     * @param $cats
+     * @param array|string $cats
      *
-     * @return string
+     * @return string (cat1, cat2, cat3, etc) for SQL statement
      */
     public static function animal_block_addCatSelect($cats)
     {
+        $cat_sql = '';
         if (is_array($cats)) {
+            $cats = array_map('intval', $cats); // make sure all cats are numbers
+            $cat_sql = "(" . implode(',', $cats) . ")";
+/*
             $cat_sql = '(' . current($cats);
             array_shift($cats);
             foreach ($cats as $cat) {
                 $cat_sql .= ',' . $cat;
             }
             $cat_sql .= ')';
+*/
+        } else {
+            $cat_sql = "(" . (int)$cats . ")"; // not efficient but at least creates valid SQL statement
         }
 
         return $cat_sql;
@@ -713,9 +725,12 @@ class PedigreeUtilities
         $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
         $countsByLetters = $myObject->getHandler($activeObject)->getCounts($criteria);
         // Fill alphabet array
-        $alphabet       = XoopsLocal::getAlphabet();
+        //@todo getAlphabet method doesn't exist anywhere
+        //$alphabet       = XoopsLocal::getAlphabet();
+
         $alphabet_array = array();
-        foreach ($alphabet as $letter) {
+//        foreach ($alphabet as $letter) {
+        foreach (range ('A', 'Z') as $letter) {
             $letter_array = array();
             if (isset($countsByLetters[$letter])) {
                 $letter_array['letter'] = $letter;
@@ -773,6 +788,7 @@ class PedigreeUtilities
     }
 
     /**
+     * @deprecated
      * @param bool $withLink
      *
      * @return string

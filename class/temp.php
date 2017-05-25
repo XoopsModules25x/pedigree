@@ -80,6 +80,8 @@ class PedigreeTemp extends XoopsObject
         $criteria->setSort('Id');
         $criteria->setOrder('ASC');
         $_arr   = $tempHandler->getAll();
+        //@todo - the keys below aren't right for XoopsObjectTree. _id should be Id, then need to determine which lineage (father/mother)
+        //        and then use the appropriate key ('father', 'mother'). Can't really do a "combined" tree using XoopsObjectTree only.
         $mytree = new XoopsObjectTree($_arr, '_id', '_pid');
         $form->addElement(new XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_TEMP_COI, $mytree->makeSelBox('_pid', '_title', '--', $this->getVar('_pid'), false)));
 

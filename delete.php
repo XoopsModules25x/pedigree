@@ -27,17 +27,17 @@ global $xoopsTpl;
 global $xoopsDB;
 global $xoopsModuleConfig;
 
-$id = $_GET['id'];
+$id = XoopsRequest::getInt('Id', 0, 'GET');
 //query (find values for this dog (and format them))
-$queryString = 'SELECT NAAM, user, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ID=' . $id;
+$queryString = 'SELECT NAAM, user, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE Id=' . $id;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
-    $id = $row['Id'];
+//    $id = $row['Id'];
     //name
     $naam     = htmlentities(stripslashes($row['NAAM']), ENT_QUOTES);
-    $namelink = "<a href=\"dog.php?id=" . $row['Id'] . "\">" . stripslashes($row['NAAM']) . '</a>';
+    $namelink = "<a href=\"dog.php?Id=" . $row['Id'] . "\">" . stripslashes($row['NAAM']) . '</a>';
     //user who entered the info
     $dbuser = $row['user'];
     $roft   = $row['roft'];
@@ -49,11 +49,11 @@ $form = new XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'POST');
 //hidden value current record owner
 $form->addElement(new XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID
-$form->addElement(new XoopsFormHidden('dogid', $_GET['id']));
+$form->addElement(new XoopsFormHidden('dogid', $id));
 $form->addElement(new XoopsFormHidden('curname', $naam));
 $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $moduleConfig['animalType'] . ' : <b>' . $naam . '</b>?'));
-$pups = pups($_GET['id'], $roft);
+$pups = pups($id, $roft);
 $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $moduleConfig['children'] . _MA_PEDIGREE_ALL_ORPH . $pups));
 $form->addElement(new XoopsFormButton('', 'button_id', _MA_PEDIGREE_BTN_DELE, 'submit'));
 //add data (form) to smarty template
