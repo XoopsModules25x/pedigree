@@ -11,11 +11,11 @@
 /**
  * Pedigree module for XOOPS
  *
- * @copyright       XOOPS Project (http://xoops.org)
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
  * @package         pedigree
  * @since           2.5.x
- * @author          XOOPS Module Dev Team (http://xoops.org)
+ * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');

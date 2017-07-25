@@ -11,7 +11,7 @@
 /**
  * Pedigree module for XOOPS
  *
- * @copyright       {@link http://xoops.org/ The XOOPS Project}
+ * @copyright       {@link https://xoops.org/ The XOOPS Project}
  * @license         GPL 2.0 or later
  * @package         pedigree
  * @author          XOOPS Module Dev Team

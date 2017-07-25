@@ -652,7 +652,7 @@ class PedigreeUtilities
 
     /**
      * Create download by letter choice bar/menu
-     * updated starting from this idea http://xoops.org/modules/news/article.php?storyid=6497
+     * updated starting from this idea https://xoops.org/modules/news/article.php?storyid=6497
      *
      * @param PedigreePedigree $myObject
      * @param $activeObject

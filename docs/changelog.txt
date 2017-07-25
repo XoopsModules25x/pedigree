@@ -36,7 +36,7 @@ TODO (suggested by Zyspec):
 - Asset location issues (geekwright)
 - Bump to Alpha 6 (geekwright)
 - single quotes (mamba)
-- fix error reported at http://xoops.org/modules/newbb/viewtopic.php?post_id=360113#forumpost360113 (geekwright)
+- fix error reported at https://xoops.org/modules/newbb/viewtopic.php?post_id=360113#forumpost360113 (geekwright)
 - address assign by reference errors (geekwright)
 - fix functional issues in owner updates (geekwright)
 - cleanup of browser console errors (geekwright)

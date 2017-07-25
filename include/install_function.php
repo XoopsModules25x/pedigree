@@ -12,11 +12,11 @@
  * animal module for xoops
  *
  * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       XOOPS Project (http://xoops.org)
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
  * @package         animal
  * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
+ * @author          XOOPS Development Team ( name@site.com ) - ( https://xoops.org )
  */
 
 $indexFile = 'index.html';

@@ -11,11 +11,11 @@
 /**
  * Pedigree module for xoops
  *
- * @copyright       {@link http://xoops.org/ XOOPS Project}
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
  * @license         GPL 2.0 or later
  * @package         pedigree
  * @since
- * @author          XOOPS Module Dev Team (http://xoops.org)
+ * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
 include_once __DIR__ . '/admin_header.php';

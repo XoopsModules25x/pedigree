@@ -11,10 +11,10 @@
 /**
  * Pedigree module for XOOPS
  *
- * @copyright       {@link http://xoops.org/  XOOPS Project}
+ * @copyright       {@link https://xoops.org/  XOOPS Project}
  * @license         GPL 2.0 or later
  * @package         pedigree
- * @author          XOOPS Module Dev Team (http://xoops.org)
+ * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
@@ -43,5 +43,5 @@ $uploadFolders = array(
 );
 
 // module information
-$mod_copyright = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
+$mod_copyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . PEDIGREE_AUTHOR_LOGOIMG . "' alt='XOOPS Project' /></a>";
