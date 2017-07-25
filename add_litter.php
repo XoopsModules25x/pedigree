@@ -52,7 +52,7 @@ function addlitter()
 
     //create xoopsform
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $searchform = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_LITTER, array('[litter]' => $moduleConfig['litter'])), 'searchform', 'add_litter.php?f=sire', 'post');
+    $searchform = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_LITTER, array('[litter]' => $moduleConfig['litter'])), 'searchform', 'add_litter.php?f=sire', 'post', true);
     $searchform->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     //create random value
     $random = (mt_rand() % 10000);

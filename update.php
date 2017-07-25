@@ -95,7 +95,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new XoopsThemeForm($naam, 'updatedata', 'updatepage.php', 'POST');
+$form = new XoopsThemeForm($naam, 'updatedata', 'updatepage.php', 'post', true);
 $form->setExtra("enctype='multipart/form-data'");
 //hidden value current record owner
 $form->addElement(new XoopsFormHidden('dbuser', $dbuser));

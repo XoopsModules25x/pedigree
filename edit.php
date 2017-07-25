@@ -88,7 +88,7 @@ function edit($id = 0)
     $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ID=' . $id;
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form = new XoopsThemeForm('Edit ' . $row['NAAM'], 'dogname', 'edit.php?f=save', 'POST');
+        $form = new XoopsThemeForm('Edit ' . $row['NAAM'], 'dogname', 'edit.php?f=save', 'post', true);
         $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
         $form->addElement(new XoopsFormHidden('id', $id));
         //name

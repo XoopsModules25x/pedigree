@@ -1198,7 +1198,7 @@ function lang()
 {
     global $moduleConfig;
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', 'tools.php?op=langsave', 'POST');
+    $form = new XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', 'tools.php?op=langsave', 'post', true);
     $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $form->addElement(new XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $moduleConfig['animalType']));
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN . $moduleConfig['animalType'] . _MA_PEDIGREE_SEARCH_FORM . $moduleConfig['animalType'] . '</b>.'));

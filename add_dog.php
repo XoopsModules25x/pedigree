@@ -58,7 +58,7 @@ function addDog()
     }
     //create form
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, array('[animalType]' => $moduleConfig['animalType'])), 'dogname', 'add_dog.php?f=checkName', 'POST');
+    $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, array('[animalType]' => $moduleConfig['animalType'])), 'dogname', 'add_dog.php?f=checkName', 'post', true);
     $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     //create random value
     $random = (mt_rand() % 10000);
@@ -99,7 +99,7 @@ function checkName()
     if ($numresults >= 1 && !isset($_GET['r'])) {
         //create form
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, array('[animalType]' => $moduleConfig['animalType'])), 'dogname', 'add_dog.php?f=checkName&r=1', 'POST');
+        $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, array('[animalType]' => $moduleConfig['animalType'])), 'dogname', 'add_dog.php?f=checkName&r=1', 'post', true);
         //other elements
         $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
         $form->addElement(new XoopsFormHidden('NAAM', $_POST['NAAM']));
@@ -116,7 +116,7 @@ function checkName()
     } else {
         //create form
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, array('[animalType]' => $moduleConfig['animalType'])), 'dogname', 'add_dog.php?f=sire', 'POST');
+        $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, array('[animalType]' => $moduleConfig['animalType'])), 'dogname', 'add_dog.php?f=sire', 'post', true);
         //added to handle upload
         $form->setExtra("enctype='multipart/form-data'");
         $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));

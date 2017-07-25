@@ -54,7 +54,7 @@ if (empty($xoopsUser)) {
 }
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'POST');
+$form = new XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'post', true);
 $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 $form->addElement(new XoopsFormHidden('user', $xoopsUser->getVar('uid')));
 //lastname

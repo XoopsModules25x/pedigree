@@ -45,7 +45,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'POST');
+$form = new XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'post', true);
 //hidden value current record owner
 $form->addElement(new XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID

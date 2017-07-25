@@ -331,7 +331,7 @@ function lang()
 {
     global $xoopsTpl, $moduleConfig;
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm('Language options', 'language', 'tools.php?op=langsave', 'POST');
+    $form = new XoopsThemeForm('Language options', 'language', 'tools.php?op=langsave', 'post', true);
     $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $form->addElement(new XoopsFormText('<b>type of animal</b>', 'animalType', $size = 50, $maxsize = 255, $value = $moduleConfig['animalType']));
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the animal type which will be used in the application.<br /><i>example : </i>snake, pigeon, dog, owl<br /><br />The value should fit in the sentences below.<br />Please add optional information for this <b>' . $moduleConfig['animalType'] . '</b>.<br />Select the first letter of the <b>' . $moduleConfig['animalType'] . '</b>.'));
