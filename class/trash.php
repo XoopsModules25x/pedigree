@@ -32,8 +32,8 @@ class PedigreeTrash extends XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('Id', XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar('NAAM', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 11);
+        $this->initVar('naam', XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('id_owner', XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar('id_breeder', XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar('user', XOBJ_DTYPE_TXTBOX, null, false, 25);
@@ -59,12 +59,12 @@ class PedigreeTrash extends XoopsObject
 
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_TRASH_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_TRASH_EDIT);
 
-        include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_TRASH_NAAM, 'NAAM', $this->getVar('NAAM'), 4, 47), true);
+        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_TRASH_NAAM, 'naam', $this->getVar('naam'), 4, 47), true);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_TRASH_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_TRASH_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_TRASH_USER, 'user', 50, 255, $this->getVar('user')), false);
@@ -101,6 +101,6 @@ class PedigreeTrashHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_trash', 'PedigreeTrash', 'Id', 'NAAM');
+        parent::__construct($db, 'pedigree_trash', 'PedigreeTrash', 'id', 'naam');
     }
 }

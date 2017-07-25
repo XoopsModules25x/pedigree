@@ -80,8 +80,10 @@
         top: 1px;
     }
 </style>
-<{$smarty.const._MA_PEDIGREE_BROWSETOTOPIC}>
-<br/>
+<{*<{$smarty.const._MA_PEDIGREE_BROWSETOTOPIC}>*}>
+<{$pageTitle}>
+<{$pageTitle2}>
+<br>
 <div>
     <{assign var="alphabetcount" value=$alphabet|@count}>
     <{foreach name=letters item=letter from=$alphabet}>

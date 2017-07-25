@@ -49,7 +49,7 @@ class PedigreePedigree
     public static function getInstance($debug = false)
     {
         static $instance;
-        if (!isset($instance)) {
+        if (null === $instance) {
             $instance = new static($debug);
         }
         //error_log("istance: [" . print_r($istance,true) . "]");
@@ -58,7 +58,7 @@ class PedigreePedigree
         return $instance;
     }
 
-    public function &getModule()
+    public function getModule()
     {
         if ($this->module === null) {
             $this->initModule();
@@ -114,7 +114,7 @@ class PedigreePedigree
      *
      * @return mixed
      */
-    public function &getHandler($name)
+    public function getHandler($name)
     {
         if (!isset($this->handler[$name . 'Handler'])) {
             $this->initHandler($name);

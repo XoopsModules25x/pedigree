@@ -2,7 +2,7 @@
 
 
 CREATE TABLE `pedigree_owner` (
-  `Id`          INT(11)     NOT NULL AUTO_INCREMENT,
+  `id`          INT(11)     NOT NULL AUTO_INCREMENT,
   `firstname`   VARCHAR(30) NOT NULL DEFAULT '',
   `lastname`    VARCHAR(30) NOT NULL DEFAULT '',
   `postcode`    VARCHAR(7)  NOT NULL DEFAULT '',
@@ -13,7 +13,7 @@ CREATE TABLE `pedigree_owner` (
   `emailadres`  VARCHAR(40) NOT NULL DEFAULT '',
   `website`     VARCHAR(60) NOT NULL DEFAULT '',
   `user`        VARCHAR(20) NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`id`),
   KEY `lastname` (`lastname`(5))
 )
   ENGINE = MyISAM
@@ -27,8 +27,8 @@ CREATE TABLE `pedigree_owner` (
 
 
 CREATE TABLE `pedigree_tree` (
-  `Id`         MEDIUMINT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `NAAM`       TEXT                  NOT NULL,
+  `id`         MEDIUMINT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `naam`       TEXT                  NOT NULL,
   `id_owner`   SMALLINT(5)           NOT NULL DEFAULT '0',
   `id_breeder` SMALLINT(5)           NOT NULL DEFAULT '0',
   `user`       VARCHAR(25)           NOT NULL DEFAULT '',
@@ -37,7 +37,7 @@ CREATE TABLE `pedigree_tree` (
   `father`     INT(5)                NOT NULL DEFAULT '0',
   `foto`       VARCHAR(255)          NOT NULL DEFAULT '',
   `coi`        VARCHAR(10)           NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`id`),
   KEY `mother` (`mother`),
   KEY `father` (`father`)
 )
@@ -51,10 +51,10 @@ CREATE TABLE `pedigree_tree` (
 
 
 CREATE TABLE `pedigree_fields` (
-  `Id`                TINYINT(2)                                                                                    NOT NULL AUTO_INCREMENT,
+  `id`                TINYINT(2)                                                                                    NOT NULL AUTO_INCREMENT,
   `isactive`          TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `fieldname`         VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
-  `fieldtype`         ENUM ('dataselect', 'textbox', 'selectbox', 'radiobutton', 'textarea', 'urlfield', 'picture') NOT NULL DEFAULT 'dataselect',
+  `fieldtype`         ENUM ('dateselect', 'textbox', 'selectbox', 'radiobutton', 'textarea', 'urlfield', 'picture') NOT NULL DEFAULT 'dateselect',
   `lookuptable`       TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `defaultvalue`      VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
   `fieldexplanation`  TINYTEXT                                                                                      NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `pedigree_fields` (
   `viewinlist`        TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `locked`            TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `order`             TINYINT(3)                                                                                    NOT NULL DEFAULT '0',
-  UNIQUE KEY `ID` (`ID`)
+  UNIQUE KEY `ID` (`id`)
 )
   ENGINE = MyISAM
   AUTO_INCREMENT = 1;
@@ -81,8 +81,8 @@ CREATE TABLE `pedigree_fields` (
 
 
 CREATE TABLE `pedigree_temp` (
-  `Id`         INT(11)      NOT NULL DEFAULT '0',
-  `NAAM`       TEXT         NOT NULL,
+  `id`         INT(11)      NOT NULL DEFAULT '0',
+  `naam`       TEXT         NOT NULL,
   `id_owner`   INT(11)      NOT NULL DEFAULT '0',
   `id_breeder` INT(11)      NOT NULL DEFAULT '0',
   `user`       VARCHAR(25)  NOT NULL DEFAULT '',
@@ -91,7 +91,7 @@ CREATE TABLE `pedigree_temp` (
   `father`     INT(5)       NOT NULL DEFAULT '0',
   `foto`       VARCHAR(255) NOT NULL DEFAULT '',
   `coi`        VARCHAR(10)  NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`id`),
   KEY `mother` (`mother`),
   KEY `father` (`father`)
 )
@@ -105,8 +105,8 @@ CREATE TABLE `pedigree_temp` (
 
 
 CREATE TABLE `pedigree_trash` (
-  `Id`         INT(11)      NOT NULL AUTO_INCREMENT,
-  `NAAM`       TEXT         NOT NULL,
+  `id`         INT(11)      NOT NULL AUTO_INCREMENT,
+  `naam`       TEXT         NOT NULL,
   `id_owner`   INT(11)      NOT NULL DEFAULT '0',
   `id_breeder` INT(11)      NOT NULL DEFAULT '0',
   `user`       VARCHAR(25)  NOT NULL DEFAULT '',
@@ -115,7 +115,7 @@ CREATE TABLE `pedigree_trash` (
   `father`     INT(5)       NOT NULL DEFAULT '0',
   `foto`       VARCHAR(255) NOT NULL DEFAULT '',
   `coi`        VARCHAR(10)  NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id`)
 )
   ENGINE = MyISAM
   AUTO_INCREMENT = 1

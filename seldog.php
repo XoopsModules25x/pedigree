@@ -1,15 +1,17 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 xoops_load('PedigreeAnimal', $moduleDirName);
-xoops_load('XoopsRequest');
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /*
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
@@ -17,39 +19,40 @@ require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 */
-$xoopsOption['template_main'] = 'pedigree_sel.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_sel.tpl';
 
 include $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname('pedigree');
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-$st     = XoopsRequest::getInt('st', 0, 'GET');
-$gend   = XoopsRequest::getInt('gend', 0, 'GET');
-$curval = XoopsRequest::getInt('curval', 0, 'GET');
+$st     = Request::getInt('st', 0, 'GET');
+$gend   = Request::getInt('gend', 0, 'GET');
+$curval = Request::getInt('curval', 0, 'GET');
 
 /* @todo: default value of 'a' assumes english, this should be defined in language file */
-$letter = XoopsRequest::getString('letter', 'a', 'GET');
+$letter = Request::getString('letter', 'A', 'GET');
 
-$perp = $moduleConfig['perpage'];
+$perPage = $moduleConfig['perpage'];
 
 $GLOBALS['xoopsTpl']->assign('page_title', _MI_PEDIGREE_TITLE);
 
 //count total number of dogs
-$numdog = 'SELECT ID FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE NAAM LIKE '{$letter}%' AND roft = '{$gend}'";
-$numres = $GLOBALS['xoopsDB']->query($numdog);
+$numDog = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}'";
+$numRes = $GLOBALS['xoopsDB']->query($numDog);
 //total number of dogs the query will find
-$numresults = $GLOBALS['xoopsDB']->getRowsNum($numres);
+$numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
 //total number of pages
-$numpages = floor($numresults / $perp) + 1;
-if (($numpages * $perp) == ($numresults + $perp)) {
-    --$numpages;
+$numPages = floor($numResults / $perPage) + 1;
+if (($numPages * $perPage) == ($numResults + $perPage)) {
+    --$numPages;
 }
 //find current page
-$cpage = floor($st / $perp) + 1;
+$currentPage = floor($st / $perPage) + 1;
 /* @todo: change this to use letters() from mylinks or similar module - this routine assumes english */
 //create alphabet
 $pages = '';
@@ -64,30 +67,30 @@ $pages .= '-&nbsp;';
 $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter=Ã…\">Ã…</a>&nbsp;";
 $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter=Ã–\">Ã–</a>&nbsp;";
 //create linebreak
-$pages .= '<br />';
+$pages .= '<br>';
 //create previous button
-if (($numpages > 1) && ($cpage > 1)) {
-    $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter={$letter}&st=" . ($st - $perp) . "'>" . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
+if (($numPages > 1) && ($currentPage > 1)) {
+    $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter={$letter}&st=" . ($st - $perPage) . "'>" . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
 }
 //create numbers
-for ($x = 1; $x < ($numpages + 1); ++$x) {
+for ($x = 1; $x < ($numPages + 1); ++$x) {
     //create line break after 20 number
     if (0 == ($x % 20)) {
-        $pages .= '<br />';
+        $pages .= '<br>';
     }
-    if ($x != $cpage) {
-        $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter={$letter}&st=" . ($perp * ($x - 1)) . "'>{$x}</a>&nbsp;&nbsp";
+    if ($x != $currentPage) {
+        $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter={$letter}&st=" . ($perPage * ($x - 1)) . "'>{$x}</a>&nbsp;&nbsp";
     } else {
         $pages .= "{$x}&nbsp;&nbsp";
     }
 }
 //create next button
-if (($numpages > 1) && ($cpage < $numpages)) {
-    $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter={$letter}&st=" . ($st + $perp) . "'>" . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
+if (($numPages > 1) && ($currentPage < $numPages)) {
+    $pages .= "<a href='seldog.php?gend={$gend}&curval={$curval}&letter={$letter}&st=" . ($st + $perPage) . "'>" . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
 }
 
 //query
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE NAAM LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY NAAM LIMIT {$st}, {$perp}";
+$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY naam LIMIT {$st}, {$perPage}";
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 $animal = new PedigreeAnimal();
@@ -103,19 +106,19 @@ for ($i = 0; $i < $fieldsCount; ++$i) {
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
         if ($userField->hasLookup()) {
-            $lookupvalues = $userField->lookupField($fields[$i]);
+            $lookupValues = $userField->lookupField($fields[$i]);
             //debug information
-            //print_r($lookupvalues);
+            //print_r($lookupValues);
         } else {
-            $lookupvalues = '';
+            $lookupValues = '';
         }
         $columns[] = array(
             'columnname'   => $fieldObj->fieldname,
             'columnnumber' => $userField->getId(),
-            'lookupval'    => $lookupvalues
+            'lookupval'    => $lookupValues
         );
         ++$numofcolumns;
-        unset($lookupvalues);
+        unset($lookupValues);
     }
 }
 
@@ -130,7 +133,7 @@ if (0 == $gend) {
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href='update.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
+        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
@@ -140,7 +143,7 @@ if (0 == $gend) {
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href='update.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
+        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
@@ -149,17 +152,17 @@ if (0 == $gend) {
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //create picture information
-    $camera = ('' != $row['foto']) ? " <img src='assets/images/dog-icon25.png'>" : '';
-    $name   = stripslashes($row['NAAM']) . $camera;
+    $camera = ('' != $row['foto']) ? ' <img src="assets/images/camera.png">' : '';
+    $name   = stripslashes($row['naam']) . $camera;
     //empty array
     unset($columnvalue);
     //fill array
     for ($i = 1; $i < $numofcolumns; ++$i) {
         $x = 'user' . $columns[$i]['columnnumber'];
         if (is_array($columns[$i]['lookupval'])) {
-            foreach ($columns[$i]['lookupval'] as $key => $keyvalue) {
+            foreach ($columns[$i]['lookupval'] as $key => $keyValue) {
                 if ($key == $row[$x]) {
-                    $value = $keyvalue['value'];
+                    $value = $keyValue['value'];
                 }
             }
             //debug information
@@ -174,23 +177,23 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     if (0 == $gend) {
         $dogs[] = array(
-            'id'          => $row['Id'],
+            'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/male.gif">',
-            'link'        => "<a href='update.php?gend={$gend}&curval={$curval}&thisid={$row['Id']}'>{$name}</a>",
+            'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => $columnvalue
+            'usercolumns' => isset($columnvalue) ?: array()
         );
     } else {
         $dogs[] = array(
-            'id'          => $row['Id'],
+            'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/female.gif">',
-            'link'        => "<a href='update.php?gend={$gend}&curval={$curval}&thisid={$row['Id']}'>{$name}</a>",
+            'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => $columnvalue
+            'usercolumns' => isset($columnvalue) ?: array()
         );
     }
 }
@@ -201,7 +204,7 @@ $GLOBALS['xoopsTpl']->assign(array(
                                  'dogs'         => $dogs,
                                  'columns'      => $columns,
                                  'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => PedigreeUtilities::sortTable($numofcolumns)
+                                 'tsarray'      => PedigreeUtility::sortTable($numofcolumns)
                              ));
 //add data to smarty template
 if (0 == $gend) {
@@ -209,21 +212,40 @@ if (0 == $gend) {
 } else {
     $selTtlParent = strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother']));
 }
-$seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . PedigreeUtilities::getName($curval);
+$seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . PedigreeUtility::getName($curval);
 
 $GLOBALS['xoopsTpl']->assign('seltitle', $seltitle);
 
 //find last shown number
-$lastshown = (($st + $perp) > $numresults) ? $numresults : $st + $perp;
+$lastshown = (($st + $perPage) > $numResults) ? $numResults : $st + $perPage;
 
 //create string
 /* @todo: move hard coded language string to language files */
 $matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
-$nummatchstr = "{$numresults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numpages} pages)";
+$nummatchstr = "{$numResults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numPages} pages)";
 $GLOBALS['xoopsTpl']->assign(array(
                                  'nummatch' => $nummatchstr,
                                  'pages'    => $pages,
                                  'curval'   => $curval
                              ));
+
+//mb ========= MOTHER LETTERS===============================
+$myObject = PedigreePedigree::getInstance();
+$roft     = $gend;
+//    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
+$activeObject = 'tree';
+$name         = 'naam';
+$number1      = '1';
+$number2      = '0';
+$link         = "seldog.php?gend={$gend}&curval={$curval}&letter=";
+
+$criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+$criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
+
+$motherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
+//$catarray['toolbar']          = pedigree_toolbar();
+$xoopsTpl->assign('motherArray', $motherArray);
+
+//mb ========================================
 
 include $GLOBALS['xoops']->path('footer.php');

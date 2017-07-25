@@ -9,12 +9,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Wfdownloads module
+ * Pedigree module
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package         wfdownload
- * @since           3.23
+ * @package         pedigree
  * @author          Xoops Development Team
  */
 
@@ -27,4 +26,4 @@
 
 //$GLOBALS['xoopsTpl']->assign('ref_smartfactory', 'WFDownloads is developed by The SmartFactory (http://www.smartfactory.ca), a division of InBox Solutions (http://www.inboxsolutions.net)');
 
-//include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

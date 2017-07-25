@@ -21,7 +21,7 @@
 
 $indexFile = 'index.html';
 
-$blankFile = XOOPS_ROOT_PATH . '/modules/TDMCreate/assets/images/icons/blank.gif';
+$blankFile = __DIR__ . '/../assets/images/blank.gif';
 global $xoopsModule;
 //Creation du dossier "uploads" pour le module à la racine du site
 $module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname();

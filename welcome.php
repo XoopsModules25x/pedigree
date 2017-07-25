@@ -17,36 +17,42 @@
  * @author      XOOPS Module Dev Team
  */
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once __DIR__ . '/../../mainfile.php';
+//require_once __DIR__ . '/header.php';
 
-$moduleDirName = basename(__DIR__);
+//$moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
-$xoopsOption['template_main'] = 'pedigree_welcome.tpl';
-include $GLOBALS['xoops']->path('/header.php');
+//$GLOBALS['xoopsOption']['template_main'] = 'pedigree_welcome.tpl';
+//include $GLOBALS['xoops']->path('/header.php');
 
 $myts = MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
 //query to count dogs
-$treeHandler = xoops_getModuleHandler('tree', 'pedigree');
+$treeHandler = xoops_getModuleHandler('tree', $moduleDirName);
 $numdogs     = $treeHandler->getCount();
 /*
 $result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_tree"));
 list($numdogs) = $GLOBALS['xoopsDB']->fetchRow($result);
 */
-
+/*
 //get module configuration
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-
-$word = $myts->displayTarea(strtr($moduleConfig['welcome'], array('[numanimals]' => $numdogs, '[animalType]' => $moduleConfig['animalType'], '[animalTypes]' => $moduleConfig['animalTypes'])));
+*/
+$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), array(
+    '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
+    '[animalType]'  => '[b]' . $pedigree->getConfig('animalType') . '[/b]',
+    '[animalTypes]' => $pedigree->getConfig('animalTypes')
+)));
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);
 $GLOBALS['xoopsTpl']->assign('word', $word);
 //comments and footer
-include $GLOBALS['xoops']->path('/footer.php');
+
+//include $GLOBALS['xoops']->path('/footer.php');

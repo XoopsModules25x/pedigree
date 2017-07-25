@@ -17,19 +17,21 @@
  * @author       XOOPS Module Dev Team
  */
 
-//require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+//require_once __DIR__ . '/../../../include/cp_header.php';
 require_once __DIR__ . '/admin_header.php';
-include_once dirname(__DIR__) . '/class/pedigreeUtilities.php';
+if (!class_exists('PedigreeUtility')) {
+    xoops_load('utility', $moduleDirName);
+}
 xoops_cp_header();
-$indexAdmin = new ModuleAdmin();
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    PedigreeUtilities::prepareFolder($uploadFolders[$i]);
-    $indexAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
-    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    PedigreeUtility::prepareFolder($uploadFolders[$i]);
+    $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
+    //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
-echo $indexAdmin->addNavigation(basename(__FILE__));
-echo $indexAdmin->renderIndex();
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayIndex();
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

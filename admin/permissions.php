@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for xoops
  *
@@ -18,31 +19,33 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-include_once __DIR__ . '/admin_header.php';
+use Xmf\Request;
+
+require_once __DIR__ . '/admin_header.php';
 //xoops_cp_header();
-include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
-//include_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
+require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+//require_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
 
 if (!empty($_POST['submit'])) {
     redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/permissions.php', 1, _MP_GPERMUPDATED);
 }
 
-$permissions_admin = new ModuleAdmin();
-echo $permissions_admin->addNavigation(basename(__FILE__));
+$permissions_admin = \Xmf\Module\Admin::getInstance();
+echo $permissions_admin->displayNavigation(basename(__FILE__));
 
-$permission                = XoopsRequest::getInt('permission', 1, 'POST');
+$permission                = Request::getInt('permission', 1, 'POST');
 $selected                  = array('', '', '');
 $selected[$permission - 1] = ' selected';
 
-echo "
-<form method=\"post\" name=\"fselperm\" action=\"permissions.php\">
+echo '
+<form method="post" name="fselperm" action="permissions.php">
     <table border=0>
         <tr>
             <td>
-                <select name=\"permission\" onChange=\"document.fselperm.submit()\">
-                    <option value=\"1\"" . $selected[0] . '>' . _AM_PEDIGREE_PERMISSIONS_ACCESS . "</option>
-                    <option value=\"2\"" . $selected[1] . '>' . _AM_PEDIGREE_PERMISSIONS_SUBMIT . "</option>
-                    <option value=\"3\"" . $selected[2] . '>' . _AM_PEDIGREE_PERMISSIONS_VIEW . '</option>
+                <select name="permission" onChange="document.fselperm.submit()">
+                    <option value="1"' . $selected[0] . '>' . _AM_PEDIGREE_PERMISSIONS_ACCESS . '</option>
+                    <option value="2"' . $selected[1] . '>' . _AM_PEDIGREE_PERMISSIONS_SUBMIT . '</option>
+                    <option value="3"' . $selected[2] . '>' . _AM_PEDIGREE_PERMISSIONS_VIEW . '</option>
                 </select>
             </td>
         </tr>
@@ -82,7 +85,7 @@ foreach (array_keys($xdir_cat_arr) as $i) {
     $permform->addItem($xdir_cat_arr[$i]->getVar('cid'), $xdir_cat_arr[$i]->getVar('title'));
 }
 echo $permform->render();
-echo "<br /><br /><br /><br />\n";
+echo "<br><br><br><br>\n";
 unset($permform);
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

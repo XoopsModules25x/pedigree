@@ -2,31 +2,31 @@
 /**
  *  pedigree HTML Input Interface Class Elements
  *
- * @copyright ::  ZySpec Incorporated
- * @license   ::    {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
- * @package   ::    pedigree
- * @subpackage:: class
- * @author    ::     zyspec <owners@zyspec.com>
- * @since     ::      1.3.1
+ * @copyright  ZySpec Incorporated
+ * @license    {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @package    pedigree
+ * @subpackage class
+ * @author     zyspec <owners@zyspec.com>
+ * @since      1.3.1
  */
 
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * PedigreeHtmlInputAbstract
  *
- * @package  ::   pedigree
- * @author   ::    zyspec <owners@zyspec.com>
- * @copyright:: Copyright (c) 2014 ZySpec Incorporated
- * @access::    public
+ * @package   pedigree
+ * @author    zyspec <owners@zyspec.com>
+ * @copyright Copyright (c) 2014 ZySpec Incorporated
+ * @access    public
  */
 
-require_once dirname(__DIR__) . '/include/class_field.php';
+require_once __DIR__ . '/field.php';
 
 /**
  * Class PedigreeHtmlInputAbstract
  */
-abstract class PedigreeHtmlInputAbstract extends Field
+abstract class PedigreeHtmlInputAbstract extends PedigreeField
 {
     /**
      * @return mixed
@@ -83,11 +83,12 @@ abstract class PedigreeHtmlInputAbstract extends Field
     {
         $ret = array();
         global $xoopsDB;
-        $SQL    = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = array('id' => $row['Id'], 'value' => $row['value']);
+            $ret[] = array('id' => $row['id'], 'value' => $row['value']);
         }
+
         //array_multisort($ret,SORT_ASC);
         return $ret;
     }

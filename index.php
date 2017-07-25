@@ -1,17 +1,18 @@
 <?php
 // -------------------------------------------------------------------------
 
-include __DIR__ . '/header.php';
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->dirname() . '/include/class_field.php');
+require_once __DIR__ . '/welcome.php';
 
-$xoopsOption['template_main'] = 'pedigree_index.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_index.tpl';
 
 include $GLOBALS['xoops']->path('/header.php');
 
@@ -36,10 +37,11 @@ $GLOBALS['xoopsTpl']->assign('pedigree_url', PEDIGREE_URL . '/');
 $breadcrumb = new PedigreeBreadcrumb();
 $breadcrumb->addLink($pedigree->getModule()->getVar('name'), PEDIGREE_URL);
 
-$GLOBALS['xoopsTpl']->assign('module_home', PedigreeUtilities::getModuleName(false)); // this definition is not removed for backward compatibility issues
+$GLOBALS['xoopsTpl']->assign('module_home', PedigreeUtility::getModuleName(false)); // this definition is not removed for backward compatibility issues
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($xoopsModule->dirname());
 $configHandler = xoops_getHandler('config');
@@ -58,7 +60,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         $function    = 'user' . $fields[$i] . $fieldObject->getSearchString();
-        //echo $function."<br />";
+        //echo $function."<br>";
         $usersearch[] = array(
             'title'       => $userField->getSetting('SearchName'),
             'searchid'    => 'user' . $fields[$i],
@@ -69,27 +71,31 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
     }
 }
 
-//$catarray['letters']          = PedigreeUtilities::lettersChoice();
-$letter              = '';
-$myObject            = PedigreePedigree::getInstance();
-$criteria            = $myObject->getHandler('tree')->getActiveCriteria();
-$activeObject        = 'tree';
-$name                = 'NAAM';
-$file                = 'result.php';
-$file2               = "result.php?f={$name}&amp;l=1&amp;w={$letter}%25&amp;o={$name}";
-$catarray['letters'] = PedigreeUtilities::lettersChoice($myObject, $activeObject, $criteria, $name, $file, $file2);
+//$catarray['letters']          = PedigreeUtility::lettersChoice();
+$letter       = '';
+$myObject     = PedigreePedigree::getInstance();
+$activeObject = 'tree';
+$name         = 'naam';
+$link         = "result.php?f={$name}&amp;l=1&amp;o={$name}&amp;w=";
+$link2        = '%25';
+
+$criteria = $myObject->getHandler('tree')->getActiveCriteria();
+$criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
+$catarray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
 //$catarray['toolbar']          = pedigree_toolbar();
 $xoopsTpl->assign('catarray', $catarray);
+$xoopsTpl->assign('pageTitle', _MA_PEDIGREE_BROWSETOTOPIC);
 
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign(array(
-                                 'sselect'     => strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])),
-                                 'explain'     => _MA_PEDIGREE_EXPLAIN,
-                                 'sname'       => _MA_PEDIGREE_SEARCHNAME,
-                                 'snameex'     => strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])),
-                                 'usersearch'  => isset($usersearch) ? $usersearch : '',
-                                 'showwelcome' => $moduleConfig['showwelcome'],
-                                 'welcome'     => $GLOBALS['myts']->displayTarea($moduleConfig['welcome'])
+                                 'sselect'    => strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])),
+                                 'explain'    => _MA_PEDIGREE_EXPLAIN,
+                                 'sname'      => _MA_PEDIGREE_SEARCHNAME,
+                                 'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])),
+                                 'usersearch' => isset($usersearch) ? $usersearch : ''
                              ));
-
+$GLOBALS['xoopsTpl']->assign('showwelcome', $moduleConfig['showwelcome']);
+//$GLOBALS['xoopsTpl']->assign('welcome', $GLOBALS['myts']->displayTarea($moduleConfig['welcome']));
+//$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $pedigree->getConfig('animalType'), '[animalTypes]' => $pedigree->getConfig('animalTypes'))));
+$GLOBALS['xoopsTpl']->assign('word', $word);
 include $GLOBALS['xoops']->path('footer.php');

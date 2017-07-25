@@ -8,6 +8,6 @@
 <{if $pagenav != ''}>
     <div class="right"><{$pagenav}></div>
 <{/if}>
-<br/><{if $xoops_isadmin}>
+<br><{if $xoops_isadmin}>
     <div class="center bold"><a href="<{$admin}>"><{$smarty.const._MA_ANIMAL_ADMIN}></a></div>
 <{/if}>

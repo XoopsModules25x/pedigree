@@ -1,17 +1,22 @@
 <?php
+
+use Xmf\Request;
+
 ini_set('memory_limit', '32M');
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
-$xoopsOption['template_main'] = 'pedigree_coi.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_coi.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname('pedigree');
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -63,7 +68,7 @@ if (!isset($max_dist)) { // maximum length of implex loops
 }
 
 $empty = array(); // an empty array
-$sql1  = 'select ID, father, mother, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' where ID ';
+$sql1  = 'SELECT id, father, mother, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id ';
 
 // input data arrays:
 $IDs     = $empty;
@@ -95,7 +100,7 @@ function chrono_sort()
     $nloop = 0;
     $nba   = count($IDs);
     // print_r ($IDs) ;
-    // echo "<b>231 : $IDs[231] $fathers[231] $mothers[231] $chrono[231] $inds[231] </b><br />\n" ;
+    // echo "<b>231 : $IDs[231] $fathers[231] $mothers[231] $chrono[231] $inds[231] </b><br>\n" ;
     foreach ($IDs as $i => $v) {
         $chrono[$i] = 1;
     } // initialize all chronological ranks to 1
@@ -128,7 +133,7 @@ function chrono_sort()
     array_multisort($chrono, $IDs, $fathers, $mothers);
     $depth = $chrono[$nba - 1];
     //commentes out by JC
-    //if ($detail) echo "<br />Chronological ranking done : Pedigree stretched over <b>$depth</b> generations.<br />$nl" ;
+    //if ($detail) echo "<br>Chronological ranking done : Pedigree stretched over <b>$depth</b> generations.<br>$nl" ;
     if ($impr) {
         echo "</center><pre>$nl $nl";
         foreach ($chrono as $i => $val) {
@@ -202,7 +207,7 @@ function add_multi($ch, $niv)
     foreach ($implx as $im => $impl) {
         if ($impl[0] == $ch || $impl[1] == $ch) {
             if ($niv > 1 && $first) {
-                echo "<br />$nl";
+                echo "<br>$nl";
             } else {
                 echo '&nbsp;&nbsp;&nbsp;';
             }
@@ -236,7 +241,7 @@ function output_animal($ind, $gen, $class)
         $ani          = set_name($ID);
         $name         = $ani[1];
         $name         = $ID;
-        $cell_content = showParent($name) . $nl;
+        $cell_content = PedigreeUtility::showParent($name) . $nl;
     }
     $rowspan = 1 << ($depth - $gen);
     echo '<td rowspan=' . $rowspan . ' align="center" class="' . $class . '">' . $cell_content . "</td>$nl";
@@ -265,7 +270,16 @@ function SKETCH_PEDIGREE()
 {
     global $nl, $detail, $depth, $IDs;
     // print_r ($IDs) ;
-    echo $nl . '<br />' . $nl . '<table border="3" cellpadding="4" width="85%"" cellpadding="0" cellspacing="0">' . $nl . '<tr><th colspan="10" align="center">SKETCH &nbsp; PEDIGREE &nbsp; OF COMMON PROGENY</th></tr>' . $nl . '<tr align="center" valign="middle"><th>Progeny</th><th>' . _('Sire / Dam') . '</th>';
+    echo $nl
+         . '<br>'
+         . $nl
+         . '<table border="3" cellpadding="4" width="85%"" cellpadding="0" cellspacing="0">'
+         . $nl
+         . '<tr><th colspan="10" align="center">SKETCH &nbsp; PEDIGREE &nbsp; OF COMMON PROGENY</th></tr>'
+         . $nl
+         . '<tr align="center" valign="middle"><th>Progeny</th><th>'
+         . _('Sire / Dam')
+         . '</th>';
     if ($depth >= 2) {
         echo '<th>' . _('Grandparents') . '</th>' . $nl;
     }
@@ -286,7 +300,7 @@ function SKETCH_PEDIGREE()
     }
     echo '</tr><tr>';
     output_animal(0, 0, '0'); /* output the sketch pedigree */
-    echo $nl . '</tr></table>' . $nl . '<p />' . $nl;
+    echo $nl . '</tr></table>' . $nl . '<p>' . $nl;
 
     return 0;
 }
@@ -311,7 +325,7 @@ function GENEALOGY()
     $generation = array($IDs[1], $IDs[2]); // starting with first generation (sire and dam)
     $nbtot      = 0; // count of total known ascendants within $nb_gen generations
     for ($nloop = 1, $tot = 2; $last <= $nb_maxi && $nloop <= $nb_gen; ++$nloop) {
-        $nbtot += $tot; // count of total known ascendants within $nb_gen generations
+        $nbtot      += $tot; // count of total known ascendants within $nb_gen generations
         $nbani      = $last; // count of    distinct ascendants within $nb_gen generations
         $list       = implode(',', array_unique($generation));
         $generation = array();
@@ -321,13 +335,13 @@ function GENEALOGY()
         }
 
         // HERE IS FETCHED EACH TRIPLET [ID, sire_ID, dam_ID] :
-        $r = $GLOBALS['xoopsDB']->query("$sql1 IN ($list)");
+        $r = $GLOBALS['xoopsDB']->queryF("$sql1 IN ($list)");
         while (false !== ($rec = $GLOBALS['xoopsDB']->fetchBoth($r))) {
             $a = $rec[0] + 0;
             $s = $rec[1] + 0;
             $d = $rec[2] + 0;
-            if (!$a) {
-                echo "ERROR : $a = $s x $d for list = '$list'<br />\n";
+            if (!isset($a)) {
+                echo "ERROR : $a = $s x $d for list = '$list'<br>\n";
             }
             if ($s) {
                 ++$tot;
@@ -444,13 +458,13 @@ function dist_m($m)
         foreach ($listnew as $i) {
             $s = $fathers[$i];
             $d = $mothers[$i];
-            if ($s && !$mater[$s]) {
+            if ($s && !isset($mater[$s])) {
                 $mater[$s] = $nloop;
             } // least distance from $s to dam's progeny
-            if ($d && !$mater[$d]) {
+            if ($d && !isset($mater[$d])) {
                 $mater[$d] = $nloop;
             } // least distance from $d to dam's progeny
-            // echo "I=" . $i . " MATER(I)=" . $mater[$i] . " NLOOP=" . $nloop . "<br />$nl" ;
+            // echo "I=" . $i . " MATER(I)=" . $mater[$i] . " NLOOP=" . $nloop . "<br>$nl" ;
             if ($s) {
                 $liste[] = $s;
             }
@@ -490,14 +504,14 @@ function calc_dist() /* Common Ascendants and their distances */
     if ($detail) {
         $dmx += 2;
     }
-    // ksort ($pater) ; print_r ($pater) ; echo "<br />$nl" ; ksort ($mater) ; print_r ($mater) ; echo "<br />$nl" ;
+    // ksort ($pater) ; print_r ($pater) ; echo "<br>$nl" ; ksort ($mater) ; print_r ($mater) ; echo "<br>$nl" ;
     foreach ($pater as $i => $p) {
         if ($p) {
             $m = $mater[$i];
             if ($m) {
                 $di = $p + $m;
                 if ($impr) {
-                    echo " $i : $p + $m = $di <br />$nl";
+                    echo " $i : $p + $m = $di <br>$nl";
                 }
                 if (!$dmax) {
                     $dmax = $dmx + $di - ceil($di / 2.);
@@ -541,21 +555,21 @@ function mater_side($p, $m, $a, $ndist)
     if ($verbose && !$already_known && $ICp > 0.001 * $verbose) {
         echo "IC of Animal $p is $ICp$nl";
     }
+
     $incr = 1.0 / (1 << $ndist) * (1. + $ICp); // ******** applying WRIGHT's formula ********
 
     // [Note:  1 << $ndist is equal to 2 power $ndist]
     $COIs[$a] += $incr; // incrementing the IC of AnimC
     if ($a == 0) {
         $deltaf[$p] += $incr;
-    }
-    /* contribution of Anim #P to IC of Anim #0 */
-    // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
-    //    echo "Animal $p is contributing for " . substr ($deltaf[$p], 0, 10) . " to the IC of Animal $a$nl" ;}
-    else {
+        /* contribution of Anim #P to IC of Anim #0 */
+        // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
+        //    echo "Animal $p is contributing for " . substr ($deltaf[$p], 0, 10) . " to the IC of Animal $a$nl" ;
+    } else {
         if (!$marked[$m] && $chrono[$m] < $paternal_rank) {
             mater_side($p, $fathers[$m], $a, $ndist + 1);
+            mater_side($p, $mothers[$m], $a, $ndist + 1);
         }
-        mater_side($p, $mothers[$m], $a, $ndist + 1);
     }
 
     return 0;
@@ -566,7 +580,6 @@ function mater_side($p, $m, $a, $ndist)
  * @param $m
  * @param $a
  * @param $pdist
- *
  * @return int
  */
 function pater_side($p, $m, $a, $pdist)
@@ -577,7 +590,7 @@ function pater_side($p, $m, $a, $pdist)
     }
     $paternal_rank = $chrono[$p];
     $marked[$p]    = 1; /* cut paternal side */
-    if ($mater[$p] || $a) {
+    if (isset($mater[$p]) || $a) {
         mater_side($p, $m, $a, $pdist);
     }
     pater_side($fathers[$p], $m, $a, $pdist + 1);
@@ -629,6 +642,7 @@ function CONSANG($a)
             $ICknown[$i] = 1;
         }
     }
+
     // echo "<!-- COI($a) = $COIs[$a] $IDs[$a] ($fathers[$a] x $mothers[$a])-->$nl" ;
     return 0;
 }
@@ -647,7 +661,9 @@ function boucle($nb_gen, $nloop)
     if ($nloop < ($nb_gen + 20)) {
         $nloop = $nb_gen + 20;
     }
-    $list = array(0 => 1); /* initialize list with Anim0 (rank = 1) */
+    $list = array(0 => 1);
+    //print_r($list);
+    /* initialize list with Anim0 (rank = 1) */
     for ($j = 1; $j < $nloop; ++$j) {
         $new = 0;
         foreach ($list as $i => $rank) {
@@ -711,30 +727,33 @@ if (!function_exists('html_accents')) {
  */
 function set_name($ID)
 {
-    global $sql2, $sql2bis, $xoopsDB;
+    //    global $sql2, $sql2bis, $xoopsDB;
     $name = ' ';
+    $ID   = (int)$ID;
     $ani  = array();
     if ($ID) {
-        $sqlquery    = 'SELECT ID, NAAM, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where ID = '$ID'";
-        $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
-        $ani         = $GLOBALS['xoopsDB']->fetchBoth($queryresult);
-        $name        = $ani[1];
-        if ($sql2bis) { // true for E.R.o'S. only 
-            $name = html_accents($name);
-            //$affx = $ani[5] ;  // affix-ID
-            if ($affx) {
-                $affix  = fetch_record("$sql2bis '$affx'");
-                $type   = $affix[1];
-                $affixe = html_accents($affix[0]);
-                if ($type[0] === 'P') {
-                    $name = '<i>' . $affixe . '</i>&nbsp;' . $name;
-                }
-                if ($type[0] === 'S') {
-                    $name = $name . '&nbsp;<i>' . $affixe . '</i>';
-                }
-            }
-            $ani[1] = $name;
-        }
+        $sqlQuery    = 'SELECT id, naam, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id = '$ID'";
+        $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
+        $ani         = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
+        /*
+               $name        = $ani[1];
+               if ($sql2bis) { // true for E.R.o'S. only
+                   $name = html_accents($name);
+                   //$affx = $ani[5] ;  // affix-ID
+                   if ($affx) {
+                       $affix  = fetch_record("$sql2bis '$affx'");
+                       $type   = $affix[1];
+                       $affixe = html_accents($affix[0]);
+                       if ($type[0] === 'P') {
+                           $name = '<i>' . $affixe . '</i>&nbsp;' . $name;
+                       }
+                       if ($type[0] === 'S') {
+                           $name = $name . '&nbsp;<i>' . $affixe . '</i>';
+                       }
+                   }
+                   $ani[1] = $name;
+               }
+               */
     }
 
     return $ani;
@@ -768,28 +787,32 @@ function one_animal($ID)
 {
     global $xoopsDB;
     global $sex, $val, $sosa, $detail, $sql3;
-    $sosa = 12;
+    $content = '';
+    $sosa    = 12;
     // echo '<div style="position:relative;float:right;width=2.0em;color=white;">' . $sosa . '</div>' ;
     $animal = set_name($ID);
-    list($ID, $name, $sex, $hd, $ems) = $animal;
-    $sqlquery    = 'select SQL_CACHE count(ID) from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where father = '$ID' or mother = '$ID'";
-    $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
-    $nb          = $GLOBALS['xoopsDB']->fetchBoth($queryresult);
+
+    if (is_array($animal)) {
+        list($ID, $name, $sex, $hd, $ems) = $animal;
+    }
+    $sqlQuery    = 'SELECT SQL_CACHE COUNT(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where father = '$ID' or mother = '$ID'";
+    $queryResult = $GLOBALS['xoopsDB']->queryF($sqlQuery);
+    $nb          = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
     $nb_children = $nb[0];
     if ($nb_children == 0) {
         $nb_children = _MA_PEDIGREE_COI_NO;
     }
     //$dogid = $animal[0];
-    $content .= "<tr><td><a href=\"dog.php?id=" . $ID . "\">" . stripslashes($name) . '</a>';
+    $content .= '<tr><td><a href="dog.php?id=' . $ID . '">' . stripslashes($name) . '</a>';
     // if ($nb_enf == 0) echo ' &oslash;' ;
     if ($val) {
         $content .= $val;
     }
     if ($sex == 1) {
-        $geslacht = "<img src=\"assets/images/female.gif\">";
+        $geslacht = '<img src="assets/images/female.gif">';
     }
     if ($sex == 0) {
-        $geslacht = "<img src=\"assets/images/male.gif\">";
+        $geslacht = '<img src="assets/images/male.gif">';
     }
     $content .= '</td><td>' . $geslacht . '</td><td>' . $nb_children . _MA_PEDIGREE_COI_OFF . '</td></tr>';
 
@@ -803,19 +826,21 @@ $nl = "\n"; // the newline character
 //edit by jc
 //$link = @mysqli_pconnect ($host, $database, $password)
 //   or   die ("<html><body>Connection to database failed.</body></html>") ;
-$s      = $_GET['s'];
-$d      = $_GET['d'];
-$detail = $_GET['detail'];
+
+//$a = '';
+$s      = Request::getInt('s', 0, 'GET'); //_GET['s'];
+$d      = Request::getInt('d', 0, 'GET'); //$_GET['d'];
+$detail = Request::getString('detail', '', 'GET'); //$_GET['detail'];
 
 if (isset($si)) {
-    $s = findId($si);
+    $s = PedigreeUtility::findId($si);
 }
 if (isset($da)) {
-    $d = findId($da);
+    $d = PedigreeUtility::findId($da);
 }
 //test for variables
 //echo "si=".$si." da=".$da." s=".$s." d=".$d;
-$utils = $GLOBALS['xoopsDB']->query("select user(), date_format(now(),'%d-%b-%Y')");
+$utils = $GLOBALS['xoopsDB']->queryF("SELECT user(), date_format(now(),'%d-%b-%Y')");
 list($who, $jourj) = $GLOBALS['xoopsDB']->fetchBoth($utils);
 
 if (isset($IC)) {
@@ -828,21 +853,21 @@ if (!isset($detail)) {
 }
 
 if (!isset($a)) {
-    if ($s && !isset($d)) {
+    if (isset($s) && !isset($d)) {
         $a = $s;
         $s = '';
     }
-    if ($d && !isset($s)) {
+    if (isset($d) && !isset($s)) {
         $a = $d;
         $d = '';
     }
 }
 
 if (isset($a)) {
-    $sqlquery    = 'select ID, father, mother, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where ID  = '$a'";
-    $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
-    $rowhond     = $GLOBALS['xoopsDB']->fetchBoth($queryresult);
-    $a           = $rowhond['Id'];
+    $sqlQuery    = 'SELECT id, father, mother, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id  = '$a'";
+    $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
+    $rowhond     = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
+    $a           = $rowhond['id'];
     $s           = $rowhond['father'];
     $d           = $rowhond['mother'];
 }
@@ -873,8 +898,8 @@ $codec   = 0;
 $gens    = 4; /* 4 gens. for both pedigrees of couple */
 $litter  = 0;
 
-// echo "s:".$s."<br />";
-// echo "d:".$d."<br />";
+// echo "s:".$s."<br>";
+// echo "d:".$d."<br>";
 
 $codec1 = $d;
 $codec2 = $s;
@@ -888,25 +913,25 @@ if ($codec1 == $codec2) {
     $codec2 = 0;
 }
 
-$sqlquery    = 'select father, mother, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where ID  = '$codec1'";
-$queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
-$rowhond     = $GLOBALS['xoopsDB']->fetchBoth($queryresult);
-$a1          = $rowhond['Id'];
+$sqlQuery    = 'SELECT father, mother, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id  = '$codec1'";
+$queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
+$rowhond     = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
+$a1          = $rowhond['id'];
 $s1          = $rowhond['father'];
 $d1          = $rowhond['mother'];
 $sex1        = $rowhond['roft'];
 
-// echo "sqlquery:".$sqlquery."<br />";
+// echo "sqlquery:".$sqlQuery."<br>";
 
-$sqlquery    = 'select father, mother, roft from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where ID  = '$codec2'";
-$queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
-$rowhond     = $GLOBALS['xoopsDB']->fetchBoth($queryresult);
-$a2          = $rowhond['Id'];
+$sqlQuery    = 'SELECT father, mother, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id  = '$codec2'";
+$queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
+$rowhond     = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
+$a2          = $rowhond['id'];
 $s2          = $rowhond['father'];
 $d2          = $rowhond['mother'];
 $sex2        = $rowhond['roft'];
 
-// echo "sqlquery:".$sqlquery."<br />";
+// echo "sqlquery:".$sqlQuery."<br>";
 
 //if ($sex1 == '0' && $sex2 == '1') { $a3 = $a1 ; $a1 = $a2 ; $a2 = $a3 ; }   /* permute dam and sire */
 $codec1 = $a1;
@@ -915,26 +940,45 @@ if (!isset($s1) || !isset($d1) || !isset($s2) || !isset($d2)) {
     $xoopsTpl->assign('COIerror', _MA_PEDIGREE_COI_SGPU);
 }
 
-$title   = strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father'])) . ' (' . stripslashes(showParent($codec2)) . ')' . _MA_PEDIGREE_COI_AND . strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother'])) . ' (' . stripslashes(showParent($codec1)) . ')';
+$title   = strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father']))
+           . ' ('
+           . stripslashes(PedigreeUtility::showParent($codec2))
+           . ')'
+           . _MA_PEDIGREE_COI_AND
+           . strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother']))
+           . ' ('
+           . stripslashes(PedigreeUtility::showParent($codec1))
+           . ')';
 $content = stripslashes(one_animal($codec2));
 $content .= stripslashes(one_animal($codec1));
-$val = '';
+$val     = '';
 $xoopsTpl->assign('SADtitle', $title);
 $xoopsTpl->assign('SADcontent', $content);
-$xoopsTpl->assign('SADexplain', strtr(_MA_PEDIGREE_COI_SDEX, array('[animalType]' => $moduleConfig['animalType'], '[animalTypes]' => $moduleConfig['animalTypes'], '[children]' => $moduleConfig['children'])));
+$xoopsTpl->assign('SADexplain', strtr(_MA_PEDIGREE_COI_SDEX, array(
+    '[animalType]'  => $moduleConfig['animalType'],
+    '[animalTypes]' => $moduleConfig['animalTypes'],
+    '[children]'    => $moduleConfig['children']
+)));
 
 $de_cujus = 0;
-$sire_ID  = $_GET['s'];
-$dam_ID   = $_GET['d'];
-$rec      = 'select ID from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE father = '" . $sire_ID . "' and mother = '" . $dam_ID . "' order by NAAM";
-$result   = $GLOBALS['xoopsDB']->query($rec);
-$content  = '';
+$sire_ID  = Request::getInt('s', 0, 'GET');//$_GET['s'];
+$dam_ID   = Request::getInt('d', 0, 'GET');//$_GET['d'];
+
+$rec     = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE father = '" . $sire_ID . "' AND mother = '" . $dam_ID . "' ORDER BY naam";
+$result  = $GLOBALS['xoopsDB']->query($rec);
+$content = '';
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-    $content .= one_animal($row['Id']);
+    $content .= one_animal($row['id']);
 }
 
-$xoopsTpl->assign('COMtitle', strtr(_MA_PEDIGREE_COI_COMTIT, array('[father]' => $moduleConfig['father'], '[mother]' => $moduleConfig['mother'])));
-$xoopsTpl->assign('COMexplain', strtr(_MA_PEDIGREE_COI_COMEX, array('[animalType]' => $moduleConfig['animalType'], '[children]' => $moduleConfig['children'])));
+$xoopsTpl->assign('COMtitle', strtr(_MA_PEDIGREE_COI_COMTIT, array(
+    '[father]' => $moduleConfig['father'],
+    '[mother]' => $moduleConfig['mother']
+)));
+$xoopsTpl->assign('COMexplain', strtr(_MA_PEDIGREE_COI_COMEX, array(
+    '[animalType]' => $moduleConfig['animalType'],
+    '[children]'   => $moduleConfig['children']
+)));
 $xoopsTpl->assign('COMcontent', $content);
 
 if (!isset($nb_gen)) {
@@ -972,6 +1016,7 @@ $f       = $empty;
 $ICknown = $empty;
 $deltaf  = $empty;
 $marked  = $empty;
+$SSDcor  = $SSDsire = $SSDdam = '';
 
 /******************  LAUNCHING ALL RECURSIONS  ********************/
 /*                                                                */
@@ -1030,13 +1075,20 @@ if (!$f0) {
 }
 $f1 = 100 * $f0;
 
-$xoopsTpl->assign('COItitle', strtr(_MA_PEDIGREE_COI_COITIT, array('[father]' => $moduleConfig['father'], '[mother]' => $moduleConfig['mother'])));
+$xoopsTpl->assign('COItitle', strtr(_MA_PEDIGREE_COI_COITIT, array(
+    '[father]' => $moduleConfig['father'],
+    '[mother]' => $moduleConfig['mother']
+)));
 $xoopsTpl->assign('COIperc', $w);
 $xoopsTpl->assign('COIval', $f1);
-$xoopsTpl->assign('COIexplain', strtr(_MA_PEDIGREE_COI_COIEX, array('[animalType]' => $moduleConfig['animalType'], '[animalTypes]' => $moduleConfig['animalTypes'], '[children]' => $moduleConfig['children'])));
+$xoopsTpl->assign('COIexplain', strtr(_MA_PEDIGREE_COI_COIEX, array(
+    '[animalType]'  => $moduleConfig['animalType'],
+    '[animalTypes]' => $moduleConfig['animalTypes'],
+    '[children]'    => $moduleConfig['children']
+)));
 $xoopsTpl->assign('COIcoi', _MA_PEDIGREE_COI_COI);
-$dogid = XoopsRequest::getInt('dogid', 0, 'get');
-$query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET coi=' . $f1 . ' WHERE ID = ' . $dogid;
+$dogid = Request::getInt('dogid', 0, 'GET');
+$query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET coi=' . $f1 . ' WHERE id = ' . $dogid;
 $GLOBALS['xoopsDB']->queryF($query);
 arsort($deltaf);
 $j = 1;
@@ -1120,7 +1172,10 @@ if ($detail) {
     $SSDdam  = (100 * $f1);
 }
 
-$xoopsTpl->assign('SSDtitle', strtr(_MA_PEDIGREE_COI_SSDTIT, array('[father]' => $moduleConfig['father'], '[mother]' => $moduleConfig['mother'])));
+$xoopsTpl->assign('SSDtitle', strtr(_MA_PEDIGREE_COI_SSDTIT, array(
+    '[father]' => $moduleConfig['father'],
+    '[mother]' => $moduleConfig['mother']
+)));
 $xoopsTpl->assign('SSDcortit', _MA_PEDIGREE_COI_SSDcor);
 $xoopsTpl->assign('SSDbsd', strtr(_MA_PEDIGREE_COI_SDDbsd, array('[father]' => $moduleConfig['father'], '[mother]' => $moduleConfig['mother'])));
 $xoopsTpl->assign('SSDcor', $SSDcor);
@@ -1130,11 +1185,15 @@ $xoopsTpl->assign('SSDsire', $SSDsire);
 $xoopsTpl->assign('SSDM', _MA_PEDIGREE_COI_COI . _MA_PEDIGREE_FROM . strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother'])));
 $xoopsTpl->assign('SSDdam', $SSDdam);
 
-// echo "SSDsire : ".$SSDsire."<br />";
-// echo "SSDdam : ".$SSDdam."<br />";
+// echo "SSDsire : ".$SSDsire."<br>";
+// echo "SSDdam : ".$SSDdam."<br>";
 // print_r($COIs);
 
-$xoopsTpl->assign('SSDexplain', strtr(_MA_PEDIGREE_COI_SSDEX, array('[father]' => $moduleConfig['father'], '[mother]' => $moduleConfig['mother'], '[animalType]' => $moduleConfig['animalTypes'])));
+$xoopsTpl->assign('SSDexplain', strtr(_MA_PEDIGREE_COI_SSDEX, array(
+    '[father]'     => $moduleConfig['father'],
+    '[mother]'     => $moduleConfig['mother'],
+    '[animalType]' => $moduleConfig['animalTypes']
+)));
 $xoopsTpl->assign('TNXtitle', _MA_PEDIGREE_COI_TNXTIT);
 $xoopsTpl->assign('TNXcontent', _MA_PEDIGREE_COI_TNXCON);
 $xoopsTpl->assign('Name', _MA_PEDIGREE_FLD_NAME);

@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * animal module for xoops
  *
@@ -18,24 +19,27 @@
  * @author          XOOPS Mod Development Team
  */
 
+use Xmf\Request;
+
 $rootPath      = dirname(dirname(__DIR__));
 $moduleDirName = basename(__DIR__);
 $mydirpath     = dirname(__DIR__);
 
-include_once $rootPath . '/mainfile.php';
-//include_once $rootPath . '/include/cp_functions.php';
-//require_once $rootPath . '/include/cp_header.php';
-//include_once $rootPath . '/class/xoopsformloader.php';
+require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
+require_once $rootPath . '/include/cp_functions.php';
+require_once $rootPath . '/include/cp_header.php';
+//require_once $rootPath . '/class/xoopsformloader.php';
 
-//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once __DIR__ . '/../../mainfile.php';
 //xoops_cp_header();
 
 xoops_loadLanguage('main', $moduleDirName);
 
-include_once __DIR__ . '/header.php';
+//require_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 //require_once(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
@@ -44,7 +48,7 @@ require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 //extract($_POST, EXTR_PREFIX_ALL, "param");
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = 'pedigree_pedigree.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_pedigree.tpl';
 
 include $GLOBALS['xoops']->path('/header.php');
 
@@ -57,13 +61,15 @@ require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname('pedigree');
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //draw pedigree
-pedigree_main($id);
+//$id = Request::getInt('pedid',0,'GET');
+pedigree_main();
 
 //include XOOPS_ROOT_PATH . "/footer.php";
 include __DIR__ . '/footer.php';
@@ -72,13 +78,13 @@ include __DIR__ . '/footer.php';
 // Displays the "Main" tab of the module
 //
 /**
- * @param $Id
+ * @internal param $Id
  */
-function pedigree_main($Id = null)
+function pedigree_main()
 {
     $moduleDirName = basename(__DIR__);
     require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
-    $id     = XoopsRequest::getInt('pedid', 1, 'GET');
+    $id     = Request::getInt('pedid', 1, 'GET');
     $animal = new PedigreeAnimal($id);
     //test to find out how many user fields there are.
     $fields      = $animal->getNumOfFields();
@@ -148,7 +154,7 @@ function pedigree_main($Id = null)
                 if ($userField->isActive() && $userField->inPedigree()) {
                     $fieldType = $userField->getSetting('FieldType');
                     $fieldObj  = new $fieldType($userField, $animal);
-                    $pedidata .= $fieldObj->showField() . '<br />';
+                    $pedidata  .= $fieldObj->showField() . '<br>';
                 }
                 $d[$key]['hd'] = $pedidata;
             }
@@ -170,5 +176,5 @@ function pedigree_main($Id = null)
                                      'GGP'        => _MA_PEDIGREE_GGP
                                  ));
 
-    include __DIR__ . '/footer.php';
+    //    include __DIR__ . '/footer.php';
 }

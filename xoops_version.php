@@ -30,38 +30,35 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-$modversion['name']        = _MI_PEDIGREE_NAME;
-$modversion['version']     = 1.31;
-$modversion['description'] = _MI_PEDIGREE_DESC;
-$modversion['credits']     = 'http://tech.groups.yahoo.com/group/animalpedigree/';
-$modversion['author']      = 'James Cotton';
-$modversion['help']        = 'page=pedigree_admin';
+$modversion['version']       = 1.31;
+$modversion['release_date']  = '2016/07/17';
+$modversion['module_status'] = 'Alpha 8';
+$modversion['name']          = _MI_PEDIGREE_NAME;
+$modversion['description']   = _MI_PEDIGREE_DESC;
+$modversion['credits']       = 'http://tech.groups.yahoo.com/group/animalpedigree/';
+$modversion['author']        = 'James Cotton';
+$modversion['help']          = 'page=pedigree_admin';
 //$modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
 $modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']    = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-$modversion['image']       = 'assets/images/logo_module.png';
+$modversion['image']       = 'assets/images/logoModule.png';
 $modversion['dirname']     = basename(__DIR__);
 
-$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
+//$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
+//$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
+//$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
+$modversion['modicons16'] = 'assets/images/icons/16';
+$modversion['modicons32'] = 'assets/images/icons/32';
 
-$modversion['onInstall'] = 'include/install_function.php';
-$modversion['onUpdate']  = 'include/update_function.php';
-
-//about
-$modversion['release_date']        = '2016/04/22';
-$modversion['module_status']       = 'Alpha 7';
+$modversion['onInstall']           = 'include/install_function.php';
+$modversion['onUpdate']            = 'include/update_function.php';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.8';
-$modversion['min_admin']           = '1.1';
-$modversion['min_db']              = array(
-    'mysql'  => '5.0.7',
-    'mysqli' => '5.0.7'
-);
+$modversion['min_xoops']           = '2.5.9';
+$modversion['min_admin']           = '1.2';
+$modversion['min_db']              = array('mysql' => '5.5');
 
 // SQL file - All tables should not have any prefix!
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';

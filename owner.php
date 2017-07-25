@@ -1,29 +1,32 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 
 //xoops_loadLanguage('main', basename(dirname(__DIR__)));
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
 extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
-$xoopsOption['template_main'] = 'pedigree_owner.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_owner.tpl';
 
 include $GLOBALS['xoops']->path('/header.php');
 
 $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
-$GLOBALS['xoTheme']->addScript('browse.php?modules/' . $mydirname . '/assets/js/jquery.magnific-popup.min.js');
-$GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $mydirname . '/assets/css/style.css');
+$GLOBALS['xoTheme']->addScript('browse.php?modules/' . $moduleDirName . '/assets/js/jquery.magnific-popup.min.js');
+$GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $moduleDirName . '/assets/css/style.css');
 
 $GLOBALS['xoTheme']->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
 
@@ -36,26 +39,27 @@ if (isset($GLOBALS['xoTheme'])) {
 $xoopsTpl->assign('page_title', 'Pedigree database - View Owner/Breeder details');
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname('pedigree');
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 global $xoopsTpl, $xoopsModuleConfig, $xoopsModule;
 
-$pathIcon16 = $GLOBALS['xoopsModule']->getInfo('icons16');
+$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
 xoops_load('XoopsUserUtility');
 
-$ownid = $_GET['ownid'];
+$ownid = Request::getInt('ownid', 0, 'GET');
 
 //query
-$queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ID=' . $ownid;
+$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $ownid;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //id
-    $id = $row['Id'];
+    $id = $row['id'];
 
     //name
     $naam = stripslashes($row['firstname']) . ' ' . stripslashes($row['lastname']);
@@ -77,17 +81,17 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
 
     //Owner of
-    $owner = breederof($row['Id'], 0);
+    $owner = PedigreeUtility::breederof($row['id'], 0);
 
     //Breeder of
-    $breeder = breederof($row['Id'], 1);
+    $breeder = PedigreeUtility::breederof($row['id'], 1);
 
     //entered into the database by
     $dbuser = XoopsUserUtility::getUnameFromId($row['user']);
 
     //check for edit rights
     $access      = 0;
-    $xoopsModule = XoopsModule::getByDirname('pedigree');
+    $xoopsModule = XoopsModule::getByDirname($moduleDirName);
     if (!empty($GLOBALS['xoopsUser'])) {
         if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             $access = 1;
@@ -100,28 +104,28 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //lastname
     $items[] = array(
         'header' => _MA_PEDIGREE_OWN_LNAME,
-        'data'   => "<a href=\"owner.php?ownid=" . $row['Id'] . "\">" . $naaml . '</a>',
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naaml . '</a>',
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     );
 
     //firstname
     $items[] = array(
         'header' => _MA_PEDIGREE_OWN_FNAME,
-        'data'   => "<a href=\"owner.php?ownid=" . $row['Id'] . "\">" . $naamf . '</a>',
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naamf . '</a>',
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     );
 
     //email
     $items[] = array(
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
-        'data'   => "<a href=\"mailto:" . $email . "\">" . $email . '</a>',
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => '<a href="mailto:' . $email . '">' . $email . '</a>',
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     );
     //homepage
     $items[] = array(
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
-        'data'   => "<a href=\"" . $homepage . "\" target=\"_blank\">" . $homepage . '</a>',
-        'edit'   => "<a href=\"updateowner.php?id=" . $row['Id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT /></a>"
+        'data'   => '<a href="' . $homepage . '" target="_blank">' . $homepage . '</a>',
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     );
     //owner of
     $items[] = array(
@@ -150,7 +154,7 @@ $xoopsTpl->assign('dogs', $items);
 $xoopsTpl->assign('name', $naam);
 $xoopsTpl->assign('id', $id);
 //$xoopsTpl->assign("delete", _DELETE);
-$xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE />");
+$xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE>");
 
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';

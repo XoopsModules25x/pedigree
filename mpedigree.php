@@ -1,27 +1,30 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
-xoops_load('XoopsRequest');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
-$xoopsOption['template_main'] = 'pedigree_mpedigree.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_mpedigree.tpl';
 
 include $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname('pedigree');
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //always start with Anika
-$pedId = XoopsRequest::getInt('pedid', 0, 'GET');
+$pedId = Request::getInt('pedid', 0, 'GET');
 //$pedId = $_GET['pedid'];
 //draw pedigree
 pedigree_main($pedId);
@@ -308,8 +311,8 @@ function pedigree_main($ID)
     $GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $d['d']['name'] . ' -- mega pedigree');
     //assign dog(s)
     $GLOBALS['xoopsTpl']->assign('d', $d);
-    $GLOBALS['xoopsTpl']->assign('male', "<img src=\"assets/images/male.gif\">");
-    $GLOBALS['xoopsTpl']->assign('female', "<img src=\"assets/images/female.gif\">");
+    $GLOBALS['xoopsTpl']->assign('male', '<img src="assets/images/male.gif">');
+    $GLOBALS['xoopsTpl']->assign('female', '<img src="assets/images/female.gif">');
     //assign extra display options
     $GLOBALS['xoopsTpl']->assign('unknown', 'Unknown');
     $GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, array('[animalType]' => $moduleConfig['animalType'])));

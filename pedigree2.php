@@ -1,13 +1,14 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
@@ -15,7 +16,7 @@ extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
-$xoopsOption['template_main'] = 'pedigree_pedigree.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_pedigree.tpl';
 
 include $GLOBALS['xoops']->path('/header.php');
 
@@ -169,8 +170,9 @@ function pedigree_main($ID)
     $result = $GLOBALS['xoopsDB']->query($queryString);
 
     //get module configuration
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname('pedigree');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -329,8 +331,8 @@ function pedigree_main($ID)
     $xoopsTpl->assign('overview', $ov);
     $sign = $moduleConfig['gender'];
     if ($sign == 1) {
-        $xoopsTpl->assign('male', "<img src=\"assets/images/male.gif\">");
-        $xoopsTpl->assign('female', "<img src=\"assets/images/female.gif\">");
+        $xoopsTpl->assign('male', '<img src="assets/images/male.gif">');
+        $xoopsTpl->assign('female', '<img src="assets/images/female.gif">');
     }
     $addit = $moduleConfig['adinfo'];
     if ($addit == 1) {

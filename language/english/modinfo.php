@@ -38,18 +38,18 @@ define('_MI_PEDIGREE_MENU_PICS_DESC', 'Use this option to toggle the display of 
 define('_MI_PEDIGREE_MENU_GEND', 'Display gender information in pedigree ?');
 define('_MI_PEDIGREE_MENU_GEND_DESC', 'Use this option to toggle the display of gender information within the pedigree.');
 define('_MI_PEDIGREE_MENU_ADIN', 'Display additional information in pedigree ?');
-define('_MI_PEDIGREE_MENU_ADIN_DESC', 'Use this option to toggle the display of additional information within the pedigree.<br /><i>Pedigree number, date of birth, colour etc.</i><br/>Only for selected dog not for the entire pedigree.');
+define('_MI_PEDIGREE_MENU_ADIN_DESC', 'Use this option to toggle the display of additional information within the pedigree.<br><i>Pedigree number, date of birth, colour etc.</i><br>Only for selected dog not for the entire pedigree.');
 define('_MI_PEDIGREE_MENU_PERP', 'Select number of results per page');
 define('_MI_PEDIGREE_MENU_PERP_DESC', 'Here you can select the number of results shown per page for queries.');
 define('_MI_PEDIGREE_MENU_HD', 'Display HD-information in pedigree ?');
 define('_MI_PEDIGREE_ANIMALTYPE', "Enter the type of animal you will be creating pedigree's for");
-define('_MI_PEDIGREE_ANIMALTYPE_DESC', 'The value should fit in the sentences below.<br /><i>Please add optional information for this <b>dog</b>.</i><br/><i>Select the first letter of the <b>dog</b>.</i>');
+define('_MI_PEDIGREE_ANIMALTYPE_DESC', 'The value should fit in the sentences below.<br><i>Please add optional information for this <b>dog</b>.</i><br><i>Select the first letter of the <b>dog</b>.</i>');
 define('_MI_PEDIGREE_ANIMALTYPES', "Enter the type of animal you will be creating pedigree's for");
-define('_MI_PEDIGREE_ANIMALTYPES_DESC', 'The value should fit in the sentences below.<br /><i>No <b>dogs</b> meeting your query have been found.</i><br /><i> Here you can search for specific <b>dogs</b> by entering a year.</i>');
+define('_MI_PEDIGREE_ANIMALTYPES_DESC', 'The value should fit in the sentences below.<br><i>No <b>dogs</b> meeting your query have been found.</i><br><i> Here you can search for specific <b>dogs</b> by entering a year.</i>');
 define('_MI_PEDIGREE_LASTIMAGE', 'Show the image in the lastrow of the pedigree');
 define('_MI_PEDIGREE_LASTIMAGE_DESC', 'Here you can set if the image will be visible in the last row of the pedigree or not');
 define('_MI_PEDIGREE_PEDCOLOURS', 'Pedigree colour information');
-define('_MI_PEDIGREE_PEDCOLOURS_DESC', "The value represents how the pedigree will look.<br />Use <a href=\"../animal/admin/colors.php\">this wizard</a> to set the colour information.");
+define('_MI_PEDIGREE_PEDCOLOURS_DESC', 'The value represents how the pedigree will look.<br>Use <a href="../animal/admin/colors.php">this wizard</a> to set the colour information.');
 
 //menu items
 //define("_MA_PEDIGREE_WEL", "Welcome");
@@ -153,7 +153,7 @@ define('_MI_PEDIGREE_FILESUPLOADS_CONFIGSDSC', '');
 define('_MI_PEDIGREE_MAXFILESIZE', '[upload files] Max file size (bytes)');
 define('_MI_PEDIGREE_MAXFILESIZEDSC', 'Maximum file size permitted with file uploads.');
 define('_MI_PEDIGREE_UPLOADDIR', '[upload files] Upload directory');
-define('_MI_PEDIGREE_UPLOADDIRDSC', 'Upload directory *MUST* be an absolute path! <br />No trailing slash.');
+define('_MI_PEDIGREE_UPLOADDIRDSC', 'Upload directory *MUST* be an absolute path! <br>No trailing slash.');
 define('_MI_PEDIGREE_IMGWIDTH', '[upload files] Max upload image width (pixels)');
 define('_MI_PEDIGREE_IMGWIDTHDSC', 'Maximum image width permitted when uploading image files.');
 define('_MI_PEDIGREE_IMGHEIGHT', '[upload files] Max upload image height (pixels)');

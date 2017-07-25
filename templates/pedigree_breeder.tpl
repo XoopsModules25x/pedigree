@@ -1,3 +1,4 @@
+<{include file='db:pedigree_header.tpl'}>
 <table width="100%" class="outer" cellspacing="1">
     <tr>
         <th colspan="2">
@@ -17,10 +18,13 @@
             <{$colourlink}>
         </td>
     </tr>
+    <tr>
+        <{$pageTitle}>
+    </tr>
 
     <{if $breederArray.letters}>
         <div class="pedigree_head_catletters" align="center"><{$breederArray.letters}></div>
-        <br/>
+        <br>
     <{/if}>
 
     <!-- Start results loop -->

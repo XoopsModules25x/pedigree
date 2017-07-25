@@ -11,7 +11,7 @@ xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
  * @return XoopsTpl
@@ -21,8 +21,9 @@ function menu_block()
     //    global $apppath;
 
     //get module configuration
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname('pedigree');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -58,7 +59,8 @@ function menu_block()
     echo '</style>';
 
     //is current user a module admin ?
-    if ((!empty($GLOBALS['xoopsUser'])) && ($GLOBALS['xoopsUser'] instanceof XoopsUser) && $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->mid())) {
+    if ((!empty($GLOBALS['xoopsUser'])) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)
+        && $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->mid())) {
         $isAdmin = true;
     } else {
         $isAdmin = false;
@@ -83,7 +85,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage === '/result.php') {
+    if ($curpage === '/index.php' || $curpage == '/result.php') {
         $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $moduleConfig['animalTypes'] . '</b>';
     } else {
         $title = '_MA_PEDIGREE_VIEWSEARCH ' . $moduleConfig['animalTypes'];
@@ -203,6 +205,7 @@ function menu_block()
     //create path taken
     //showpath();
     $GLOBALS['xoopsTpl']->assign('menuarray', $menuarray);
+
     //return the template contents
     return $GLOBALS['xoopsTpl'];
 }

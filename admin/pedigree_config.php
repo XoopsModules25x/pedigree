@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -18,21 +19,23 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-include_once __DIR__ . '/admin_header.php';
+use Xmf\Request;
+
+require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-$adminMenu = new ModuleAdmin();
+//$adminObject = \Xmf\Module\Admin::getInstance();
 
 //It recovered the value of argument op in URL$
-$op = XoopsRequest::getCmd('op', 'list');
+$op = Request::getCmd('op', 'list');
 switch ($op) {
     case 'list':
     default:
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
-        echo $adminMenu->renderButton('left');
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
+        $adminObject->displayButton('left');
         $criteria = new CriteriaCompo();
-        $criteria->setSort('Id');
+        $criteria->setSort('id');
         $criteria->setOrder('ASC');
         $numrows             = $pedigreeFieldsHandler->getCount();
         $pedigree_config_arr = $pedigreeFieldsHandler->getall($criteria);
@@ -84,23 +87,23 @@ switch ($op) {
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('viewinpie') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('viewinlist') . '</td>';
                     echo "<td class='txtcenter width10'>
-                        <a href='pedigree_config.php?op=edit_pedigree_config&ID=" . $pedigree_config_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='pedigree_config.php?op=delete_pedigree_config&ID=" . $pedigree_config_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                        <a href='pedigree_config.php?op=edit_pedigree_config&id=" . $pedigree_config_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='pedigree_config.php?op=delete_pedigree_config&id=" . $pedigree_config_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }
             }
             echo '</tbody>
                   </table>
-                  <br /><br />';
+                  <br><br>';
         }
 
         break;
 
     case 'new_pedigree_config':
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
-        echo $adminMenu->renderButton();
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
+        $adminObject->displayButton('left');
 
         $obj  = $pedigreeFieldsHandler->create();
         $form = $obj->getForm();
@@ -111,51 +114,51 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        $id = XoopsRequest::getInt('Id', 0, 'POST');
+        $id = Request::getInt('id', 0, 'POST');
         if ($id) {
             $obj = $pedigreeFieldsHandler->get($id);
         } else {
             $obj = $pedigreeFieldsHandler->create();
         }
-        //Form isActive
-        $obj->setVar('isactive', XoopsRequest::getInt('isActive', 0, 'POST'));
-        //Form FieldName
-        $obj->setVar('fieldname', XoopsRequest::getString('FieldName', '', 'POST'));
-        //Form FieldType
-        $obj->setVar('fieldtype', XoopsRequest::getString('FieldType', 'textbox', 'POST'));
+        //Form isactive
+        $obj->setVar('isactive', Request::getInt('isActive', 0, 'POST'));
+        //Form fieldname
+        $obj->setVar('fieldname', Request::getString('fieldName', '', 'POST'));
+        //Form fieldtype
+        $obj->setVar('fieldtype', Request::getString('fieldType', 'textbox', 'POST'));
         //Form LookupTable
-        $obj->setVar('lookuptable', XoopsRequest::getString('LookupTable', '', 'POST'));
+        $obj->setVar('lookuptable', Request::getString('lookupTable', '', 'POST'));
         //Form DefaultValue
-        $obj->setVar('defaultvalue', XoopsRequest::getString('DefaultValue', '', 'POST'));
+        $obj->setVar('defaultvalue', Request::getString('defaultValue', '', 'POST'));
         //Form FieldExplanation
-        $obj->setVar('fieldexplanation', XoopsRequest::getString('FieldExplanation', '', 'POST'));
+        $obj->setVar('fieldexplanation', Request::getString('fieldExplanation', '', 'POST'));
         //Form HasSearch
-        $obj->setVar('hassearch', XoopsRequest::getInt('HasSearch', 0, 'POST'));
+        $obj->setVar('hassearch', Request::getInt('hasSearch', 0, 'POST'));
         //Form Litter Types
-        $litterType = XoopsRequest::getString('litterType', 'Generallitter');
+        $litterType = Request::getString('litterType', 'generalLitter');
         if ('Litter' === $litterType) {
             $obj->setVar('litter', 1);
-            $obj->setVar('generallitter', 0);
+            $obj->setVar('generalLitter', 0);
         } else {
             $obj->setVar('litter', 0);
-            $obj->setVar('generallitter', 1);
+            $obj->setVar('generalLitter', 1);
         }
         //Form SearchName
-        $obj->setVar('searchName', XoopsRequest::getString('searchName', '', 'POST'));
+        $obj->setVar('searchname', Request::getString('searchName', '', 'POST'));
         //Form SearchExplanation
-        $obj->setVar('searchExplanation', XoopsRequest::getString('searchExplanation', '', 'POST'));
-        //Form ViewInPedigree
-        $obj->setVar('viewInPedigree', XoopsRequest::getInt('viewInPedigree', 0, 'POST'));
+        $obj->setVar('searchexplanation', Request::getString('searchExplanation', '', 'POST'));
+        //Form viewinpedigree
+        $obj->setVar('viewinpedigree', Request::getInt('viewInPedigree', 0, 'POST'));
         //Form ViewInAdvanced
-        $obj->setVar('viewInAdvanced', XoopsRequest::getInt('viewInAdvanced', 1, 'POST'));
+        $obj->setVar('viewinadvanced', Request::getInt('viewInAdvanced', 1, 'POST'));
         //Form ViewInPie
-        $obj->setVar('viewInPie', XoopsRequest::getInt('viewInPie', 0, 'POST'));
+        $obj->setVar('viewinpie', Request::getInt('viewInPie', 0, 'POST'));
         //Form ViewInList
-        $obj->setVar('viewInList', XoopsRequest::getInt('viewInList', 0, 'POST'));
+        $obj->setVar('viewinlist', Request::getInt('viewInList', 0, 'POST'));
         //Form locked
-        $obj->setVar('locked', XoopsRequest::getInt('locked', 0, 'POST'));
+        $obj->setVar('locked', Request::getInt('locked', 0, 'POST'));
         //Form order
-        $obj->setVar('order', XoopsRequest::getInt('order', 0, 'POST'));
+        $obj->setVar('order', Request::getInt('order', 0, 'POST'));
 
         if ($pedigreeFieldsHandler->insert($obj)) {
             redirect_header('pedigree_config.php?op=list', 2, _AM_PEDIGREE_FORMOK);
@@ -167,18 +170,21 @@ switch ($op) {
         break;
 
     case 'edit_pedigree_config':
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
-        $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
-        echo $adminMenu->renderButton();
-        $obj  = $pedigreeFieldsHandler->get(XoopsRequest::getInt('Id', 0));
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
+        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
+        $adminObject->displayButton('left');
+        $obj  = $pedigreeFieldsHandler->get(Request::getInt('id', 0));
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree_config':
-        $obj = $pedigreeFieldsHandler->get($_REQUEST['Id']);
-        if (isset($_REQUEST['ok']) && (1 == $_REQUEST['ok'])) {
+        $id  = Request::getInt('id', 0);
+        $obj = $pedigreeFieldsHandler->get($id);
+        $ok  = Request::getInt('ok', 0, 'POST');
+        if ('0' != $ok) {
+            //        if (isset($_REQUEST['ok']) && (1 == $_REQUEST['ok'])) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -188,8 +194,8 @@ switch ($op) {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'Id' => $_REQUEST['Id'], 'op' => 'delete_pedigree_config'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_config')));
+            xoops_confirm(array('ok' => 1, 'id' => $id, 'op' => 'delete_pedigree_config'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_config')));
         }
         break;
 }
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

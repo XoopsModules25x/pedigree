@@ -1,6 +1,11 @@
 ---------------------------------------
-1.31 Alpha 7              NOT RELEASED
+1.31 Alpha 8             NOT RELEASED
 ---------------------------------------
+- split ./include/class_field.php into individual class files in ./class (zyspec)
+- moved PedigreeUtility from pedigreeUtility.php to utility.php (zyspec)
+- utilize PedigreePedigree module helper (zyspec)
+- significant code cleanup (zyspec)
+- switched from Field class to PedigreeField (zyspec)
 - created PedigreeAnimal class to replace Animal class (zyspec)
 - refactored install routine (zyspec)
   - <uploads>/images and <uploads>/images/thumbnails directories were not being created
@@ -12,12 +17,16 @@
 - XOOPS 2.5.8 compatibility (mamba)
 - renamed "lookup" to "lookupField" (mamba)
 - more PSR-2 cleanup (mamba)
-- Welcome Message (Bleekk)
-- Replace old php pie chart with canvasjs (Bleekk)
+- various fixes (bleekk)
+- Welcome Message (bleekk)
+- Replace old php pie chart with canvasjs (bleekk)
+
 
 
 TODO (suggested by Zyspec):
 - refactor most of the module
+- move CheckoutWizard class to ./class
+- move ZervWizard classes to ./library
 - move hard coded language strings to language files
 - some code assumes "dog" but should be expanded to include all animals
 - refactor PedigreeField::getForm() - it tries to use XoopsObjectTree which isn't

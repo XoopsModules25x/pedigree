@@ -36,10 +36,10 @@ class PedigreeSelectBox extends PedigreeHtmlInputAbstract
     /**
      * Constructor
      *
-     * @param $parentObject
-     * @param $animalObject
+     * @param PedigreeField  $parentObject
+     * @param PedigreeAnimal $animalObject
      */
-    public function __construct($parentObject, $animalObject)
+    public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
     {
         $this->fieldnumber  = $parentObject->getId();
         $this->fieldname    = $parentObject->fieldname;

@@ -32,8 +32,8 @@ class PedigreeTree extends XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('Id', XOBJ_DTYPE_INT, null, false, 7);
-        $this->initVar('NAAM', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 7);
+        $this->initVar('naam', XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('id_owner', XOBJ_DTYPE_INT, null, false, 5);
         $this->initVar('id_breeder', XOBJ_DTYPE_INT, null, false, 5);
         $this->initVar('user', XOBJ_DTYPE_TXTBOX, null, false, 25);
@@ -59,12 +59,12 @@ class PedigreeTree extends XoopsObject
 
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_EDIT);
 
-        include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_NAAM, 'NAAM', $this->getVar('NAAM'), 4, 47), true);
+        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_NAAM, 'naam', $this->getVar('naam'), 4, 47), true);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_USER, 'user', 50, 255, $this->getVar('user')), false);
@@ -101,17 +101,18 @@ class PedigreeTreeHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_tree', 'PedigreeTree', 'Id', 'NAAM');
+        parent::__construct($db, 'pedigree_tree', 'PedigreeTree', 'id', 'naam');
     }
 
     /**
      * Get criteria for active animals
      *
+     * @param null $roft
      * @return CriteriaElement
      */
-    public function getActiveCriteria()
+    public function getActiveCriteria($roft = null)
     {
-        $gperm_handler = xoops_getHandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         //        $criteria = new CriteriaCompo(new Criteria('offline', false));
         //        $criteria->add(new Criteria('published', 0, '>'));
@@ -119,13 +120,17 @@ class PedigreeTreeHandler extends XoopsPersistableObjectHandler
         //        $expiredCriteria = new CriteriaCompo(new Criteria('expired', 0));
         //        $expiredCriteria->add(new Criteria('expired', time(), '>='), 'OR');
         //        $criteria->add($expiredCriteria);
+
         // add criteria for categories that the user has permissions for
         //        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-        //mb        $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        //mb        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
         //mb        $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
         $criteria = new CriteriaCompo();
-        $criteria->setSort('NAAM ASC');
+        if (null !== $roft) {
+            $criteria->add(new Criteria('roft', $roft));
+        }
+        $criteria->setSort('naam ASC');
         $criteria->setOrder('ASC');
 
         return $criteria;

@@ -177,7 +177,8 @@
                             <table border="0" width="100%">
                                 <tr>
                                     <td class="even">
-                                        <a href="http://www.somali.asso.fr/eros/armstrong.htm#IC"><{$COIcoi}></a> (<{$COIperc}>)
+                                        <a href="http://www.somali.asso.fr/eros/armstrong.htm#IC"><{$COIcoi}></a>
+                                        (<{$COIperc}>)
                                     </td>
                                     <td class="even" width="25%">
                                         <{$COIval}>%

@@ -7,7 +7,7 @@ require_once __DIR__ . '/wizard.php';
 class CheckoutWizard extends ZervWizard
 {
     /**
-     * checkoutwizard constructor.
+     * CheckoutWizard constructor.
      */
     public function __construct()
     {
@@ -18,36 +18,40 @@ class CheckoutWizard extends ZervWizard
         }
         parent::__construct($_SESSION, __CLASS__);
 
-        $this->addStep('Fieldname', _MA_PEDIGREE_ENTER_FIELD);
+        $this->addStep('fieldname', _MA_PEDIGREE_ENTER_FIELD);
         if ($this->getValue('field') == 0) { //only for a new field
-            $this->addStep('Fieldtype', _MA_PEDIGREE_FIELD_TYP_SEL);
-            if ($this->getValue('fieldtype') === 'selectbox' || $this->getValue('fieldtype') === 'radiobutton') {
+            $this->addStep('fieldtype', _MA_PEDIGREE_FIELD_TYP_SEL);
+            if (('selectbox' === $this->getValue('fieldtype')) || ('radiobutton' === $this->getValue('fieldtype'))) {
                 $this->addStep('lookup', _MA_PEDIGREE_FIELD_ADD_VALUE);
             }
         }
 
         $this->addStep('Settings', _MA_PEDIGREE_FIELD_PARAM);
-        if ($this->getValue('hassearch') === 'hassearch') {
+        if ('hassearch' === $this->getValue('hassearch')) {
             $this->addStep('search', _MA_PEDIGREE_SEARCH_PARAMFIELD);
         }
-        if ($this->getValue('fieldtype') !== 'picture') {
+        if ('picture' !== $this->getValue('fieldtype')) {
             $this->addStep('defaultvalue', _MA_PEDIGREE_FIELD_DEFAUT);
         }
         $this->addStep('confirm', _MA_PEDIGREE_FIELDCONFIRM);
     }
 
+    /**
+     * @todo change access to fields using PedigreeFields
+     * @return void
+     */
     public function prepareFieldname()
     {
         global $field;
-        if (!$field == 0) {
-            // field allready exists (editing mode)
+        if (0 == !$field) {
+            // field already exists (editing mode)
 
-            $sql    = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE ID=' . $field;
+            $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $field;
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                $name             = $row['FieldName'];
-                $fieldexplanation = $row['FieldExplanation'];
-                $fieldtype        = $row['FieldType'];
+                $name             = $row['fieldname'];
+                $fieldexplanation = $row['fieldexplanation'];
+                $fieldtype        = $row['fieldtype'];
             }
             $this->setValue('name', $name);
             $this->setValue('explain', $fieldexplanation);
@@ -81,13 +85,17 @@ class CheckoutWizard extends ZervWizard
         return !$this->isError();
     }
 
+    /**
+     * Setup this class' fieldtype array
+     * @return void
+     */
     public function prepareFieldtype()
     {
         $this->fieldtype[] = array('value' => 'radiobutton', 'description' => _MA_PEDIGREE_RADIOBUTTONFIELD);
         $this->fieldtype[] = array('value' => 'selectbox', 'description' => _MA_PEDIGREE_DROPDOWNFIELD);
         $this->fieldtype[] = array('value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD);
         $this->fieldtype[] = array('value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD);
-        $this->fieldtype[] = array('value' => 'DataSelect', 'description' => _MA_PEDIGREE_DATEFIELD);
+        $this->fieldtype[] = array('value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD);
         $this->fieldtype[] = array('value' => 'urlfield', 'description' => _MA_PEDIGREE_URLFIELD);
     }
 
@@ -126,7 +134,10 @@ class CheckoutWizard extends ZervWizard
         }
 
         for ($i = 0; $i < $fc; ++$i) {
-            $radioarray[] = array('id' => $this->getValue('id' . ($i + 1)), 'value' => $this->getValue('lookup' . ($i + 1)));
+            $radioarray[] = array(
+                'id'    => $this->getValue('id' . ($i + 1)),
+                'value' => $this->getValue('lookup' . ($i + 1))
+            );
         }
         //print_r($radioarray); die();
         $this->setValue('radioarray', $radioarray);
@@ -137,41 +148,41 @@ class CheckoutWizard extends ZervWizard
 
     public function prepareSettings()
     {
-        if (!$this->getValue('field') == 0) {
+        if (0 == !$this->getValue('field')) {
             // field allready exists (editing mode)
 
             {
-                $sql = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE ID='" . $this->getValue('field') . "'";
+                $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id='" . $this->getValue('field') . "'";
             }
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                $hs = $row['HasSearch'];
-                if ($hs == '1') {
+                $hs = $row['hassearch'];
+                if ('1' == $hs) {
                     $this->setValue('hassearch', 'hassearch');
                 }
-                $vip = $row['ViewInPedigree'];
-                if ($vip == '1') {
+                $vip = $row['viewinpedigree'];
+                if ('1' == $vip) {
                     $this->setValue('viewinpedigree', 'viewinpedigree');
                 }
-                $via = $row['ViewInAdvanced'];
-                if ($via == '1') {
+                $via = $row['viewinadvanced'];
+                if ('1' == $via) {
                     $this->setValue('viewinadvanced', 'viewinadvanced');
                 }
-                $vipie = $row['ViewInPie'];
-                if ($vipie == '1') {
+                $vipie = $row['viewinpie'];
+                if ('1' == $vipie) {
                     $this->setValue('viewinpie', 'viewinpie');
                 }
-                $vil = $row['ViewInList'];
-                if ($vil == '1') {
+                $vil = $row['viewinlist'];
+                if ('1' == $vil) {
                     $this->setValue('viewinlist', 'viewinlist');
                 }
-                $lit = $row['Litter'];
-                if ($lit == '1') {
-                    $this->setValue('Litter', 'Litter');
+                $lit = $row['litter'];
+                if ('1' == $lit) {
+                    $this->setValue('litter', 'litter');
                 }
-                $Glit = $row['Generallitter'];
-                if ($Glit == '1') {
-                    $this->setValue('Generallitter', 'Generallitter');
+                $glit = $row['generallitter'];
+                if ('1' == $glit) {
+                    $this->setValue('generallitter', 'generallitter');
                 }
             }
         }
@@ -184,24 +195,17 @@ class CheckoutWizard extends ZervWizard
      */
     public function processSettings($form)
     {
-        $hassearch = $this->coalesce($form['hassearch']);
-        $this->setValue('hassearch', $hassearch);
-        $viewinpedigree = $this->coalesce($form['viewinpedigree']);
-        $this->setValue('viewinpedigree', $viewinpedigree);
-        $viewinadvanced = $this->coalesce($form['viewinadvanced']);
-        $this->setValue('viewinadvanced', $viewinadvanced);
-        $viewinpie = $this->coalesce($form['viewinpie']);
-        $this->setValue('viewinpie', $viewinpie);
-        $viewinlist = $this->coalesce($form['viewinlist']);
-        $this->setValue('viewinlist', $viewinlist);
-        $Litter = $this->coalesce($form['Litter']);
-        $this->setValue('Litter', $Litter);
-        $Generallitter = $this->coalesce($form['Generallitter']);
-        $this->setValue('Generallitter', $Generallitter);
+        $this->setValue('hassearch', $this->coalesce($form['hasSearch']));
+        $this->setValue('viewinpedigree', $this->coalesce($form['viewinpedigree']));
+        $this->setValue('viewinadvanced', $this->coalesce($form['viewinadvanced']));
+        $this->setValue('viewinpie', $this->coalesce($form['viewinpie']));
+        $this->setValue('viewinlist', $this->coalesce($form['viewinlist']));
+        $this->setValue('litter', $this->coalesce($form['litter']));
+        $this->setValue('generallitter', $this->coalesce($form['generallitter']));
 
-        //if both litter and general litter are set; unset one of them
-        if ($this->getValue('Litter') === 'Litter' && $this->getValue('Generallitter') === 'Generallitter') {
-            $this->setValue('Generallitter', 0);
+        //if both litter and general litter are set; unset generallitter
+        if (('litter' === $this->getValue('litter')) && ('generallitter' === $this->getValue('generallitter'))) {
+            $this->setValue('generallitter', 0);
         }
 
         return !$this->isError();
@@ -209,16 +213,16 @@ class CheckoutWizard extends ZervWizard
 
     public function prepareSearch()
     {
-        if (!$this->getValue('field') == 0) {
+        if (0 == !$this->getValue('field')) {
             // field allready exists (editing mode)
 
-            $sql    = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE ID=' . $this->getValue('field');
+            $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                if ($this->getValue('hassearch') === 'hassearch') {
-                    $searchname = $row['SearchName'];
+                if ('hasearch' === $this->getValue('hassearch')) {
+                    $searchname = $row['searchname'];
                     $this->setValue('searchname', $searchname);
-                    $searchexplain = $row['SearchExplanation'];
+                    $searchexplain = $row['searchexplanation'];
                     $this->setValue('searchexplain', $searchexplain);
                 }
             }
@@ -229,6 +233,7 @@ class CheckoutWizard extends ZervWizard
      * @param $form
      *
      * @return bool
+     * @todo move language strings to language files
      */
     public function processSearch($form)
     {
@@ -249,22 +254,25 @@ class CheckoutWizard extends ZervWizard
         return !$this->isError();
     }
 
+    /**
+     * @return void
+     */
     public function prepareDefaultvalue()
     {
-        if (!$this->getValue('field') == 0) {
+        if (0 == !$this->getValue('field')) {
             // field allready exists (editing mode)
 
-            $sql    = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE ID=' . $this->getValue('field');
+            $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $def = $row['DefaultValue'];
                 $this->setValue('defaultvalue', $def);
                 if ($row['LookupTable'] == '1') { //we have a lookup table; load values
-                    $sql    = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $this->getValue('field')) . " order by 'order'";
+                    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $this->getValue('field')) . " ORDER BY 'order'";
                     $fc     = 0;
                     $result = $GLOBALS['xoopsDB']->query($sql);
                     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                        $radioarray[] = array('id' => $row['Id'], 'value' => $row['value']);
+                        $radioarray[] = array('id' => $row['id'], 'value' => $row['value']);
                         ++$fc;
                     }
                     $this->setValue('radioarray', $radioarray);
@@ -278,6 +286,7 @@ class CheckoutWizard extends ZervWizard
      * @param $form
      *
      * @return bool
+     * @todo move language string to language file
      */
     public function processDefaultValue($form)
     {
@@ -343,25 +352,47 @@ class CheckoutWizard extends ZervWizard
         } else {
             $viewinlist = '0';
         }
-        //add a litter
-        $Litter = $this->getValue('Litter');
-        if ($Litter === 'Litter') {
-            $Litter = '1';
-        } else {
-            $Litter = '0';
-        }
-        //general litter
-        $Generallitter = $this->getValue('Generallitter');
-        if ($Generallitter === 'Generallitter') {
-            $Generallitter = '1';
-        } else {
-            $Generallitter = '0';
-        }
+        //add a litter?
+        $litter = ('litter' === $this->getValue('litter')) ? '1' : '0';
 
-        if (!$this->getValue('field') == 0) {
+        //general litter
+        $generallitter = ('generallitter' === $this->getValue('generalLitter')) ? '1' : '0';
+
+        if (0 == !$this->getValue('field')) {
             // field allready exists (editing mode)
 
-            $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " SET fieldName = '" . htmlspecialchars($this->getValue('name')) . "', fieldType = '" . $this->getValue('fieldType') . "', defaultValue = '" . $this->getValue('defaultValue') . "', fieldExplanation = '" . $this->getValue('explain') . "', hasSearch = '" . $search . "', Litter = '" . $litter . "', generallitter = '" . $generallitter . "', searchName = '" . $searchname . "', searchExplanation = '" . $searchexplain . "', viewInPedigree = '" . $viewinpedigree . "', viewInAdvanced = '" . $viewinadvanced . "', viewInPie = '" . $viewinpie . "', viewInList = '" . $viewinlist . "' WHERE ID ='" . $this->getValue('field') . "'";
+            //@todo refactor using class methods
+            $sql = 'UPDATE '
+                   . $GLOBALS['xoopsDB']->prefix('pedigree_fields')
+                   . " SET fieldname = '"
+                   . htmlspecialchars($this->getValue('name'))
+                   . "', fieldtype = '"
+                   . $this->getValue('fieldtype')
+                   . "', defaultvalue = '"
+                   . $this->getValue('defaultvalue')
+                   . "', fieldexplanation = '"
+                   . $this->getValue('explain')
+                   . "', hassearch = '"
+                   . $search
+                   . "', litter = '"
+                   . $litter
+                   . "', generallitter = '"
+                   . $generallitter
+                   . "', searchname = '"
+                   . $searchname
+                   . "', searchexplanation = '"
+                   . $searchexplain
+                   . "', viewinpedigree = '"
+                   . $viewinpedigree
+                   . "', viewinadvanced = '"
+                   . $viewinadvanced
+                   . "', viewinpie = '"
+                   . $viewinpie
+                   . "', viewinlist = '"
+                   . $viewinlist
+                   . "' WHERE id ='"
+                   . $this->getValue('field')
+                   . "'";
             $GLOBALS['xoopsDB']->queryF($sql);
             //possible change defaultvalue for userfield
             $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' CHANGE `user' . $this->getValue('field') . '` `user' . $this->getValue('field') . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
@@ -371,13 +402,13 @@ class CheckoutWizard extends ZervWizard
             $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' CHANGE `user' . $this->getValue('field') . '` `user' . $this->getValue('field') . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
             $GLOBALS['xoopsDB']->queryF($sql);
         } else { //this is a new field
-            $sql    = 'SELECT MAX(ID) AS lid from ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' LIMIT 1';
+            $sql    = 'SELECT MAX(id) AS lid FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' LIMIT 1';
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $nextfieldnum = $row['lid'] + 1;
             }
             //add userfield to various tables as a new field.
-            //allways add at the end of the table
+            //always add at the end of the table
             $tables = array('pedigree_tree', 'pedigree_temp', 'pedigree_trash');
             foreach ($tables as $table) {
                 $SQL = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($table) . ' ADD `user' . $nextfieldnum . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
@@ -385,25 +416,59 @@ class CheckoutWizard extends ZervWizard
             }
             //is a lookup table present
             $lookup = $this->getValue('lookup1');
-            if ($lookup == '') {
+            if ('' == $lookup) {
                 $lookup = '0';
             } else {
                 $lookup = '1';
                 //create table for lookupfield
-                $createtable = 'CREATE TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $nextfieldnum) . ' (`ID` INT( 10 ) NOT NULL ,`value` VARCHAR( 255 ) NOT NULL, `order` INT( 10 )) ENGINE = MyISAM';
+                $createtable = 'CREATE TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $nextfieldnum) . ' (`id` INT( 10 ) NOT NULL ,`value` VARCHAR( 255 ) NOT NULL, `order` INT( 10 )) ENGINE = MyISAM';
                 $GLOBALS['xoopsDB']->queryF($createtable);
                 //fill table
                 $count = $this->getValue('fc');
                 for ($x = 1; $x < $count + 1; ++$x) {
                     $y   = $x - 1;
-                    $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $nextfieldnum) . " ( `ID` , `value`, `order`) VALUES ('" . $y . "', '" . $this->getValue('lookup' . $x) . "','" . $y . "')";
+                    $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $nextfieldnum) . " ( `id` , `value`, `order`) VALUES ('" . $y . "', '" . $this->getValue('lookup' . $x) . "','" . $y . "')";
                     $GLOBALS['xoopsDB']->queryF($sql);
                 }
             }
 
             //Insert new record into pedigree_config
-            //            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " VALUES ('" . $nextfieldnum . "', '1', '" . htmlspecialchars($this->getValue('name')) . "', '" . $this->getValue('fieldtype') . "', '" . $lookup . "', '" . $this->getValue('defaultvalue') . "', '" . $this->getValue('explain') . "', '" . $search . "', '" . $Litter . "', '" . $Generallitter . "', '" . $searchname . "', '" . $searchexplain . "', '" . $viewinpedigree . "', '" . $viewinadvanced . "', '" . $viewinpie . "', '" . $viewinlist . "','','" . $nextfieldnum . "')";
-            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " VALUES ('" . $nextfieldnum . "', '1', '" . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name'))) . "', '" . $GLOBALS['xoopsDB']->escape($this->getValue('fieldtype')) . "', '" . $GLOBALS['xoopsDB']->escape($lookup) . "', '" . $GLOBALS['xoopsDB']->escape($this->getValue('defaultvalue')) . "', '" . $GLOBALS['xoopsDB']->escape($this->getValue('explain')) . "', '" . $GLOBALS['xoopsDB']->escape($search) . "', '" . $GLOBALS['xoopsDB']->escape($Litter) . "', '" . $GLOBALS['xoopsDB']->escape($Generallitter) . "', '" . $GLOBALS['xoopsDB']->escape($searchname) . "', '" . $GLOBALS['xoopsDB']->escape($searchexplain) . "', '" . $GLOBALS['xoopsDB']->escape($viewinpedigree) . "', '" . $GLOBALS['xoopsDB']->escape($viewinadvanced) . "', '" . $GLOBALS['xoopsDB']->escape($viewinpie) . "', '" . $GLOBALS['xoopsDB']->escape($viewinlist) . "','','" . $GLOBALS['xoopsDB']->escape($nextfieldnum) . "')";
+            //            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " VALUES ('" . $nextfieldnum . "', '1', '" . htmlspecialchars($this->getValue('name')) . "', '" . $this->getValue('fieldtype') . "', '" . $lookup . "', '" . $this->getValue('defaultvalue') . "', '" . $this->getValue('explain') . "', '" . $search . "', '" . $Litter . "', '" . $generalLitter . "', '" . $searchname . "', '" . $searchexplain . "', '" . $viewinpedigree . "', '" . $viewinadvanced . "', '" . $viewinpie . "', '" . $viewinlist . "','','" . $nextfieldnum . "')";
+            $sql = 'INSERT INTO '
+                   . $GLOBALS['xoopsDB']->prefix('pedigree_fields')
+                   . " VALUES ('"
+                   . $nextfieldnum
+                   . "', '1', '"
+                   . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name')))
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($this->getValue('fieldtype'))
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($lookup)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($this->getValue('defaultvalue'))
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($this->getValue('explain'))
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($search)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($Litter)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($generallitter)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($searchname)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($searchexplain)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($viewinpedigree)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($viewinadvanced)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($viewinpie)
+                   . "', '"
+                   . $GLOBALS['xoopsDB']->escape($viewinlist)
+                   . "','','"
+                   . $GLOBALS['xoopsDB']->escape($nextfieldnum)
+                   . "')";
             $GLOBALS['xoopsDB']->queryF($sql);
         }
     }

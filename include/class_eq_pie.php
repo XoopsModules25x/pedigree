@@ -23,7 +23,7 @@ class eq_pie
      *
      * @return mixed
      */
-    public function GetColor($number)
+    public function getColor($number)
     {
         $color = array(
             '#ff0000',
@@ -58,8 +58,15 @@ class eq_pie
      * @param $EQpieData
      * @param $legend
      */
-    public function MakePie($filename, $pieWidth, $pieHeight, $ShadowDistance, $pieBackgroundColor, $EQpieData, $legend)
-    {
+    public function MakePie(
+        $filename,
+        $pieWidth,
+        $pieHeight,
+        $ShadowDistance,
+        $pieBackgroundColor,
+        $EQpieData,
+        $legend
+    ) {
         if (!function_exists('imagecreatetruecolor')) {
             die('Error, GD Library 2 needed.');
         }
@@ -75,9 +82,9 @@ class eq_pie
             $ShadowDistance = 10;
         }
 
-        $pieWidth *= 3;
-        $pieHeight *= 3;
-        $ShadowDistance *= 3;
+        $pieWidth           *= 3;
+        $pieHeight          *= 3;
+        $ShadowDistance     *= 3;
         $pieBackgroundColor = $pieBackgroundColor;
 
         $pie = @imagecreatetruecolor($pieWidth, $pieHeight + $ShadowDistance);

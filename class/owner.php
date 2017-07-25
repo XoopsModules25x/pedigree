@@ -32,7 +32,7 @@ class PedigreeOwner extends XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('Id', XOBJ_DTYPE_INT, null, false, 11);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar('firstname', XOBJ_DTYPE_TXTBOX, null, false, 30);
         $this->initVar('lastname', XOBJ_DTYPE_TXTBOX, null, false, 30);
         $this->initVar('postcode', XOBJ_DTYPE_TXTBOX, null, false, 7);
@@ -60,7 +60,7 @@ class PedigreeOwner extends XoopsObject
 
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_OWNER_ADD) : sprintf(_AM_PEDIGREE_OWNER_EDIT);
 
-        include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -103,7 +103,7 @@ class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_owner', 'PedigreeOwner', 'Id', 'firstname');
+        parent::__construct($db, 'pedigree_owner', 'PedigreeOwner', 'id', 'firstname');
     }
 
     /**
@@ -113,7 +113,7 @@ class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
      */
     public function getActiveCriteria()
     {
-        $gperm_handler = xoops_getHandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         //        $criteria = new CriteriaCompo(new Criteria('offline', false));
         //        $criteria->add(new Criteria('published', 0, '>'));
@@ -123,7 +123,7 @@ class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
         //        $criteria->add($expiredCriteria);
         // add criteria for categories that the user has permissions for
         //        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-        //mb        $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        //mb        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
         //mb        $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
         $criteria = new CriteriaCompo();

@@ -28,14 +28,27 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
 
+$moduleDirName = basename(dirname(__DIR__));
+
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+}
+$adminObject = \Xmf\Module\Admin::getInstance();
+
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+//$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+
+$moduleHelper->loadLanguage('modinfo');
+
 //xoops_cp_header();
 //echo "<h4>Pedigree Administration</h4><table width='100%' border='0' cellspacing='1' class='outer'>";
 //echo "<tr><td class='odd'> - <b><a href='database_table.php?op=sql'>SQL actions</a></b>";
-//echo "<br /><br />";
+//echo "<br><br>";
 //echo " - <b><a href='database_table.php?op=main'>Edit entry</a></b>";
-//echo "<br /><br />";
+//echo "<br><br>";
 //echo " - <b><a href='database_table.php?op=add'>Add entry</a></b>";
-//echo "<br /><br />";
+//echo "<br><br>";
 //echo "- <b><a href='".XOOPS_URL."/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=".$xoopsModule->getVar('mid') ."'>Preferences</a></b></td></tr></table>";
 
 // $adminmenu[0]['link'] = "admin/database_table.php?op=sql";
@@ -43,12 +56,7 @@
 // $adminmenu[1]['link'] = "admin/colors.php";
 // $adminmenu[1]['title'] = "Create colours";
 
-$dirname       = basename(dirname(__DIR__));
-$moduleHandler = xoops_getHandler('module');
-$xoopsModule   = XoopsModule::getByDirname($dirname);
-$moduleInfo    = $moduleHandler->get($xoopsModule->getVar('mid'));
-$pathIcon32    = $moduleInfo->getInfo('icons32');
-$adminmenu     = array();
+$adminmenu = array();
 
 $adminmenu[] = array(
     'title' => _MI_PEDIGREE_ADMENU1,

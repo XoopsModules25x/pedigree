@@ -27,12 +27,16 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+
+use Xmf\Request;
+
+//To be deleted?
+
+require_once __DIR__ . '/../../../include/cp_header.php';
 //require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
 //require_once dirname(__DIR__) . "/include/pedigree_includes.php";
 
 xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
-xoops_load('XoopsRequest');
 require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 
 // Get HTTP post/get parameters.
@@ -40,7 +44,7 @@ require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
-$op = XoopsRequest::getCmd('op', 'main');
+$op = Request::getCmd('op', 'main');
 //
 // Writes out the form to get all config parameters.
 //
@@ -72,9 +76,9 @@ function pedigree_config_form()
     print "
                 <td class='head'>&nbsp;</td>\n
                 <td class='even'>\n
-                    <input type='hidden' name='op' value='config' />\n
-                    <input type='hidden' name='window' value='config' />\n
-                    <input type='submit' value='" . _AM_PEDIGREE_BUT_GO . "' />\n
+                    <input type='hidden' name='op' value='config'>\n
+                    <input type='hidden' name='window' value='config'>\n
+                    <input type='submit' value='" . _AM_PEDIGREE_BUT_GO . "'>\n
                 </td></tr>\n
             </table>\n
         </td></tr>\n
@@ -126,8 +130,8 @@ function pedigree_config_post()
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
         $param_value = get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
-        $sql .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
-        $first = false;
+        $sql         .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
+        $first       = false;
     }
     $sql .= ' )';
     if (!$GLOBALS['xoopsDB']->query($sql)) {

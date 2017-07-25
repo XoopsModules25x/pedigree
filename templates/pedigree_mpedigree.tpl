@@ -136,7 +136,7 @@
         </td>
     </tr>
 </table>
-<br/><br/>
+<br><br>
 <table width="50%">
     <tr class="odd">
         <td style="background-color: #FFC8C8; width: 50px;">

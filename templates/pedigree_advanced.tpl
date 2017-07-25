@@ -12,7 +12,7 @@
                 {
                     type: "pie",
                     showInLegend: true,
-                    toolTipContent: "{label} <br/> {y} %",
+                    toolTipContent: "{label} <br> {y} %",
                     indexLabel: "{y} %",
                     dataPoints: [
                         {label: "Male", y: <{$maledogs}>, legendText: "Male"},
@@ -47,7 +47,7 @@
                         </td>
                     </tr>
                 </table>
-                <br/>
+                <br>
             <{/if}>
             <!-- total number of males and females -->
             <table width="100%" class="outer" cellspacing="1">
@@ -69,11 +69,11 @@
                 <tr>
                     <!-- pie chart -->
                     <td class="odd" align="center">
-                        <div id="piechart" style="width: 100%; height: 300px"></div>
+                        <div id="piechart" style="width: 100%; height: 300px;"></div>
                     </td>
                 </tr>
             </table>
-            <br/>
+            <br>
             <{if $pro}>
                 <!-- view orphans -->
                 <table width="100%" class="outer" cellspacing="1">
@@ -122,7 +122,7 @@
                         </tr>
                     <{/foreach}>
                 </table>
-                <br/>
+                <br>
             <{/foreach}>
         </td>
     </tr>

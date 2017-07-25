@@ -17,7 +17,7 @@ define('_AM_PEDIGREE_LABEL_CONFIG_BLOCK_COUNT', 'Number of Rows for block displa
 define('_AM_PEDIGREE_LABEL_CONFIG_BLOCK_WHERE', 'Where clause for block display');
 
 // printf format strings
-define('_AM_PEDIGREE_FMT_ERROR', "<P>ERROR: %s<BR>SQL: %s</P>\n");
+define('_AM_PEDIGREE_FMT_ERROR', "<P>ERROR: %s<br>SQL: %s</P>\n");
 
 // Error Messages/Status Messages
 define('_AM_PEDIGREE_ERR_ERROR', 'Error');
@@ -75,8 +75,8 @@ define('_AM_PEDIGREE_PEDIGREE_CONFIGLIST', 'List Custom Fields');
 //General
 define('_AM_PEDIGREE_FORMOK', 'Registered successfull');
 define('_AM_PEDIGREE_FORMDELOK', 'Deleted successfull');
-define('_AM_PEDIGREE_FORMSUREDEL', "Are you sure to Delete: <b><span style=\"color : Red;\"> %s </span></b>");
-define('_AM_PEDIGREE_FORMSURERENEW', "Are you sure to Update: <b><span style=\"color : Red;\"> %s </span></b>");
+define('_AM_PEDIGREE_FORMSUREDEL', 'Are you sure to Delete: <b><span style="color : Red;"> %s </span></b>');
+define('_AM_PEDIGREE_FORMSURERENEW', 'Are you sure to Update: <b><span style="color : Red;"> %s </span></b>');
 define('_AM_PEDIGREE_FORMUPLOAD', 'Upload');
 define('_AM_PEDIGREE_FORMIMAGE_PATH', 'File presents in %s');
 define('_AM_PEDIGREE_FORMACTION', 'Action');
@@ -84,7 +84,7 @@ define('_AM_PEDIGREE_FORMACTION', 'Action');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_ADD', 'Add Family Tree trash');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_EDIT', 'Edit Family Tree trash');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_DELETE', 'Delete Family Tree trash');
-define('_AM_PEDIGREE_PEDIGREE_TRASH_ID', 'Id');
+define('_AM_PEDIGREE_PEDIGREE_TRASH_ID', 'id');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_NAAM', 'Name');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_ID_OWNER', 'Owner ID');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_ID_BREEDER', 'Breeder ID');
@@ -98,7 +98,7 @@ define('_AM_PEDIGREE_PEDIGREE_TRASH_COI', 'Coi');
 define('_AM_PEDIGREE_OWNER_ADD', 'Add Owner');
 define('_AM_PEDIGREE_OWNER_EDIT', 'Edit Owner');
 define('_AM_PEDIGREE_OWNER_DELETE', 'Delete Owner');
-define('_AM_PEDIGREE_OWNER_ID', 'Id');
+define('_AM_PEDIGREE_OWNER_ID', 'id');
 define('_AM_PEDIGREE_OWNER_FIRSTNAME', 'First name');
 define('_AM_PEDIGREE_OWNER_LASTNAME', 'Last name');
 define('_AM_PEDIGREE_OWNER_POSTCODE', 'Post code');
@@ -113,7 +113,7 @@ define('_AM_PEDIGREE_OWNER_USER', 'Submitter');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_ADD', 'Add Breed ');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_EDIT', 'Edit a pedigree_temp');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_DELETE', 'Delete a pedigree_temp');
-define('_AM_PEDIGREE_PEDIGREE_TEMP_ID', 'Id');
+define('_AM_PEDIGREE_PEDIGREE_TEMP_ID', 'id');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_NAAM', 'Name');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_ID_OWNER', 'Owner ID');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_ID_BREEDER', 'Breed ID');
@@ -127,7 +127,7 @@ define('_AM_PEDIGREE_PEDIGREE_TEMP_COI', 'Coi');
 define('_AM_PEDIGREE_PEDIGREE_ADD', 'Add a Tree');
 define('_AM_PEDIGREE_PEDIGREE_EDIT', 'Edit a Tree');
 define('_AM_PEDIGREE_PEDIGREE_DELETE', 'Delete a Tree');
-define('_AM_PEDIGREE_PEDIGREE_ID', 'Id');
+define('_AM_PEDIGREE_PEDIGREE_ID', 'id');
 define('_AM_PEDIGREE_PEDIGREE_NAAM', 'Name');
 define('_AM_PEDIGREE_PEDIGREE_ID_OWNER', 'Owner ID');
 define('_AM_PEDIGREE_PEDIGREE_ID_BREEDER', 'Breeder ID');
@@ -141,7 +141,7 @@ define('_AM_PEDIGREE_PEDIGREE_COI', 'Coi');
 define('_AM_PEDIGREE_PEDIGREE_CONFIG_ADD', 'Add Custom Field');
 define('_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT', 'Edit Custom Field');
 define('_AM_PEDIGREE_PEDIGREE_CONFIG_DELETE', 'Delete Custom Field');
-define('_AM_PEDIGREE_PEDIGREE_CONFIG_ID', 'Id');
+define('_AM_PEDIGREE_PEDIGREE_CONFIG_ID', 'id');
 define('_AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE', 'Is Active');
 define('_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDNAME', 'Field name');
 define('_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE', 'Field type');
@@ -188,18 +188,22 @@ define('_AM_PEDIGREE_PERMISSIONS_ACCESS', 'Permissions to access');
 define('_AM_PEDIGREE_PERMISSIONS_VIEW', 'Permissions to view');
 define('_AM_PEDIGREE_PERMISSIONS_SUBMIT', 'Permissions to submit');
 //Error NoFrameworks
-define('_AM_ERROR_NOFRAMEWORKS', "Error: You don&#39;t use the Frameworks \"admin module\". Please install this Frameworks");
+define('_AM_ERROR_NOFRAMEWORKS', 'Error: You don&#39;t use the Frameworks "admin module". Please install this Frameworks');
 define('_AM_PEDIGREE_MAINTAINEDBY', 'is maintained by the');
 
 //Alpha 4
 
-define('_AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA', 'For your Pedigree database to work well it is important that the information contained within is correct.<br />');
+define('_AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA', 'For your Pedigree database to work well it is important that the information contained within is correct.<br>');
 
 define('_AM_PEDIGREE_DATABASE_CHECK_ANCESTORS', _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . "It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal.
-If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br /><br />
+If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>
 The database has been searched and the animals below the line require your attention.<hr>");
 
 define('_AM_PEDIGREE_DATABASE_CHECK_GENDER', _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . 'It is possible create errors and achieve unexpected results by changing the gender of an animal.
 If you discover that a male in the database is really female or the other way around it is possible to create errors
-if accidentilly children have been connected to the wrong gender.<br /><br />
+if accidentilly children have been connected to the wrong gender.<br><br>
 The database has been searched and any animals below the line require your attention.<hr>');
+
+define('_AM_PEDIGREE_UPGRADEFAILED', 'Upgrade Failed');
+define('_AM_PEDIGREE_UPGRADEFAILED2', 'Upgrade 2 Failed');
+define('_AM_PEDIGREE_ERR_ADD_FAILED', 'Add Failed');

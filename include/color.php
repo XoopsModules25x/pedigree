@@ -672,9 +672,9 @@ class Image_Color
 
         if (isset($colornames[$color])) {
             return $colornames[$color];
-        } else {
-            return array(0, 0, 0);
         }
+
+        return array(0, 0, 0);
     }
 
     /**

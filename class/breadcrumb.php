@@ -31,7 +31,7 @@ defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
  */
 class PedigreeBreadcrumb
 {
-    public  $dirname;
+    public $dirname;
     private $bread = array();
 
     /**
@@ -63,7 +63,7 @@ class PedigreeBreadcrumb
     public function render()
     {
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('class/theme.php');
+            require_once $GLOBALS['xoops']->path('class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
         }
 

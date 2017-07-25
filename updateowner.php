@@ -1,21 +1,24 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 xoops_loadLanguage('main', basename(dirname(__DIR__)));
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
-$xoopsOption['template_main'] = 'pedigree_update.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_update.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', 'Pedigree database - Update details');
 
 //check for access
-$xoopsModule = XoopsModule::getByDirname('pedigree');
-if (empty($xoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+$xoopsModule = XoopsModule::getByDirname($moduleDirName);
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 // ( $xoopsUser->isAdmin($xoopsModule->mid() ) )
 
@@ -25,20 +28,24 @@ global $xoopsModuleConfig;
 
 $myts = MyTextSanitizer::getInstance();
 
+$fld = Request::getWord('fld', '', 'GET');
+$id  = Request::getInt('id', 0, 'GET');
+/*
 $fld = $_GET['fld'];
 $id  = $_GET['id'];
+*/
 //query (find values for this owner/breeder (and format them))
-$queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ID=' . $id;
+$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
-    $id = $row['Id'];
+    $id = $row['id'];
     //name
     $naaml    = htmlentities(stripslashes($row['lastname']), ENT_QUOTES);
     $naamf    = htmlentities(stripslashes($row['firstname']), ENT_QUOTES);
     $naam     = $naaml . ', ' . $naamf;
-    $namelink = "<a href=\"dog.php?id=" . $row['Id'] . "\">" . stripslashes($row['NAAM']) . '</a>';
+    $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>';
     //street
     $street = stripslashes($row['streetname']);
     //housenumber

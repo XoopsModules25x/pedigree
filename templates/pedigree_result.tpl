@@ -4,6 +4,19 @@
 
 <table width="100%" class="outer" cellspacing="1">
     <tr>
+        <td class="odd">
+            <{if $fatherArray.letters}>
+                <div class="pedigree_head_catletters" align="center"><{$fatherArray.letters}></div>
+                <br>
+            <{/if}>
+            <{if $motherArray.letters}>
+                <div class="pedigree_head_catletters" align="center"><{$motherArray.letters}></div>
+                <br>
+            <{/if}>
+        </td>
+    </tr>
+
+    <tr>
         <th colspan="<{$numofcolumns}>">
             <{$nummatch}>
         </th>

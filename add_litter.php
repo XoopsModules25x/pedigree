@@ -1,25 +1,28 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/class_field.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php';
 
-$xoopsOption                  = array();
-$xoopsOption['template_main'] = 'pedigree_addlitter.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_addlitter.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
-$GLOBALS['xoopsTpl']->assign('page_title', 'Pedigree database - add a litter');
+$xoopsTpl->assign('page_title', 'Pedigree database - add a litter');
 
 //check for access
-$xoopsModule = XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($xoopsUser)) {
-    redirect_header('index.php', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+    redirect_header('index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 //get module configuration
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
@@ -42,11 +45,12 @@ if (!isset($_GET['f'])) {
 
 function addlitter()
 {
-    global $xoopsUser, $xoopsDB, $xoopsOption;
-
+    global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsOption;
+    $moduleDirName = basename(__DIR__);
     //get module configuration
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname('pedigree');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -62,8 +66,8 @@ function addlitter()
     //create animal object
     $animal = new PedigreeAnimal();
     //test to find out how many user fields there are...
-    $fields  = $animal->getNumOfFields();
-    $textbox = $gender_radio = $newEntry = array();
+    $fields = $animal->getNumOfFields();
+
     //create form contents
     for ($count = 1; $count < 11; ++$count) {
         //name
@@ -72,7 +76,10 @@ function addlitter()
         $searchform->addElement($textbox[$count]);
         //gender
         $gender_radio[$count] = new XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft' . $count, $value = '0');
-        $gender_radio[$count]->addOptionArray(array('0' => strtr(_MA_PEDIGREE_FLD_MALE, array('[male]' => $moduleConfig['male'])), '1' => strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['female']))));
+        $gender_radio[$count]->addOptionArray(array(
+                                                  '0' => strtr(_MA_PEDIGREE_FLD_MALE, array('[male]' => $moduleConfig['male'])),
+                                                  '1' => strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['female']))
+                                              ));
         $searchform->addElement($gender_radio[$count]);
         //add userfields
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
@@ -105,11 +112,11 @@ function addlitter()
     if ($moduleConfig['ownerbreeder'] == '1') {
         //breeder
         $breeder  = new XoopsFormSelect(_MA_PEDIGREE_FLD_BREE, 'id_breeder', $value = '', $size = 1, $multiple = false);
-        $queryfok = 'SELECT ID, firstname, lastname from ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' order by `lastname`';
+        $queryfok = 'SELECT id, firstname, lastname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY `lastname`';
         $resfok   = $GLOBALS['xoopsDB']->query($queryfok);
         $breeder->addOption(0, $name = 'Unknown');
         while (false !== ($rowfok = $GLOBALS['xoopsDB']->fetchArray($resfok))) {
-            $breeder->addOption($rowfok['Id'], $name = $rowfok['lastname'] . ', ' . $rowfok['firstname']);
+            $breeder->addOption($rowfok['id'], $name = $rowfok['lastname'] . ', ' . $rowfok['firstname']);
         }
         $searchform->addElement($breeder);
     }
@@ -117,26 +124,26 @@ function addlitter()
     //submit button
     $searchform->addElement(new XoopsFormButton('', 'submit', strtr(_MA_PEDIGREE_ADD_SIRE, array('[father]' => $moduleConfig['father'])), 'submit'));
     //send to template
-    $searchform->assign($GLOBALS['xoopsTpl']);
+    $searchform->assign($xoopsTpl);
 }
 
 function sire()
 {
-    global $xoopsUser, $xoopsDB;
-    $user  = $empty = $columnvalue = array();
-    $value = '';
+    global $xoopsTpl, $xoopsUser, $xoopsDB;
+    $moduleDirName = basename(__DIR__);
     //debug option !
     //print_r($_POST); die();
     //get module configuration
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname('pedigree');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
     //check for access
-    $xoopsModule = XoopsModule::getByDirname('pedigree');
-    if (empty($xoopsUser)) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+    $xoopsModule = XoopsModule::getByDirname($moduleDirName);
+    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     //    $userid = $_POST['userid'];
     //    if (empty($random)) {
@@ -151,9 +158,9 @@ function sire()
     //    if (isset($_GET['st'])) {
     //        $st = $_GET['st'];
     //    }
-    $userid     = XoopsRequest::getInt('userid', 0, 'post');
-    $random     = XoopsRequest::getInt('random', 0);
-    $st         = XoopsRequest::getInt('st', 0);
+    $userid     = Request::getInt('userid', 0, 'post');
+    $random     = Request::getInt('random', 0);
+    $st         = Request::getInt('st', 0);
     $userfields = '';
     $name       = '';
     $roft       = '';
@@ -195,7 +202,7 @@ function sire()
                 if ($_POST['name' . $count] !== '') {
                     if (isset($_POST[$count . 'user' . $fields[$i]])) {
                         //debug option
-                        //echo $count.'user'.$fields[$i]."=".$_POST[$count.'user'.$fields[$i]]."<br />";
+                        //echo $count.'user'.$fields[$i]."=".$_POST[$count.'user'.$fields[$i]]."<br>";
                         $withinfield .= ':' . $_POST[$count . 'user' . $fields[$i]];
                     } else {
                         if ($userField->isActive() && $userField->generalLitter() && !$userField->isLocked()) {
@@ -209,12 +216,24 @@ function sire()
                 }
             }
             //debug option
-            //echo "user".$fields[$i]." - ".$withinfield."<br />";
+            //echo "user".$fields[$i]." - ".$withinfield."<br>";
             $user{$fields[$i]} = $withinfield;
         }
         //insert into pedigree_temp
-        //      $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . PedigreeUtilities::unHtmlEntities($name) . "','0','" . $id_breeder . "','" . $userid . "','" . $roft . "','','','', ''";
-        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . XoopsRequest::getInt($random) . "','" . XoopsRequest::getInt(unHtmlEntities($name)) . "','0','" . XoopsRequest::getInt($id_breeder) . "','" . XoopsRequest::getInt($userid) . "','" . XoopsRequest::getInt($roft) . "','','','', ''";
+        //      $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . PedigreeUtility::unHtmlEntities($name) . "','0','" . $id_breeder . "','" . $userid . "','" . $roft . "','','','', ''";
+        $query = 'INSERT INTO '
+                 . $GLOBALS['xoopsDB']->prefix('pedigree_temp')
+                 . " VALUES ('"
+                 . Request::getInt($random)
+                 . "','"
+                 . Request::getInt(PedigreeUtility::unHtmlEntities($name))
+                 . "','0','"
+                 . Request::getInt($id_breeder)
+                 . "','"
+                 . Request::getInt($userid)
+                 . "','"
+                 . Request::getInt($roft)
+                 . "','','','', ''";
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
             $userField   = new Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
@@ -224,7 +243,7 @@ function sire()
         }
         $query .= ')';
         //debug options
-        //echo $query."<br />"; die();
+        //echo $query."<br>"; die();
         $GLOBALS['xoopsDB']->query($query);
         redirect_header('add_litter.php?f=sire&random=' . $random . '&st=' . $st . '&r=1&l=a', 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, array('[father]' => $moduleConfig['father'])));
     }
@@ -235,61 +254,61 @@ function sire()
         $l = 'a';
     }
     //assign 'sire' to the template
-    $GLOBALS['xoopsTpl']->assign('sire', '1');
+    $xoopsTpl->assign('sire', '1');
     //create list of males dog to select from
-    $perp = $moduleConfig['perpage'];
+    $perPage = $moduleConfig['perpage'];
     //count total number of dogs
-    $numdog = 'SELECT ID from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='0' and NAAM LIKE '" . $l . "%'";
-    $numres = $GLOBALS['xoopsDB']->query($numdog);
+    $numDog = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='0' AND naam LIKE '" . $l . "%'";
+    $numRes = $GLOBALS['xoopsDB']->query($numDog);
     //total number of dogs the query will find
-    $numresults = $GLOBALS['xoopsDB']->getRowsNum($numres);
+    $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
     //total number of pages
-    $numpages = floor($numresults / $perp) + 1;
-    if (($numpages * $perp) == ($numresults + $perp)) {
-        --$numpages;
+    $numPages = floor($numResults / $perPage) + 1;
+    if (($numPages * $perPage) == ($numResults + $perPage)) {
+        --$numPages;
     }
     //find current page
-    $cpage = floor($st / $perp) + 1;
+    $currentPage = floor($st / $perPage) + 1;
     //create alphabet
     $pages = '';
     for ($i = 65; $i <= 90; ++$i) {
         if ($l == chr($i)) {
-            $pages .= "<b><a href=\"add_litter.php?f=sire&r=1&r=1&random=" . $random . '&l=' . chr($i) . "\">" . chr($i) . '</a></b>&nbsp;';
+            $pages .= '<b><a href="add_litter.php?f=sire&r=1&r=1&random=' . $random . '&l=' . chr($i) . '">' . chr($i) . '</a></b>&nbsp;';
         } else {
-            $pages .= "<a href=\"add_litter.php?f=sire&r=1&r=1&random=" . $random . '&l=' . chr($i) . "\">" . chr($i) . '</a>&nbsp;';
+            $pages .= '<a href="add_litter.php?f=sire&r=1&r=1&random=' . $random . '&l=' . chr($i) . '">' . chr($i) . '</a>&nbsp;';
         }
     }
     $pages .= '-&nbsp;';
-    $pages .= "<a href=\"add_litter.php?f=sire&r=1&random=" . $random . "&l=Ã…\">Ã…</a>&nbsp;";
-    $pages .= "<a href=\"add_litter.php?f=sire&r=1&random=" . $random . "&l=Ã–\">Ã–</a>&nbsp;";
+    $pages .= '<a href="add_litter.php?f=sire&r=1&random=' . $random . '&l=Ã…">Ã…</a>&nbsp;';
+    $pages .= '<a href="add_litter.php?f=sire&r=1&random=' . $random . '&l=Ã–">Ã–</a>&nbsp;';
     //create linebreak
-    $pages .= '<br />';
+    $pages .= '<br>';
     //create previous button
-    if ($numpages > 1) {
-        if ($cpage > 1) {
-            $pages .= "<a href=\"add_litter.php?f=sire&r=1&l=" . $l . '&random=' . $random . '&st=' . ($st - $perp) . "\">" . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
+    if ($numPages > 1) {
+        if ($currentPage > 1) {
+            $pages .= '<a href="add_litter.php?f=sire&r=1&l=' . $l . '&random=' . $random . '&st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
         }
     }
     //create numbers
-    for ($x = 1; $x < ($numpages + 1); ++$x) {
+    for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
         if (($x % 20) == 0) {
-            $pages .= '<br />';
+            $pages .= '<br>';
         }
-        if ($x != $cpage) {
-            $pages .= "<a href=\"add_litter.php?f=sire&r=1&l=" . $l . '&random=' . $random . '&st=' . ($perp * ($x - 1)) . "\">" . $x . '</a>&nbsp;&nbsp;';
+        if ($x != $currentPage) {
+            $pages .= '<a href="add_litter.php?f=sire&r=1&l=' . $l . '&random=' . $random . '&st=' . ($perPage * ($x - 1)) . '">' . $x . '</a>&nbsp;&nbsp;';
         } else {
             $pages .= $x . '&nbsp;&nbsp';
         }
     }
     //create next button
-    if ($numpages > 1) {
-        if ($cpage < $numpages) {
-            $pages .= "<a href=\"add_litter.php?f=sire&r=1&l=" . $l . '&random=' . $random . '&st=' . ($st + $perp) . "\">" . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
+    if ($numPages > 1) {
+        if ($currentPage < $numPages) {
+            $pages .= '<a href="add_litter.php?f=sire&r=1&l=' . $l . '&random=' . $random . '&st=' . ($st + $perPage) . '">' . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
         }
     }
     //query
-    $queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '0' and NAAM LIKE '" . $l . "%' ORDER BY NAAM LIMIT " . $st . ', ' . $perp;
+    $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '0' AND naam LIKE '" . $l . "%' ORDER BY naam LIMIT " . $st . ', ' . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
     $animal = new PedigreeAnimal();
@@ -302,16 +321,20 @@ function sire()
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
-        $lookupvalues = '';
+        $lookupValues = '';
         if ($userField->isActive() && $userField->inList()) {
             if ($userField->hasLookup()) {
-                $lookupvalues = $userField->lookupField($fields[$i]);
+                $lookupValues = $userField->lookupField($fields[$i]);
                 //debug information
-                //print_r($lookupvalues);
+                //print_r($lookupValues);
             }
-            $columns[] = array('columnname' => $fieldObject->fieldname, 'columnnumber' => $userField->getId(), 'lookupval' => $lookupvalues);
+            $columns[] = array(
+                'columnname'   => $fieldObject->fieldname,
+                'columnnumber' => $userField->getId(),
+                'lookupval'    => $lookupValues
+            );
             ++$numofcolumns;
-            unset($lookupvalues);
+            unset($lookupValues);
         }
     }
 
@@ -322,7 +345,7 @@ function sire()
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href=\"add_litter.php?f=dam&random=" . $random . "&selsire=0\">" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
+        'link'        => '<a href="add_litter.php?f=dam&random=' . $random . '&selsire=0">' . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
@@ -331,37 +354,37 @@ function sire()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = ' <img src="assets/images/camera.png">';
         } else {
             $camera = '';
         }
-        $name = stripslashes($row['NAAM']) . $camera;
+        $name = stripslashes($row['naam']) . $camera;
         //empty array
         unset($columnvalue);
         //fill array
         for ($i = 1; $i < $numofcolumns; ++$i) {
             $x = $columns[$i]['columnnumber'];
             if (is_array($columns[$i]['lookupval'])) {
-                foreach ($columns[$i]['lookupval'] as $key => $keyvalue) {
+                foreach ($columns[$i]['lookupval'] as $key => $keyValue) {
                     if ($key == $row['user' . $x]) {
-                        $value = $keyvalue['value'];
+                        $value = $keyValue['value'];
                     }
                 }
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
             elseif (0 === strpos($row['user' . $x], 'http://')) {
-                $value = "<a href=\"" . $row['user' . $x] . "\">" . $row['user' . $x] . '</a>';
+                $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
             }
             $columnvalue[] = array('value' => $value);
         }
         $dogs[] = array(
-            'id'          => $row['Id'],
+            'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/male.gif">',
-            'link'        => "<a href=\"add_litter.php?f=dam&random=" . $random . '&selsire=' . $row['Id'] . "\">" . $name . '</a>',
+            'link'        => '<a href="add_litter.php?f=dam&random=' . $random . '&selsire=' . $row['id'] . '">' . $name . '</a>',
             'colour'      => '',
             'number'      => '',
             'usercolumns' => $columnvalue
@@ -370,22 +393,22 @@ function sire()
 
     //add data to smarty template
     //assign dog
-    $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
-    $GLOBALS['xoopsTpl']->assign('columns', $columns);
-    $GLOBALS['xoopsTpl']->assign('numofcolumns', $numofcolumns);
-    $GLOBALS['xoopsTpl']->assign('tsarray', PedigreeUtilities::sortTable($numofcolumns));
-    $GLOBALS['xoopsTpl']->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, array('[father]' => $moduleConfig['father'])));
-    $GLOBALS['xoopsTpl']->assign('pages', $pages);
+    $xoopsTpl->assign('dogs', $dogs);
+    $xoopsTpl->assign('columns', $columns);
+    $xoopsTpl->assign('numofcolumns', $numofcolumns);
+    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, array('[father]' => $moduleConfig['father'])));
+    $xoopsTpl->assign('pages', $pages);
 }
 
 function dam()
 {
-    global $xoopsUser, $xoopsDB;
-    $value       = '';
-    $columnvalue = $empty = array();
+    global $xoopsTpl, $xoopsUser, $xoopsDB;
+    $moduleDirName = basename(__DIR__);
     //get module configuration
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname('pedigree');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -401,13 +424,13 @@ function dam()
     //    if (isset($_GET['st'])) {
     //        $st = $_GET['st'];
     //    }
-    $random = XoopsRequest::getInt('random', 0);
-    $st     = XoopsRequest::getInt('st', 0, 'get');
+    $random = Request::getInt('random', 0);
+    $st     = Request::getInt('st', 0, 'GET');
     //make the redirect
     if (!isset($_GET['r'])) {
         //insert into pedigree_temp
-        //      $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' SET father =' . $_GET['selsire'] . ' WHERE ID=' . $random;
-        $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' SET father =' . XoopsRequest::getInt('selsire', 0, 'get') . ' WHERE ID=' . $random;
+        //      $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' SET father =' . $_GET['selsire'] . ' WHERE id=' . $random;
+        $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' SET father =' . Request::getInt('selsire', 0, 'GET') . ' WHERE id=' . $random;
         $GLOBALS['xoopsDB']->queryF($query);
         redirect_header('add_litter.php?f=dam&random=' . $random . '&st=' . $st . '&r=1', 1, strtr(_MA_PEDIGREE_ADD_SIREOK, array('[mother]' => $moduleConfig['mother'])));
     }
@@ -417,65 +440,65 @@ function dam()
     //    } else {
     //        $l = 'a';
     //    }
-    $l = XoopsRequest::getString('l', 'a', 'get');
+    $l = Request::getString('l', 'a', 'GET');
     //assign sire to the template
-    $GLOBALS['xoopsTpl']->assign('sire', '1');
+    $xoopsTpl->assign('sire', '1');
     //create list of males dog to select from
-    //    $perp = $moduleConfig['perpage'];
-    $perp = (int)$moduleConfig['perpage'];
+    //    $perPage = $moduleConfig['perpage'];
+    $perPage = (int)$moduleConfig['perpage'];
     //count total number of dogs
-    //  $numdog = 'SELECT ID from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='1' and NAAM LIKE '" . $l . "%'";
-    $numdog = 'SELECT ID from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='1' and NAAM LIKE '" . $GLOBALS['xoopsDB']->escape($l) . "%'";
-    $numres = $GLOBALS['xoopsDB']->query($numdog);
+    //  $numDog = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='1' and naam LIKE '" . $l . "%'";
+    $numDog = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='1' AND naam LIKE '" . $GLOBALS['xoopsDB']->escape($l) . "%'";
+    $numRes = $GLOBALS['xoopsDB']->query($numDog);
     //total number of dogs the query will find
-    $numresults = $GLOBALS['xoopsDB']->getRowsNum($numres);
+    $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
     //total number of pages
-    $numpages = floor($numresults / $perp) + 1;
-    if (($numpages * $perp) == ($numresults + $perp)) {
-        --$numpages;
+    $numPages = floor($numResults / $perPage) + 1;
+    if (($numPages * $perPage) == ($numResults + $perPage)) {
+        --$numPages;
     }
     //find current page
-    $cpage = floor($st / $perp) + 1;
+    $currentPage = floor($st / $perPage) + 1;
     //create alphabet
     $pages = '';
     for ($i = 65; $i <= 90; ++$i) {
         if ($l == chr($i)) {
-            $pages .= "<b><a href=\"add_litter.php?f=dam&r=1&random=" . $random . '&l=' . chr($i) . "\">" . chr($i) . '</a></b>&nbsp;';
+            $pages .= '<b><a href="add_litter.php?f=dam&r=1&random=' . $random . '&l=' . chr($i) . '">' . chr($i) . '</a></b>&nbsp;';
         } else {
-            $pages .= "<a href=\"add_litter.php?f=dam&r=1&random=" . $random . '&l=' . chr($i) . "\">" . chr($i) . '</a>&nbsp;';
+            $pages .= '<a href="add_litter.php?f=dam&r=1&random=' . $random . '&l=' . chr($i) . '">' . chr($i) . '</a>&nbsp;';
         }
     }
     $pages .= '-&nbsp;';
-    $pages .= "<a href=\"add_litter.php?f=dam&r=1&random=" . $random . "&l=Ã…\">Ã…</a>&nbsp;";
-    $pages .= "<a href=\"add_litter.php?f=dam&r=1&random=" . $random . "&l=Ã–\">Ã–</a>&nbsp;";
+    $pages .= '<a href="add_litter.php?f=dam&r=1&random=' . $random . '&l=Ã…">Ã…</a>&nbsp;';
+    $pages .= '<a href="add_litter.php?f=dam&r=1&random=' . $random . '&l=Ã–">Ã–</a>&nbsp;';
     //create linebreak
-    $pages .= '<br />';
+    $pages .= '<br>';
     //create previous button
-    if ($numpages > 1) {
-        if ($cpage > 1) {
-            $pages .= "<a href=\"add_litter.php?f=dam&r=1&l=" . $l . '&random=' . $random . '&st=' . ($st - $perp) . "\">" . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
+    if ($numPages > 1) {
+        if ($currentPage > 1) {
+            $pages .= '<a href="add_litter.php?f=dam&r=1&l=' . $l . '&random=' . $random . '&st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
         }
     }
     //create numbers
-    for ($x = 1; $x < ($numpages + 1); ++$x) {
+    for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
         if (($x % 20) == 0) {
-            $pages .= '<br />';
+            $pages .= '<br>';
         }
-        if ($x != $cpage) {
-            $pages .= "<a href=\"add_litter.php?f=dam&r=1&l=" . $l . '&random=' . $random . '&st=' . ($perp * ($x - 1)) . "\">" . $x . '</a>&nbsp;&nbsp;';
+        if ($x != $currentPage) {
+            $pages .= '<a href="add_litter.php?f=dam&r=1&l=' . $l . '&random=' . $random . '&st=' . ($perPage * ($x - 1)) . '">' . $x . '</a>&nbsp;&nbsp;';
         } else {
             $pages .= $x . '&nbsp;&nbsp';
         }
     }
     //create next button
-    if ($numpages > 1) {
-        if ($cpage < $numpages) {
-            $pages .= "<a href=\"add_litter.php?f=dam&r=1&l=" . $l . '&random=' . $random . '&st=' . ($st + $perp) . "\">" . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
+    if ($numPages > 1) {
+        if ($currentPage < $numPages) {
+            $pages .= '<a href="add_litter.php?f=dam&r=1&l=' . $l . '&random=' . $random . '&st=' . ($st + $perPage) . '">' . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp';
         }
     }
     //query
-    $queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '1' and NAAM LIKE '" . $l . "%' ORDER BY NAAM LIMIT " . $st . ', ' . $perp;
+    $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '1' AND naam LIKE '" . $l . "%' ORDER BY naam LIMIT " . $st . ', ' . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
     $animal = new PedigreeAnimal();
@@ -488,16 +511,20 @@ function dam()
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
-        $lookupvalues = '';
+        $lookupValues = '';
         if ($userField->isActive() && $userField->inList()) {
             if ($userField->hasLookup()) {
-                $lookupvalues = $userField->lookupField($fields[$i]);
+                $lookupValues = $userField->lookupField($fields[$i]);
                 //debug information
-                //print_r($lookupvalues);
+                //print_r($lookupValues);
             }
-            $columns[] = array('columnname' => $fieldObject->fieldname, 'columnnumber' => $userField->getId(), 'lookupval' => $lookupvalues);
+            $columns[] = array(
+                'columnname'   => $fieldObject->fieldname,
+                'columnnumber' => $userField->getId(),
+                'lookupval'    => $lookupValues
+            );
             ++$numofcolumns;
-            unset($lookupvalues);
+            unset($lookupValues);
         }
     }
 
@@ -508,7 +535,7 @@ function dam()
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href=\"add_litter.php?f=check&random=" . $random . "&seldam=0\">" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
+        'link'        => '<a href="add_litter.php?f=check&random=' . $random . '&seldam=0">' . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
@@ -517,37 +544,37 @@ function dam()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
         if ($row['foto'] != '') {
-            $camera = " <img src=\"assets/images/camera.png\">";
+            $camera = ' <img src="assets/images/camera.png">';
         } else {
             $camera = '';
         }
-        $name = stripslashes($row['NAAM']) . $camera;
+        $name = stripslashes($row['naam']) . $camera;
         //empty array
         unset($columnvalue);
         //fill array
         for ($i = 1; $i < $numofcolumns; ++$i) {
             $x = $columns[$i]['columnnumber'];
             if (is_array($columns[$i]['lookupval'])) {
-                foreach ($columns[$i]['lookupval'] as $key => $keyvalue) {
+                foreach ($columns[$i]['lookupval'] as $key => $keyValue) {
                     if ($key == $row['user' . $x]) {
-                        $value = $keyvalue['value'];
+                        $value = $keyValue['value'];
                     }
                 }
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
             elseif (0 === strpos($row['user' . $x], 'http://')) {
-                $value = "<a href=\"" . $row['user' . $x] . "\">" . $row['user' . $x] . '</a>';
+                $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
             }
             $columnvalue[] = array('value' => $value);
         }
         $dogs[] = array(
-            'id'          => $row['Id'],
+            'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/female.gif">',
-            'link'        => "<a href=\"add_litter.php?f=check&random=" . $random . '&seldam=' . $row['Id'] . "\">" . $name . '</a>',
+            'link'        => '<a href="add_litter.php?f=check&random=' . $random . '&seldam=' . $row['id'] . '">' . $name . '</a>',
             'colour'      => '',
             'number'      => '',
             'usercolumns' => $columnvalue
@@ -556,21 +583,22 @@ function dam()
 
     //add data to smarty template
     //assign dog
-    $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
-    $GLOBALS['xoopsTpl']->assign('columns', $columns);
-    $GLOBALS['xoopsTpl']->assign('numofcolumns', $numofcolumns);
-    $GLOBALS['xoopsTpl']->assign('tsarray', PedigreeUtilities::sortTable($numofcolumns));
-    $GLOBALS['xoopsTpl']->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, array('[mother]' => $moduleConfig['mother'])));
-    $GLOBALS['xoopsTpl']->assign('pages', $pages);
+    $xoopsTpl->assign('dogs', $dogs);
+    $xoopsTpl->assign('columns', $columns);
+    $xoopsTpl->assign('numofcolumns', $numofcolumns);
+    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, array('[mother]' => $moduleConfig['mother'])));
+    $xoopsTpl->assign('pages', $pages);
 }
 
 function check()
 {
-    global $xoopsUser, $xoopsDB;
-    $userfields = '';
+    global $xoopsTpl, $xoopsUser, $xoopsDB;
+    $moduleDirName = basename(__DIR__);
     //get module configuration
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname('pedigree');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -581,17 +609,31 @@ function check()
         $random = $_GET['random'];
     }
     //query
-    $queryString = 'SELECT * from ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' WHERE ID = ' . $random;
+    $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' WHERE id = ' . $random;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
-    $seldam      = XoopsRequest::getInt('seldam', 0, 'get');
+    $seldam      = Request::getInt('seldam', 0, 'GET');
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //pull data apart.
-        if ($row['NAAM'] !== '') {
+        if ($row['naam'] !== '') {
             $genders = explode(':', $row['roft']);
-            $names   = explode(':', $row['NAAM']);
+            $names   = explode(':', $row['naam']);
             for ($c = 1, $cMax = count($names); $c < $cMax; ++$c) {
                 //              $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " VALUES ('','" . addslashes($names[$c]) . "','0','" . $row['id_breeder'] . "','" . $row['user'] . "','" . $genders[$c] . "','" . $_GET['seldam'] . "','" . $row['father'] . "','',''";
-                $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " VALUES ('','" . $GLOBALS['xoopsDB']->escape($names[$c]) . "','0','" . $GLOBALS['xoopsDB']->escape($row['id_breeder']) . "','" . $GLOBALS['xoopsDB']->escape($row['user']) . "','" . $GLOBALS['xoopsDB']->escape($genders[$c]) . "','" . $GLOBALS['xoopsDB']->escape($seldam) . "','" . $GLOBALS['xoopsDB']->escape($row['father']) . "','',''";
+                $query = 'INSERT INTO '
+                         . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                         . " VALUES ('','"
+                         . $GLOBALS['xoopsDB']->escape($names[$c])
+                         . "','0','"
+                         . $GLOBALS['xoopsDB']->escape($row['id_breeder'])
+                         . "','"
+                         . $GLOBALS['xoopsDB']->escape($row['user'])
+                         . "','"
+                         . $GLOBALS['xoopsDB']->escape($genders[$c])
+                         . "','"
+                         . $GLOBALS['xoopsDB']->escape($seldam)
+                         . "','"
+                         . $GLOBALS['xoopsDB']->escape($row['father'])
+                         . "','',''";
                 //create animal object
                 $animal = new PedigreeAnimal();
                 //test to find out how many user fields there are..
@@ -600,7 +642,7 @@ function check()
                 $usersql = '';
                 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
                     $userfields{$fields[$i]} = explode(':', $row['user' . $fields[$i]]);
-                    $query .= ",'" . $userfields{$fields[$i]}
+                    $query                   .= ",'" . $userfields{$fields[$i]}
                         [$c] . "'";
                 }
                 //insert into pedigree
@@ -608,7 +650,7 @@ function check()
                 $GLOBALS['xoopsDB']->queryF($query);
             }
         }
-        $sqlquery = 'DELETE from ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " where ID='" . $random . "'";
+        $sqlQuery = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " WHERE id='" . $random . "'";
     }
     redirect_header('latest.php', 1, strtr(_MA_PEDIGREE_ADD_LIT_OK, array('[animalTypes]' => $moduleConfig['animalTypes'])));
 }

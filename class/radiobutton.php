@@ -41,13 +41,13 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
      *
      * @todo move hard coded language string to language file
      *
-     * @param object $parentObject {@see PedigreeField}
-     * @param object $animalObject {@see PedigreeAnimal}
+     * @param PedigreeField  $parentObject
+     * @param PedigreeAnimal $animalObject
      */
-    public function __construct($parentObject, $animalObject)
+    public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
     {
         $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->FieldName;
+        $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->LookupTable;

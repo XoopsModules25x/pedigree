@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * pedigree module for XOOPS
  *
@@ -17,13 +18,15 @@
  * @author      XOOPS Module Dev Team
  */
 
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-include_once __DIR__ . '/include/config.php';
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
-xoops_load('XoopsRequest');
-$dogid = XoopsRequest::getInt('dogid', 0, 'GET');
+require_once __DIR__ . '/include/config.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+$dogid = Request::getInt('dogid', 0, 'GET');
 
 //create data and variables
 $queryString = '
@@ -86,46 +89,155 @@ $result = $GLOBALS['xoopsDB']->query($queryString);
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <html><head>
-    <meta http-equiv="Content-Type" content="text/html" />
-    <meta name="AUTHOR" content="' . $GLOBALS['xoopsConfig']['sitename'] . '" />
-    <meta name="COPYRIGHT" content="Copyright (c) 2016 by ' . $GLOBALS['xoopsConfig']['sitename'] . '" />
-    <meta name="GENERATOR" content="XOOPS Pedigree database" />
+    <meta http-equiv="Content-Type" content="text/html">
+    <meta name="AUTHOR" content="' . $GLOBALS['xoopsConfig']['sitename'] . '">
+    <meta name="COPYRIGHT" content="Copyright (c) 2016 by ' . $GLOBALS['xoopsConfig']['sitename'] . '">
+    <meta name="GENERATOR" content="XOOPS Pedigree database">
     </head>
     <body bgcolor="#ffffff" text="#000000" onload="window.print()">
     <table border="0" width="640">
         <tr>
             <td>';
-    $male   = "<img src=\"assets/images/male.gif\">";
-    $female = "<img src=\"assets/images/female.gif\">";
+    $male   = '<img src="assets/images/male.gif">';
+    $female = '<img src="assets/images/female.gif">';
     if ($row['d_roft'] == 0) {
         $gender = $male;
     } else {
         $gender = $female;
     }
 
-    echo "    <table width='100%' cellspacing='2' border='2'>\n" . "      <!-- header (dog name) -->\n" . "      <tr>\n" . "          <th colspan='4' style='text-align:center;'>\n" . '              ' . stripslashes($row['d_naam']) . "\n" . "          </th>\n" . "      </tr>\n" . "      <tr>\n" . "          <!-- selected dog -->\n" . "          <td width='25%' rowspan='8'>\n" . "              {$gender}" . stripslashes($row['d_naam']) . "\n";
+    echo "    <table width='100%' cellspacing='2' border='2'>\n"
+         . "      <!-- header (dog name) -->\n"
+         . "      <tr>\n"
+         . "          <th colspan='4' style='text-align:center;'>\n"
+         . '              '
+         . stripslashes($row['d_naam'])
+         . "\n"
+         . "          </th>\n"
+         . "      </tr>\n"
+         . "      <tr>\n"
+         . "          <!-- selected dog -->\n"
+         . "          <td width='25%' rowspan='8'>\n"
+         . "              {$gender}"
+         . stripslashes($row['d_naam'])
+         . "\n";
     if ('' != $row['d_foto']) {
-        echo "              <br /><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['d_foto'] . "_150.jpeg' width='150px;'>";
+        echo "              <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['d_foto'] . "_150.jpeg' width='150px;'>";
     }
     echo "          </td>\n" . "             <!-- father -->\n" . "             <td width='25%' rowspan='4'>\n" . "                 {$male}" . stripslashes($row['f_naam']) . "\n";
     if ('' != $row['f_foto']) {
-        echo "                 <br /><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['f_foto'] . "_150.jpeg' width='150px;'>\n";
+        echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['f_foto'] . "_150.jpeg' width='150px;'>\n";
     }
     echo "          </td>\n" . "             <!-- father father -->\n" . "             <td width='25%' rowspan='2'>\n" . "                 {$male}" . stripslashes($row['ff_naam']) . "\n";
     if ('' != $row['ff_foto']) {
-        echo "                 <br /><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['ff_foto'] . "_150.jpeg' width='150px;'>\n";
+        echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['ff_foto'] . "_150.jpeg' width='150px;'>\n";
     }
-    echo "          </td>\n" . "             <!-- father father father -->\n" . "             <td width='25%'>\n" . "                 {$male}" . stripslashes($row['fff_naam']) . "\n" . "             </td>\n" . "         </tr>\n" . "         <tr>\n" . "             <!-- father father mother -->\n" . "             <td width='25%'>\n" . "                 {$female}" . stripslashes($row['ffm_naam']) . "\n" . "             </td>\n" . "         </tr>\n" . "         <tr>\n" . "         <!-- father mother -->\n" . "             <td width='25%' rowspan='2'>\n" . "                 {$female}" . stripslashes($row['fm_naam']) . "\n";
+    echo "          </td>\n"
+         . "             <!-- father father father -->\n"
+         . "             <td width='25%'>\n"
+         . "                 {$male}"
+         . stripslashes($row['fff_naam'])
+         . "\n"
+         . "             </td>\n"
+         . "         </tr>\n"
+         . "         <tr>\n"
+         . "             <!-- father father mother -->\n"
+         . "             <td width='25%'>\n"
+         . "                 {$female}"
+         . stripslashes($row['ffm_naam'])
+         . "\n"
+         . "             </td>\n"
+         . "         </tr>\n"
+         . "         <tr>\n"
+         . "         <!-- father mother -->\n"
+         . "             <td width='25%' rowspan='2'>\n"
+         . "                 {$female}"
+         . stripslashes($row['fm_naam'])
+         . "\n";
     if ('' != $row['fm_foto']) {
-        echo "                 <br /><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['fm_foto'] . "_150.jpeg' width='150px;'>\n";
+        echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['fm_foto'] . "_150.jpeg' width='150px;'>\n";
     }
-    echo "             </td>\n" . "                <!-- father mother father -->\n" . "                <td width='25%'>\n" . "                    {$male}" . stripslashes($row['fmf_naam']) . "\n" . "                </td>\n" . "            </tr>\n" . "            <tr>\n" . "                <!-- father mother mother -->\n" . "                <td width='25%'>\n" . "                    {$female}" . stripslashes($row['fmm_naam']) . "\n" . "                </td>\n" . "            </tr>\n" . "            <tr>\n" . "                <!-- mother -->\n" . "                <td width='25%' rowspan='4'>\n" . "                    {$female}" . stripslashes($row['m_naam']) . "\n";
+    echo "             </td>\n"
+         . "                <!-- father mother father -->\n"
+         . "                <td width='25%'>\n"
+         . "                    {$male}"
+         . stripslashes($row['fmf_naam'])
+         . "\n"
+         . "                </td>\n"
+         . "            </tr>\n"
+         . "            <tr>\n"
+         . "                <!-- father mother mother -->\n"
+         . "                <td width='25%'>\n"
+         . "                    {$female}"
+         . stripslashes($row['fmm_naam'])
+         . "\n"
+         . "                </td>\n"
+         . "            </tr>\n"
+         . "            <tr>\n"
+         . "                <!-- mother -->\n"
+         . "                <td width='25%' rowspan='4'>\n"
+         . "                    {$female}"
+         . stripslashes($row['m_naam'])
+         . "\n";
     if ('' != $row['m_foto']) {
-        echo "                 <br /><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['m_foto'] . "_150.jpeg' width='150px;'>\n";
+        echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['m_foto'] . "_150.jpeg' width='150px;'>\n";
     }
     echo "             </td>\n" . "                <!- mother father -->\n" . "                <td width='25%' rowspan='2'>\n" . "                    {$male}" . stripslashes($row['mf_naam']) . "\n";
     if ('' != $row['mf_foto']) {
-        echo "                 <br /><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['mf_foto'] . "_150.jpeg' width='150px;'>\n";
+        echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['mf_foto'] . "_150.jpeg' width='150px;'>\n";
     }
-    echo "                    </td>\n" . "                    <!-- mother father father -->\n" . "                    <td width='25%'>\n" . "                      {$male}" . stripslashes($row['mff_naam']) . "\n" . "                    </td>\n" . "                </tr>\n" . "                <tr>\n" . "                    <!-- mother father mother -->\n" . "                    <td width='25%'>\n" . "                        {$female}" . stripslashes($row['mfm_naam']) . "\n" . "                    </td>\n" . "                </tr>\n" . "                <tr>\n" . "                    <!-- mother mother -->\n" . "                    <td width='25%' rowspan='2'>\n" . "                        {$female}" . stripslashes($row['mm_naam']) . "\n" . "                    </td>\n" . "                    <!-- mother mother father -->\n" . "                    <td width='25%'>\n" . "                        {$male}" . stripslashes($row['mmf_naam']) . "\n" . "                    </td>\n" . "                </tr>\n" . "                <tr>\n" . "                    <!-- mother mother mother -->\n" . "                    <td width='25%'>\n" . "                        {$female}" . stripslashes($row['mmm_naam']) . "\n" . "                    </td>\n" . "                </tr>\n" . "                <!-- footer (dog url) -->\n" . "                <tr>\n" . "                    <th colspan='4' style='text-align:center;'>\n" . "                        <a href='" . $GLOBALS['xoops']->url("www/modules/pedigree/pedigree.php?pedid={$dogid}") . "'>" . $GLOBALS['xoops']->url("www/modules/pedigree/pedigree.php?pedid={$dogid}") . "</a>\n" . "                    </th>\n" . "                </tr>\n" . "            </table>\n" . "            </td>\n" . "        </tr>\n" . "    </table>\n" . "    </body>\n" . "    </html>\n";
+    echo "                    </td>\n"
+         . "                    <!-- mother father father -->\n"
+         . "                    <td width='25%'>\n"
+         . "                      {$male}"
+         . stripslashes($row['mff_naam'])
+         . "\n"
+         . "                    </td>\n"
+         . "                </tr>\n"
+         . "                <tr>\n"
+         . "                    <!-- mother father mother -->\n"
+         . "                    <td width='25%'>\n"
+         . "                        {$female}"
+         . stripslashes($row['mfm_naam'])
+         . "\n"
+         . "                    </td>\n"
+         . "                </tr>\n"
+         . "                <tr>\n"
+         . "                    <!-- mother mother -->\n"
+         . "                    <td width='25%' rowspan='2'>\n"
+         . "                        {$female}"
+         . stripslashes($row['mm_naam'])
+         . "\n"
+         . "                    </td>\n"
+         . "                    <!-- mother mother father -->\n"
+         . "                    <td width='25%'>\n"
+         . "                        {$male}"
+         . stripslashes($row['mmf_naam'])
+         . "\n"
+         . "                    </td>\n"
+         . "                </tr>\n"
+         . "                <tr>\n"
+         . "                    <!-- mother mother mother -->\n"
+         . "                    <td width='25%'>\n"
+         . "                        {$female}"
+         . stripslashes($row['mmm_naam'])
+         . "\n"
+         . "                    </td>\n"
+         . "                </tr>\n"
+         . "                <!-- footer (dog url) -->\n"
+         . "                <tr>\n"
+         . "                    <th colspan='4' style='text-align:center;'>\n"
+         . "                        <a href='"
+         . $GLOBALS['xoops']->url("www/modules/pedigree/pedigree.php?pedid={$dogid}")
+         . "'>"
+         . $GLOBALS['xoops']->url("www/modules/pedigree/pedigree.php?pedid={$dogid}")
+         . "</a>\n"
+         . "                    </th>\n"
+         . "                </tr>\n"
+         . "            </table>\n"
+         . "            </td>\n"
+         . "        </tr>\n"
+         . "    </table>\n"
+         . "    </body>\n"
+         . "    </html>\n";
 }

@@ -1,22 +1,25 @@
 <?php
 // -------------------------------------------------------------------------
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+use Xmf\Request;
+
+//require_once __DIR__ . '/../../mainfile.php';
+require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php';
 
-$xoopsOption['template_main'] = 'pedigree_adddog.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
 
 //check for access
-$xoopsModule = XoopsModule::getByDirname('pedigree');
+$xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($xoopsUser)) {
-    redirect_header('index.php', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+    redirect_header('index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 $f = isset($_GET['f']) ? $_GET['f'] : '';
@@ -28,19 +31,31 @@ function check()
 {
     global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsModuleConfig;
     //check for access
-    $xoopsModule = XoopsModule::getByDirname('pedigree');
-    if (empty($xoopsUser)) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+    $xoopsModule = XoopsModule::getByDirname($moduleDirName);
+    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
-    $achternaam = XoopsRequest::getString('achternaam', '', 'post');
-    $voornaam   = XoopsRequest::getString('voornaam', '', 'post');
-    $email      = XoopsRequest::getEmail('email', '', 'post');
-    $website    = XoopsRequest::getUrl('website', '', 'post');
-    $user       = XoopsRequest::getString('user', '', 'post');
+    $achternaam = Request::getString('achternaam', '', 'POST');
+    $voornaam   = Request::getString('voornaam', '', 'POST');
+    $email      = Request::getEmail('email', '', 'POST');
+    $website    = Request::getUrl('website', '', 'POST');
+    $user       = Request::getString('user', '', 'POST');
 
     //insert into owner
     //$query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " VALUES ('','" . $voornaam . "','" . $achternaam . "','','','','','','" . $email . "','" . $website . "','" . $user . "')";
-    $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " VALUES ('','" . $GLOBALS['xoopsDB']->escape($voornaam) . "','" . $GLOBALS['xoopsDB']->escape($achternaam) . "','','','','','','" . $GLOBALS['xoopsDB']->escape($email) . "','" . $GLOBALS['xoopsDB']->escape($website) . "','" . $GLOBALS['xoopsDB']->escape($user) . "')";
+    $query = 'INSERT INTO '
+             . $GLOBALS['xoopsDB']->prefix('pedigree_owner')
+             . " VALUES (0,'"
+             . $GLOBALS['xoopsDB']->escape($voornaam)
+             . "','"
+             . $GLOBALS['xoopsDB']->escape($achternaam)
+             . "','','','','','','"
+             . $GLOBALS['xoopsDB']->escape($email)
+             . "','"
+             . $GLOBALS['xoopsDB']->escape($website)
+             . "','"
+             . $GLOBALS['xoopsDB']->escape($user)
+             . "')";
 
     $GLOBALS['xoopsDB']->query($query);
     redirect_header('index.php', 1, 'The data has been stored.');
@@ -48,9 +63,9 @@ function check()
 
 global $xoopsTpl, $xoopsUser, $xoopsDB;
 //check for access
-$xoopsModule = XoopsModule::getByDirname('pedigree');
-if (empty($xoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br />' . _MA_PEDIGREE_REGIST);
+$xoopsModule = XoopsModule::getByDirname($moduleDirName);
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';

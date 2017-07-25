@@ -74,12 +74,12 @@ class ZervWizard
             $container[$containerKey] = array();
         }
 
-        $this->container = &$container[$containerKey];
+        $this->container =& $container[$containerKey];
 
         if (!array_key_exists('_errors', $this->container)) {
             $this->container['_errors'] = array();
         }
-        $this->_errors = &$this->container['_errors'];
+        $this->_errors =& $this->container['_errors'];
     }
 
     /**
@@ -370,7 +370,8 @@ class ZervWizard
         for ($i = 0; $i < $numSteps; ++$i) {
             $_step = $steps[$i];
 
-            if (!array_key_exists($this->_step_status_key, $this->container) || !$this->container[$this->_step_status_key][$_step]) {
+            if (!array_key_exists($this->_step_status_key, $this->container)
+                || !$this->container[$this->_step_status_key][$_step]) {
                 return $_step;
             }
         }

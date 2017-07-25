@@ -27,6 +27,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
 xoops_loadLanguage('modinfo', basename(dirname(__DIR__)));
 require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->dirname() . '/admin/menu.php');

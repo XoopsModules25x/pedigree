@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -18,21 +19,23 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-include_once __DIR__ . '/admin_header.php';
+use Xmf\Request;
+
+require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-$adminMenu = new ModuleAdmin();
+//$adminObject = \Xmf\Module\Admin::getInstance();
 
 //It recovered the value of argument op in URL$
-$op = XoopsRequest::getCmd('op', 'list');
+$op = Request::getCmd('op', 'list');
 switch ($op) {
     case 'list':
     default:
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
-        //        echo $adminMenu->renderButton();
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
+        //        $adminObject->displayButton('left');
         $criteria = new CriteriaCompo();
-        $criteria->setSort('Id');
+        $criteria->setSort('id');
         $criteria->setOrder('ASC');
         $numrows            = $pedigreeTrashHandler->getCount();
         $pedigree_trash_arr = $pedigreeTrashHandler->getall($criteria);
@@ -63,7 +66,7 @@ switch ($op) {
                 if (0 == $pedigree_trash_arr[$i]->getVar('pedigree_trash_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ($class === 'even') ? 'odd' : 'even';
-                    echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('NAAM') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('naam') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('id_breeder') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('user') . '</td>';
@@ -73,23 +76,23 @@ switch ($op) {
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('foto') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('coi') . '</td>';
                     echo "<td class'txtcenter width10'>
-                        <a href='pedigree_trash.php?op=edit_pedigree_trash&ID=" . $pedigree_trash_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='pedigree_trash.php?op=delete_pedigree_trash&ID=" . $pedigree_trash_arr[$i]->getVar('Id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                        <a href='pedigree_trash.php?op=edit_pedigree_trash&id=" . $pedigree_trash_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='pedigree_trash.php?op=delete_pedigree_trash&id=" . $pedigree_trash_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }
             }
             echo '</tbody>
                   </table>
-                  <br /><br />';
+                  <br><br>';
         }
 
         break;
 
     case 'new_pedigree_trash':
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
-        echo $adminMenu->renderButton();
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
+        $adminObject->displayButton('left');
 
         $obj  = $pedigreeTrashHandler->create();
         $form = $obj->getForm();
@@ -100,14 +103,14 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST['Id'])) {
-            $obj = $pedigreeTrashHandler->get($_REQUEST['Id']);
+        if (isset($_REQUEST['id'])) {
+            $obj = $pedigreeTrashHandler->get($_REQUEST['id']);
         } else {
             $obj = $pedigreeTrashHandler->create();
         }
 
-        //Form NAAM
-        $obj->setVar('NAAM', $_REQUEST['NAAM']);
+        //Form naam
+        $obj->setVar('naam', $_REQUEST['naam']);
         //Form id_owner
         $obj->setVar('id_owner', $_REQUEST['id_owner']);
         //Form id_breeder
@@ -135,17 +138,17 @@ switch ($op) {
         break;
 
     case 'edit_pedigree_trash':
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
-        $adminMenu->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
-        echo $adminMenu->renderButton();
-        $obj  = $pedigreeTrashHandler->get($_REQUEST['Id']);
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
+        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
+        $adminObject->displayButton('left');
+        $obj  = $pedigreeTrashHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree_trash':
-        $obj = $pedigreeTrashHandler->get($_REQUEST['Id']);
+        $obj = $pedigreeTrashHandler->get($_REQUEST['id']);
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -156,8 +159,8 @@ switch ($op) {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'Id' => $_REQUEST['Id'], 'op' => 'delete_pedigree_trash'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_trash')));
+            xoops_confirm(array('ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_pedigree_trash'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_trash')));
         }
         break;
 }
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
