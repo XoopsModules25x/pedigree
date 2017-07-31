@@ -110,7 +110,7 @@ define('_MA_PEDIGREE_ANCEST_EXPLAN',
        "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require your attention.");
 define('_MA_PEDIGREE_GENDER_EXPLAN',
        'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require your attention.');
-define('_MA_PEDIGREE_QUERIE_EXPLAN', 'Shown below are your personal queries.<br>To request a user query, you can visit <a href ="http://www.xoops.org">XOOPS Support Forums</a>');
+define('_MA_PEDIGREE_QUERIE_EXPLAN', 'Shown below are your personal queries.<br>To request a user query, you can visit <a href ="https://xoops.org">XOOPS Support Forums</a>');
 define('_MA_PEDIGREE_LOOKUPFIELD', "Shown below are the user values for this lookupfield.<br>Click on the value to edit it.<br>Click on the 'X' to delete the value from the lookuptable.");
 define('_MA_PEDIGREE_DELVALUE', 'When deleting a value from this lookup field all animals with that value will be given the default value for this field.');
 define('_MA_PEDIGREE_FIELPROP', 'The field properties have now been changed. Clicking the button below will clear the wizard and let you change another field.');
@@ -444,7 +444,7 @@ define('_MA_PEDIGREE_MPED_M4', 'Male [animalType] present four times in 4 genera
 define('_MA_PEDIGREE_BOOK_INTRO', 'The data on this page is only for the following pedigreebook :  [flag]  [country]');
 
 // Alpha 4
-define('_MA_PEDIGREE_QUERY_EXPLAN', 'Please use the menu items on the left to run preset database queries or if you would like to create a new one, please visit <a href ="http://www.xoops.org">XOOPS Support Forums</a> and ask for help there ');
+define('_MA_PEDIGREE_QUERY_EXPLAN', 'Please use the menu items on the left to run preset database queries or if you would like to create a new one, please visit <a href ="https://xoops.org">XOOPS Support Forums</a> and ask for help there ');
 
 define('_MA_PEDIGREE_BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse Pedigree Animals in alphabetical order</span><br>");
 
