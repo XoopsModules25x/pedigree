@@ -56,11 +56,11 @@ $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeo
 $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DELE_CONF_OWN . '<b>' . $naam . '</b>?'));
 $breeder = PedigreeUtility::breederof($_GET['id'], 1);
 if ($breeder != '') {
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_BREEDER, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '<br><br>' . $breeder));
+    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_BREEDER, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '<br><br>' . $breeder));
 }
 $owner = PedigreeUtility::breederof($_GET['id'], 0);
 if ($owner != '') {
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_OWNER, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '<br><br>' . $owner));
+    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_OWNER, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '<br><br>' . $owner));
 }
 $form->addElement(new XoopsFormButton('', 'button_id', _DELETE, 'submit'));
 //add data (form) to smarty template

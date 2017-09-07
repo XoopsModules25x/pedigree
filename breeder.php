@@ -159,11 +159,11 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //make names
     $name = $access . '<a href="owner.php?ownid=' . $row['id'] . '">' . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . '</a>';
     //create array for owners
-    $dogs[] = array(
+    $dogs[] = [
         'id'   => $row['id'],
         'name' => $name,
         'city' => $row['city']
-    );
+    ];
 }
 
 //add data to smarty template

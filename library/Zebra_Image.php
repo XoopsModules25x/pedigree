@@ -354,7 +354,16 @@ class Zebra_Image
                 // copy the original image
                 imagecopyresampled(
 
-                    $target_identifier, $this->source_identifier, 0, 0, 0, 0, $this->source_width, $this->source_height, $this->source_width, $this->source_height
+                    $target_identifier,
+                    $this->source_identifier,
+                    0,
+                    0,
+                    0,
+                    0,
+                    $this->source_width,
+                    $this->source_height,
+                    $this->source_width,
+                    $this->source_height
 
                 );
 
@@ -366,10 +375,10 @@ class Zebra_Image
                         if (defined('IMG_FILTER_' . strtoupper($arguments[0]))) {
 
                             // try to apply the filter...
-                            if (!@call_user_func_array('imagefilter', array_merge(array(
+                            if (!@call_user_func_array('imagefilter', array_merge([
                                                                                       $target_identifier,
                                                                                       constant('IMG_FILTER_' . strtoupper($arguments[0]))
-                                                                                  ), array_slice($arguments, 1)))) { // ...and trigger an error if the filter could not be applied
+                                                                                  ], array_slice($arguments, 1)))) { // ...and trigger an error if the filter could not be applied
                                 trigger_error('Invalid arguments used for "' . strtoupper($arguments[0]) . '" filter', E_USER_WARNING);
                             }
 
@@ -386,10 +395,10 @@ class Zebra_Image
                     $arguments = func_get_args();
 
                     // try to apply the filter...
-                    if (!@call_user_func_array('imagefilter', array_merge(array(
+                    if (!@call_user_func_array('imagefilter', array_merge([
                                                                               $target_identifier,
                                                                               constant('IMG_FILTER_' . strtoupper($filter))
-                                                                          ), array_slice($arguments, 1)))) { // ...and trigger an error if the filter could not be applied
+                                                                          ], array_slice($arguments, 1)))) { // ...and trigger an error if the filter could not be applied
                         trigger_error('Invalid arguments used for "' . strtoupper($arguments[0]) . '" filter', E_USER_WARNING);
                     }
 
@@ -476,7 +485,16 @@ class Zebra_Image
             // crop the image
             imagecopyresampled(
 
-                $target_identifier, $this->source_identifier, 0, 0, $start_x, $start_y, $end_x - $start_x, $end_y - $start_y, $end_x - $start_x, $end_y - $start_y
+                $target_identifier,
+                $this->source_identifier,
+                0,
+                0,
+                $start_x,
+                $start_y,
+                $end_x - $start_x,
+                $end_y - $start_y,
+                $end_x - $start_x,
+                $end_y - $start_y
 
             );
 
@@ -818,7 +836,8 @@ class Zebra_Image
                 $this->enlarge_smaller_images
                 || // smaller images than the given width/height are to be left untouched
                 // but current image has at leas one side that is larger than the required width/height
-                ($width > 0 && $height > 0 ?
+                (
+                    $width > 0 && $height > 0 ?
 
                     ($this->source_width > $width || $this->source_height > $height) :
 
@@ -845,7 +864,16 @@ class Zebra_Image
 
                     imagecopyresampled(
 
-                        $target_identifier, $this->source_identifier, 0, 0, 0, 0, $target_width, $target_height, $this->source_width, $this->source_height
+                        $target_identifier,
+                        $this->source_identifier,
+                        0,
+                        0,
+                        0,
+                        0,
+                        $target_width,
+                        $target_height,
+                        $this->source_width,
+                        $this->source_height
 
                     );
 
@@ -856,7 +884,12 @@ class Zebra_Image
                         case ZEBRA_IMAGE_CROP_TOPLEFT:
 
                             // crop accordingly
-                            return $this->crop(0, 0, $width, $height, $target_identifier // crop this resource instead
+                            return $this->crop(
+                                0,
+                                0,
+                                $width,
+                                $height,
+                                $target_identifier // crop this resource instead
                             );
 
                             break;
@@ -865,7 +898,12 @@ class Zebra_Image
                         case ZEBRA_IMAGE_CROP_TOPCENTER:
 
                             // crop accordingly
-                            return $this->crop(floor(($target_width - $width) / 2), 0, floor(($target_width - $width) / 2) + $width, $height, $target_identifier // crop this resource instead
+                            return $this->crop(
+                                floor(($target_width - $width) / 2),
+                                0,
+                                floor(($target_width - $width) / 2) + $width,
+                                $height,
+                                $target_identifier // crop this resource instead
                             );
 
                             break;
@@ -874,7 +912,12 @@ class Zebra_Image
                         case ZEBRA_IMAGE_CROP_TOPRIGHT:
 
                             // crop accordingly
-                            return $this->crop($target_width - $width, 0, $target_width, $height, $target_identifier // crop this resource instead
+                            return $this->crop(
+                                $target_width - $width,
+                                0,
+                                $target_width,
+                                $height,
+                                $target_identifier // crop this resource instead
                             );
 
                             break;
@@ -885,7 +928,11 @@ class Zebra_Image
                             // crop accordingly
                             return $this->crop(
 
-                                0, floor(($target_height - $height) / 2), $width, floor(($target_height - $height) / 2) + $height, $target_identifier // crop this resource instead
+                                0,
+                                floor(($target_height - $height) / 2),
+                                $width,
+                                floor(($target_height - $height) / 2) + $height,
+                                $target_identifier // crop this resource instead
 
                             );
 
@@ -897,7 +944,11 @@ class Zebra_Image
                             // crop accordingly
                             return $this->crop(
 
-                                floor(($target_width - $width) / 2), floor(($target_height - $height) / 2), floor(($target_width - $width) / 2) + $width, floor(($target_height - $height) / 2) + $height, $target_identifier // crop this resource instead
+                                floor(($target_width - $width) / 2),
+                                floor(($target_height - $height) / 2),
+                                floor(($target_width - $width) / 2) + $width,
+                                floor(($target_height - $height) / 2) + $height,
+                                $target_identifier // crop this resource instead
 
                             );
 
@@ -909,7 +960,11 @@ class Zebra_Image
                             // crop accordingly
                             return $this->crop(
 
-                                $target_width - $width, floor(($target_height - $height) / 2), $target_width, floor(($target_height - $height) / 2) + $height, $target_identifier // crop this resource instead
+                                $target_width - $width,
+                                floor(($target_height - $height) / 2),
+                                $target_width,
+                                floor(($target_height - $height) / 2) + $height,
+                                $target_identifier // crop this resource instead
 
                             );
 
@@ -921,7 +976,11 @@ class Zebra_Image
                             // crop accordingly
                             return $this->crop(
 
-                                0, $target_height - $height, $width, $target_height, $target_identifier // crop this resource instead
+                                0,
+                                $target_height - $height,
+                                $width,
+                                $target_height,
+                                $target_identifier // crop this resource instead
 
                             );
 
@@ -933,7 +992,11 @@ class Zebra_Image
                             // crop accordingly
                             return $this->crop(
 
-                                floor(($target_width - $width) / 2), $target_height - $height, floor(($target_width - $width) / 2) + $width, $target_height, $target_identifier // crop this resource instead
+                                floor(($target_width - $width) / 2),
+                                $target_height - $height,
+                                floor(($target_width - $width) / 2) + $width,
+                                $target_height,
+                                $target_identifier // crop this resource instead
 
                             );
 
@@ -945,7 +1008,11 @@ class Zebra_Image
                             // crop accordingly
                             return $this->crop(
 
-                                $target_width - $width, $target_height - $height, $target_width, $target_height, $target_identifier // crop this resource instead
+                                $target_width - $width,
+                                $target_height - $height,
+                                $target_width,
+                                $target_height,
+                                $target_identifier // crop this resource instead
 
                             );
 
@@ -963,8 +1030,16 @@ class Zebra_Image
 
                     imagecopyresampled(
 
-                        $target_identifier, $this->source_identifier, ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? ($width - $target_width) / 2 : 0), ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? ($height - $target_height) / 2 : 0), 0, 0, $target_width,
-                        $target_height, $this->source_width, $this->source_height
+                        $target_identifier,
+                        $this->source_identifier,
+                        ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? ($width - $target_width) / 2 : 0),
+                        ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? ($height - $target_height) / 2 : 0),
+                        0,
+                        0,
+                        $target_width,
+                        $target_height,
+                        $this->source_width,
+                        $this->source_height
 
                     );
 
@@ -1064,7 +1139,10 @@ class Zebra_Image
                 // allocate the color to the image identifier
                 $background_color = imagecolorallocate(
 
-                    $this->source_identifier, $background_color['r'], $background_color['g'], $background_color['b']
+                    $this->source_identifier,
+                    $background_color['r'],
+                    $background_color['g'],
+                    $background_color['b']
 
                 );
 
@@ -1093,7 +1171,10 @@ class Zebra_Image
                 // allocate the color to the image identifier
                 $background_color = imagecolorallocate(
 
-                    $this->source_identifier, $background_color['r'], $background_color['g'], $background_color['b']
+                    $this->source_identifier,
+                    $background_color['r'],
+                    $background_color['g'],
+                    $background_color['b']
 
                 );
 
@@ -1257,7 +1338,7 @@ class Zebra_Image
 
                 // if "exif_read_data" function is available, EXIF information is available, orientation information is available and orientation needs fixing
             } elseif (($exif = exif_read_data($this->source_path)) && isset($exif['Orientation'])
-                      && in_array($exif['Orientation'], array(3, 6, 8))) {
+                      && in_array($exif['Orientation'], [3, 6, 8])) {
 
                 // fix the orientation
                 switch ($exif['Orientation']) {
@@ -1314,7 +1395,16 @@ class Zebra_Image
 
                     imagecopyresampled(
 
-                        $target_identifier, $this->source_identifier, 0, 0, $this->source_width - 1, 0, $this->source_width, $this->source_height, -$this->source_width, $this->source_height
+                        $target_identifier,
+                        $this->source_identifier,
+                        0,
+                        0,
+                        $this->source_width - 1,
+                        0,
+                        $this->source_width,
+                        $this->source_height,
+                        -$this->source_width,
+                        $this->source_height
 
                     );
 
@@ -1324,7 +1414,16 @@ class Zebra_Image
 
                     imagecopyresampled(
 
-                        $target_identifier, $this->source_identifier, 0, 0, 0, $this->source_height - 1, $this->source_width, $this->source_height, $this->source_width, -$this->source_height
+                        $target_identifier,
+                        $this->source_identifier,
+                        0,
+                        0,
+                        0,
+                        $this->source_height - 1,
+                        $this->source_width,
+                        $this->source_height,
+                        $this->source_width,
+                        -$this->source_height
 
                     );
 
@@ -1334,7 +1433,16 @@ class Zebra_Image
 
                     imagecopyresampled(
 
-                        $target_identifier, $this->source_identifier, 0, 0, $this->source_width - 1, $this->source_height - 1, $this->source_width, $this->source_height, -$this->source_width, -$this->source_height
+                        $target_identifier,
+                        $this->source_identifier,
+                        0,
+                        0,
+                        $this->source_width - 1,
+                        $this->source_height - 1,
+                        $this->source_width,
+                        $this->source_height,
+                        -$this->source_width,
+                        -$this->source_height
 
                     );
 
@@ -1396,13 +1504,13 @@ class Zebra_Image
         $int = hexdec($color);
 
         // extract and return the RGB values
-        return array(
+        return [
 
             'r' => 0xFF & ($int >> 0x10),
             'g' => 0xFF & ($int >> 0x8),
             'b' => 0xFF & $int
 
-        );
+        ];
     }
 
     /**
@@ -1501,11 +1609,11 @@ class Zebra_Image
         if ($this->sharpen_images && version_compare(PHP_VERSION, '5.1.0') >= 0) {
 
             // the convolution matrix as an array of three arrays of three floats
-            $matrix = array(
-                array(-1.2, -1, -1.2),
-                array(-1, 20, -1),
-                array(-1.2, -1, -1.2),
-            );
+            $matrix = [
+                [-1.2, -1, -1.2],
+                [-1, 20, -1],
+                [-1.2, -1, -1.2],
+            ];
 
             // the divisor of the matrix
             $divisor = array_sum(array_map('array_sum', $matrix));

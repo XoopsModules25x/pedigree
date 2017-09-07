@@ -30,7 +30,7 @@ class ZervWizard
     public $_complete = false;
 
     // internal array to store the various steps
-    public $_steps = array();
+    public $_steps = [];
 
     // the current step
     public $_currentStep = null;
@@ -39,7 +39,7 @@ class ZervWizard
     public $_containerPrefix = '__wiz_';
 
     // an array of any errors that have occurred
-    public $_errors = array();
+    public $_errors = [];
 
     // key in container where step status is stored
     public $_step_status_key = '__step_complete';
@@ -48,7 +48,7 @@ class ZervWizard
     public $_step_expected_key = '__expected_action';
 
     // options to use for the wizard
-    public $options = array('redirectAfterPost' => true);
+    public $options = ['redirectAfterPost' => true];
 
     // action that resets the container
     public $resetAction = '__reset';
@@ -71,13 +71,13 @@ class ZervWizard
 
         $containerKey = $this->_containerPrefix . $name;
         if (!array_key_exists($containerKey, $container)) {
-            $container[$containerKey] = array();
+            $container[$containerKey] = [];
         }
 
         $this->container =& $container[$containerKey];
 
         if (!array_key_exists('_errors', $this->container)) {
-            $this->container['_errors'] = array();
+            $this->container['_errors'] = [];
         }
         $this->_errors =& $this->container['_errors'];
     }
@@ -108,13 +108,13 @@ class ZervWizard
             $this->setCurrentStep($this->getFirstIncompleteStep());
         } elseif (isset($form['previous']) && !$this->isFirstStep()) {
             // clear out errors
-            $this->_errors = array();
+            $this->_errors = [];
 
             $this->setCurrentStep($this->getPreviousStep($action));
             $this->doRedirect();
         } elseif (isset($form['addvalue']) && !$this->isFirstStep()) {
             // clear out errors
-            $this->_errors = array();
+            $this->_errors = [];
 
             // processing callback must exist and validate to proceed
             $callback = 'process' . $action;
@@ -141,7 +141,7 @@ class ZervWizard
             if ($proceed) {
                 if ($process) {
                     // clear out errors
-                    $this->_errors = array();
+                    $this->_errors = [];
 
                     // processing callback must exist and validate to proceed
                     $callback = 'process' . $action;
@@ -452,10 +452,10 @@ class ZervWizard
             return;
         }
 
-        $this->_steps[$stepname] = array('title' => $title);
+        $this->_steps[$stepname] = ['title' => $title];
 
         if (!array_key_exists($this->_step_status_key, $this->container)) {
-            $this->container[$this->_step_status_key] = array();
+            $this->container[$this->_step_status_key] = [];
         }
 
         if (!array_key_exists($stepname, $this->container[$this->_step_status_key])) {

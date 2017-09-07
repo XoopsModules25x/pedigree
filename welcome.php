@@ -45,11 +45,11 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), array(
+$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), [
     '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
     '[animalType]'  => '[b]' . $pedigree->getConfig('animalType') . '[/b]',
     '[animalTypes]' => $pedigree->getConfig('animalTypes')
-)));
+]));
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);
 $GLOBALS['xoopsTpl']->assign('word', $word);

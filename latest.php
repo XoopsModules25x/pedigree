@@ -110,13 +110,13 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     $parents = $dad . ' x ' . $mom;
     //create array for animals
-    $animals[] = array(
+    $animals[] = [
         'id'      => $row['d_id'],
         'name'    => stripslashes($row['d_naam']) . $camera,
         'gender'  => $gender,
         'parents' => $parents,
         'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>'
-    );
+    ];
     //reset rights ready for the next dog
     $editdel = '0';
 }
@@ -134,7 +134,7 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
+$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
 $xoopsTpl->assign('nummatch', $nummatchstr);
 if (isset($pages)) {

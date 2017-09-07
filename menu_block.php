@@ -79,7 +79,7 @@ function menu_block()
         } else {
             $title = _MA_PEDIGREE_WELCOME;
         }
-        $menuarray[] = array('title' => $title, 'link' => 'welcome.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'welcome.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
@@ -90,7 +90,7 @@ function menu_block()
     } else {
         $title = '_MA_PEDIGREE_VIEWSEARCH ' . $moduleConfig['animalTypes'];
     }
-    $menuarray[] = array('title' => $title, 'link' => 'result.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'result.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
@@ -100,7 +100,7 @@ function menu_block()
     } else {
         $title = 'PED_ADD_A ' . $moduleConfig['animalType'];
     }
-    $menuarray[] = array('title' => $title, 'link' => 'add_dog.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'add_dog.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
@@ -111,7 +111,7 @@ function menu_block()
         } else {
             $title = '_MA_PEDIGREE_ADD_LITTER ' . $moduleConfig['litter'];
         }
-        $menuarray[] = array('title' => $title, 'link' => 'add_litter.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'add_litter.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
@@ -123,7 +123,7 @@ function menu_block()
         } else {
             $title = '_MA_PEDIGREE_VIEW_OWNBREED';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'breeder.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'breeder.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
@@ -133,7 +133,7 @@ function menu_block()
         } else {
             $title = '_MA_PEDIGREE_ADD_OWNBREED';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'add_breeder.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'add_breeder.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
@@ -144,7 +144,7 @@ function menu_block()
     } else {
         $title = '_MA_PEDIGREE_ADVANCE_INFO';
     }
-    $menuarray[] = array('title' => $title, 'link' => 'advanced.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'advanced.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
@@ -155,7 +155,7 @@ function menu_block()
         } else {
             $title = '_MA_PEDIGREE_VIRUTALTIT';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'virtual.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'virtual.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
@@ -166,7 +166,7 @@ function menu_block()
     } else {
         $title = '_MA_PEDIGREE_LATEST_ADD';
     }
-    $menuarray[] = array('title' => $title, 'link' => 'latest.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'latest.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
@@ -177,14 +177,14 @@ function menu_block()
         } else {
             $title = '_MA_PEDIGREE_WEB_TOOLS';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'tools.php?op=index', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'tools.php?op=index', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
 
         $title       = _MA_PEDIGREE_USER_LOGOUT;
-        $menuarray[] = array('title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
@@ -195,7 +195,7 @@ function menu_block()
         } else {
             $title = _MA_PEDIGREE_USER_LOGIN;
         }
-        $menuarray[] = array('title' => $title, 'link' => '../../user.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => '../../user.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;

@@ -315,12 +315,12 @@ function pedigree_main($ID)
     $GLOBALS['xoopsTpl']->assign('female', '<img src="assets/images/female.gif">');
     //assign extra display options
     $GLOBALS['xoopsTpl']->assign('unknown', 'Unknown');
-    $GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, array('[animalType]' => $moduleConfig['animalType'])));
-    $GLOBALS['xoopsTpl']->assign('f3', strtr(_MA_PEDIGREE_MPED_F3, array('[animalType]' => $moduleConfig['animalType'])));
-    $GLOBALS['xoopsTpl']->assign('f4', strtr(_MA_PEDIGREE_MPED_F4, array('[animalType]' => $moduleConfig['animalType'])));
-    $GLOBALS['xoopsTpl']->assign('m2', strtr(_MA_PEDIGREE_MPED_M2, array('[animalType]' => $moduleConfig['animalType'])));
-    $GLOBALS['xoopsTpl']->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, array('[animalType]' => $moduleConfig['animalType'])));
-    $GLOBALS['xoopsTpl']->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, array('[animalType]' => $moduleConfig['animalType'])));
+    $GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, ['[animalType]' => $moduleConfig['animalType']]));
+    $GLOBALS['xoopsTpl']->assign('f3', strtr(_MA_PEDIGREE_MPED_F3, ['[animalType]' => $moduleConfig['animalType']]));
+    $GLOBALS['xoopsTpl']->assign('f4', strtr(_MA_PEDIGREE_MPED_F4, ['[animalType]' => $moduleConfig['animalType']]));
+    $GLOBALS['xoopsTpl']->assign('m2', strtr(_MA_PEDIGREE_MPED_M2, ['[animalType]' => $moduleConfig['animalType']]));
+    $GLOBALS['xoopsTpl']->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, ['[animalType]' => $moduleConfig['animalType']]));
+    $GLOBALS['xoopsTpl']->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, ['[animalType]' => $moduleConfig['animalType']]));
 }
 
 /**
@@ -362,7 +362,7 @@ function crcolour($sex, $item)
 function count_item(&$freq, $item, $inc = 1)
 {
     if (!is_array($freq)) {
-        $freq = array();
+        $freq = [];
     }
     $freq[$item] = (isset($freq[$item]) ? ($freq[$item] += $inc) : $inc);
 

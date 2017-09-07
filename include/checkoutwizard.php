@@ -91,12 +91,12 @@ class CheckoutWizard extends ZervWizard
      */
     public function prepareFieldtype()
     {
-        $this->fieldtype[] = array('value' => 'radiobutton', 'description' => _MA_PEDIGREE_RADIOBUTTONFIELD);
-        $this->fieldtype[] = array('value' => 'selectbox', 'description' => _MA_PEDIGREE_DROPDOWNFIELD);
-        $this->fieldtype[] = array('value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD);
-        $this->fieldtype[] = array('value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD);
-        $this->fieldtype[] = array('value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD);
-        $this->fieldtype[] = array('value' => 'urlfield', 'description' => _MA_PEDIGREE_URLFIELD);
+        $this->fieldtype[] = ['value' => 'radiobutton', 'description' => _MA_PEDIGREE_RADIOBUTTONFIELD];
+        $this->fieldtype[] = ['value' => 'selectbox', 'description' => _MA_PEDIGREE_DROPDOWNFIELD];
+        $this->fieldtype[] = ['value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD];
+        $this->fieldtype[] = ['value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD];
+        $this->fieldtype[] = ['value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD];
+        $this->fieldtype[] = ['value' => 'urlfield', 'description' => _MA_PEDIGREE_URLFIELD];
     }
 
     /**
@@ -134,10 +134,10 @@ class CheckoutWizard extends ZervWizard
         }
 
         for ($i = 0; $i < $fc; ++$i) {
-            $radioarray[] = array(
+            $radioarray[] = [
                 'id'    => $this->getValue('id' . ($i + 1)),
                 'value' => $this->getValue('lookup' . ($i + 1))
-            );
+            ];
         }
         //print_r($radioarray); die();
         $this->setValue('radioarray', $radioarray);
@@ -272,7 +272,7 @@ class CheckoutWizard extends ZervWizard
                     $fc     = 0;
                     $result = $GLOBALS['xoopsDB']->query($sql);
                     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                        $radioarray[] = array('id' => $row['id'], 'value' => $row['value']);
+                        $radioarray[] = ['id' => $row['id'], 'value' => $row['value']];
                         ++$fc;
                     }
                     $this->setValue('radioarray', $radioarray);
@@ -409,7 +409,7 @@ class CheckoutWizard extends ZervWizard
             }
             //add userfield to various tables as a new field.
             //always add at the end of the table
-            $tables = array('pedigree_tree', 'pedigree_temp', 'pedigree_trash');
+            $tables = ['pedigree_tree', 'pedigree_temp', 'pedigree_trash'];
             foreach ($tables as $table) {
                 $SQL = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($table) . ' ADD `user' . $nextfieldnum . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
                 $GLOBALS['xoopsDB']->queryF($SQL);

@@ -17,7 +17,7 @@
  * @author          XOOPS Module Dev Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class PedigreeFields
@@ -74,7 +74,7 @@ class PedigreeFields extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDNAME, 'fieldName', 50, 255, $this->getVar('FieldName')), true);
         $form->addElement(new XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE, 'isActive', (int)$this->getVar('isActive')), false);
         $fieldTypes = new XoopsFormSelect(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, 'fieldType', $this->getVar('FieldType'), false);
-        $fieldTypes->addOptionArray(array(
+        $fieldTypes->addOptionArray([
                                         'DateSelect'  => 'DateSelect',
                                         'Picture'     => 'Picture',
                                         'radiobutton' => 'radiobutton',
@@ -82,7 +82,7 @@ class PedigreeFields extends XoopsObject
                                         'textarea'    => 'textarea',
                                         'textbox'     => 'textbox',
                                         'urlfield'    => 'urlfield'
-                                    ));
+                                    ]);
         $form->addElement($fieldTypes);
         //        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, "FieldType", $this->getVar("FieldType"), 4, 47), false);
         $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE, 'lookupTable', 50, 255, $this->getVar('LookupTable')), false);
@@ -92,10 +92,10 @@ class PedigreeFields extends XoopsObject
         /* @todo: should be single select for either General Litter or Litter, can't have both */
         $currentType = $this->getVar('litter') ? 'litter' : 'generallitter';
         $litterRadio = new XoopsFormRadio(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER_TYPE, 'litterType', $currentType);
-        $litterRadio->addOptionArray(array(
+        $litterRadio->addOptionArray([
                                          'litter'        => _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
                                          'generallitter' => _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER
-                                     ));
+                                     ]);
         $form->addElement($litterRadio, false);
         //        $form->addElement(new XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER, "Litter", $this->getVar("Litter")), false);
         //        $form->addElement(new XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER, "Generallitter", $this->getVar("Generallitter")), false);
@@ -292,11 +292,11 @@ class PedigreeFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function lookupField($fieldnumber)
     {
-        $ret    = array();
+        $ret    = [];
         $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = array('id' => $row['id'], 'value' => $row['value']);
+            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
         }
 
         //array_multisort($ret,SORT_ASC);

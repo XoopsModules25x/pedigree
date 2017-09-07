@@ -24,7 +24,7 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class PedigreeBreadcrumb
@@ -32,7 +32,7 @@ defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 class PedigreeBreadcrumb
 {
     public $dirname;
-    private $bread = array();
+    private $bread = [];
 
     /**
      *
@@ -50,10 +50,10 @@ class PedigreeBreadcrumb
      */
     public function addLink($title = '', $link = '')
     {
-        $this->bread[] = array(
+        $this->bread[] = [
             'link'  => $link,
             'title' => $title
-        );
+        ];
     }
 
     /**

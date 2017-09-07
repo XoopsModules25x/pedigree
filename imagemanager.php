@@ -31,7 +31,7 @@ if (isset($HTTP_POST_VARS)) {
     }
 }
 if (!$xoopsUser) {
-    $group = array(XOOPS_GROUP_ANONYMOUS);
+    $group = [XOOPS_GROUP_ANONYMOUS];
 } else {
     $group = $xoopsUser->getGroups();
 }
@@ -56,7 +56,7 @@ if ($op === 'list') {
         if ($catshow > 0) {
             $xoopsTpl->assign('lang_addimage', _ADDIMAGE);
         }
-        $catlist     = array('0' => '--') + $catlist;
+        $catlist     = ['0' => '--'] + $catlist;
         $cat_options = '';
         foreach ($catlist as $c_id => $c_name) {
             $sel = '';
@@ -102,7 +102,7 @@ if ($op === 'list') {
                         $rcode = '[img align=right]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
                         $src   = XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name');
                     }
-                    $xoopsTpl->append('images', array(
+                    $xoopsTpl->append('images', [
                         'id'       => $images[$i]->getVar('image_id'),
                         'nicename' => $images[$i]->getVar('image_nicename'),
                         'mimetype' => $images[$i]->getVar('image_mimetype'),
@@ -110,7 +110,7 @@ if ($op === 'list') {
                         'lxcode'   => $lcode,
                         'xcode'    => $code,
                         'rxcode'   => $rcode
-                    ));
+                    ]);
                 }
                 if ($total > 10) {
                     require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
@@ -206,7 +206,7 @@ if ($op === 'doupload') {
         xoops_footer();
         exit();
     }
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH, array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'), $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH, ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
     if ($uploader->fetchMedia($HTTP_POST_VARS['xoops_upload_file'][0])) {
         if (!$uploader->upload()) {

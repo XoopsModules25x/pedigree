@@ -44,7 +44,7 @@ if (!$com) {
 }
 */
 
-$dogs         = array(); // an empty array
+$dogs         = []; // an empty array
 $numofcolumns = 0;
 $pages        = '';
 
@@ -128,10 +128,10 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     $name = stripslashes($row['p_NAAM']) . $camera;
     for ($i = 1; $i < $numofcolumns; ++$i) {
-        $columnvalue[] = array('value' => $coi);
-        $columnvalue[] = array('value' => $row['X']);
+        $columnvalue[] = ['value' => $coi];
+        $columnvalue[] = ['value' => $row['X']];
     }
-    $dogs[] = array(
+    $dogs[] = [
         'id'          => $row[$com],
         'name'        => $name,
         'gender'      => $gender,
@@ -139,12 +139,12 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $columnvalue
-    );
+    ];
     unset($columnvalue);
 }
-$columns[] = array('columnname' => 'Name', 'columnnumber' => 1);
-$columns[] = array('columnname' => 'COI%', 'columnnumber' => 2);
-$columns[] = array('columnname' => 'Offspring', 'columnnumber' => 3);
+$columns[] = ['columnname' => 'Name', 'columnnumber' => 1];
+$columns[] = ['columnname' => 'COI%', 'columnnumber' => 2];
+$columns[] = ['columnname' => 'Offspring', 'columnnumber' => 3];
 
 //add data to smarty template
 //assign dog
@@ -161,7 +161,7 @@ if (($st + $perPage) > $numResults) {
 //create string
 $matches     = _MA_PEDIGREE_MATCHES;
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
-$GLOBALS['xoopsTpl']->assign('nummatch', strtr($nummatchstr, array('[animalTypes]' => $moduleConfig['animalTypes'])));
+$GLOBALS['xoopsTpl']->assign('nummatch', strtr($nummatchstr, ['[animalTypes]' => $moduleConfig['animalTypes']]));
 $GLOBALS['xoopsTpl']->assign('pages', $pages);
 
 //comments and footer

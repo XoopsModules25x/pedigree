@@ -57,7 +57,7 @@ class Animal
     {
         global $xoopsDB;
         $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' ORDER BY `order`';
-        $fields = array();
+        $fields = [];
         $result = $GLOBALS['xoopsDB']->query($SQL);
         $count  = 0;
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -265,12 +265,12 @@ class Field
      */
     public function lookupField($fieldnumber)
     {
-        $ret = array();
+        $ret = [];
         global $xoopsDB;
         $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = array('id' => $row['id'], 'value' => $row['value']);
+            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
         }
 
         //array_multisort($ret,SORT_ASC);
@@ -902,7 +902,7 @@ class SISContext
      */
     public function __construct()
     {
-        $this->contexts = array();
+        $this->contexts = [];
         $this->depth    = 0;
     }
 

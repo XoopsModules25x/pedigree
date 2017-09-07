@@ -34,7 +34,7 @@ if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 } else {
     $moduleHelper = Xmf\Module\Helper::getHelper('system');
 }
-$adminObject = \Xmf\Module\Admin::getInstance();
+
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 //$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
@@ -56,43 +56,43 @@ $moduleHelper->loadLanguage('modinfo');
 // $adminmenu[1]['link'] = "admin/colors.php";
 // $adminmenu[1]['title'] = "Create colours";
 
-$adminmenu = array();
+$adminmenu = [];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU1,
     'link'  => 'admin/index.php',
     'icon'  => $pathIcon32 . '/home.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU2,
     'link'  => 'admin/pedigree_trash.php',
     'icon'  => $pathIcon32 . '/alert.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU3,
     'link'  => 'admin/owner.php',
     'icon'  => $pathIcon32 . '/user-icon.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU4,
     'link'  => 'admin/pedigree_temp.php',
     'icon'  => $pathIcon32 . '/wizard.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU5,
     'link'  => 'admin/pedigree.php',
     'icon'  => $pathIcon32 . '/groupmod.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
     'link'  => 'admin/pedigree_config.php',
     'icon'  => $pathIcon32 . '/administration.png'
-);
+];
 
 /*
 $adminmenu[] = array(
@@ -102,8 +102,8 @@ $adminmenu[] = array(
 );
 */
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU8,
     'link'  => 'admin/about.php',
     'icon'  => $pathIcon32 . '/about.png'
-);
+];

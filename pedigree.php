@@ -90,7 +90,7 @@ function pedigree_main()
     $fields      = $animal->getNumOfFields();
     $fieldsCount = count($fields);
 
-    $qarray = array('d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm');
+    $qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
 
     $querystring = 'SELECT ';
 
@@ -126,14 +126,14 @@ function pedigree_main()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create array for animal (and all parents)
         foreach ($qarray as $key) {
-            $d[$key] = array(
+            $d[$key] = [
                 'id'     => $row[$key . '_id'],
                 'name'   => stripslashes($row[$key . '_naam']),
                 'mother' => $row[$key . '_mother'],
                 'father' => $row[$key . '_father'],
                 'roft'   => $row[$key . '_roft'],
                 'nhsb'   => ''
-            );
+            ];
             if ((3 != strlen($key) || (0 != $moduleConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
                 //show image in last row of pedigree if image exists
                 $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
@@ -162,7 +162,7 @@ function pedigree_main()
     }
 
     //add data to smarty template
-    $GLOBALS['xoopsTpl']->assign(array(
+    $GLOBALS['xoopsTpl']->assign([
                                      'page_title' => stripslashes($row['d_naam']),
                                      'd'          => $d,  //assign dog
                                      //assign config options
@@ -174,7 +174,7 @@ function pedigree_main()
                                      'PA'         => _MA_PEDIGREE_PA,
                                      'GP'         => _MA_PEDIGREE_GP,
                                      'GGP'        => _MA_PEDIGREE_GGP
-                                 ));
+                                 ]);
 
     //    include __DIR__ . '/footer.php';
 }

@@ -102,50 +102,50 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
 
     //lastname
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_LNAME,
         'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naaml . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
 
     //firstname
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_FNAME,
         'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naamf . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
 
     //email
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
         'data'   => '<a href="mailto:' . $email . '">' . $email . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
     //homepage
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
         'data'   => '<a href="' . $homepage . '" target="_blank">' . $homepage . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
     //owner of
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_OWN,
         'data'   => $owner,
         'edit'   => ''
-    );
+    ];
     //breeder of
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_BRE,
         'data'   => $breeder,
         'edit'   => ''
-    );
+    ];
 
     //database user
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_FLD_DBUS,
         'data'   => $dbuser,
         'edit'   => ''
-    );
+    ];
 }
 
 //add data to smarty template

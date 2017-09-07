@@ -98,7 +98,7 @@ $animal = new PedigreeAnimal();
 $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
 $numofcolumns = 1;
-$columns[]    = array('columnname' => 'Name');
+$columns[]    = ['columnname' => 'Name'];
 for ($i = 0; $i < $fieldsCount; ++$i) {
     $userField = new Field($fields[$i], $animal->getConfig());
     $fieldType = $userField->getSetting('FieldType');
@@ -112,42 +112,42 @@ for ($i = 0; $i < $fieldsCount; ++$i) {
         } else {
             $lookupValues = '';
         }
-        $columns[] = array(
+        $columns[] = [
             'columnname'   => $fieldObj->fieldname,
             'columnnumber' => $userField->getId(),
             'lookupval'    => $lookupValues
-        );
+        ];
         ++$numofcolumns;
         unset($lookupValues);
     }
 }
 
-$empty = array_fill(0, $numofcolumns, array('value' => ''));
+$empty = array_fill(0, $numofcolumns, ['value' => '']);
 /*
 for ($i = 1; $i < $numofcolumns; ++$i) {
     $empty[] = array('value' => "");
 }
 */
 if (0 == $gend) {
-    $dogs [] = array(
+    $dogs [] = [
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
+        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, ['[father]' => $moduleConfig['father']]) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
-    );
+    ];
 } else {
-    $dogs [] = array(
+    $dogs [] = [
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
+        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, ['[mother]' => $moduleConfig['mother']]) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
-    );
+    ];
 }
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -173,44 +173,44 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         } else {
             $value = $row[$x];
         }
-        $columnvalue[] = array('value' => $value);
+        $columnvalue[] = ['value' => $value];
     }
     if (0 == $gend) {
-        $dogs[] = array(
+        $dogs[] = [
             'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/male.gif">',
             'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => isset($columnvalue) ?: array()
-        );
+            'usercolumns' => isset($columnvalue) ?: []
+        ];
     } else {
-        $dogs[] = array(
+        $dogs[] = [
             'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/female.gif">',
             'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => isset($columnvalue) ?: array()
-        );
+            'usercolumns' => isset($columnvalue) ?: []
+        ];
     }
 }
 
 //add data to smarty template
 //assign dog
-$GLOBALS['xoopsTpl']->assign(array(
+$GLOBALS['xoopsTpl']->assign([
                                  'dogs'         => $dogs,
                                  'columns'      => $columns,
                                  'numofcolumns' => $numofcolumns,
                                  'tsarray'      => PedigreeUtility::sortTable($numofcolumns)
-                             ));
+                             ]);
 //add data to smarty template
 if (0 == $gend) {
-    $selTtlParent = strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father']));
+    $selTtlParent = strtr(_MA_PEDIGREE_FLD_FATH, ['[father]' => $moduleConfig['father']]);
 } else {
-    $selTtlParent = strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother']));
+    $selTtlParent = strtr(_MA_PEDIGREE_FLD_MOTH, ['[mother]' => $moduleConfig['mother']]);
 }
 $seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . PedigreeUtility::getName($curval);
 
@@ -221,13 +221,13 @@ $lastshown = (($st + $perPage) > $numResults) ? $numResults : $st + $perPage;
 
 //create string
 /* @todo: move hard coded language string to language files */
-$matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
+$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = "{$numResults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numPages} pages)";
-$GLOBALS['xoopsTpl']->assign(array(
+$GLOBALS['xoopsTpl']->assign([
                                  'nummatch' => $nummatchstr,
                                  'pages'    => $pages,
                                  'curval'   => $curval
-                             ));
+                             ]);
 
 //mb ========= MOTHER LETTERS===============================
 $myObject = PedigreePedigree::getInstance();

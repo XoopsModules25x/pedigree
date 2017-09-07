@@ -138,7 +138,7 @@ function virt()
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
-    $columns[]    = array('columnname' => 'Name');
+    $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $userField   = new Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
@@ -151,11 +151,11 @@ function virt()
                 //debug information
                 //print_r($lookupValues);
             }
-            $columns[] = array(
+            $columns[] = [
                 'columnname'   => $fieldObject->fieldname,
                 'columnnumber' => $userField->getId(),
                 'lookupval'    => $lookupValues
-            );
+            ];
             ++$numofcolumns;
             unset($lookupValues);
         }
@@ -190,10 +190,10 @@ function virt()
             } else {
                 $value = $row['user' . $x];
             }
-            $columnvalue[] = array('value' => $value);
+            $columnvalue[] = ['value' => $value];
             unset($value);
         }
-        $dogs[] = array(
+        $dogs[] = [
             'id'          => $row['d_id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/male.gif">',
@@ -201,7 +201,7 @@ function virt()
             'colour'      => '',
             'number'      => '',
             'usercolumns' => isset($columnvalue) ? $columnvalue : 0
-        );
+        ];
     }
 
     //add data to smarty template
@@ -212,16 +212,16 @@ function virt()
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
     $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
-    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, array('[father]' => $pedigree->getConfig('father'))));
+    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, ['[father]' => $pedigree->getConfig('father')]));
     $xoopsTpl->assign('pages', $pages);
 
-    $xoopsTpl->assign('virtualtitle', strtr(_MA_PEDIGREE_VIRUTALTIT, array('[mother]' => $pedigree->getConfig('mother'))));
-    $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, array(
+    $xoopsTpl->assign('virtualtitle', strtr(_MA_PEDIGREE_VIRUTALTIT, ['[mother]' => $pedigree->getConfig('mother')]));
+    $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, [
         '[mother]'   => $pedigree->getConfig('mother'),
         '[father]'   => $pedigree->getConfig('father'),
         '[children]' => $pedigree->getConfig('children')
-    )));
-    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_SIRE, array('[father]' => $pedigree->getConfig('father'))) . '</b>');
+    ]));
+    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_SIRE, ['[father]' => $pedigree->getConfig('father')]) . '</b>');
     //    break;
 
     //mb =========== FATHER LETTERS =============================
@@ -378,7 +378,7 @@ function dam()
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
-    $columns[]    = array('columnname' => 'Name');
+    $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $userField   = new Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
@@ -391,11 +391,11 @@ function dam()
                 //debug information
                 //print_r($lookupValues);
             }
-            $columns[] = array(
+            $columns[] = [
                 'columnname'   => $fieldObject->fieldname,
                 'columnnumber' => $userField->getId(),
                 'lookupval'    => $lookupValues
-            );
+            ];
             ++$numofcolumns;
             unset($lookupValues);
         }
@@ -430,10 +430,10 @@ function dam()
             } else {
                 $value = $row['user' . $x];
             }
-            $columnvalue[] = array('value' => $value);
+            $columnvalue[] = ['value' => $value];
             unset($value);
         }
-        $dogs[] = array(
+        $dogs[] = [
             'id'          => $row['d_id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/female.gif">',
@@ -441,7 +441,7 @@ function dam()
             'colour'      => '',
             'number'      => '',
             'usercolumns' => isset($columnvalue) ? $columnvalue : 0
-        );
+        ];
     }
 
     //add data to smarty template
@@ -450,16 +450,16 @@ function dam()
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
     $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
-    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, array('[mother]' => $pedigree->getConfig('mother'))));
+    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, ['[mother]' => $pedigree->getConfig('mother')]));
     $xoopsTpl->assign('pages', $pages);
 
     $xoopsTpl->assign('virtualtitle', _MA_PEDIGREE_VIRUTALTIT);
-    $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, array(
+    $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, [
         '[mother]'   => $pedigree->getConfig('mother'),
         '[father]'   => $pedigree->getConfig('father'),
         '[children]' => $pedigree->getConfig('children')
-    )));
-    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_DAM, array('[mother]' => $pedigree->getConfig('mother'))) . '</b>');
+    ]));
+    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_DAM, ['[mother]' => $pedigree->getConfig('mother')]) . '</b>');
 
     //find father
     $query  = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $selsire;
@@ -467,7 +467,7 @@ function dam()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $vsire = stripslashes($row['naam']);
     }
-    $xoopsTpl->assign('virtualsiretitle', strtr(_MA_PEDIGREE_VIRTUALSTIT, array('[father]' => $moduleConfig['father'])));
+    $xoopsTpl->assign('virtualsiretitle', strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $moduleConfig['father']]));
     $xoopsTpl->assign('virtualsire', $vsire);
 
     //mb ========= MOTHER LETTERS===============================
@@ -513,18 +513,18 @@ function check()
     */
 
     $xoopsTpl->assign('virtualtitle', _MA_PEDIGREE_VIRUTALTIT);
-    $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, array(
+    $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, [
         '[mother]'   => $pedigree->getConfig('mother'),
         '[father]'   => $pedigree->getConfig('father'),
         '[children]' => $pedigree->getConfig('children')
-    )));
+    ]));
     //find father
     $query  = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $selsire;
     $result = $GLOBALS['xoopsDB']->query($query);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $vsire = stripslashes($row['naam']);
     }
-    $xoopsTpl->assign('virtualsiretitle', strtr(_MA_PEDIGREE_VIRTUALSTIT, array('[father]' => $pedigree->getConfig('father'))));
+    $xoopsTpl->assign('virtualsiretitle', strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $pedigree->getConfig('father')]));
     $xoopsTpl->assign('virtualsire', $vsire);
     //find mother
     $query  = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $seldam;
@@ -532,7 +532,7 @@ function check()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $vdam = stripslashes($row['naam']);
     }
-    $xoopsTpl->assign('virtualdamtitle', strtr(_MA_PEDIGREE_VIRTUALDTIT, array('[mother]' => $pedigree->getConfig('mother'))));
+    $xoopsTpl->assign('virtualdamtitle', strtr(_MA_PEDIGREE_VIRTUALDTIT, ['[mother]' => $pedigree->getConfig('mother')]));
     $xoopsTpl->assign('virtualdam', $vdam);
 
     $xoopsTpl->assign('form', '<a href="coi.php?s=' . $selsire . '&d=' . $seldam . '&dogid=&detail=1">' . _MA_PEDIGREE_VIRTUALBUT . '</a>');

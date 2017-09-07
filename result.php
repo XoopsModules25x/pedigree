@@ -107,7 +107,7 @@ list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
 if (0 == $numResults) {
     //just for debug information
     //echo $numDog;
-    redirect_header('index.php', 15, strtr(_MA_PEDIGREE_SEARCH_NO, array('[animalTypes]' => $moduleConfig['animalTypes'])));
+    redirect_header('index.php', 15, strtr(_MA_PEDIGREE_SEARCH_NO, ['[animalTypes]' => $moduleConfig['animalTypes']]));
 }
 //total number of pages
 $numPages = floor($numResults / $perPage) + 1;
@@ -165,7 +165,7 @@ $animal = new PedigreeAnimal();
 $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
 $numofcolumns = 1;
-$columns      = array(array('columnname' => 'Name'));
+$columns      = [['columnname' => 'Name']];
 for ($i = 0; $i < $fieldsCount; ++$i) {
     $userField   = new Field($fields[$i], $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
@@ -178,11 +178,11 @@ for ($i = 0; $i < $fieldsCount; ++$i) {
             $lookupValues = '';
         }
         /* print_r($lookupValues);            //debug information */
-        $columns[] = array(
+        $columns[] = [
             'columnname'   => $fieldObject->fieldname,
             'columnnumber' => $userField->getId(),
             'lookupval'    => $lookupValues
-        );
+        ];
         ++$numofcolumns;
         unset($lookupValues);
     }
@@ -234,11 +234,11 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $value = $row[$x];
         }
         if (isset($value)) {
-            $columnvalue[] = array('value' => $value);
+            $columnvalue[] = ['value' => $value];
             unset($value);
         }
     }
-    $animals[] = array(
+    $animals[] = [
         'id'          => $row['id'],
         'name'        => $name,
         'gender'      => $gender,
@@ -246,17 +246,17 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'colour'      => '',
         'number'      => '',
         'usercolumns' => isset($columnvalue) ? $columnvalue : 0
-    );
+    ];
 }
 
 //add data to smarty template
 //assign dog
-$GLOBALS['xoopsTpl']->assign(array(
+$GLOBALS['xoopsTpl']->assign([
                                  'dogs'         => $animals,
                                  'columns'      => $columns,
                                  'numofcolumns' => $numofcolumns,
                                  'tsarray'      => PedigreeUtility::sortTable($numofcolumns)
-                             ));
+                             ]);
 //assign links
 
 //find last shown number
@@ -266,7 +266,7 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
+$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = "{$numResults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numPages} pages)";
 $GLOBALS['xoopsTpl']->assign('nummatch', $nummatchstr);
 $GLOBALS['xoopsTpl']->assign('pages', $pages);

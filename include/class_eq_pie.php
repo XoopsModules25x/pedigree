@@ -25,7 +25,7 @@ class eq_pie
      */
     public function getColor($number)
     {
-        $color = array(
+        $color = [
             '#ff0000',
             '#00ff00',
             '#0000ff',
@@ -44,7 +44,7 @@ class eq_pie
             '#330000',
             '#003300',
             '#000033'
-        );
+        ];
 
         return $color[$number];
     }

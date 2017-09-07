@@ -159,7 +159,7 @@ if ($fld === 'br' || $fld === 'all') {
 //gender
 if ($fld === 'sx' || $fld === 'all') {
     $gender_radio = new XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft', $value = null);
-    $gender_radio->addOptionArray(array('0' => _MA_PEDIGREE_FLD_MALE, '1' => _MA_PEDIGREE_FLD_FEMA));
+    $gender_radio->addOptionArray(['0' => _MA_PEDIGREE_FLD_MALE, '1' => _MA_PEDIGREE_FLD_FEMA]);
     $form->addElement($gender_radio);
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_GEND_EX));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_tree'));
@@ -174,7 +174,7 @@ if ($fld === 'pc' || $fld === 'all') {
     $img_box = new XoopsFormFile('Image', 'photo', 1024000);
     $img_box->setExtra("size ='50'");
     $form->addElement($img_box);
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_PICT_EX, array('[animalType]' => $moduleConfig['animalType']))));
+    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_PICT_EX, ['[animalType]' => $moduleConfig['animalType']])));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_tree'));
     $form->addElement(new XoopsFormHidden('dbfield', 'foto'));
     $form->addElement(new XoopsFormHidden('curvalpic', $foto));

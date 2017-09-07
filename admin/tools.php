@@ -92,23 +92,23 @@ switch ($op) {
 
 //create tools array
 //@todo move language strings to language files
-$tools[] = array('title' => 'General settings', 'link' => 'tools.php?op=settings', 'main' => '1');
+$tools[] = ['title' => 'General settings', 'link' => 'tools.php?op=settings', 'main' => '1'];
 if ('1' == $pedigree->getConfig('proversion')) {
-    $tools[] = array('title' => 'Pro-version settings', 'link' => 'tools.php?op=pro', 'main' => '1');
+    $tools[] = ['title' => 'Pro-version settings', 'link' => 'tools.php?op=pro', 'main' => '1'];
 }
-$tools[] = array('title' => 'Language options', 'link' => 'tools.php?op=lang', 'main' => '1');
-$tools[] = array('title' => 'Create user fields', 'link' => 'tools.php?op=userfields', 'main' => '1');
-$tools[] = array('title' => 'Create colours', 'link' => 'tools.php?op=colours', 'main' => '1');
-$tools[] = array('title' => "Deleted pedigree's", 'link' => 'tools.php?op=deleted', 'main' => '1');
-$tools[] = array('title' => 'Database tools', 'link' => 'tools.php?op=database', 'main' => '1');
+$tools[] = ['title' => 'Language options', 'link' => 'tools.php?op=lang', 'main' => '1'];
+$tools[] = ['title' => 'Create user fields', 'link' => 'tools.php?op=userfields', 'main' => '1'];
+$tools[] = ['title' => 'Create colours', 'link' => 'tools.php?op=colours', 'main' => '1'];
+$tools[] = ['title' => "Deleted pedigree's", 'link' => 'tools.php?op=deleted', 'main' => '1'];
+$tools[] = ['title' => 'Database tools', 'link' => 'tools.php?op=database', 'main' => '1'];
 if (isset($db)) {
     //create database submenu
-    $tools[] = array('title' => 'Own ancestors', 'link' => 'tools.php?op=dbanc', 'main' => '0');
-    $tools[] = array('title' => 'Incorrect gender', 'link' => 'tools.php?op=fltypar', 'main' => '0');
-    $tools[] = array('title' => 'User Queries', 'link' => 'tools.php?op=userq', 'main' => '0');
+    $tools[] = ['title' => 'Own ancestors', 'link' => 'tools.php?op=dbanc', 'main' => '0'];
+    $tools[] = ['title' => 'Incorrect gender', 'link' => 'tools.php?op=fltypar', 'main' => '0'];
+    $tools[] = ['title' => 'User Queries', 'link' => 'tools.php?op=userq', 'main' => '0'];
 }
-$tools[] = array('title' => 'Credits', 'link' => 'tools.php?op=credits', 'main' => '1');
-$tools[] = array('title' => 'Logout', 'link' => '../../user.php?op=logout', 'main' => '1');
+$tools[] = ['title' => 'Credits', 'link' => 'tools.php?op=credits', 'main' => '1'];
+$tools[] = ['title' => 'Logout', 'link' => '../../user.php?op=logout', 'main' => '1'];
 //add data (form) to smarty template
 
 $xoopsTpl->assign('tools', $tools);
@@ -335,7 +335,7 @@ function settings()
     $form = new XoopsThemeForm('General settings', 'settings', 'tools.php?op=settingssave', 'POST', 1);
     $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $select  = new XoopsFormSelect('<b>Number of results per page</b>', 'perpage', $value = $moduleConfig['perpage'], $size = 1, $multiple = false);
-    $options = array(
+    $options = [
         '50'    => 50,
         '100'   => 100,
         '250'   => 250,
@@ -344,20 +344,24 @@ function settings()
         '2000'  => 2000,
         '5000'  => 5000,
         '10000' => 10000
-    );
+    ];
     foreach ($options as $key => $values) {
         $select->addOption($key, $name = $values);
     }
     unset($options);
     $form->addElement($select);
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN,
-                                         'This field is used to set the number of results a page will return from a search. If more results are returned extra pages will be created for easy browsing.<br>Set this number higher as your database grows and the number of pages increase.'));
+    $form->addElement(new XoopsFormLabel(
+        _MA_PEDIGREE_EXPLAIN,
+                                         'This field is used to set the number of results a page will return from a search. If more results are returned extra pages will be created for easy browsing.<br>Set this number higher as your database grows and the number of pages increase.'
+    ));
     $radio = new XoopsFormRadio('<b>Use owner/breeder fields</b>', 'ownerbreeder', $value = $moduleConfig['ownerbreeder']);
     $radio->addOption(1, $name = 'yes');
     $radio->addOption(0, $name = 'no');
     $form->addElement($radio);
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN,
-                                         'Use this field to set if you would like to use the owner/breeder fields of the database.<br>As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.<br>The owner/breeder menu items will also be affected by this setting.'));
+    $form->addElement(new XoopsFormLabel(
+        _MA_PEDIGREE_EXPLAIN,
+                                         'Use this field to set if you would like to use the owner/breeder fields of the database.<br>As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.<br>The owner/breeder menu items will also be affected by this setting.'
+    ));
     $radiobr = new XoopsFormRadio('<b>Show brother & sister field</b>', 'brothers', $value = $moduleConfig['brothers']);
     $radiobr->addOption(1, $name = 'yes');
     $radiobr->addOption(0, $name = 'no');
@@ -386,7 +390,7 @@ function settingssave()
 {
     global $xoopsTpl;
     $form     = '';
-    $settings = array('perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups');
+    $settings = ['perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups'];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
             //          $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";
@@ -451,7 +455,7 @@ function langsave()
 {
     global $xoopsTpl;
     $form     = '';
-    $settings = array(
+    $settings = [
         'animalType',
         'animalTypes',
         'male',
@@ -461,7 +465,7 @@ function langsave()
         'father',
         'litter',
         'welcome'
-    );
+    ];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
             //          $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";

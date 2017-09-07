@@ -1,8 +1,8 @@
 /* Magnific Popup CSS */
 .image-link {
-  cursor: -webkit-zoom-in;
-  cursor: -moz-zoom-in;
-  cursor: zoom-in;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
+    cursor: zoom-in;
 }
 
 .mfp-bg {

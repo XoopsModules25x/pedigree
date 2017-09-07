@@ -61,13 +61,13 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $fieldObject = new $fieldType($userField, $animal);
         $function    = 'user' . $fields[$i] . $fieldObject->getSearchString();
         //echo $function."<br>";
-        $usersearch[] = array(
+        $usersearch[] = [
             'title'       => $userField->getSetting('SearchName'),
             'searchid'    => 'user' . $fields[$i],
             'function'    => $function,
             'explanation' => $userField->getSetting('SearchExplanation'),
             'searchfield' => $fieldObject->searchfield()
-        );
+        ];
     }
 }
 
@@ -87,13 +87,13 @@ $xoopsTpl->assign('catarray', $catarray);
 $xoopsTpl->assign('pageTitle', _MA_PEDIGREE_BROWSETOTOPIC);
 
 //add data to smarty template
-$GLOBALS['xoopsTpl']->assign(array(
-                                 'sselect'    => strtr(_MA_PEDIGREE_SELECT, array('[animalType]' => $moduleConfig['animalType'])),
+$GLOBALS['xoopsTpl']->assign([
+                                 'sselect'    => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $moduleConfig['animalType']]),
                                  'explain'    => _MA_PEDIGREE_EXPLAIN,
                                  'sname'      => _MA_PEDIGREE_SEARCHNAME,
-                                 'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, array('[animalTypes]' => $moduleConfig['animalTypes'])),
+                                 'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $moduleConfig['animalTypes']]),
                                  'usersearch' => isset($usersearch) ? $usersearch : ''
-                             ));
+                             ]);
 $GLOBALS['xoopsTpl']->assign('showwelcome', $moduleConfig['showwelcome']);
 //$GLOBALS['xoopsTpl']->assign('welcome', $GLOBALS['myts']->displayTarea($moduleConfig['welcome']));
 //$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $pedigree->getConfig('animalType'), '[animalTypes]' => $pedigree->getConfig('animalTypes'))));

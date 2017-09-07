@@ -720,12 +720,12 @@ var jscolor = {
                     case 0:
                         if (THIS.hsv[2] === 0) {
                             THIS.fromHSV(null, null, 1.0);
-                        }                        
+                        }
                         break;
                     case 1:
                         if (THIS.hsv[1] === 0) {
                             THIS.fromHSV(null, 1.0, null);
-                        }                        
+                        }
                         break;
                 }
                 holdSld = false;

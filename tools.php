@@ -175,25 +175,25 @@ switch ($op) {
 }
 
 //create tools array
-$tools[] = array('title' => _MA_PEDIGREE_GENSTTINGS, 'link' => 'tools.php?op=settings', 'main' => '1');
+$tools[] = ['title' => _MA_PEDIGREE_GENSTTINGS, 'link' => 'tools.php?op=settings', 'main' => '1'];
 //if ($moduleConfig['proversion'] == '1')
 //{
 //  $tools[] = array ( 'title' => "Pro-version settings", 'link' => "tools.php?op=pro", 'main' => "1" );
 //}
-$tools[] = array('title' => _MA_PEDIGREE_LANG_OPTIONS, 'link' => 'tools.php?op=lang', 'main' => '1');
-$tools[] = array('title' => _MA_PEDIGREE_CREATE_USER_FIELD, 'link' => 'tools.php?op=userfields', 'main' => '1');
-$tools[] = array('title' => _MA_PEDIGREE_LIST_USER_FIELD, 'link' => 'tools.php?op=listuserfields', 'main' => '1');
-$tools[] = array('title' => _MA_PEDIGREE_DEFINE_COLOR, 'link' => 'tools.php?op=colours', 'main' => '1');
-$tools[] = array('title' => _MA_PEDIGREE_DELETE_PED, 'link' => 'tools.php?op=deleted', 'main' => '1');
-$tools[] = array('title' => _MA_PEDIGREE_DAT_TOOLS, 'link' => 'tools.php?op=database', 'main' => '1');
+$tools[] = ['title' => _MA_PEDIGREE_LANG_OPTIONS, 'link' => 'tools.php?op=lang', 'main' => '1'];
+$tools[] = ['title' => _MA_PEDIGREE_CREATE_USER_FIELD, 'link' => 'tools.php?op=userfields', 'main' => '1'];
+$tools[] = ['title' => _MA_PEDIGREE_LIST_USER_FIELD, 'link' => 'tools.php?op=listuserfields', 'main' => '1'];
+$tools[] = ['title' => _MA_PEDIGREE_DEFINE_COLOR, 'link' => 'tools.php?op=colours', 'main' => '1'];
+$tools[] = ['title' => _MA_PEDIGREE_DELETE_PED, 'link' => 'tools.php?op=deleted', 'main' => '1'];
+$tools[] = ['title' => _MA_PEDIGREE_DAT_TOOLS, 'link' => 'tools.php?op=database', 'main' => '1'];
 if (isset($db)) {
     //create database submenu
-    $tools[] = array('title' => _MA_PEDIGREE_ANCESTORS, 'link' => 'tools.php?op=dbanc', 'main' => '0');
-    $tools[] = array('title' => _MA_PEDIGREE_NOGENDER, 'link' => 'tools.php?op=fltypar', 'main' => '0');
-    $tools[] = array('title' => _MA_PEDIGREE_USERQUERIES, 'link' => 'tools.php?op=userq', 'main' => '0');
+    $tools[] = ['title' => _MA_PEDIGREE_ANCESTORS, 'link' => 'tools.php?op=dbanc', 'main' => '0'];
+    $tools[] = ['title' => _MA_PEDIGREE_NOGENDER, 'link' => 'tools.php?op=fltypar', 'main' => '0'];
+    $tools[] = ['title' => _MA_PEDIGREE_USERQUERIES, 'link' => 'tools.php?op=userq', 'main' => '0'];
 }
-$tools[] = array('title' => _MA_PEDIGREE_CREDITS, 'link' => 'tools.php?op=credits', 'main' => '1');
-$tools[] = array('title' => _MA_PEDIGREE_USER_LOGOUT, 'link' => '../../user.php?op=logout', 'main' => '1');
+$tools[] = ['title' => _MA_PEDIGREE_CREDITS, 'link' => 'tools.php?op=credits', 'main' => '1'];
+$tools[] = ['title' => _MA_PEDIGREE_USER_LOGOUT, 'link' => '../../user.php?op=logout', 'main' => '1'];
 //add data (form) to smarty template
 
 $GLOBALS['xoopsTpl']->assign('tools', $tools);
@@ -613,7 +613,7 @@ function lookupmove($field, $id, $move)
     $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $values[] = array('id' => $row['id'], 'content' => $row['value'], 'orderof' => $row['order']);
+        $values[] = ['id' => $row['id'], 'content' => $row['value'], 'orderof' => $row['order']];
     }
     $arraycount    = 0;
     $arraylocation = 0;
@@ -811,7 +811,7 @@ function userfields($field = 0)
             if ($wizard->getStepName() === 'Settings') {
                 $fieldtype = $wizard->getValue('fieldtype');
                 //hassearch
-                if (in_array($fieldtype, array('textbox', 'textarea', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'))) {
+                if (in_array($fieldtype, ['textbox', 'textarea', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'])) {
                     $form .= "<input type='checkbox' name='hassearch' value='hassearch'";
                     if ('hassearch' === $wizard->getValue('hassearch')) {
                         $form .= ' checked =_MA_PEDIGREE_CHECKED ';
@@ -847,7 +847,7 @@ function userfields($field = 0)
                     $form .= "<input type='checkbox' name='viewinpie' disabled='true' value='viewinpie'>" . _MA_PEDIGREE_SHOWFIELD_PIECHART . '<br>';
                 }
                 //viewinlist
-                if (in_array($fieldtype, array('textbox', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'))) {
+                if (in_array($fieldtype, ['textbox', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'])) {
                     $form .= "<input type='checkbox' name='viewinlist' value='viewinlist'";
                     if ('viewinlist' === $wizard->getValue('viewinlist')) {
                         $form .= ' checked =_MA_PEDIGREE_CHECKED ';
@@ -932,10 +932,10 @@ function userfields($field = 0)
                     || $wizard->getValue('fieldtype') === 'radiobutton') {
                     $count = $wizard->getValue('fc');
                     for ($x = 1; $x < $count + 1; ++$x) {
-                        $radioarray[] = array(
+                        $radioarray[] = [
                             'id'    => $wizard->getValue('id' . $x),
                             'value' => $wizard->getValue('lookup' . $x)
-                        );
+                        ];
                     }
                     $val  = $wizard->getValue('defaultvalue');
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('lookup' . $val) . '</b><br>';
@@ -994,7 +994,7 @@ function credits()
                 . round($pedigree->getModule()->getVar('version') / 100, 2)
                 . ' '
                 . $pedigree->getModule()->getVar('module_status')
-                . '<br><br>Technical support :<br><li><a href="http://www.xoops.org">www.xoops.org</a><hr>';
+                . '<br><br>Technical support :<br><li><a href="https://xoops.org">www.xoops.org</a><hr>';
 
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
@@ -1176,7 +1176,7 @@ function settings()
     $form = new XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', 'tools.php?op=settingssave', 'POST', 1);
     $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $select  = new XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $pedigree->getConfig('perpage'), $size = 1, $multiple = false);
-    $options = array(
+    $options = [
         '50'    => 50,
         '100'   => 100,
         '250'   => 250,
@@ -1185,7 +1185,7 @@ function settings()
         '2000'  => 2000,
         '5000'  => 5000,
         '10000' => 10000
-    );
+    ];
     foreach ($options as $key => $values) {
         $select->addOption($key, $name = $values);
     }
@@ -1233,7 +1233,7 @@ function settings()
  */
 function settingssave()
 {
-    $settings = array('perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups', 'showwelcome');
+    $settings = ['perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups', 'showwelcome'];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
             //            $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value = '" . $values . "' WHERE conf_name = '" . $key . "'";
@@ -1281,7 +1281,7 @@ function lang()
 function langsave()
 {
     $form     = '';
-    $settings = array(
+    $settings = [
         'animalType',
         'animalTypes',
         'male',
@@ -1291,7 +1291,7 @@ function langsave()
         'father',
         'litter',
         'welcome'
-    );
+    ];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
             $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value = '{$values}' WHERE conf_name = '{$key}'";

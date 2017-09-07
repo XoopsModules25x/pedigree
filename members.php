@@ -45,12 +45,12 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         }
     }
 
-    $members[] = array(
+    $members[] = [
         'position' => $numpos,
         'user'     => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>',
         'stars'    => $content,
         'nument'   => '<a href="result.php?f=user&l=0&w=' . $row['d_user'] . '&o=naam">' . $row['X'] . '</a>'
-    );
+    ];
     ++$numpos;
 }
 $GLOBALS['xoopsTpl']->assign('members', $members);

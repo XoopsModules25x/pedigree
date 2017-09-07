@@ -34,11 +34,11 @@ if (!defined('PEDIGREE_DIRNAME')) {
 define('PEDIGREE_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
 define('PEDIGREE_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
 
-$uploadFolders = array(
+$uploadFolders = [
     PEDIGREE_UPLOAD_PATH,
     PEDIGREE_UPLOAD_PATH . '/images',
     PEDIGREE_UPLOAD_PATH . '/images/thumbnails'
-);
+];
 
 // module information
 $mod_copyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>

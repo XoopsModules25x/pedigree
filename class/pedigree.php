@@ -18,7 +18,7 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class PedigreePedigree
@@ -30,7 +30,7 @@ class PedigreePedigree
     public $handler;
     public $config;
     public $debug;
-    public $debugArray = array();
+    public $debugArray = [];
 
     /**
      * @param $debug

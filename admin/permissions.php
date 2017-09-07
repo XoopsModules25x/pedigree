@@ -34,7 +34,7 @@ $permissions_admin = \Xmf\Module\Admin::getInstance();
 echo $permissions_admin->displayNavigation(basename(__FILE__));
 
 $permission                = Request::getInt('permission', 1, 'POST');
-$selected                  = array('', '', '');
+$selected                  = ['', '', ''];
 $selected[$permission - 1] = ' selected';
 
 echo '
