@@ -109,7 +109,7 @@ function edit($id = 0)
         //father
         $sql       = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id='" . $row['father'] . "'";
         $resfather = $GLOBALS['xoopsDB']->query($sql);
-        $numfields = mysqli_num_rows($resfather);
+        $numfields = $GLOBALS['xoopsDB']->getRowsNum($resfather);
         if (!$numfields == '0') {
             while (false !== ($rowfetch = $GLOBALS['xoopsDB']->fetchArray($resfather))) {
                 $form->addElement(new XoopsFormLabel('<b>' . strtr(_MA_PEDIGREE_FLD_FATH, ['[father]' => $moduleConfig['father']]) . '</b>', '<img src="assets/images/male.gif"><a href="seldog.php?curval=' . $row['id'] . '&gend=0&letter=a">' . $rowfetch['naam'] . '</a>'));
@@ -120,7 +120,7 @@ function edit($id = 0)
         //mother
         $sql       = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id='" . $row['mother'] . "'";
         $resmother = $GLOBALS['xoopsDB']->query($sql);
-        $numfields = mysqli_num_rows($resmother);
+        $numfields = $GLOBALS['xoopsDB']->getRowsNum($resmother);
         if (!$numfields == '0') {
             while (false !== ($rowfetch = $GLOBALS['xoopsDB']->fetchArray($resmother))) {
                 $form->addElement(new XoopsFormLabel('<b>' . strtr(_MA_PEDIGREE_FLD_MOTH, ['[mother]' => $moduleConfig['mother']]) . '</b>', '<img src="assets/images/female.gif"><a href="seldog.php?curval=' . $row['id'] . '&gend=1&letter=a">' . $rowfetch['naam'] . '</a>'));

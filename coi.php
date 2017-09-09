@@ -155,10 +155,10 @@ function chrono_sort()
 function fetch_record($s)
 {
     global $database;
-    $r = mysqli_db_query($database, $s);
+    $r = $GLOBALS['xoopsDB']->queryF($database, $s);
     $n = 0;
     if ($r) {
-        $n = mysqli_num_rows($r);
+        $n = $GLOBALS['xoopsDB']->getRowsNum($r);
     }
     if ($n == 0) {
         $record = ['0'];
