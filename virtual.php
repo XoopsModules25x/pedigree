@@ -27,9 +27,9 @@ $f = Request::getString('f', '', 'GET');
 
 if (empty($f)) {
     virt();
-} elseif ($f === 'dam') {
+} elseif ('dam' === $f) {
     dam();
-} elseif ($f === 'check') {
+} elseif ('check' === $f) {
     check();
 }
 
@@ -103,7 +103,7 @@ function virt()
     $xLimit = $numPages + 1;
     for ($x = 1; $x < $xLimit; ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -163,7 +163,7 @@ function virt()
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
-        if ($row['foto'] != '') {
+        if ('' != $row['foto']) {
             $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
         } else {
             $camera = '';
@@ -343,7 +343,7 @@ function dam()
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -403,7 +403,7 @@ function dam()
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
-        if ($row['foto'] != '') {
+        if ('' != $row['foto']) {
             $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
         } else {
             $camera = '';

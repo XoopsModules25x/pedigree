@@ -31,7 +31,7 @@ function pedigree_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $sql .= ') ';
     } // end if
-    if ($userid != 0) {
+    if (0 != $userid) {
         $sql .= ' WHERE user=' . $userid . ' ';
     }
     $sql .= 'ORDER BY naam ASC';

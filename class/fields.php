@@ -60,7 +60,7 @@ class PedigreeFields extends XoopsObject
      */
     public function getForm($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 

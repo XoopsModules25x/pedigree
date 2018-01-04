@@ -19,7 +19,7 @@ class CheckoutWizard extends ZervWizard
         parent::__construct($_SESSION, __CLASS__);
 
         $this->addStep('fieldname', _MA_PEDIGREE_ENTER_FIELD);
-        if ($this->getValue('field') == 0) { //only for a new field
+        if (0 == $this->getValue('field')) { //only for a new field
             $this->addStep('fieldtype', _MA_PEDIGREE_FIELD_TYP_SEL);
             if (('selectbox' === $this->getValue('fieldtype')) || ('radiobutton' === $this->getValue('fieldtype'))) {
                 $this->addStep('lookup', _MA_PEDIGREE_FIELD_ADD_VALUE);
@@ -129,7 +129,7 @@ class CheckoutWizard extends ZervWizard
             $this->setValue('id' . $fc, $lookupid);
         }
         $lastlookup = $this->getValue('lookup' . $fc);
-        if ($lastlookup == '') {
+        if ('' == $lastlookup) {
             $this->setValue('fc', $fc - 1);
         }
 
@@ -267,7 +267,7 @@ class CheckoutWizard extends ZervWizard
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $def = $row['DefaultValue'];
                 $this->setValue('defaultvalue', $def);
-                if ($row['LookupTable'] == '1') { //we have a lookup table; load values
+                if ('1' == $row['LookupTable']) { //we have a lookup table; load values
                     $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $this->getValue('field')) . " ORDER BY 'order'";
                     $fc     = 0;
                     $result = $GLOBALS['xoopsDB']->query($sql);
@@ -315,7 +315,7 @@ class CheckoutWizard extends ZervWizard
 
         //can this field be searched
         $search = $this->getValue('hassearch');
-        if ($search === 'hassearch') {
+        if ('hassearch' === $search) {
             $search        = '1';
             $searchname    = $this->getValue('searchname');
             $searchexplain = $this->getValue('searchexplain');
@@ -326,28 +326,28 @@ class CheckoutWizard extends ZervWizard
         }
         //show in pedigree
         $viewinpedigree = $this->getValue('viewinpedigree');
-        if ($viewinpedigree === 'viewinpedigree') {
+        if ('viewinpedigree' === $viewinpedigree) {
             $viewinpedigree = '1';
         } else {
             $viewinpedigree = '0';
         }
         //show in advanced
         $viewinadvanced = $this->getValue('viewinadvanced');
-        if ($viewinadvanced === 'viewinadvanced') {
+        if ('viewinadvanced' === $viewinadvanced) {
             $viewinadvanced = '1';
         } else {
             $viewinadvanced = '0';
         }
         //show in pie
         $viewinpie = $this->getValue('viewinpie');
-        if ($viewinpie === 'viewinpie') {
+        if ('viewinpie' === $viewinpie) {
             $viewinpie = '1';
         } else {
             $viewinpie = '0';
         }
         //view in list
         $viewinlist = $this->getValue('viewinlist');
-        if ($viewinlist === 'viewinlist') {
+        if ('viewinlist' === $viewinlist) {
             $viewinlist = '1';
         } else {
             $viewinlist = '0';

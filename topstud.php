@@ -69,7 +69,7 @@ if ($numPages > 1) {
 //create numbers
 for ($x = 1; $x < ($numPages + 1); ++$x) {
     //create line break after 20 number
-    if (($x % 20) == 0) {
+    if (0 == ($x % 20)) {
         $pages .= '<br>';
     }
     if ($x != $currentPage) {
@@ -107,13 +107,13 @@ $result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $numofcolumns = 2;
-    if ($com === 'father') {
+    if ('father' === $com) {
         $gender = '<img src="assets/images/male.gif">';
     } else {
         $gender = '<img src="assets/images/female.gif">';
     }
     //read coi% information if exists or create link if not
-    if ($row['p_coi'] == '' || $row['p_coi'] == '0') {
+    if ('' == $row['p_coi'] || '0' == $row['p_coi']) {
         $coi = '<a href="coi.php?s=' . $row['p_father'] . '&d=' . $row['p_mother'] . '&dogid=' . $row[$com] . '&detail=1">' . _MA_PEDIGREE_UNKNOWN . '</a>';
     } else {
         $coi = $row['p_coi'] . ' %';
@@ -121,7 +121,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //number of pups
     $dob = $row['X'];
     //create array for dogs
-    if ($row['p_foto'] != '') {
+    if ('' != $row['p_foto']) {
         $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
     } else {
         $camera = '';

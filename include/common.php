@@ -43,12 +43,12 @@ require_once PEDIGREE_ROOT_PATH . '/class/breadcrumb.php'; // PedigreeBreadcrumb
 require_once PEDIGREE_ROOT_PATH . '/class/tree.php'; // PedigreeTree class
 //require_once PEDIGREE_ROOT_PATH . '/class/xoopstree.php'; // PedigreeXoopsTree class
 //require_once PEDIGREE_ROOT_PATH . '/class/formelementchoose.php'; // PedigreeFormElementChoose class
-require_once PEDIGREE_ROOT_PATH . '/class/utility.php'; // PedigreeUtility class
+require_once PEDIGREE_ROOT_PATH . '/class/Utility.php'; // PedigreeUtility class
 require_once PEDIGREE_ROOT_PATH . '/class/animal.php'; // PedigreeAnimal class
 
 xoops_load('XoopsUserUtility');
 // MyTextSanitizer object
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $debug    = false;
 $pedigree = PedigreePedigree::getInstance($debug); //get module helper class

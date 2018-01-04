@@ -100,7 +100,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             <td>';
     $male   = '<img src="assets/images/male.gif">';
     $female = '<img src="assets/images/female.gif">';
-    if ($row['d_roft'] == 0) {
+    if (0 == $row['d_roft']) {
         $gender = $male;
     } else {
         $gender = $female;

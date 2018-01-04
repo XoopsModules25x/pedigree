@@ -151,7 +151,7 @@ class Image_Color
      */
     public function getRange($degrees = 2)
     {
-        if ($degrees == 0) {
+        if (0 == $degrees) {
             $degrees = 1;
         }
 
@@ -402,7 +402,7 @@ class Image_Color
     {
         $s /= 256.0;
         $v /= 256.0;
-        if ($s == 0.0) {
+        if (0.0 == $s) {
             $r = $g = $b = $v;
 
             return '';
@@ -498,7 +498,7 @@ class Image_Color
     {
         $c = [];
 
-        if ($color{0} === '#') {
+        if ('#' === $color{0}) {
             $c = Image_Color::hex2rgb($color);
         } else {
             $c = Image_Color::namedColor2RGB($color);

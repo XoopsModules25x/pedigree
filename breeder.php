@@ -42,7 +42,7 @@ if (isset($_GET['l'])) {
     $l = 'a';
 }
 $w = $l . '%';
-if ($l == 1) {
+if (1 == $l) {
     $l = 'LIKE';
 }
 if (!isset($o)) {
@@ -123,7 +123,7 @@ if ($numPages > 1) {
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -149,7 +149,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //check for access
     $access = '';
     if (!empty($xoopsUser)) {
-        if ($row['user'] == $xoopsUser->getVar('uid') || $modadmin === true) {
+        if ($row['user'] == $xoopsUser->getVar('uid') || true === $modadmin) {
             //$access = "<a href=\"dog.php?id=".$row['id']."\"><img src=\"assets/images/edit.png\" alt="._EDIT."></a>";
             $access .= '<a href="deletebreeder.php?id=' . $row['id'] . "\"><img src='" . $pathIcon16 . "/delete.png' alt=" . _DELETE . '></a>';
         } else {
@@ -172,7 +172,7 @@ if (isset($dogs)) {
     $xoopsTpl->assign('dogs', $dogs);
 }
 //assign links
-if ($d === 'ASC') {
+if ('ASC' === $d) {
     $nl = '<a href="breeder.php?f=' . $f . '&o=lastname&d=DESC">' . _MA_PEDIGREE_OWN_NAME . '</a>';
     $cl = '<a href="breeder.php?f=' . $f . '&o=city&d=DESC">' . _MA_PEDIGREE_OWN_CITY . '</a>';
 } else {

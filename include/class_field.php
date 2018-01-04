@@ -36,7 +36,7 @@ class Animal
     public function __construct($animalnumber = 0)
     {
         global $xoopsDB;
-        if ($animalnumber == 0) {
+        if (0 == $animalnumber) {
             $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id = '1'";
         } else {
             $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id = ' . $animalnumber;
@@ -110,7 +110,7 @@ class Field
     public function isActive()
     {
         $active = $this->getSetting('isActive');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -124,7 +124,7 @@ class Field
     {
         $active = $this->getSetting('ViewInAdvanced');
         // return ('1' == $active) ? true : false;
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -137,7 +137,7 @@ class Field
     public function isLocked()
     {
         $active = $this->getSetting('locked');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -150,7 +150,7 @@ class Field
     public function hasSearch()
     {
         $active = $this->getSetting('HasSearch');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -163,7 +163,7 @@ class Field
     public function addLitter()
     {
         $active = $this->getSetting('Litter');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -176,7 +176,7 @@ class Field
     public function generalLitter()
     {
         $active = $this->getSetting('Generallitter');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -189,7 +189,7 @@ class Field
     public function hasLookup()
     {
         $active = $this->getSetting('LookupTable');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -210,7 +210,7 @@ class Field
     public function inPie()
     {
         $active = $this->getSetting('ViewInPie');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -223,7 +223,7 @@ class Field
     public function inPedigree()
     {
         $active = $this->getSetting('viewinpedigree');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -236,7 +236,7 @@ class Field
     public function inList()
     {
         $active = $this->getSetting('ViewInList');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -332,7 +332,7 @@ class RadioButton extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '0') {
+        if ('0' == $this->lookuptable) {
             new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -448,7 +448,7 @@ class SelectBox extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '0') {
+        if ('0' == $this->lookuptable) {
             new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -564,13 +564,13 @@ class TextBox extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '1') {
+        if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -621,13 +621,13 @@ class TextArea extends Field
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        if ($parentObject->LookupTable == '1') {
+        if ('1' == $parentObject->LookupTable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -678,13 +678,13 @@ class DataSelect extends Field
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        if ($parentObject->lookuptable == '1') {
+        if ('1' == $parentObject->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -737,13 +737,13 @@ class UrlField extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '1') {
+        if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -821,19 +821,19 @@ class Picture extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '1') {
+        if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInList == '1') {
+        if ('1' == $parentObject->ViewInList) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be included in listview');
         }
-        if ($parentObject->HasSearch == '1') {
+        if ('1' == $parentObject->HasSearch) {
             new SystemMessage('Search cannot be defined for userfield' . $this->fieldnumber);
         }
     }

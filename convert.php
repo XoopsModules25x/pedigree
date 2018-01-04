@@ -22,7 +22,7 @@ echo '<form method="post" action="convert.php">convert:<input type="text" name="
 echo 'to:<input type="text" name="naar">';
 echo '<input type="submit"></form>';
 
-if ($_POST['naar'] != '') {
+if ('' != $_POST['naar']) {
     $query = 'update ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " set user4 = '" . $_POST['naar'] . "' where user4 = '" . $_POST['van'] . "'";
     echo $query . '<br>';
     $GLOBALS['xoopsDB']->query($query);

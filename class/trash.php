@@ -53,7 +53,7 @@ class PedigreeTrash extends XoopsObject
     {
         global $xoopsModuleConfig;
 
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 

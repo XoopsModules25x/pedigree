@@ -61,9 +61,9 @@ switch ($op) {
             $class = 'odd';
 
             foreach (array_keys($owner_arr) as $i) {
-                if ($owner_arr[$i]->getVar('owner_pid') == 0) {
+                if (0 == $owner_arr[$i]->getVar('owner_pid')) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo '<td class="center">' . $owner_arr[$i]->getVar('firstname') . '</td>';
                     echo '<td class="center">' . $owner_arr[$i]->getVar('lastname') . '</td>';
                     echo '<td class="center">' . $owner_arr[$i]->getVar('postcode') . '</td>';
@@ -149,7 +149,7 @@ switch ($op) {
 
     case 'delete_owner':
         $obj = $pedigreeOwnerHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

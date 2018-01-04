@@ -331,19 +331,19 @@ function pedigree_main($ID)
  */
 function crcolour($sex, $item)
 {
-    if ($item == '1') {
+    if ('1' == $item) {
         $col = 'transparant';
-    } elseif ($item == '2' && $sex === 'f') {
+    } elseif ('2' == $item && 'f' === $sex) {
         $col = '#C8C8FF';
-    } elseif ($item == 3 && $sex === 'f') {
+    } elseif (3 == $item && 'f' === $sex) {
         $col = '#6464FF';
-    } elseif ($item == '4' && $sex === 'f') {
+    } elseif ('4' == $item && 'f' === $sex) {
         $col = '#0000FF';
-    } elseif ($item == '2' && $sex === 'm') {
+    } elseif ('2' == $item && 'm' === $sex) {
         $col = '#FFC8C8';
-    } elseif ($item == '3' && $sex === 'm') {
+    } elseif ('3' == $item && 'm' === $sex) {
         $col = '#FF6464';
-    } elseif ($item == '4' && $sex === 'm') {
+    } elseif ('4' == $item && 'm' === $sex) {
         $col = '#FF0000';
     } else {
         $col = 'transparant';

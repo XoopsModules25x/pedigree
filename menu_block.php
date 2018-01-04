@@ -73,8 +73,8 @@ function menu_block()
     $lastpos = my_strrpos($x, '/');
     $len     = strlen($x);
     $curpage = substr($x, $lastpos, $len);
-    if ($moduleConfig['showwelcome'] == '1') {
-        if ($curpage === '/welcome.php') {
+    if ('1' == $moduleConfig['showwelcome']) {
+        if ('/welcome.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_WELCOME . '</b>';
         } else {
             $title = _MA_PEDIGREE_WELCOME;
@@ -85,7 +85,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage == '/result.php') {
+    if ('/index.php' === $curpage || '/result.php' == $curpage) {
         $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $moduleConfig['animalTypes'] . '</b>';
     } else {
         $title = '_MA_PEDIGREE_VIEWSEARCH ' . $moduleConfig['animalTypes'];
@@ -95,7 +95,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($curpage === '/index.php') {
+    if ('/index.php' === $curpage) {
         $title = '<b>' . _MA_PEDIGREE_ADD_A . $moduleConfig['animalType'] . '</b>';
     } else {
         $title = 'PED_ADD_A ' . $moduleConfig['animalType'];
@@ -105,8 +105,8 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($moduleConfig['uselitter'] == '1') {
-        if ($curpage === '/index.php') {
+    if ('1' == $moduleConfig['uselitter']) {
+        if ('/index.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_ADD_LITTER . $moduleConfig['litter'] . '</b>';
         } else {
             $title = '_MA_PEDIGREE_ADD_LITTER ' . $moduleConfig['litter'];
@@ -117,8 +117,8 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($moduleConfig['ownerbreeder'] == '1') {
-        if ($curpage === '/index.php' || $curpage === '/owner.php') {
+    if ('1' == $moduleConfig['ownerbreeder']) {
+        if ('/index.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIEW_OWNBREED . '</b>';
         } else {
             $title = '_MA_PEDIGREE_VIEW_OWNBREED';
@@ -128,7 +128,7 @@ function menu_block()
         if ($counter == $menuwidth) {
             $counter = 1;
         }
-        if ($curpage === '/index.php' || $curpage === '/add_breeder.php') {
+        if ('/index.php' === $curpage || '/add_breeder.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_ADD_OWNBREED . '</b>';
         } else {
             $title = '_MA_PEDIGREE_ADD_OWNBREED';
@@ -139,7 +139,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage === '/advanced.php') {
+    if ('/index.php' === $curpage || '/advanced.php' === $curpage) {
         $title = '<b>' . _MA_PEDIGREE_ADVANCE_INFO . '</b>';
     } else {
         $title = '_MA_PEDIGREE_ADVANCE_INFO';
@@ -149,8 +149,8 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($moduleConfig['proversion'] == '1') {
-        if ($curpage === '/index.php' || $curpage === '/virtual.php') {
+    if ('1' == $moduleConfig['proversion']) {
+        if ('/index.php' === $curpage || '/virtual.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIRUTALTIT . '</b>';
         } else {
             $title = '_MA_PEDIGREE_VIRUTALTIT';
@@ -161,7 +161,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage === '/latest.php') {
+    if ('/index.php' === $curpage || '/latest.php' === $curpage) {
         $title = '<b>' . _MA_PEDIGREE_LATEST_ADD . '</b>';
     } else {
         $title = '_MA_PEDIGREE_LATEST_ADD';
@@ -172,7 +172,7 @@ function menu_block()
         $counter = 1;
     }
     if ($isAdmin) {
-        if ($curpage === '/index.php' || $curpage === '/tools.php') {
+        if ('/index.php' === $curpage || '/tools.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_WEB_TOOLS . '</b>';
         } else {
             $title = '_MA_PEDIGREE_WEB_TOOLS';
@@ -190,7 +190,7 @@ function menu_block()
             $counter = 1;
         }
     } else {
-        if ($curpage === '/user.php') {
+        if ('/user.php' === $curpage) {
             $title = '._MA_PEDIGREE_USER_LOGIN.';
         } else {
             $title = _MA_PEDIGREE_USER_LOGIN;

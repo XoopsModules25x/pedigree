@@ -56,14 +56,14 @@ if (isset($p)) {
 }
 
 if (isset($_GET['w'])) {
-    if ($_GET['w'] === 'zero' || $_GET['w'] === '' || $_GET['w'] === '0') {
+    if ('zero' === $_GET['w'] || '' === $_GET['w'] || '0' === $_GET['w']) {
         $w = '0';
     } else {
         $w = $_GET['w'];
     }
 }
 if (isset($_GET['l'])) {
-    if ($_GET['l'] == '1' || $_GET['l'] === 'LIKE') {
+    if ('1' == $_GET['l'] || 'LIKE' === $_GET['l']) {
         $l = 'LIKE';
     }
 } else {
@@ -120,7 +120,7 @@ $currentPage = floor($st / $perPage) + 1;
 $pages = '';
 
 $length = strlen($w);
-if (substr($w, $length - 1, $length) === '%') {
+if ('%' === substr($w, $length - 1, $length)) {
     $whe = substr($w, 0, $length - 1) . '%25';
     if (0 === strpos($whe, '%')) {
         $length = strlen($whe);
@@ -139,7 +139,7 @@ if ($numPages > 1) {
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -198,14 +198,14 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $gender = "<a href='dog.php?id={$row['id']}'><img src=" . $pathIcon16 . '/edit.png alt=' . _EDIT . "'></a>
               <a href='delete.php?id={$row['id']}'><img src=" . $pathIcon16 . '/delete.png alt=' . _DELETE . "'></a>";
     }
-    if ($row['roft'] == 0) {
+    if (0 == $row['roft']) {
         $gender .= "<img src='assets/images/male.gif'>";
     } else {
         $gender .= "<img src='assets/images/female.gif'>";
     }
 
     //    $camera = ('' != $row['foto']) ? " <img src='" . PEDIGREE_UPLOAD_URL . "/images/dog-icon25.png'>" : '';
-    if ($row['foto'] != '') {
+    if ('' != $row['foto']) {
         $camera = ' <img src="assets/images/camera.png">';
     } else {
         $camera = '';

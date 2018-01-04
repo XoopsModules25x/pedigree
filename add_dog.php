@@ -47,13 +47,13 @@ $f = Request::getString('f', '', 'GET');
 
 if (empty($f)) {
     addDog();
-} elseif ($f === 'checkName') {
+} elseif ('checkName' === $f) {
     checkName();
-} elseif ($f === 'sire') {
+} elseif ('sire' === $f) {
     sire();
-} elseif ($f === 'dam') {
+} elseif ('dam' === $f) {
     dam();
-} elseif ($f === 'check') {
+} elseif ('check' === $f) {
     check();
 }
 
@@ -72,7 +72,7 @@ function addDog()
     if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
-    if ($xoopsUser->getVar('uid') == 0) {
+    if (0 == $xoopsUser->getVar('uid')) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     //create form
@@ -156,7 +156,7 @@ function checkName()
                                           '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']])
                                       ]);
         $form->addElement($gender_radio);
-        if ($moduleConfig['ownerbreeder'] == '1') {
+        if ('1' == $moduleConfig['ownerbreeder']) {
             //breeder
             $breeder_select = new XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_BREE . '</b>', $name = 'id_breeder', $value = '0', $size = 1, $multiple = false);
             $queryfok       = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY lastname';
@@ -249,7 +249,7 @@ function sire()
     $id_breeder = isset($_POST['id_breeder']) ? $_POST['id_breeder'] : null;
 
     $pictureField = isset($_FILES['photo']) ? $_FILES['photo']['name'] : null; // $_FILES['photo']['name'];
-    if (empty($pictureField) || $pictureField == '') {
+    if (empty($pictureField) || '' == $pictureField) {
         $foto = '';
     } else {
         $foto = PedigreeUtility::uploadPicture(0);
@@ -258,7 +258,7 @@ function sire()
 
     //make the redirect
     if (!isset($_GET['r'])) {
-        if ($_POST['naam'] == '') {
+        if ('' == $_POST['naam']) {
             redirect_header('add_dog.php', 1, _MA_PEDIGREE_ADD_NAMEPLZ);
         }
         //create animal object
@@ -275,7 +275,7 @@ function sire()
                 //check if _FILES variable exists for user picturefield
                 $currentfield = 'user' . $fields[$i];
                 $pictureField = $_FILES[$currentfield]['name'];
-                if ($fieldType === 'Picture' && (!empty($pictureField) || $pictureField != '')) {
+                if ('Picture' === $fieldType && (!empty($pictureField) || '' != $pictureField)) {
                     $userpicture = PedigreeUtility::uploadPicture($numPictureField);
                     $usersql     .= ",'" . $userpicture . "'";
                     ++$numPictureField;
@@ -363,7 +363,7 @@ function sire()
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 numbers
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -425,7 +425,7 @@ function sire()
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
-        if ($row['foto'] != '') {
+        if ('' != $row['foto']) {
             $camera = ' <img src="assets/images/camera.png">';
         } else {
             $camera = '';
@@ -580,7 +580,7 @@ function dam()
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -642,7 +642,7 @@ function dam()
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
-        if ($row['foto'] != '') {
+        if ('' != $row['foto']) {
             $camera = ' <img src="assets/images/camera.png">';
         } else {
             $camera = '';

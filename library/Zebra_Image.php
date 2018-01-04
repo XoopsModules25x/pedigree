@@ -477,7 +477,7 @@ class Zebra_Image
         }
 
         // if image resource was successfully created
-        if ($result !== false) {
+        if (false !== $result) {
 
             // prepare the target image
             $target_identifier = $this->_prepare_image($end_x - $start_x, $end_y - $start_y, -1);
@@ -732,7 +732,7 @@ class Zebra_Image
             // if either width or height is to be adjusted automatically
             // set a flag telling the script that, even if $preserve_aspect_ratio is set to false
             // treat everything as if it was set to true
-            if ($width == 0 || $height == 0) {
+            if (0 == $width || 0 == $height) {
                 $auto_preserve_aspect_ratio = true;
             }
 
@@ -740,7 +740,7 @@ class Zebra_Image
             if ($this->preserve_aspect_ratio || isset($auto_preserve_aspect_ratio)) {
 
                 // if height is given and width is to be computed accordingly
-                if ($width == 0 && $height > 0) {
+                if (0 == $width && $height > 0) {
 
                     // get the original image's aspect ratio
                     $aspect_ratio = $this->source_width / $this->source_height;
@@ -752,7 +752,7 @@ class Zebra_Image
                     $target_width = round($height * $aspect_ratio);
 
                     // if width is given and height is to be computed accordingly
-                } elseif ($width > 0 && $height == 0) {
+                } elseif ($width > 0 && 0 == $height) {
 
                     // get the original image's aspect ratio
                     $aspect_ratio = $this->source_height / $this->source_width;
@@ -764,7 +764,7 @@ class Zebra_Image
                     $target_height = round($width * $aspect_ratio);
 
                     // if both width and height are given and ZEBRA_IMAGE_BOXED or ZEBRA_IMAGE_NOT_BOXED methods are to be used
-                } elseif ($width > 0 && $height > 0 && ($method == 0 || $method == 1)) {
+                } elseif ($width > 0 && $height > 0 && (0 == $method || 1 == $method)) {
 
                     // compute the horizontal and vertical aspect ratios
                     $vertical_aspect_ratio   = $height / $this->source_height;
@@ -1026,14 +1026,14 @@ class Zebra_Image
 
                     // prepare the target image
                     $target_identifier = $this->_prepare_image(($width > 0 && $height > 0
-                                                                && $method != ZEBRA_IMAGE_NOT_BOXED ? $width : $target_width), ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? $height : $target_height), $background_color);
+                                                                && ZEBRA_IMAGE_NOT_BOXED != $method ? $width : $target_width), ($width > 0 && $height > 0 && ZEBRA_IMAGE_NOT_BOXED != $method ? $height : $target_height), $background_color);
 
                     imagecopyresampled(
 
                         $target_identifier,
                         $this->source_identifier,
-                        ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? ($width - $target_width) / 2 : 0),
-                        ($width > 0 && $height > 0 && $method != ZEBRA_IMAGE_NOT_BOXED ? ($height - $target_height) / 2 : 0),
+                        ($width > 0 && $height > 0 && ZEBRA_IMAGE_NOT_BOXED != $method ? ($width - $target_width) / 2 : 0),
+                        ($width > 0 && $height > 0 && ZEBRA_IMAGE_NOT_BOXED != $method ? ($height - $target_height) / 2 : 0),
                         0,
                         0,
                         $target_width,
@@ -1108,7 +1108,7 @@ class Zebra_Image
         $arguments = func_get_args();
 
         // if a third argument exists
-        $use_existing_source = (isset($arguments[2]) && $arguments[2] === false);
+        $use_existing_source = (isset($arguments[2]) && false === $arguments[2]);
 
         // if we came here just to fix orientation or if image resource was successfully created
         if ($use_existing_source || $this->_create_from_source()) {
@@ -1117,7 +1117,7 @@ class Zebra_Image
             $angle = -$angle;
 
             // if source image is PNG
-            if ($this->source_type == IMAGETYPE_PNG && $background_color == -1) {
+            if (IMAGETYPE_PNG == $this->source_type && $background_color == -1) {
 
                 // rotate the image
                 // but if using -1 as background color didn't work (as is the case for PNG8)
@@ -1131,7 +1131,7 @@ class Zebra_Image
                 }
 
                 // if source image is a transparent GIF
-            } elseif ($this->source_type == IMAGETYPE_GIF && $this->source_transparent_color_index >= 0) {
+            } elseif (IMAGETYPE_GIF == $this->source_type && $this->source_transparent_color_index >= 0) {
 
                 // convert the background color to RGB values
                 $background_color = $this->_hex2rgb($background_color);
@@ -1479,7 +1479,7 @@ class Zebra_Image
 
         // if color is not formatted correctly
         // use the default color
-        if (preg_match('/^#?([a-f]|[0-9]){3}(([a-f]|[0-9]){3})?$/i', $color) == 0) {
+        if (0 == preg_match('/^#?([a-f]|[0-9]){3}(([a-f]|[0-9]){3})?$/i', $color)) {
             $color = $default_on_error;
         }
 
@@ -1487,7 +1487,7 @@ class Zebra_Image
         $color = ltrim($color, '#');
 
         // if color is given using the shorthand (i.e. "FFF" instead of "FFFFFF")
-        if (strlen($color) == 3) {
+        if (3 == strlen($color)) {
             $tmp = '';
 
             // take each value
@@ -1538,7 +1538,7 @@ class Zebra_Image
         $identifier = imagecreatetruecolor((int)$width <= 0 ? 1 : (int)$width, (int)$height <= 0 ? 1 : (int)$height);
 
         // if we are creating a PNG image
-        if ($this->target_type == 'png' && $background_color == -1) {
+        if ('png' == $this->target_type && $background_color == -1) {
 
             // disable blending
             imagealphablending($identifier, false);
@@ -1553,7 +1553,7 @@ class Zebra_Image
             imagesavealpha($identifier, true);
 
             // if source image is a transparent GIF
-        } elseif ($this->target_type == 'gif' && $background_color == -1
+        } elseif ('gif' == $this->target_type && $background_color == -1
                   && $this->source_transparent_color_index >= 0) {
 
             // allocate the source image's transparent color also to the new image resource
@@ -1735,7 +1735,7 @@ class Zebra_Image
         $disabled_functions = @ini_get('disable_functions');
 
         // if the 'chmod' function is not disabled via configuration
-        if ($disabled_functions == '' || strpos('chmod', $disabled_functions) === false) {
+        if ('' == $disabled_functions || false === strpos('chmod', $disabled_functions)) {
 
             // chmod the file
             chmod($this->target_path, intval($this->chmod_value, 8));

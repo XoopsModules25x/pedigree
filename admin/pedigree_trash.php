@@ -65,7 +65,7 @@ switch ($op) {
             foreach (array_keys($pedigree_trash_arr) as $i) {
                 if (0 == $pedigree_trash_arr[$i]->getVar('pedigree_trash_pid')) {
                     echo "<tr class='{$class}'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('naam') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('id_breeder') . '</td>';
@@ -149,7 +149,7 @@ switch ($op) {
 
     case 'delete_pedigree_trash':
         $obj = $pedigreeTrashHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

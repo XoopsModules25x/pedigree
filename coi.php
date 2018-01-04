@@ -55,10 +55,10 @@ if (!isset($max_dist)) { // maximum length of implex loops
     if ($nb_gen > 9) {
         $max_dist = 14;
     } else {
-        if ($nb_gen == 9) {
+        if (9 == $nb_gen) {
             $max_dist = 17;
         } else {
-            if ($nb_gen == 8) {
+            if (8 == $nb_gen) {
                 $max_dist = 18;
             } else {
                 $max_dist = 99;
@@ -127,7 +127,7 @@ function chrono_sort()
             }
         }
     }
-    if ($nloop == 40) {
+    if (40 == $nloop) {
         die('Endless loop detected. Stopped.');
     }
     array_multisort($chrono, $IDs, $fathers, $mothers);
@@ -160,7 +160,7 @@ function fetch_record($s)
     if ($r) {
         $n = $GLOBALS['xoopsDB']->getRowsNum($r);
     }
-    if ($n == 0) {
+    if (0 == $n) {
         $record = ['0'];
     } else {
         $record = $GLOBALS['xoopsDB']->fetchBoth($r);
@@ -236,7 +236,7 @@ function output_animal($ind, $gen, $class)
         return 0;
     }
     $cell_content = '&Oslash;';
-    if ($ind || $gen == 0) {
+    if ($ind || 0 == $gen) {
         $ID           = $IDs[$ind];
         $ani          = set_name($ID);
         $name         = $ani[1];
@@ -247,12 +247,12 @@ function output_animal($ind, $gen, $class)
     echo '<td rowspan=' . $rowspan . ' align="center" class="' . $class . '">' . $cell_content . "</td>$nl";
     if ($gen < $depth) {
         $sire = 0;
-        if ($ind || $gen == 0) {
+        if ($ind || 0 == $gen) {
             $sire = $fathers[$ind];
         }
         output_animal($sire, $gen + 1, '0');
         $dam = 0;
-        if ($ind || $gen == 0) {
+        if ($ind || 0 == $gen) {
             $dam = $mothers[$ind];
         }
         output_animal($dam, $gen + 1, '1');
@@ -560,7 +560,7 @@ function mater_side($p, $m, $a, $ndist)
 
     // [Note:  1 << $ndist is equal to 2 power $ndist]
     $COIs[$a] += $incr; // incrementing the IC of AnimC
-    if ($a == 0) {
+    if (0 == $a) {
         $deltaf[$p] += $incr;
         /* contribution of Anim #P to IC of Anim #0 */
         // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
@@ -799,7 +799,7 @@ function one_animal($ID)
     $queryResult = $GLOBALS['xoopsDB']->queryF($sqlQuery);
     $nb          = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
     $nb_children = $nb[0];
-    if ($nb_children == 0) {
+    if (0 == $nb_children) {
         $nb_children = _MA_PEDIGREE_COI_NO;
     }
     //$dogid = $animal[0];
@@ -808,10 +808,10 @@ function one_animal($ID)
     if ($val) {
         $content .= $val;
     }
-    if ($sex == 1) {
+    if (1 == $sex) {
         $geslacht = '<img src="assets/images/female.gif">';
     }
-    if ($sex == 0) {
+    if (0 == $sex) {
         $geslacht = '<img src="assets/images/male.gif">';
     }
     $content .= '</td><td>' . $geslacht . '</td><td>' . $nb_children . _MA_PEDIGREE_COI_OFF . '</td></tr>';

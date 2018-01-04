@@ -40,7 +40,7 @@ if (!empty($ownername)) {
                 $access = 1;
             }
         }
-        if ($access == '1') {
+        if ('1' == $access) {
             $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id =' . $row['id'];
             $GLOBALS['xoopsDB']->query($delsql);
             $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET id_owner = '0' where id_owner = " . $row['id'];

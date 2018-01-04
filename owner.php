@@ -76,7 +76,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //homepage
     $homepage = $row['website'];
     $check    = substr($homepage, 0, 7);
-    if ($check !== 'http://') {
+    if ('http://' !== $check) {
         $homepage = 'http://' . $homepage;
     }
 

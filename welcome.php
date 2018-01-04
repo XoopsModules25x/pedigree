@@ -29,7 +29,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 //$GLOBALS['xoopsOption']['template_main'] = 'pedigree_welcome.tpl';
 //include $GLOBALS['xoops']->path('/header.php');
 
-$myts = MyTextSanitizer::getInstance(); // MyTextSanitizer object
+$myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
 //query to count dogs
 $treeHandler = xoops_getModuleHandler('tree', $moduleDirName);

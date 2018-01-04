@@ -60,9 +60,9 @@ switch ($op) {
             $class = 'odd';
 
             foreach (array_keys($pedigree_arr) as $i) {
-                if ($pedigree_arr[$i]->getVar('pedigree_pid') == 0) {
+                if (0 == $pedigree_arr[$i]->getVar('pedigree_pid')) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('naam') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('id_owner') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('id_breeder') . '</td>';
@@ -145,7 +145,7 @@ switch ($op) {
 
     case 'delete_pedigree':
         $obj = $pedigreeTreeHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

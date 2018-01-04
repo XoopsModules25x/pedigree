@@ -26,7 +26,7 @@ global $xoopsTpl;
 global $xoopsDB;
 global $xoopsModuleConfig;
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $fld = Request::getWord('fld', '', 'GET');
 $id  = Request::getInt('id', 0, 'GET');
@@ -75,7 +75,7 @@ $form->addElement(new XoopsFormHidden('ownerid', $id));
 $form->addElement(new XoopsFormHidden('curname', $naam));
 $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 //name last
-if ($fld === 'nl' || $fld === 'all') {
+if ('nl' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_OWN_LNAME . '</b>', 'naaml', $size = 50, $maxsize = 255, $value = $naaml));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'lastname'));
@@ -84,7 +84,7 @@ if ($fld === 'nl' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_OWN_LNAME, $naaml));
 }
 //name first
-if ($fld === 'nf' || $fld === 'all') {
+if ('nf' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_OWN_FNAME . '</b>', 'naamf', $size = 50, $maxsize = 255, $value = $naamf));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'firstname'));
@@ -93,7 +93,7 @@ if ($fld === 'nf' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_OWN_FNAME, $naamf));
 }
 //street
-if ($fld === 'st' || $fld === 'all') {
+if ('st' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_STR . '</b>', 'street', $size = 50, $maxsize = 255, $value = $street));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'streetname'));
@@ -102,7 +102,7 @@ if ($fld === 'st' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_FLD_OWN_STR, $street));
 }
 //housenumber
-if ($fld === 'hn' || $fld === 'all') {
+if ('hn' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_HN . '</b>', 'housenumber', $size = 50, $maxsize = 255, $value = $housenumber));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'housenumber'));
@@ -111,7 +111,7 @@ if ($fld === 'hn' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_FLD_OWN_HN, $housenumber));
 }
 //postcode
-if ($fld === 'pc' || $fld === 'all') {
+if ('pc' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_PC . '</b>', 'postcode', $size = 50, $maxsize = 255, $value = $postcode));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'postcode'));
@@ -120,7 +120,7 @@ if ($fld === 'pc' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_FLD_OWN_PC, $postcode));
 }
 //city
-if ($fld === 'ct' || $fld === 'all') {
+if ('ct' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_CITY . '</b>', 'city', $size = 50, $maxsize = 255, $value = $city));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'city'));
@@ -129,7 +129,7 @@ if ($fld === 'ct' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_FLD_OWN_CITY, $city));
 }
 //phonenumber
-if ($fld === 'pn' || $fld === 'all') {
+if ('pn' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_PN . '</b>', 'phonenumber', $size = 50, $maxsize = 255, $value = $phonenumber));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'phonenumber'));
@@ -138,7 +138,7 @@ if ($fld === 'pn' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_FLD_OWN_PN, $phonenumber));
 }
 //email
-if ($fld === 'em' || $fld === 'all') {
+if ('em' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_EMAIL . '</b>', 'email', $size = 50, $maxsize = 255, $value = $email));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'emailadres'));
@@ -147,7 +147,7 @@ if ($fld === 'em' || $fld === 'all') {
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_FLD_OWN_EMAIL, $email));
 }
 //website
-if ($fld === 'we' || $fld === 'all') {
+if ('we' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_WEB . '</b>', 'web', $size = 50, $maxsize = 255, $value = $web));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new XoopsFormHidden('dbfield', 'website'));

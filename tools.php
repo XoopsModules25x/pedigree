@@ -732,13 +732,13 @@ function userfields($field = 0)
     $wizard = new CheckoutWizard();
     $action = $wizard->coalesce($_GET['action']);
 
-    $wizard->process($action, $_POST, $_SERVER['REQUEST_METHOD'] === 'POST');
+    $wizard->process($action, $_POST, 'POST' === $_SERVER['REQUEST_METHOD']);
     // only processes the form if it was posted. this way, we
     // can allow people to refresh the page without resubmitting
     // form data
 
     if ($wizard->isComplete()) {
-        if (!$wizard->getValue('field') == 0) {
+        if (0 == !$wizard->getValue('field')) {
             // field allready exists (editing mode)
             $form = _MA_PEDIGREE_FIELPROP;
         } else {
@@ -773,7 +773,7 @@ function userfields($field = 0)
             }
             $form .= '</td></tr></table>';
             $form .= _MA_PEDIGREE_FIELDNAME;
-        } elseif ($wizard->getStepName() === 'Fieldtype') {
+        } elseif ('Fieldtype' === $wizard->getStepName()) {
             $form .= '<table><tr><td>';
             if ('' == $wizard->getValue('fieldtype')) {
                 $wizard->setValue('fieldtype', 'textbox');
@@ -808,7 +808,7 @@ function userfields($field = 0)
             $form .= '</td></tr></table>';
             $form .= "<input type='submit' name='addvalue' value='Add Value'>";
         } else {
-            if ($wizard->getStepName() === 'Settings') {
+            if ('Settings' === $wizard->getStepName()) {
                 $fieldtype = $wizard->getValue('fieldtype');
                 //hassearch
                 if (in_array($fieldtype, ['textbox', 'textarea', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'])) {
@@ -928,8 +928,8 @@ function userfields($field = 0)
                 $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL4 . $wizard->getValue('name') . '</b><br>';
                 $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL5 . stripslashes($wizard->getValue('explain')) . '</b><br>';
                 $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL6 . $wizard->getValue('fieldtype') . '</b><br>';
-                if ($wizard->getValue('fieldtype') === 'selectbox'
-                    || $wizard->getValue('fieldtype') === 'radiobutton') {
+                if ('selectbox' === $wizard->getValue('fieldtype')
+                    || 'radiobutton' === $wizard->getValue('fieldtype')) {
                     $count = $wizard->getValue('fc');
                     for ($x = 1; $x < $count + 1; ++$x) {
                         $radioarray[] = [
@@ -975,7 +975,7 @@ function userfields($field = 0)
     }
     $form .= "<input type='submit' name='reset' value=Exit>&nbsp;";
     $last = $wizard->isLastStep() ? _MA_PEDIGREE_FINISH_BUTTON : _MA_PEDIGREE_NEXT_BUTTON;
-    $form .= "<input type='submit' value='{$last}&gt;&gt;'>";
+    $form .= "<input type='submit' value='{$last}>>'>";
     $form .= '</p></form>';
 
     $GLOBALS['xoopsTpl']->assign('form', $form);

@@ -37,7 +37,7 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 $pedigree     = PedigreePedigree::getInstance(false);
 $moduleConfig = $pedigree->getConfig();
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $fld = Request::getString('fld', '', 'GET');
 $id  = Request::getInt('id', 0, 'GET');
@@ -71,14 +71,14 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     $curvalfok = $row['id_breeder'];
     //gender
-    if ($row['roft'] == '0') {
+    if ('0' == $row['roft']) {
         $gender = '<img src="assets/images/male.gif"> ' . _MA_PEDIGREE_FLD_MALE;
     } else {
         $gender = '<img src="assets/images/female.gif"> ' . _MA_PEDIGREE_FLD_FEMA;
     }
     $curvalroft = $row['roft'];
     //Sire
-    if ($row['father'] != 0) {
+    if (0 != $row['father']) {
         $querysire = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $row['father'];
         $ressire   = $GLOBALS['xoopsDB']->query($querysire);
         while (false !== ($rowsire = $GLOBALS['xoopsDB']->fetchArray($ressire))) {
@@ -86,7 +86,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         }
     }
     //Dam
-    if ($row['mother'] != 0) {
+    if (0 != $row['mother']) {
         $querydam = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $row['mother'];
         $resdam   = $GLOBALS['xoopsDB']->query($querydam);
         while (false !== ($rowdam = $GLOBALS['xoopsDB']->fetchArray($resdam))) {
@@ -95,7 +95,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     //picture
     $picture = '';
-    if ($row['foto'] != '') {
+    if ('' != $row['foto']) {
         $picture = '<img src=' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['foto'] . '_400.jpeg>';
         $foto    = $row['foto'];
     } else {
@@ -116,7 +116,7 @@ $form->addElement(new XoopsFormHidden('dogid', $id));
 $form->addElement(new XoopsFormHidden('curname', $naam));
 $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 //name
-if ($fld === 'nm' || $fld === 'all') {
+if ('nm' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'naam', $size = 50, $maxsize = 255, $value = $naam));
     $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_NAME_EX));
     $form->addElement(new XoopsFormHidden('dbtable', 'pedigree_tree'));
@@ -124,7 +124,7 @@ if ($fld === 'nm' || $fld === 'all') {
     $form->addElement(new XoopsFormHidden('curvalname', $naam));
 } else {
     //owner
-    if ($fld === 'ow' || $fld === 'all') {
+    if ('ow' === $fld || 'all' === $fld) {
         $owner_select = new XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_OWNE . '</b>', $name = 'id_owner', $value = null, $size = 1, $multiple = false);
         $queryeig     = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY `lastname`';
         $reseig       = $GLOBALS['xoopsDB']->query($queryeig);
@@ -141,7 +141,7 @@ if ($fld === 'nm' || $fld === 'all') {
 }
 
 //breeder
-if ($fld === 'br' || $fld === 'all') {
+if ('br' === $fld || 'all' === $fld) {
     $breeder_select = new XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_BREE . '</b>', $name = 'id_breeder', $value = null, $size = 1, $multiple = false);
     $queryfok       = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY `lastname`';
     $resfok         = $GLOBALS['xoopsDB']->query($queryfok);
@@ -157,7 +157,7 @@ if ($fld === 'br' || $fld === 'all') {
 }
 
 //gender
-if ($fld === 'sx' || $fld === 'all') {
+if ('sx' === $fld || 'all' === $fld) {
     $gender_radio = new XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft', $value = null);
     $gender_radio->addOptionArray(['0' => _MA_PEDIGREE_FLD_MALE, '1' => _MA_PEDIGREE_FLD_FEMA]);
     $form->addElement($gender_radio);
@@ -168,7 +168,7 @@ if ($fld === 'sx' || $fld === 'all') {
 }
 
 //picture
-if ($fld === 'pc' || $fld === 'all') {
+if ('pc' === $fld || 'all' === $fld) {
     $form->addElement(new XoopsFormLabel('Picture', $picture));
     $form->setExtra("enctype='multipart/form-data'");
     $img_box = new XoopsFormFile('Image', 'photo', 1024000);

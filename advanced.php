@@ -116,7 +116,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
 */
 //strtr(_MA_PEDIGREE_FLD_MALE, array( '[male]' => $moduleConfig['male'] ))
 //strtr(_MA_PEDIGREE_ADV_ORPMUM, array( '[mother]' => $moduleConfig['mother'], '[animalTypes]' => $moduleConfig['animalTypes'] ))
-if ($moduleConfig['proversion'] == '1') {
+if ('1' == $moduleConfig['proversion']) {
     $xoopsTpl->assign('pro', true);
 }
 $xoopsTpl->assign('title', strtr(_MA_PEDIGREE_ADV_VTMF, ['[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female']]));

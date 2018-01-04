@@ -41,12 +41,12 @@ if (!empty($dogname)) {
                 $access = 1;
             }
         }
-        if ($access == '1') {
+        if ('1' == $access) {
             $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ".id='" . $dogid . "'";
             $GLOBALS['xoopsDB']->query($sql);
             $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id ='" . $row['id'] . "'";
             $GLOBALS['xoopsDB']->query($delsql);
-            if ($row['roft'] == '0') {
+            if ('0' == $row['roft']) {
                 $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET father = '0' where father = '" . $row['id'] . "'";
             } else {
                 $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET mother = '0' where mother = '" . $row['id'] . "'";

@@ -79,31 +79,31 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
     $gender = '';
     if (!empty($GLOBALS['xoopsUser'])) {
-        if ($row['d_user'] == $GLOBALS['xoopsUser']->getVar('uid') || $modadmin === true) {
+        if ($row['d_user'] == $GLOBALS['xoopsUser']->getVar('uid') || true === $modadmin) {
             $gender = '<a href="dog.php?id=' . $row['d_id'] . '"><img src=' . $pathIcon16 . '/edit.png alt=' . _EDIT . '></a><a href="delete.php?id=' . $row['d_id'] . '"><img src=' . $pathIcon16 . '/delete.png alt=' . _DELETE . '></a>';
         } else {
             $gender = '';
         }
     }
 
-    if ($row['d_foto'] != '') {
+    if ('' != $row['d_foto']) {
         $camera = ' <img src="assets/images/camera.png">';
     } else {
         $camera = '';
     }
 
-    if ($row['d_roft'] == 0) {
+    if (0 == $row['d_roft']) {
         $gender .= '<img src="assets/images/male.gif">';
     } else {
         $gender .= '<img src="assets/images/female.gif">';
     }
     //create string for parents
-    if ($row['f_naam'] == '') {
+    if ('' == $row['f_naam']) {
         $dad = _MA_PEDIGREE_UNKNOWN;
     } else {
         $dad = '<a href="pedigree.php?pedid=' . $row['f_id'] . '">' . stripslashes($row['f_naam']) . '</a>';
     }
-    if ($row['m_naam'] == '') {
+    if ('' == $row['m_naam']) {
         $mom = _MA_PEDIGREE_UNKNOWN;
     } else {
         $mom = '<a href="pedigree.php?pedid=' . $row['m_id'] . '">' . stripslashes($row['m_naam']) . '</a>';

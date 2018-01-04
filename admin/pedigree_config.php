@@ -70,7 +70,7 @@ switch ($op) {
             foreach (array_keys($pedigree_config_arr) as $i) {
                 if (0 == $pedigree_config_arr[$i]->getVar('pedigree_config_pid')) {
                     echo "<tr class='{$class}'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('isactive') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldname') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldtype') . '</td>';

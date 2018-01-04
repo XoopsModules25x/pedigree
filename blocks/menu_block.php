@@ -94,7 +94,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage === '/result.php') {
+    if ('/index.php' === $curpage || '/result.php' === $curpage) {
         $title = '<b>View/Search ' . $pedigree->getConfig('animalTypes') . '</b>';
     } else {
         $title = 'View/Search ' . $pedigree->getConfig('animalTypes');
@@ -104,7 +104,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($curpage === '/add_dog.php') {
+    if ('/add_dog.php' === $curpage) {
         $title = '<b>Add a ' . $pedigree->getConfig('animalType') . '</b>';
     } else {
         $title = 'Add a ' . $pedigree->getConfig('animalType');
@@ -115,7 +115,7 @@ function menu_block()
         $counter = 1;
     }
     if ('1' == $pedigree->getConfig('uselitter')) {
-        if ($curpage === '/add_litter.php') {
+        if ('/add_litter.php' === $curpage) {
             $title = '<b>Add a ' . $pedigree->getConfig('litter') . '</b>';
         } else {
             $title = 'Add a ' . $pedigree->getConfig('litter');
@@ -127,7 +127,7 @@ function menu_block()
         }
     }
     if ('1' == $pedigree->getConfig('ownerbreeder')) {
-        if ($curpage === '/breeder.php' || $curpage === '/owner.php') {
+        if ('/breeder.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>View owners/breeders</b>';
         } else {
             $title = 'View owners/breeders';
@@ -137,7 +137,7 @@ function menu_block()
         if ($counter == $menuwidth) {
             $counter = 1;
         }
-        if ($curpage === '/add_breeder.php') {
+        if ('/add_breeder.php' === $curpage) {
             $title = '<b>Add an owner/breeder</b>';
         } else {
             $title = 'Add an owner/breeder';
@@ -148,7 +148,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/advanced.php') {
+    if ('/advanced.php' === $curpage) {
         $title = '<b>Advanced info</b>';
     } else {
         $title = 'Advanced info';
@@ -159,7 +159,7 @@ function menu_block()
         $counter = 1;
     }
     if ('1' == $pedigree->getConfig('proversion')) {
-        if ($curpage === '/virtual.php') {
+        if ('/virtual.php' === $curpage) {
             $title = '<b>Virtual mating</b>';
         } else {
             $title = 'Virtual Mating';
@@ -170,7 +170,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ($curpage === '/latest.php') {
+    if ('/latest.php' === $curpage) {
         $title = '<b>latest additions</b>';
     } else {
         $title = 'latest additions';
@@ -180,8 +180,8 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($modadmin === true) {
-        if ($curpage === '/tools.php') {
+    if (true === $modadmin) {
+        if ('/tools.php' === $curpage) {
             $title = '<b>Webmaster tools</b>';
         } else {
             $title = 'Webmaster tools';
@@ -198,7 +198,7 @@ function menu_block()
             $counter = 1;
         }
     } else {
-        if ($curpage === '/user.php') {
+        if ('/user.php' === $curpage) {
             $title = '<b>User login</b>';
         } else {
             $title = 'User login';

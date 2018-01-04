@@ -23,7 +23,7 @@ if (empty($xoopsUser)) {
 }
 
 $f = isset($_GET['f']) ? $_GET['f'] : '';
-if ($f === 'check') {
+if ('check' === $f) {
     check();
 }
 

@@ -291,7 +291,7 @@ class ZervWizard
         }
 
         $ret = 0;
-        for ($n = 1; $n <= $numSteps && $ret == 0; ++$n) {
+        for ($n = 1; $n <= $numSteps && 0 == $ret; ++$n) {
             if ($step == $steps[$n - 1]) {
                 $ret = $n;
             }

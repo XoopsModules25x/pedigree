@@ -32,13 +32,13 @@ if (!isset($_GET['f'])) {
     addlitter();
 } else {
     $f = $_GET['f'];
-    if ($f === 'sire') {
+    if ('sire' === $f) {
         sire();
     }
-    if ($f === 'dam') {
+    if ('dam' === $f) {
         dam();
     }
-    if ($f === 'check') {
+    if ('check' === $f) {
         check();
     }
 }
@@ -86,7 +86,7 @@ function addlitter()
             $userField   = new Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
-            if ($userField->isActive() && $userField->getSetting('Litter') == '1' && !$userField->isLocked()) {
+            if ($userField->isActive() && '1' == $userField->getSetting('Litter') && !$userField->isLocked()) {
                 $newEntry[$count][$i] = $fieldObject->newField($count);
                 $searchform->addElement($newEntry[$count][$i]);
             }
@@ -109,7 +109,7 @@ function addlitter()
     }
     //add the breeder to the list for the entire litter
     //no need to add the owner here because they will be different for each animal in the litter.
-    if ($moduleConfig['ownerbreeder'] == '1') {
+    if ('1' == $moduleConfig['ownerbreeder']) {
         //breeder
         $breeder  = new XoopsFormSelect(_MA_PEDIGREE_FLD_BREE, 'id_breeder', $value = '', $size = 1, $multiple = false);
         $queryfok = 'SELECT id, firstname, lastname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY `lastname`';
@@ -168,11 +168,11 @@ function sire()
         $namelitter = 'name' . $count;
         $roftlitter = 'roft' . $count;
         //check for an empty name
-        if ($_POST[$namelitter] !== '') {
+        if ('' !== $_POST[$namelitter]) {
             $name .= ':' . $_POST[$namelitter];
             $roft .= ':' . $_POST[$roftlitter];
         } else {
-            if ($count == '1') {
+            if ('1' == $count) {
                 redirect_header('add_litter.php', 3, _MA_PEDIGREE_ADD_NAMEPLZ);
             }
         }
@@ -199,7 +199,7 @@ function sire()
             //emtpy string to house the different values for this userfield
             $withinfield = '';
             for ($count = 1; $count < 11; ++$count) {
-                if ($_POST['name' . $count] !== '') {
+                if ('' !== $_POST['name' . $count]) {
                     if (isset($_POST[$count . 'user' . $fields[$i]])) {
                         //debug option
                         //echo $count.'user'.$fields[$i]."=".$_POST[$count.'user'.$fields[$i]]."<br>";
@@ -292,7 +292,7 @@ function sire()
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -353,7 +353,7 @@ function sire()
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
-        if ($row['foto'] != '') {
+        if ('' != $row['foto']) {
             $camera = ' <img src="assets/images/camera.png">';
         } else {
             $camera = '';
@@ -482,7 +482,7 @@ function dam()
     //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
         //create line break after 20 number
-        if (($x % 20) == 0) {
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
@@ -543,7 +543,7 @@ function dam()
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create picture information
-        if ($row['foto'] != '') {
+        if ('' != $row['foto']) {
             $camera = ' <img src="assets/images/camera.png">';
         } else {
             $camera = '';
@@ -614,7 +614,7 @@ function check()
     $seldam      = Request::getInt('seldam', 0, 'GET');
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //pull data apart.
-        if ($row['naam'] !== '') {
+        if ('' !== $row['naam']) {
             $genders = explode(':', $row['roft']);
             $names   = explode(':', $row['naam']);
             for ($c = 1, $cMax = count($names); $c < $cMax; ++$c) {
