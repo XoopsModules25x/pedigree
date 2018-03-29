@@ -172,7 +172,7 @@ class PedigreeField
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, $this->value);
+        $view = new \XoopsFormLabel($this->fieldname, $this->value);
 
         return $view;
     }

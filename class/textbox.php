@@ -62,7 +62,7 @@ class PedigreeTextBox extends PedigreeHtmlInputAbstract
      */
     public function editField()
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
 
         return $textbox;
     }
@@ -74,7 +74,7 @@ class PedigreeTextBox extends PedigreeHtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
 
         return $textbox;
     }

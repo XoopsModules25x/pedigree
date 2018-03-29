@@ -20,7 +20,7 @@
  * @author      ZySpec <owners@zyspec.com>
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  *
@@ -45,8 +45,8 @@ class PedigreeAnimal
         $id            = (!empty($id)) ? (int)$id : 1;
         $myTreeHandler = xoops_getModuleHandler('tree', $moduleDirName);
 
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('id', $id));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('id', $id));
         $criteria->setLimit(1);
         $this->myTree = $myTreeHandler->getAll($criteria, null, false);
         /*
@@ -70,7 +70,7 @@ class PedigreeAnimal
     {
         $moduleDirName = basename(dirname(__DIR__));
         $fieldsHandler = xoops_getModuleHandler('fields', $moduleDirName);
-        $criteria      = new CriteriaCompo();
+        $criteria      = new \CriteriaCompo();
         $criteria->setSort('`order`');
         $criteria->setOrder('ASC');
         $this->fields       = $fieldsHandler->getIds($criteria); //get all object IDs
@@ -82,7 +82,7 @@ class PedigreeAnimal
         $SQL    = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_fields") . " ORDER BY `order`";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         $fields = array();
-        while ($row = $GLOBALS['xoopsDB']->fetchArray($result)) {
+        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $fields[] = $row['id'];
             $configValues[] = $row;
 

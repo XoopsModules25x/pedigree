@@ -30,7 +30,7 @@
 
 use XoopsModules\Pedigree;
 
-require_once __DIR__ . '/../class/Helper.php';
+// require_once __DIR__ . '/../class/Helper.php';
 //require_once __DIR__ . '/../include/common.php';
 $helper = Pedigree\Helper::getInstance();
 

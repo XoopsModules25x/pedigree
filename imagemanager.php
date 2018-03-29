@@ -18,15 +18,15 @@
  */
 
 require_once __DIR__ . '/../../mainfile.php';
-if (!isset($HTTP_GET_VARS['target']) && !isset($HTTP_POST_VARS['target'])) {
+if (!isset($_GET['target']) && !isset($_POST['target'])) {
     exit();
 }
 $op = 'list';
-if (isset($HTTP_GET_VARS['op']) && 'upload' === $HTTP_GET_VARS['op']) {
+if (isset($_GET['op']) && 'upload' === $_GET['op']) {
     $op = 'upload';
 }
-if (isset($HTTP_POST_VARS)) {
-    foreach ($HTTP_POST_VARS as $k => $v) {
+if (isset($_POST)) {
+    foreach ($_POST as $k => $v) {
         ${$k} = $v;
     }
 }
@@ -37,10 +37,10 @@ if (!$xoopsUser) {
 }
 if ('list' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $xoopsTpl = new XoopsTpl();
+    $xoopsTpl = new \XoopsTpl();
     $xoopsTpl->assign('lang_imgmanager', _IMGMANAGER);
     $xoopsTpl->assign('sitename', $xoopsConfig['sitename']);
-    $target = htmlspecialchars($HTTP_GET_VARS['target'], ENT_QUOTES);
+    $target = htmlspecialchars($_GET['target'], ENT_QUOTES);
     $xoopsTpl->assign('target', $target);
     $imgcatHandler = xoops_getHandler('imagecategory');
     $catlist       = $imgcatHandler->getList($group, 'imgcat_read', 1);
@@ -50,7 +50,7 @@ if ('list' === $op) {
     $xoopsTpl->assign('lang_close', _CLOSE);
     if ($catcount > 0) {
         $xoopsTpl->assign('lang_go', _GO);
-        $catshow = !isset($HTTP_GET_VARS['cat_id']) ? 0 : (int)$HTTP_GET_VARS['cat_id'];
+        $catshow = !isset($_GET['cat_id']) ? 0 : (int)$_GET['cat_id'];
         $catshow = (!empty($catshow) && in_array($catshow, array_keys($catlist))) ? $catshow : 0;
         $xoopsTpl->assign('show_cat', $catshow);
         if ($catshow > 0) {
@@ -68,8 +68,8 @@ if ('list' === $op) {
         $xoopsTpl->assign('cat_options', $cat_options);
         if ($catshow > 0) {
             $imageHandler = xoops_getHandler('image');
-            $criteria     = new CriteriaCompo(new Criteria('imgcat_id', $catshow));
-            $criteria->add(new Criteria('image_display', 1));
+            $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', $catshow));
+            $criteria->add(new \Criteria('image_display', 1));
             $total = $imageHandler->getCount($criteria);
             if ($total > 0) {
                 $imgcatHandler = xoops_getHandler('imagecategory');
@@ -78,7 +78,7 @@ if ('list' === $op) {
                 $xoopsTpl->assign('lang_image', _IMAGE);
                 $xoopsTpl->assign('lang_imagename', _IMAGENAME);
                 $xoopsTpl->assign('lang_imagemime', _IMAGEMIME);
-                $start = isset($HTTP_GET_VARS['start']) ? (int)$HTTP_GET_VARS['start'] : 0;
+                $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
                 $criteria->setLimit(10);
                 $criteria->setStart($start);
                 $storetype = $imgcat->getVar('imgcat_storetype');
@@ -114,7 +114,7 @@ if ('list' === $op) {
                 }
                 if ($total > 10) {
                     require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-                    $nav = new XoopsPageNav($total, 10, $start, 'start', 'target=' . $target . '&amp;cat_id=' . $catshow);
+                    $nav = new \XoopsPageNav($total, 10, $start, 'start', 'target=' . $target . '&amp;cat_id=' . $catshow);
                     $xoopsTpl->assign('pagenav', $nav->renderNav());
                 }
             } else {
@@ -133,7 +133,7 @@ if ('list' === $op) {
 
 if ('upload' === $op) {
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $imgcat_id     = (int)$HTTP_GET_VARS['imgcat_id'];
+    $imgcat_id     = (int)$_GET['imgcat_id'];
     $imgcat        = $imgcatHandler->get($imgcat_id);
     $error         = false;
     if (!is_object($imgcat)) {
@@ -157,24 +157,24 @@ if ('upload' === $op) {
         exit();
     }
     require_once XOOPS_ROOT_PATH . '/class/template.php';
-    $xoopsTpl = new XoopsTpl();
+    $xoopsTpl = new \XoopsTpl();
     $xoopsTpl->assign('show_cat', $imgcat_id);
     $xoopsTpl->assign('lang_imgmanager', _IMGMANAGER);
     $xoopsTpl->assign('sitename', $xoopsConfig['sitename']);
-    $xoopsTpl->assign('target', htmlspecialchars($HTTP_GET_VARS['target'], ENT_QUOTES));
+    $xoopsTpl->assign('target', htmlspecialchars($_GET['target'], ENT_QUOTES));
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm('', 'image_form', 'imagemanager.php');
+    $form = new \XoopsThemeForm('', 'image_form', 'imagemanager.php');
     $form->setExtra('enctype="multipart/form-data"');
-    $form->addElement(new XoopsFormText(_IMAGENAME, 'image_nicename', 20, 255), true);
-    $form->addElement(new XoopsFormLabel(_IMAGECAT, $imgcat->getVar('imgcat_name')));
-    $form->addElement(new XoopsFormFile(_IMAGEFILE, 'image_file', $imgcat->getVar('imgcat_maxsize')), true);
-    $form->addElement(new XoopsFormLabel(_IMGMAXSIZE, $imgcat->getVar('imgcat_maxsize')));
-    $form->addElement(new XoopsFormLabel(_IMGMAXWIDTH, $imgcat->getVar('imgcat_maxwidth')));
-    $form->addElement(new XoopsFormLabel(_IMGMAXHEIGHT, $imgcat->getVar('imgcat_maxheight')));
-    $form->addElement(new XoopsFormHidden('imgcat_id', $imgcat_id));
-    $form->addElement(new XoopsFormHidden('op', 'doupload'));
-    $form->addElement(new XoopsFormHidden('target', $target));
-    $form->addElement(new XoopsFormButton('', 'img_button', _SUBMIT, 'submit'));
+    $form->addElement(new \XoopsFormText(_IMAGENAME, 'image_nicename', 20, 255), true);
+    $form->addElement(new \XoopsFormLabel(_IMAGECAT, $imgcat->getVar('imgcat_name')));
+    $form->addElement(new \XoopsFormFile(_IMAGEFILE, 'image_file', $imgcat->getVar('imgcat_maxsize')), true);
+    $form->addElement(new \XoopsFormLabel(_IMGMAXSIZE, $imgcat->getVar('imgcat_maxsize')));
+    $form->addElement(new \XoopsFormLabel(_IMGMAXWIDTH, $imgcat->getVar('imgcat_maxwidth')));
+    $form->addElement(new \XoopsFormLabel(_IMGMAXHEIGHT, $imgcat->getVar('imgcat_maxheight')));
+    $form->addElement(new \XoopsFormHidden('imgcat_id', $imgcat_id));
+    $form->addElement(new \XoopsFormHidden('op', 'doupload'));
+    $form->addElement(new \XoopsFormHidden('target', $target));
+    $form->addElement(new \XoopsFormButton('', 'img_button', _SUBMIT, 'submit'));
     $form->assign($xoopsTpl);
     $xoopsTpl->assign('lang_close', _CLOSE);
     $xoopsTpl->display('db:system_imagemanager2.tpl');
@@ -206,9 +206,9 @@ if ('doupload' === $op) {
         xoops_footer();
         exit();
     }
-    $uploader = new XoopsMediaUploader(XOOPS_UPLOAD_PATH, ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
+    $uploader = new \XoopsMediaUploader(XOOPS_UPLOAD_PATH, ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'], $imgcat->getVar('imgcat_maxsize'), $imgcat->getVar('imgcat_maxwidth'), $imgcat->getVar('imgcat_maxheight'));
     $uploader->setPrefix('img');
-    if ($uploader->fetchMedia($HTTP_POST_VARS['xoops_upload_file'][0])) {
+    if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
         if (!$uploader->upload()) {
             $err = $uploader->getErrors();
         } else {

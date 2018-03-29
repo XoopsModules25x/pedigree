@@ -110,7 +110,7 @@ class phpthumb_bmp
         $thisfile_bmp_header_raw['identifier'] = substr($BMPheader, $offset, 2);
         $offset                                += 2;
 
-        if ('BM' != $thisfile_bmp_header_raw['identifier']) {
+        if ('BM' !== $thisfile_bmp_header_raw['identifier']) {
             $ThisFileInfo['error'][] = 'Expecting "BM" at offset ' . (int)(@$ThisFileInfo['avdataoffset']) . ', found "' . $thisfile_bmp_header_raw['identifier'] . '"';
             unset($ThisFileInfo['fileformat']);
             unset($ThisFileInfo['bmp']);
@@ -163,7 +163,7 @@ class phpthumb_bmp
         $ThisFileInfo['video']['lossless']           = true;
         $ThisFileInfo['video']['pixel_aspect_ratio'] = (float)1;
 
-        if ('OS/2' == $thisfile_bmp['type_os']) {
+        if ('OS/2' === $thisfile_bmp['type_os']) {
 
             // OS/2-format BMP
             // http://netghost.narod.ru/gff/graphics/summary/os2bmp.htm
@@ -237,7 +237,7 @@ class phpthumb_bmp
 
                 $ThisFileInfo['video']['codec'] = $thisfile_bmp_header['compression'] . ' ' . $thisfile_bmp_header_raw['bits_per_pixel'] . '-bit';
             }
-        } elseif ('Windows' == $thisfile_bmp['type_os']) {
+        } elseif ('Windows' === $thisfile_bmp['type_os']) {
 
             // Windows-format BMP
 
@@ -373,7 +373,7 @@ class phpthumb_bmp
                     $blue  = $this->LittleEndian2Int(substr($BMPpalette, $paletteoffset++, 1));
                     $green = $this->LittleEndian2Int(substr($BMPpalette, $paletteoffset++, 1));
                     $red   = $this->LittleEndian2Int(substr($BMPpalette, $paletteoffset++, 1));
-                    if (('OS/2' == $thisfile_bmp['type_os']) && (1 == $thisfile_bmp['type_version'])) {
+                    if (('OS/2' === $thisfile_bmp['type_os']) && (1 == $thisfile_bmp['type_version'])) {
                         // no padding byte
                     } else {
                         $paletteoffset++; // padding byte

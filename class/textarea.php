@@ -61,7 +61,7 @@ class PedigreeTextArea extends PedigreeHtmlInputAbstract
      */
     public function editField()
     {
-        $textarea = new XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -73,7 +73,7 @@ class PedigreeTextArea extends PedigreeHtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $textarea = new XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
 
         return $textarea;
     }

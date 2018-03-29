@@ -10,7 +10,7 @@
  * @since      1.3.1
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * PedigreeHtmlInputAbstract

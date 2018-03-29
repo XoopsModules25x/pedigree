@@ -18,7 +18,7 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class PedigreeOwner
@@ -62,28 +62,28 @@ class PedigreeOwner extends XoopsObject
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
+        $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_FIRSTNAME, 'firstname', 50, 255, $this->getVar('firstname')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_LASTNAME, 'lastname', 50, 255, $this->getVar('lastname')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_POSTCODE, 'postcode', 50, 255, $this->getVar('postcode')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_CITY, 'city', 50, 255, $this->getVar('city')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_STREETNAME, 'streetname', 50, 255, $this->getVar('streetname')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_HOUSENUMBER, 'housenumber', 50, 255, $this->getVar('housenumber')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_PHONENUMBER, 'phonenumber', 50, 255, $this->getVar('phonenumber')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_EMAILADRES, 'emailadres', 50, 255, $this->getVar('emailadres')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_WEBSITE, 'website', 50, 255, $this->getVar('website')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_OWNER_USER, 'user', 50, 255, $this->getVar('user')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_FIRSTNAME, 'firstname', 50, 255, $this->getVar('firstname')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_LASTNAME, 'lastname', 50, 255, $this->getVar('lastname')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_POSTCODE, 'postcode', 50, 255, $this->getVar('postcode')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_CITY, 'city', 50, 255, $this->getVar('city')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_STREETNAME, 'streetname', 50, 255, $this->getVar('streetname')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_HOUSENUMBER, 'housenumber', 50, 255, $this->getVar('housenumber')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_PHONENUMBER, 'phonenumber', 50, 255, $this->getVar('phonenumber')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_EMAILADRES, 'emailadres', 50, 255, $this->getVar('emailadres')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_WEBSITE, 'website', 50, 255, $this->getVar('website')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_OWNER_USER, 'user', 50, 255, $this->getVar('user')), false);
 
-        $form->addElement(new XoopsFormHidden('op', 'save_owner'));
+        $form->addElement(new \XoopsFormHidden('op', 'save_owner'));
 
         //Submit buttons
-        $button_tray   = new XoopsFormElementTray('', '');
-        $submit_button = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+        $button_tray   = new \XoopsFormElementTray('', '');
+        $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
         $button_tray->addElement($submit_button);
 
-        $cancel_button = new XoopsFormButton('', '', _CANCEL, 'cancel');
+        $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'cancel');
         $cancel_button->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($cancel_button);
 
@@ -99,9 +99,9 @@ class PedigreeOwner extends XoopsObject
 class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object|XoopsDatabase $db
+     * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'pedigree_owner', 'PedigreeOwner', 'id', 'firstname');
     }
@@ -115,18 +115,18 @@ class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
     {
         $gpermHandler = xoops_getHandler('groupperm');
 
-        //        $criteria = new CriteriaCompo(new Criteria('offline', false));
-        //        $criteria->add(new Criteria('published', 0, '>'));
-        //        $criteria->add(new Criteria('published', time(), '<='));
-        //        $expiredCriteria = new CriteriaCompo(new Criteria('expired', 0));
-        //        $expiredCriteria->add(new Criteria('expired', time(), '>='), 'OR');
+        //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
+        //        $criteria->add(new \Criteria('published', 0, '>'));
+        //        $criteria->add(new \Criteria('published', time(), '<='));
+        //        $expiredCriteria = new \CriteriaCompo(new \Criteria('expired', 0));
+        //        $expiredCriteria->add(new \Criteria('expired', time(), '>='), 'OR');
         //        $criteria->add($expiredCriteria);
         // add criteria for categories that the user has permissions for
         //        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
         //mb        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
-        //mb        $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+        //mb        $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('lastname ASC');
         $criteria->setOrder('ASC');
 

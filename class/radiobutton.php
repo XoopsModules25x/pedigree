@@ -61,7 +61,7 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
      */
     public function editField()
     {
-        $radio          = new XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
+        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
         for ($i = 0; $i < $lcCount; ++$i) {
@@ -78,7 +78,7 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $radio          = new XoopsFormRadio('<b>' . $this->fieldname . '</b>', "{$name}user" . $this->fieldnumber, $value = $this->defaultvalue);
+        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', "{$name}user" . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
         for ($i = 0; $i < $lcCount; ++$i) {
@@ -100,7 +100,7 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
         }
-        $view = new XoopsFormLabel($this->fieldname, $choosenvalue);
+        $view = new \XoopsFormLabel($this->fieldname, $choosenvalue);
 
         return $view;
     }

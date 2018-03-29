@@ -65,7 +65,7 @@ function gif_loadFileToGDimageResource($gifFilename, $bgColor = -1)
 
 function gif_outputAsBmp($gif, $lpszFileName, $bgColor = -1)
 {
-    if (!isset($gif) || ('cgif' <> @get_class($gif)) || !$gif->loaded() || ('' == $lpszFileName)) {
+    if (!isset($gif) || ('cgif' !== @get_class($gif)) || !$gif->loaded() || ('' == $lpszFileName)) {
         return false;
     }
 
@@ -88,7 +88,7 @@ function gif_outputAsBmp($gif, $lpszFileName, $bgColor = -1)
 
 function gif_outputAsPng($gif, $lpszFileName, $bgColor = -1)
 {
-    if (!isset($gif) || ('cgif' <> @get_class($gif)) || !$gif->loaded() || ('' == $lpszFileName)) {
+    if (!isset($gif) || ('cgif' !== @get_class($gif)) || !$gif->loaded() || ('' == $lpszFileName)) {
         return false;
     }
 
@@ -112,7 +112,7 @@ function gif_outputAsPng($gif, $lpszFileName, $bgColor = -1)
 function gif_outputAsJpeg($gif, $lpszFileName, $bgColor = -1)
 {
     // JPEG output that does not require cjpeg added by James Heinrich <info@silisoftware.com> - December 10, 2003
-    if (('WIN' != strtoupper(substr(PHP_OS, 0, 3))) && (file_exists('/usr/local/bin/cjpeg') || `which cjpeg`)) {
+    if (('WIN' !== strtoupper(substr(PHP_OS, 0, 3))) && (file_exists('/usr/local/bin/cjpeg') || shell_exec("which cjpeg"))) {
         if (gif_outputAsBmp($gif, $lpszFileName . '.bmp', $bgColor)) {
             exec('cjpeg ' . $lpszFileName . '.bmp >' . $lpszFileName . ' 2>/dev/null');
             @unlink($lpszFileName . '.bmp');
@@ -142,7 +142,7 @@ function gif_outputAsJpeg($gif, $lpszFileName, $bgColor = -1)
 
 function gif_getSize($gif, &$width, &$height)
 {
-    if (isset($gif) && ('cgif' == @get_class($gif)) && $gif->loaded()) {
+    if (isset($gif) && ('cgif' === @get_class($gif)) && $gif->loaded()) {
         $width  = $gif->width();
         $height = $gif->height();
     } elseif (@file_exists($gif)) {
@@ -215,7 +215,7 @@ class CGIFLZW
 
         $datLen = $stLen - strlen($data);
 
-        if ($iIndex != -2) {
+        if (-2 != $iIndex) {
             return false;
         }
 
@@ -478,7 +478,7 @@ class CGIFCOLORTABLE
             $b2 = ($this->m_arColors[$i] & 0x00FF0000) >> 16;
             $d  = abs($r2 - $r1) + abs($g2 - $g1) + abs($b2 - $b1);
 
-            if (($idx == -1) || ($d < $dif)) {
+            if ((-1 == $idx) || ($d < $dif)) {
                 $idx = $i;
                 $dif = $d;
             }
@@ -527,7 +527,7 @@ class CGIFFILEHEADER
         $hdrLen = 0;
 
         $this->m_lpVer = substr($lpData, 0, 6);
-        if (('GIF87a' <> $this->m_lpVer) && ('GIF89a' <> $this->m_lpVer)) {
+        if (('GIF87a' !== $this->m_lpVer) && ('GIF89a' !== $this->m_lpVer)) {
             return false;
         }
 
@@ -898,13 +898,13 @@ class CGIF
         if ($this->m_img->m_gih->m_bLocalClr) {
             $nColors = $this->m_img->m_gih->m_nTableSize;
             $rgbq    = $this->m_img->m_gih->m_colorTable->toRGBQuad();
-            if ($bgColor != -1) {
+            if (-1 != $bgColor) {
                 $bgColor = $this->m_img->m_gih->m_colorTable->colorIndex($bgColor);
             }
         } elseif ($this->m_gfh->m_bGlobalClr) {
             $nColors = $this->m_gfh->m_nTableSize;
             $rgbq    = $this->m_gfh->m_colorTable->toRGBQuad();
-            if ($bgColor != -1) {
+            if (-1 != $bgColor) {
                 $bgColor = $this->m_gfh->m_colorTable->colorIndex($bgColor);
             }
         } else {
@@ -927,7 +927,7 @@ class CGIF
                     // PART OF IMAGE
                     if (@$this->m_img->m_bTrans && (ord($data{$nPxl}) == $this->m_img->m_nTrans)) {
                         // TRANSPARENT -> BACKGROUND
-                        if ($bgColor == -1) {
+                        if (-1 == $bgColor) {
                             $bmp .= chr($this->m_gfh->m_nBgColor);
                         } else {
                             $bmp .= chr($bgColor);
@@ -937,7 +937,7 @@ class CGIF
                     }
                 } else {
                     // BACKGROUND
-                    if ($bgColor == -1) {
+                    if (-1 == $bgColor) {
                         $bmp .= chr($this->m_gfh->m_nBgColor);
                     } else {
                         $bmp .= chr($bgColor);
@@ -997,13 +997,13 @@ class CGIF
         if ($this->m_img->m_gih->m_bLocalClr) {
             $nColors = $this->m_img->m_gih->m_nTableSize;
             $pal     = $this->m_img->m_gih->m_colorTable->toString();
-            if ($bgColor != -1) {
+            if (-1 != $bgColor) {
                 $bgColor = $this->m_img->m_gih->m_colorTable->colorIndex($bgColor);
             }
         } elseif ($this->m_gfh->m_bGlobalClr) {
             $nColors = $this->m_gfh->m_nTableSize;
             $pal     = $this->m_gfh->m_colorTable->toString();
-            if ($bgColor != -1) {
+            if (-1 != $bgColor) {
                 $bgColor = $this->m_gfh->m_colorTable->colorIndex($bgColor);
             }
         } else {
@@ -1027,7 +1027,7 @@ class CGIF
                     $bmp .= $data{$nPxl};
                 } else {
                     // BACKGROUND
-                    if ($bgColor == -1) {
+                    if (-1 == $bgColor) {
                         $bmp .= chr($this->m_gfh->m_nBgColor);
                     } else {
                         $bmp .= chr($bgColor);

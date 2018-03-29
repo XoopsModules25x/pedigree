@@ -562,7 +562,7 @@ function mater_side($p, $m, $a, $ndist)
     $COIs[$a] += $incr; // incrementing the IC of AnimC
     if (0 == $a) {
         $deltaf[$p] += $incr;
-        /* contribution of Anim #P to IC of Anim #0 */
+    /* contribution of Anim #P to IC of Anim #0 */
         // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
         //    echo "Animal $p is contributing for " . substr ($deltaf[$p], 0, 10) . " to the IC of Animal $a$nl" ;
     } else {
@@ -611,7 +611,7 @@ function CONSANG($a)
     if (!$a || $ICknown[$a]) {
         return 0;
     }
-    if ($a == -1) {
+    if (-1 == $a) {
         $a = 0;
     } // particular case : a= -1 means Anim #0 (to bypass above test)
     $IC_if_deadend = 0.0; // 0.0 means taht deadends are deemed to be total outcrosses...

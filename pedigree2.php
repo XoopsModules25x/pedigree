@@ -41,8 +41,8 @@ function pedigree_main($ID)
     global $xoopsTpl;
     global $xoopsModuleConfig;
 
-    if (isset($HTTP_POST_VARS['detail'])) {
-        $detail = trim($HTTP_POST_VARS['detail']);
+    if (isset($_POST['detail'])) {
+        $detail = trim($_POST['detail']);
     }
 
     $queryString = '

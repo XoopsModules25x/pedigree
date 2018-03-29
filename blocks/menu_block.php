@@ -69,7 +69,7 @@ function menu_block()
 
     //iscurrent user a module admin ?
     $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-    if ((!empty($xoopsUser)) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)
+    if ((!empty($xoopsUser)) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
         && $xoopsUser->isAdmin($xoopsModule->mid())) {
         $modadmin = true;
     } else {

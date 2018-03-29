@@ -470,7 +470,7 @@ class Zebra_Image
             // set this to true so that the script will continue to execute at the next IF
             $result = true;
 
-            // if method is called as usually
+        // if method is called as usually
             // try to create an image resource from source path
         } else {
             $result = $this->_create_from_source();
@@ -751,7 +751,7 @@ class Zebra_Image
                     // compute the target image's width, preserving the aspect ratio
                     $target_width = round($height * $aspect_ratio);
 
-                    // if width is given and height is to be computed accordingly
+                // if width is given and height is to be computed accordingly
                 } elseif ($width > 0 && 0 == $height) {
 
                     // get the original image's aspect ratio
@@ -763,7 +763,7 @@ class Zebra_Image
                     // compute the target image's height, preserving the aspect ratio
                     $target_height = round($width * $aspect_ratio);
 
-                    // if both width and height are given and ZEBRA_IMAGE_BOXED or ZEBRA_IMAGE_NOT_BOXED methods are to be used
+                // if both width and height are given and ZEBRA_IMAGE_BOXED or ZEBRA_IMAGE_NOT_BOXED methods are to be used
                 } elseif ($width > 0 && $height > 0 && (0 == $method || 1 == $method)) {
 
                     // compute the horizontal and vertical aspect ratios
@@ -779,7 +779,7 @@ class Zebra_Image
                         // compute the target image's height so that the image will stay inside the bounding box
                         $target_height = round($horizontal_aspect_ratio * $this->source_height);
 
-                        // otherwise
+                    // otherwise
                     } else {
 
                         // the target image's height is as given as argument to the method
@@ -811,7 +811,7 @@ class Zebra_Image
                     // compute the target image's height, preserving the aspect ratio
                     $target_height = round($this->source_height / $aspect_ratio);
 
-                    // for any other case
+                // for any other case
                 } else {
 
                     // we will create a copy of the source image
@@ -1117,7 +1117,7 @@ class Zebra_Image
             $angle = -$angle;
 
             // if source image is PNG
-            if (IMAGETYPE_PNG == $this->source_type && $background_color == -1) {
+            if (IMAGETYPE_PNG == $this->source_type && -1 == $background_color) {
 
                 // rotate the image
                 // but if using -1 as background color didn't work (as is the case for PNG8)
@@ -1162,7 +1162,7 @@ class Zebra_Image
                 // copy the rotated image on to the new one
                 imagecopyresampled($target_identifier, $this->source_identifier, 0, 0, 0, 0, $width, $height, $width, $height);
 
-                // for the other cases
+            // for the other cases
             } else {
 
                 // convert the color to RGB values
@@ -1196,7 +1196,7 @@ class Zebra_Image
 
                 return true;
 
-                // write image otherwise
+            // write image otherwise
             } else {
                 return $this->_write_image($target_identifier);
             }
@@ -1226,7 +1226,7 @@ class Zebra_Image
 
             return false;
 
-            // if source file does not exist
+        // if source file does not exist
         } elseif (!is_file($this->source_path)) {
 
             // save the error level and stop the execution of the script
@@ -1234,7 +1234,7 @@ class Zebra_Image
 
             return false;
 
-            // if source file is not readable
+        // if source file is not readable
         } elseif (!is_readable($this->source_path)) {
 
             // save the error level and stop the execution of the script
@@ -1242,7 +1242,7 @@ class Zebra_Image
 
             return false;
 
-            // if target file is same as source file and source file is not writable
+        // if target file is same as source file and source file is not writable
         } elseif ($this->target_path == $this->source_path && !is_writable($this->source_path)) {
 
             // save the error level and stop the execution of the script
@@ -1250,7 +1250,7 @@ class Zebra_Image
 
             return false;
 
-            // try to get source file width, height and type
+        // try to get source file width, height and type
             // and if it founds an unsupported file type
         } elseif (!list($this->source_width, $this->source_height, $this->source_type) = @getimagesize($this->source_path)) {
 
@@ -1259,7 +1259,7 @@ class Zebra_Image
 
             return false;
 
-            // if no errors so far
+        // if no errors so far
         } else {
 
             // get target file's type based on the file extension
@@ -1336,7 +1336,7 @@ class Zebra_Image
 
                 return false;
 
-                // if "exif_read_data" function is available, EXIF information is available, orientation information is available and orientation needs fixing
+            // if "exif_read_data" function is available, EXIF information is available, orientation information is available and orientation needs fixing
             } elseif (($exif = exif_read_data($this->source_path)) && isset($exif['Orientation'])
                       && in_array($exif['Orientation'], [3, 6, 8])) {
 
@@ -1538,7 +1538,7 @@ class Zebra_Image
         $identifier = imagecreatetruecolor((int)$width <= 0 ? 1 : (int)$width, (int)$height <= 0 ? 1 : (int)$height);
 
         // if we are creating a PNG image
-        if ('png' == $this->target_type && $background_color == -1) {
+        if ('png' == $this->target_type && -1 == $background_color) {
 
             // disable blending
             imagealphablending($identifier, false);
@@ -1552,8 +1552,8 @@ class Zebra_Image
             //save full alpha channel information
             imagesavealpha($identifier, true);
 
-            // if source image is a transparent GIF
-        } elseif ('gif' == $this->target_type && $background_color == -1
+        // if source image is a transparent GIF
+        } elseif ('gif' == $this->target_type && -1 == $background_color
                   && $this->source_transparent_color_index >= 0) {
 
             // allocate the source image's transparent color also to the new image resource
@@ -1565,11 +1565,11 @@ class Zebra_Image
             // from now on, every pixel having the same RGB as the transparent color will be transparent
             imagecolortransparent($identifier, $transparent_color);
 
-            // for other image types
+        // for other image types
         } else {
 
             // if transparent background color specified, revert to white
-            if ($background_color == -1) {
+            if (-1 == $background_color) {
                 $background_color = '#FFFFFF';
             }
 
@@ -1662,7 +1662,7 @@ class Zebra_Image
 
                     return false;
 
-                    // if, for some reason, file could not be created
+                // if, for some reason, file could not be created
                 } elseif (@!imagegif($identifier, $this->target_path)) {
 
                     // save the error level and stop the execution of the script
@@ -1685,7 +1685,7 @@ class Zebra_Image
 
                     return false;
 
-                    // if, for some reason, file could not be created
+                // if, for some reason, file could not be created
                 } elseif (@!imagejpeg($identifier, $this->target_path, $this->jpeg_quality)) {
 
                     // save the error level and stop the execution of the script
@@ -1710,7 +1710,7 @@ class Zebra_Image
 
                     return false;
 
-                    // if, for some reason, file could not be created
+                // if, for some reason, file could not be created
                 } elseif (@!imagepng($identifier, $this->target_path, $this->png_compression)) {
 
                     // save the error level and stop the execution of the script
@@ -1740,7 +1740,7 @@ class Zebra_Image
             // chmod the file
             chmod($this->target_path, intval($this->chmod_value, 8));
 
-            // save the error level
+        // save the error level
         } else {
             $this->error = 8;
         }

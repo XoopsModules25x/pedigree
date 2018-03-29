@@ -59,7 +59,7 @@ function menu_block()
     echo '</style>';
 
     //is current user a module admin ?
-    if ((!empty($GLOBALS['xoopsUser'])) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)
+    if ((!empty($GLOBALS['xoopsUser'])) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
         && $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->mid())) {
         $isAdmin = true;
     } else {

@@ -282,7 +282,7 @@ class Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, $this->value);
+        $view = new \XoopsFormLabel($this->fieldname, $this->value);
 
         return $view;
     }
@@ -342,7 +342,7 @@ class RadioButton extends Field
      */
     public function editField()
     {
-        $radio          = new XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
+        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -358,7 +358,7 @@ class RadioButton extends Field
      */
     public function newField($name = '')
     {
-        $radio          = new XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
+        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -379,7 +379,7 @@ class RadioButton extends Field
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
         }
-        $view = new XoopsFormLabel($this->fieldname, $choosenvalue);
+        $view = new \XoopsFormLabel($this->fieldname, $choosenvalue);
 
         return $view;
     }
@@ -458,7 +458,7 @@ class SelectBox extends Field
      */
     public function editField()
     {
-        $select         = new XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
+        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -474,7 +474,7 @@ class SelectBox extends Field
      */
     public function newField($name = '')
     {
-        $select         = new XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
+        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -495,7 +495,7 @@ class SelectBox extends Field
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
         }
-        $view = new XoopsFormLabel($this->fieldname, $choosenvalue);
+        $view = new \XoopsFormLabel($this->fieldname, $choosenvalue);
 
         return $view;
     }
@@ -580,7 +580,7 @@ class TextBox extends Field
      */
     public function editField()
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
 
         return $textbox;
     }
@@ -592,7 +592,7 @@ class TextBox extends Field
      */
     public function newField($name = '')
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
 
         return $textbox;
     }
@@ -637,7 +637,7 @@ class TextArea extends Field
      */
     public function editField()
     {
-        $textarea = new XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -649,7 +649,7 @@ class TextArea extends Field
      */
     public function newField($name = '')
     {
-        $textarea = new XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -694,8 +694,8 @@ class DataSelect extends Field
      */
     public function editField()
     {
-        //$textarea = new XoopsFormFile("<b>".$this->fieldname."</b>", $this->fieldname, $maxfilesize = 2000);
-        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
+        //$textarea = new \XoopsFormFile("<b>".$this->fieldname."</b>", $this->fieldname, $maxfilesize = 2000);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
 
         return $textarea;
     }
@@ -707,7 +707,7 @@ class DataSelect extends Field
      */
     public function newField($name = '')
     {
-        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
 
         return $textarea;
     }
@@ -753,7 +753,7 @@ class UrlField extends Field
      */
     public function editField()
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
 
         return $textbox;
     }
@@ -765,7 +765,7 @@ class UrlField extends Field
      */
     public function newField($name = '')
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
 
         return $textbox;
     }
@@ -775,7 +775,7 @@ class UrlField extends Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
+        $view = new \XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
 
         return $view;
     }
@@ -843,7 +843,7 @@ class Picture extends Field
      */
     public function editField()
     {
-        $pictureField = new XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
+        $pictureField = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
         $pictureField->setExtra("size ='50'");
 
         return $pictureField;
@@ -856,7 +856,7 @@ class Picture extends Field
      */
     public function newField($name = '')
     {
-        $pictureField = new XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
+        $pictureField = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
         $pictureField->setExtra("size ='50'");
 
         return $pictureField;
@@ -867,7 +867,7 @@ class Picture extends Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
+        $view = new \XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
 
         return $view;
     }

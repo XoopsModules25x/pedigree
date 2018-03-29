@@ -69,7 +69,7 @@ function addDog()
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
     //check for access
-    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     if (0 == $xoopsUser->getVar('uid')) {
@@ -77,21 +77,21 @@ function addDog()
     }
     //create form
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $moduleConfig['animalType']]), 'dogname', 'add_dog.php?f=checkName', 'post', true);
-    $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+    $form = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $moduleConfig['animalType']]), 'dogname', 'add_dog.php?f=checkName', 'post', true);
+    $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     //create random value
     $random = (mt_rand() % 10000);
-    $form->addElement(new XoopsFormHidden('random', $random));
+    $form->addElement(new \XoopsFormHidden('random', $random));
     //find userid
-    $form->addElement(new XoopsFormHidden('user', $xoopsUser->getVar('uid')));
+    $form->addElement(new \XoopsFormHidden('user', $xoopsUser->getVar('uid')));
 
     //name
-    $form->addElement(new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'naam', $size = 50, $maxsize = 255, $value = ''));
+    $form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'naam', $size = 50, $maxsize = 255, $value = ''));
     $string = strtr(_MA_PEDIGREE_FLD_NAME_EX, ['[animalType]' => $moduleConfig['animalType']]);
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, $string));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, $string));
 
     //submit button
-    $form->addElement(new XoopsFormButton('', 'button_id', strtr(_MA_PEDIGREE_ADD_DATA, ['[animalType]' => $moduleConfig['animalType']]), 'submit'));
+    $form->addElement(new \XoopsFormButton('', 'button_id', strtr(_MA_PEDIGREE_ADD_DATA, ['[animalType]' => $moduleConfig['animalType']]), 'submit'));
 
     //add data (form) to smarty template
     $xoopsTpl->assign('form', $form->render());
@@ -119,38 +119,38 @@ function checkName()
     if ($numResults >= 1 && !isset($_GET['r'])) {
         //create form
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $moduleConfig['animalType']]), 'dogname', 'add_dog.php?f=checkName&r=1', 'post', true);
+        $form = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $moduleConfig['animalType']]), 'dogname', 'add_dog.php?f=checkName&r=1', 'post', true);
         //other elements
-        $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-        $form->addElement(new XoopsFormHidden('naam', $_POST['naam']));
-        $form->addElement(new XoopsFormHidden('user', $xoopsUser->getVar('uid')));
+        $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+        $form->addElement(new \XoopsFormHidden('naam', $_POST['naam']));
+        $form->addElement(new \XoopsFormHidden('user', $xoopsUser->getVar('uid')));
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchBoth($result))) {
             //name
-            $form->addElement(new XoopsFormLabel('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>'));
+            $form->addElement(new \XoopsFormLabel('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>'));
         }
-        $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_ADD_KNOWN, ['[animalTypes]' => $moduleConfig['animalTypes']])));
+        $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_ADD_KNOWN, ['[animalTypes]' => $moduleConfig['animalTypes']])));
         //submit button
-        $form->addElement(new XoopsFormButton('', 'button_id', strtr(_MA_PEDIGREE_ADD_KNOWNOK, ['[animalType]' => $moduleConfig['animalType']]), 'submit'));
+        $form->addElement(new \XoopsFormButton('', 'button_id', strtr(_MA_PEDIGREE_ADD_KNOWNOK, ['[animalType]' => $moduleConfig['animalType']]), 'submit'));
         //add data (form) to smarty template
         $xoopsTpl->assign('form', $form->render());
     } else {
         //create form
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $moduleConfig['animalType']]), 'dogname', 'add_dog.php?f=sire', 'post', true);
+        $form = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $moduleConfig['animalType']]), 'dogname', 'add_dog.php?f=sire', 'post', true);
         //added to handle upload
         $form->setExtra("enctype='multipart/form-data'");
-        $form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+        $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
         //create random value
         $random = (mt_rand() % 10000);
-        $form->addElement(new XoopsFormHidden('random', $random));
-        $form->addElement(new XoopsFormHidden('naam', htmlspecialchars($_POST['naam'], ENT_QUOTES)));
+        $form->addElement(new \XoopsFormHidden('random', $random));
+        $form->addElement(new \XoopsFormHidden('naam', htmlspecialchars($_POST['naam'], ENT_QUOTES)));
         //find userid from previous form
-        $form->addElement(new XoopsFormHidden('user', $_POST['user']));
+        $form->addElement(new \XoopsFormHidden('user', $_POST['user']));
 
         //name
-        $form->addElement(new XoopsFormLabel('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', stripslashes($_POST['naam'])));
+        $form->addElement(new \XoopsFormLabel('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', stripslashes($_POST['naam'])));
         //gender
-        $gender_radio = new XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft', $value = '0');
+        $gender_radio = new \XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft', $value = '0');
         $gender_radio->addOptionArray([
                                           '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $moduleConfig['male']]),
                                           '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']])
@@ -158,7 +158,7 @@ function checkName()
         $form->addElement($gender_radio);
         if ('1' == $moduleConfig['ownerbreeder']) {
             //breeder
-            $breeder_select = new XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_BREE . '</b>', $name = 'id_breeder', $value = '0', $size = 1, $multiple = false);
+            $breeder_select = new \XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_BREE . '</b>', $name = 'id_breeder', $value = '0', $size = 1, $multiple = false);
             $queryfok       = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY lastname';
             $resfok         = $GLOBALS['xoopsDB']->query($queryfok);
             $breeder_select->addOption('0', $name = _MA_PEDIGREE_UNKNOWN);
@@ -166,10 +166,10 @@ function checkName()
                 $breeder_select->addOption($rowfok['id'], $name = $rowfok['lastname'] . ', ' . $rowfok['firstname']);
             }
             $form->addElement($breeder_select);
-            $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_BREE_EX, ['[animalType]' => $moduleConfig['animalType']])));
+            $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_BREE_EX, ['[animalType]' => $moduleConfig['animalType']])));
 
             //owner
-            $owner_select = new XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_OWNE . '</b>', $name = 'id_owner', $value = '0', $size = 1, $multiple = false);
+            $owner_select = new \XoopsFormSelect('<b>' . _MA_PEDIGREE_FLD_OWNE . '</b>', $name = 'id_owner', $value = '0', $size = 1, $multiple = false);
             $queryfok     = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY lastname';
             $resfok       = $GLOBALS['xoopsDB']->query($queryfok);
             $owner_select->addOption('0', $name = _MA_PEDIGREE_UNKNOWN);
@@ -177,11 +177,11 @@ function checkName()
                 $owner_select->addOption($rowfok['id'], $name = $rowfok['lastname'] . ', ' . $rowfok['firstname']);
             }
             $form->addElement($owner_select);
-            $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_OWNE_EX, ['[animalType]' => $moduleConfig['animalType']])));
+            $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_OWNE_EX, ['[animalType]' => $moduleConfig['animalType']])));
         }
         //picture
         $max_imgsize = 1024000;
-        $img_box     = new XoopsFormFile('Image', 'photo', $max_imgsize);
+        $img_box     = new \XoopsFormFile('Image', 'photo', $max_imgsize);
         $img_box->setExtra("size ='50'");
         $form->addElement($img_box);
 
@@ -202,7 +202,7 @@ function checkName()
         }
 
         //submit button
-        $form->addElement(new XoopsFormButton('', 'button_id', strtr(_MA_PEDIGREE_ADD_SIRE, ['[father]' => $moduleConfig['father']]), 'submit'));
+        $form->addElement(new \XoopsFormButton('', 'button_id', strtr(_MA_PEDIGREE_ADD_SIRE, ['[father]' => $moduleConfig['father']]), 'submit'));
 
         //add data (form) to smarty template
         $xoopsTpl->assign('form', $form->render());
@@ -222,7 +222,7 @@ function sire()
     $empty         = []; // an empty array
 
     //check for access
-    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     $user = isset($_POST['user']) ? $_POST['user'] : null;
@@ -512,7 +512,7 @@ function dam()
 
     //check for access
     $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     //    if (empty($random)) {

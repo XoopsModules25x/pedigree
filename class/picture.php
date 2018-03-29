@@ -58,7 +58,7 @@ class PedigreePicture extends PedigreeHtmlInputAbstract
      */
     public function editField()
     {
-        $picturefield = new XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
+        $picturefield = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
         $picturefield->setExtra("size ='50'");
 
         return $picturefield;
@@ -71,7 +71,7 @@ class PedigreePicture extends PedigreeHtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $picturefield = new XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
+        $picturefield = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
         $picturefield->setExtra("size ='50'");
 
         return $picturefield;
@@ -82,7 +82,7 @@ class PedigreePicture extends PedigreeHtmlInputAbstract
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
+        $view = new \XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
 
         return $view;
     }

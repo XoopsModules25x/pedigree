@@ -56,7 +56,7 @@ class PedigreeSelectBox extends PedigreeHtmlInputAbstract
      */
     public function editField()
     {
-        $select         = new XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
+        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
         for ($i = 0; $i < $lcCount; ++$i) {
@@ -73,7 +73,7 @@ class PedigreeSelectBox extends PedigreeHtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $select         = new XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
+        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
         for ($i = 0; $i < $lcCount; ++$i) {
@@ -95,7 +95,7 @@ class PedigreeSelectBox extends PedigreeHtmlInputAbstract
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
         }
-        $view = new XoopsFormLabel($this->fieldname, $choosenvalue);
+        $view = new \XoopsFormLabel($this->fieldname, $choosenvalue);
 
         return $view;
     }

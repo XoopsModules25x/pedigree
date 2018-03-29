@@ -56,13 +56,13 @@ function addlitter()
 
     //create xoopsform
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $searchform = new XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_LITTER, ['[litter]' => $moduleConfig['litter']]), 'searchform', 'add_litter.php?f=sire', 'post', true);
-    $searchform->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+    $searchform = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_LITTER, ['[litter]' => $moduleConfig['litter']]), 'searchform', 'add_litter.php?f=sire', 'post', true);
+    $searchform->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     //create random value
     $random = (mt_rand() % 10000);
-    $searchform->addElement(new XoopsFormHidden('random', $random));
+    $searchform->addElement(new \XoopsFormHidden('random', $random));
     //find userid
-    $searchform->addElement(new XoopsFormHidden('userid', $xoopsUser->getVar('uid')));
+    $searchform->addElement(new \XoopsFormHidden('userid', $xoopsUser->getVar('uid')));
     //create animal object
     $animal = new PedigreeAnimal();
     //test to find out how many user fields there are...
@@ -71,11 +71,11 @@ function addlitter()
     //create form contents
     for ($count = 1; $count < 11; ++$count) {
         //name
-        $searchform->addElement(new XoopsFormLabel($count . '.', strtr(_MA_PEDIGREE_KITT_NAME . $count . '.', ['[animalType]' => $moduleConfig['animalType']])));
-        $textbox[$count] = new XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'name' . $count, $size = 50, $maxsize = 50, '');
+        $searchform->addElement(new \XoopsFormLabel($count . '.', strtr(_MA_PEDIGREE_KITT_NAME . $count . '.', ['[animalType]' => $moduleConfig['animalType']])));
+        $textbox[$count] = new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'name' . $count, $size = 50, $maxsize = 50, '');
         $searchform->addElement($textbox[$count]);
         //gender
-        $gender_radio[$count] = new XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft' . $count, $value = '0');
+        $gender_radio[$count] = new \XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft' . $count, $value = '0');
         $gender_radio[$count]->addOptionArray([
                                                   '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $moduleConfig['male']]),
                                                   '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']])
@@ -92,10 +92,10 @@ function addlitter()
             }
         }
         //add empty place holder as divider
-        $searchform->addElement(new XoopsFormLabel('&nbsp;', ''));
+        $searchform->addElement(new \XoopsFormLabel('&nbsp;', ''));
     }
 
-    $searchform->addElement(new XoopsFormLabel(_MA_PEDIGREE_ADD_DATA, _MA_PEDIGREE_DATA_INFO . $moduleConfig['litter'] . '.</h2>'));
+    $searchform->addElement(new \XoopsFormLabel(_MA_PEDIGREE_ADD_DATA, _MA_PEDIGREE_DATA_INFO . $moduleConfig['litter'] . '.</h2>'));
     //add userfields that are not shown in the litter
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $userField   = new Field($fields[$i], $animal->getConfig());
@@ -111,7 +111,7 @@ function addlitter()
     //no need to add the owner here because they will be different for each animal in the litter.
     if ('1' == $moduleConfig['ownerbreeder']) {
         //breeder
-        $breeder  = new XoopsFormSelect(_MA_PEDIGREE_FLD_BREE, 'id_breeder', $value = '', $size = 1, $multiple = false);
+        $breeder  = new \XoopsFormSelect(_MA_PEDIGREE_FLD_BREE, 'id_breeder', $value = '', $size = 1, $multiple = false);
         $queryfok = 'SELECT id, firstname, lastname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' ORDER BY `lastname`';
         $resfok   = $GLOBALS['xoopsDB']->query($queryfok);
         $breeder->addOption(0, $name = 'Unknown');
@@ -122,7 +122,7 @@ function addlitter()
     }
 
     //submit button
-    $searchform->addElement(new XoopsFormButton('', 'submit', strtr(_MA_PEDIGREE_ADD_SIRE, ['[father]' => $moduleConfig['father']]), 'submit'));
+    $searchform->addElement(new \XoopsFormButton('', 'submit', strtr(_MA_PEDIGREE_ADD_SIRE, ['[father]' => $moduleConfig['father']]), 'submit'));
     //send to template
     $searchform->assign($xoopsTpl);
 }
@@ -142,7 +142,7 @@ function sire()
 
     //check for access
     $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
         redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     //    $userid = $_POST['userid'];

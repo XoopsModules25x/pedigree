@@ -76,7 +76,7 @@ class Utility
         require_once $GLOBALS['xoops']->path('class/uploader.php');
         $field = $_POST['xoops_upload_file'][$num];
         if (!empty($field) || '' != $field) {
-            $uploader = new XoopsMediaUploader($img_dir, $allowed_mimetypes, $max_imgsize, $max_imgwidth, $max_imgheight);
+            $uploader = new \XoopsMediaUploader($img_dir, $allowed_mimetypes, $max_imgsize, $max_imgwidth, $max_imgheight);
             $uploader->setPrefix('img');
             if ($uploader->fetchMedia($field) && $uploader->upload()) {
                 $photo = $uploader->getSavedFileName();
@@ -538,7 +538,7 @@ class Utility
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             //reset $gender
             $gender = '';
-            if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof XoopsUser)
+            if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser)
                 && ($row['user'] == $GLOBALS['xoopsUser']->getVar('uid') || true === $modadmin)) {
                 $gender = "<a href='dog.php?id={$row['id']}'><img src='assets/images/edit.png' alt='" . _EDIT . "'></a>
                      . <a href='delete.php?id={$row['id']}'><img src='assets/images/delete.png' alt='" . _DELETE . "'></a>";
@@ -609,14 +609,14 @@ class Utility
         if (is_array($cats)) {
             $cats    = array_map('intval', $cats); // make sure all cats are numbers
             $cat_sql = '(' . implode(',', $cats) . ')';
-            /*
-                        $cat_sql = '(' . current($cats);
-                        array_shift($cats);
-                        foreach ($cats as $cat) {
-                            $cat_sql .= ',' . $cat;
-                        }
-                        $cat_sql .= ')';
-            */
+        /*
+                    $cat_sql = '(' . current($cats);
+                    array_shift($cats);
+                    foreach ($cats as $cat) {
+                        $cat_sql .= ',' . $cat;
+                    }
+                    $cat_sql .= ')';
+        */
         } else {
             $cat_sql = '(' . (int)$cats . ')'; // not efficient but at least creates valid SQL statement
         }
@@ -742,10 +742,10 @@ class Utility
         // Render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('class/theme.php');
-            $GLOBALS['xoTheme'] = new xos_opal_Theme();
+            $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('class/template.php');
-        $letterschoiceTpl          = new XoopsTpl();
+        $letterschoiceTpl          = new \XoopsTpl();
         $letterschoiceTpl->caching = false; // Disable cache
         $letterschoiceTpl->assign('alphabet', $alphabet_array);
         $html = $letterschoiceTpl->fetch('db:' . $pedigree->getModule()->dirname() . '_common_letterschoice.tpl');
@@ -765,7 +765,7 @@ class Utility
         //$alphabet       = XoopsLocal::getAlphabet();
 
         //        xoops_load('XoopsLocal');
-        //        $xLocale        = new XoopsLocal;
+        //        $xLocale        = new \XoopsLocal;
         //        $alphabet       = $xLocale->getAlphabet();
         $alphabet       = pedigreeGetAlphabet();
         $alphabet_array = [];
@@ -810,10 +810,10 @@ class Utility
         // Render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('class/theme.php');
-            $GLOBALS['xoTheme'] = new xos_opal_Theme();
+            $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('class/template.php');
-        $letterschoiceTpl          = new XoopsTpl();
+        $letterschoiceTpl          = new \XoopsTpl();
         $letterschoiceTpl->caching = false; // Disable cache
         $letterschoiceTpl->assign('alphabet', $alphabet_array);
         $html = $letterschoiceTpl->fetch('db:' . $myObject->getModule()->dirname() . '_common_letterschoice.tpl');
@@ -881,7 +881,7 @@ class Utility
     {
         $bRetVal = false;
         //Verifies that a MySQL table exists
-        $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+        $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
         $realName           = $GLOBALS['xoopsDB']->prefix($table);
 
         $sql = 'SHOW TABLES FROM ' . XOOPS_DB_NAME;
@@ -910,7 +910,7 @@ class Utility
      */
     public static function getMeta($key)
     {
-        $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+        $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql                = sprintf('SELECT metavalue FROM %s WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
         $ret                = $GLOBALS['xoopsDB']->query($sql);
         if (!$ret) {
@@ -935,7 +935,7 @@ class Utility
      */
     public static function setMeta($key, $value)
     {
-        $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+        $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
         if (false !== ($ret = PedigreeUtility::getMeta($key))) {
             $sql = sprintf('UPDATE %s SET metavalue = %s WHERE metakey = %s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
         } else {

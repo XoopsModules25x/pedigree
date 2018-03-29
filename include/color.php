@@ -103,7 +103,7 @@ class Image_Color
             array_walk($color3, '_makeWebSafe');
         }
 
-        return Image_Color::rgb2hex($color3);
+        return self::rgb2hex($color3);
     }
 
     /**
@@ -196,7 +196,7 @@ class Image_Color
                 array_walk($newcolor, '_makeWebSafe');
             }
 
-            $allcolors[] = Image_Color::rgb2hex($newcolor);
+            $allcolors[] = self::rgb2hex($newcolor);
         }
 
         return $allcolors;
@@ -262,7 +262,7 @@ class Image_Color
      */
     public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
-        $color = Image_Color::splitColor($color);
+        $color = self::splitColor($color);
         if ($color[1] > hexdec('66')) {
             return $dark;
         } else {
@@ -283,10 +283,10 @@ class Image_Color
     private function setInternalColors($col1, $col2)
     {
         if ($col1) {
-            $this->color1 = Image_Color::splitColor($col1);
+            $this->color1 = self::splitColor($col1);
         }
         if ($col2) {
-            $this->color2 = Image_Color::splitColor($col2);
+            $this->color2 = self::splitColor($col2);
         }
     }
 
@@ -323,7 +323,7 @@ class Image_Color
      */
     private function returnColor($color)
     {
-        return Image_Color::rgb2hex($color);
+        return self::rgb2hex($color);
     }
 
     /**
@@ -357,7 +357,7 @@ class Image_Color
      */
     public function hex2rgb($hex)
     {
-        $return        = Image_Color::splitColor($hex);
+        $return        = self::splitColor($hex);
         $return['hex'] = $hex;
 
         return $return;
@@ -379,7 +379,7 @@ class Image_Color
      */
     public function hsv2rgb($h, $s, $v)
     {
-        return Image_Color::hex2rgb(Image_Color::hsv2hex($h, $s, $v));
+        return self::hex2rgb(self::hsv2hex($h, $s, $v));
     }
 
     /**
@@ -474,7 +474,7 @@ class Image_Color
      */
     public function allocateColor(&$img, $color)
     {
-        $color = Image_Color::color2RGB($color);
+        $color = self::color2RGB($color);
 
         return imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
@@ -499,9 +499,9 @@ class Image_Color
         $c = [];
 
         if ('#' === $color{0}) {
-            $c = Image_Color::hex2rgb($color);
+            $c = self::hex2rgb($color);
         } else {
-            $c = Image_Color::namedColor2RGB($color);
+            $c = self::namedColor2RGB($color);
         }
 
         return $c;

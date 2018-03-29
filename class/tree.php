@@ -18,7 +18,7 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class PedigreeTree
@@ -61,27 +61,27 @@ class PedigreeTree extends XoopsObject
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
+        $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_NAAM, 'naam', $this->getVar('naam'), 4, 47), true);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_USER, 'user', 50, 255, $this->getVar('user')), false);
-        $form->addElement(new XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_ROFT, 'roft', $this->getVar('roft'), 4, 47), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_MOTHER, 'mother', 50, 255, $this->getVar('mother')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_FATHER, 'father', 50, 255, $this->getVar('father')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_FOTO, 'foto', 50, 255, $this->getVar('foto')), false);
-        $form->addElement(new XoopsFormText(_AM_PEDIGREE_PEDIGREE_COI, 'coi', 50, 255, $this->getVar('coi')), false);
+        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_NAAM, 'naam', $this->getVar('naam'), 4, 47), true);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_USER, 'user', 50, 255, $this->getVar('user')), false);
+        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_ROFT, 'roft', $this->getVar('roft'), 4, 47), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_MOTHER, 'mother', 50, 255, $this->getVar('mother')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_FATHER, 'father', 50, 255, $this->getVar('father')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_FOTO, 'foto', 50, 255, $this->getVar('foto')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_COI, 'coi', 50, 255, $this->getVar('coi')), false);
 
-        $form->addElement(new XoopsFormHidden('op', 'save_pedigree'));
+        $form->addElement(new \XoopsFormHidden('op', 'save_pedigree'));
 
         //Submit buttons
-        $button_tray   = new XoopsFormElementTray('', '');
-        $submit_button = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+        $button_tray   = new \XoopsFormElementTray('', '');
+        $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
         $button_tray->addElement($submit_button);
 
-        $cancel_button = new XoopsFormButton('', '', _CANCEL, 'cancel');
+        $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'cancel');
         $cancel_button->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($cancel_button);
 
@@ -97,9 +97,9 @@ class PedigreeTree extends XoopsObject
 class PedigreeTreeHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object|XoopsDatabase $db
+     * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'pedigree_tree', 'PedigreeTree', 'id', 'naam');
     }
@@ -114,21 +114,21 @@ class PedigreeTreeHandler extends XoopsPersistableObjectHandler
     {
         $gpermHandler = xoops_getHandler('groupperm');
 
-        //        $criteria = new CriteriaCompo(new Criteria('offline', false));
-        //        $criteria->add(new Criteria('published', 0, '>'));
-        //        $criteria->add(new Criteria('published', time(), '<='));
-        //        $expiredCriteria = new CriteriaCompo(new Criteria('expired', 0));
-        //        $expiredCriteria->add(new Criteria('expired', time(), '>='), 'OR');
+        //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
+        //        $criteria->add(new \Criteria('published', 0, '>'));
+        //        $criteria->add(new \Criteria('published', time(), '<='));
+        //        $expiredCriteria = new \CriteriaCompo(new \Criteria('expired', 0));
+        //        $expiredCriteria->add(new \Criteria('expired', time(), '>='), 'OR');
         //        $criteria->add($expiredCriteria);
 
         // add criteria for categories that the user has permissions for
         //        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
         //mb        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
-        //mb        $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+        //mb        $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (null !== $roft) {
-            $criteria->add(new Criteria('roft', $roft));
+            $criteria->add(new \Criteria('roft', $roft));
         }
         $criteria->setSort('naam ASC');
         $criteria->setOrder('ASC');

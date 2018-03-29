@@ -72,9 +72,9 @@ switch ($permission) {
         break;
 }
 
-$permform = new XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, 'admin/permissions.php');
+$permform = new \XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, 'admin/permissions.php');
 //    $xdir_catHandler= xoops_getModuleHandler('xdirectory_xdir_cat', $xoopsModule->getVar("dirname"));
-$criteria = new CriteriaCompo();
+$criteria = new \CriteriaCompo();
 $criteria->setSort('title');
 $criteria->setOrder('ASC');
 //    $xdir_cat_arr = $xdir_catHandler->getObjects($criteria);

@@ -365,7 +365,7 @@ class CheckoutWizard extends ZervWizard
             $sql = 'UPDATE '
                    . $GLOBALS['xoopsDB']->prefix('pedigree_fields')
                    . " SET fieldname = '"
-                   . htmlspecialchars($this->getValue('name'))
+                   . htmlspecialchars($this->getValue('name'), ENT_QUOTES | ENT_HTML5)
                    . "', fieldtype = '"
                    . $this->getValue('fieldtype')
                    . "', defaultvalue = '"
@@ -439,7 +439,7 @@ class CheckoutWizard extends ZervWizard
                    . " VALUES ('"
                    . $nextfieldnum
                    . "', '1', '"
-                   . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name')))
+                   . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name'), ENT_QUOTES | ENT_HTML5))
                    . "', '"
                    . $GLOBALS['xoopsDB']->escape($this->getValue('fieldtype'))
                    . "', '"

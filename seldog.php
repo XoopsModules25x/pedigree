@@ -107,7 +107,7 @@ for ($i = 0; $i < $fieldsCount; ++$i) {
     if ($userField->isActive() && $userField->inList()) {
         if ($userField->hasLookup()) {
             $lookupValues = $userField->lookupField($fields[$i]);
-            //debug information
+        //debug information
             //print_r($lookupValues);
         } else {
             $lookupValues = '';
