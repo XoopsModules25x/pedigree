@@ -22,7 +22,7 @@ if (empty($xoopsUser)) {
     redirect_header('index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-$f = isset($_GET['f']) ? $_GET['f'] : '';
+$f = \Xmf\Request::getString('f', '', 'GET');
 if ('check' === $f) {
     check();
 }

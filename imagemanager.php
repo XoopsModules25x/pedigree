@@ -78,7 +78,7 @@ if ('list' === $op) {
                 $xoopsTpl->assign('lang_image', _IMAGE);
                 $xoopsTpl->assign('lang_imagename', _IMAGENAME);
                 $xoopsTpl->assign('lang_imagemime', _IMAGEMIME);
-                $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+                $start = \Xmf\Request::getInt('start', 0, 'GET');
                 $criteria->setLimit(10);
                 $criteria->setStart($start);
                 $storetype = $imgcat->getVar('imgcat_storetype');
