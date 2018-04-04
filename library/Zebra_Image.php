@@ -1527,7 +1527,7 @@ class Zebra_Image
      *
      *                                          Default is "#FFFFFF".
      *
-     * @return                                 Returns the identifier of the newly created image.
+     * @return resource the identifier of the newly created image.
      *
      * @access private
      */

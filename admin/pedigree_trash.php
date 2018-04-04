@@ -38,7 +38,7 @@ switch ($op) {
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
         $numrows            = $pedigreeTrashHandler->getCount();
-        $pedigree_trash_arr = $pedigreeTrashHandler->getall($criteria);
+        $pedigree_trash_arr = $pedigreeTrashHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {

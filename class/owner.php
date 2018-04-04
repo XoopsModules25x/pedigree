@@ -113,7 +113,7 @@ class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
      */
     public function getActiveCriteria()
     {
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         //        $criteria->add(new \Criteria('published', 0, '>'));
@@ -123,7 +123,7 @@ class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
         //        $criteria->add($expiredCriteria);
         // add criteria for categories that the user has permissions for
         //        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-        //mb        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        //mb        $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
         //mb        $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
         $criteria = new \CriteriaCompo();

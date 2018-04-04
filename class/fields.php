@@ -112,7 +112,7 @@ class PedigreeFields extends XoopsObject
         //            $criteria = new \CriteriaCompo();
         //            $criteria->setSort('_id');
         //            $criteria->setOrder('ASC');
-        //            $_arr = $Handler->getall();
+        //            $_arr = $Handler->getAll();
         //            $mytree = new \XoopsObjectTree($_arr, "_id", "_pid");
         //            $form->addElement(new \XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
         //
@@ -121,7 +121,7 @@ class PedigreeFields extends XoopsObject
         //            $criteria = new \CriteriaCompo();
         //            $criteria->setSort('_id');
         //            $criteria->setOrder('ASC');
-        //            $_arr = $Handler->getall();
+        //            $_arr = $Handler->getAll();
         //            $mytree = new \XoopsObjectTree($_arr, "_id", "_pid");
         //            $form->addElement(new \XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_ORDER, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
         /*

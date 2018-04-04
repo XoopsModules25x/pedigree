@@ -87,7 +87,7 @@ class PedigreeUtility
     /**
      * @param $filename
      *
-     * @return bool
+     * @return void
      */
     public static function createThumbs($filename)
     {
@@ -870,7 +870,7 @@ class PedigreeUtility
     public static function getMeta($key)
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-        $sql                = sprintf('SELECT metavalue FROM %s WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+        $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
         $ret                = $GLOBALS['xoopsDB']->query($sql);
         if (!$ret) {
             $value = false;

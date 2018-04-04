@@ -85,7 +85,7 @@ function uploadPicture($num)
 /**
  * @param $filename
  *
- * @return bool
+ * @return void
  */
 function createThumbs($filename)
 {/*
@@ -820,7 +820,7 @@ function hasTable($table)
 function getMeta($key)
 {
     $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-    $sql                = sprintf('SELECT metavalue FROM %s WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+    $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
     $ret                = $GLOBALS['xoopsDB']->query($sql);
     if (!$ret) {
         $value = false;

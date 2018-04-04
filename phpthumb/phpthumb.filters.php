@@ -679,7 +679,7 @@ class phpthumb_filters
         $margin_x = 5,
         $margin_y = null
     ) {
-        $margin_y = (is_null($margin_y) ? $margin_x : $margin_y);
+        $margin_y = (null === $margin_y ? $margin_x : $margin_y);
 
         $Analysis = self::HistogramAnalysis($gdimg, true);
         $histW    = round(($width > 1) ? min($width, imagesx($gdimg)) : imagesx($gdimg) * $width);
@@ -1489,7 +1489,7 @@ class phpthumb_filters
             $watermark_source_width    = imagesx($img_watermark);
             $watermark_source_height   = imagesy($img_watermark);
             $watermark_opacity_percent = max(0, min(100, $opacity));
-            $margin_y                  = (is_null($margin_y) ? $margin_x : $margin_y);
+            $margin_y                  = (null === $margin_y ? $margin_x : $margin_y);
             $watermark_margin_x        = ((($margin_x > 0) && ($margin_x < 1)) ? round((1 - $margin_x) * $img_source_width) : $margin_x);
             $watermark_margin_y        = ((($margin_y > 0) && ($margin_y < 1)) ? round((1 - $margin_y) * $img_source_height) : $margin_y);
             $watermark_destination_x   = 0;

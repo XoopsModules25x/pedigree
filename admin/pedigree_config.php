@@ -38,7 +38,7 @@ switch ($op) {
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
         $numrows             = $pedigreeFieldsHandler->getCount();
-        $pedigree_config_arr = $pedigreeFieldsHandler->getall($criteria);
+        $pedigree_config_arr = $pedigreeFieldsHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {

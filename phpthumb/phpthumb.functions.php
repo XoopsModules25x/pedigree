@@ -326,8 +326,8 @@ class phpthumb_functions
         $allow_enlarge = true,
         $allow_reduce = true
     ) {
-        $maxwidth  = (is_null($maxwidth) ? $width : $maxwidth);
-        $maxheight = (is_null($maxheight) ? $height : $maxheight);
+        $maxwidth  = (null === $maxwidth ? $width : $maxwidth);
+        $maxheight = (null === $maxheight ? $height : $maxheight);
         $scale_x   = 1;
         $scale_y   = 1;
         if (($width > $maxwidth) || ($width < $maxwidth)) {
@@ -483,7 +483,7 @@ class phpthumb_functions
     public static function FunctionIsDisabled($function)
     {
         static $DisabledFunctions = null;
-        if (is_null($DisabledFunctions)) {
+        if (null === $DisabledFunctions) {
             $disable_functions_local  = explode(',', strtolower(@ini_get('disable_functions')));
             $disable_functions_global = explode(',', strtolower(@get_cfg_var('disable_functions')));
             foreach ($disable_functions_local as $key => $value) {
@@ -588,7 +588,7 @@ class phpthumb_functions
     public static function gd_is_bundled()
     {
         static $isbundled = null;
-        if (is_null($isbundled)) {
+        if (null === $isbundled) {
             $gd_info   = gd_info();
             $isbundled = (false !== strpos($gd_info['GD Version'], 'bundled'));
         }
@@ -945,7 +945,7 @@ class phpthumb_functions
         foreach ($open_basedirs as $key => $open_basedir) {
             if (preg_match('#^' . preg_quote($open_basedir) . '#', $dirname)
                 && (strlen($dirname) > strlen($open_basedir))) {
-                $startoffset = count(explode(DIRECTORY_SEPARATOR, $open_basedir));
+                $startoffset = substr_count($open_basedir, DIRECTORY_SEPARATOR) + 1;
                 break;
             }
         }

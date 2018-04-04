@@ -223,7 +223,7 @@ class ZervWizard
      */
     public function setCurrentStep($step)
     {
-        if (is_null($step) || !$this->stepExists($step)) {
+        if (null === $step || !$this->stepExists($step)) {
             $this->_complete                            = true;
             $this->container[$this->_step_expected_key] = null;
         } else {
@@ -545,7 +545,7 @@ class ZervWizard
      */
     public function coalesce(&$var, $default = null)
     {
-        return isset($var) && !is_null($var) ? $var : $default;
+        return isset($var) && null !== $var ? $var : $default;
     }
 
     /**
@@ -572,7 +572,7 @@ class ZervWizard
      */
     public function isError($key = null)
     {
-        if (!is_null($key)) {
+        if (null !== $key) {
             return array_key_exists($key, $this->_errors);
         }
 

@@ -466,7 +466,7 @@ class Image_Color
      * @param resource     $img   Image handle
      * @param string|array $color Name or hex string or an RGB array.
      *
-     * @return resource Image color handle.
+     * @return bool Image color handle.
      * @access  public
      * @static
      * @uses    imagefilledarc() to allocate the color.
