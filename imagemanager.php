@@ -50,7 +50,7 @@ if ('list' === $op) {
     $xoopsTpl->assign('lang_close', _CLOSE);
     if ($catcount > 0) {
         $xoopsTpl->assign('lang_go', _GO);
-        $catshow = !isset($_GET['cat_id']) ? 0 : (int)$_GET['cat_id'];
+        $catshow = \Xmf\Request::getInt('cat_id', 0, 'GET');
         $catshow = (!empty($catshow) && in_array($catshow, array_keys($catlist))) ? $catshow : 0;
         $xoopsTpl->assign('show_cat', $catshow);
         if ($catshow > 0) {
@@ -133,7 +133,7 @@ if ('list' === $op) {
 
 if ('upload' === $op) {
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $imgcat_id     = (int)$_GET['imgcat_id'];
+    $imgcat_id     = \Xmf\Request::getInt('imgcat_id', 0, 'GET');
     $imgcat        = $imgcatHandler->get($imgcat_id);
     $error         = false;
     if (!is_object($imgcat)) {

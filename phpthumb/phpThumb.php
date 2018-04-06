@@ -158,7 +158,7 @@ if (!empty($PHPTHUMB_CONFIG)) {
     }
     if (!$phpThumb->config_disable_debug) {
         // if debug mode is enabled, force phpThumbDebug output, do not allow normal thumbnails to be generated
-        $_GET['phpThumbDebug'] = (!empty($_GET['phpThumbDebug']) ? max(1, (int)$_GET['phpThumbDebug']) : 9);
+        $_GET['phpThumbDebug'] = (!empty($_GET['phpThumbDebug']) ? max(1, \Xmf\Request::getInt('phpThumbDebug', 0, 'GET')) : 9);
         $phpThumb->setParameter('phpThumbDebug', $_GET['phpThumbDebug']);
     }
 } else {
