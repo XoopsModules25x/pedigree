@@ -896,9 +896,9 @@ class PedigreeUtility
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
         if (false !== ($ret = self::getMeta($key))) {
-            $sql = sprintf('UPDATE %s SET metavalue = %s WHERE metakey = %s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
+            $sql = sprintf('UPDATE `%s` SET metavalue = %s WHERE metakey = %s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
         } else {
-            $sql = sprintf('INSERT INTO %s (metakey, metavalue) VALUES (%s, %s)', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
+            $sql = sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (%s, %s)', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
         }
         $ret = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$ret) {

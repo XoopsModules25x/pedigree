@@ -257,7 +257,7 @@ if (!empty($_GET['src']) && isset($_GET['md5s']) && empty($_GET['md5s'])) {
             $phpThumb->ErrorImage('ERROR: "' . $SourceFilename . '" cannot be read');
         }
     }
-    if (!empty($_SERVER['HTTP_REFERER'])) {
+   if (\Xmf\Request::hasVar('HTTP_REFERER', 'SERVER')) {
         $phpThumb->ErrorImage('&md5s=' . $md5s);
     } else {
         die('&md5s=' . $md5s);
@@ -578,7 +578,7 @@ while ($CanPassThroughDirectly && $phpThumb->src) {
                 $phpThumb->ErrorImage('Headers already sent (' . basename(__FILE__) . ' line ' . __LINE__ . ')');
                 exit;
             }
-            if (!empty($_GET['phpThumbDebug'])) {
+           if (\Xmf\Request::hasVar('phpThumbDebug', 'GET')) {
                 $phpThumb->DebugTimingMessage('skipped direct $SourceFilename passthru', __FILE__, __LINE__);
                 $phpThumb->DebugMessage('Would have passed "' . $SourceFilename . '" through directly, but skipping due to phpThumbDebug', __FILE__, __LINE__);
                 break;
