@@ -194,7 +194,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
     $gender = '';
     if ((!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser))
-        && (($row['user'] == $xoopsUser->getVar('uid')) || (true == $modadmin))) {
+        && (($row['user'] == $xoopsUser->getVar('uid')) || (true === $modadmin))) {
         $gender = "<a href='dog.php?id={$row['id']}'><img src=" . $pathIcon16 . '/edit.png alt=' . _EDIT . "'></a>
               <a href='delete.php?id={$row['id']}'><img src=" . $pathIcon16 . '/delete.png alt=' . _DELETE . "'></a>";
     }
