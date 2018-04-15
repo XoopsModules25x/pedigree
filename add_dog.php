@@ -3,7 +3,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 //$moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -186,7 +186,7 @@ function checkName()
         $form->addElement($img_box);
 
         //create animal object
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
 
@@ -262,7 +262,7 @@ function sire()
             redirect_header('add_dog.php', 1, _MA_PEDIGREE_ADD_NAMEPLZ);
         }
         //create animal object
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
         sort($fields); //sort by ID not by order
@@ -383,7 +383,7 @@ function sire()
     $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '0' AND naam LIKE '" . $l . "%'ORDER BY naam LIMIT " . $st . ', ' . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -474,7 +474,7 @@ function sire()
     $xoopsTpl->assign('pages', $pages);
 
     //mb =========== FATHER LETTERS =============================
-    $myObject = PedigreePedigree::getInstance();
+    $myObject = Pedigree\Helper::getInstance();
     $roft     = 0;
     //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
     $activeObject = 'tree';
@@ -600,7 +600,7 @@ function dam()
     $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '1' AND naam LIKE '" . $l . "%' ORDER BY naam LIMIT " . $st . ', ' . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -690,7 +690,7 @@ function dam()
     $xoopsTpl->assign('pages', $pages);
 
     //mb ========= MOTHER LETTERS===============================
-    $myObject = PedigreePedigree::getInstance();
+    $myObject = Pedigree\Helper::getInstance();
     $roft     = 1;
     //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
     $activeObject = 'tree';
@@ -738,7 +738,7 @@ function check()
     $result      = $GLOBALS['xoopsDB']->query($queryString);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create animal object
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
         sort($fields);

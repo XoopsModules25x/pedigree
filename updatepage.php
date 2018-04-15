@@ -24,7 +24,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -36,11 +36,11 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('Pedigree\Animal', $moduleDirName);
 
 // Include any common code for this module.
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
 
 /*
 $GLOBALS['xoopsOption']['template_main'] = "pedigree_update.tpl";
@@ -72,7 +72,7 @@ $gender   = Request::getString('roft', '', 'POST'); //Richard
 $id_owner = Request::getInt('id_owner', 0, 'POST');
 
 //$id       = (!isset($_POST['dogid']) ? $id = '' : $id = $_POST['dogid']);
-$animal = new PedigreeAnimal($dogid);
+$animal = new Pedigree\Animal($dogid);
 $fields = $animal->getNumOfFields();
 
 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {

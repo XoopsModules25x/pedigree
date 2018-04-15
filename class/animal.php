@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -27,7 +28,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  * Animal Class
  *
  */
-class PedigreeAnimal
+class Animal
 {
     protected $myTree       = [];
     protected $fields       = [];

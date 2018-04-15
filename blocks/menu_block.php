@@ -11,7 +11,7 @@ xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 //require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
 //require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
-require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/field.php');
+//require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/field.php');
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
@@ -23,8 +23,8 @@ function menu_block()
 {
     global $xoopsTpl, $xoopsUser, $pedigree;
     $moduleDirName = basename(dirname(__DIR__));
-    if (!class_exists('PedigreePedigree')) {
-        $pedigree = PedigreePedigree::getInstance(false);
+    if (!class_exists('Pedigree\Helper')) {
+        $pedigree = Pedigree\Helper::getInstance(false);
     }
     /*
     //get module configuration

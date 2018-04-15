@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,9 +21,9 @@
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class PedigreeFields
+ * Class Pedigree\Fields
  */
-class PedigreeFields extends XoopsObject
+class Fields extends \XoopsObject
 {
     /**
      * Constructor
@@ -263,43 +264,5 @@ class PedigreeFields extends XoopsObject
     public function getSetting($setting)
     {
         return isset($this->$setting) ? $this->setting : null;
-    }
-}
-
-/**
- * Class PedigreeFieldsHandler
- *
- * @param object $db reference to the {@link XoopsDatabase} object
- *
- * @return void
- */
-class PedigreeFieldsHandler extends XoopsPersistableObjectHandler
-{
-    /**
-     * @param null|object|\XoopsDatabase $db
-     */
-    public function __construct(\XoopsDatabase $db)
-    {
-        parent::__construct($db, 'pedigree_fields', 'PedigreeFields', 'id', 'FieldName');
-    }
-
-    /**
-     * @todo table pedigree_lookup doesn't exist in dB this function will FAIL if called
-     *
-     * @param $fieldnumber
-     *
-     * @return array
-     */
-    public function lookupField($fieldnumber)
-    {
-        $ret    = [];
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
-        $result = $GLOBALS['xoopsDB']->query($SQL);
-        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
-        }
-
-        //array_multisort($ret,SORT_ASC);
-        return $ret;
     }
 }

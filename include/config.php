@@ -17,7 +17,7 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-require_once __DIR__ . '/../../../mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 if (!defined('PEDIGREE_DIRNAME')) {
     define('PEDIGREE_DIRNAME', $GLOBALS['xoopsModule']->dirname());

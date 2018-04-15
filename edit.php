@@ -3,7 +3,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -40,7 +40,7 @@ function save()
 {
     global $xoopsDB, $moduleConfig;
     $a      = (!isset($_POST['id']) ? $a = '' : $a = $_POST['id']);
-    $animal = new PedigreeAnimal($a);
+    $animal = new Pedigree\Animal($a);
     $fields = $animal->getNumOfFields();
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
         $userField = new Field($fields[$i], $animal->getConfig());
@@ -161,7 +161,7 @@ function edit($id = 0)
         $form->addElement($img_box);
         //userfields
         //create animal object
-        $animal = new PedigreeAnimal($id);
+        $animal = new Pedigree\Animal($id);
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {

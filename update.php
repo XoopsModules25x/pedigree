@@ -3,13 +3,13 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/field.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_update.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
@@ -34,7 +34,7 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$pedigree     = PedigreePedigree::getInstance(false);
+$pedigree     = Pedigree\Helper::getInstance(false);
 $moduleConfig = $pedigree->getConfig();
 
 $myts = \MyTextSanitizer::getInstance();
@@ -183,7 +183,7 @@ if ('pc' === $fld || 'all' === $fld) {
 //create animal object
 
 $a      = (!isset($_GET['id']) ? $a = 1 : $a = $_GET['id']);
-$animal = new PedigreeAnimal($a);
+$animal = new Pedigree\Animal($a);
 
 //test to find out how many user fields there are..
 $fields = $animal->getNumOfFields();

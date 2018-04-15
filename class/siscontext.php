@@ -1,9 +1,9 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
 
 /**
- * Class PedigreeSISContext
+ * Class Pedigree\SISContext
  */
-class PedigreeSISContext
+class SISContext
 {
     private $contexts;
     private $depth;

@@ -4,7 +4,7 @@ use Xmf\Request;
 
 ini_set('memory_limit', '32M');
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);

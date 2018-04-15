@@ -20,7 +20,7 @@
  *
  */
 
-require_once __DIR__ . '/../../include/common.php';
+require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class Configurator
@@ -45,7 +45,7 @@ class Configurator
         $moduleDirName = basename(dirname(__DIR__));
         $capsDirName   = strtoupper($moduleDirName);
 
-        require_once __DIR__ . '/../../include/config.php';
+        require_once  dirname(dirname(__DIR__)) . '/include/config.php';
         $config = getConfig();
 
         $this->name            = $config->name;

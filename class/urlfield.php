@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,9 +22,9 @@
 require_once __DIR__ . '/htmlinput.abstract.php';
 
 /**
- * Class PedigreeSelectBox
+ * Class Pedigree\SelectBox
  */
-class PedigreeUrlField extends PedigreeHtmlInputAbstract
+class UrlField extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -37,7 +37,7 @@ class PedigreeUrlField extends PedigreeHtmlInputAbstract
      * Constructor
      *
      * @param Field          $parentObject
-     * @param PedigreeAnimal $animalObject
+     * @param Pedigree\Animal $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {

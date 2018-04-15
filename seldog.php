@@ -3,12 +3,12 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('Pedigree\Animal', $moduleDirName);
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
@@ -93,7 +93,7 @@ if (($numPages > 1) && ($currentPage < $numPages)) {
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY naam LIMIT {$st}, {$perPage}";
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-$animal = new PedigreeAnimal();
+$animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
 $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
@@ -230,7 +230,7 @@ $GLOBALS['xoopsTpl']->assign([
                              ]);
 
 //mb ========= MOTHER LETTERS===============================
-$myObject = PedigreePedigree::getInstance();
+$myObject = Pedigree\Helper::getInstance();
 $roft     = $gend;
 //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
 $activeObject = 'tree';

@@ -21,7 +21,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -32,7 +32,7 @@ include $GLOBALS['xoops']->path('/header.php');
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
@@ -683,7 +683,7 @@ function savelookupvalue($field, $id)
  */
 function dellookupvalue($field, $id)
 {
-    $animal      = new PedigreeAnimal();
+    $animal      = new Pedigree\Animal();
     $fields      = $animal->getNumOfFields();
     $userField   = new Field($field, $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
@@ -989,7 +989,7 @@ function credits()
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     */
-    $pedigree = PedigreePedigree::getInstance(false);
+    $pedigree = Pedigree\Helper::getInstance(false);
     $form     = 'Pedigree database module<br><br><li>Programming : James Cotton<br><li>Design & Layout : Ton van der Hagen<br><li>Version : '
                 . round($pedigree->getModule()->getVar('version') / 100, 2)
                 . ' '

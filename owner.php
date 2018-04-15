@@ -3,7 +3,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 //xoops_loadLanguage('main', basename(dirname(__DIR__)));
@@ -87,7 +87,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $breeder = PedigreeUtility::breederof($row['id'], 1);
 
     //entered into the database by
-    $dbuser = XoopsUserUtility::getUnameFromId($row['user']);
+    $dbuser = \XoopsUserUtility::getUnameFromId($row['user']);
 
     //check for edit rights
     $access      = 0;

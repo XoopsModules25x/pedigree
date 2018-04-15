@@ -3,12 +3,12 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 //$moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('Pedigree\Animal', $moduleDirName);
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
@@ -43,7 +43,7 @@ function virt()
     $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    $pedigree      = PedigreePedigree::getInstance();
+    $pedigree      = Pedigree\Helper::getInstance();
 
     //    if (isset($_GET['st'])) {
     //        $st = $_GET['st'];
@@ -134,7 +134,7 @@ function virt()
                    . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -225,7 +225,7 @@ function virt()
     //    break;
 
     //mb =========== FATHER LETTERS =============================
-    $myObject = PedigreePedigree::getInstance();
+    $myObject = Pedigree\Helper::getInstance();
     $roft     = 0;
     //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
     $activeObject = 'tree';
@@ -374,7 +374,7 @@ function dam()
                    . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -471,7 +471,7 @@ function dam()
     $xoopsTpl->assign('virtualsire', $vsire);
 
     //mb ========= MOTHER LETTERS===============================
-    $myObject = PedigreePedigree::getInstance();
+    $myObject = Pedigree\Helper::getInstance();
     $roft     = 1;
     //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
     $activeObject = 'tree';

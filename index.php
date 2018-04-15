@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -34,7 +34,7 @@ $xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/style.css');
 $GLOBALS['xoopsTpl']->assign('pedigree_url', PEDIGREE_URL . '/');
 
 // Breadcrumb
-$breadcrumb = new PedigreeBreadcrumb();
+$breadcrumb = new Pedigree\Breadcrumb();
 $breadcrumb->addLink($pedigree->getModule()->getVar('name'), PEDIGREE_URL);
 
 $GLOBALS['xoopsTpl']->assign('module_home', PedigreeUtility::getModuleName(false)); // this definition is not removed for backward compatibility issues
@@ -48,8 +48,8 @@ $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //create animal object
-require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->dirname() . '/class/animal.php');
-$animal = new PedigreeAnimal();
+//require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->dirname() . '/class/animal.php');
+$animal = new Pedigree\Animal();
 
 //test to find out how many user fields there are..
 $fields = $animal->getNumOfFields();
@@ -73,7 +73,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
 
 //$catarray['letters']          = PedigreeUtility::lettersChoice();
 $letter       = '';
-$myObject     = PedigreePedigree::getInstance();
+$myObject     = Pedigree\Helper::getInstance();
 $activeObject = 'tree';
 $name         = 'naam';
 $link         = "result.php?f={$name}&amp;l=1&amp;o={$name}&amp;w=";

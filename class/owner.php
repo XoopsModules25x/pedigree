@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,9 +22,9 @@
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class PedigreeOwner
+ * Class Pedigree\Owner
  */
-class PedigreeOwner extends XoopsObject
+class Owner extends \XoopsObject
 {
     //Constructor
     /**
@@ -90,46 +91,5 @@ class PedigreeOwner extends XoopsObject
         $form->addElement($button_tray);
 
         return $form;
-    }
-}
-
-/**
- * Class PedigreeOwnerHandler
- */
-class PedigreeOwnerHandler extends XoopsPersistableObjectHandler
-{
-    /**
-     * @param null|object|\XoopsDatabase $db
-     */
-    public function __construct(\XoopsDatabase $db)
-    {
-        parent::__construct($db, 'pedigree_owner', 'PedigreeOwner', 'id', 'firstname');
-    }
-
-    /**
-     * Get criteria for active animals
-     *
-     * @return CriteriaElement
-     */
-    public function getActiveCriteria()
-    {
-        $grouppermHandler = xoops_getHandler('groupperm');
-
-        //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
-        //        $criteria->add(new \Criteria('published', 0, '>'));
-        //        $criteria->add(new \Criteria('published', time(), '<='));
-        //        $expiredCriteria = new \CriteriaCompo(new \Criteria('expired', 0));
-        //        $expiredCriteria->add(new \Criteria('expired', time(), '>='), 'OR');
-        //        $criteria->add($expiredCriteria);
-        // add criteria for categories that the user has permissions for
-        //        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-        //mb        $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
-        //mb        $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-
-        $criteria = new \CriteriaCompo();
-        $criteria->setSort('lastname ASC');
-        $criteria->setOrder('ASC');
-
-        return $criteria;
     }
 }

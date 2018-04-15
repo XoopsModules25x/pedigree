@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,14 +21,14 @@
  */
 
 /**
- * Class PedigreeRadioButton
+ * Class Pedigree\RadioButton
  */
 require_once __DIR__ . '/htmlinput.abstract.php';
 
 /**
- * Class PedigreeRadioButton
+ * Class Pedigree\RadioButton
  */
-class PedigreeRadioButton extends PedigreeHtmlInputAbstract
+class RadioButton extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -41,10 +42,10 @@ class PedigreeRadioButton extends PedigreeHtmlInputAbstract
      *
      * @todo move hard coded language string to language file
      *
-     * @param PedigreeField  $parentObject
-     * @param PedigreeAnimal $animalObject
+     * @param Pedigree\Field  $parentObject
+     * @param Pedigree\Animal $animalObject
      */
-    public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
+    public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
     {
         $this->fieldnumber  = $parentObject->getId();
         $this->fieldname    = $parentObject->fieldname;

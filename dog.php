@@ -3,13 +3,13 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/class/field.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/class/field.php';
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
@@ -182,7 +182,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //userdefined fields
 
     $a      = Request::getInt('id', 1, 'GET');
-    $animal = new PedigreeAnimal($a);
+    $animal = new Pedigree\Animal($a);
 
     //test to find out how many user fields there are..
     $fields = $animal->getNumOfFields();
@@ -247,7 +247,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     if ('1' == $moduleConfig['proversion']) {
         $items[] = [
             'header' => _MA_PEDIGREE_FLD_DBUS,
-            'data'   => XoopsUserUtility::getUnameFromId($row['user']),
+            'data'   => \XoopsUserUtility::getUnameFromId($row['user']),
             'edit'   => ''
         ];
     }

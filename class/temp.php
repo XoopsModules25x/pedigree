@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,9 +22,9 @@
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class PedigreeTemp
+ * Class Pedigree\Temp
  */
-class PedigreeTemp extends XoopsObject
+class Temp extends \XoopsObject
 {
     //Constructor
     /**
@@ -47,7 +48,7 @@ class PedigreeTemp extends XoopsObject
     /**
      * @param bool $action
      *
-     * @return XoopsThemeForm
+     * @return \XoopsThemeForm
      */
     public function getForm($action = false)
     {
@@ -99,19 +100,5 @@ class PedigreeTemp extends XoopsObject
         $form->addElement($button_tray);
 
         return $form;
-    }
-}
-
-/**
- * Class PedigreeTempHandler
- */
-class PedigreeTempHandler extends XoopsPersistableObjectHandler
-{
-    /**
-     * @param null|\XoopsDatabase $db
-     */
-    public function __construct(\XoopsDatabase $db)
-    {
-        parent::__construct($db, 'pedigree_temp', 'PedigreeTemp', 'id', 'naam');
     }
 }

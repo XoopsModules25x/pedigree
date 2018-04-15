@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * PedigreeBreadcrumb Class
+ * Pedigree\Breadcrumb Class
  *
  * @copyright   {@link https://xoops.org/ XOOPS Project}
  * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
@@ -22,7 +23,7 @@
 /**
  * Class Field
  */
-class PedigreeField
+class Field
 {
     protected $id;
 

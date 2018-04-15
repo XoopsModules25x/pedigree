@@ -3,11 +3,11 @@
 $moduleDirName = basename(dirname(__DIR__));
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
-if (!class_exists('PedigreeAnimal')) {
-    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
+if (!class_exists('Pedigree\Animal')) {
+//    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
 }
-if (!class_exists('PedigreeField')) {
-    $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
+if (!class_exists('Pedigree\Field')) {
+//    $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
 }
 /*
 //get module configuration
@@ -259,13 +259,13 @@ class Utility
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         $nummatch    = $GLOBALS['xoopsDB']->getRowsNum($queryresult);
 
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
         $columns[]    = ['columnname' => 'Name'];
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new PedigreeField($fields[$i], $animal->getConfig());
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
@@ -347,13 +347,13 @@ class Utility
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         $nummatch1   = $GLOBALS['xoopsDB']->getRowsNum($queryresult);
 
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
         $fields        = $animal->getNumOfFields();
         $numofcolumns1 = 1;
         $columns1[]    = ['columnname' => 'Name'];
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new PedigreeField($fields[$i], $animal->getConfig());
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
@@ -505,13 +505,13 @@ class Utility
     public static function createList($result, $prefix, $link, $element)
     {
         global $xoopsTpl;
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
         $columns[]    = ['columnname' => 'Name'];
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new PedigreeField($fields[$i], $animal->getConfig());
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive() && $userField->inList()) {
@@ -699,7 +699,7 @@ class Utility
      * Create download by letter choice bar/menu
      * updated starting from this idea https://xoops.org/modules/news/article.php?storyid=6497
      *
-     * @param PedigreePedigree $myObject
+     * @param Pedigree\Helper $myObject
      * @param                  $activeObject
      * @param                  $criteria
      * @param                  $name
@@ -715,7 +715,7 @@ class Utility
     public static function lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2 = null)
     {
         /*
-        $pedigree = PedigreePedigree::getInstance();
+        $pedigree = Pedigree\Helper::getInstance();
         xoops_load('XoopsLocal');
 
         $criteria = $pedigree->getHandler('tree')->getActiveCriteria();
@@ -753,7 +753,7 @@ class Utility
         return $html;
 */
 
-        //        $pedigree = PedigreePedigree::getInstance();
+        //        $pedigree = Pedigree\Helper::getInstance();
         //        xoops_load('XoopsLocal');
 
         //        $criteria = $myObject->getHandler($activeObject)->getActiveCriteria();
@@ -827,7 +827,7 @@ class Utility
      */
     public static function userIsAdmin()
     {
-        $pedigree = PedigreePedigree::getInstance();
+        $pedigree = Pedigree\Helper::getInstance();
 
         static $pedigree_isAdmin;
 
@@ -857,7 +857,7 @@ class Utility
      */
     public static function getModuleName($withLink = true)
     {
-        $pedigree = PedigreePedigree::getInstance();
+        $pedigree = Pedigree\Helper::getInstance();
 
         $pedigreeModuleName = $pedigree->getModule()->getVar('name');
         if (!$withLink) {

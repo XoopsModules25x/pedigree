@@ -37,7 +37,7 @@ class CheckoutWizard extends ZervWizard
     }
 
     /**
-     * @todo change access to fields using PedigreeFields
+     * @todo change access to fields using Pedigree\Fields
      * @return void
      */
     public function prepareFieldname()

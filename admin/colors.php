@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
 
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php';

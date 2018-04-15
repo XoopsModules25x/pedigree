@@ -27,7 +27,7 @@ global $xoopsModule;
 $moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
 
 //if functions.php file exist
-//require_once __DIR__ . '/../include/functions.php';
+//require_once  dirname(__DIR__) . '/include/functions.php';
 
 // Load language files
 xoops_loadLanguage('admin', $moduleDirName);
@@ -44,14 +44,14 @@ require_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
 
 use XoopsModules\Pedigree;
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-// require_once __DIR__ . '/../class/Utility.php';
-//require_once __DIR__ . '/../include/common.php';
+// require_once  dirname(__DIR__) . '/class/Utility.php';
+//require_once  dirname(__DIR__) . '/include/common.php';
 
-require_once __DIR__ . '/../include/common.php';
-require_once __DIR__ . '/../include/config.php';
+require_once  dirname(__DIR__) . '/include/common.php';
+require_once  dirname(__DIR__) . '/include/config.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 $helper = Pedigree\Helper::getInstance();

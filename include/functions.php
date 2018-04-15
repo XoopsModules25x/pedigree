@@ -24,7 +24,7 @@
 // ------------------------------------------------------------------------- //
 require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/class_field.php');
 require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/config.php');
-xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('Pedigree\Animal', $moduleDirName);
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -251,7 +251,7 @@ function pups($oid, $gender)
     $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
     $numMatch    = $GLOBALS['xoopsDB']->getRowsNum($queryResult);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -338,7 +338,7 @@ function bas($oid, $pa, $ma)
     $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
     $nummatch1   = $GLOBALS['xoopsDB']->getRowsNum($queryResult);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields        = $animal->getNumOfFields();
     $numofcolumns1 = 1;
@@ -496,7 +496,7 @@ function findId($naam_hond)
 function createList($result, $prefix, $link, $element)
 {
     global $xoopsTpl;
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -690,7 +690,7 @@ function animal_meta_description($content)
  */
 function lettersChoice()
 {
-    $pedigree = PedigreePedigree::getInstance();
+    $pedigree = Pedigree\Helper::getInstance();
     xoops_load('XoopsLocal');
 
     $criteria = $pedigree->getHandler('tree')->getActiveCriteria();
@@ -737,7 +737,7 @@ function lettersChoice()
  */
 function userIsAdmin()
 {
-    $pedigree = PedigreePedigree::getInstance();
+    $pedigree = Pedigree\Helper::getInstance();
 
     static $pedigree_isAdmin;
 
@@ -766,7 +766,7 @@ function getXoopsCpHeader()
  */
 function getModuleName($withLink = true)
 {
-    $pedigree = PedigreePedigree::getInstance();
+    $pedigree = Pedigree\Helper::getInstance();
 
     $pedigreeModuleName = $pedigree->getModule()->getVar('name');
     if (!$withLink) {

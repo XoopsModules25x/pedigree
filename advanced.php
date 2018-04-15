@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -68,7 +68,7 @@ $numbers_pie->MakePie('assets/images/numbers.png', '200', '200', '10', $odd, $da
 
 //create animal object
 
-$animal = new PedigreeAnimal();
+$animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
 $fields = $animal->getNumOfFields();
 

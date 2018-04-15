@@ -20,7 +20,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class PedigreeCorePreload
  */
-class PedigreeCorePreload extends XoopsPreloadItem
+class PedigreeCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
     /**

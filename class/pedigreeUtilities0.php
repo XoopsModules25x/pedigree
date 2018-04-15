@@ -1,9 +1,10 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/class_field.php');
 require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/config.php');
-xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('Pedigree\Animal', $moduleDirName);
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -254,7 +255,7 @@ class PedigreeUtility
         $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
         $numMatch    = $GLOBALS['xoopsDB']->getRowsNum($queryResult);
 
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
@@ -341,7 +342,7 @@ class PedigreeUtility
         $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
         $nummatch1   = $GLOBALS['xoopsDB']->getRowsNum($queryResult);
 
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
         $fields        = $animal->getNumOfFields();
         $numofcolumns1 = 1;
@@ -499,7 +500,7 @@ class PedigreeUtility
     public static function createList($result, $prefix, $link, $element)
     {
         global $xoopsTpl;
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
@@ -702,7 +703,7 @@ class PedigreeUtility
     public static function lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2 = null)
     {
         /*
-        $pedigree = PedigreePedigree::getInstance();
+        $pedigree = Pedigree\Helper::getInstance();
         xoops_load('XoopsLocal');
 
         $criteria = $pedigree->getHandler('tree')->getActiveCriteria();
@@ -740,7 +741,7 @@ class PedigreeUtility
         return $html;
 */
 
-        //        $pedigree = PedigreePedigree::getInstance();
+        //        $pedigree = Pedigree\Helper::getInstance();
         xoops_load('XoopsLocal');
 
         //        $criteria = $myObject->getHandler($activeObject)->getActiveCriteria();
@@ -787,7 +788,7 @@ class PedigreeUtility
      */
     public static function userIsAdmin()
     {
-        $pedigree = PedigreePedigree::getInstance();
+        $pedigree = Pedigree\Helper::getInstance();
 
         static $pedigree_isAdmin;
 
@@ -816,7 +817,7 @@ class PedigreeUtility
      */
     public static function getModuleName($withLink = true)
     {
-        $pedigree = PedigreePedigree::getInstance();
+        $pedigree = Pedigree\Helper::getInstance();
 
         $pedigreeModuleName = $pedigree->getModule()->getVar('name');
         if (!$withLink) {

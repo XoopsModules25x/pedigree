@@ -3,7 +3,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -64,7 +64,7 @@ function addlitter()
     //find userid
     $searchform->addElement(new \XoopsFormHidden('userid', $xoopsUser->getVar('uid')));
     //create animal object
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields = $animal->getNumOfFields();
 
@@ -186,7 +186,7 @@ function sire()
     //make the redirect
     if (!isset($_GET['r'])) {
         //create animal object
-        $animal = new PedigreeAnimal();
+        $animal = new Pedigree\Animal();
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
         sort($fields);
@@ -311,7 +311,7 @@ function sire()
     $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '0' AND naam LIKE '" . $l . "%' ORDER BY naam LIMIT " . $st . ', ' . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -501,7 +501,7 @@ function dam()
     $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft = '1' AND naam LIKE '" . $l . "%' ORDER BY naam LIMIT " . $st . ', ' . $perPage;
     $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-    $animal = new PedigreeAnimal();
+    $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
@@ -635,7 +635,7 @@ function check()
                          . $GLOBALS['xoopsDB']->escape($row['father'])
                          . "','',''";
                 //create animal object
-                $animal = new PedigreeAnimal();
+                $animal = new Pedigree\Animal();
                 //test to find out how many user fields there are..
                 $fields = $animal->getNumOfFields();
                 sort($fields);

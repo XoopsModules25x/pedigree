@@ -17,41 +17,80 @@
  * @since           3.23
  * @author          Xoops Module Dev Team
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-require_once __DIR__ . '/config.php';
+use XoopsModules\xxxxx;
+include __DIR__ . '/../preloads/autoloader.php';
 
-// This must contain the name of the folder in which reside Pedigree
-//define('PEDIGREE_DIRNAME', basename(dirname(__DIR__)));
-//define('PEDIGREE_URL', XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
-//define('PEDIGREE_IMAGES_URL', PEDIGREE_URL . '/images');
-//define('PEDIGREE_ADMIN_URL', PEDIGREE_URL . '/admin');
-//define('PEDIGREE_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
-//define('PEDIGREE_AUTHOR_LOGOIMG', PEDIGREE_URL . '/assets/images/xoopsproject_logo.png');
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
 
-//xoops_loadLanguage('common', PEDIGREE_DIRNAME);
-xoops_loadLanguage('global');
 
-require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-require_once XOOPS_ROOT_PATH . '/class/tree.php';
-require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+/** @var \XoopsDatabase $db */
+/** @var xxxxx\Helper $helper */
+/** @var xxxxx\Utility $utility */
+$db      = \XoopsDatabaseFactory::getDatabaseConnection();
+$helper  = xxxxx\Helper::getInstance();
+$utility = new xxxxx\Utility();
+//$configurator = new xxxxx\Common\Configurator();
 
-//require_once PEDIGREE_ROOT_PATH . '/include/functions.php';
-//require_once PEDIGREE_ROOT_PATH . '/include/constants.php';
-//require_once PEDIGREE_ROOT_PATH . '/class/session.php'; // PedigreeSession class
-require_once PEDIGREE_ROOT_PATH . '/class/pedigree.php'; // PedigreePedigree class
-require_once PEDIGREE_ROOT_PATH . '/class/breadcrumb.php'; // PedigreeBreadcrumb class
-require_once PEDIGREE_ROOT_PATH . '/class/tree.php'; // PedigreeTree class
-//require_once PEDIGREE_ROOT_PATH . '/class/xoopstree.php'; // PedigreeXoopsTree class
-//require_once PEDIGREE_ROOT_PATH . '/class/formelementchoose.php'; // PedigreeFormElementChoose class
-require_once PEDIGREE_ROOT_PATH . '/class/Utility.php'; // PedigreeUtility class
-require_once PEDIGREE_ROOT_PATH . '/class/animal.php'; // PedigreeAnimal class
+$helper->loadLanguage('common');
 
-xoops_load('XoopsUserUtility');
+//handlers
+//$categoryHandler     = new xxxxx\CategoryHandler($db);
+//$downloadHandler     = new xxxxx\DownloadHandler($db);
+
+if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
+    define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
+    define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_URL', XOOPS_URL . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_IMAGE_URL', constant($moduleDirNameUpper . '_URL') . '/assets/images/');
+    define($moduleDirNameUpper . '_IMAGE_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/assets/images');
+    define($moduleDirNameUpper . '_ADMIN_URL', constant($moduleDirNameUpper . '_URL') . '/admin/');
+    define($moduleDirNameUpper . '_ADMIN_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/admin/');
+    define($moduleDirNameUpper . '_ADMIN', constant($moduleDirNameUpper . '_URL') . '/admin/index.php');
+    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
+    define($moduleDirNameUpper . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
+}
+
+$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
+//$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
+//$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+
+$icons = [
+    'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
+    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
+    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
+    'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
+    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
+    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
+    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
+    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
+    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
+];
+
+$debug = false;
+
 // MyTextSanitizer object
 $myts = \MyTextSanitizer::getInstance();
 
-$debug    = false;
-$pedigree = PedigreePedigree::getInstance($debug); //get module helper class
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
+}
+
+$GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);
+// Local icons path
+if (is_object($helper->getModule())) {
+    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+
+    $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
+    $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
+}
+//====================================
 
 //This is needed or it will not work in blocks.
 global $pedigree_isAdmin;
@@ -65,5 +104,6 @@ if (is_object($pedigree->getModule())) {
 // Load Xoops handlers
 $moduleHandler       = xoops_getHandler('module');
 $memberHandler       = xoops_getHandler('member');
+/** @var \XoopsNotificationHandler $notificationHandler */
 $notificationHandler = xoops_getHandler('notification');
 $grouppermHandler        = xoops_getHandler('groupperm');

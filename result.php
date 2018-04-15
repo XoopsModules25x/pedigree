@@ -3,7 +3,7 @@
 
 use Xmf\Request;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -12,7 +12,7 @@ xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
 include $GLOBALS['xoops']->path('/header.php');
@@ -160,7 +160,7 @@ if ($numPages > 1) {
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-$animal = new PedigreeAnimal();
+$animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
 $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);

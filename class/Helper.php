@@ -41,7 +41,7 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      *
-     * @return \Xmf\Module\Helper
+     * @return \XoopsModules\Pedigree\Helper
      */
     public static function getInstance($debug = false)
     {

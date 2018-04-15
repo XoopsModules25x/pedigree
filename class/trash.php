@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -21,9 +21,9 @@
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class PedigreeTrash
+ * Class Pedigree\Trash
  */
-class PedigreeTrash extends XoopsObject
+class Trash extends \XoopsObject
 {
     //Constructor
     /**
@@ -88,19 +88,5 @@ class PedigreeTrash extends XoopsObject
         $form->addElement($button_tray);
 
         return $form;
-    }
-}
-
-/**
- * Class PedigreeTrashHandler
- */
-class PedigreeTrashHandler extends XoopsPersistableObjectHandler
-{
-    /**
-     * @param null|object|\XoopsDatabase $db
-     */
-    public function __construct(\XoopsDatabase $db)
-    {
-        parent::__construct($db, 'pedigree_trash', 'PedigreeTrash', 'id', 'naam');
     }
 }

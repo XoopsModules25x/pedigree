@@ -25,13 +25,13 @@ $rootPath      = dirname(dirname(__DIR__));
 $moduleDirName = basename(__DIR__);
 $mydirpath     = dirname(__DIR__);
 
-require_once __DIR__ . '/../../mainfile.php';
+require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 require_once $rootPath . '/include/cp_functions.php';
 require_once $rootPath . '/include/cp_header.php';
 //require_once $rootPath . '/class/xoopsformloader.php';
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 //xoops_cp_header();
 
 xoops_loadLanguage('main', $moduleDirName);
@@ -83,9 +83,9 @@ include __DIR__ . '/footer.php';
 function pedigree_main()
 {
     $moduleDirName = basename(__DIR__);
-    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
+//    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
     $id     = Request::getInt('pedid', 1, 'GET');
-    $animal = new PedigreeAnimal($id);
+    $animal = new Pedigree\Animal($id);
     //test to find out how many user fields there are.
     $fields      = $animal->getNumOfFields();
     $fieldsCount = count($fields);
@@ -146,7 +146,7 @@ function pedigree_main()
 
             if ('' == !$d[$key]['id']) {
                 //if exists create animal object
-                $animal = new PedigreeAnimal($d[$key]['id']);
+                $animal = new Pedigree\Animal($d[$key]['id']);
                 $fields = $animal->getNumOfFields();
             }
             for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {

@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -20,7 +20,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 $xoopsTpl->assign('page_title', 'Pedigree database - View owner/breeder');
 
 // Breadcrumb
-$breadcrumb = new PedigreeBreadcrumb();
+$breadcrumb = new Pedigree\Breadcrumb();
 $breadcrumb->addLink($pedigree->getModule()->getVar('name'), PEDIGREE_URL);
 $GLOBALS['xoopsTpl']->assign('module_home', PedigreeUtility::getModuleName(false)); // this definition is not removed for backward compatibility issues
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
@@ -196,7 +196,7 @@ $xoopsTpl->assign('pages', $pages);
 
 //$breederArray['letters']          = PedigreeUtility::lettersChoice();
 
-$myObject     = PedigreePedigree::getInstance();
+$myObject     = Pedigree\Helper::getInstance();
 $criteria     = $myObject->getHandler('tree')->getActiveCriteria();
 $activeObject = 'owner';
 $name         = 'lastname';

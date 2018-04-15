@@ -3,11 +3,11 @@
 
 use Xmf\Request;
 
-require_once __DIR__ . '/../../../mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
 
 // Include any common code for this module.
-require_once __DIR__ . '/../include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
@@ -259,7 +259,7 @@ function pro()
 
 /**
  * @return void
- * @todo refactor using {@see PedigreeTrash} class
+ * @todo refactor using {@see Pedigree\Trash} class
  */
 function deleted()
 {
@@ -279,7 +279,7 @@ function deleted()
 /**
  * @param $id
  * @return void
- * @todo refactor using {@see PedigreeTrash} class
+ * @todo refactor using {@see Pedigree\Trash} class
  */
 function delperm($id)
 {
@@ -291,7 +291,7 @@ function delperm($id)
 
 /**
  * @return void
- * @todo refactor using {@see PedigreeTrash} class
+ * @todo refactor using {@see Pedigree\Trash} class
  */
 function delall()
 {
