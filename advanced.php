@@ -1,6 +1,8 @@
 <?php
 // -------------------------------------------------------------------------
 
+use XoopsModules\Pedigree;
+
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
@@ -8,8 +10,6 @@ xoops_loadLanguage('main', $moduleDirName);
 
 //needed for generation of pie charts
 ob_start();
-//include(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_eq_pie.php');
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_advanced.tpl';
 
@@ -73,7 +73,7 @@ $animal = new Pedigree\Animal();
 $fields = $animal->getNumOfFields();
 
 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-    $userField   = new Field($fields[$i], $animal->getConfig());
+    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     if ($userField->isActive() && $userField->inAdvanced()) {

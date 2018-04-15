@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -11,7 +12,6 @@ xoops_loadLanguage('main', $moduleDirName);
 //needed for generation of pie charts
 ob_start();
 include XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_eq_pie.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_edit.tpl';
 
@@ -43,14 +43,14 @@ function save()
     $animal = new Pedigree\Animal($a);
     $fields = $animal->getNumOfFields();
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField = new Field($fields[$i], $animal->getConfig());
+        $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
             $currentfield = 'user' . $fields[$i];
             $pictureField = $_FILES[$currentfield]['name'];
             if (empty($pictureField) || '' == $pictureField) {
                 $newvalue = $_POST['user' . $fields[$i]];
             } else {
-                $newvalue = PedigreeUtility::uploadPicture(0);
+                $newvalue = Pedigree\Utility::uploadPicture(0);
             }
             $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET user' . $fields[$i] . "='" . $GLOBALS['xoopsDB']->escape($newvalue) . "' WHERE id='" . $a . "'";
             $GLOBALS['xoopsDB']->query($sql);
@@ -65,7 +65,7 @@ function save()
     if (empty($pictureField) || '' == $pictureField) {
         //llalalala
     } else {
-        $foto = PedigreeUtility::uploadPicture(0);
+        $foto = Pedigree\Utility::uploadPicture(0);
         //      $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET foto='" . $foto . "' WHERE id='" . $a . "'";
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET foto='" . $GLOBALS['xoopsDB']->escape($foto) . "' WHERE id='" . $a . "'";
     }
@@ -165,7 +165,7 @@ function edit($id = 0)
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField = new Field($fields[$i], $animal->getConfig());
+            $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
             if ($userField->isActive()) {
                 $fieldType     = $userField->getSetting('FieldType');
                 $fieldObject   = new $fieldType($userField, $animal);

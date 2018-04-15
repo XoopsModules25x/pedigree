@@ -17,7 +17,8 @@
  * @since           3.23
  * @author          Xoops Module Dev Team
  */
-use XoopsModules\xxxxx;
+use XoopsModules\Pedigree;
+
 include __DIR__ . '/../preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -25,18 +26,18 @@ $moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
 
 
 /** @var \XoopsDatabase $db */
-/** @var xxxxx\Helper $helper */
-/** @var xxxxx\Utility $utility */
+/** @var Pedigree\Helper $helper */
+/** @var Pedigree\Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = xxxxx\Helper::getInstance();
-$utility = new xxxxx\Utility();
-//$configurator = new xxxxx\Common\Configurator();
+$helper  = Pedigree\Helper::getInstance();
+$utility = new Pedigree\Utility();
+//$configurator = new Pedigree\Common\Configurator();
 
 $helper->loadLanguage('common');
 
 //handlers
-//$categoryHandler     = new xxxxx\CategoryHandler($db);
-//$downloadHandler     = new xxxxx\DownloadHandler($db);
+//$categoryHandler     = new Pedigree\CategoryHandler($db);
+//$downloadHandler     = new Pedigree\DownloadHandler($db);
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
@@ -95,11 +96,9 @@ if (is_object($helper->getModule())) {
 //This is needed or it will not work in blocks.
 global $pedigree_isAdmin;
 
-// Load only if module is installed
-if (is_object($pedigree->getModule())) {
-    // Find if the user is admin of the module
-    $pedigree_isAdmin = PedigreeUtility::userIsAdmin();
-}
+
+$pedigree_isAdmin = Pedigree\Utility::userIsAdmin();
+
 
 // Load Xoops handlers
 $moduleHandler       = xoops_getHandler('module');

@@ -1,6 +1,8 @@
 <?php
 // -------------------------------------------------------------------------
 
+use XoopsModules\Pedigree;
+
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
@@ -21,8 +23,8 @@ $xoopsTpl->assign('page_title', 'Pedigree database - View owner/breeder');
 
 // Breadcrumb
 $breadcrumb = new Pedigree\Breadcrumb();
-$breadcrumb->addLink($pedigree->getModule()->getVar('name'), PEDIGREE_URL);
-$GLOBALS['xoopsTpl']->assign('module_home', PedigreeUtility::getModuleName(false)); // this definition is not removed for backward compatibility issues
+$breadcrumb->addLink($helper->getModule()->getVar('name'), PEDIGREE_URL);
+$GLOBALS['xoopsTpl']->assign('module_home', Pedigree\Utility::getModuleName(false)); // this definition is not removed for backward compatibility issues
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
@@ -194,10 +196,10 @@ $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $n
 $xoopsTpl->assign('nummatch', $nummatchstr);
 $xoopsTpl->assign('pages', $pages);
 
-//$breederArray['letters']          = PedigreeUtility::lettersChoice();
+//$breederArray['letters']          = Pedigree\Utility::lettersChoice();
 
 $myObject     = Pedigree\Helper::getInstance();
-$criteria     = $myObject->getHandler('tree')->getActiveCriteria();
+$criteria     = $myObject->getHandler('Tree')->getActiveCriteria();
 $activeObject = 'owner';
 $name         = 'lastname';
 //$file         = 'breeder.php';
@@ -205,7 +207,7 @@ $name         = 'lastname';
 $link  = "breeder.php?f={$name}&amp;o={$name}&amp;d=ASC&amp;st=0&amp;l=";
 $link2 = '';
 
-$breederArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+$breederArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
 //$catarray['toolbar']          = pedigree_toolbar();
 
 $xoopsTpl->assign('breederArray', $breederArray);

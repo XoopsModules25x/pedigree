@@ -18,6 +18,8 @@
  * @author          XOOPS Module Dev Team
  */
 
+use XoopsModules\Pedigree;
+
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -128,8 +130,8 @@ class Fields extends \XoopsObject
         /*
                 require_once $GLOBALS['xoops']->path("class/tree.php");
         //      $Handler = xoops_getModuleHandler("animal_", $GLOBALS['xoopsModule']->getVar("dirname"));
-                $Handler = xoops_getModuleHandler('fields', $moduleDirName);
-        //        $Handler = & $pedigreeFieldsHandler;
+                $Handler = Pedigree\Helper::getInstance()->getHandler('Fields');
+        //        $Handler = & $fieldsHandler;
                 $criteria = new \CriteriaCompo();
                 $criteria->setSort('id');
                 $criteria->setOrder('ASC');

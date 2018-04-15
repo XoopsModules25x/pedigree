@@ -17,6 +17,9 @@
  * @author      XOOPS Module Dev Team
  */
 
+use XoopsModules\Pedigree;
+
+
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 //require_once __DIR__ . '/header.php';
 
@@ -32,7 +35,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 $myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
 //query to count dogs
-$treeHandler = xoops_getModuleHandler('tree', $moduleDirName);
+$treeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 $numdogs     = $treeHandler->getCount();
 /*
 $result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_tree"));
@@ -45,10 +48,10 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$word = $myts->displayTarea(strtr($pedigree->getConfig('welcome'), [
+$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), [
     '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
-    '[animalType]'  => '[b]' . $pedigree->getConfig('animalType') . '[/b]',
-    '[animalTypes]' => $pedigree->getConfig('animalTypes')
+    '[animalType]'  => '[b]' . $helper->getConfig('animalType') . '[/b]',
+    '[animalTypes]' => $helper->getConfig('animalTypes')
 ]));
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);

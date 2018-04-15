@@ -29,6 +29,7 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //To be deleted?
 

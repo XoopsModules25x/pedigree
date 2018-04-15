@@ -19,7 +19,8 @@
  * @since       1.31
  *
  */
-require_once __DIR__ . '/htmlinput.abstract.php';
+use XoopsModules\Pedigree;
+
 
 /**
  * Class Picture
@@ -55,7 +56,7 @@ class Picture extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return XoopsFormFile
+     * @return \XoopsFormFile
      */
     public function editField()
     {
@@ -68,7 +69,7 @@ class Picture extends Pedigree\HtmlInputAbstract
     /**
      * @param string $name
      *
-     * @return XoopsFormFile
+     * @return \XoopsFormFile
      */
     public function newField($name = '')
     {
@@ -79,7 +80,7 @@ class Picture extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return XoopsFormLabel
+     * @return \XoopsFormLabel
      */
     public function viewField()
     {

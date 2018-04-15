@@ -18,6 +18,8 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
+use XoopsModules\Pedigree;
+
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -47,7 +49,7 @@ class Trash extends \XoopsObject
     /**
      * @param bool $action
      *
-     * @return XoopsThemeForm
+     * @return \XoopsThemeForm
      */
     public function getForm($action = false)
     {

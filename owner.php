@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -81,10 +82,10 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
 
     //Owner of
-    $owner = PedigreeUtility::breederof($row['id'], 0);
+    $owner = Pedigree\Utility::breederof($row['id'], 0);
 
     //Breeder of
-    $breeder = PedigreeUtility::breederof($row['id'], 1);
+    $breeder = Pedigree\Utility::breederof($row['id'], 1);
 
     //entered into the database by
     $dbuser = \XoopsUserUtility::getUnameFromId($row['user']);

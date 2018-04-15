@@ -16,13 +16,14 @@
  * @package         pedigree
  * @author          Xoops Module Dev Team
  */
+
+use XoopsModules\Pedigree;
+
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
-// require_once  dirname(__DIR__) . '/class/Utility.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_load('Pedigree\Animal', $moduleDirName);
 $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {

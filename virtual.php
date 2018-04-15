@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -43,7 +44,7 @@ function virt()
     $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    $pedigree      = Pedigree\Helper::getInstance();
+    $helper      = Pedigree\Helper::getInstance();
 
     //    if (isset($_GET['st'])) {
     //        $st = $_GET['st'];
@@ -60,7 +61,7 @@ function virt()
 
     $xoopsTpl->assign('sire', '1');
     //create list of males dog to select from
-    $perPage = $pedigree->getConfig('perpage');
+    $perPage = $helper->getConfig('perpage');
     //count total number of dogs
     $numDog = 'SELECT COUNT(d.id) FROM '
               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
@@ -140,7 +141,7 @@ function virt()
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
@@ -185,7 +186,7 @@ function virt()
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
-            elseif (0 === strpos($row['user' . $x], 'http://')) {
+            elseif (0 === strncmp($row['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
@@ -211,24 +212,24 @@ function virt()
     }
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
-    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, ['[father]' => $pedigree->getConfig('father')]));
+    $xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
+    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, ['[father]' => $helper->getConfig('father')]));
     $xoopsTpl->assign('pages', $pages);
 
-    $xoopsTpl->assign('virtualtitle', strtr(_MA_PEDIGREE_VIRUTALTIT, ['[mother]' => $pedigree->getConfig('mother')]));
+    $xoopsTpl->assign('virtualtitle', strtr(_MA_PEDIGREE_VIRUTALTIT, ['[mother]' => $helper->getConfig('mother')]));
     $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, [
-        '[mother]'   => $pedigree->getConfig('mother'),
-        '[father]'   => $pedigree->getConfig('father'),
-        '[children]' => $pedigree->getConfig('children')
+        '[mother]'   => $helper->getConfig('mother'),
+        '[father]'   => $helper->getConfig('father'),
+        '[children]' => $helper->getConfig('children')
     ]));
-    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_SIRE, ['[father]' => $pedigree->getConfig('father')]) . '</b>');
+    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_SIRE, ['[father]' => $helper->getConfig('father')]) . '</b>');
     //    break;
 
     //mb =========== FATHER LETTERS =============================
     $myObject = Pedigree\Helper::getInstance();
     $roft     = 0;
-    //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
-    $activeObject = 'tree';
+    //    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+    $activeObject = 'Tree';
     $name         = 'naam';
     $number1      = '1';
     $number2      = '0';
@@ -239,10 +240,10 @@ function virt()
 
     $link2 = '';
 
-    $criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+    $criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
     //    $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-    $fatherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+    $fatherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
     //$catarray['toolbar']          = pedigree_toolbar();
     $xoopsTpl->assign('fatherArray', $fatherArray);
 
@@ -279,7 +280,7 @@ function dam()
 
     $xoopsTpl->assign('sire', '1');
     //create list of males dog to select from
-    $perPage = $pedigree->getConfig('perpage');
+    $perPage = $helper->getConfig('perpage');
     //count total number of dogs
     $numDog = 'SELECT COUNT(d.id) FROM '
               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
@@ -380,7 +381,7 @@ function dam()
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
@@ -425,7 +426,7 @@ function dam()
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
-            elseif (0 === strpos($row['user' . $x], 'http://')) {
+            elseif (0 === strncmp($row['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
@@ -449,17 +450,17 @@ function dam()
     $xoopsTpl->assign('dogs', $dogs);
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
-    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, ['[mother]' => $pedigree->getConfig('mother')]));
+    $xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
+    $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, ['[mother]' => $helper->getConfig('mother')]));
     $xoopsTpl->assign('pages', $pages);
 
     $xoopsTpl->assign('virtualtitle', _MA_PEDIGREE_VIRUTALTIT);
     $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, [
-        '[mother]'   => $pedigree->getConfig('mother'),
-        '[father]'   => $pedigree->getConfig('father'),
-        '[children]' => $pedigree->getConfig('children')
+        '[mother]'   => $helper->getConfig('mother'),
+        '[father]'   => $helper->getConfig('father'),
+        '[children]' => $helper->getConfig('children')
     ]));
-    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_DAM, ['[mother]' => $pedigree->getConfig('mother')]) . '</b>');
+    $xoopsTpl->assign('nextaction', '<b>' . strtr(_MA_PEDIGREE_VIRT_DAM, ['[mother]' => $helper->getConfig('mother')]) . '</b>');
 
     //find father
     $query  = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $selsire;
@@ -473,17 +474,17 @@ function dam()
     //mb ========= MOTHER LETTERS===============================
     $myObject = Pedigree\Helper::getInstance();
     $roft     = 1;
-    //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
-    $activeObject = 'tree';
+    //    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+    $activeObject = 'Tree';
     $name         = 'naam';
     $number1      = '1';
     $number2      = '0';
     $link         = "virtual.php?r={$number1}&st={$number2}&l=";
 
-    $criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+    $criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
     //    $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-    $motherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
+    $motherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
     //$catarray['toolbar']          = pedigree_toolbar();
     $xoopsTpl->assign('motherArray', $motherArray);
 
@@ -514,9 +515,9 @@ function check()
 
     $xoopsTpl->assign('virtualtitle', _MA_PEDIGREE_VIRUTALTIT);
     $xoopsTpl->assign('virtualstory', strtr(_MA_PEDIGREE_VIRUTALSTO, [
-        '[mother]'   => $pedigree->getConfig('mother'),
-        '[father]'   => $pedigree->getConfig('father'),
-        '[children]' => $pedigree->getConfig('children')
+        '[mother]'   => $helper->getConfig('mother'),
+        '[father]'   => $helper->getConfig('father'),
+        '[children]' => $helper->getConfig('children')
     ]));
     //find father
     $query  = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $selsire;
@@ -524,7 +525,7 @@ function check()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $vsire = stripslashes($row['naam']);
     }
-    $xoopsTpl->assign('virtualsiretitle', strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $pedigree->getConfig('father')]));
+    $xoopsTpl->assign('virtualsiretitle', strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $helper->getConfig('father')]));
     $xoopsTpl->assign('virtualsire', $vsire);
     //find mother
     $query  = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $seldam;
@@ -532,7 +533,7 @@ function check()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $vdam = stripslashes($row['naam']);
     }
-    $xoopsTpl->assign('virtualdamtitle', strtr(_MA_PEDIGREE_VIRTUALDTIT, ['[mother]' => $pedigree->getConfig('mother')]));
+    $xoopsTpl->assign('virtualdamtitle', strtr(_MA_PEDIGREE_VIRTUALDTIT, ['[mother]' => $helper->getConfig('mother')]));
     $xoopsTpl->assign('virtualdam', $vdam);
 
     $xoopsTpl->assign('form', '<a href="coi.php?s=' . $selsire . '&d=' . $seldam . '&dogid=&detail=1">' . _MA_PEDIGREE_VIRTUALBUT . '</a>');

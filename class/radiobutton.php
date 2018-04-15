@@ -20,10 +20,11 @@
  * @author      XOOPS Mod Development Team
  */
 
+use XoopsModules\Pedigree;
+
 /**
  * Class Pedigree\RadioButton
  */
-require_once __DIR__ . '/htmlinput.abstract.php';
 
 /**
  * Class Pedigree\RadioButton

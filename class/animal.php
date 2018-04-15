@@ -21,6 +21,8 @@
  * @author      ZySpec <owners@zyspec.com>
  */
 
+use XoopsModules\Pedigree;
+
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -43,8 +45,8 @@ class Animal
     public function __construct($id = null)
     {
         $moduleDirName = basename(dirname(__DIR__));
-        $id            = (!empty($id)) ? (int)$id : 1;
-        $myTreeHandler = xoops_getModuleHandler('tree', $moduleDirName);
+        $id            = null !== $id ? (int)$id : 1;
+        $myTreeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('id', $id));
@@ -70,7 +72,7 @@ class Animal
     public function getNumOfFields()
     {
         $moduleDirName = basename(dirname(__DIR__));
-        $fieldsHandler = xoops_getModuleHandler('fields', $moduleDirName);
+        $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
         $criteria      = new \CriteriaCompo();
         $criteria->setSort('`order`');
         $criteria->setOrder('ASC');

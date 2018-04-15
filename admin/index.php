@@ -17,16 +17,15 @@
  * @author       XOOPS Module Dev Team
  */
 
+use XoopsModules\Pedigree;
+
 //require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once __DIR__ . '/admin_header.php';
-if (!class_exists('PedigreeUtility')) {
-    xoops_load('utility', $moduleDirName);
-}
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    PedigreeUtility::prepareFolder($uploadFolders[$i]);
+    Pedigree\Utility::prepareFolder($uploadFolders[$i]);
     $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
     //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }

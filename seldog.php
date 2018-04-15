@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -100,7 +101,7 @@ $fieldsCount  = count($fields);
 $numofcolumns = 1;
 $columns[]    = ['columnname' => 'Name'];
 for ($i = 0; $i < $fieldsCount; ++$i) {
-    $userField = new Field($fields[$i], $animal->getConfig());
+    $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType = $userField->getSetting('FieldType');
     $fieldObj  = new $fieldType($userField, $animal);
     //create empty string
@@ -168,7 +169,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             //debug information
             ///echo $columns[$i]['columnname']."is an array !";
         } //format value - cant use object because of query count
-        elseif (0 === strpos($row[$x], 'http://')) {
+        elseif (0 === strncmp($row[$x], 'http://', 7)) {
             $value = "<a href='{$row[$x]}'>{$row[$x]}</a>";
         } else {
             $value = $row[$x];
@@ -204,7 +205,7 @@ $GLOBALS['xoopsTpl']->assign([
                                  'dogs'         => $dogs,
                                  'columns'      => $columns,
                                  'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => PedigreeUtility::sortTable($numofcolumns)
+                                 'tsarray'      => Pedigree\Utility::sortTable($numofcolumns)
                              ]);
 //add data to smarty template
 if (0 == $gend) {
@@ -212,7 +213,7 @@ if (0 == $gend) {
 } else {
     $selTtlParent = strtr(_MA_PEDIGREE_FLD_MOTH, ['[mother]' => $moduleConfig['mother']]);
 }
-$seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . PedigreeUtility::getName($curval);
+$seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . Pedigree\Utility::getName($curval);
 
 $GLOBALS['xoopsTpl']->assign('seltitle', $seltitle);
 
@@ -232,17 +233,17 @@ $GLOBALS['xoopsTpl']->assign([
 //mb ========= MOTHER LETTERS===============================
 $myObject = Pedigree\Helper::getInstance();
 $roft     = $gend;
-//    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
-$activeObject = 'tree';
+//    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+$activeObject = 'Tree';
 $name         = 'naam';
 $number1      = '1';
 $number2      = '0';
 $link         = "seldog.php?gend={$gend}&curval={$curval}&letter=";
 
-$criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+$criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
 $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-$motherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
+$motherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
 //$catarray['toolbar']          = pedigree_toolbar();
 $xoopsTpl->assign('motherArray', $motherArray);
 

@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -151,7 +152,7 @@ $columns[] = ['columnname' => 'Offspring', 'columnnumber' => 3];
 $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
 $GLOBALS['xoopsTpl']->assign('columns', $columns);
 $GLOBALS['xoopsTpl']->assign('numofcolumns', $numofcolumns);
-$GLOBALS['xoopsTpl']->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+$GLOBALS['xoopsTpl']->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
 //find last shown number
 if (($st + $perPage) > $numResults) {
     $lastshown = $numResults;

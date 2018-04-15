@@ -4,14 +4,14 @@
 //        Copyright 2004, James Cotton
 //         http://www.dobermannvereniging.nl
 
+use XoopsModules\Pedigree;
+
 // Include any constants used for internationalizing templates.
 $moduleDirName = basename(dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
 //xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
-//require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/field.php');
+
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
@@ -23,9 +23,6 @@ function menu_block()
 {
     global $xoopsTpl, $xoopsUser, $pedigree;
     $moduleDirName = basename(dirname(__DIR__));
-    if (!class_exists('Pedigree\Helper')) {
-        $pedigree = Pedigree\Helper::getInstance(false);
-    }
     /*
     //get module configuration
     $moduleHandler = xoops_getHandler('module');
@@ -34,7 +31,7 @@ function menu_block()
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     */
     //colour variables
-    $colors  = explode(',', $pedigree->getConfig('colourscheme'));
+    $colors  = explode(',', $helper->getConfig('colourscheme'));
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -69,7 +66,7 @@ function menu_block()
 
     //iscurrent user a module admin ?
     $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-    if ((!empty($xoopsUser)) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
+    if (!empty($xoopsUser) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
         && $xoopsUser->isAdmin($xoopsModule->mid())) {
         $modadmin = true;
     } else {
@@ -82,7 +79,7 @@ function menu_block()
     $lastpos = my_strrpos($x, '/');
     $len     = strlen($x);
     $curpage = substr($x, $lastpos, $len);
-    if (1 == $pedigree->getConfig('showwelcome')) {
+    if (1 == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>Welcome</b>';
         } else {
@@ -95,9 +92,9 @@ function menu_block()
         }
     }
     if ('/index.php' === $curpage || '/result.php' === $curpage) {
-        $title = '<b>View/Search ' . $pedigree->getConfig('animalTypes') . '</b>';
+        $title = '<b>View/Search ' . $helper->getConfig('animalTypes') . '</b>';
     } else {
-        $title = 'View/Search ' . $pedigree->getConfig('animalTypes');
+        $title = 'View/Search ' . $helper->getConfig('animalTypes');
     }
     $menuarray[] = ['title' => $title, 'link' => 'index.php', 'counter' => $counter];
     ++$counter;
@@ -105,20 +102,20 @@ function menu_block()
         $counter = 1;
     }
     if ('/add_dog.php' === $curpage) {
-        $title = '<b>Add a ' . $pedigree->getConfig('animalType') . '</b>';
+        $title = '<b>Add a ' . $helper->getConfig('animalType') . '</b>';
     } else {
-        $title = 'Add a ' . $pedigree->getConfig('animalType');
+        $title = 'Add a ' . $helper->getConfig('animalType');
     }
     $menuarray[] = ['title' => $title, 'link' => 'add_dog.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $pedigree->getConfig('uselitter')) {
+    if ('1' == $helper->getConfig('uselitter')) {
         if ('/add_litter.php' === $curpage) {
-            $title = '<b>Add a ' . $pedigree->getConfig('litter') . '</b>';
+            $title = '<b>Add a ' . $helper->getConfig('litter') . '</b>';
         } else {
-            $title = 'Add a ' . $pedigree->getConfig('litter');
+            $title = 'Add a ' . $helper->getConfig('litter');
         }
         $menuarray[] = ['title' => $title, 'link' => 'add_litter.php', 'counter' => $counter];
         ++$counter;
@@ -126,7 +123,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ('1' == $pedigree->getConfig('ownerbreeder')) {
+    if ('1' == $helper->getConfig('ownerbreeder')) {
         if ('/breeder.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>View owners/breeders</b>';
         } else {
@@ -158,7 +155,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $pedigree->getConfig('proversion')) {
+    if ('1' == $helper->getConfig('proversion')) {
         if ('/virtual.php' === $curpage) {
             $title = '<b>Virtual mating</b>';
         } else {

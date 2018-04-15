@@ -20,11 +20,14 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
+
+$ownerHandler = Pedigree\Helper::getInstance()->getHandler('Owner');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -37,8 +40,8 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows   = $pedigreeOwnerHandler->getCount();
-        $owner_arr = $pedigreeOwnerHandler->getAll($criteria);
+        $numrows   = $ownerHandler->getCount();
+        $owner_arr = $ownerHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -92,7 +95,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $pedigreeOwnerHandler->create();
+        $obj  = $ownerHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -102,9 +105,9 @@ switch ($op) {
             redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj = $pedigreeOwnerHandler->get($_REQUEST['id']);
+            $obj = $ownerHandler->get($_REQUEST['id']);
         } else {
-            $obj = $pedigreeOwnerHandler->create();
+            $obj = $ownerHandler->create();
         }
 
         //Form firstname
@@ -128,7 +131,7 @@ switch ($op) {
         //Form user
         $obj->setVar('user', $_REQUEST['user']);
 
-        if ($pedigreeOwnerHandler->insert($obj)) {
+        if ($ownerHandler->insert($obj)) {
             redirect_header('owner.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
@@ -142,18 +145,18 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $pedigreeOwnerHandler->get($_REQUEST['id']);
+        $obj  = $ownerHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_owner':
-        $obj = $pedigreeOwnerHandler->get($_REQUEST['id']);
+        $obj = $ownerHandler->get($_REQUEST['id']);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeOwnerHandler->delete($obj)) {
+            if ($ownerHandler->delete($obj)) {
                 redirect_header('owner.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();

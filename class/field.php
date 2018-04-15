@@ -20,6 +20,9 @@
  *
  */
 
+use XoopsModules\Pedigree;
+
+
 /**
  * Class Field
  */
@@ -169,7 +172,7 @@ class Field
     }
 
     /**
-     * @return XoopsFormLabel
+     * @return \XoopsFormLabel
      */
     public function viewField()
     {

@@ -20,11 +20,15 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
+
+
+$tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -37,8 +41,8 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows           = $pedigreeTempHandler->getCount();
-        $pedigree_temp_arr = $pedigreeTempHandler->getAll($criteria);
+        $numrows           = $tempHandler->getCount();
+        $pedigree_temp_arr = $tempHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -91,7 +95,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $tempHandler = xoops_getModuleHandler('temp', 'pedigree');
+        $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
         $obj         = $tempHandler->create();
         $form        = $obj->getForm();
         $form->display();
@@ -102,9 +106,9 @@ switch ($op) {
             redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id']) && (0 < ($id = Request::getInt('id', 1)))) {
-            $obj = $pedigreeTempHandler->get($id);
+            $obj = $tempHandler->get($id);
         } else {
-            $obj = $pedigreeTempHandler->create();
+            $obj = $tempHandler->create();
         }
 
         //Form naam
@@ -126,7 +130,7 @@ switch ($op) {
         //Form coi
         $obj->setVar('coi', $_REQUEST['coi']);
 
-        if ($pedigreeTempHandler->insert($obj)) {
+        if ($tempHandler->insert($obj)) {
             redirect_header('pedigree_temp.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
@@ -140,18 +144,18 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $pedigreeTempHandler->get($_REQUEST['id']);
+        $obj  = $tempHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree_temp':
-        $obj = $pedigreeTempHandler->get($_REQUEST['id']);
+        $obj = $tempHandler->get($_REQUEST['id']);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeTempHandler->delete($obj)) {
+            if ($tempHandler->delete($obj)) {
                 redirect_header('pedigree_temp.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();

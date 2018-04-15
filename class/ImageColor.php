@@ -1,8 +1,9 @@
-<?php
+<?php namespace XoopsModules\Pedigree;
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Color.php is the implementation of Image_Color.
+ * Color.php is the implementation of ImageColor.
  *
  * PHP versions 4 and 5
  *
@@ -13,17 +14,17 @@
  * send a note to license@php.net so we can mail you a copy immediately.
  *
  * @category    Image
- * @package     Image_Color
+ * @package     ImageColor
  * @author      Jason Lotito <jason@lehighweb.com>
  * @author      Andrew Morton <drewish@katherinehouse.com>
  * @copyright   2003-2005 The PHP Group
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version     1.1 2006/04/30
- * @link        http://pear.php.net/package/Image_Color
+ * @link        http://pear.php.net/package/ImageColor
  */
 
 /**
- * Image_Color handles color conversion and mixing.
+ * ImageColor handles color conversion and mixing.
  *
  * The class is quick, simple to use, and does its job fairly well but it's got
  * some code smells:
@@ -36,15 +37,21 @@
  * without breaking backwards compatibility.
  *
  * @category    Image
- * @package     Image_Color
+ * @package     ImageColor
  * @author      Jason Lotito <jason@lehighweb.com>
  * @author      Andrew Morton <drewish@katherinehouse.com>
  * @copyright   2003-2005 The PHP Group
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version     Release: 0.1.2
- * @link        http://pear.php.net/package/Image_Color
+ * @link        http://pear.php.net/package/ImageColor
  */
-class Image_Color
+
+use XoopsModules\Pedigree;
+
+/**
+ * Class ImageColor
+ */
+class ImageColor
 {
     /**
      * First color that the class handles for ranges and mixes.
@@ -103,7 +110,7 @@ class Image_Color
             array_walk($color3, '_makeWebSafe');
         }
 
-        return self::rgb2hex($color3);
+        return $this->rgb2hex($color3);
     }
 
     /**
@@ -196,7 +203,7 @@ class Image_Color
                 array_walk($newcolor, '_makeWebSafe');
             }
 
-            $allcolors[] = self::rgb2hex($newcolor);
+            $allcolors[] = $this->rgb2hex($newcolor);
         }
 
         return $allcolors;
@@ -211,8 +218,8 @@ class Image_Color
      * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
-     * @uses    Image_Color::$color1 as an input and return value.
-     * @uses    Image_Color::$color2 as an input and return value.
+     * @uses    ImageColor::$color1 as an input and return value.
+     * @uses    ImageColor::$color2 as an input and return value.
      */
     public function changeLightness($degree = 10)
     {
@@ -262,7 +269,7 @@ class Image_Color
      */
     public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
-        $color = self::splitColor($color);
+        $color = $this->splitColor($color);
         if ($color[1] > hexdec('66')) {
             return $dark;
         } else {
@@ -283,10 +290,10 @@ class Image_Color
     private function setInternalColors($col1, $col2)
     {
         if ($col1) {
-            $this->color1 = self::splitColor($col1);
+            $this->color1 = $this->splitColor($col1);
         }
         if ($col2) {
-            $this->color2 = self::splitColor($col2);
+            $this->color2 = $this->splitColor($col2);
         }
     }
 
@@ -323,7 +330,7 @@ class Image_Color
      */
     private function returnColor($color)
     {
-        return self::rgb2hex($color);
+        return $this->rgb2hex($color);
     }
 
     /**
@@ -357,7 +364,7 @@ class Image_Color
      */
     public function hex2rgb($hex)
     {
-        $return        = self::splitColor($hex);
+        $return        = $this->splitColor($hex);
         $return['hex'] = $hex;
 
         return $return;
@@ -379,7 +386,7 @@ class Image_Color
      */
     public function hsv2rgb($h, $s, $v)
     {
-        return self::hex2rgb(self::hsv2hex($h, $s, $v));
+        return $this->hex2rgb($this->hsv2hex($h, $s, $v));
     }
 
     /**
@@ -474,7 +481,7 @@ class Image_Color
      */
     public function allocateColor(&$img, $color)
     {
-        $color = self::color2RGB($color);
+        $color = $this->color2RGB($color);
 
         return imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
@@ -499,9 +506,9 @@ class Image_Color
         $c = [];
 
         if ('#' === $color{0}) {
-            $c = self::hex2rgb($color);
+            $c = $this->hex2rgb($color);
         } else {
-            $c = self::namedColor2RGB($color);
+            $c = $this->namedColor2RGB($color);
         }
 
         return $c;

@@ -17,13 +17,14 @@
  * @author         XOOPS Development Team
  */
 
+use XoopsModules\Pedigree;
+
 // ------------------------------------------------------------------------- //
 // Author: Tobias Liegl (AKA CHAPI)                                          //
 // Site: http://www.chapi.de                                                 //
 // Project: XOOPS Project                                                    //
 // ------------------------------------------------------------------------- //
-require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/class_field.php');
-require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/include/config.php');
+
 xoops_load('Pedigree\Animal', $moduleDirName);
 
 //get module configuration
@@ -257,7 +258,7 @@ function pups($oid, $gender)
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
@@ -299,7 +300,7 @@ function pups($oid, $gender)
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
-            elseif (0 === strpos($rowResult['user' . $x], 'http://')) {
+            elseif (0 === strncmp($rowResult['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $rowResult['user' . $x] . '">' . $rowResult['user' . $x] . '</a>';
             } else {
                 $value = $rowResult['user' . $x];
@@ -344,7 +345,7 @@ function bas($oid, $pa, $ma)
     $numofcolumns1 = 1;
     $columns1[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
@@ -387,7 +388,7 @@ function bas($oid, $pa, $ma)
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
-            elseif (0 === strpos($rowResult['user' . $x], 'http://')) {
+            elseif (0 === strncmp($rowResult['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $rowResult['user' . $x] . '">' . $rowResult['user' . $x] . '</a>';
             } else {
                 $value = $rowResult['user' . $x];
@@ -502,7 +503,7 @@ function createList($result, $prefix, $link, $element)
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         if ($userField->isActive() && $userField->inList()) {
@@ -558,7 +559,7 @@ function createList($result, $prefix, $link, $element)
                     }
                 }
             } //format value - cant use object because of query count
-            elseif (0 === strpos($row['user' . $x], 'http://')) {
+            elseif (0 === strncmp($row['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
@@ -585,7 +586,7 @@ function createList($result, $prefix, $link, $element)
     $xoopsTpl->assign('dogs', $dogs);
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+    $xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
 }
 
 /***************Blocks**************
@@ -690,12 +691,12 @@ function animal_meta_description($content)
  */
 function lettersChoice()
 {
-    $pedigree = Pedigree\Helper::getInstance();
+    $helper = Pedigree\Helper::getInstance();
     xoops_load('XoopsLocal');
 
-    $criteria = $pedigree->getHandler('tree')->getActiveCriteria();
+    $criteria = $helper->getHandler('Tree')->getActiveCriteria();
     $criteria->setGroupby('UPPER(LEFT(naam,1))');
-    $countsByLetters = $pedigree->getHandler('tree')->getCounts($criteria);
+    $countsByLetters = $helper->getHandler('Tree')->getCounts($criteria);
     // Fill alphabet array
     //    $alphabet       = XoopsLocal::getAlphabet();
     //        $xLocale = new \XoopsLocal;
@@ -707,8 +708,8 @@ function lettersChoice()
         if (isset($countsByLetters[$letter])) {
             $letter_array['letter'] = $letter;
             $letter_array['count']  = $countsByLetters[$letter];
-            //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $pedigree->getModule()->dirname() . "/viewcat.php?list={$letter}";
-            $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $pedigree->getModule()->dirname() . "/result.php?f=naam&amp;l=1&amp;w={$letter}%25&amp;o=naam";
+            //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $helper->getModule()->dirname() . "/viewcat.php?list={$letter}";
+            $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/result.php?f=naam&amp;l=1&amp;w={$letter}%25&amp;o=naam";
         } else {
             $letter_array['letter'] = $letter;
             $letter_array['count']  = 0;
@@ -726,7 +727,7 @@ function lettersChoice()
     $letterschoiceTpl          = new \XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch('db:' . $pedigree->getModule()->dirname() . '_common_letterschoice.tpl');
+    $html = $letterschoiceTpl->fetch('db:' . $helper->getModule()->dirname() . '_common_letterschoice.tpl');
     unset($letterschoiceTpl);
 
     return $html;
@@ -737,7 +738,7 @@ function lettersChoice()
  */
 function userIsAdmin()
 {
-    $pedigree = Pedigree\Helper::getInstance();
+    $helper = Pedigree\Helper::getInstance();
 
     static $pedigree_isAdmin;
 
@@ -748,7 +749,7 @@ function userIsAdmin()
     if (!$GLOBALS['xoopsUser']) {
         $pedigree_isAdmin = false;
     } else {
-        $pedigree_isAdmin = $GLOBALS['xoopsUser']->isAdmin($pedigree->getModule()->getVar('mid'));
+        $pedigree_isAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
     }
 
     return $pedigree_isAdmin;
@@ -766,9 +767,9 @@ function getXoopsCpHeader()
  */
 function getModuleName($withLink = true)
 {
-    $pedigree = Pedigree\Helper::getInstance();
+    $helper = Pedigree\Helper::getInstance();
 
-    $pedigreeModuleName = $pedigree->getModule()->getVar('name');
+    $pedigreeModuleName = $helper->getModule()->getVar('name');
     if (!$withLink) {
         return $pedigreeModuleName;
     } else {
@@ -820,7 +821,7 @@ function hasTable($table)
 function getMeta($key)
 {
     $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-    $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+    $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey= `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
     $ret                = $GLOBALS['xoopsDB']->query($sql);
     if (!$ret) {
         $value = false;
@@ -845,10 +846,10 @@ function getMeta($key)
 function setMeta($key, $value)
 {
     $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-    if (false !== ($ret = PedigreeUtility::getMeta($key))) {
-        $sql = sprintf('UPDATE `%s` SET metavalue = %s WHERE metakey = %s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
+    if (false !== ($ret = Pedigree\Utility::getMeta($key))) {
+        $sql = sprintf('UPDATE `%s` SET metavalue = `%s` WHERE metakey = `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
     } else {
-        $sql = sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (%s, %s)', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
+        $sql = sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (`%s`, `%s`)', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
     }
     $ret = $GLOBALS['xoopsDB']->queryF($sql);
     if (!$ret) {
@@ -869,7 +870,7 @@ function setCookieVar($name, $value, $time = 0)
         $time = time() + 3600 * 24 * 365;
         //$time = '';
     }
-    setcookie($name, $value, $time, '/');
+    setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
 }
 
 /**
@@ -918,7 +919,7 @@ function getCurrentUrls()
  */
 function getCurrentPage()
 {
-    $urls = PedigreeUtility::getCurrentUrls();
+    $urls = Pedigree\Utility::getCurrentUrls();
 
     return $urls['full'];
 }

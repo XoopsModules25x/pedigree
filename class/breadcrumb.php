@@ -25,6 +25,9 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
+
+use XoopsModules\Pedigree;
+
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**

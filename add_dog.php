@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -9,7 +10,6 @@ require_once __DIR__ . '/header.php';
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
@@ -191,7 +191,7 @@ function checkName()
         $fields = $animal->getNumOfFields();
 
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new Field($fields[$i], $animal->getConfig());
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive() && !$userField->isLocked()) {
@@ -252,7 +252,7 @@ function sire()
     if (empty($pictureField) || '' == $pictureField) {
         $foto = '';
     } else {
-        $foto = PedigreeUtility::uploadPicture(0);
+        $foto = Pedigree\Utility::uploadPicture(0);
     }
     $numPictureField = 1;
 
@@ -268,7 +268,7 @@ function sire()
         sort($fields); //sort by ID not by order
         $usersql = '';
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new Field($fields[$i], $animal->getConfig());
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive()) {
@@ -276,7 +276,7 @@ function sire()
                 $currentfield = 'user' . $fields[$i];
                 $pictureField = $_FILES[$currentfield]['name'];
                 if ('Picture' === $fieldType && (!empty($pictureField) || '' != $pictureField)) {
-                    $userpicture = PedigreeUtility::uploadPicture($numPictureField);
+                    $userpicture = Pedigree\Utility::uploadPicture($numPictureField);
                     $usersql     .= ",'" . $userpicture . "'";
                     ++$numPictureField;
                 } elseif ($userField->isLocked()) {
@@ -284,7 +284,7 @@ function sire()
                     $usersql .= ",'" . $userField->defaultvalue . "'";
                 } else {
                     //echo $fieldType.":".$i.":".$fields[$i]."<br>";
-                    $usersql .= ",'" . PedigreeUtility::unHtmlEntities($_POST['user' . $fields[$i]]) . "'";
+                    $usersql .= ",'" . Pedigree\Utility::unHtmlEntities($_POST['user' . $fields[$i]]) . "'";
                 }
             } else {
                 $usersql .= ",''";
@@ -293,13 +293,13 @@ function sire()
         }
 
         //insert into pedigree_temp
-        //        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . PedigreeUtility::unHtmlEntities($name) . "','" . $id_owner . "','" . $id_breeder . "','" . $user . "','" . $roft . "','','','" . $foto . "', ''" . $usersql . ')';
+        //        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . Pedigree\Utility::unHtmlEntities($name) . "','" . $id_owner . "','" . $id_breeder . "','" . $user . "','" . $roft . "','','','" . $foto . "', ''" . $usersql . ')';
         $query = 'INSERT INTO '
                  . $GLOBALS['xoopsDB']->prefix('pedigree_temp')
                  . " VALUES ('"
                  . $GLOBALS['xoopsDB']->escape($random)
                  . "','"
-                 . $GLOBALS['xoopsDB']->escape(PedigreeUtility::unHtmlEntities($name))
+                 . $GLOBALS['xoopsDB']->escape(Pedigree\Utility::unHtmlEntities($name))
                  . "','"
                  . $GLOBALS['xoopsDB']->escape($id_owner)
                  . "','"
@@ -389,7 +389,7 @@ function sire()
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
@@ -445,7 +445,7 @@ function sire()
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
-            elseif (0 === strpos($row['user' . $x], 'http://')) {
+            elseif (0 === strncmp($row['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
@@ -468,7 +468,7 @@ function sire()
     $xoopsTpl->assign('dogs', $dogs);
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+    $xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
     //assign links
     $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELSIRE, ['[father]' => $moduleConfig['father']]));
     $xoopsTpl->assign('pages', $pages);
@@ -476,8 +476,8 @@ function sire()
     //mb =========== FATHER LETTERS =============================
     $myObject = Pedigree\Helper::getInstance();
     $roft     = 0;
-    //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
-    $activeObject = 'tree';
+    //    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+    $activeObject = 'Tree';
     $name         = 'naam';
     $number1      = '1';
     $number2      = '0';
@@ -488,10 +488,10 @@ function sire()
 
     $link2 = '';
 
-    $criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+    $criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
     //    $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-    $fatherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+    $fatherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
     //$catarray['toolbar']          = pedigree_toolbar();
     $xoopsTpl->assign('fatherArray', $fatherArray);
 
@@ -606,7 +606,7 @@ function dam()
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField   = new Field($fields[$i], $animal->getConfig());
+        $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
@@ -662,7 +662,7 @@ function dam()
                 //debug information
                 ///echo $columns[$i]['columnname']."is an array !";
             } //format value - cant use object because of query count
-            elseif (0 === strpos($row['user' . $x], 'http://')) {
+            elseif (0 === strncmp($row['user' . $x], 'http://', 7)) {
                 $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
             } else {
                 $value = $row['user' . $x];
@@ -685,25 +685,25 @@ function dam()
     $xoopsTpl->assign('dogs', $dogs);
     $xoopsTpl->assign('columns', $columns);
     $xoopsTpl->assign('numofcolumns', $numofcolumns);
-    $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+    $xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
     $xoopsTpl->assign('nummatch', strtr(_MA_PEDIGREE_ADD_SELDAM, ['[mother]' => $moduleConfig['mother']]));
     $xoopsTpl->assign('pages', $pages);
 
     //mb ========= MOTHER LETTERS===============================
     $myObject = Pedigree\Helper::getInstance();
     $roft     = 1;
-    //    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
-    $activeObject = 'tree';
+    //    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+    $activeObject = 'Tree';
     $name         = 'naam';
     $number1      = '1';
     $number2      = '0';
     $link         = "add_dog.php?f=dam&r=1&random={$random}&l=";
     $link2        = '';
 
-    $criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+    $criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
     //    $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-    $motherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+    $motherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
     //$catarray['toolbar']          = pedigree_toolbar();
     $xoopsTpl->assign('motherArray', $motherArray);
 
@@ -744,7 +744,7 @@ function check()
         sort($fields);
         $usersql = '';
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-            $userField   = new Field($fields[$i], $animal->getConfig());
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive()) {

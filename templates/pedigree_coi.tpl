@@ -138,8 +138,7 @@
                                     <td class="odd" width="25%">
                                         <{$ASCall}>
                                     </td>
-                                </tr>
-                                </tr>
+                                  </tr>
                                 <td class="even">
                                     <{$ASCuni}>
                                 </td>

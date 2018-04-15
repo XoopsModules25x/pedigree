@@ -19,6 +19,8 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
+use XoopsModules\Pedigree;
+
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -74,9 +76,8 @@ class Temp extends \XoopsObject
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_FATHER, 'father', 50, 255, $this->getVar('father')), false);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_FOTO, 'foto', 50, 255, $this->getVar('foto')), false);
 
-        require_once $GLOBALS['xoops']->path('class/tree.php');
         //            $Handler = xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
-        $tempHandler = xoops_getModuleHandler('temp', PEDIGREE_DIRNAME);
+        $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
         $criteria    = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');

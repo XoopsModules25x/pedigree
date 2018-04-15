@@ -1,8 +1,14 @@
+<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.4
+<hr>
+- namespaces, autoloading (mamba)
+WORK IN PROGRESS
+
+
 ---------------------------------------
 1.31 Alpha 8             NOT RELEASED
 ---------------------------------------
 - split ./include/class_field.php into individual class files in ./class (zyspec)
-- moved PedigreeUtility from pedigreeUtility.php to utility.php (zyspec)
+- moved Pedigree\Utility from Pedigree\Utility.php to utility.php (zyspec)
 - utilize Pedigree\Helper module helper (zyspec)
 - significant code cleanup (zyspec)
 - switched from Field class to Pedigree\Field (zyspec)

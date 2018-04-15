@@ -20,11 +20,14 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
+
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
+$helper = Pedigree\Helper::getInstance();
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
@@ -32,7 +35,6 @@ include $GLOBALS['xoops']->path('/header.php');
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
@@ -208,9 +210,9 @@ function index()
 
 function colours()
 {
-    global $pedigree;
+    global $helper;
 
-    $colors  = explode(';', $pedigree->getConfig('colourscheme'));
+    $colors  = explode(';', $helper->getConfig('colourscheme'));
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -334,8 +336,7 @@ function colours()
  */
 function savecolours()
 {
-    require_once __DIR__ . '/include/color.php';
-    $color = new Image_Color();
+    $color = new \XoopsModules\Pedigree\ImageColor();
     //create darker link hover colour
     $actLink = Request::getString('actlink', '', 'POST');  //active link color in hex
     $even    = Request::getString('even', '', 'POST');     // even color in hex
@@ -685,7 +686,7 @@ function dellookupvalue($field, $id)
 {
     $animal      = new Pedigree\Animal();
     $fields      = $animal->getNumOfFields();
-    $userField   = new Field($field, $animal->getConfig());
+    $userField   = new Pedigree\Field($field, $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     //    $default     = $fieldObject->defaultvalue;
@@ -989,11 +990,11 @@ function credits()
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     */
-    $pedigree = Pedigree\Helper::getInstance(false);
+    $helper = Pedigree\Helper::getInstance(false);
     $form     = 'Pedigree database module<br><br><li>Programming : James Cotton<br><li>Design & Layout : Ton van der Hagen<br><li>Version : '
-                . round($pedigree->getModule()->getVar('version') / 100, 2)
+                . round($helper->getModule()->getVar('version') / 100, 2)
                 . ' '
-                . $pedigree->getModule()->getVar('module_status')
+                . $helper->getModule()->getVar('module_status')
                 . '<br><br>Technical support :<br><li><a href="https://xoops.org">www.xoops.org</a><hr>';
 
     $GLOBALS['xoopsTpl']->assign('form', $form);
@@ -1115,7 +1116,7 @@ function pro()
  */
 function deleted()
 {
-    global $pedigree;
+    global $helper;
     $form   = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
     $sql    = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
     $result = $GLOBALS['xoopsDB']->query($sql);
@@ -1123,7 +1124,7 @@ function deleted()
         $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src=' . $GLOBALS['pathIcon16'] . '/delete.png></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['naam'] . '</a><br>';
     }
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
-        $form .= '<hr><a href="tools.php?op=delall">Click here</a> to remove all these ' . $pedigree->getConfig('animalTypes') . ' permenantly ';
+        $form .= '<hr><a href="tools.php?op=delall">Click here</a> to remove all these ' . $helper->getConfig('animalTypes') . ' permenantly ';
     }
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
@@ -1171,11 +1172,12 @@ function restore($id)
 
 function settings()
 {
-    global $pedigree;
+    $helper = Pedigree\Helper::getInstance();
+
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', 'tools.php?op=settingssave', 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-    $select  = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $pedigree->getConfig('perpage'), $size = 1, $multiple = false);
+    $select  = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
     $options = [
         '50'    => 50,
         '100'   => 100,
@@ -1192,32 +1194,32 @@ function settings()
     unset($options);
     $form->addElement($select);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_EXPLAIN_NUMB));
-    $radiowel = new \XoopsFormRadio(_MA_PEDIGREE_SHOW_WELC, 'showwelcome', $value = $pedigree->getConfig('showwelcome'));
+    $radiowel = new \XoopsFormRadio(_MA_PEDIGREE_SHOW_WELC, 'showwelcome', $value = $helper->getConfig('showwelcome'));
     $radiowel->addOption(1, $name = _MA_PEDIGREE_YES);
     $radiowel->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiowel);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_WELC_SCREEN));
-    $radio = new \XoopsFormRadio(_MA_PEDIGREE_BREED_FIELD, 'ownerbreeder', $value = $pedigree->getConfig('ownerbreeder'));
+    $radio = new \XoopsFormRadio(_MA_PEDIGREE_BREED_FIELD, 'ownerbreeder', $value = $helper->getConfig('ownerbreeder'));
     $radio->addOption(1, $name = _MA_PEDIGREE_YES);
     $radio->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radio);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_OWN_EXPLAIN));
-    $radiobr = new \XoopsFormRadio(_MA_PEDIGREE_SHOW_BROT, 'brothers', $value = $pedigree->getConfig('brothers'));
+    $radiobr = new \XoopsFormRadio(_MA_PEDIGREE_SHOW_BROT, 'brothers', $value = $helper->getConfig('brothers'));
     $radiobr->addOption(1, $name = _MA_PEDIGREE_YES);
     $radiobr->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiobr);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_BROT_EXPLAIN));
-    $radiolit = new \XoopsFormRadio(_MA_PEDIGREE_USE_LITTER, 'uselitter', $value = $pedigree->getConfig('uselitter'));
+    $radiolit = new \XoopsFormRadio(_MA_PEDIGREE_USE_LITTER, 'uselitter', $value = $helper->getConfig('uselitter'));
     $radiolit->addOption(1, $name = _MA_PEDIGREE_YES);
     $radiolit->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiolit);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_USE_LITTER_EXPLAIN));
-    $radioch = new \XoopsFormRadio(PED_SHOW_KITT_A . $pedigree->getConfig('children') . _MA_PEDIGREE_SHOW_KITT_B, 'pups', $value = $pedigree->getConfig('pups'));
+    $radioch = new \XoopsFormRadio(PED_SHOW_KITT_A . $helper->getConfig('children') . _MA_PEDIGREE_SHOW_KITT_B, 'pups', $value = $helper->getConfig('pups'));
     $radioch->addOption(1, $name = _MA_PEDIGREE_YES);
     $radioch->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radioch);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_KITT_EXPLAIN));
-    $radiosoi = new \XoopsFormRadio(_MA_PEDIGREE_SHOW_PICT, 'lastimage', $value = $pedigree->getConfig('lastimage'));
+    $radiosoi = new \XoopsFormRadio(_MA_PEDIGREE_SHOW_PICT, 'lastimage', $value = $helper->getConfig('lastimage'));
     $radiosoi->addOption(1, $name = _MA_PEDIGREE_YES);
     $radiosoi->addOption(0, $name = _MA_PEDIGREE_NO);
     $form->addElement($radiosoi);
@@ -1246,29 +1248,29 @@ function settingssave()
 
 function lang()
 {
-    global $pedigree;
+    global $helper;
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', 'tools.php?op=langsave', 'post', true);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('animalType')));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN . $pedigree->getConfig('animalType') . _MA_PEDIGREE_SEARCH_FORM . $pedigree->getConfig('animalType') . '</b>.'));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalTypes', $size = 50, $maxsize = 255, $value = $value = $pedigree->getConfig('animalTypes')));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN2 . $pedigree->getConfig('animalTypes') . _MA_PEDIGREE_FIELD_EXPLAIN3));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_MALE, 'male', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('male')));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $helper->getConfig('animalType')));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN . $helper->getConfig('animalType') . _MA_PEDIGREE_SEARCH_FORM . $helper->getConfig('animalType') . '</b>.'));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalTypes', $size = 50, $maxsize = 255, $value = $value = $helper->getConfig('animalTypes')));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN2 . $helper->getConfig('animalTypes') . _MA_PEDIGREE_FIELD_EXPLAIN3));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_MALE, 'male', $size = 50, $maxsize = 255, $value = $helper->getConfig('male')));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_MALE_EXPLAIN));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_FEMALE, 'female', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('female')));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_FEMALE, 'female', $size = 50, $maxsize = 255, $value = $helper->getConfig('female')));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FEMALE_EXPLAIN));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_CHILDREN, 'children', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('children')));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_KITTEN_EXPLAIN1 . $pedigree->getConfig('animalTypes') . _MA_PEDIGREE_KITTEN_EXPLAIN2));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_MOTHER, 'mother', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('mother')));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_MOTHER1 . $pedigree->getConfig('animalTypes') . _MA_PEDIGREE_MOTHER2));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_FATHER, 'father', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('father')));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FATHER1 . $pedigree->getConfig('animalTypes') . _MA_PEDIGREE_FATHER2));
-    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_LITTER, 'litter', $size = 50, $maxsize = 255, $value = $pedigree->getConfig('litter')));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_CHILDREN, 'children', $size = 50, $maxsize = 255, $value = $helper->getConfig('children')));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_KITTEN_EXPLAIN1 . $helper->getConfig('animalTypes') . _MA_PEDIGREE_KITTEN_EXPLAIN2));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_MOTHER, 'mother', $size = 50, $maxsize = 255, $value = $helper->getConfig('mother')));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_MOTHER1 . $helper->getConfig('animalTypes') . _MA_PEDIGREE_MOTHER2));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_FATHER, 'father', $size = 50, $maxsize = 255, $value = $helper->getConfig('father')));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FATHER1 . $helper->getConfig('animalTypes') . _MA_PEDIGREE_FATHER2));
+    $form->addElement(new \XoopsFormText(_MA_PEDIGREE_LITTER, 'litter', $size = 50, $maxsize = 255, $value = $helper->getConfig('litter')));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_LITTER1));
-    $form->addElement(new \XoopsFormTextArea(_MA_PEDIGREE_WELC_TEXT, 'welcome', $value = $pedigree->getConfig('welcome'), $rows = 15, $cols = 50));
+    $form->addElement(new \XoopsFormTextArea(_MA_PEDIGREE_WELC_TEXT, 'welcome', $value = $helper->getConfig('welcome'), $rows = 15, $cols = 50));
 
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_WELC_TXT_EXPLAIN . $pedigree->getConfig('animalType') . '<br>[animalTypes] = ' . $pedigree->getConfig('animalTypes') . _MA_PEDIGREE_WELC_TXT_EXPLAIN2));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_WELC_TXT_EXPLAIN . $helper->getConfig('animalType') . '<br>[animalTypes] = ' . $helper->getConfig('animalTypes') . _MA_PEDIGREE_WELC_TXT_EXPLAIN2));
     $form->addElement(new \XoopsFormButton('', 'button_id', 'Submit', 'submit'));
     $GLOBALS['xoopsTpl']->assign('form', $form->render());
 }

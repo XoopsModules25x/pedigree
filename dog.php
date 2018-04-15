@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -9,7 +10,6 @@ $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-//require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/class/field.php';
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
@@ -117,10 +117,10 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $inbred = '<a href="coi.php?s=' . $row['father'] . '&d=' . $row['mother'] . '&dogid=' . $row['id'] . '&detail=1" title="' . strtr(_MA_PEDIGREE_COI_WAIT, ['[animalType]' => $moduleConfig['animalType']]) . '">' . $row['coi'] . ' %</a>';
     }
     //brothers and sisters
-    $bas = PedigreeUtility::bas($id, $row['father'], $row['mother']);
+    $bas = Pedigree\Utility::bas($id, $row['father'], $row['mother']);
     //pups
     if ('1' == $moduleConfig['pups']) {
-        $pups = PedigreeUtility::pups($id, $row['roft']);
+        $pups = Pedigree\Utility::pups($id, $row['roft']);
     }
     //check for edit rights
     $access      = 0;
@@ -188,7 +188,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $fields = $animal->getNumOfFields();
     //create userfields and populate them
     for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-        $userField = new Field($fields[$i], $animal->getConfig());
+        $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
@@ -278,7 +278,7 @@ $xoopsTpl->assign('nummatch1', $nummatch1 . ' Animals found.');
 
 //both pups and bas
 $xoopsTpl->assign('width', 100 / $numofcolumns);
-$xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+$xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
 
 $xoopsTpl->assign('access', $access);
 $xoopsTpl->assign('items', $items);

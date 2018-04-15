@@ -17,6 +17,9 @@
  * @author         XOOPS Development Team
  */
 
+use XoopsModules\Pedigree;
+
+
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 if (!isset($_GET['target']) && !isset($_POST['target'])) {
     exit();
@@ -51,7 +54,7 @@ if ('list' === $op) {
     if ($catcount > 0) {
         $xoopsTpl->assign('lang_go', _GO);
         $catshow = \Xmf\Request::getInt('cat_id', 0, 'GET');
-        $catshow = (!empty($catshow) && in_array($catshow, array_keys($catlist))) ? $catshow : 0;
+        $catshow = (!empty($catshow) && array_key_exists($catshow, $catlist)) ? $catshow : 0;
         $xoopsTpl->assign('show_cat', $catshow);
         if ($catshow > 0) {
             $xoopsTpl->assign('lang_addimage', _ADDIMAGE);

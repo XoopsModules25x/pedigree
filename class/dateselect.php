@@ -20,7 +20,8 @@
  * @author      XOOPS Mod Development Team
  */
 
-require_once __DIR__ . '/htmlinput.abstract.php';
+use XoopsModules\Pedigree;
+
 
 /**
  * Class Pedigree\DateSelectBox
@@ -60,7 +61,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return XoopsFormTextDateSelect
+     * @return \XoopsFormTextDateSelect
      */
     public function editField()
     {
@@ -72,7 +73,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     /**
      * @param string $name
      *
-     * @return XoopsFormTextDateSelect
+     * @return \XoopsFormTextDateSelect
      */
     public function newField($name = '')
     {

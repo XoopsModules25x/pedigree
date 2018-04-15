@@ -1,24 +1,9 @@
 <?php namespace XoopsModules\Pedigree;
 
-$moduleDirName = basename(dirname(__DIR__));
-//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
-if (!class_exists('Pedigree\Animal')) {
-//    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
-}
-if (!class_exists('Pedigree\Field')) {
-//    $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
-}
-/*
-//get module configuration
-$moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
-$configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-*/
+use XoopsModules\Pedigree;
 
 /**
- * Class PedigreeUtility
+ * Class Pedigree\Utility
  */
 class Utility
 {
@@ -136,7 +121,7 @@ class Utility
         $config_output_format = 'jpeg';
 
         // create a new instance of the class
-        $image = new Zebra_Image();
+        $image = new \Zebra_Image();
         // indicate a source image (a GIF, PNG or JPEG file)
         $image->source_path = PEDIGREE_UPLOAD_PATH . "/images/{$filename}";
 
@@ -307,7 +292,7 @@ class Utility
                     //debug information
                     ///echo $columns[$i]['columnname']."is an array !";
                 } //format value - cant use object because of query count
-                elseif (0 === strpos($rowres['user' . $x], 'http://')) {
+                elseif (0 === strncmp($rowres['user' . $x], 'http://', 7)) {
                     $value = '<a href="' . $rowres['user' . $x] . '">' . $rowres['user' . $x] . '</a>';
                 } else {
                     $value = $rowres['user' . $x];
@@ -396,7 +381,7 @@ class Utility
                     //debug information
                     ///echo $columns[$i]['columnname']."is an array !";
                 } //format value - cant use object because of query count
-                elseif (0 === strpos($rowres['user' . $x], 'http://')) {
+                elseif (0 === strncmp($rowres['user' . $x], 'http://', 7)) {
                     $value = '<a href="' . $rowres['user' . $x] . '">' . $rowres['user' . $x] . '</a>';
                 } else {
                     $value = $rowres['user' . $x];
@@ -567,7 +552,7 @@ class Utility
                         }
                     }
                 } //format value - cant use object because of query count
-                elseif (0 === strpos($row['user' . $x], 'http://')) {
+                elseif (0 === strncmp($row['user' . $x], 'http://', 7)) {
                     $value = '<a href="' . $row['user' . $x] . '">' . $row['user' . $x] . '</a>';
                 } else {
                     $value = $row['user' . $x];
@@ -594,7 +579,7 @@ class Utility
         $xoopsTpl->assign('dogs', $dogs);
         $xoopsTpl->assign('columns', $columns);
         $xoopsTpl->assign('numofcolumns', $numofcolumns);
-        $xoopsTpl->assign('tsarray', PedigreeUtility::sortTable($numofcolumns));
+        $xoopsTpl->assign('tsarray', self::sortTable($numofcolumns));
     }
 
     /***************Blocks**************
@@ -718,9 +703,9 @@ class Utility
         $pedigree = Pedigree\Helper::getInstance();
         xoops_load('XoopsLocal');
 
-        $criteria = $pedigree->getHandler('tree')->getActiveCriteria();
+        $criteria = $helper->getHandler('tree')->getActiveCriteria();
         $criteria->setGroupby('UPPER(LEFT(naam,1))');
-        $countsByLetters = $pedigree->getHandler('tree')->getCounts($criteria);
+        $countsByLetters = $helper->getHandler('tree')->getCounts($criteria);
         // Fill alphabet array
         $alphabet       = XoopsLocal::getAlphabet();
         $alphabet_array = array();
@@ -729,8 +714,8 @@ class Utility
             if (isset($countsByLetters[$letter])) {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = $countsByLetters[$letter];
-                //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $pedigree->getModule()->dirname() . "/viewcat.php?list={$letter}";
-                $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $pedigree->getModule()->dirname() . "/result.php?f=naam&amp;l=1&amp;w={$letter}%25&amp;o=naam";
+                //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $helper->getModule()->dirname() . "/viewcat.php?list={$letter}";
+                $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/result.php?f=naam&amp;l=1&amp;w={$letter}%25&amp;o=naam";
             } else {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = 0;
@@ -748,7 +733,7 @@ class Utility
         $letterschoiceTpl          = new \XoopsTpl();
         $letterschoiceTpl->caching = false; // Disable cache
         $letterschoiceTpl->assign('alphabet', $alphabet_array);
-        $html = $letterschoiceTpl->fetch('db:' . $pedigree->getModule()->dirname() . '_common_letterschoice.tpl');
+        $html = $letterschoiceTpl->fetch('db:' . $helper->getModule()->dirname() . '_common_letterschoice.tpl');
         unset($letterschoiceTpl);
         return $html;
 */
@@ -774,7 +759,7 @@ class Utility
                         if (isset($countsByLetters[$letter])) {
                             $letter_array['letter'] = $letter;
                             $letter_array['count']  = $countsByLetters[$letter];
-                            //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $pedigree->getModule()->dirname() . "/viewcat.php?list={$letter}";
+                            //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $helper->getModule()->dirname() . "/viewcat.php?list={$letter}";
                             //                $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $myObject->getModule()->dirname() . '/'.$file.'?f='.$name."&amp;l=1&amp;w={$letter}%25&amp;o=".$name;
                             $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $myObject->getModule()->dirname() . '/' . $file2;
                         } else {
@@ -795,7 +780,7 @@ class Utility
             if (isset($countsByLetters[$letter])) {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = $countsByLetters[$letter];
-                //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $pedigree->getModule()->dirname() . "/viewcat.php?list={$letter}";
+                //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $helper->getModule()->dirname() . "/viewcat.php?list={$letter}";
                 //                $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $myObject->getModule()->dirname() . '/'.$file.'?f='.$name."&amp;l=1&amp;w={$letter}%25&amp;o=".$name;
                 $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $myObject->getModule()->dirname() . '/' . $link . $letter . $link2;
             } else {
@@ -827,21 +812,11 @@ class Utility
      */
     public static function userIsAdmin()
     {
-        $pedigree = Pedigree\Helper::getInstance();
+        $helper = Pedigree\Helper::getInstance();
 
-        static $pedigree_isAdmin;
+       $pedigree_isAdmin = $helper->isUserAdmin();
 
-        if (isset($pedigree_isAdmin)) {
-            return $pedigree_isAdmin;
-        }
-
-        if (!$GLOBALS['xoopsUser']) {
-            $pedigree_isAdmin = false;
-        } else {
-            $pedigree_isAdmin = $GLOBALS['xoopsUser']->isAdmin($pedigree->getModule()->getVar('mid'));
-        }
-
-        return $pedigree_isAdmin;
+         return $pedigree_isAdmin;
     }
 
     public static function getXoopsCpHeader()
@@ -857,9 +832,9 @@ class Utility
      */
     public static function getModuleName($withLink = true)
     {
-        $pedigree = Pedigree\Helper::getInstance();
+        $helper = Pedigree\Helper::getInstance();
 
-        $pedigreeModuleName = $pedigree->getModule()->getVar('name');
+        $pedigreeModuleName = $helper->getModule()->getVar('name');
         if (!$withLink) {
             return $pedigreeModuleName;
         } else {
@@ -911,7 +886,7 @@ class Utility
     public static function getMeta($key)
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-        $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+        $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey= `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
         $ret                = $GLOBALS['xoopsDB']->query($sql);
         if (!$ret) {
             $value = false;
@@ -936,10 +911,10 @@ class Utility
     public static function setMeta($key, $value)
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-        if (false !== ($ret = PedigreeUtility::getMeta($key))) {
-            $sql = sprintf('UPDATE `%s` SET metavalue = %s WHERE metakey = %s', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
+        if (false !== ($ret = self::getMeta($key))) {
+            $sql = sprintf('UPDATE `%s` SET metavalue = `%s` WHERE metakey = `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
         } else {
-            $sql = sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (%s, %s)', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
+            $sql = sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (`%s`, `%s` )', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
         }
         $ret = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$ret) {
@@ -960,7 +935,7 @@ class Utility
             $time = time() + 3600 * 24 * 365;
             //$time = '';
         }
-        setcookie($name, $value, $time, '/');
+        setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -1009,7 +984,7 @@ class Utility
      */
     public static function getCurrentPage()
     {
-        $urls = PedigreeUtility::getCurrentUrls();
+        $urls = self::getCurrentUrls();
 
         return $urls['full'];
     }

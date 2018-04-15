@@ -2,6 +2,8 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
+
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -9,7 +11,6 @@ $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_update.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
@@ -34,8 +35,8 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$pedigree     = Pedigree\Helper::getInstance(false);
-$moduleConfig = $pedigree->getConfig();
+$helper     = Pedigree\Helper::getInstance(false);
+$moduleConfig = $helper->getConfig();
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -190,7 +191,7 @@ $fields = $animal->getNumOfFields();
 
 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
     if ($_GET['fld'] == $fields[$i]) {
-        $userField = new Field($fields[$i], $animal->getConfig());
+        $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);

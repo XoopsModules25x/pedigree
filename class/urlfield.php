@@ -19,7 +19,8 @@
  * @author      XOOPS Mod Development Team
  */
 
-require_once __DIR__ . '/htmlinput.abstract.php';
+use XoopsModules\Pedigree;
+
 
 /**
  * Class Pedigree\SelectBox
@@ -58,7 +59,7 @@ class UrlField extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return XoopsFormText
+     * @return \XoopsFormText
      */
     public function editField()
     {
@@ -70,7 +71,7 @@ class UrlField extends Pedigree\HtmlInputAbstract
     /**
      * @param string $name
      *
-     * @return XoopsFormText
+     * @return \XoopsFormText
      */
     public function newField($name = '')
     {
@@ -80,7 +81,7 @@ class UrlField extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return XoopsFormLabel
+     * @return \XoopsFormLabel
      */
     public function viewField()
     {

@@ -1,6 +1,7 @@
 <?php
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 ini_set('memory_limit', '32M');
 
@@ -241,7 +242,7 @@ function output_animal($ind, $gen, $class)
         $ani          = set_name($ID);
         $name         = $ani[1];
         $name         = $ID;
-        $cell_content = PedigreeUtility::showParent($name) . $nl;
+        $cell_content = Pedigree\Utility::showParent($name) . $nl;
     }
     $rowspan = 1 << ($depth - $gen);
     echo '<td rowspan=' . $rowspan . ' align="center" class="' . $class . '">' . $cell_content . "</td>$nl";
@@ -433,8 +434,12 @@ function dist_p($p)
         $listnew = array_diff(array_unique($liste), $listall);
         /* $list1 = join (' ', $listall) ; $list2 = join ('+', $listnew) ;
              echo "<!-- P ($nloop) $list1/$list2 -->$nl" ; */
-        $listall = array_merge($listall, $listnew);
+//        $listall = array_merge($listall, $listnew);
+        $listall[] =  $listnew;
     }
+    //    $listall = call_user_func_array('array_merge', $listall);
+    $listall = array_merge(...$listall);
+
     // Here $pater array contains list of all distinct ascendants of #P (including P himself)
     // Values of $pater are minimum distances to #P (in generations) +1
     return 0;
@@ -481,8 +486,12 @@ function dist_m($m)
         //  die ("</body></html>$nl") ; }
         $listnew = array_diff(array_unique($liste), $listall);
         // $list1 = join (' ', $listall) ; $list2 = join ('+', $listnew) ; echo "M ($nloop) $list1/$list2 $nl" ;
-        $listall = array_merge($listall, $listnew);
+//        $listall = array_merge($listall, $listnew);
+        $listall[] =  $listnew;
     }
+//    $listall = call_user_func_array('array_merge', $listall);
+    $listall = array_merge(...$listall);
+
     // Here $mater array contains list of all distinct ascendants of #M (including M herself)
     // Values of $mater are minimum distances to #M (in generations) +1
     return 0;
@@ -833,10 +842,10 @@ $d      = Request::getInt('d', 0, 'GET'); //$_GET['d'];
 $detail = Request::getString('detail', '', 'GET'); //$_GET['detail'];
 
 if (isset($si)) {
-    $s = PedigreeUtility::findId($si);
+    $s = Pedigree\Utility::findId($si);
 }
 if (isset($da)) {
-    $d = PedigreeUtility::findId($da);
+    $d = Pedigree\Utility::findId($da);
 }
 //test for variables
 //echo "si=".$si." da=".$da." s=".$s." d=".$d;
@@ -942,12 +951,12 @@ if (!isset($s1) || !isset($d1) || !isset($s2) || !isset($d2)) {
 
 $title   = strtr(_MA_PEDIGREE_FLD_FATH, ['[father]' => $moduleConfig['father']])
            . ' ('
-           . stripslashes(PedigreeUtility::showParent($codec2))
+           . stripslashes(Pedigree\Utility::showParent($codec2))
            . ')'
            . _MA_PEDIGREE_COI_AND
            . strtr(_MA_PEDIGREE_FLD_MOTH, ['[mother]' => $moduleConfig['mother']])
            . ' ('
-           . stripslashes(PedigreeUtility::showParent($codec1))
+           . stripslashes(Pedigree\Utility::showParent($codec1))
            . ')';
 $content = stripslashes(one_animal($codec2));
 $content .= stripslashes(one_animal($codec1));

@@ -1,5 +1,7 @@
 <?php namespace XoopsModules\Pedigree;
 
+use XoopsModules\Pedigree;
+
 /**
  * Class Pedigree\SISContext
  */

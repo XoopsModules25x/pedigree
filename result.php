@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -11,8 +12,6 @@ xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
-//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
 include $GLOBALS['xoops']->path('/header.php');
@@ -122,7 +121,7 @@ $pages = '';
 $length = strlen($w);
 if ('%' === substr($w, $length - 1, $length)) {
     $whe = substr($w, 0, $length - 1) . '%25';
-    if (0 === strpos($whe, '%')) {
+    if (0 === strncmp($whe, '%', 1)) {
         $length = strlen($whe);
         $whe    = '%25' . substr($whe, 1, $length);
     }
@@ -167,7 +166,7 @@ $fieldsCount  = count($fields);
 $numofcolumns = 1;
 $columns      = [['columnname' => 'Name']];
 for ($i = 0; $i < $fieldsCount; ++$i) {
-    $userField   = new Field($fields[$i], $animal->getConfig());
+    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     //create empty string
@@ -228,7 +227,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             //debug information
             ///echo $columns[$i]['columnname']."is an array !";
         } //format value - cant use object because of query count
-        elseif (0 === strpos($row[$x], 'http://')) {
+        elseif (0 === strncmp($row[$x], 'http://', 7)) {
             $value = "<a href='{$row[$x]}'>{$row[$x]}</a>";
         } else {
             $value = $row[$x];
@@ -255,7 +254,7 @@ $GLOBALS['xoopsTpl']->assign([
                                  'dogs'         => $animals,
                                  'columns'      => $columns,
                                  'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => PedigreeUtility::sortTable($numofcolumns)
+                                 'tsarray'      => Pedigree\Utility::sortTable($numofcolumns)
                              ]);
 //assign links
 

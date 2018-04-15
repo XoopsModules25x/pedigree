@@ -20,6 +20,8 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
+
 
 $rootPath      = dirname(dirname(__DIR__));
 $moduleDirName = basename(__DIR__);
@@ -58,7 +60,6 @@ $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/c
 $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/css/magnific-popup.css");
 
 require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -83,7 +84,6 @@ include __DIR__ . '/footer.php';
 function pedigree_main()
 {
     $moduleDirName = basename(__DIR__);
-//    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
     $id     = Request::getInt('pedid', 1, 'GET');
     $animal = new Pedigree\Animal($id);
     //test to find out how many user fields there are.
@@ -150,7 +150,7 @@ function pedigree_main()
                 $fields = $animal->getNumOfFields();
             }
             for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-                $userField = new Field($fields[$i], $animal->getConfig());
+                $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
                 if ($userField->isActive() && $userField->inPedigree()) {
                     $fieldType = $userField->getSetting('FieldType');
                     $fieldObj  = new $fieldType($userField, $animal);

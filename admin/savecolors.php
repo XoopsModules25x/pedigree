@@ -1,5 +1,7 @@
 <?php
 
+use XoopsModules\Pedigree;
+
 require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
 

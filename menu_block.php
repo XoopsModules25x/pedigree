@@ -6,11 +6,12 @@
 
 // Include any constants used for internationalizing templates.
 
+use XoopsModules\Pedigree;
+
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
@@ -59,7 +60,7 @@ function menu_block()
     echo '</style>';
 
     //is current user a module admin ?
-    if ((!empty($GLOBALS['xoopsUser'])) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
+    if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
         && $GLOBALS['xoopsUser']->isAdmin($GLOBALS['xoopsModule']->mid())) {
         $isAdmin = true;
     } else {

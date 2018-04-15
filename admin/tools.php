@@ -2,6 +2,7 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
@@ -93,7 +94,7 @@ switch ($op) {
 //create tools array
 //@todo move language strings to language files
 $tools[] = ['title' => 'General settings', 'link' => 'tools.php?op=settings', 'main' => '1'];
-if ('1' == $pedigree->getConfig('proversion')) {
+if ('1' == $helper->getConfig('proversion')) {
     $tools[] = ['title' => 'Pro-version settings', 'link' => 'tools.php?op=pro', 'main' => '1'];
 }
 $tools[] = ['title' => 'Language options', 'link' => 'tools.php?op=lang', 'main' => '1'];
