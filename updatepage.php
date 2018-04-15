@@ -37,7 +37,6 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-xoops_load('Pedigree\Animal', $moduleDirName);
 
 // Include any common code for this module.
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");

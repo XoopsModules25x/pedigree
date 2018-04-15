@@ -20,7 +20,7 @@
 require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 if (!defined('PEDIGREE_DIRNAME')) {
-    define('PEDIGREE_DIRNAME', $GLOBALS['xoopsModule']->dirname());
+    define('PEDIGREE_DIRNAME', basename(dirname(__DIR__)));
     define('PEDIGREE_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
     define('PEDIGREE_URL', XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
     define('PEDIGREE_ADMIN', PEDIGREE_URL . '/admin/index.php');

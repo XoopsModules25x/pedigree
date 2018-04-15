@@ -277,7 +277,7 @@ function sire()
                 $pictureField = $_FILES[$currentfield]['name'];
                 if ('Picture' === $fieldType && (!empty($pictureField) || '' != $pictureField)) {
                     $userpicture = Pedigree\Utility::uploadPicture($numPictureField);
-                    $usersql     .= ",'" . $userpicture . "'";
+                    $usersql .= ",'" . $userpicture . "'";
                     ++$numPictureField;
                 } elseif ($userField->isLocked()) {
                     //userfield is locked, substitute default value

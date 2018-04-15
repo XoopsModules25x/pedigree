@@ -30,60 +30,60 @@ $dogid = Request::getInt('dogid', 0, 'GET');
 
 //create data and variables
 $queryString = '
-SELECT d.id as d_id,
-d.naam as d_naam,
+SELECT d.Id as d_id,
+d.NAAM as d_naam,
 d.roft as d_roft,
 d.foto as d_foto,
-f.id as f_id,
-f.naam as f_naam,
+f.Id as f_id,
+f.NAAM as f_naam,
 f.foto as f_foto,
-m.id as m_id,
-m.naam as m_naam,
+m.Id as m_id,
+m.NAAM as m_naam,
 m.foto as m_foto,
-ff.id as ff_id,
-ff.naam as ff_naam,
+ff.Id as ff_id,
+ff.NAAM as ff_naam,
 ff.foto as ff_foto,
-mf.id as mf_id,
-mf.naam as mf_naam,
+mf.Id as mf_id,
+mf.NAAM as mf_naam,
 mf.foto as mf_foto,
-fm.id as fm_id,
-fm.naam as fm_naam,
+fm.Id as fm_id,
+fm.NAAM as fm_naam,
 fm.foto as fm_foto,
-mm.id as mm_id,
-mm.naam as mm_naam,
+mm.Id as mm_id,
+mm.NAAM as mm_naam,
 mm.foto as mm_foto,
-fff.id as fff_id,
-fff.naam as fff_naam,
-ffm.id as ffm_id,
-ffm.naam as ffm_naam,
-fmf.id as fmf_id,
-fmf.naam as fmf_naam,
-fmm.id as fmm_id,
-fmm.naam as fmm_naam,
-mmf.id as mmf_id,
-mmf.naam as mmf_naam,
-mff.id as mff_id,
-mff.naam as mff_naam,
-mfm.id as mfm_id,
-mfm.naam as mfm_naam,
-mmm.id as mmm_id,
-mmm.naam as mmm_naam
+fff.Id as fff_id,
+fff.NAAM as fff_naam,
+ffm.Id as ffm_id,
+ffm.NAAM as ffm_naam,
+fmf.Id as fmf_id,
+fmf.NAAM as fmf_naam,
+fmm.Id as fmm_id,
+fmm.NAAM as fmm_naam,
+mmf.Id as mmf_id,
+mmf.NAAM as mmf_naam,
+mff.Id as mff_id,
+mff.NAAM as mff_naam,
+mfm.Id as mfm_id,
+mfm.NAAM as mfm_naam,
+mmm.Id as mmm_id,
+mmm.NAAM as mmm_naam
 FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.id
-where d.id=$dogid";
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.Id
+where d.Id=$dogid";
 
 $result = $GLOBALS['xoopsDB']->query($queryString);
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {

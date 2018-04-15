@@ -66,7 +66,7 @@ function addlitter()
     //create animal object
     $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
-    $fields = $animal->getNumOfFields();
+    $fields  = $animal->getNumOfFields();
 
     //create form contents
     for ($count = 1; $count < 11; ++$count) {
@@ -168,20 +168,17 @@ function sire()
         $namelitter = 'name' . $count;
         $roftlitter = 'roft' . $count;
         //check for an empty name
-        if ('' !== $_POST[$namelitter]) {
-            $name .= ':' . $_POST[$namelitter];
-            $roft .= ':' . $_POST[$roftlitter];
+            if ('' !== $_POST[$namelitter]) {
+                $name .= ':' . Request::getString('namelitter', '', 'POST');
+                $roft .= ':' . Request::getString('roftlitter', '', 'POST');
         } else {
-            if ('1' == $count) {
+                if (1 == $count) {
                 redirect_header('add_litter.php', 3, _MA_PEDIGREE_ADD_NAMEPLZ);
             }
         }
     }
-    if (isset($_POST['id_breeder'])) {
-        $id_breeder = $_POST['id_breeder'];
-    } else {
-        $id_breeder = '0';
-    }
+
+        $id_breeder = Request::getInt('id_breeder', 0, 'POST');
 
     //make the redirect
     if (!isset($_GET['r'])) {
@@ -248,11 +245,8 @@ function sire()
         redirect_header('add_litter.php?f=sire&random=' . $random . '&st=' . $st . '&r=1&l=a', 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, ['[father]' => $moduleConfig['father']]));
     }
     //find letter on which to start else set to 'a'
-    if (isset($_GET['l'])) {
-        $l = $_GET['l'];
-    } else {
-        $l = 'a';
-    }
+        $l = Request::getWord('l', 'a', 'GET');
+
     //assign 'sire' to the template
     $xoopsTpl->assign('sire', '1');
     //create list of males dog to select from
@@ -642,7 +636,7 @@ function check()
                 $usersql = '';
                 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
                     $userfields{$fields[$i]} = explode(':', $row['user' . $fields[$i]]);
-                    $query                   .= ",'" . $userfields{$fields[$i]}
+                    $query .= ",'" . $userfields{$fields[$i]}
                         [$c] . "'";
                 }
                 //insert into pedigree

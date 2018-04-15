@@ -27,7 +27,7 @@ global $xoopsModule;
 $moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
 
 //if functions.php file exist
-//require_once  dirname(__DIR__) . '/include/functions.php';
+//require_once dirname(__DIR__) . '/include/functions.php';
 
 // Load language files
 xoops_loadLanguage('admin', $moduleDirName);

@@ -99,7 +99,7 @@ function virt()
     //create previous button
     if (($numPages > 1) && ($currentPage > 1)) {
         $pages .= '<a href="virtual.php?r=1&&l=' . $l . 'st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
-    }
+        }
     //create numbers
     $xLimit = $numPages + 1;
     for ($x = 1; $x < $xLimit; ++$x) {
@@ -505,12 +505,12 @@ function check()
     $selsire = Request::getInt('selsire', 0, 'GET');
     $seldam  = Request::getInt('seldam', 0, 'GET');
     /*
-            if (isset($_GET['selsire'])) {
-                $selsire = $_GET['selsire'];
-            }
-            if (isset($_GET['seldam'])) {
-                $seldam = $_GET['seldam'];
-            }
+    if (isset($_GET['selsire'])) {
+        $selsire = $_GET['selsire'];
+    }
+    if (isset($_GET['seldam'])) {
+        $seldam = $_GET['seldam'];
+    }
     */
 
     $xoopsTpl->assign('virtualtitle', _MA_PEDIGREE_VIRUTALTIT);

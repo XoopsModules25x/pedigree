@@ -326,7 +326,7 @@ function GENEALOGY()
     $generation = [$IDs[1], $IDs[2]]; // starting with first generation (sire and dam)
     $nbtot      = 0; // count of total known ascendants within $nb_gen generations
     for ($nloop = 1, $tot = 2; $last <= $nb_maxi && $nloop <= $nb_gen; ++$nloop) {
-        $nbtot      += $tot; // count of total known ascendants within $nb_gen generations
+        $nbtot += $tot; // count of total known ascendants within $nb_gen generations
         $nbani      = $last; // count of    distinct ascendants within $nb_gen generations
         $list       = implode(',', array_unique($generation));
         $generation = [];
@@ -572,13 +572,13 @@ function mater_side($p, $m, $a, $ndist)
     if (0 == $a) {
         $deltaf[$p] += $incr;
     /* contribution of Anim #P to IC of Anim #0 */
-        // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
+    // if ($verbose && $a == 0 && $incr > 0.0001*$verbose)
         //    echo "Animal $p is contributing for " . substr ($deltaf[$p], 0, 10) . " to the IC of Animal $a$nl" ;
     } else {
         if (!$marked[$m] && $chrono[$m] < $paternal_rank) {
             mater_side($p, $fathers[$m], $a, $ndist + 1);
-            mater_side($p, $mothers[$m], $a, $ndist + 1);
-        }
+        mater_side($p, $mothers[$m], $a, $ndist + 1);
+    }
     }
 
     return 0;
@@ -745,23 +745,23 @@ function set_name($ID)
         $queryResult = $GLOBALS['xoopsDB']->query($sqlQuery);
         $ani         = $GLOBALS['xoopsDB']->fetchBoth($queryResult);
         /*
-               $name        = $ani[1];
-               if ($sql2bis) { // true for E.R.o'S. only
-                   $name = html_accents($name);
-                   //$affx = $ani[5] ;  // affix-ID
-                   if ($affx) {
-                       $affix  = fetch_record("$sql2bis '$affx'");
-                       $type   = $affix[1];
-                       $affixe = html_accents($affix[0]);
-                       if ($type[0] === 'P') {
-                           $name = '<i>' . $affixe . '</i>&nbsp;' . $name;
-                       }
-                       if ($type[0] === 'S') {
-                           $name = $name . '&nbsp;<i>' . $affixe . '</i>';
-                       }
-                   }
-                   $ani[1] = $name;
-               }
+        $name        = $ani[1];
+        if ($sql2bis) { // true for E.R.o'S. only 
+            $name = html_accents($name);
+            //$affx = $ani[5] ;  // affix-ID
+            if ($affx) {
+                $affix  = fetch_record("$sql2bis '$affx'");
+                $type   = $affix[1];
+                $affixe = html_accents($affix[0]);
+                if ($type[0] === 'P') {
+                    $name = '<i>' . $affixe . '</i>&nbsp;' . $name;
+                }
+                if ($type[0] === 'S') {
+                    $name = $name . '&nbsp;<i>' . $affixe . '</i>';
+                }
+            }
+            $ani[1] = $name;
+        }
                */
     }
 
@@ -797,12 +797,12 @@ function one_animal($ID)
     global $xoopsDB;
     global $sex, $val, $sosa, $detail, $sql3;
     $content = '';
-    $sosa    = 12;
+    $sosa = 12;
     // echo '<div style="position:relative;float:right;width=2.0em;color=white;">' . $sosa . '</div>' ;
     $animal = set_name($ID);
 
     if (is_array($animal)) {
-        list($ID, $name, $sex, $hd, $ems) = $animal;
+    list($ID, $name, $sex, $hd, $ems) = $animal;
     }
     $sqlQuery    = 'SELECT SQL_CACHE COUNT(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " where father = '$ID' or mother = '$ID'";
     $queryResult = $GLOBALS['xoopsDB']->queryF($sqlQuery);
@@ -960,7 +960,7 @@ $title   = strtr(_MA_PEDIGREE_FLD_FATH, ['[father]' => $moduleConfig['father']])
            . ')';
 $content = stripslashes(one_animal($codec2));
 $content .= stripslashes(one_animal($codec1));
-$val     = '';
+$val = '';
 $xoopsTpl->assign('SADtitle', $title);
 $xoopsTpl->assign('SADcontent', $content);
 $xoopsTpl->assign('SADexplain', strtr(_MA_PEDIGREE_COI_SDEX, [
@@ -974,8 +974,8 @@ $sire_ID  = Request::getInt('s', 0, 'GET');//$_GET['s'];
 $dam_ID   = Request::getInt('d', 0, 'GET');//$_GET['d'];
 
 $rec     = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE father = '" . $sire_ID . "' AND mother = '" . $dam_ID . "' ORDER BY naam";
-$result  = $GLOBALS['xoopsDB']->query($rec);
-$content = '';
+$result   = $GLOBALS['xoopsDB']->query($rec);
+$content  = '';
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $content .= one_animal($row['id']);
 }

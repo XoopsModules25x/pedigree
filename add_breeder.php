@@ -16,6 +16,8 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
+
+//@todo - move language string to language file
 $xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
 
 //check for access
@@ -60,6 +62,7 @@ function check()
              . "')";
 
     $GLOBALS['xoopsDB']->query($query);
+    //@todo - move language string to language file
     redirect_header('index.php', 1, 'The data has been stored.');
 }
 

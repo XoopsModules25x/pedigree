@@ -71,7 +71,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
 }
 
 //$catarray['letters']          = Pedigree\Utility::lettersChoice();
-$letter       = '';
+$letter              = '';
 $myObject     = Pedigree\Helper::getInstance();
 $activeObject = 'Tree';
 $name         = 'naam';
@@ -88,8 +88,8 @@ $xoopsTpl->assign('pageTitle', _MA_PEDIGREE_BROWSETOTOPIC);
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign([
                                  'sselect'    => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $moduleConfig['animalType']]),
-                                 'explain'    => _MA_PEDIGREE_EXPLAIN,
-                                 'sname'      => _MA_PEDIGREE_SEARCHNAME,
+                                 'explain'     => _MA_PEDIGREE_EXPLAIN,
+                                 'sname'       => _MA_PEDIGREE_SEARCHNAME,
                                  'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $moduleConfig['animalTypes']]),
                                  'usersearch' => isset($usersearch) ? $usersearch : ''
                              ]);

@@ -31,7 +31,7 @@ global $xoopsTpl;
 global $xoopsDB;
 global $xoopsModuleConfig;
 
-$id = $_GET['id'];
+$id = Request::getInt('id', 0, 'GET');
 //query (find values for this dog (and format them))
 $queryString = 'SELECT lastname, firstname, user FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
 $result      = $GLOBALS['xoopsDB']->query($queryString);

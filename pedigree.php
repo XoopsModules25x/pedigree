@@ -33,7 +33,7 @@ require_once $rootPath . '/include/cp_functions.php';
 require_once $rootPath . '/include/cp_header.php';
 //require_once $rootPath . '/class/xoopsformloader.php';
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 //xoops_cp_header();
 
 xoops_loadLanguage('main', $moduleDirName);
@@ -41,7 +41,7 @@ xoops_loadLanguage('main', $moduleDirName);
 //require_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
 //require_once(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
@@ -79,7 +79,7 @@ include __DIR__ . '/footer.php';
 // Displays the "Main" tab of the module
 //
 /**
- * @internal param $Id
+ * @param $Id
  */
 function pedigree_main()
 {

@@ -37,6 +37,7 @@ if (isset($GLOBALS['xoTheme'])) {
     echo '<script type="text/javascript" src="' . XOOPS_URL . '/include/color-picker.js"></script>';
 }
 
+//@todo move language string to language file
 $xoopsTpl->assign('page_title', 'Pedigree database - View Owner/Breeder details');
 
 //get module configuration
@@ -74,8 +75,12 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //email
     $email = $row['emailadres'];
 
-    //homepage
+    //homepage - changed to be regular expression check for http or https (case insensitive)
     $homepage = $row['website'];
+    if (!empty($homepage) && !preg_match('/^(https?:\/\/)/i', $homepage)) {
+        $homepage = "http://{$homepage}";
+    }
+/*
     $check    = substr($homepage, 0, 7);
     if ('http://' !== $check) {
         $homepage = 'http://' . $homepage;

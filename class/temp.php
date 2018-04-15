@@ -81,7 +81,7 @@ class Temp extends \XoopsObject
         $criteria    = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $_arr = $tempHandler->getAll();
+        $_arr   = $tempHandler->getAll();
         //@todo - the keys below aren't right for XoopsObjectTree. _id should be id, then need to determine which lineage (father/mother)
         //        and then use the appropriate key ('father', 'mother'). Can't really do a "combined" tree using XoopsObjectTree only.
         $mytree = new \XoopsObjectTree($_arr, '_id', '_pid');

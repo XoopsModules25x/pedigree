@@ -29,7 +29,7 @@ function menu_block()
     $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    */
+*/
     //colour variables
     $colors  = explode(',', $helper->getConfig('colourscheme'));
     $actlink = $colors[0];

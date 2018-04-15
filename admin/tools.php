@@ -4,11 +4,11 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
 
 // Include any common code for this module.
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
@@ -86,7 +86,7 @@ switch ($op) {
     case 'credits':
         credits();
         break;
-    default:
+    default :
         index();
         break;
 }

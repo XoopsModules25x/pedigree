@@ -170,7 +170,7 @@ switch ($op) {
     case 'index':
         index();
         break;
-    default:
+    default :
         userfields();
         $uf = true;
         break;
@@ -372,14 +372,14 @@ function savecolours()
 function listuserfields()
 {
     global $form;
-    $form    .= _MA_PEDIGREE_FIELD_EXPLAIN4;
+    $form .= _MA_PEDIGREE_FIELD_EXPLAIN4;
     $sql     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
     $result  = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
     $count   = 0;
-    $form    .= _MA_PEDIGREE_FIELD_FORM1;
+    $form .= _MA_PEDIGREE_FIELD_FORM1;
     $form    .= "<tr ><td colspan='7'><hr></td></tr>";
-    $mark    = "<td><span style='font-weight: bold;'>X</span></td>\n";
+    $mark = "<td><span style='font-weight: bold;'>X</span></td>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "<tr>\n";
         //display locked fields
@@ -422,7 +422,7 @@ function listuserfields()
         $form .= "</tr>\n";
         ++$count;
     }
-    $form   .= "</table>\n";
+    $form .= "</table>\n";
     $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '0' ORDER BY 'id'";
     $result = $GLOBALS['xoopsDB']->query($sql);
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
@@ -562,7 +562,7 @@ function editlookup($field)
     $result  = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
     $count   = 0;
-    $form    .= "<table>\n";
+    $form .= "<table>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "  <tr>\n";
         if (0 == $count) { //first row
@@ -878,7 +878,7 @@ function userfields($field = 0)
                 $form .= '>' . _MA_PEDIGREE_SHOWFIELD_ADDLITTGLOBAL . '<br>';
             } else {
                 if ('search' === $wizard->getStepName()) {
-                    $form              .= _MA_PEDIGREE_SEARCH_NAME;
+                    $form .= _MA_PEDIGREE_SEARCH_NAME;
                     $currentsearchname = $wizard->getValue('searchname');
                     if ('' == $currentsearchname) {
                         $currentsearchname = htmlspecialchars($wizard->getValue('name'), ENT_QUOTES | ENT_HTML5);
@@ -902,8 +902,8 @@ function userfields($field = 0)
                 } elseif ('defaultvalue' === $wizard->getStepName()) {
                     if ('selectbox' === $wizard->getValue('fieldtype')
                         || 'radiobutton' === $wizard->getValue('fieldtype')) {
-                        $count      = $wizard->getValue('fc');
-                        $form       .= "Default value : <select size='1' name='defaultvalue'>";
+                        $count = $wizard->getValue('fc');
+                        $form .= "Default value : <select size='1' name='defaultvalue'>";
                         $radioarray = $wizard->getValue('radioarray');
                         for ($x = 0; $x < $count; ++$x) {
                             $form .= "<option value='" . $radioarray[$x]['id'] . "'";
@@ -938,7 +938,7 @@ function userfields($field = 0)
                             'value' => $wizard->getValue('lookup' . $x)
                         ];
                     }
-                    $val  = $wizard->getValue('defaultvalue');
+                    $val = $wizard->getValue('defaultvalue');
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('lookup' . $val) . '</b><br>';
                 } else {
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('defaultvalue') . '</b><br>';
@@ -984,7 +984,7 @@ function userfields($field = 0)
 
 function credits()
 {
-    /*
+/*
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');

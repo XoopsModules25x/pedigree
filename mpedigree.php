@@ -29,117 +29,103 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 $pedId = Request::getInt('pedid', 0, 'GET');
 //$pedId = $_GET['pedid'];
 //draw pedigree
-pedigree_main($pedId);
-
-//comments and footer
-include $GLOBALS['xoops']->path('/footer.php');
-
-//
-// Displays the "Main" tab of the module
-//
-/**
- * @param $ID
- */
-function pedigree_main($ID)
-{
-    global $moduleConfig;
 
     $queryString = '
-    SELECT d.id as d_id,
-    d.naam as d_naam,
+SELECT d.Id as d_id,
+d.NAAM as d_naam,
     d.roft as d_roft,
-    f.id as f_id,
-    f.naam as f_naam,
-    m.id as m_id,
-    m.naam as m_naam,
-    ff.id as ff_id,
-    ff.naam as ff_naam,
-    mf.id as mf_id,
-    mf.naam as mf_naam,
-    fm.id as fm_id,
-    fm.naam as fm_naam,
-    mm.id as mm_id,
-    mm.naam as mm_naam,
-    fff.id as fff_id,
-    fff.naam as fff_naam,
-    ffm.id as ffm_id,
-    ffm.naam as ffm_naam,
-    fmf.id as fmf_id,
-    fmf.naam as fmf_naam,
-    fmm.id as fmm_id,
-    fmm.naam as fmm_naam,
-    mmf.id as mmf_id,
-    mmf.naam as mmf_naam,
-    mff.id as mff_id,
-    mff.naam as mff_naam,
-    mfm.id as mfm_id,
-    mfm.naam as mfm_naam,
-    mmm.id as mmm_id,
-    mmm.naam as mmm_naam,
-    ffff.id as ffff_id,
-    ffff.naam as ffff_naam,
-    ffmf.id as ffmf_id,
-    ffmf.naam as ffmf_naam,
-    fmff.id as fmff_id,
-    fmff.naam as fmff_naam,
-    fmmf.id as fmmf_id,
-    fmmf.naam as fmmf_naam,
-    mmff.id as mmff_id,
-    mmff.naam as mmff_naam,
-    mfff.id as mfff_id,
-    mfff.naam as mfff_naam,
-    mfmf.id as mfmf_id,
-    mfmf.naam as mfmf_naam,
-    mmmf.id as mmmf_id,
-    mmmf.naam as mmmf_naam,
-    fffm.id as fffm_id,
-    fffm.naam as fffm_naam,
-    ffmm.id as ffmm_id,
-    ffmm.naam as ffmm_naam,
-    fmfm.id as fmfm_id,
-    fmfm.naam as fmfm_naam,
-    fmmm.id as fmmm_id,
-    fmmm.naam as fmmm_naam,
-    mmfm.id as mmfm_id,
-    mmfm.naam as mmfm_naam,
-    mffm.id as mffm_id,
-    mffm.naam as mffm_naam,
-    mfmm.id as mfmm_id,
-    mfmm.naam as mfmm_naam,
-    mmmm.id as mmmm_id,
-    mmmm.naam as mmmm_naam
+f.Id as f_id,
+f.NAAM as f_naam,
+m.Id as m_id,
+m.NAAM as m_naam,
+ff.Id as ff_id,
+ff.NAAM as ff_naam,
+mf.Id as mf_id,
+mf.NAAM as mf_naam,
+fm.Id as fm_id,
+fm.NAAM as fm_naam,
+mm.Id as mm_id,
+mm.NAAM as mm_naam,
+fff.Id as fff_id,
+fff.NAAM as fff_naam,
+ffm.Id as ffm_id,
+ffm.NAAM as ffm_naam,
+fmf.Id as fmf_id,
+fmf.NAAM as fmf_naam,
+fmm.Id as fmm_id,
+fmm.NAAM as fmm_naam,
+mmf.Id as mmf_id,
+mmf.NAAM as mmf_naam,
+mff.Id as mff_id,
+mff.NAAM as mff_naam,
+mfm.Id as mfm_id,
+mfm.NAAM as mfm_naam,
+mmm.Id as mmm_id,
+mmm.NAAM as mmm_naam,
+ffff.Id as ffff_id,
+ffff.NAAM as ffff_naam,
+ffmf.Id as ffmf_id,
+ffmf.NAAM as ffmf_naam,
+fmff.Id as fmff_id,
+fmff.NAAM as fmff_naam,
+fmmf.Id as fmmf_id,
+fmmf.NAAM as fmmf_naam,
+mmff.Id as mmff_id,
+mmff.NAAM as mmff_naam,
+mfff.Id as mfff_id,
+mfff.NAAM as mfff_naam,
+mfmf.Id as mfmf_id,
+mfmf.NAAM as mfmf_naam,
+mmmf.Id as mmmf_id,
+mmmf.NAAM as mmmf_naam,
+fffm.Id as fffm_id,
+fffm.NAAM as fffm_naam,
+ffmm.Id as ffmm_id,
+ffmm.NAAM as ffmm_naam,
+fmfm.Id as fmfm_id,
+fmfm.NAAM as fmfm_naam,
+fmmm.Id as fmmm_id,
+fmmm.NAAM as fmmm_naam,
+mmfm.Id as mmfm_id,
+mmfm.NAAM as mmfm_naam,
+mffm.Id as mffm_id,
+mffm.NAAM as mffm_naam,
+mfmm.Id as mfmm_id,
+mfmm.NAAM as mfmm_naam,
+mmmm.Id as mmmm_id,
+mmmm.NAAM as mmmm_naam
     FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmm ON mm.mother = mmm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffff ON fff.father = ffff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffmf ON ffm.father = ffmf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmff ON fmf.father = fmff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmmf ON fmm.father = fmmf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmff ON mmf.father = mmff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfff ON mff.father = mfff.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfmf ON mfm.father = mfmf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmmf ON mmm.father = mmmf.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fffm ON fff.mother = fffm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffmm ON ffm.mother = ffmm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmfm ON fmf.mother = fmfm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmmm ON fmm.mother = fmmm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmfm ON mmf.mother = mmfm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mffm ON mff.mother = mffm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfmm ON mfm.mother = mfmm.id
-    LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmmm ON mmm.mother = mmmm.id
-    where d.id=$ID";
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmm ON mm.mother = mmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffff ON fff.father = ffff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffmf ON ffm.father = ffmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmff ON fmf.father = fmff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmmf ON fmm.father = fmmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmff ON mmf.father = mmff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfff ON mff.father = mfff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfmf ON mfm.father = mfmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmmf ON mmm.father = mmmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fffm ON fff.mother = fffm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffmm ON ffm.mother = ffmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmfm ON fmf.mother = fmfm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmmm ON fmm.mother = fmmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmfm ON mmf.mother = mmfm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mffm ON mff.mother = mffm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfmm ON mfm.mother = mfmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmmm ON mmm.mother = mmmm.Id
+WHERE d.Id=' . $pedId;
 
     $result = $GLOBALS['xoopsDB']->query($queryString);
 
@@ -330,6 +316,7 @@ function pedigree_main($ID)
  * @param $item
  *
  * @return string
+ * @todo move this to ./include directory
  */
 function crcolour($sex, $item)
 {
