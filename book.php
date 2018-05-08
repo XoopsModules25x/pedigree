@@ -7028,7 +7028,7 @@ $fok[] = ['id' => 'Kenyee Deon', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Uto de l\'Etoile Saint Hubert', 'firstname' => 'Hubert', 'lastname' => 'Ducrot'];
 $fok[] = ['id' => '', 'firstname' => '', 'lastname' => ''];
 
-for ($index = 0, $indexMax = count($fok); $index < $indexMax; ++$index) {
+foreach ($fok as $index => $indexValue) {
     //echo $dad[$index]['id']."<br>";
     $id        = $fok[$index]['id'];
     $lastname  = $fok[$index]['lastname'];

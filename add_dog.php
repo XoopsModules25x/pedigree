@@ -31,7 +31,7 @@ if (empty($xoopsUser)) {
 //}
 
 $f = Request::getString('f', '', 'GET');
-
+$random = '';
 //if ($f === 'checkName') {
 //    checkName();
 //}
@@ -190,7 +190,7 @@ function checkName()
         //test to find out how many user fields there are..
         $fields = $animal->getNumOfFields();
 
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
@@ -267,13 +267,13 @@ function sire()
         $fields = $animal->getNumOfFields();
         sort($fields); //sort by ID not by order
         $usersql = '';
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive()) {
                 //check if _FILES variable exists for user picturefield
-                $currentfield = 'user' . $fields[$i];
+                $currentfield = 'user' . $iValue;
                 $pictureField = $_FILES[$currentfield]['name'];
                 if ('Picture' === $fieldType && (!empty($pictureField) || '' != $pictureField)) {
                     $userpicture = Pedigree\Utility::uploadPicture($numPictureField);
@@ -284,7 +284,7 @@ function sire()
                     $usersql .= ",'" . $userField->defaultvalue . "'";
                 } else {
                     //echo $fieldType.":".$i.":".$fields[$i]."<br>";
-                    $usersql .= ",'" . Pedigree\Utility::unHtmlEntities($_POST['user' . $fields[$i]]) . "'";
+                    $usersql .= ",'" . Pedigree\Utility::unHtmlEntities($_POST['user' . $iValue]) . "'";
                 }
             } else {
                 $usersql .= ",''";
@@ -388,7 +388,7 @@ function sire()
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -605,7 +605,7 @@ function dam()
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -743,12 +743,12 @@ function check()
         $fields = $animal->getNumOfFields();
         sort($fields);
         $usersql = '';
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive()) {
-                $usersql .= ",'" . addslashes($row['user' . $fields[$i]]) . "'";
+                $usersql .= ",'" . addslashes($row['user' . $iValue]) . "'";
             } else {
                 $usersql .= ",'" . $fieldObject->defaultvalue . "'";
             }

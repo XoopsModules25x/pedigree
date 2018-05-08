@@ -599,7 +599,7 @@ function pater_side($p, $m, $a, $pdist)
     }
     $paternal_rank = $chrono[$p];
     $marked[$p]    = 1; /* cut paternal side */
-    if (isset($mater[$p]) || $a) {
+    if ($a || isset($mater[$p])) {
         mater_side($p, $m, $a, $pdist);
     }
     pater_side($fathers[$p], $m, $a, $pdist + 1);

@@ -41,7 +41,7 @@ xoops_loadLanguage('main', $moduleDirName);
 //require_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 //require_once(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
@@ -79,7 +79,6 @@ include __DIR__ . '/footer.php';
 // Displays the "Main" tab of the module
 //
 /**
- * @param $Id
  */
 function pedigree_main()
 {
@@ -149,7 +148,7 @@ function pedigree_main()
                 $animal = new Pedigree\Animal($d[$key]['id']);
                 $fields = $animal->getNumOfFields();
             }
-            for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+            foreach ($fields as $i => $iValue) {
                 $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
                 if ($userField->isActive() && $userField->inPedigree()) {
                     $fieldType = $userField->getSetting('FieldType');

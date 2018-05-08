@@ -25,7 +25,7 @@ use XoopsModules\Pedigree;
 /**
  * Class Pedigree\SelectBox
  */
-class TextArea extends Pedigree\HtmlInputAbstract
+class TextBox extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -37,8 +37,8 @@ class TextArea extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @param Field          $parentObject
-     * @param Pedigree\Animal $animalObject
+     * @param $parentObject
+     * @param $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
@@ -46,37 +46,39 @@ class TextArea extends Pedigree\HtmlInputAbstract
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        if ($parentObject->hasLookup()) {
+        $this->lookuptable  = $parentObject->lookuptable;
+        if ('1' == $this->lookuptable) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
-        if ($parentObject->inAdvanced()) {
+        if ('1' == $parentObject->viewinadvanced) {
             xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
         }
-        if ($parentObject->inPie()) {
+        if ('1' == $parentObject->viewinpie) {
             xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
     }
 
+
     /**
-     * @return \XoopsFormTextArea
+     * @return \XoopsFormText
      */
     public function editField()
     {
-        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
 
-        return $textarea;
+        return $textbox;
     }
 
     /**
      * @param string $name
      *
-     * @return \XoopsFormTextArea
+     * @return \XoopsFormText
      */
     public function newField($name = '')
     {
-        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
 
-        return $textarea;
+        return $textbox;
     }
 
     /**
@@ -86,4 +88,38 @@ class TextArea extends Pedigree\HtmlInputAbstract
     {
         return '&amp;o=naam&amp;l=1';
     }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function viewField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showValue()
+    {
+        return null;
+    }
+
+
 }

@@ -80,6 +80,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     if (!empty($homepage) && !preg_match('/^(https?:\/\/)/i', $homepage)) {
         $homepage = "http://{$homepage}";
     }
+}
 /*
     $check    = substr($homepage, 0, 7);
     if ('http://' !== $check) {
@@ -164,3 +165,4 @@ $xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='
 
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';
+*/

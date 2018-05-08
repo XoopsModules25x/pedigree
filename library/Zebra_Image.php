@@ -1553,7 +1553,7 @@ class Zebra_Image {
         $identifier = imagecreatetruecolor((int)$width <= 0 ? 1 : (int)$width, (int)$height <= 0 ? 1 : (int)$height);
 
         // if we are creating a PNG image
-        if ('png' == $this->target_type && -1 == $background_color) {
+        if ('png' === $this->target_type && -1 == $background_color) {
 
             // disable blending
             imagealphablending($identifier, false);
@@ -1568,7 +1568,7 @@ class Zebra_Image {
 			imagesavealpha($identifier, true);
 
         // if source image is a transparent GIF
-        } elseif ('gif' == $this->target_type && -1 == $background_color && $this->source_transparent_color_index >= 0) {
+        } elseif ('gif' === $this->target_type && -1 == $background_color && $this->source_transparent_color_index >= 0) {
 
             // allocate the source image's transparent color also to the new image resource
             $transparent_color = imagecolorallocate(

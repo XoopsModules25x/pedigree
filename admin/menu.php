@@ -30,7 +30,9 @@
 
 use XoopsModules\Pedigree;
 
+include dirname(__DIR__) . '/preloads/autoloader.php';
 //require_once  dirname(__DIR__) . '/include/common.php';
+/** @var \XoopsModules\Pedigree\Helper $helper */
 $helper = Pedigree\Helper::getInstance();
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
@@ -60,9 +62,9 @@ $adminmenu[] = [
 ];
 
 $adminmenu[] = [
-    'title' => _MI_PEDIGREE_ADMENU2,
-    'link'  => 'admin/pedigree_trash.php',
-    'icon'  => $pathIcon32 . '/alert.png'
+    'title' => _MI_PEDIGREE_ADMENU5,
+    'link'  => 'admin/pedigree.php',
+    'icon'  => $pathIcon32 . '/groupmod.png'
 ];
 
 $adminmenu[] = [
@@ -77,10 +79,11 @@ $adminmenu[] = [
     'icon'  => $pathIcon32 . '/wizard.png'
 ];
 
+
 $adminmenu[] = [
-    'title' => _MI_PEDIGREE_ADMENU5,
-    'link'  => 'admin/pedigree.php',
-    'icon'  => $pathIcon32 . '/groupmod.png'
+    'title' => _MI_PEDIGREE_ADMENU2,
+    'link'  => 'admin/pedigree_trash.php',
+    'icon'  => $pathIcon32 . '/alert.png'
 ];
 
 $adminmenu[] = [

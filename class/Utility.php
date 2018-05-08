@@ -1,13 +1,21 @@
 <?php namespace XoopsModules\Pedigree;
 
+use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Common;
 
 /**
  * Class Pedigree\Utility
  */
 class Utility
 {
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
+    use Common\ServerStats; // getServerStats Trait
+
+    use Common\FilesManagement; // Files Management Trait
+
+    //--------------- Custom module methods -----------------------------
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -72,6 +80,7 @@ class Utility
 
             return $photo;
         }
+        return '';
     }
 
     /**
@@ -203,8 +212,7 @@ class Utility
      */
     public static function unHtmlEntities($string)
     {
-        $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-        $trans_tbl = array_flip($trans_tbl);
+        $trans_tbl = array_flip(get_html_translation_table(HTML_ENTITIES));
 
         return strtr($string, $trans_tbl);
     }
@@ -249,7 +257,7 @@ class Utility
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
         $columns[]    = ['columnname' => 'Name'];
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
@@ -337,7 +345,7 @@ class Utility
         $fields        = $animal->getNumOfFields();
         $numofcolumns1 = 1;
         $columns1[]    = ['columnname' => 'Name'];
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
@@ -450,6 +458,7 @@ class Utility
 
     /**
      * @param $PA
+     * @return string
      */
     public static function showParent($PA)
     {
@@ -461,7 +470,7 @@ class Utility
         if (isset($result)) {
             return $result;
         } else {
-            return;
+            return '';
         }
     }
 
@@ -495,7 +504,7 @@ class Utility
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
         $columns[]    = ['columnname' => 'Name'];
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
@@ -545,7 +554,7 @@ class Utility
                 $x           = $columns[$i]['columnnumber'];
                 $lookuparray = $columns[$i]['lookuparray'];
                 if (is_array($lookuparray)) {
-                    for ($index = 0, $indexMax = count($lookuparray); $index < $indexMax; ++$index) {
+                    foreach ($lookuparray as $index => $indexValue) {
                         if ($lookuparray[$index]['id'] == $row['user' . $x]) {
                             //echo "<h1>".$lookuparray[$index]['id']."</h1>";
                             $value = $lookuparray[$index]['value'];
@@ -933,7 +942,6 @@ class Utility
     {
         if (0 == $time) {
             $time = time() + 3600 * 24 * 365;
-            //$time = '';
         }
         setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
     }

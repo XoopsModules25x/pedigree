@@ -74,14 +74,14 @@ $id_owner = Request::getInt('id_owner', 0, 'POST');
 $animal = new Pedigree\Animal($dogid);
 $fields = $animal->getNumOfFields();
 
-for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-    if ('user' . $fields[$i] === $_POST['dbfield']) {
+foreach ($fields as $i => $iValue) {
+    if ('user' . $iValue === $_POST['dbfield']) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-            $currentfield = 'user' . $fields[$i];
+            $currentfield = 'user' . $iValue;
             $pictureField = $_FILES[$currentfield]['name'];
             if (empty($pictureField)) {
-                $newvalue = $_POST['user' . $fields[$i]];
+                $newvalue = $_POST['user' . $iValue];
             } else {
                 $newvalue = Pedigree\Utility::uploadPicture(0);
             }

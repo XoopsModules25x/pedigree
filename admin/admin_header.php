@@ -48,27 +48,18 @@ require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 require_once  dirname(__DIR__) . '/include/common.php';
-require_once  dirname(__DIR__) . '/include/config.php';
+//require_once  dirname(__DIR__) . '/include/config.php';
 
 $moduleDirName = basename(dirname(__DIR__));
+/** @var \XoopsModules\Pedigree\Helper $helper */
 $helper = Pedigree\Helper::getInstance();
-$adminObject = \Xmf\Module\Admin::getInstance();
 
-$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 // Load language files
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
-$helper->loadLanguage('main');
+$helper->loadLanguage('common');
 
-$myts = \MyTextSanitizer::getInstance();
-
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    require_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new \XoopsTpl();
-}
-
-$GLOBALS['xoopsTpl']->assign('pathIcon16', $pathIcon16);
-$GLOBALS['xoopsTpl']->assign('pathIcon32', $pathIcon32);
+//xoops_cp_header();

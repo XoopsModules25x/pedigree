@@ -187,7 +187,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //test to find out how many user fields there are..
     $fields = $animal->getNumOfFields();
     //create userfields and populate them
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
             $fieldType   = $userField->getSetting('FieldType');
@@ -202,7 +202,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $items[] = [
                     'header' => $userField->getSetting('FieldName'),
                     'data'   => $fieldObject->showValue(),
-                    'edit'   => '<a href="update.php?id=' . $row['id'] . '&fld=' . $fields[$i] . "\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+                    'edit'   => '<a href="update.php?id=' . $row['id'] . '&fld=' . $iValue . "\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
                 ];
             }
         }

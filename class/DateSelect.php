@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,9 +24,9 @@ use XoopsModules\Pedigree;
 
 
 /**
- * Class Pedigree\SelectBox
+ * Class Pedigree\DateSelectBox
  */
-class UrlField extends Pedigree\HtmlInputAbstract
+class DateSelect extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -33,21 +34,22 @@ class UrlField extends Pedigree\HtmlInputAbstract
     private $value;
     private $defaultvalue;
     private $lookuptable;
+    private $errs;
 
     /**
      * Constructor
      *
-     * @param Field          $parentObject
-     * @param Pedigree\Animal $animalObject
+     * @param Pedigree\Fields $parentObject
+     * @param                $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
+        //@todo move language strings to language file
         $this->fieldnumber  = $parentObject->getId();
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->hasLookup();
-        if ($this->lookuptable) {
+        if ($parentObject->hasLookup()) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
         if ($parentObject->inAdvanced()) {
@@ -59,51 +61,25 @@ class UrlField extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return \XoopsFormText
+     * @return \XoopsFormTextDateSelect
      */
     public function editField()
     {
-        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
 
-        return $textbox;
+        return $textarea;
     }
 
     /**
      * @param string $name
      *
-     * @return \XoopsFormText
+     * @return \XoopsFormTextDateSelect
      */
     public function newField($name = '')
     {
-        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
 
-        return $textbox;
-    }
-
-    /**
-     * @return \XoopsFormLabel
-     */
-    public function viewField()
-    {
-        $view = new \XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
-
-        return $view;
-    }
-
-    /**
-     * @return string
-     */
-    public function showField()
-    {
-        return $this->fieldname . ' : <a href="' . $this->value . '" target="_new">' . $this->value . '</a>';
-    }
-
-    /**
-     * @return string
-     */
-    public function showValue()
-    {
-        return '<a href="' . $this->value . '" target="_new">' . $this->value . '</a>';
+        return $textarea;
     }
 
     /**
@@ -112,5 +88,37 @@ class UrlField extends Pedigree\HtmlInputAbstract
     public function getSearchString()
     {
         return '&amp;o=naam&amp;l=1';
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function viewField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showValue()
+    {
+        return null;
     }
 }

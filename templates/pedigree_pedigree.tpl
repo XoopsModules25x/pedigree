@@ -1,4 +1,4 @@
-<table width="100%" class="outer" cellspacing="1">
+<table width="100%" class="outer" cellspacing="1" border="1">
     <!-- header (dog name) -->
     <tr>
         <th colspan="4" style="text-align:center;">

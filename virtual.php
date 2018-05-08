@@ -140,7 +140,7 @@ function virt()
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -380,7 +380,7 @@ function dam()
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);

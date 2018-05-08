@@ -81,6 +81,7 @@ function uploadPicture($num)
 
         return $photo;
     }
+    return '';
 }
 
 /**
@@ -212,8 +213,7 @@ function createThumbs($filename)
  */
 function unHtmlEntities($string)
 {
-    $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-    $trans_tbl = array_flip($trans_tbl);
+    $trans_tbl = array_flip(get_html_translation_table(HTML_ENTITIES));
 
     return strtr($string, $trans_tbl);
 }
@@ -257,7 +257,7 @@ function pups($oid, $gender)
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -344,7 +344,7 @@ function bas($oid, $pa, $ma)
     $fields        = $animal->getNumOfFields();
     $numofcolumns1 = 1;
     $columns1[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -457,6 +457,7 @@ function getName($oid)
 
 /**
  * @param $PA
+ * @return string
  */
 function showParent($PA)
 {
@@ -468,7 +469,7 @@ function showParent($PA)
     if (isset($result)) {
         return $result;
     } else {
-        return;
+        return '';
     }
 }
 
@@ -502,7 +503,7 @@ function createList($result, $prefix, $link, $element)
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -552,7 +553,7 @@ function createList($result, $prefix, $link, $element)
             $x           = $columns[$i]['columnnumber'];
             $lookuparray = $columns[$i]['lookuparray'];
             if (is_array($lookuparray)) {
-                for ($index = 0, $indexMax = count($lookuparray); $index < $indexMax; ++$index) {
+                foreach ($lookuparray as $index => $indexValue) {
                     if ($lookuparray[$index]['id'] == $row['user' . $x]) {
                         //echo "<h1>".$lookuparray[$index]['id']."</h1>";
                         $value = $lookuparray[$index]['value'];
@@ -868,7 +869,6 @@ function setCookieVar($name, $value, $time = 0)
 {
     if (0 == $time) {
         $time = time() + 3600 * 24 * 365;
-        //$time = '';
     }
     setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
 }

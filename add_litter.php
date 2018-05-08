@@ -188,7 +188,7 @@ function sire()
         $fields = $animal->getNumOfFields();
         sort($fields);
         $usersql = '';
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
@@ -197,14 +197,14 @@ function sire()
             $withinfield = '';
             for ($count = 1; $count < 11; ++$count) {
                 if ('' !== $_POST['name' . $count]) {
-                    if (isset($_POST[$count . 'user' . $fields[$i]])) {
+                    if (isset($_POST[$count . 'user' . $iValue])) {
                         //debug option
                         //echo $count.'user'.$fields[$i]."=".$_POST[$count.'user'.$fields[$i]]."<br>";
-                        $withinfield .= ':' . $_POST[$count . 'user' . $fields[$i]];
+                        $withinfield .= ':' . $_POST[$count . 'user' . $iValue];
                     } else {
                         if ($userField->isActive() && $userField->generalLitter() && !$userField->isLocked()) {
                             //use $_POST value if this is a general litter field
-                            $withinfield .= ':' . $_POST['-user' . $fields[$i]];
+                            $withinfield .= ':' . $_POST['-user' . $iValue];
                         } else {
                             //create $withinfield for fields not added to the litter
                             $withinfield .= ':' . $defvalue;
@@ -231,7 +231,7 @@ function sire()
                  . "','"
                  . Request::getInt($roft)
                  . "','','','', ''";
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
@@ -310,7 +310,7 @@ function sire()
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -500,7 +500,7 @@ function dam()
     $fields       = $animal->getNumOfFields();
     $numofcolumns = 1;
     $columns[]    = ['columnname' => 'Name'];
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
@@ -634,8 +634,8 @@ function check()
                 $fields = $animal->getNumOfFields();
                 sort($fields);
                 $usersql = '';
-                for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-                    $userfields{$fields[$i]} = explode(':', $row['user' . $fields[$i]]);
+                foreach ($fields as $i => $iValue) {
+                    $userfields{$fields[$i]} = explode(':', $row['user' . $iValue]);
                     $query .= ",'" . $userfields{$fields[$i]}
                         [$c] . "'";
                 }

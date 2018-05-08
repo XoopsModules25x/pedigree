@@ -21,14 +21,13 @@
  */
 use XoopsModules\Pedigree;
 
-
 /**
  * Class Picture
  */
 class Picture extends Pedigree\HtmlInputAbstract
 {
     /**
-     * @param Field          $parentObject
+     * @param Field           $parentObject
      * @param Pedigree\Animal $animalObject
      */
     public function __construct($parentObject, $animalObject)
@@ -103,5 +102,21 @@ class Picture extends Pedigree\HtmlInputAbstract
     public function showValue()
     {
         return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">';
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function getSearchString()
+    {
+        return null;
     }
 }

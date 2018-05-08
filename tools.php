@@ -905,7 +905,7 @@ function userfields($field = 0)
                         $count = $wizard->getValue('fc');
                         $form .= "Default value : <select size='1' name='defaultvalue'>";
                         $radioarray = $wizard->getValue('radioarray');
-                        for ($x = 0; $x < $count; ++$x) {
+                        foreach ($radioarray as $x => $xValue) {
                             $form .= "<option value='" . $radioarray[$x]['id'] . "'";
                             if ($wizard->getValue('defaultvalue') == $radioarray[$x]['id']) {
                                 $form .= ' selected';

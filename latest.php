@@ -1,6 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Request;
 use XoopsModules\Pedigree;
 
 
@@ -24,7 +25,7 @@ $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-*/
+
 $st = Request::getInt('st', 0, 'GET');
 
 $perPage = $moduleConfig['perpage'];

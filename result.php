@@ -165,7 +165,7 @@ $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
 $numofcolumns = 1;
 $columns      = [['columnname' => 'Name']];
-for ($i = 0; $i < $fieldsCount; ++$i) {
+foreach ($fields as $i => $iValue) {
     $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);

@@ -22,6 +22,9 @@ use XoopsModules\Pedigree;
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
+/** @var Pedigree\Helper $helper */
+$helper = Pedigree\Helper::getInstance();
+
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);

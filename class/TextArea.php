@@ -1,5 +1,4 @@
 <?php namespace XoopsModules\Pedigree;
-
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -24,9 +23,9 @@ use XoopsModules\Pedigree;
 
 
 /**
- * Class Pedigree\DateSelectBox
+ * Class Pedigree\SelectBox
  */
-class DateSelect extends Pedigree\HtmlInputAbstract
+class TextArea extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -34,17 +33,15 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     private $value;
     private $defaultvalue;
     private $lookuptable;
-    private $errs;
 
     /**
      * Constructor
      *
-     * @param Pedigree\Fields $parentObject
-     * @param                $animalObject
+     * @param Field          $parentObject
+     * @param Pedigree\Animal $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
-        //@todo move language strings to language file
         $this->fieldnumber  = $parentObject->getId();
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
@@ -61,11 +58,11 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return \XoopsFormTextDateSelect
+     * @return \XoopsFormTextArea
      */
     public function editField()
     {
-        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -73,11 +70,11 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     /**
      * @param string $name
      *
-     * @return \XoopsFormTextDateSelect
+     * @return \XoopsFormTextArea
      */
     public function newField($name = '')
     {
-        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -88,5 +85,37 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     public function getSearchString()
     {
         return '&amp;o=naam&amp;l=1';
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function viewField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showValue()
+    {
+        return null;
     }
 }

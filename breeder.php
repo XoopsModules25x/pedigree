@@ -151,7 +151,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //check for access
     $access = '';
     if (!empty($xoopsUser)) {
-        if ($row['user'] == $xoopsUser->getVar('uid') || true === $modadmin) {
+        if (true === $modadmin || $row['user'] == $xoopsUser->getVar('uid')) {
             //$access = "<a href=\"dog.php?id=".$row['id']."\"><img src=\"assets/images/edit.png\" alt="._EDIT."></a>";
             $access .= '<a href="deletebreeder.php?id=' . $row['id'] . "\"><img src='" . $pathIcon16 . "/delete.png' alt=" . _DELETE . '></a>';
         } else {

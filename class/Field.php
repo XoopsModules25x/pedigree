@@ -38,7 +38,7 @@ class Field
     {
         //find key where id = $fieldnumber;
         $configCount = count($config);
-        for ($x = 0; $x < $configCount; ++$x) {
+        foreach ($config as $x => $xValue) {
             //@todo - figure out if this is suppose to be an assignment or just a compare ('=' or '==')
             if ($config[$x]['id'] = $fieldnumber) {
                 foreach ($config[$x] as $key => $value) {
@@ -54,7 +54,7 @@ class Field
      */
     public function isActive()
     {
-        return ('1' == $this->getSetting('isactive')) ? true : false;
+        return '1' == $this->getSetting('isactive');
     }
 
     /**
@@ -62,7 +62,7 @@ class Field
      */
     public function inAdvanced()
     {
-        return ('1' == $this->getSetting('viewinadvanced')) ? true : false;
+        return '1' == $this->getSetting('viewinadvanced');
     }
 
     /**
@@ -70,7 +70,7 @@ class Field
      */
     public function isLocked()
     {
-        return ('1' == $this->getSetting('locked')) ? true : false;
+        return '1' == $this->getSetting('locked');
     }
 
     /**
@@ -78,7 +78,7 @@ class Field
      */
     public function hasSearch()
     {
-        return ('1' == $this->getSetting('hassearch')) ? true : false;
+        return '1' == $this->getSetting('hassearch');
     }
 
     /**
@@ -86,7 +86,7 @@ class Field
      */
     public function addLitter()
     {
-        return ('1' == $this->getSetting('litter')) ? true : false;
+        return '1' == $this->getSetting('litter');
     }
 
     /**
@@ -94,7 +94,7 @@ class Field
      */
     public function generalLitter()
     {
-        return ('1' == $this->getSetting('generallitter')) ? true : false;
+        return ('1' == $this->getSetting('generallitter'));
     }
 
     /**
@@ -102,7 +102,7 @@ class Field
      */
     public function hasLookup()
     {
-        return ('1' == $this->getSetting('lookuptable')) ? true : false;
+        return ('1' == $this->getSetting('lookuptable'));
     }
 
     /**
@@ -118,7 +118,7 @@ class Field
      */
     public function inPie()
     {
-        return ('1' == $this->getSetting('viewinpie')) ? true : false;
+        return ('1' == $this->getSetting('viewinpie'));
     }
 
     /**
@@ -126,7 +126,7 @@ class Field
      */
     public function inPedigree()
     {
-        return ('1' == $this->getSetting('viewinpedigree')) ? true : false;
+        return ('1' == $this->getSetting('viewinpedigree'));
     }
 
     /**
@@ -134,7 +134,7 @@ class Field
      */
     public function inList()
     {
-        return ('1' == $this->getSetting('viewinlist')) ? true : false;
+        return '1' == $this->getSetting('viewinlist');
     }
 
     public function getId()

@@ -18,19 +18,41 @@
  */
 
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Common;
 
 //require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
-    Pedigree\Utility::prepareFolder($uploadFolders[$i]);
-    $adminObject->addConfigBoxLine($uploadFolders[$i], 'folder');
-    //    $adminObject->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+//check or upload folders
+$configurator = new Common\Configurator();
+foreach (array_keys($configurator->uploadFolders) as $i) {
+    $utility::createFolder($configurator->uploadFolders[$i]);
+    $adminObject->addConfigBoxLine($configurator->uploadFolders[$i], 'folder');
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
+
+//------------- Test Data ----------------------------
+
+if ($helper->getConfig('displaySampleButton')) {
+    xoops_loadLanguage('admin/modulesadmin', 'system');
+    require_once  dirname(__DIR__) . '/testdata/index.php';
+
+    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
+
+    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
+
+    //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
+
+    $adminObject->displayButton('left', '');
+}
+
+//------------- End Test Data ----------------------------
+
 $adminObject->displayIndex();
+
+echo $utility::getServerStats();
 
 require_once __DIR__ . '/admin_footer.php';

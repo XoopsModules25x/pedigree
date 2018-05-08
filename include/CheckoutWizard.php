@@ -13,7 +13,7 @@ class CheckoutWizard extends ZervWizard
     {
         global $field;
         // start the session and initialize the wizard
-        if (!isset($_SESSION)) {
+        if (null === $_SESSION) {
             session_start();
         }
         parent::__construct($_SESSION, __CLASS__);

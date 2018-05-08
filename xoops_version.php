@@ -32,9 +32,9 @@
 
 include __DIR__ . '/preloads/autoloader.php';
 
-$modversion['version']       = 1.31;
-$modversion['release_date']  = '2016/07/17';
-$modversion['module_status'] = 'Alpha 8';
+$modversion['version']       = 1.32;
+$modversion['release_date']  = '2018/05/05';
+$modversion['module_status'] = 'Alpha 1';
 $modversion['name']          = _MI_PEDIGREE_NAME;
 $modversion['description'] = _MI_PEDIGREE_DESC;
 $modversion['credits']     = 'http://tech.groups.yahoo.com/group/animalpedigree/';
@@ -301,6 +301,18 @@ $modversion['config'][] = [
     'default'     => 1000
 ];
 
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => '_MI_PEDIGREE_SHOW_SAMPLE_BUTTON',
+    'description' => '_MI_PEDIGREE_SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
 // Menu contents
 $modversion['hasMain'] = 1;
 $i                     = 0;
@@ -346,129 +358,31 @@ if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUse
 
 // Templates
 $modversion['templates'] = [
-    [
-        'file'        => 'pedigree_index.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_INDEX
-    ],
-
-    [
-        'file'        => 'pedigree_header.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_HEADER
-    ],
-
-    [
-        'file'        => 'pedigree_pedigree.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TREE
-    ],
-
-    [
-        'file'        => 'pedigree_result.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_RESULTS
-    ],
-
-    [
-        'file'        => 'pedigree_latest.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_LATEST
-    ],
-
-    [
-        'file'        => 'pedigree_breeder.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_OWNER
-    ],
-
-    [
-        'file'        => 'pedigree_dog.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_ANIMAL
-    ],
-
-    [
-        'file'        => 'pedigree_owner.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_OWNER_DETAILS
-    ],
-
-    [
-        'file'        => 'pedigree_update.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_UPDATE
-    ],
-
-    [
-        'file'        => 'pedigree_sel.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_SELECT
-    ],
-
-    [
-        'file'        => 'pedigree_coi.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_COI
-    ],
-
-    [
-        'file'        => 'pedigree_members.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TOP50
-    ],
-
-    [
-        'file'        => 'pedigree_advanced.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_ADVANCED_INFO
-    ],
-
-    [
-        'file'        => 'pedigree_adddog.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_ANIMAL_ADD
-    ],
-
-    [
-        'file'        => 'pedigree_addlitter.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_LITTER_ADD
-    ],
-
-    [
-        'file'        => 'pedigree_delete.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_DELETE_CONFIRM
-    ],
-
-    [
-        'file'        => 'pedigree_welcome.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_WELCOME
-    ],
-
-    [
-        'file'        => 'pedigree_virtual.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_VIRTUAL_MATING
-    ],
-
-    [
-        'file'        => 'pedigree_mpedigree.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_MEGAPEDIGREE
-    ],
-
-    [
-        'file'        => 'pedigree_book.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_BOOK
-    ],
-
-    [
-        'file'        => 'pedigree_tools.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TOOLS
-    ],
-
-    [
-        'file'        => 'pedigree_edit.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_PAGE_EDIT
-    ],
-
-    [
-        'file'        => 'table_sort.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TABLE_SORT
-    ],
-
-    [
-        'file'        => 'pedigree_common_breadcrumb.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_BREADCRUMB
-    ],
-    [
-        'file'        => 'pedigree_common_letterschoice.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE
-    ]
+    ['file' => 'pedigree_index.tpl', 'description' => _MI_PEDIGREE_TEMPL_INDEX],
+    ['file' => 'pedigree_header.tpl', 'description' => _MI_PEDIGREE_TEMPL_HEADER],
+    ['file' => 'pedigree_pedigree.tpl', 'description' => _MI_PEDIGREE_TEMPL_TREE],
+    ['file' => 'pedigree_result.tpl', 'description' => _MI_PEDIGREE_TEMPL_RESULTS],
+    ['file' => 'pedigree_latest.tpl', 'description' => _MI_PEDIGREE_TEMPL_LATEST],
+    ['file' => 'pedigree_breeder.tpl', 'description' => _MI_PEDIGREE_TEMPL_OWNER],
+    ['file' => 'pedigree_dog.tpl', 'description' => _MI_PEDIGREE_TEMPL_ANIMAL],
+    ['file' => 'pedigree_owner.tpl', 'description' => _MI_PEDIGREE_TEMPL_OWNER_DETAILS],
+    ['file' => 'pedigree_update.tpl', 'description' => _MI_PEDIGREE_TEMPL_UPDATE],
+    ['file' => 'pedigree_sel.tpl', 'description' => _MI_PEDIGREE_TEMPL_SELECT],
+    ['file' => 'pedigree_coi.tpl', 'description' => _MI_PEDIGREE_TEMPL_COI],
+    ['file' => 'pedigree_members.tpl', 'description' => _MI_PEDIGREE_TEMPL_TOP50],
+    ['file' => 'pedigree_advanced.tpl', 'description' => _MI_PEDIGREE_TEMPL_ADVANCED_INFO],
+    ['file' => 'pedigree_adddog.tpl', 'description' => _MI_PEDIGREE_TEMPL_ANIMAL_ADD],
+    ['file' => 'pedigree_addlitter.tpl', 'description' => _MI_PEDIGREE_TEMPL_LITTER_ADD],
+    ['file' => 'pedigree_delete.tpl', 'description' => _MI_PEDIGREE_TEMPL_DELETE_CONFIRM],
+    ['file' => 'pedigree_welcome.tpl', 'description' => _MI_PEDIGREE_TEMPL_WELCOME],
+    ['file' => 'pedigree_virtual.tpl', 'description' => _MI_PEDIGREE_TEMPL_VIRTUAL_MATING],
+    ['file' => 'pedigree_mpedigree.tpl', 'description' => _MI_PEDIGREE_TEMPL_MEGAPEDIGREE],
+    ['file' => 'pedigree_book.tpl', 'description' => _MI_PEDIGREE_TEMPL_BOOK],
+    ['file' => 'pedigree_tools.tpl', 'description' => _MI_PEDIGREE_TEMPL_TOOLS],
+    ['file' => 'pedigree_edit.tpl', 'description' => _MI_PEDIGREE_TEMPL_PAGE_EDIT],
+    ['file' => 'table_sort.tpl', 'description' => _MI_PEDIGREE_TEMPL_TABLE_SORT],
+    ['file' => 'pedigree_common_breadcrumb.tpl', 'description' => _MI_PEDIGREE_TEMPL_BREADCRUMB],
+    ['file' => 'pedigree_common_letterschoice.tpl', 'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE]
 ];
 
 // Blocks (Start indexes with 1, not 0!)

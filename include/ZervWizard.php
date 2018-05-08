@@ -24,6 +24,7 @@
  *
  * @author  Quentin Zervaas
  */
+
 class ZervWizard
 {
     // whether or not all steps of the form are complete
@@ -93,7 +94,7 @@ class ZervWizard
      *
      * @todo    Need a way to jump between steps, e.g. from step 2 to 4 and validating all data
      *
-     * @param string $action  The step being processed. This should correspond
+     * @param string|null $action  The step being processed. This should correspond
      *                        to a step created in addStep()
      * @param array  &$form   The unmodified form values to process
      * @param bool   $process True if the step is being processed, false if being prepared
@@ -219,7 +220,7 @@ class ZervWizard
      * called internally but you may have reason to change the current
      * step.
      *
-     * @param string $step The step to set as current
+     * @param string|null $step The step to set as current
      */
     public function setCurrentStep($step)
     {
@@ -310,8 +311,8 @@ class ZervWizard
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
 
-        for ($i = 0; $i < $numSteps; ++$i) {
-            $_step = $steps[$i];
+        foreach ($steps as $iValue) {
+            $_step = $iValue;
             if ($_step == $step) {
                 break;
             }
@@ -367,8 +368,8 @@ class ZervWizard
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
 
-        for ($i = 0; $i < $numSteps; ++$i) {
-            $_step = $steps[$i];
+        foreach ($steps as $iValue) {
+            $_step = $iValue;
 
             if (!array_key_exists($this->_step_status_key, $this->container)
                 || !$this->container[$this->_step_status_key][$_step]) {
@@ -545,7 +546,7 @@ class ZervWizard
      */
     public function coalesce(&$var, $default = null)
     {
-        return isset($var) && null !== $var ? $var : $default;
+        return (isset($var) && null !== $var) ? $var : $default;
     }
 
     /**

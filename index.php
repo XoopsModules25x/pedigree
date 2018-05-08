@@ -53,16 +53,16 @@ $animal = new Pedigree\Animal();
 //test to find out how many user fields there are..
 $fields = $animal->getNumOfFields();
 
-for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+foreach ($fields as $i => $iValue) {
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     if ($userField->isActive() && $userField->hasSearch()) {
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
-        $function    = 'user' . $fields[$i] . $fieldObject->getSearchString();
+        $function    = 'user' . $iValue . $fieldObject->getSearchString();
         //echo $function."<br>";
         $usersearch[] = [
             'title'       => $userField->getSetting('SearchName'),
-            'searchid'    => 'user' . $fields[$i],
+            'searchid'    => 'user' . $iValue,
             'function'    => $function,
             'explanation' => $userField->getSetting('SearchExplanation'),
             'searchfield' => $fieldObject->searchfield()

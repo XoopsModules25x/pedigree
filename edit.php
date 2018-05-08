@@ -42,17 +42,17 @@ function save()
     $a      = (!isset($_POST['id']) ? $a = '' : $a = $_POST['id']);
     $animal = new Pedigree\Animal($a);
     $fields = $animal->getNumOfFields();
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-            $currentfield = 'user' . $fields[$i];
+            $currentfield = 'user' . $iValue;
             $pictureField = $_FILES[$currentfield]['name'];
             if (empty($pictureField) || '' == $pictureField) {
-                $newvalue = $_POST['user' . $fields[$i]];
+                $newvalue = $_POST['user' . $iValue];
             } else {
                 $newvalue = Pedigree\Utility::uploadPicture(0);
             }
-            $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET user' . $fields[$i] . "='" . $GLOBALS['xoopsDB']->escape($newvalue) . "' WHERE id='" . $a . "'";
+            $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET user' . $iValue . "='" . $GLOBALS['xoopsDB']->escape($newvalue) . "' WHERE id='" . $a . "'";
             $GLOBALS['xoopsDB']->query($sql);
         }
     }

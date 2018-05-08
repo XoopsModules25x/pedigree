@@ -189,8 +189,8 @@ $animal = new Pedigree\Animal($a);
 //test to find out how many user fields there are..
 $fields = $animal->getNumOfFields();
 
-for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-    if ($_GET['fld'] == $fields[$i]) {
+foreach ($fields as $i => $iValue) {
+    if ($_GET['fld'] == $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
             $fieldType   = $userField->getSetting('FieldType');
@@ -200,7 +200,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
             $explain = $userField->getSetting('FieldExplanation');
             $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, $explain));
             $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
-            $form->addElement(new \XoopsFormHidden('dbfield', 'user' . $fields[$i]));
+            $form->addElement(new \XoopsFormHidden('dbfield', 'user' . $iValue));
         }
     }
 }
