@@ -29,8 +29,8 @@ $mydirpath     = dirname(__DIR__);
 
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
-require_once $rootPath . '/include/cp_functions.php';
-require_once $rootPath . '/include/cp_header.php';
+//require_once $rootPath . '/include/cp_functions.php';
+//require_once $rootPath . '/include/cp_header.php';
 //require_once $rootPath . '/class/xoopsformloader.php';
 
 //require_once dirname(dirname(__DIR__)) . '/mainfile.php';

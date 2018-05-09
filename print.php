@@ -91,7 +91,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     <html><head>
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="AUTHOR" content="' . $GLOBALS['xoopsConfig']['sitename'] . '">
-    <meta name="COPYRIGHT" content="Copyright (c) 2016 by ' . $GLOBALS['xoopsConfig']['sitename'] . '">
+    <meta name="COPYRIGHT" content="Copyright (c) 2018 by ' . $GLOBALS['xoopsConfig']['sitename'] . '">
     <meta name="GENERATOR" content="XOOPS Pedigree database">
     </head>
     <body bgcolor="#ffffff" text="#000000" onload="window.print()">
