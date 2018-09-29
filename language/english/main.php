@@ -108,11 +108,11 @@ define('_MA_PEDIGREE_SYNTH6', 'Field will be shown once for all animals n the ad
 define('_MA_PEDIGREE_BGCOLOR', 'Use the fields below to change the colours of the pedigree database. We advice choosing a very light colour for the "Pedigree background color"');
 define(
     '_MA_PEDIGREE_ANCEST_EXPLAN',
-       "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require your attention."
+       "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require_once your attention."
 );
 define(
     '_MA_PEDIGREE_GENDER_EXPLAN',
-       'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require your attention.'
+       'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require_once your attention.'
 );
 define('_MA_PEDIGREE_QUERIE_EXPLAN', 'Shown below are your personal queries.<br>To request a user query, you can visit <a href ="https://xoops.org">XOOPS Support Forums</a>');
 define('_MA_PEDIGREE_LOOKUPFIELD', "Shown below are the user values for this lookupfield.<br>Click on the value to edit it.<br>Click on the 'X' to delete the value from the lookuptable.");

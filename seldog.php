@@ -22,7 +22,7 @@ extract($_POST, EXTR_PREFIX_ALL, "param");
 */
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_sel.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -43,7 +43,7 @@ $perPage = $moduleConfig['perpage'];
 $GLOBALS['xoopsTpl']->assign('page_title', _MI_PEDIGREE_TITLE);
 
 //count total number of dogs
-$numDog = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}'";
+$numDog = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname LIKE '{$letter}%' AND roft = '{$gend}'";
 $numRes = $GLOBALS['xoopsDB']->query($numDog);
 //total number of dogs the query will find
 $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
@@ -91,8 +91,8 @@ if (($numPages > 1) && ($currentPage < $numPages)) {
 }
 
 //query
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY naam LIMIT {$st}, {$perPage}";
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY pname LIMIT {$st}, {$perPage}";
+$result      = $GLOBALS['xoopsDB']->query($sql);
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
@@ -100,7 +100,7 @@ $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
 $numofcolumns = 1;
 $columns[]    = ['columnname' => 'Name'];
-for ($i = 0; $i < $fieldsCount; ++$i) {
+foreach ($fields as $i => $iValue) {
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType = $userField->getSetting('FieldType');
     $fieldObj  = new $fieldType($userField, $animal);
@@ -154,7 +154,7 @@ if (0 == $gend) {
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //create picture information
     $camera = ('' != $row['foto']) ? ' <img src="assets/images/camera.png">' : '';
-    $name   = stripslashes($row['naam']) . $camera;
+    $name   = stripslashes($row['pname']) . $camera;
     //empty array
     unset($columnvalue);
     //fill array
@@ -231,22 +231,23 @@ $GLOBALS['xoopsTpl']->assign([
                              ]);
 
 //mb ========= MOTHER LETTERS===============================
-$myObject = Pedigree\Helper::getInstance();
+/** @var Pedigree\Helper $helper */
+$helper = Pedigree\Helper::getInstance();
 $roft     = $gend;
-//    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+//    $criteria     = $helper->getHandler('Tree')->getActiveCriteria($roft);
 $activeObject = 'Tree';
-$name         = 'naam';
+$name         = 'pname';
 $number1      = '1';
 $number2      = '0';
 $link         = "seldog.php?gend={$gend}&curval={$curval}&letter=";
 
-$criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+$criteria = $helper->getHandler('Tree')->getActiveCriteria($roft);
 $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-$motherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
+$motherArray['letters'] = Pedigree\Utility::lettersChoice($helper, $activeObject, $criteria, $name, $link);
 //$catarray['toolbar']          = pedigree_toolbar();
 $xoopsTpl->assign('motherArray', $motherArray);
 
 //mb ========================================
 
-include $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

@@ -25,7 +25,7 @@ if (!isset($_GET['target']) && !isset($_POST['target'])) {
     exit();
 }
 $op = 'list';
-if (isset($_GET['op']) && 'upload' === $_GET['op']) {
+if (\Xmf\Request::hasVar('op', 'GET') && 'upload' === $_GET['op']) {
     $op = 'upload';
 }
 if (isset($_POST)) {

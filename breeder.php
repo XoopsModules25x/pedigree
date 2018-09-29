@@ -16,7 +16,7 @@ extract($_POST, EXTR_PREFIX_ALL, 'param');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_breeder.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 $xoopsTpl->assign('page_title', 'Pedigree database - View owner/breeder');
@@ -38,7 +38,7 @@ if (!isset($f)) {
     $f = 'lastname';
 }
 //find letter on which to start else set to 'a'
-if (isset($_GET['l'])) {
+if (\Xmf\Request::hasVar('l', 'GET')) {
     $l = $_GET['l'];
 } else {
     $l = 'a';
@@ -144,14 +144,14 @@ if ($numPages > 1) {
 }
 
 //query
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
+$result      = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //check for access
     $access = '';
     if (!empty($xoopsUser)) {
-        if ($row['user'] == $xoopsUser->getVar('uid') || true === $modadmin) {
+        if (true === $modadmin || $row['user'] == $xoopsUser->getVar('uid')) {
             //$access = "<a href=\"dog.php?id=".$row['id']."\"><img src=\"assets/images/edit.png\" alt="._EDIT."></a>";
             $access .= '<a href="deletebreeder.php?id=' . $row['id'] . "\"><img src='" . $pathIcon16 . "/delete.png' alt=" . _DELETE . '></a>';
         } else {
@@ -198,8 +198,9 @@ $xoopsTpl->assign('pages', $pages);
 
 //$breederArray['letters']          = Pedigree\Utility::lettersChoice();
 
-$myObject     = Pedigree\Helper::getInstance();
-$criteria     = $myObject->getHandler('Tree')->getActiveCriteria();
+/** @var Pedigree\Helper $helper */
+$helper = Pedigree\Helper::getInstance();
+$criteria     = $helper->getHandler('Tree')->getActiveCriteria();
 $activeObject = 'owner';
 $name         = 'lastname';
 //$file         = 'breeder.php';
@@ -207,11 +208,11 @@ $name         = 'lastname';
 $link  = "breeder.php?f={$name}&amp;o={$name}&amp;d=ASC&amp;st=0&amp;l=";
 $link2 = '';
 
-$breederArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+$breederArray['letters'] = Pedigree\Utility::lettersChoice($helper, $activeObject, $criteria, $name, $link, $link2);
 //$catarray['toolbar']          = pedigree_toolbar();
 
 $xoopsTpl->assign('breederArray', $breederArray);
 $xoopsTpl->assign('pageTitle', _MA_PEDIGREE_BREEDER_PAGETITLE);
 
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

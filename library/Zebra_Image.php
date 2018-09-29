@@ -225,7 +225,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -406,7 +406,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -496,7 +496,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -530,7 +530,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -562,7 +562,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -594,7 +594,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -1086,7 +1086,7 @@ class Zebra_Image {
      *
      *  <code>
      *  // include the Zebra_Image library
-     *  require 'path/to/Zebra_Image.php';
+     *  require_once 'path/to/Zebra_Image.php';
      *
      *  // instantiate the class
      *  $img = new Zebra_Image();
@@ -1553,7 +1553,7 @@ class Zebra_Image {
         $identifier = imagecreatetruecolor((int)$width <= 0 ? 1 : (int)$width, (int)$height <= 0 ? 1 : (int)$height);
 
         // if we are creating a PNG image
-        if ('png' == $this->target_type && -1 == $background_color) {
+        if ('png' === $this->target_type && -1 == $background_color) {
 
             // disable blending
             imagealphablending($identifier, false);
@@ -1562,13 +1562,13 @@ class Zebra_Image {
             $transparent_color = imagecolorallocatealpha($identifier, 0, 0, 0, 127);
 
             // fill the image with the transparent color
-			imagefill($identifier, 0, 0, $transparent_color);
+            imagefill($identifier, 0, 0, $transparent_color);
 
             //save full alpha channel information
-			imagesavealpha($identifier, true);
+            imagesavealpha($identifier, true);
 
         // if source image is a transparent GIF
-        } elseif ('gif' == $this->target_type && -1 == $background_color && $this->source_transparent_color_index >= 0) {
+        } elseif ('gif' === $this->target_type && -1 == $background_color && $this->source_transparent_color_index >= 0) {
 
             // allocate the source image's transparent color also to the new image resource
             $transparent_color = imagecolorallocate(

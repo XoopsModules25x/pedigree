@@ -1,6 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Request;
 use XoopsModules\Pedigree;
 
 
@@ -16,7 +17,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_latest.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -24,7 +25,7 @@ $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-*/
+
 $st = Request::getInt('st', 0, 'GET');
 
 $perPage = $moduleConfig['perpage'];
@@ -40,7 +41,7 @@ if (!empty($GLOBALS['xoopsUser'])) {
 }
 
 //count total number of animals
-$numanimal = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' NOLIMIT';
+$numanimal = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' NOLIMIT';
 $numRes    = $GLOBALS['xoopsDB']->query($numanimal);
 //total number of animals the query will find
 $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
@@ -58,19 +59,19 @@ for ($x = 1; $x < ($numPages + 1); ++$x) {
 }
 
 //query
-$queryString = 'SELECT d.id AS d_id, d.naam AS d_naam, d.roft AS d_roft, d.mother AS d_mother, d.father AS d_father, d.foto AS d_foto, d.user AS d_user, f.id AS f_id, f.naam AS f_naam, m.id AS m_id, m.naam AS m_naam, u.uname AS u_uname FROM '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+$sql = 'SELECT d.id AS d_id, d.pname AS d_pname, d.roft AS d_roft, d.mother AS d_mother, d.father AS d_father, d.foto AS d_foto, d.user AS d_user, f.id AS f_id, f.pname AS f_pname, m.id AS m_id, m.pname AS m_pname, u.uname AS u_uname FROM '
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' d LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' f ON d.father = f.id LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' m ON d.mother = m.id LEFT JOIN '
                . $GLOBALS['xoopsDB']->prefix('users')
                . ' u ON d.user = u.uid ORDER BY d.id DESC LIMIT '
                . $st
                . ', '
                . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result      = $GLOBALS['xoopsDB']->query($sql);
 $pathIcon16  = \Xmf\Module\Admin::iconUrl('', 16);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -96,21 +97,21 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $gender .= '<img src="assets/images/female.gif">';
     }
     //create string for parents
-    if ('' == $row['f_naam']) {
+    if ('' == $row['f_pname']) {
         $dad = _MA_PEDIGREE_UNKNOWN;
     } else {
-        $dad = '<a href="pedigree.php?pedid=' . $row['f_id'] . '">' . stripslashes($row['f_naam']) . '</a>';
+        $dad = '<a href="pedigree.php?pedid=' . $row['f_id'] . '">' . stripslashes($row['f_pname']) . '</a>';
     }
-    if ('' == $row['m_naam']) {
+    if ('' == $row['m_pname']) {
         $mom = _MA_PEDIGREE_UNKNOWN;
     } else {
-        $mom = '<a href="pedigree.php?pedid=' . $row['m_id'] . '">' . stripslashes($row['m_naam']) . '</a>';
+        $mom = '<a href="pedigree.php?pedid=' . $row['m_id'] . '">' . stripslashes($row['m_pname']) . '</a>';
     }
     $parents = $dad . ' x ' . $mom;
     //create array for animals
     $animals[] = [
         'id'      => $row['d_id'],
-        'name'    => stripslashes($row['d_naam']) . $camera,
+        'name'    => stripslashes($row['d_pname']) . $camera,
         'gender'  => $gender,
         'parents' => $parents,
         'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>'
@@ -142,4 +143,4 @@ $xoopsTpl->assign('name', _MA_PEDIGREE_FLD_NAME);
 $xoopsTpl->assign('parents', _MA_PEDIGREE_PA);
 $xoopsTpl->assign('addedby', _MA_PEDIGREE_FLD_DBUS);
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

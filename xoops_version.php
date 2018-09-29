@@ -30,44 +30,71 @@
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-include __DIR__ . '/preloads/autoloader.php';
+$moduleDirName = basename(__DIR__);
 
-$modversion['version']       = 1.31;
-$modversion['release_date']  = '2016/07/17';
-$modversion['module_status'] = 'Alpha 8';
-$modversion['name']          = _MI_PEDIGREE_NAME;
-$modversion['description'] = _MI_PEDIGREE_DESC;
-$modversion['credits']     = 'http://tech.groups.yahoo.com/group/animalpedigree/';
-$modversion['author']      = 'James Cotton';
-$modversion['help']        = 'page=pedigree_admin';
-//$modversion['help']        = 'page=help';
-$modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']    = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-$modversion['image']       = 'assets/images/logoModule.png';
-$modversion['dirname']     = basename(__DIR__);
+require_once __DIR__ . '/preloads/autoloader.php';
 
-//$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-//$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-//$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
-$modversion['modicons16'] = 'assets/images/icons/16';
-$modversion['modicons32'] = 'assets/images/icons/32';
+$modversion = [
+    'version'             => 1.32,
+    'module_status'       => 'Alpha 1',
+    'release_date'        => '2018/05/05',
+    'name'                => _MI_PEDIGREE_NAME,
+    'description'         => _MI_PEDIGREE_DESC,
+    'release'             => '2017-04-01',
+    'author'              => 'James Cotton, Zyspec, Mamba',
+    'author_mail'         => 'name@site.com',
+    'author_website_url'  => 'https://xoops.org',
+    'author_website_name' => 'XOOPS Project',
+    'credits'             => 'http://tech.groups.yahoo.com/group/animalpedigree/, XOOPS Development Team',
+    //    'license' => 'GPL 2.0 or later',
+    'help'                => 'page=help',
+    'license'             => 'GPL 2.0 or later',
+    'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html',
+    'release_info'        => 'release_info',
+    'release_file'        => XOOPS_URL . "/modules/{$moduleDirName}/docs/release_info file",
+    'manual'              => 'Installation.txt',
+    'manual_file'         => XOOPS_URL . "/modules/{$moduleDirName}/docs/link to manual file",
+    'min_php'             => '5.6',
+    'min_xoops'           => '2.5.9',
+    'min_admin'           => '1.2',
+    'min_db'              => ['mysql' => '5.5'],
+    'image'               => 'assets/images/logoModule.png',
+    'dirname'             => $moduleDirName,
+    'modicons16'          => 'assets/images/icons/16',
+    'modicons32'          => 'assets/images/icons/32',
+    //About
+    'demo_site_url'       => 'https://xoops.org',
+    'demo_site_name'      => 'XOOPS Demo Site',
+    'support_url'         => 'https://xoops.org/modules/newbb',
+    'support_name'        => 'Support Forum',
+    'module_website_url'  => 'www.xoops.org',
+    'module_website_name' => 'XOOPS Project',
+    // Admin system menu
+    'system_menu'         => 1,
+    // Admin things
+    'hasAdmin'            => 1,
+    'adminindex'          => 'admin/index.php',
+    'adminmenu'           => 'admin/menu.php',
+    // Menu
+    'hasMain'             => 1,
+    // Scripts to run upon installation or update
+    //    'onInstall' => 'include/oninstall.php',
+    //    'onUpdate' => 'include/onupdate.php',
+    'onInstall'           => 'include/install_function.php',
+    'onUpdate'            => 'include/update_function.php',
+    'onUninstall'         => 'include/onuninstall.php',
+    // ------------------- Mysql -----------------------------
+    'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
+    // ------------------- Tables ----------------------------
+];
 
-$modversion['onInstall'] = 'include/install_function.php';
-$modversion['onUpdate']  = 'include/update_function.php';
-$modversion['module_website_url']  = 'www.xoops.org';
-$modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.9';
-$modversion['min_admin']           = '1.2';
-$modversion['min_db']              = ['mysql' => '5.5'];
+//$modversion['help']        = 'page=pedigree_admin';
 
-// SQL file - All tables should not have any prefix!
-$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
+
 
 // Tables created by sql file (without prefix!)
 $modversion['tables'] = [
-    'pedigree_tree',
+    'pedigree_registry',
     'pedigree_fields',
     'pedigree_temp',
     'pedigree_trash',
@@ -255,6 +282,22 @@ $modversion['config'][] = [
     'default'     => 1
 ];
 
+$modversion['config'][] = [
+    'name' => 'adminpager',
+    'title' => 'MI_PEDIGREE_ADMINPAGER',
+    'description' => 'MI_PEDIGREE_ADMINPAGER_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'int',
+    'default' => 10];
+
+$modversion['config'][] = [
+    'name' => 'userpager',
+    'title' => 'MI_PEDIGREE_USERPAGER',
+    'description' => 'MI_PEDIGREE_USERPAGER_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'int',
+    'default' => 10];
+
 // Files configs
 $modversion['config'][] = [
     'name'        => 'filesuploads_configs',
@@ -299,6 +342,18 @@ $modversion['config'][] = [
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 1000
+];
+
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => '_MI_XOOPSTUBE_SHOW_SAMPLE_BUTTON',
+    'description' => '_MI_XOOPSTUBE_SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
 ];
 
 // Menu contents
@@ -346,129 +401,31 @@ if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUse
 
 // Templates
 $modversion['templates'] = [
-    [
-        'file'        => 'pedigree_index.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_INDEX
-    ],
-
-    [
-        'file'        => 'pedigree_header.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_HEADER
-    ],
-
-    [
-        'file'        => 'pedigree_pedigree.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TREE
-    ],
-
-    [
-        'file'        => 'pedigree_result.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_RESULTS
-    ],
-
-    [
-        'file'        => 'pedigree_latest.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_LATEST
-    ],
-
-    [
-        'file'        => 'pedigree_breeder.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_OWNER
-    ],
-
-    [
-        'file'        => 'pedigree_dog.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_ANIMAL
-    ],
-
-    [
-        'file'        => 'pedigree_owner.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_OWNER_DETAILS
-    ],
-
-    [
-        'file'        => 'pedigree_update.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_UPDATE
-    ],
-
-    [
-        'file'        => 'pedigree_sel.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_SELECT
-    ],
-
-    [
-        'file'        => 'pedigree_coi.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_COI
-    ],
-
-    [
-        'file'        => 'pedigree_members.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TOP50
-    ],
-
-    [
-        'file'        => 'pedigree_advanced.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_ADVANCED_INFO
-    ],
-
-    [
-        'file'        => 'pedigree_adddog.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_ANIMAL_ADD
-    ],
-
-    [
-        'file'        => 'pedigree_addlitter.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_LITTER_ADD
-    ],
-
-    [
-        'file'        => 'pedigree_delete.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_DELETE_CONFIRM
-    ],
-
-    [
-        'file'        => 'pedigree_welcome.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_WELCOME
-    ],
-
-    [
-        'file'        => 'pedigree_virtual.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_VIRTUAL_MATING
-    ],
-
-    [
-        'file'        => 'pedigree_mpedigree.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_MEGAPEDIGREE
-    ],
-
-    [
-        'file'        => 'pedigree_book.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_BOOK
-    ],
-
-    [
-        'file'        => 'pedigree_tools.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TOOLS
-    ],
-
-    [
-        'file'        => 'pedigree_edit.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_PAGE_EDIT
-    ],
-
-    [
-        'file'        => 'table_sort.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_TABLE_SORT
-    ],
-
-    [
-        'file'        => 'pedigree_common_breadcrumb.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_BREADCRUMB
-    ],
-    [
-        'file'        => 'pedigree_common_letterschoice.tpl',
-        'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE
-    ]
+    ['file' => 'pedigree_index.tpl', 'description' => _MI_PEDIGREE_TEMPL_INDEX],
+    ['file' => 'pedigree_header.tpl', 'description' => _MI_PEDIGREE_TEMPL_HEADER],
+    ['file' => 'pedigree_pedigree.tpl', 'description' => _MI_PEDIGREE_TEMPL_TREE],
+    ['file' => 'pedigree_result.tpl', 'description' => _MI_PEDIGREE_TEMPL_RESULTS],
+    ['file' => 'pedigree_latest.tpl', 'description' => _MI_PEDIGREE_TEMPL_LATEST],
+    ['file' => 'pedigree_breeder.tpl', 'description' => _MI_PEDIGREE_TEMPL_OWNER],
+    ['file' => 'pedigree_dog.tpl', 'description' => _MI_PEDIGREE_TEMPL_ANIMAL],
+    ['file' => 'pedigree_owner.tpl', 'description' => _MI_PEDIGREE_TEMPL_OWNER_DETAILS],
+    ['file' => 'pedigree_update.tpl', 'description' => _MI_PEDIGREE_TEMPL_UPDATE],
+    ['file' => 'pedigree_sel.tpl', 'description' => _MI_PEDIGREE_TEMPL_SELECT],
+    ['file' => 'pedigree_coi.tpl', 'description' => _MI_PEDIGREE_TEMPL_COI],
+    ['file' => 'pedigree_members.tpl', 'description' => _MI_PEDIGREE_TEMPL_TOP50],
+    ['file' => 'pedigree_advanced.tpl', 'description' => _MI_PEDIGREE_TEMPL_ADVANCED_INFO],
+    ['file' => 'pedigree_adddog.tpl', 'description' => _MI_PEDIGREE_TEMPL_ANIMAL_ADD],
+    ['file' => 'pedigree_addlitter.tpl', 'description' => _MI_PEDIGREE_TEMPL_LITTER_ADD],
+    ['file' => 'pedigree_delete.tpl', 'description' => _MI_PEDIGREE_TEMPL_DELETE_CONFIRM],
+    ['file' => 'pedigree_welcome.tpl', 'description' => _MI_PEDIGREE_TEMPL_WELCOME],
+    ['file' => 'pedigree_virtual.tpl', 'description' => _MI_PEDIGREE_TEMPL_VIRTUAL_MATING],
+    ['file' => 'pedigree_mpedigree.tpl', 'description' => _MI_PEDIGREE_TEMPL_MEGAPEDIGREE],
+    ['file' => 'pedigree_book.tpl', 'description' => _MI_PEDIGREE_TEMPL_BOOK],
+    ['file' => 'pedigree_tools.tpl', 'description' => _MI_PEDIGREE_TEMPL_TOOLS],
+    ['file' => 'pedigree_edit.tpl', 'description' => _MI_PEDIGREE_TEMPL_PAGE_EDIT],
+    ['file' => 'table_sort.tpl', 'description' => _MI_PEDIGREE_TEMPL_TABLE_SORT],
+    ['file' => 'pedigree_common_breadcrumb.tpl', 'description' => _MI_PEDIGREE_TEMPL_BREADCRUMB],
+    ['file' => 'pedigree_common_letterschoice.tpl', 'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE]
 ];
 
 // Blocks (Start indexes with 1, not 0!)

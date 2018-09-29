@@ -30,7 +30,7 @@ xoops_cp_header();
 $treeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 
 //It recovered the value of argument op in URL$
-$op = Request::getCmd('op', 'list');
+$op = Request::getString('op', 'list');
 switch ($op) {
     case 'list':
     default:
@@ -47,7 +47,7 @@ switch ($op) {
         if ($numrows > 0) {
             echo "<table width='100%' cellspacing='1' class='outer'>
                 <tr>
-                    <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_NAAM . '</th>
+                    <th align=\"center\">" . _AM_PEDIGREE_PEDIGREE_PNAME . '</th>
                         <th align="center">' . _AM_PEDIGREE_PEDIGREE_ID_OWNER . '</th>
                         <th align="center">' . _AM_PEDIGREE_PEDIGREE_ID_BREEDER . '</th>
                         <th align="center">' . _AM_PEDIGREE_PEDIGREE_USER . '</th>
@@ -66,7 +66,7 @@ switch ($op) {
                 if (0 == $pedigree_arr[$i]->getVar('pedigree_pid')) {
                     echo "<tr class='" . $class . "'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
-                    echo '<td align="center">' . $pedigree_arr[$i]->getVar('naam') . '</td>';
+                    echo '<td align="center">' . $pedigree_arr[$i]->getVar('pname') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('id_owner') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('id_breeder') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('user') . '</td>';
@@ -102,14 +102,14 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST['id'])) {
+        if (\Xmf\Request::hasVar('id', 'REQUEST')) {
             $obj = $treeHandler->get($_REQUEST['id']);
         } else {
             $obj = $treeHandler->create();
         }
 
-        //Form naam
-        $obj->setVar('naam', $_REQUEST['naam']);
+        //Form pname
+        $obj->setVar('pname', $_REQUEST['pname']);
         //Form id_owner
         $obj->setVar('id_owner', $_REQUEST['id_owner']);
         //Form id_breeder
@@ -148,7 +148,7 @@ switch ($op) {
 
     case 'delete_pedigree':
         $obj = $treeHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
+        if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

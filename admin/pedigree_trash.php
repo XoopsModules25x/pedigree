@@ -27,10 +27,10 @@ require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
 
-$trashHandler = Pedigree\Helper::getInstance()->getHandler('Trash');
+$trashHandler = \XoopsModules\Pedigree\Helper::getInstance()->getHandler('Trash');
 
 //It recovered the value of argument op in URL$
-$op = Request::getCmd('op', 'list');
+$op = Request::getString('op', 'list');
 switch ($op) {
     case 'list':
     default:
@@ -48,7 +48,7 @@ switch ($op) {
             echo "<table cellspacing='1' class='outer width100'>
                 <thead>
                 <tr>
-                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_NAAM . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_PNAME . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_ID_OWNER . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_ID_BREEDER . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_USER . "</th>
@@ -69,7 +69,7 @@ switch ($op) {
                 if (0 == $pedigree_trash_arr[$i]->getVar('pedigree_trash_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
-                    echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('naam') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('pname') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('id_breeder') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_trash_arr[$i]->getVar('user') . '</td>';
@@ -106,14 +106,14 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST['id'])) {
+        if (\Xmf\Request::hasVar('id', 'REQUEST')) {
             $obj = $trashHandler->get($_REQUEST['id']);
         } else {
             $obj = $trashHandler->create();
         }
 
-        //Form naam
-        $obj->setVar('naam', $_REQUEST['naam']);
+        //Form pname
+        $obj->setVar('pname', $_REQUEST['pname']);
         //Form id_owner
         $obj->setVar('id_owner', $_REQUEST['id_owner']);
         //Form id_breeder
@@ -152,7 +152,7 @@ switch ($op) {
 
     case 'delete_pedigree_trash':
         $obj = $trashHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
+        if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

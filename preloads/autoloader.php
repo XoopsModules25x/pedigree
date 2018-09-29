@@ -18,15 +18,15 @@ spl_autoload_register(function ($class) {
     }
 
     // get the relative class name
-    $relative_class = substr($class, $len);
+    $relativeClass = substr($class, $len);
 
     // replace the namespace prefix with the base directory, replace namespace
     // separators with directory separators in the relative class name, append
     // with .php
-    $file           = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    $file           = $base_dir . str_replace('\\', '/', $relativeClass) . '.php';
 
     // if the file exists, require it
     if (file_exists($file)) {
-        require $file;
+        require_once $file;
     }
 });

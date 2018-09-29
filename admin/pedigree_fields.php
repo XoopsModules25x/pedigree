@@ -30,18 +30,18 @@ xoops_cp_header();
 $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
 
 //It recovered the value of argument op in URL$
-$op = Request::getCmd('op', 'list');
+$op = Request::getString('op', 'list');
 switch ($op) {
     case 'list':
     default:
         $adminObject->displayNavigation(basename(__FILE__));
-        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_fields.php?op=new_pedigree_fields', 'add');
         $adminObject->displayButton('left');
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
         $numrows             = $fieldsHandler->getCount();
-        $pedigree_config_arr = $fieldsHandler->getAll($criteria);
+        $pedigree_fields_arr = $fieldsHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -70,28 +70,28 @@ switch ($op) {
 
             $class = 'odd';
 
-            foreach (array_keys($pedigree_config_arr) as $i) {
-                if (0 == $pedigree_config_arr[$i]->getVar('pedigree_config_pid')) {
+            foreach (array_keys($pedigree_fields_arr) as $i) {
+                if (0 == $pedigree_fields_arr[$i]->getVar('pedigree_fields_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('isactive') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldname') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldtype') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('lookuptable') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('defaultvalue') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldexplanation') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('hassearch') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('litter') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('generallitter') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('searchname') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('searchexplanation') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('viewinpedigree') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('viewinadvanced') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('viewinpie') . '</td>';
-                    echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('viewinlist') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('isactive') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('fieldname') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('fieldtype') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('lookuptable') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('defaultvalue') . '</td>';
+                    echo "<td class='txtleft'>" . $pedigree_fields_arr[$i]->getVar('fieldexplanation') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('hassearch') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('litter') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('generallitter') . '</td>';
+                    echo "<td class='txtleft'>" . $pedigree_fields_arr[$i]->getVar('searchname') . '</td>';
+                    echo "<td class='txtleft'>" . $pedigree_fields_arr[$i]->getVar('searchexplanation') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('viewinpedigree') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('viewinadvanced') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('viewinpie') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_fields_arr[$i]->getVar('viewinlist') . '</td>';
                     echo "<td class='txtcenter width10'>
-                        <a href='pedigree_config.php?op=edit_pedigree_config&id=" . $pedigree_config_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='pedigree_config.php?op=delete_pedigree_config&id=" . $pedigree_config_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                        <a href='pedigree_fields.php?op=edit_pedigree_fields&id=" . $pedigree_fields_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='pedigree_fields.php?op=delete_pedigree_fields&id=" . $pedigree_fields_arr[$i]->getVar('id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
                     echo '</tr>';
                 }
@@ -103,9 +103,9 @@ switch ($op) {
 
         break;
 
-    case 'new_pedigree_config':
+    case 'new_pedigree_fields':
         $adminObject->displayNavigation(basename(__FILE__));
-        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
+        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_fields.php?op=list', 'list');
         $adminObject->displayButton('left');
 
         $obj  = $fieldsHandler->create();
@@ -113,9 +113,9 @@ switch ($op) {
         $form->display();
         break;
 
-    case 'save_pedigree_config':
+    case 'save_pedigree_fields':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            redirect_header('pedigree_fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $id = Request::getInt('id', 0, 'POST');
         if ($id) {
@@ -164,7 +164,7 @@ switch ($op) {
         $obj->setVar('order', Request::getInt('order', 0, 'POST'));
 
         if ($fieldsHandler->insert($obj)) {
-            redirect_header('pedigree_config.php?op=list', 2, _AM_PEDIGREE_FORMOK);
+            redirect_header('pedigree_fields.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -172,32 +172,32 @@ switch ($op) {
         $form->display();
         break;
 
-    case 'edit_pedigree_config':
+    case 'edit_pedigree_fields':
         $adminObject->displayNavigation(basename(__FILE__));
-        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
-        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_fields.php?op=new_pedigree_fields', 'add');
+        $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_fields.php?op=list', 'list');
         $adminObject->displayButton('left');
         $obj  = $fieldsHandler->get(Request::getInt('id', 0));
         $form = $obj->getForm();
         $form->display();
         break;
 
-    case 'delete_pedigree_config':
+    case 'delete_pedigree_fields':
         $id  = Request::getInt('id', 0);
         $obj = $fieldsHandler->get($id);
         $ok  = Request::getInt('ok', 0, 'POST');
         if ('0' != $ok) {
-            //        if (isset($_REQUEST['ok']) && (1 == $_REQUEST['ok'])) {
+            //        if (\Xmf\Request::hasVar('ok', 'REQUEST') && (1 == $_REQUEST['ok'])) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                redirect_header('pedigree_fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($fieldsHandler->delete($obj)) {
-                redirect_header('pedigree_config.php', 3, _AM_PEDIGREE_FORMDELOK);
+                redirect_header('pedigree_fields.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(['ok' => 1, 'id' => $id, 'op' => 'delete_pedigree_config'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_config')));
+            xoops_confirm(['ok' => 1, 'id' => $id, 'op' => 'delete_pedigree_fields'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_fields')));
         }
         break;
 }

@@ -30,11 +30,18 @@
 
 use XoopsModules\Pedigree;
 
-//require_once  dirname(__DIR__) . '/include/common.php';
-$helper = Pedigree\Helper::getInstance();
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = strtoupper($moduleDirName);
+/** @var \XoopsModules\Pedigree\Helper $helper */
+$helper = \XoopsModules\Pedigree\Helper::getInstance();
+$helper->loadLanguage('common');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+if (is_object($helper->getModule())) {
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+}
 
 //xoops_cp_header();
 //echo "<h4>Pedigree Administration</h4><table width='100%' border='0' cellspacing='1' class='outer'>";
@@ -60,10 +67,17 @@ $adminmenu[] = [
 ];
 
 $adminmenu[] = [
-    'title' => _MI_PEDIGREE_ADMENU2,
-    'link'  => 'admin/pedigree_trash.php',
-    'icon'  => $pathIcon32 . '/alert.png'
+    'title' => _MI_PEDIGREE_ADMENU5,
+    'link'  => 'admin/pedigree.php',
+    'icon'  => $pathIcon32 . '/groupmod.png'
 ];
+
+$adminmenu[] = [
+    'title' => _MI_PEDIGREE_ADMENU_REGISTRY,
+    'link'  => 'admin/registry.php',
+    'icon'  => $pathIcon32 . '/groupmod.png'
+];
+
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU3,
@@ -77,15 +91,16 @@ $adminmenu[] = [
     'icon'  => $pathIcon32 . '/wizard.png'
 ];
 
+
 $adminmenu[] = [
-    'title' => _MI_PEDIGREE_ADMENU5,
-    'link'  => 'admin/pedigree.php',
-    'icon'  => $pathIcon32 . '/groupmod.png'
+    'title' => _MI_PEDIGREE_ADMENU2,
+    'link'  => 'admin/pedigree_trash.php',
+    'icon'  => $pathIcon32 . '/alert.png'
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
-    'link'  => 'admin/pedigree_config.php',
+    'link'  => 'admin/pedigree_fields.php',
     'icon'  => $pathIcon32 . '/administration.png'
 ];
 
@@ -96,6 +111,13 @@ $adminmenu[] = array(
     'icon'  => $pathIcon32.'/permissions.png'
 );
 */
+
+$adminmenu[] = [
+//    'title' => _MI_PEDIGREE_ADMENU_MIGRATE,
+'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+    'link'  => 'admin/migrate.php',
+    'icon'  => $pathIcon32 . 'database_go.png'
+];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU8,

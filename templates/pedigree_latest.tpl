@@ -1,4 +1,4 @@
-<table width="100%" class="outer" cellspacing="1">
+<table width="100%" class="table" cellspacing="1">
     <tr>
         <th colspan="3">
             <{$nummatch}>

@@ -1,5 +1,6 @@
-<?php
-require_once __DIR__ . '/wizard.php';
+<?php namespace XoopsModules\Pedigree;
+
+//require_once __DIR__ . '/wizard.php';
 
 /**
  * Class CheckoutWizard
@@ -13,7 +14,7 @@ class CheckoutWizard extends ZervWizard
     {
         global $field;
         // start the session and initialize the wizard
-        if (!isset($_SESSION)) {
+        if (null === $_SESSION) {
             session_start();
         }
         parent::__construct($_SESSION, __CLASS__);
@@ -96,7 +97,7 @@ class CheckoutWizard extends ZervWizard
         $this->fieldtype[] = ['value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD];
         $this->fieldtype[] = ['value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD];
         $this->fieldtype[] = ['value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD];
-        $this->fieldtype[] = ['value' => 'urlfield', 'description' => _MA_PEDIGREE_URLFIELD];
+        $this->fieldtype[] = ['value' => 'UrlField', 'description' => _MA_PEDIGREE_URLFIELD];
     }
 
     /**
@@ -395,7 +396,7 @@ class CheckoutWizard extends ZervWizard
                    . "'";
             $GLOBALS['xoopsDB']->queryF($sql);
             //possible change defaultvalue for userfield
-            $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' CHANGE `user' . $this->getValue('field') . '` `user' . $this->getValue('field') . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
+            $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' CHANGE `user' . $this->getValue('field') . '` `user' . $this->getValue('field') . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
             $GLOBALS['xoopsDB']->queryF($sql);
             $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' CHANGE `user' . $this->getValue('field') . '` `user' . $this->getValue('field') . "` VARCHAR( 1024 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
             $GLOBALS['xoopsDB']->queryF($sql);
@@ -409,7 +410,7 @@ class CheckoutWizard extends ZervWizard
             }
             //add userfield to various tables as a new field.
             //always add at the end of the table
-            $tables = ['pedigree_tree', 'pedigree_temp', 'pedigree_trash'];
+            $tables = ['pedigree_registry', 'pedigree_temp', 'pedigree_trash'];
             foreach ($tables as $table) {
                 $SQL = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($table) . ' ADD `user' . $nextfieldnum . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
                 $GLOBALS['xoopsDB']->queryF($SQL);
@@ -432,7 +433,7 @@ class CheckoutWizard extends ZervWizard
                 }
             }
 
-            //Insert new record into pedigree_config
+            //Insert new record into pedigree_fields
             //            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " VALUES ('" . $nextfieldnum . "', '1', '" . htmlspecialchars($this->getValue('name')) . "', '" . $this->getValue('fieldtype') . "', '" . $lookup . "', '" . $this->getValue('defaultvalue') . "', '" . $this->getValue('explain') . "', '" . $search . "', '" . $Litter . "', '" . $generalLitter . "', '" . $searchname . "', '" . $searchexplain . "', '" . $viewinpedigree . "', '" . $viewinadvanced . "', '" . $viewinpie . "', '" . $viewinlist . "','','" . $nextfieldnum . "')";
             $sql = 'INSERT INTO '
                    . $GLOBALS['xoopsDB']->prefix('pedigree_fields')

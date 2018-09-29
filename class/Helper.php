@@ -27,8 +27,13 @@ class Helper extends \Xmf\Module\Helper
 {
     public $debug;
 
+    protected $myTree       = [];
+    protected $fields       = [];
+    protected $configValues = [];
+
+
     /**
-     * 
+     *
      * @param bool $debug
      */
     public function __construct($debug = false)
@@ -75,5 +80,49 @@ class Helper extends \Xmf\Module\Helper
         $class = '\\XoopsModules\\' . ucfirst(strtolower(basename(dirname(__DIR__)))) . '\\' . $name . 'Handler';
         $ret   = new $class($db);
         return $ret;
+    }
+
+    //===================================
+
+    /**
+     *
+     * Number of Fields
+     * @return array
+     */
+    public function getNumOfFields()
+    {
+        $moduleDirName = basename(dirname(__DIR__));
+        $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
+        $criteria      = new \CriteriaCompo();
+        $criteria->setSort('`order`');
+        $criteria->setOrder('ASC');
+        $this->fields       = $fieldsHandler->getIds($criteria); //get all object IDs
+        $this->configValues = $fieldsHandler->getAll($criteria, null, false); //get objects as arrays
+        if (empty($this->configValues)) {
+            $this->configValues = '';
+        }
+        /*
+        $SQL    = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_fields") . " ORDER BY `order`";
+        $result = $GLOBALS['xoopsDB']->query($SQL);
+        $fields = array();
+        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+            $fields[] = $row['id'];
+            $configValues[] = $row;
+
+        }
+        $this->configValues = isset($configValues) ? $configValues : '';
+        //print_r ($this->configValues); die();
+        */
+        unset($fieldsHandler, $criteria);
+
+        return $this->fields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig($name = null, $default = null)
+    {
+        return $this->configValues;
     }
 }

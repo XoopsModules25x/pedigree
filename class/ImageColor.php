@@ -255,7 +255,7 @@ class ImageColor
      * RGB. You can change the dark and the light colors from their default
      * black and white.
      *
-     * @param string $color The hex color to analyze
+     * @param string|array $color The hex color to analyze
      * @param string $light The light color value to return if we should
      *                      have light text.
      * @param string $dark  The dark color value to return if we should have
@@ -687,7 +687,7 @@ class ImageColor
     /**
      * Convert an RGB percentage string into an RGB array.
      *
-     * @param string $color Percentage color string like "50%,20%,100%".
+     * @param string|array $color Percentage color string like "50%,20%,100%".
      *
      * @return array RGB color array.
      * @access  public

@@ -35,7 +35,7 @@ function xoops_module_update_animal()
     }
 
     if (tableExists($GLOBALS['xoopsDB']->prefix('stamboom'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('stamboom') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree'));
+        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('stamboom') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;
@@ -43,8 +43,8 @@ function xoops_module_update_animal()
         }
     }
 
-    if (tableExists($GLOBALS['xoopsDB']->prefix('pedigree_config'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_config') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields'));
+    if (tableExists($GLOBALS['xoopsDB']->prefix('pedigree_fields'))) {
+        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;

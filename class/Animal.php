@@ -53,7 +53,7 @@ class Animal
         $criteria->setLimit(1);
         $this->myTree = $myTreeHandler->getAll($criteria, null, false);
         /*
-        $SQL = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_tree") . " WHERE id = {$id}";
+        $SQL = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_registry") . " WHERE id = {$id}";
         $result    = $GLOBALS['xoopsDB']->query($SQL);
         $row       = $GLOBALS['xoopsDB']->fetchRow($result);
         $numfields = mysqli_num_fields($result);

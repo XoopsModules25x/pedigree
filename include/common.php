@@ -19,18 +19,18 @@
  */
 use XoopsModules\Pedigree;
 
-include __DIR__ . '/../preloads/autoloader.php';
+include dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
-
 
 /** @var \XoopsDatabase $db */
 /** @var Pedigree\Helper $helper */
 /** @var Pedigree\Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = Pedigree\Helper::getInstance();
-$utility = new Pedigree\Utility();
+$debug   = false;
+$helper  = \XoopsModules\Pedigree\Helper::getInstance();
+$utility = new \XoopsModules\Pedigree\Utility();
 //$configurator = new Pedigree\Common\Configurator();
 
 $helper->loadLanguage('common');
@@ -38,6 +38,13 @@ $helper->loadLanguage('common');
 //handlers
 //$categoryHandler     = new Pedigree\CategoryHandler($db);
 //$downloadHandler     = new Pedigree\DownloadHandler($db);
+
+$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
+if (is_object($helper->getModule())) {
+    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+}
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
@@ -49,16 +56,12 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_ADMIN_URL', constant($moduleDirNameUpper . '_URL') . '/admin/');
     define($moduleDirNameUpper . '_ADMIN_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/admin/');
     define($moduleDirNameUpper . '_ADMIN', constant($moduleDirNameUpper . '_URL') . '/admin/index.php');
-    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
+//    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
     define($moduleDirNameUpper . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirName); // WITHOUT Trailing slash
     define($moduleDirNameUpper . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', $pathIcon32 . '/xoopsmicrobutton.gif');
     define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
 }
-
-$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
-//$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
-//$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 $icons = [
     'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",

@@ -11,10 +11,10 @@ $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once __DIR__ . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -23,16 +23,16 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-$f = Request::getString('f', 'naam', 'GET');
+$f = Request::getString('f', 'pname', 'GET');
 $q = Request::getString('query', '', 'POST');
 /*
 if (!isset($_GET['f'])) {
-    $f = "naam";
+    $f = "pname";
 } else {
     $f = $_GET['f'];
 }
 
-if (isset($_POST['query'])) {
+if (\Xmf\Request::hasVar('query', 'POST')) {
     $q = $_POST['query'];
 } else {
     $q = '';
@@ -46,7 +46,7 @@ if (!isset($_GET['w'])) {
     $w = '%' . $q . '%';
 }
 
-if (isset($_GET['p'])) {
+if (\Xmf\Request::hasVar('p', 'GET')) {
     $p = $_GET['p'];
 }
 
@@ -54,14 +54,14 @@ if (isset($p)) {
     $w = $q;
 }
 
-if (isset($_GET['w'])) {
+if (\Xmf\Request::hasVar('w', 'GET')) {
     if ('zero' === $_GET['w'] || '' === $_GET['w'] || '0' === $_GET['w']) {
         $w = '0';
     } else {
         $w = $_GET['w'];
     }
 }
-if (isset($_GET['l'])) {
+if (\Xmf\Request::hasVar('l', 'GET')) {
     if ('1' == $_GET['l'] || 'LIKE' === $_GET['l']) {
         $l = 'LIKE';
     }
@@ -70,7 +70,7 @@ if (isset($_GET['l'])) {
 }
 
 if (!$_GET['o']) {
-    $o = 'naam';
+    $o = 'pname';
 } else {
     $o = $_GET['o'];
 }
@@ -91,14 +91,14 @@ $perPage = $moduleConfig['perpage'];
 
 //is current user a module admin?
 $modadmin    = false;
-$xoopsModule = XoopsModule::getByDirname($moduleDirName);
+$xoopsModule = \XoopsModule::getByDirname($moduleDirName);
 if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     && $GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     $modadmin = true;
 }
 
 //count total number of dogs
-$numDog = 'SELECT COUNT(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "'";
+$numDog = 'SELECT COUNT(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "'";
 $numRes = $GLOBALS['xoopsDB']->query($numDog);
 //total number of dogs the query will find
 list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
@@ -156,8 +156,8 @@ if ($numPages > 1) {
 }
 
 //query
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
+$result      = $GLOBALS['xoopsDB']->query($sql);
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
@@ -165,10 +165,17 @@ $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
 $numofcolumns = 1;
 $columns      = [['columnname' => 'Name']];
-for ($i = 0; $i < $fieldsCount; ++$i) {
-    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
+foreach ($fields as $i => $iValue) {
+//    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
+//    $fieldType   = $userField->getSetting('FieldType');
+//    $fieldObject = new $fieldType($userField, $animal);
+
+
+    $userField   = new \XoopsModules\Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
-    $fieldObject = new $fieldType($userField, $animal);
+    $className = '\\XoopsModules\\' . ucfirst(strtolower(basename(__DIR__))) . '\\' . $fieldType;
+
+
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
         if ($userField->hasLookup()) {
@@ -210,7 +217,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $camera = '';
     }
 
-    $name = stripslashes($row['naam']) . $camera;
+    $name = stripslashes($row['pname']) . $camera;
     //empty array
     unset($columnvalue);
     //fill array
@@ -271,4 +278,4 @@ $GLOBALS['xoopsTpl']->assign('nummatch', $nummatchstr);
 $GLOBALS['xoopsTpl']->assign('pages', $pages);
 
 //comments and footer
-include $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

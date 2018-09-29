@@ -36,7 +36,7 @@ class Temp extends \XoopsObject
     {
         parent::__construct();
         $this->initVar('id', XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar('naam', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('pname', XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('id_owner', XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar('id_breeder', XOBJ_DTYPE_INT, null, false, 11);
         $this->initVar('user', XOBJ_DTYPE_TXTBOX, null, false, 25);
@@ -67,7 +67,7 @@ class Temp extends \XoopsObject
         $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_TEMP_NAAM, 'naam', $this->getVar('naam'), 4, 47), true);
+        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_TEMP_PNAME, 'pname', $this->getVar('pname'), 4, 47), true);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_USER, 'user', 50, 255, $this->getVar('user')), false);

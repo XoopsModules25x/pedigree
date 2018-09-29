@@ -50,12 +50,12 @@ function lookup($category, $item_id)
     global $xoopsDB;
     if ('dog' === $category) {
         // Assume we have a valid forum id
-        $sql = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id = ' . $item_id;
+        $sql = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id = ' . $item_id;
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
             redirect_header('index.php', 2, _MD_ERRORFORUM);
         }
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
-        $item['name'] = $result_array['naam'];
+        $item['name'] = $result_array['pname'];
         $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/dog.php?id=' . $item_id;
 
         return $item;

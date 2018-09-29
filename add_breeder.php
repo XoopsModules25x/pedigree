@@ -15,7 +15,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 //@todo - move language string to language file
 $xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
@@ -73,7 +73,7 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 //create form
-include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $form = new \XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'post', true);
 $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 $form->addElement(new \XoopsFormHidden('user', $xoopsUser->getVar('uid')));
@@ -97,4 +97,4 @@ $form->addElement(new \XoopsFormButton('', 'button_id', _MA_PEDIGREE_ADD_OWNER, 
 $xoopsTpl->assign('form', $form->render());
 
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

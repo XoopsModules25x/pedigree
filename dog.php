@@ -17,7 +17,7 @@ extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_dog.tpl';
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsUser, $xoopsTpl, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 global $numofcolumns, $numMatch, $pages, $columns, $dogs;
@@ -35,25 +35,25 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 $myts = \MyTextSanitizer::getInstance();
 
-if (isset($_GET['id'])) {
+if (\Xmf\Request::hasVar('id', 'GET')) {
     $id = Request::getInt('id', 0, 'GET');
 } else {
     echo 'No dog has been selected';
     die();
 }
 
-if (isset($_GET['delpicture']) && 'true' === $_GET['delpicture']) {
-    $delpicsql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET foto = '' WHERE id = '" . $id . "'";
+if (\Xmf\Request::hasVar('delpicture', 'GET') && 'true' === $_GET['delpicture']) {
+    $delpicsql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET foto = '' WHERE id = '" . $id . "'";
     $GLOBALS['xoopsDB']->query($delpicsql);
 }
 //query
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $id;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $id;
+$result      = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //name
-    $naam = stripslashes($row['naam']);
-    $xoopsTpl->assign('xoops_pagetitle', $naam . ' -- detailed information');
+    $pname = stripslashes($row['pname']);
+    $xoopsTpl->assign('xoops_pagetitle', $pname . ' -- detailed information');
     //owner
     if ('0' != $row['id_owner']) {
         $queryeig = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $row['id_owner'];
@@ -82,20 +82,20 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     //Sire
     if (0 != $row['father']) {
-        $querysire = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $row['father'];
+        $querysire = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $row['father'];
         $ressire   = $GLOBALS['xoopsDB']->query($querysire);
         while (false !== ($rowsire = $GLOBALS['xoopsDB']->fetchArray($ressire))) {
-            $sire = '<img src="assets/images/male.gif"><a href="dog.php?id=' . $row['father'] . '">' . stripslashes($rowsire['naam']) . '</a>';
+            $sire = '<img src="assets/images/male.gif"><a href="dog.php?id=' . $row['father'] . '">' . stripslashes($rowsire['pname']) . '</a>';
         }
     } else {
         $sire = '<img src="assets/images/male.gif"><a href="seldog.php?curval=' . $row['id'] . '&gend=0&letter=A">' . _MA_PEDIGREE_UNKNOWN . '</a>';
     }
     //Dam
     if (0 != $row['mother']) {
-        $querydam = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $row['mother'];
+        $querydam = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $row['mother'];
         $resdam   = $GLOBALS['xoopsDB']->query($querydam);
         while (false !== ($rowdam = $GLOBALS['xoopsDB']->fetchArray($resdam))) {
-            $dam = '<img src="assets/images/female.gif"><a href="dog.php?id=' . $row['mother'] . '">' . stripslashes($rowdam['naam']) . '</a>';
+            $dam = '<img src="assets/images/female.gif"><a href="dog.php?id=' . $row['mother'] . '">' . stripslashes($rowdam['pname']) . '</a>';
         }
     } else {
         $dam = '<img src="assets/images/female.gif"><a href="seldog.php?curval=' . $row['id'] . '&gend=1&letter=A">' . _MA_PEDIGREE_UNKNOWN . '</a>';
@@ -137,7 +137,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //name
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_NAME,
-        'data'   => '<a href="pedigree.php?pedid=' . $row['id'] . '">' . $naam . '</a> (click to view pedigree)',
+        'data'   => '<a href="pedigree.php?pedid=' . $row['id'] . '">' . $pname . '</a> (click to view pedigree)',
         'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=nm\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     ];
     if ('1' == $moduleConfig['ownerbreeder']) {
@@ -187,11 +187,18 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //test to find out how many user fields there are..
     $fields = $animal->getNumOfFields();
     //create userfields and populate them
-    for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+    foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-            $fieldType   = $userField->getSetting('FieldType');
-            $fieldObject = new $fieldType($userField, $animal);
+//            $fieldType   = $userField->getSetting('FieldType');
+//            $fieldObject = new $fieldType($userField, $animal);
+
+
+            $fieldType   = $userField->getSetting('fieldtype');
+            $className = '\\XoopsModules\\' . ucfirst(strtolower(basename(__DIR__))) . '\\' . $fieldType;
+            $fieldObject = new $className($userField, $animal);
+
+
             if ($userField->isLocked()) {
                 $items[] = [
                     'header' => $userField->getSetting('FieldName'),
@@ -202,7 +209,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $items[] = [
                     'header' => $userField->getSetting('FieldName'),
                     'data'   => $fieldObject->showValue(),
-                    'edit'   => '<a href="update.php?id=' . $row['id'] . '&fld=' . $fields[$i] . "\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+                    'edit'   => '<a href="update.php?id=' . $row['id'] . '&fld=' . $iValue . "\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
                 ];
             }
         }
@@ -282,7 +289,7 @@ $xoopsTpl->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
 
 $xoopsTpl->assign('access', $access);
 $xoopsTpl->assign('items', $items);
-$xoopsTpl->assign('name', $naam);
+$xoopsTpl->assign('name', $pname);
 $xoopsTpl->assign('id', $id);
 $xoopsTpl->assign('sdvins', _MA_PEDIGREE_SDVINS);
 $xoopsTpl->assign('vpo', _MA_PEDIGREE_VPO);
@@ -293,5 +300,5 @@ $xoopsTpl->assign('id', $id);
 $xoopsTpl->assign('delete', _DELETE);
 
 //comments and footer
-include XOOPS_ROOT_PATH . '/include/comment_view.php';
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

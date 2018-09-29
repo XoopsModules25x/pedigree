@@ -19,10 +19,10 @@ extract($_POST, EXTR_PREFIX_ALL, "param");
 */
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_members.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
-$queryString = 'SELECT COUNT(d.user) AS X, d.user AS d_user, u.uname AS u_uname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('users') . ' u ON d.user = u.uid GROUP  BY user    ORDER BY X DESC LIMIT 50';
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT COUNT(d.user) AS X, d.user AS d_user, u.uname AS u_uname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('users') . ' u ON d.user = u.uid GROUP  BY user    ORDER BY X DESC LIMIT 50';
+$result      = $GLOBALS['xoopsDB']->query($sql);
 $numpos      = 1;
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $content = '';
@@ -52,7 +52,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'position' => $numpos,
         'user'     => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>',
         'stars'    => $content,
-        'nument'   => '<a href="result.php?f=user&l=0&w=' . $row['d_user'] . '&o=naam">' . $row['X'] . '</a>'
+        'nument'   => '<a href="result.php?f=user&l=0&w=' . $row['d_user'] . '&o=pname">' . $row['X'] . '</a>'
     ];
     ++$numpos;
 }
@@ -61,4 +61,4 @@ $GLOBALS['xoopsTpl']->assign('title', _MA_PEDIGREE_M50_TIT);
 $GLOBALS['xoopsTpl']->assign('position', _MA_PEDIGREE_M50_POS);
 $GLOBALS['xoopsTpl']->assign('numdogs', _MA_PEDIGREE_M50_NUMD);
 //comments and footer
-include $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

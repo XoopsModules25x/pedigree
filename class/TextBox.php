@@ -25,7 +25,7 @@ use XoopsModules\Pedigree;
 /**
  * Class Pedigree\SelectBox
  */
-class UrlField extends Pedigree\HtmlInputAbstract
+class TextBox extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -37,8 +37,8 @@ class UrlField extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @param Field          $parentObject
-     * @param Pedigree\Animal $animalObject
+     * @param $parentObject
+     * @param $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
@@ -46,24 +46,25 @@ class UrlField extends Pedigree\HtmlInputAbstract
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->hasLookup();
-        if ($this->lookuptable) {
+        $this->lookuptable  = $parentObject->lookuptable;
+        if ('1' == $this->lookuptable) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
-        if ($parentObject->inAdvanced()) {
+        if ('1' == $parentObject->viewinadvanced) {
             xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
         }
-        if ($parentObject->inPie()) {
+        if ('1' == $parentObject->viewinpie) {
             xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
     }
+
 
     /**
      * @return \XoopsFormText
      */
     public function editField()
     {
-        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
 
         return $textbox;
     }
@@ -75,35 +76,9 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
 
         return $textbox;
-    }
-
-    /**
-     * @return \XoopsFormLabel
-     */
-    public function viewField()
-    {
-        $view = new \XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
-
-        return $view;
-    }
-
-    /**
-     * @return string
-     */
-    public function showField()
-    {
-        return $this->fieldname . ' : <a href="' . $this->value . '" target="_new">' . $this->value . '</a>';
-    }
-
-    /**
-     * @return string
-     */
-    public function showValue()
-    {
-        return '<a href="' . $this->value . '" target="_new">' . $this->value . '</a>';
     }
 
     /**
@@ -111,6 +86,40 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function getSearchString()
     {
-        return '&amp;o=naam&amp;l=1';
+        return '&amp;o=pname&amp;l=1';
     }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function viewField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showValue()
+    {
+        return null;
+    }
+
+
 }

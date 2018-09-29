@@ -31,8 +31,8 @@ class TempHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
-        parent::__construct($db, 'pedigree_temp', Temp::class, 'id', 'naam');
+        parent::__construct($db, 'pedigree_temp', Temp::class, 'id', 'pname');
     }
 }

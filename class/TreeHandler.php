@@ -30,9 +30,9 @@ class TreeHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
-        parent::__construct($db, 'pedigree_tree', Tree::class, 'id', 'naam');
+        parent::__construct($db, 'pedigree_registry', Tree::class, 'id', 'pname');
     }
 
     /**
@@ -61,7 +61,7 @@ class TreeHandler extends \XoopsPersistableObjectHandler
         if (null !== $roft) {
             $criteria->add(new \Criteria('roft', $roft));
         }
-        $criteria->setSort('naam ASC');
+        $criteria->setSort('pname ASC');
         $criteria->setOrder('ASC');
 
         return $criteria;

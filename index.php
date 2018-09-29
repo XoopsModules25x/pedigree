@@ -14,7 +14,7 @@ require_once __DIR__ . '/welcome.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_index.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 //load javascript
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -53,16 +53,16 @@ $animal = new Pedigree\Animal();
 //test to find out how many user fields there are..
 $fields = $animal->getNumOfFields();
 
-for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+foreach ($fields as $i => $iValue) {
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     if ($userField->isActive() && $userField->hasSearch()) {
         $fieldType   = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
-        $function    = 'user' . $fields[$i] . $fieldObject->getSearchString();
+        $function    = 'user' . $iValue . $fieldObject->getSearchString();
         //echo $function."<br>";
         $usersearch[] = [
             'title'       => $userField->getSetting('SearchName'),
-            'searchid'    => 'user' . $fields[$i],
+            'searchid'    => 'user' . $iValue,
             'function'    => $function,
             'explanation' => $userField->getSetting('SearchExplanation'),
             'searchfield' => $fieldObject->searchfield()
@@ -72,15 +72,16 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
 
 //$catarray['letters']          = Pedigree\Utility::lettersChoice();
 $letter              = '';
-$myObject     = Pedigree\Helper::getInstance();
+/** @var Pedigree\Helper $helper */
+$helper = Pedigree\Helper::getInstance();
 $activeObject = 'Tree';
-$name         = 'naam';
+$name         = 'pname';
 $link         = "result.php?f={$name}&amp;l=1&amp;o={$name}&amp;w=";
 $link2        = '%25';
 
-$criteria = $myObject->getHandler('Tree')->getActiveCriteria();
+$criteria = $helper->getHandler('Tree')->getActiveCriteria();
 $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
-$catarray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+$catarray['letters'] = Pedigree\Utility::lettersChoice($helper, $activeObject, $criteria, $name, $link, $link2);
 //$catarray['toolbar']          = pedigree_toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 $xoopsTpl->assign('pageTitle', _MA_PEDIGREE_BROWSETOTOPIC);
@@ -97,4 +98,4 @@ $GLOBALS['xoopsTpl']->assign('showwelcome', $moduleConfig['showwelcome']);
 //$GLOBALS['xoopsTpl']->assign('welcome', $GLOBALS['myts']->displayTarea($moduleConfig['welcome']));
 //$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes'))));
 $GLOBALS['xoopsTpl']->assign('word', $word);
-include $GLOBALS['xoops']->path('footer.php');
+require_once $GLOBALS['xoops']->path('footer.php');

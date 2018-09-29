@@ -1,13 +1,21 @@
 <?php namespace XoopsModules\Pedigree;
 
+use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Common;
 
 /**
  * Class Pedigree\Utility
  */
 class Utility
 {
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
+    use Common\ServerStats; // getServerStats Trait
+
+    use Common\FilesManagement; // Files Management Trait
+
+    //--------------- Custom module methods -----------------------------
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -72,6 +80,7 @@ class Utility
 
             return $photo;
         }
+        return '';
     }
 
     /**
@@ -81,7 +90,7 @@ class Utility
      */
     public static function createThumbs($filename)
     {/*
-    require_once('phpthumb/phpthumb.class.php');
+    require('phpthumb/phpthumb.class.php');
     $thumbnail_widths = array(150, 400);
     foreach ($thumbnail_widths as $thumbnail_width) {
         $phpThumb = new phpThumb();
@@ -203,8 +212,7 @@ class Utility
      */
     public static function unHtmlEntities($string)
     {
-        $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-        $trans_tbl = array_flip($trans_tbl);
+        $trans_tbl = array_flip(get_html_translation_table(HTML_ENTITIES));
 
         return strtr($string, $trans_tbl);
     }
@@ -221,25 +229,25 @@ class Utility
         $content = '';
 
         if (0 == $gender) {
-            $sqlquery = 'SELECT d.id AS d_id, d.naam AS d_naam, d.roft AS d_roft, d.* FROM '
-                        . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+            $sqlquery = 'SELECT d.id AS d_id, d.pname AS d_pname, d.roft AS d_roft, d.* FROM '
+                        . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                         . ' d LEFT JOIN '
-                        . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                        . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                         . ' f ON d.father = f.id LEFT JOIN '
-                        . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                        . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                         . ' m ON d.mother = m.id WHERE d.father='
                         . $oid
-                        . ' ORDER BY d.naam';
+                        . ' ORDER BY d.pname';
         } else {
-            $sqlquery = 'SELECT d.id AS d_id, d.naam AS d_naam, d.roft AS d_roft, d.* FROM '
-                        . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+            $sqlquery = 'SELECT d.id AS d_id, d.pname AS d_pname, d.roft AS d_roft, d.* FROM '
+                        . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                         . ' d LEFT JOIN '
-                        . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                        . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                         . ' f ON d.father = f.id LEFT JOIN '
-                        . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                        . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                         . ' m ON d.mother = m.id WHERE d.mother='
                         . $oid
-                        . ' ORDER BY d.naam';
+                        . ' ORDER BY d.pname';
         }
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         $nummatch    = $GLOBALS['xoopsDB']->getRowsNum($queryresult);
@@ -249,10 +257,16 @@ class Utility
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
         $columns[]    = ['columnname' => 'Name'];
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
+//            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
+            //            $fieldType   = $userField->getSetting('fieldtype');
+            //            $fieldObject = new $fieldType($userField, $animal);
+
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
-            $fieldObject = new $fieldType($userField, $animal);
+            $className = '\\XoopsModules\\' . ucfirst(strtolower(basename(dirname(__DIR__)))) . '\\' . $fieldType;
+            $fieldObject = new $className($userField, $animal);
+
             //create empty string
             $lookupvalues = '';
             if ($userField->isActive() && $userField->inList()) {
@@ -277,7 +291,7 @@ class Utility
             } else {
                 $gender = '<img src="assets/images/female.gif">';
             }
-            $name = stripslashes($rowres['d_naam']);
+            $name = stripslashes($rowres['d_pname']);
             //empty array
             unset($columnvalue);
             //fill array
@@ -325,9 +339,9 @@ class Utility
     {
         global $numofcolumns1, $nummatch1, $pages1, $columns1, $dogs1;
         if ('0' == $pa && '0' == $ma) {
-            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE father = ' . $pa . ' AND mother = ' . $ma . ' AND id != ' . $oid . " AND father != '0' AND mother !='0' ORDER BY naam";
+            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE father = ' . $pa . ' AND mother = ' . $ma . ' AND id != ' . $oid . " AND father != '0' AND mother !='0' ORDER BY pname";
         } else {
-            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE father = ' . $pa . ' AND mother = ' . $ma . ' AND id != ' . $oid . ' ORDER BY naam';
+            $sqlquery = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE father = ' . $pa . ' AND mother = ' . $ma . ' AND id != ' . $oid . ' ORDER BY pname';
         }
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         $nummatch1   = $GLOBALS['xoopsDB']->getRowsNum($queryresult);
@@ -337,10 +351,13 @@ class Utility
         $fields        = $animal->getNumOfFields();
         $numofcolumns1 = 1;
         $columns1[]    = ['columnname' => 'Name'];
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
-            $fieldObject = new $fieldType($userField, $animal);
+            $className = '\\XoopsModules\\' . ucfirst(strtolower(basename(dirname(__DIR__)))) . '\\' . $fieldType;
+            $fieldObject = new $className($userField, $animal);
+
+
             //create empty string
             $lookupvalues = '';
             if ($userField->isActive() && $userField->inList()) {
@@ -365,7 +382,7 @@ class Utility
             } else {
                 $gender = "<img src='assets/images/female.gif'>";
             }
-            $name = stripslashes($rowres['naam']);
+            $name = stripslashes($rowres['pname']);
             //empty array
             //        unset($columnvalue1);
             $columnvalue1 = [];
@@ -413,9 +430,9 @@ class Utility
         $content = '';
 
         if (0 == $breeder) {
-            $sqlquery = 'SELECT id, naam, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id_owner = '" . $oid . "' ORDER BY naam";
+            $sqlquery = 'SELECT id, pname, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id_owner = '" . $oid . "' ORDER BY pname";
         } else {
-            $sqlquery = 'SELECT id, naam, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id_breeder = '" . $oid . "' ORDER BY naam";
+            $sqlquery = 'SELECT id, pname, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id_breeder = '" . $oid . "' ORDER BY pname";
         }
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
@@ -424,7 +441,7 @@ class Utility
             } else {
                 $gender = '<img src="assets/images/female.gif">';
             }
-            $link    = '<a href="dog.php?id=' . $rowres['id'] . '">' . stripslashes($rowres['naam']) . '</a>';
+            $link    = '<a href="dog.php?id=' . $rowres['id'] . '">' . stripslashes($rowres['pname']) . '</a>';
             $content .= $gender . ' ' . $link . '<br>';
         }
 
@@ -439,10 +456,10 @@ class Utility
     public static function getName($oid)
     {
         $oid         = (int)$oid;
-        $sqlquery    = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id = '{$oid}'";
+        $sqlquery    = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id = '{$oid}'";
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
-            $an = stripslashes($rowres['naam']);
+            $an = stripslashes($rowres['pname']);
         }
 
         return $an;
@@ -450,29 +467,30 @@ class Utility
 
     /**
      * @param $PA
+     * @return string
      */
     public static function showParent($PA)
     {
-        $sqlquery    = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id='" . $PA . "'";
+        $sqlquery    = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id='" . $PA . "'";
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
-            $result = $rowres['naam'];
+            $result = $rowres['pname'];
         }
         if (isset($result)) {
             return $result;
         } else {
-            return;
+            return '';
         }
     }
 
     /**
-     * @param $naam_hond
+     * @param $pname_hond
      *
      * @return mixed
      */
-    public static function findId($naam_hond)
+    public static function findId($pname_hond)
     {
-        $sqlquery    = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam= '$naam_hond'";
+        $sqlquery    = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname= '$pname_hond'";
         $queryresult = $GLOBALS['xoopsDB']->query($sqlquery);
         while (false !== ($rowres = $GLOBALS['xoopsDB']->fetchArray($queryresult))) {
             $result = $rowres['id'];
@@ -495,7 +513,7 @@ class Utility
         $fields       = $animal->getNumOfFields();
         $numofcolumns = 1;
         $columns[]    = ['columnname' => 'Name'];
-        for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+        foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
             $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
@@ -537,7 +555,7 @@ class Utility
             } else {
                 $camera = '';
             }
-            $name = stripslashes($row['naam']) . $camera;
+            $name = stripslashes($row['pname']) . $camera;
             unset($columnvalue);
 
             //fill array
@@ -545,7 +563,7 @@ class Utility
                 $x           = $columns[$i]['columnnumber'];
                 $lookuparray = $columns[$i]['lookuparray'];
                 if (is_array($lookuparray)) {
-                    for ($index = 0, $indexMax = count($lookuparray); $index < $indexMax; ++$index) {
+                    foreach ($lookuparray as $index => $indexValue) {
                         if ($lookuparray[$index]['id'] == $row['user' . $x]) {
                             //echo "<h1>".$lookuparray[$index]['id']."</h1>";
                             $value = $lookuparray[$index]['value'];
@@ -703,9 +721,9 @@ class Utility
         $pedigree = Pedigree\Helper::getInstance();
         xoops_load('XoopsLocal');
 
-        $criteria = $helper->getHandler('tree')->getActiveCriteria();
-        $criteria->setGroupby('UPPER(LEFT(naam,1))');
-        $countsByLetters = $helper->getHandler('tree')->getCounts($criteria);
+        $criteria = $helper->getHandler('Tree')->getActiveCriteria();
+        $criteria->setGroupby('UPPER(LEFT(pname,1))');
+        $countsByLetters = $helper->getHandler('Tree')->getCounts($criteria);
         // Fill alphabet array
         $alphabet       = XoopsLocal::getAlphabet();
         $alphabet_array = array();
@@ -715,7 +733,7 @@ class Utility
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = $countsByLetters[$letter];
                 //            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $helper->getModule()->dirname() . "/viewcat.php?list={$letter}";
-                $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/result.php?f=naam&amp;l=1&amp;w={$letter}%25&amp;o=naam";
+                $letter_array['url'] = '' . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/result.php?f=pname&amp;l=1&amp;w={$letter}%25&amp;o=pname";
             } else {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = 0;
@@ -812,6 +830,7 @@ class Utility
      */
     public static function userIsAdmin()
     {
+        /** @var Pedigree\Helper $helper */
         $helper = Pedigree\Helper::getInstance();
 
        $pedigree_isAdmin = $helper->isUserAdmin();
@@ -832,6 +851,7 @@ class Utility
      */
     public static function getModuleName($withLink = true)
     {
+        /** @var Pedigree\Helper $helper */
         $helper = Pedigree\Helper::getInstance();
 
         $pedigreeModuleName = $helper->getModule()->getVar('name');
@@ -933,7 +953,6 @@ class Utility
     {
         if (0 == $time) {
             $time = time() + 3600 * 24 * 365;
-            //$time = '';
         }
         setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
     }
@@ -961,19 +980,19 @@ class Utility
         $http        = (false === strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
         $phpSelf     = $_SERVER['PHP_SELF'];
         $httpHost    = $_SERVER['HTTP_HOST'];
-        $queryString = $_SERVER['QUERY_STRING'];
+        $sql = $_SERVER['QUERY_STRING'];
 
-        if ('' != $queryString) {
-            $queryString = '?' . $queryString;
+        if ('' != $sql) {
+            $sql = '?' . $sql;
         }
 
-        $currentURL = $http . $httpHost . $phpSelf . $queryString;
+        $currentURL = $http . $httpHost . $phpSelf . $sql;
 
         $urls                = [];
         $urls['http']        = $http;
         $urls['httphost']    = $httpHost;
         $urls['phpself']     = $phpSelf;
-        $urls['querystring'] = $queryString;
+        $urls['querystring'] = $sql;
         $urls['full']        = $currentURL;
 
         return $urls;
@@ -1003,4 +1022,31 @@ class Utility
 
         return $ret;
     }
+
+
+    /**
+     * @param $tableName
+     * @param $columnName
+     *
+     * @return array
+     */
+    public static function enumerate($tableName, $columnName)
+    {
+        $table = $GLOBALS['xoopsDB']->prefix($tableName);
+
+        //    $result = $GLOBALS['xoopsDB']->query("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+        //        WHERE TABLE_NAME = '" . $table . "' AND COLUMN_NAME = '" . $columnName . "'")
+        //    || exit ($GLOBALS['xoopsDB']->error());
+
+        $sql    = 'SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "' . $table . '" AND COLUMN_NAME = "' . $columnName . '"';
+        $result = $GLOBALS['xoopsDB']->query($sql);
+        if (!$result) {
+            exit($GLOBALS['xoopsDB']->error());
+        }
+
+        $row      = $GLOBALS['xoopsDB']->fetchBoth($result);
+        $enumList = explode(',', str_replace("'", '', substr($row['COLUMN_TYPE'], 5, - 6)));
+        return $enumList;
+    }
+
 }

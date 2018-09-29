@@ -2,7 +2,7 @@
     <{include file="db:table_sort.tpl"}>
 <{/if}>
 
-<table width="100%" class="outer" cellspacing="1">
+<table width="100%" class="table" cellspacing="1">
     <tr>
         <td class="odd">
             <{if $fatherArray.letters}>
@@ -30,7 +30,7 @@
     <{/if}>
 </table>
 
-<table width="100%" class="outer" cellspacing="1" id="Result">
+<table width="100%" class="table" cellspacing="1" id="Result">
     <thead>
     <tr>
         <{foreach item=column from=$columns}>

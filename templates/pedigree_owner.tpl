@@ -1,4 +1,4 @@
-<table width="100%">
+<table width="100%" class = "table">
     <!-- header; owner name -->
     <tr>
         <th colspan="2" style="text-align:center;">
@@ -9,7 +9,7 @@
     <tr>
         <!-- intro fields + content fields -->
         <td valign="top">
-            <table>
+			<table width="100%" class = "table">
                 <{foreach item=link from=$dogs}>
                     <tr class="<{cycle values="odd,even"}>">
                         <td>
@@ -31,7 +31,7 @@
                             <{$smarty.const._DELETE}>
                         </td>
                         <td>
-                            <a href="deletebreeder.php?Id=<{$id}>"><{$delete}></a>
+                            <a href="deletebreeder.php?id=<{$id}>"><{$delete}></a>
                         </td>
                         <td>
                             &nbsp;

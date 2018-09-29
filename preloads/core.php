@@ -28,6 +28,6 @@ class PedigreeCorePreload extends \XoopsPreloadItem
      */
     public static function eventCoreIncludeCommonEnd($args)
     {
-        include __DIR__ . '/autoloader.php';
+        require_once __DIR__   . '/autoloader.php';
     }
 }

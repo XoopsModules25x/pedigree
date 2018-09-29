@@ -13,7 +13,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_book.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsTpl;
 global $xoopsDB;
@@ -7028,7 +7028,7 @@ $fok[] = ['id' => 'Kenyee Deon', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Uto de l\'Etoile Saint Hubert', 'firstname' => 'Hubert', 'lastname' => 'Ducrot'];
 $fok[] = ['id' => '', 'firstname' => '', 'lastname' => ''];
 
-for ($index = 0, $indexMax = count($fok); $index < $indexMax; ++$index) {
+foreach ($fok as $index => $indexValue) {
     //echo $dad[$index]['id']."<br>";
     $id        = $fok[$index]['id'];
     $lastname  = $fok[$index]['lastname'];
@@ -7037,7 +7037,7 @@ for ($index = 0, $indexMax = count($fok); $index < $indexMax; ++$index) {
     $sql    = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " WHERE firstname = '" . $firstname . "' AND lastname = '" . $lastname . "'";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $UPD = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " set id_breeder = '" . $row['id'] . "' WHERE naam='" . $id . "'";
+        $UPD = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " set id_breeder = '" . $row['id'] . "' WHERE pname='" . $id . "'";
         //echo $UPD."<br>";
         $GLOBALS['xoopsDB']->query($UPD);
     }
@@ -7046,4 +7046,4 @@ for ($index = 0, $indexMax = count($fok); $index < $indexMax; ++$index) {
 echo '<h1>GRRR</h1>';
 
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

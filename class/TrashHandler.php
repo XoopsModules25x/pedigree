@@ -31,8 +31,8 @@ class TrashHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
-        parent::__construct($db, 'pedigree_trash', 'Pedigree\Trash', 'id', 'naam');
+        parent::__construct($db, 'pedigree_trash', Trash::class, 'id', 'pname');
     }
 }

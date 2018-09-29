@@ -34,7 +34,7 @@ use XoopsModules\Pedigree;
 //To be deleted?
 
 require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
+//require(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
 //require_once dirname(__DIR__) . "/include/pedigree_includes.php";
 
 xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
@@ -45,7 +45,7 @@ require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
-$op = Request::getCmd('op', 'main');
+$op = Request::getString('op', 'main');
 //
 // Writes out the form to get all config parameters.
 //
@@ -108,7 +108,7 @@ function pedigree_config_main()
 /**
  *
  * @todo: create pedigree_get_config_fields() method, it doesn't exist anywhere
- * @todo: pedigree_config dB table doesn't exist should this be 'config' or something else?
+ * @todo: pedigree_fields dB table doesn't exist should this be 'config' or something else?
  *
  * Processes the configuration update request, by
  * getting the HTTP parameters, and putting them into the database.
@@ -121,7 +121,7 @@ function pedigree_config_post()
         global $$param;
     }
     $param_config_id = 1;
-    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_config') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
+    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
 
     $first = true;
     foreach ($config_fields as $field => $prompt) {

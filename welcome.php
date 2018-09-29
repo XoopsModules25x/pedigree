@@ -30,7 +30,7 @@ xoops_loadLanguage('main', $moduleDirName);
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 //$GLOBALS['xoopsOption']['template_main'] = 'pedigree_welcome.tpl';
-//include $GLOBALS['xoops']->path('/header.php');
+//require_once $GLOBALS['xoops']->path('/header.php');
 
 $myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
@@ -38,7 +38,7 @@ $myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 $treeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 $numdogs     = $treeHandler->getCount();
 /*
-$result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_tree"));
+$result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_registry"));
 list($numdogs) = $GLOBALS['xoopsDB']->fetchRow($result);
 */
 /*
@@ -51,11 +51,11 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 $word = $myts->displayTarea(strtr($helper->getConfig('welcome'), [
     '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
     '[animalType]'  => '[b]' . $helper->getConfig('animalType') . '[/b]',
-    '[animalTypes]' => $helper->getConfig('animalTypes')
+    '[animalTypes]' => $helper->getConfig('animalTypes'),
 ]));
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);
 $GLOBALS['xoopsTpl']->assign('word', $word);
 //comments and footer
 
-//include $GLOBALS['xoops']->path('/footer.php');
+//require_once $GLOBALS['xoops']->path('/footer.php');

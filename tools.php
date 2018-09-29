@@ -27,11 +27,12 @@ use XoopsModules\Pedigree;
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
+/** @var Pedigree\Helper $helper */
 $helper = Pedigree\Helper::getInstance();
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
@@ -65,10 +66,10 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$op = Request::getCmd('op', 'none', 'GET');
+$op = Request::getString('op', 'none', 'GET');
 
 //always check to see if a certain field was refferenced.
-if (isset($_GET['field'])) {
+if (\Xmf\Request::hasVar('field', 'GET')) {
     $field = $_GET['field'];
 }
 
@@ -201,7 +202,7 @@ $tools[] = ['title' => _MA_PEDIGREE_USER_LOGOUT, 'link' => '../../user.php?op=lo
 $GLOBALS['xoopsTpl']->assign('tools', $tools);
 
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
 
 function index()
 {
@@ -697,7 +698,7 @@ function dellookupvalue($field, $id)
     $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id = ' . $id;
     $GLOBALS['xoopsDB']->queryF($sql);
     //change current values to default for deleted value
-    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET user' . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
+    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' SET user' . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
     $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' SET user' . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
@@ -728,9 +729,9 @@ function addlookupvalue($field)
 function userfields($field = 0)
 {
     global $field;
-    require_once __DIR__ . '/include/checkoutwizard.php';
+//    require_once __DIR__ . '/include/checkoutwizard.php';
 
-    $wizard = new CheckoutWizard();
+    $wizard = new \XoopsModules\Pedigree\CheckoutWizard();
     $action = $wizard->coalesce($_GET['action']);
 
     $wizard->process($action, $_POST, 'POST' === $_SERVER['REQUEST_METHOD']);
@@ -812,7 +813,7 @@ function userfields($field = 0)
             if ('Settings' === $wizard->getStepName()) {
                 $fieldtype = $wizard->getValue('fieldtype');
                 //hassearch
-                if (in_array($fieldtype, ['textbox', 'textarea', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'])) {
+                if (in_array($fieldtype, ['TextBox', 'TextArea', 'DateSelect', 'UrlField', 'RadioButton', 'SelectBox'])) {
                     $form .= "<input type='checkbox' name='hassearch' value='hassearch'";
                     if ('hassearch' === $wizard->getValue('hassearch')) {
                         $form .= ' checked =_MA_PEDIGREE_CHECKED ';
@@ -848,7 +849,7 @@ function userfields($field = 0)
                     $form .= "<input type='checkbox' name='viewinpie' disabled='true' value='viewinpie'>" . _MA_PEDIGREE_SHOWFIELD_PIECHART . '<br>';
                 }
                 //viewinlist
-                if (in_array($fieldtype, ['textbox', 'dateselect', 'urlfield', 'radiobutton', 'selectbox'])) {
+                if (in_array($fieldtype, ['TextBox', 'DateSelect', 'UrlField', 'RadioButton', 'SelectBox'])) {
                     $form .= "<input type='checkbox' name='viewinlist' value='viewinlist'";
                     if ('viewinlist' === $wizard->getValue('viewinlist')) {
                         $form .= ' checked =_MA_PEDIGREE_CHECKED ';
@@ -905,7 +906,7 @@ function userfields($field = 0)
                         $count = $wizard->getValue('fc');
                         $form .= "Default value : <select size='1' name='defaultvalue'>";
                         $radioarray = $wizard->getValue('radioarray');
-                        for ($x = 0; $x < $count; ++$x) {
+                        foreach ($radioarray as $x => $xValue) {
                             $form .= "<option value='" . $radioarray[$x]['id'] . "'";
                             if ($wizard->getValue('defaultvalue') == $radioarray[$x]['id']) {
                                 $form .= ' selected';
@@ -1025,7 +1026,7 @@ function userq()
  */
 function userqrun($file)
 {
-    include $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . "/userqueries/{$file}");
+    require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . "/userqueries/{$file}");
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
 
@@ -1037,14 +1038,14 @@ function userqrun($file)
 function database_oa()
 {
     $form   = _MA_PEDIGREE_ANCEST_EXPLAN;
-    $sql    = 'SELECT d.id AS d_id, d.naam AS d_naam
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON m.id = d.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON f.id = d.father
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON mm.id = m.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON mf.id = m.father
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON fm.id = f.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON ff.id = f.father
+    $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' m ON m.id = d.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' f ON f.id = d.father
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mm ON mm.id = m.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mf ON mf.id = m.father
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fm ON fm.id = f.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ff ON ff.id = f.father
             WHERE
             d.mother = d.id
             OR d.father = d.id
@@ -1063,7 +1064,7 @@ function database_oa()
             ';
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= "<li><a href='pedigree.php?pedid={$row['d_id']}'>{$row['d_naam']}</a> [own parent or grandparent]<br>";
+        $form .= "<li><a href='pedigree.php?pedid={$row['d_id']}'>{$row['d_pname']}</a> [own parent or grandparent]<br>";
     }
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
@@ -1075,25 +1076,25 @@ function database_oa()
 function database_fp()
 {
     $form   = _MA_PEDIGREE_GENDER_EXPLAN;
-    $sql    = 'SELECT d.id AS d_id, d.naam AS d_naam, d.mother AS d_mother, m.roft AS m_roft
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " m ON m.id = d.mother
+    $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname, d.mother AS d_mother, m.roft AS m_roft
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " m ON m.id = d.mother
             WHERE
             d.mother = m.id
             AND m.roft = '0' ";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= "<li><a href='dog.php?id={$row['d_id']}'>{$row['d_naam']}</a> [mother seems to be male]<br>";
+        $form .= "<li><a href='dog.php?id={$row['d_id']}'>{$row['d_pname']}</a> [mother seems to be male]<br>";
     }
-    $sql    = 'SELECT d.id AS d_id, d.naam AS d_naam, d.father AS d_father, f.roft AS f_roft
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " f ON f.id = d.father
+    $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname, d.father AS d_father, f.roft AS f_roft
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " f ON f.id = d.father
             WHERE
             d.father = f.id
             AND f.roft = '1' ";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_naam'] . '</a> [father seems to be female]<br>';
+        $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_pname'] . '</a> [father seems to be female]<br>';
     }
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
@@ -1118,10 +1119,10 @@ function deleted()
 {
     global $helper;
     $form   = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
-    $sql    = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
+    $sql    = 'SELECT id, pname  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src=' . $GLOBALS['pathIcon16'] . '/delete.png></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['naam'] . '</a><br>';
+        $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src=' . $GLOBALS['pathIcon16'] . '/delete.png></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['pname'] . '</a><br>';
     }
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         $form .= '<hr><a href="tools.php?op=delall">Click here</a> to remove all these ' . $helper->getConfig('animalTypes') . ' permenantly ';
@@ -1159,11 +1160,11 @@ function restore($id)
             $queryvalues .= "'" . $values . "',";
         }
         $outgoing = substr_replace($queryvalues, '', -1);
-        $query    = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' VALUES (' . $outgoing . ')';
+        $query    = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' VALUES (' . $outgoing . ')';
         $GLOBALS['xoopsDB']->queryF($query);
         $delquery = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
         $GLOBALS['xoopsDB']->queryF($delquery);
-        $form = '<li><a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['naam'] . '</a> has been restored into the database.<hr>';
+        $form = '<li><a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['pname'] . '</a> has been restored into the database.<hr>';
     }
     if (isset($form)) {
         $GLOBALS['xoopsTpl']->assign('form', $form);
@@ -1172,9 +1173,10 @@ function restore($id)
 
 function settings()
 {
+    /** @var Pedigree\Helper $helper */
     $helper = Pedigree\Helper::getInstance();
 
-    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', 'tools.php?op=settingssave', 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $select  = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
@@ -1249,7 +1251,7 @@ function settingssave()
 function lang()
 {
     global $helper;
-    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', 'tools.php?op=langsave', 'post', true);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $helper->getConfig('animalType')));

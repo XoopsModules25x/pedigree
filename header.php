@@ -23,7 +23,12 @@ require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
+
+/** @var \XoopsModules\Pedigree\Helper $helper */
+$helper = \XoopsModules\Pedigree\Helper::getInstance();
+$helper->loadLanguage('main');
+$helper->loadLanguage('common');
+
 $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
@@ -38,3 +43,5 @@ $GLOBALS['xoopsTpl']->assign('mod_url', PEDIGREE_URL); //<{$mod_url}>
 // uncomment the below line only if you are using Protector 3.x module
 // and you trust your users when uploading files, it is recommended to not allow anonymous uploads if you do so!!
 //define('PROTECTOR_SKIP_FILESCHECKER', true);
+
+$xoopsTpl->assign('xoops_module_header', '<link rel="stylesheet" type="text/css" href="' . XOOPS_URL . '/modules/' . $moduleDirName . '/assets/css/style.css" >');

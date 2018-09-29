@@ -27,10 +27,10 @@ $rootPath      = dirname(dirname(__DIR__));
 $moduleDirName = basename(__DIR__);
 $mydirpath     = dirname(__DIR__);
 
-require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
-require_once $rootPath . '/include/cp_functions.php';
-require_once $rootPath . '/include/cp_header.php';
+//require_once $rootPath . '/include/cp_functions.php';
+//require_once $rootPath . '/include/cp_header.php';
 //require_once $rootPath . '/class/xoopsformloader.php';
 
 //require_once dirname(dirname(__DIR__)) . '/mainfile.php';
@@ -41,8 +41,8 @@ xoops_loadLanguage('main', $moduleDirName);
 //require_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php');
-//require_once(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
+require_once __DIR__ . '/include/common.php';
+//require(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
@@ -52,7 +52,7 @@ require_once(XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_pedigree.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
 $GLOBALS['xoTheme']->addScript("browse.php?modules/{$moduleDirName}/assets/js/jquery.magnific-popup.min.js");
@@ -72,17 +72,17 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 //$id = Request::getInt('pedid',0,'GET');
 pedigree_main();
 
-//include XOOPS_ROOT_PATH . "/footer.php";
-include __DIR__ . '/footer.php';
+//require_once XOOPS_ROOT_PATH . "/footer.php";
+require_once __DIR__   . '/footer.php';
 
 //
 // Displays the "Main" tab of the module
 //
 /**
- * @param $Id
  */
 function pedigree_main()
 {
+    require_once __DIR__ . '/include/common.php';
     $moduleDirName = basename(__DIR__);
     $id     = Request::getInt('pedid', 1, 'GET');
     $animal = new Pedigree\Animal($id);
@@ -92,35 +92,35 @@ function pedigree_main()
 
     $qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
 
-    $querystring = 'SELECT ';
+    $sql = 'SELECT ';
 
     foreach ($qarray as $key) {
-        $querystring .= $key . '.id as ' . $key . '_id, ';
-        $querystring .= $key . '.naam as ' . $key . '_naam, ';
-        $querystring .= $key . '.mother as ' . $key . '_mother, ';
-        $querystring .= $key . '.father as ' . $key . '_father, ';
-        $querystring .= $key . '.roft as ' . $key . '_roft, ';
-        $querystring .= $key . '.foto as ' . $key . '_foto, ';
+        $sql .= $key . '.id as ' . $key . '_id, ';
+        $sql .= $key . '.pname as ' . $key . '_pname, ';
+        $sql .= $key . '.mother as ' . $key . '_mother, ';
+        $sql .= $key . '.father as ' . $key . '_father, ';
+        $sql .= $key . '.roft as ' . $key . '_roft, ';
+        $sql .= $key . '.foto as ' . $key . '_foto, ';
     }
 
-    $querystring .= 'mmm.coi as mmm_coi FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.id
+    $sql .= 'mmm.coi as mmm_coi FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' f ON d.father = f.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' m ON d.mother = m.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ff ON f.father = ff.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fff ON ff.father = fff.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ffm ON ff.mother = ffm.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mf ON m.father = mf.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mff ON mf.father = mff.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mfm ON mf.mother = mfm.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fm ON f.mother = fm.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmf ON fm.father = fmf.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmm ON fm.mother = fmm.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mm ON m.mother = mm.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmf ON mm.father = mmf.id
+                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " mmm ON mm.mother = mmm.id
                  WHERE d.id={$id}";
 
-    $result = $GLOBALS['xoopsDB']->query($querystring);
+    $result = $GLOBALS['xoopsDB']->query($sql);
     global $moduleConfig;
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -128,7 +128,7 @@ function pedigree_main()
         foreach ($qarray as $key) {
             $d[$key] = [
                 'id'     => $row[$key . '_id'],
-                'name'   => stripslashes($row[$key . '_naam']),
+                'name'   => stripslashes($row[$key . '_pname']),
                 'mother' => $row[$key . '_mother'],
                 'father' => $row[$key . '_father'],
                 'roft'   => $row[$key . '_roft'],
@@ -149,7 +149,7 @@ function pedigree_main()
                 $animal = new Pedigree\Animal($d[$key]['id']);
                 $fields = $animal->getNumOfFields();
             }
-            for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
+            foreach ($fields as $i => $iValue) {
                 $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
                 if ($userField->isActive() && $userField->inPedigree()) {
                     $fieldType = $userField->getSetting('FieldType');
@@ -163,7 +163,7 @@ function pedigree_main()
 
     //add data to smarty template
     $GLOBALS['xoopsTpl']->assign([
-                                     'page_title' => stripslashes($row['d_naam']),
+                                     'page_title' => stripslashes($row['d_pname']),
                                      'd'          => $d,  //assign dog
                                      //assign config options
                                      'male'       => "<img src='assets/images/male.gif'>",
@@ -176,5 +176,5 @@ function pedigree_main()
                                      'GGP'        => _MA_PEDIGREE_GGP
                                  ]);
 
-    //    include __DIR__ . '/footer.php';
+    //    require_once __DIR__   . '/footer.php';
 }

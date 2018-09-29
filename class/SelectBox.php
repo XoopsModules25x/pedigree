@@ -61,7 +61,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
-        for ($i = 0; $i < $lcCount; ++$i) {
+        foreach ($lookupcontents as $i => $iValue) {
             $select->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
 
@@ -78,7 +78,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
-        for ($i = 0; $i < $lcCount; ++$i) {
+        foreach ($lookupcontents as $i => $iValue) {
             $select->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
 
@@ -92,7 +92,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
-        for ($i = 0; $i < $lcCount; ++$i) {
+        foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
@@ -110,7 +110,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         $choosenvalue   = '';
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
-        for ($i = 0; $i < $lcCount; ++$i) {
+        foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
@@ -127,7 +127,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         $choosenvalue   = '';
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
-        for ($i = 0; $i < $lcCount; ++$i) {
+        foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
@@ -144,7 +144,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         $select         = "<select size='1' name='query' style='width: 140px;'>";
         $lookupcontents = parent::lookupField($this->fieldnumber);
         $lcCount        = count($lookupcontents);
-        for ($i = 0; $i < $lcCount; ++$i) {
+        foreach ($lookupcontents as $i => $iValue) {
             $select .= "<option value='" . $lookupcontents[$i]['id'] . "'>" . $lookupcontents[$i]['value'] . '</option>';
         }
         $select .= '</select>';
@@ -157,6 +157,6 @@ class SelectBox extends Pedigree\HtmlInputAbstract
      */
     public function getSearchString()
     {
-        return;
+        return null;
     }
 }

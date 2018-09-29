@@ -45,7 +45,7 @@ function menu_block()
         //inline-css
         echo '<style>';
         //text-colour
-        echo 'body {margin: 0;padding: 0;background: ' . $body . ';color: ' . $text . ";font-size: 62.5%; font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; text-align: left;}";
+        echo 'body {margin: 0;padding: 0;background: ' . $body . ';color: ' . $text . ";font-size: 62.5%; font-family: 'Lucida Grande', Verdana, Arial, sans-serif; text-align: left;}";
         //link-colour
         echo 'a, h2 a:hover, h3 a:hover { color: ' . $actlink . '; text-decoration: none; }';
         //link hover colour

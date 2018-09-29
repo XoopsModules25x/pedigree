@@ -21,7 +21,7 @@ extract($_POST, EXTR_PREFIX_ALL, "param");
 */
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
 
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -50,7 +50,7 @@ $numofcolumns = 0;
 $pages        = '';
 
 //count total number of dogs
-$numDog = "SELECT COUNT( {$com} ) AS X, {$com} FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE {$com} !=0 GROUP BY {$com}";
+$numDog = "SELECT COUNT( {$com} ) AS X, {$com} FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE {$com} !=0 GROUP BY {$com}";
 $numRes = $GLOBALS['xoopsDB']->query($numDog);
 //total number of dogs the query will find
 $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
@@ -86,14 +86,14 @@ if ($numPages > 1) {
     }
 }
 //query
-$queryString = 'SELECT count( d.'
+$sql = 'SELECT count( d.'
                . $com
                . ' ) AS X, d.'
                . $com
-               . ', p.naam as p_NAAM, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+               . ', p.pname as p_pname, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM '
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' d LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' p ON d.'
                . $com
                . ' = p.id WHERE d.'
@@ -104,7 +104,7 @@ $queryString = 'SELECT count( d.'
                . $st
                . ', '
                . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result      = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $numofcolumns = 2;
@@ -127,7 +127,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     } else {
         $camera = '';
     }
-    $name = stripslashes($row['p_NAAM']) . $camera;
+    $name = stripslashes($row['p_pname']) . $camera;
     for ($i = 1; $i < $numofcolumns; ++$i) {
         $columnvalue[] = ['value' => $coi];
         $columnvalue[] = ['value' => $row['X']];
@@ -166,4 +166,4 @@ $GLOBALS['xoopsTpl']->assign('nummatch', strtr($nummatchstr, ['[animalTypes]' =>
 $GLOBALS['xoopsTpl']->assign('pages', $pages);
 
 //comments and footer
-include $GLOBALS['xoops']->path('/footer.php');
+require_once $GLOBALS['xoops']->path('/footer.php');

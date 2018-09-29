@@ -17,29 +17,74 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+function getConfig()
+{
+    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirNameUpper = strtoupper($moduleDirName);
+    return (object)[
+        'name'           => strtoupper($moduleDirName) . ' Module Configurator',
+        'paths'          => [
+            'dirname'    => $moduleDirName,
+            'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
+            'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+            'modUrl'     => XOOPS_URL . '/modules/' . $moduleDirName,
+            'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
+        ],
+        'uploadFolders'  => [
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/thumbnails',
+            //XOOPS_UPLOAD_PATH . '/flags'
+        ],
+        'copyBlankFiles' => [
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/thumbnails'
+            //XOOPS_UPLOAD_PATH . '/flags'
+        ],
 
-if (!defined('PEDIGREE_DIRNAME')) {
-    define('PEDIGREE_DIRNAME', basename(dirname(__DIR__)));
-    define('PEDIGREE_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
-    define('PEDIGREE_URL', XOOPS_URL . '/modules/' . PEDIGREE_DIRNAME);
-    define('PEDIGREE_ADMIN', PEDIGREE_URL . '/admin/index.php');
-    define('PEDIGREE_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . PEDIGREE_DIRNAME);
-    //@todo - the image xoopsproject_logo.png doesn't exist... Either create it or reference
-    //        something like $GLOBALS['xoops']->url("www/{$pathIcon32}/xoopsmicrobutton.gif")
-    define('PEDIGREE_AUTHOR_LOGOIMG', PEDIGREE_URL . '/assets/images/xoopsproject_logo.png');
+        'copyTestFolders' => [
+            //[
+            //    constant($moduleDirNameUpper . '_PATH') . '/testdata/images',
+            //    XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+            //]
+        ],
+
+        'templateFolders' => [
+            '/templates/',
+            '/templates/blocks/',
+            '/templates/admin/'
+
+        ],
+        'oldFiles'        => [
+            '/class/request.php',
+            '/class/registry.php',
+            '/class/utilities.php',
+            '/class/util.php',
+            //            '/include/constants.php',
+            //            '/include/functions.php',
+            '/ajaxrating.txt',
+        ],
+        'oldFolders'      => [
+            '/images',
+            '/css',
+            '/js',
+            '/tcpdf',
+            '/images',
+        ],
+        'renameTables'    => [
+            'eigenaar'         => 'pedigree_owner',
+            'stamboom'         => 'pedigree_registry',
+            'stamboom_config'  => 'pedigree_fields',
+            'stamboom_lookup1' => 'pedigree_lookup1',
+            'stamboom_temp'    => 'pedigree_temp',
+            'stamboom_trash'   => 'pedigree_trash',
+        ],
+        'renameTables'    => [
+//         'XX_archive'     => 'ZZZZ_archive',
+],
+'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',
+    ];
 }
-
-// Define the main upload path
-define('PEDIGREE_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
-define('PEDIGREE_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
-
-$uploadFolders = [
-    PEDIGREE_UPLOAD_PATH,
-    PEDIGREE_UPLOAD_PATH . '/images',
-    PEDIGREE_UPLOAD_PATH . '/images/thumbnails'
-];
-
-// module information
-$mod_copyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . PEDIGREE_AUTHOR_LOGOIMG . "' alt='XOOPS Project'></a>";

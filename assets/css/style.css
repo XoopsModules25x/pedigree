@@ -1,45 +1,154 @@
-.verticalcenter {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+#extgallery table.outer {
+    margin-top: 10px;
 }
 
-div.container3 {
-    height: 10em;
-    position: relative; /* 1 */
+#extgallery .pageNav {
+    text-align: right;
+    margin-top: 5px;
 }
 
-div.container3 p {
-    margin: 0;
-    position: absolute; /* 2 */
-    top: 50%; /* 3 */
-    transform: translate(0, -20%); /* 4 */
+#extgallery .catThumb {
+    float: left;
+    margin-right: 5px;
 }
 
-.block {
+#extgallery #thumbTable td {
+    padding: 10px;
+    vertical-align: middle;
     text-align: center;
-    background: #c0c0c0;
-    border: #a0a0a0 solid 1px;
-    margin: 20px;
 }
 
-.block:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -0.25em; /* Adjusts for spacing */
-
-    /* For visualization
-    background: #808080; width: 5px;
-    */
+#extgallery #rateTable td {
+    text-align: center;
 }
 
-.centered {
-    display: inline-block;
-    vertical-align: middle;
-    width: 300px;
-    padding: 10px 15px;
-    border: #a0a0a0 solid 1px;
-    background: #f5f5f5;
+#extgallery #photoNavLeft {
+    width: 33%;
+}
+
+#extgallery #photoNavCenter {
+    text-align: center;
+}
+
+#extgallery #photoNavRight {
+    width: 33%;
+    text-align: right;
+}
+
+#extgallery img.thumb {
+    padding: 5px;
+    border: 1px #778899 solid;
+}
+
+#extgallery img.thumb:hover {
+    padding: 4px;
+    border: 2px #3388CC solid;
+}
+
+#extgallery #photo {
+    text-align: center;
+}
+
+#extgallery #photo img {
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px #778899 solid;
+}
+
+#extgallery #photo img:hover {
+    padding: 4px;
+    border: 2px #3388CC solid;
+}
+
+#extgallery .photoTitle {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+}
+
+#extgallery .photoDesc {
+    text-align: center;
+    padding: 5px;
+}
+
+#extgallery .photoExtra {
+    text-align: center;
+    padding: 5px;
+}
+
+#extgallery div.adminLink {
+    text-align: center;
+}
+
+#extgallery .socialnetwork {
+    width: 100%;
+    height: 25px;
+    margin-bottom: 40px;
+}
+
+#extgallery .socialnetwork ul li {
+    list-style: none;
+    float: left;
+}
+
+#extgallery .bookmarkme {
+    width: 100%;
+    height: 50px;
+}
+
+#extgallery .bookmarkmetitle {
+    text-align: center;
+}
+
+#extgallery .bookmarkmeitems {
+    text-align: center;
+    margin: 5px;
+}
+
+#extgallery #rss {
+    text-align: center;
+    margin: 5px;
+}
+
+#extgallery #viewecard {
+    border: 1px solid #000000;
+    padding: 7px;
+    margin: 0 auto 0 auto;
+}
+
+#extgallery #viewecardtd {
+    vertical-align: top;
+    padding-left: 7px;
+}
+
+#extgallery .txtleft {
+    text-align: left;
+}
+
+#extgallery .txtright {
+    text-align: right;
+}
+
+#extgallery .txtcenter {
+    text-align: center;
+}
+
+#extgallery .comments {
+    text-align: center;
+    padding: 3px;
+    margin: 3px;
+}
+.even {
+    background-color: #f1fffd;
+    padding: 5px;
+}
+
+.odd {
+    background-color: #f8ffe4;
+    padding: 5px;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: #f97777;
 }

@@ -13,7 +13,7 @@ ob_start();
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_advanced.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php';
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -41,11 +41,11 @@ $body    = $colors[6];
 $title   = $colors[7];
 
 //query to count male dogs
-$result = $GLOBALS['xoopsDB']->query('SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='0'");
+$result = $GLOBALS['xoopsDB']->query('SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft='0'");
 list($countmales) = $GLOBALS['xoopsDB']->fetchRow($result);
 
 //query to count female dogs
-$result = $GLOBALS['xoopsDB']->query('SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='1'");
+$result = $GLOBALS['xoopsDB']->query('SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft='1'");
 list($countfemales) = $GLOBALS['xoopsDB']->fetchRow($result);
 
 /*
@@ -77,10 +77,10 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
     $fieldType   = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     if ($userField->isActive() && $userField->inAdvanced()) {
-        $queryString =
-            'SELECT count(p.user' . $fields[$i] . ') as X, p.user' . $fields[$i] . ' as p_user' . $fields[$i] . ', b.ID as b_id, b.value as b_value FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' p LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fields[$i]) . ' b ON p.user'
+        $sql =
+            'SELECT count(p.user' . $fields[$i] . ') as X, p.user' . $fields[$i] . ' as p_user' . $fields[$i] . ', b.ID as b_id, b.value as b_value FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' p LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fields[$i]) . ' b ON p.user'
             . $fields[$i] . ' = b.ID GROUP BY p.user' . $fields[$i] . ' ORDER BY X DESC';
-        $result      = $GLOBALS['xoopsDB']->query($queryString);
+        $result      = $GLOBALS['xoopsDB']->query($sql);
         $piecount    = 0;
         unset($data, $books);
 
@@ -94,7 +94,7 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
                 $whe = $row['p_user' . $fields[$i]];
             }
             $books[] = array(
-                'book'    => "<a href=\"result.php?f=user" . $fields[$i] . '&w=' . $whe . "&o=naam\">" . $row['X'] . '</a>',
+                'book'    => "<a href=\"result.php?f=user" . $fields[$i] . '&w=' . $whe . "&o=pname\">" . $row['X'] . '</a>',
                 'country' => $row['b_value']
             );
             ++$piecount;
@@ -132,22 +132,22 @@ $xoopsTpl->assign('tnmftitle', strtr(_MA_PEDIGREE_ADV_TNMFTIT, ['[male]' => $mod
 $xoopsTpl->assign('countmales', '<img src="assets/images/male.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCMA, [
                                   '[male]'   => $moduleConfig['male'],
                                   '[female]' => $moduleConfig['female']
-                              ]) . ' : <a href="result.php?f=roft&w=zero&o=naam">' . $countmales . '</a>');
+                              ]) . ' : <a href="result.php?f=roft&w=zero&o=pname">' . $countmales . '</a>');
 $xoopsTpl->assign('countfemales', '<img src="assets/images/female.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCFE, [
                                     '[male]'   => $moduleConfig['male'],
                                     '[female]' => $moduleConfig['female']
-                                ]) . ' : <a href="result.php?f=roft&w=1&o=naam">' . $countfemales) . '</a>';
+                                ]) . ' : <a href="result.php?f=roft&w=1&o=pname">' . $countfemales) . '</a>';
 $xoopsTpl->assign('pienumber', '<img src="assets/images/numbers.png">');
 $xoopsTpl->assign('totpl', $totpl);
 $xoopsTpl->assign('books', $books);
 
 $xoopsTpl->assign('orptitle', _MA_PEDIGREE_ADV_ORPTIT);
-$xoopsTpl->assign('orpall', '<a href="result.php?f=father=0 and mother&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPALL, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '</a>');
-$xoopsTpl->assign('orpdad', '<a href="result.php?f=mother!=0 and father&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPDAD, [
+$xoopsTpl->assign('orpall', '<a href="result.php?f=father=0 and mother&w=zero&o=pname">' . strtr(_MA_PEDIGREE_ADV_ORPALL, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '</a>');
+$xoopsTpl->assign('orpdad', '<a href="result.php?f=mother!=0 and father&w=zero&o=pname">' . strtr(_MA_PEDIGREE_ADV_ORPDAD, [
                               '[father]'      => $moduleConfig['father'],
                               '[animalTypes]' => $moduleConfig['animalTypes']
                           ]) . '</a>');
-$xoopsTpl->assign('orpmum', '<a href="result.php?f=father!=0 and mother&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPMUM, [
+$xoopsTpl->assign('orpmum', '<a href="result.php?f=father!=0 and mother&w=zero&o=pname">' . strtr(_MA_PEDIGREE_ADV_ORPMUM, [
                               '[mother]'      => $moduleConfig['mother'],
                               '[animalTypes]' => $moduleConfig['animalTypes']
                           ]) . '</a>');
@@ -156,4 +156,4 @@ $xoopsTpl->assign('numdogs', _MA_PEDIGREE_M50_NUMD);
 $xoopsTpl->assign('maledogs', $perc_mdogs);
 $xoopsTpl->assign('femaledogs', $perc_fdogs);
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

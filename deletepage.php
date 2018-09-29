@@ -14,7 +14,7 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_delete.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
@@ -28,8 +28,8 @@ $dogid   = Request::getInt('dogid', 0, 'post');
 $dogname = Request::getString('curname', '', 'post');
 
 if (!empty($dogname)) {
-    $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $dogid;
-    $result      = $GLOBALS['xoopsDB']->query($queryString);
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $dogid;
+    $result      = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //check for edit rights
         $access      = 0;
@@ -43,14 +43,14 @@ if (!empty($dogname)) {
             }
         }
         if ('1' == $access) {
-            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ".id='" . $dogid . "'";
+            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ".id='" . $dogid . "'";
             $GLOBALS['xoopsDB']->query($sql);
-            $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id ='" . $row['id'] . "'";
+            $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id ='" . $row['id'] . "'";
             $GLOBALS['xoopsDB']->query($delsql);
             if ('0' == $row['roft']) {
-                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET father = '0' where father = '" . $row['id'] . "'";
+                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET father = '0' where father = '" . $row['id'] . "'";
             } else {
-                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET mother = '0' where mother = '" . $row['id'] . "'";
+                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET mother = '0' where mother = '" . $row['id'] . "'";
             }
             $GLOBALS['xoopsDB']->query($sql);
             $ch = 1;
@@ -64,4 +64,4 @@ if ($ch) {
     redirect_header('dog.php?id=' . $dogid, 1, 'ERROR!!');
 }
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

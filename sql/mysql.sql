@@ -23,12 +23,12 @@ CREATE TABLE `pedigree_owner` (
 # --------------------------------------------------------
 
 
-# Table structure for table `pedigree_tree`
+# Table structure for table `pedigree_registry`
 
 
-CREATE TABLE `pedigree_tree` (
+CREATE TABLE `pedigree_registry` (
   `id`         MEDIUMINT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `naam`       TEXT                  NOT NULL,
+  `pname`       TEXT                  NOT NULL,
   `id_owner`   SMALLINT(5)           NOT NULL DEFAULT '0',
   `id_breeder` SMALLINT(5)           NOT NULL DEFAULT '0',
   `user`       VARCHAR(25)           NOT NULL DEFAULT '',
@@ -54,7 +54,7 @@ CREATE TABLE `pedigree_fields` (
   `id`                TINYINT(2)                                                                                    NOT NULL AUTO_INCREMENT,
   `isactive`          TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `fieldname`         VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
-  `fieldtype`         ENUM ('dateselect', 'textbox', 'selectbox', 'radiobutton', 'textarea', 'urlfield', 'picture') NOT NULL DEFAULT 'dateselect',
+  `fieldtype`         ENUM ('DateSelect', 'TextBox', 'SelectBox', 'RadioButton', 'TextArea', 'UrlField', 'Picture') NOT NULL DEFAULT 'DateSelect',
   `lookuptable`       TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
   `defaultvalue`      VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
   `fieldexplanation`  TINYTEXT                                                                                      NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `pedigree_fields` (
 
 CREATE TABLE `pedigree_temp` (
   `id`         INT(11)      NOT NULL DEFAULT '0',
-  `naam`       TEXT         NOT NULL,
+  `pname`       TEXT         NOT NULL,
   `id_owner`   INT(11)      NOT NULL DEFAULT '0',
   `id_breeder` INT(11)      NOT NULL DEFAULT '0',
   `user`       VARCHAR(25)  NOT NULL DEFAULT '',
@@ -106,7 +106,7 @@ CREATE TABLE `pedigree_temp` (
 
 CREATE TABLE `pedigree_trash` (
   `id`         INT(11)      NOT NULL AUTO_INCREMENT,
-  `naam`       TEXT         NOT NULL,
+  `pname`       TEXT         NOT NULL,
   `id_owner`   INT(11)      NOT NULL DEFAULT '0',
   `id_breeder` INT(11)      NOT NULL DEFAULT '0',
   `user`       VARCHAR(25)  NOT NULL DEFAULT '',

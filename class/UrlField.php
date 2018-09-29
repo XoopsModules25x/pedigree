@@ -1,5 +1,4 @@
 <?php namespace XoopsModules\Pedigree;
-
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,25 +9,35 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * Pedigree\Breadcrumb Class
+ * Pedigree module for XOOPS
  *
- * @copyright   {@link https://xoops.org/ XOOPS Project}
- * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @author      lucio <lucio.rota@gmail.com>
- * @package     Pedigree
- * @since       1.31
- *
+ * @copyright   {@link http://sourceforge.net/projects/thmod/ The TXMod XOOPS Project}
+ * @copyright   {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
+ * @license     GPL 2.0 or later
+ * @package     pedigree
+ * @subpackage  class
+ * @author      XOOPS Mod Development Team
  */
+
 use XoopsModules\Pedigree;
 
 
 /**
- * Class Picture
+ * Class Pedigree\SelectBox
  */
-class Picture extends Pedigree\HtmlInputAbstract
+class UrlField extends Pedigree\HtmlInputAbstract
 {
+    // Define class variables
+    private $fieldnumber;
+    private $fieldname;
+    private $value;
+    private $defaultvalue;
+    private $lookuptable;
+
     /**
-     * @param Field          $parentObject
+     * Constructor
+     *
+     * @param Field           $parentObject
      * @param Pedigree\Animal $animalObject
      */
     public function __construct($parentObject, $animalObject)
@@ -39,7 +48,7 @@ class Picture extends Pedigree\HtmlInputAbstract
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->hasLookup();
         if ($this->lookuptable) {
-            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber);
+            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
         if ($parentObject->inAdvanced()) {
             xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
@@ -47,36 +56,28 @@ class Picture extends Pedigree\HtmlInputAbstract
         if ($parentObject->inPie()) {
             xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
-        if ('1' == $parentObject->viewinlist) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be included in listview', get_class($this));
-        }
-        if ('1' == $parentObject->hassearch) {
-            xoops_error('Search cannot be defined for userfield ' . $this->fieldnumber, get_class($this));
-        }
     }
 
     /**
-     * @return \XoopsFormFile
+     * @return \XoopsFormText
      */
     public function editField()
     {
-        $picturefield = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
-        $picturefield->setExtra("size ='50'");
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
 
-        return $picturefield;
+        return $textbox;
     }
 
     /**
      * @param string $name
      *
-     * @return \XoopsFormFile
+     * @return \XoopsFormText
      */
     public function newField($name = '')
     {
-        $picturefield = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
-        $picturefield->setExtra("size ='50'");
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
 
-        return $picturefield;
+        return $textbox;
     }
 
     /**
@@ -84,7 +85,7 @@ class Picture extends Pedigree\HtmlInputAbstract
      */
     public function viewField()
     {
-        $view = new \XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
+        $view = new \XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
 
         return $view;
     }
@@ -94,7 +95,7 @@ class Picture extends Pedigree\HtmlInputAbstract
      */
     public function showField()
     {
-        return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_150.jpeg">';
+        return $this->fieldname . ' : <a href="' . $this->value . '" target="_new">' . $this->value . '</a>';
     }
 
     /**
@@ -102,6 +103,23 @@ class Picture extends Pedigree\HtmlInputAbstract
      */
     public function showValue()
     {
-        return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">';
+        return '<a href="' . $this->value . '" target="_new">' . $this->value . '</a>';
+    }
+
+    /**
+     * @return string
+     */
+    public function getSearchString()
+    {
+        return '&amp;o=pname&amp;l=1';
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
     }
 }
+

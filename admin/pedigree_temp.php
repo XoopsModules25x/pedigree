@@ -31,7 +31,7 @@ xoops_cp_header();
 $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
 
 //It recovered the value of argument op in URL$
-$op = Request::getCmd('op', 'list');
+$op = Request::getString('op', 'list');
 switch ($op) {
     case 'list':
     default:
@@ -49,7 +49,7 @@ switch ($op) {
             echo "<table cellspacing='1' class='outer width100'>
                 <thead>
                 <tr>
-                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_NAAM . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_PNAME . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_ID_OWNER . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_ID_BREEDER . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_USER . "</th>
@@ -68,7 +68,7 @@ switch ($op) {
                 if (0 == $pedigree_temp_arr[$i]->getVar('pedigree_temp_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
-                    echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('naam') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('pname') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('id_breeder') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('user') . '</td>';
@@ -105,14 +105,14 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST['id']) && (0 < ($id = Request::getInt('id', 1)))) {
+        if (\Xmf\Request::hasVar('id', 'REQUEST') && (0 < ($id = Request::getInt('id', 1)))) {
             $obj = $tempHandler->get($id);
         } else {
             $obj = $tempHandler->create();
         }
 
-        //Form naam
-        $obj->setVar('naam', $_REQUEST['naam']);
+        //Form pname
+        $obj->setVar('pname', $_REQUEST['pname']);
         //Form id_owner
         $obj->setVar('id_owner', $_REQUEST['id_owner']);
         //Form id_breeder
@@ -151,7 +151,7 @@ switch ($op) {
 
     case 'delete_pedigree_temp':
         $obj = $tempHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
+        if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

@@ -87,6 +87,38 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      */
     public function getSearchString()
     {
-        return '&amp;o=naam&amp;l=1';
+        return '&amp;o=pname&amp;l=1';
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function searchField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function viewField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function showValue()
+    {
+        return null;
     }
 }

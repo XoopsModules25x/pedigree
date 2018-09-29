@@ -4,31 +4,23 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_owner.tpl';
+
 require_once __DIR__ . '/header.php';
 
-//xoops_loadLanguage('main', basename(dirname(__DIR__)));
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-
-require_once __DIR__ . '/header.php';
-
-// Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
 //import_request_variables("gp", "param_");
 extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
-$GLOBALS['xoopsOption']['template_main'] = 'pedigree_owner.tpl';
-
-include $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 
 $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
 $GLOBALS['xoTheme']->addScript('browse.php?modules/' . $moduleDirName . '/assets/js/jquery.magnific-popup.min.js');
 $GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $moduleDirName . '/assets/css/style.css');
-
 $GLOBALS['xoTheme']->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
 
 if (isset($GLOBALS['xoTheme'])) {
@@ -56,21 +48,21 @@ xoops_load('XoopsUserUtility');
 $ownid = Request::getInt('ownid', 0, 'GET');
 
 //query
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $ownid;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $ownid;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //id
     $id = $row['id'];
 
     //name
-    $naam = stripslashes($row['firstname']) . ' ' . stripslashes($row['lastname']);
+    $pname = stripslashes($row['firstname']) . ' ' . stripslashes($row['lastname']);
 
     //lastname
-    $naaml = stripslashes($row['lastname']);
+    $pnamel = stripslashes($row['lastname']);
 
     //firstname
-    $naamf = stripslashes($row['firstname']);
+    $pnamef = stripslashes($row['firstname']);
 
     //email
     $email = $row['emailadres'];
@@ -80,8 +72,8 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     if (!empty($homepage) && !preg_match('/^(https?:\/\/)/i', $homepage)) {
         $homepage = "http://{$homepage}";
     }
-/*
-    $check    = substr($homepage, 0, 7);
+
+    $check = substr($homepage, 0, 7);
     if ('http://' !== $check) {
         $homepage = 'http://' . $homepage;
     }
@@ -97,7 +89,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
     //check for edit rights
     $access      = 0;
-    $xoopsModule = XoopsModule::getByDirname($moduleDirName);
+    $xoopsModule = \XoopsModule::getByDirname($moduleDirName);
     if (!empty($GLOBALS['xoopsUser'])) {
         if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             $access = 1;
@@ -110,14 +102,14 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //lastname
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_LNAME,
-        'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naaml . '</a>',
+        'data'   => '<a href="owner.php?id=' . $row['id'] . '">' . $pnamel . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     ];
 
     //firstname
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_FNAME,
-        'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naamf . '</a>',
+        'data'   => '<a href="owner.php?id=' . $row['id'] . '">' . $pnamef . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
     ];
 
@@ -153,14 +145,15 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'edit'   => ''
     ];
 }
-
 //add data to smarty template
 $xoopsTpl->assign('access', $access);
 $xoopsTpl->assign('dogs', $items);
-$xoopsTpl->assign('name', $naam);
+$xoopsTpl->assign('name', $pname);
 $xoopsTpl->assign('id', $id);
 //$xoopsTpl->assign("delete", _DELETE);
 $xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE>");
 
 //comments and footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
+

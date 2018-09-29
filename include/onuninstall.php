@@ -37,7 +37,8 @@ function xoops_module_uninstall_pedigree(\XoopsModule $module)
 
     $moduleDirName = basename(dirname(__DIR__));
     $moduleDirNameUpper = strtoupper($moduleDirName);
-     $helper      =Pedigree\Helper::getInstance();
+    /** @var Pedigree\Helper $helper */
+    $helper = Pedigree\Helper::getInstance();
 
     /** @var Pedigree\Utility $utility */
     $utility     = new Pedigree\Utility();

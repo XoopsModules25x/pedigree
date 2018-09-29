@@ -85,7 +85,7 @@ define('_AM_PEDIGREE_PEDIGREE_TRASH_ADD', 'Add Family Tree trash');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_EDIT', 'Edit Family Tree trash');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_DELETE', 'Delete Family Tree trash');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_ID', 'id');
-define('_AM_PEDIGREE_PEDIGREE_TRASH_NAAM', 'Name');
+define('_AM_PEDIGREE_PEDIGREE_TRASH_PNAME', 'Name');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_ID_OWNER', 'Owner ID');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_ID_BREEDER', 'Breeder ID');
 define('_AM_PEDIGREE_PEDIGREE_TRASH_USER', 'Submitter');
@@ -114,7 +114,7 @@ define('_AM_PEDIGREE_PEDIGREE_TEMP_ADD', 'Add Breed ');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_EDIT', 'Edit a pedigree_temp');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_DELETE', 'Delete a pedigree_temp');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_ID', 'id');
-define('_AM_PEDIGREE_PEDIGREE_TEMP_NAAM', 'Name');
+define('_AM_PEDIGREE_PEDIGREE_TEMP_PNAME', 'Name');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_ID_OWNER', 'Owner ID');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_ID_BREEDER', 'Breed ID');
 define('_AM_PEDIGREE_PEDIGREE_TEMP_USER', 'Submitter');
@@ -128,7 +128,7 @@ define('_AM_PEDIGREE_PEDIGREE_ADD', 'Add a Tree');
 define('_AM_PEDIGREE_PEDIGREE_EDIT', 'Edit a Tree');
 define('_AM_PEDIGREE_PEDIGREE_DELETE', 'Delete a Tree');
 define('_AM_PEDIGREE_PEDIGREE_ID', 'id');
-define('_AM_PEDIGREE_PEDIGREE_NAAM', 'Name');
+define('_AM_PEDIGREE_PEDIGREE_PNAME', 'Name');
 define('_AM_PEDIGREE_PEDIGREE_ID_OWNER', 'Owner ID');
 define('_AM_PEDIGREE_PEDIGREE_ID_BREEDER', 'Breeder ID');
 define('_AM_PEDIGREE_PEDIGREE_USER', 'Submitter');
@@ -197,12 +197,12 @@ define('_AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA', 'For your Pedigree database t
 
 define('_AM_PEDIGREE_DATABASE_CHECK_ANCESTORS', _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . "It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal.
 If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>
-The database has been searched and the animals below the line require your attention.<hr>");
+The database has been searched and the animals below the line require_once your attention.<hr>");
 
 define('_AM_PEDIGREE_DATABASE_CHECK_GENDER', _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . 'It is possible create errors and achieve unexpected results by changing the gender of an animal.
 If you discover that a male in the database is really female or the other way around it is possible to create errors
 if accidentilly children have been connected to the wrong gender.<br><br>
-The database has been searched and any animals below the line require your attention.<hr>');
+The database has been searched and any animals below the line require_once your attention.<hr>');
 
 define('_AM_PEDIGREE_UPGRADEFAILED', 'Upgrade Failed');
 define('_AM_PEDIGREE_UPGRADEFAILED2', 'Upgrade 2 Failed');
