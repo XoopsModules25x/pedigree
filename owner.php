@@ -155,5 +155,3 @@ $xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='
 
 //comments and footer
 require_once XOOPS_ROOT_PATH . '/footer.php';
-
-

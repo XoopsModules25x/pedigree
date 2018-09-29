@@ -19,7 +19,6 @@
 
 use XoopsModules\Pedigree;
 
-
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 if (!isset($_GET['target']) && !isset($_POST['target'])) {
     exit();

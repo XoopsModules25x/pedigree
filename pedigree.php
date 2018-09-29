@@ -22,7 +22,6 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-
 $rootPath      = dirname(dirname(__DIR__));
 $moduleDirName = basename(__DIR__);
 $mydirpath     = dirname(__DIR__);

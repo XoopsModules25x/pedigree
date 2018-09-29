@@ -101,7 +101,7 @@ function virt()
     //create previous button
     if (($numPages > 1) && ($currentPage > 1)) {
         $pages .= '<a href="virtual.php?r=1&&l=' . $l . 'st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp';
-        }
+    }
     //create numbers
     $xLimit = $numPages + 1;
     for ($x = 1; $x < $xLimit; ++$x) {

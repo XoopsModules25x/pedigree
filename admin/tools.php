@@ -86,7 +86,7 @@ switch ($op) {
     case 'credits':
         credits();
         break;
-    default :
+    default:
         index();
         break;
 }

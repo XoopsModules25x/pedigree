@@ -168,17 +168,17 @@ function sire()
         $namelitter = 'name' . $count;
         $roftlitter = 'roft' . $count;
         //check for an empty name
-            if ('' !== $_POST[$namelitter]) {
-                $name .= ':' . Request::getString('namelitter', '', 'POST');
-                $roft .= ':' . Request::getString('roftlitter', '', 'POST');
+        if ('' !== $_POST[$namelitter]) {
+            $name .= ':' . Request::getString('namelitter', '', 'POST');
+            $roft .= ':' . Request::getString('roftlitter', '', 'POST');
         } else {
-                if (1 == $count) {
+            if (1 == $count) {
                 redirect_header('add_litter.php', 3, _MA_PEDIGREE_ADD_NAMEPLZ);
             }
         }
     }
 
-        $id_breeder = Request::getInt('id_breeder', 0, 'POST');
+    $id_breeder = Request::getInt('id_breeder', 0, 'POST');
 
     //make the redirect
     if (!isset($_GET['r'])) {
@@ -245,7 +245,7 @@ function sire()
         redirect_header('add_litter.php?f=sire&random=' . $random . '&st=' . $st . '&r=1&l=a', 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, ['[father]' => $moduleConfig['father']]));
     }
     //find letter on which to start else set to 'a'
-        $l = Request::getWord('l', 'a', 'GET');
+    $l = Request::getWord('l', 'a', 'GET');
 
     //assign 'sire' to the template
     $xoopsTpl->assign('sire', '1');

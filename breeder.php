@@ -120,20 +120,20 @@ $pages .= '<br>';
 if ($numPages > 1) {
     if ($currentPage > 1) {
         $pages .= '<a href="breeder.php?f=' . $f . '&o=' . $o . '&d=' . $d . '&l=' . $l . '&st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp;';
-}
+    }
 
-//create numbers
+    //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
-    //create line break after 20 number
+        //create line break after 20 number
         if (0 == ($x % 20)) {
             $pages .= '<br>';
-    }
+        }
         if ($x != $currentPage) {
             $pages .= '<a href="breeder.php?f=' . $f . '&o=' . $o . '&d=' . $d . '&l=' . $l . '&st=' . ($perPage * ($x - 1)) . '">' . $x . '</a>&nbsp;&nbsp;';
-    } else {
-        $pages .= $x . '&nbsp;&nbsp';
+        } else {
+            $pages .= $x . '&nbsp;&nbsp';
+        }
     }
-}
 }
 
 //create next button

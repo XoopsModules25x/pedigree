@@ -22,7 +22,6 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
@@ -171,7 +170,7 @@ switch ($op) {
     case 'index':
         index();
         break;
-    default :
+    default:
         userfields();
         $uf = true;
         break;
@@ -985,12 +984,12 @@ function userfields($field = 0)
 
 function credits()
 {
-/*
-    $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname($moduleDirName);
-    $configHandler = xoops_getHandler('config');
-    $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    */
+    /*
+        $moduleHandler = xoops_getHandler('module');
+        $module        = $moduleHandler->getByDirname($moduleDirName);
+        $configHandler = xoops_getHandler('config');
+        $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+        */
     $helper = Pedigree\Helper::getInstance(false);
     $form     = 'Pedigree database module<br><br><li>Programming : James Cotton<br><li>Design & Layout : Ton van der Hagen<br><li>Version : '
                 . round($helper->getModule()->getVar('version') / 100, 2)

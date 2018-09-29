@@ -577,8 +577,8 @@ function mater_side($p, $m, $a, $ndist)
     } else {
         if (!$marked[$m] && $chrono[$m] < $paternal_rank) {
             mater_side($p, $fathers[$m], $a, $ndist + 1);
-        mater_side($p, $mothers[$m], $a, $ndist + 1);
-    }
+            mater_side($p, $mothers[$m], $a, $ndist + 1);
+        }
     }
 
     return 0;
@@ -802,7 +802,7 @@ function one_animal($ID)
     $animal = set_name($ID);
 
     if (is_array($animal)) {
-    list($ID, $name, $sex, $hd, $ems) = $animal;
+        list($ID, $name, $sex, $hd, $ems) = $animal;
     }
     $sqlQuery    = 'SELECT SQL_CACHE COUNT(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " where father = '$ID' or mother = '$ID'";
     $queryResult = $GLOBALS['xoopsDB']->queryF($sqlQuery);

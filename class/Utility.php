@@ -833,9 +833,9 @@ class Utility
         /** @var Pedigree\Helper $helper */
         $helper = Pedigree\Helper::getInstance();
 
-       $pedigree_isAdmin = $helper->isUserAdmin();
+        $pedigree_isAdmin = $helper->isUserAdmin();
 
-         return $pedigree_isAdmin;
+        return $pedigree_isAdmin;
     }
 
     public static function getXoopsCpHeader()
@@ -1048,5 +1048,4 @@ class Utility
         $enumList = explode(',', str_replace("'", '', substr($row['COLUMN_TYPE'], 5, - 6)));
         return $enumList;
     }
-
 }

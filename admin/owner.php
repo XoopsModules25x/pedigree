@@ -104,8 +104,6 @@ switch ($op) {
 
             if ($ownerCount > 0) {
                 foreach (array_keys($ownerTempArray) as $i) {
-
-
                     if (0 == $ownerTempArray[$i]->getVar('owner_pid')) {
                         echo "<tr class='" . $class . "'>";
                         $class = ('even' === $class) ? 'odd' : 'even';

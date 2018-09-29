@@ -133,20 +133,20 @@ if ('%' === substr($w, $length - 1, $length)) {
 if ($numPages > 1) {
     if ($currentPage > 1) {
         $pages .= '<a href="result.php?f=' . $f . '&amp;l=' . $l . '&amp;w=' . $whe . '&amp;o=' . $o . '&amp;d=' . $d . '&amp;st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp;';
-}
+    }
 
-//create numbers
+    //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
-    //create line break after 20 number
+        //create line break after 20 number
         if (0 == ($x % 20)) {
             $pages .= '<br>';
-    }
+        }
         if ($x != $currentPage) {
             $pages .= '<a href="result.php?f=' . $f . '&l=' . $l . '&w=' . $whe . '&o=' . $o . '&d=' . $d . '&st=' . ($perPage * ($x - 1)) . '">' . $x . '</a>&nbsp;&nbsp;';
-    } else {
-        $pages .= '<b>' . $x . '</b>&nbsp;&nbsp';
+        } else {
+            $pages .= '<b>' . $x . '</b>&nbsp;&nbsp';
+        }
     }
-}
 }
 //create next button
 if ($numPages > 1) {

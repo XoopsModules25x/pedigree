@@ -39,8 +39,8 @@ class Helper extends \Xmf\Module\Helper
     public function __construct($debug = false)
     {
         $this->debug   = $debug;
-       $moduleDirName = basename(dirname(__DIR__));
-       parent::__construct($moduleDirName);
+        $moduleDirName = basename(dirname(__DIR__));
+        parent::__construct($moduleDirName);
     }
 
     /**

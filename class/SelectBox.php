@@ -22,7 +22,6 @@
 
 use XoopsModules\Pedigree;
 
-
 /**
  * Class Pedigree\SelectBox
  */
