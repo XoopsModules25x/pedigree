@@ -1,7 +1,10 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+use Xmf\Request;
+use XoopsModules\Pedigree;
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -21,7 +24,7 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
@@ -29,7 +32,7 @@ global $xoopsTpl;
 global $xoopsDB;
 global $xoopsModuleConfig;
 
-$id = $_GET['id'];
+$id = Request::getInt('id', 0, 'GET');
 //query (find values for this dog (and format them))
 $queryString = 'SELECT lastname, firstname, user FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
 $result      = $GLOBALS['xoopsDB']->query($queryString);
@@ -46,23 +49,23 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new XoopsThemeForm($naam, 'deletedata', 'deletebreederpage.php', 'post', true);
+$form = new \XoopsThemeForm($naam, 'deletedata', 'deletebreederpage.php', 'post', true);
 //hidden value current record owner
-$form->addElement(new XoopsFormHidden('dbuser', $dbuser));
+$form->addElement(new \XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID
-$form->addElement(new XoopsFormHidden('dogid', $_GET['id']));
-$form->addElement(new XoopsFormHidden('curname', $naam));
-$form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-$form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DELE_CONF_OWN . '<b>' . $naam . '</b>?'));
-$breeder = PedigreeUtility::breederof($_GET['id'], 1);
-if ($breeder != '') {
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_BREEDER, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '<br><br>' . $breeder));
+$form->addElement(new \XoopsFormHidden('dogid', $_GET['id']));
+$form->addElement(new \XoopsFormHidden('curname', $naam));
+$form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+$form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DELE_CONF_OWN . '<b>' . $naam . '</b>?'));
+$breeder = Pedigree\Utility::breederof($_GET['id'], 1);
+if ('' != $breeder) {
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_BREEDER, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '<br><br>' . $breeder));
 }
-$owner = PedigreeUtility::breederof($_GET['id'], 0);
-if ($owner != '') {
-    $form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_OWNER, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '<br><br>' . $owner));
+$owner = Pedigree\Utility::breederof($_GET['id'], 0);
+if ('' != $owner) {
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, strtr(_MA_PEDIGREE_DELE_WARN_OWNER, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '<br><br>' . $owner));
 }
-$form->addElement(new XoopsFormButton('', 'button_id', _DELETE, 'submit'));
+$form->addElement(new \XoopsFormButton('', 'button_id', _DELETE, 'submit'));
 //add data (form) to smarty template
 $xoopsTpl->assign('form', $form->render());
 

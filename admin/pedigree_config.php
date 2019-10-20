@@ -20,11 +20,14 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
+
+$fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -34,11 +37,11 @@ switch ($op) {
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
         $adminObject->displayButton('left');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows             = $pedigreeFieldsHandler->getCount();
-        $pedigree_config_arr = $pedigreeFieldsHandler->getall($criteria);
+        $numrows             = $fieldsHandler->getCount();
+        $pedigree_config_arr = $fieldsHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -70,7 +73,7 @@ switch ($op) {
             foreach (array_keys($pedigree_config_arr) as $i) {
                 if (0 == $pedigree_config_arr[$i]->getVar('pedigree_config_pid')) {
                     echo "<tr class='{$class}'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('isactive') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldname') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_config_arr[$i]->getVar('fieldtype') . '</td>';
@@ -105,7 +108,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $pedigreeFieldsHandler->create();
+        $obj  = $fieldsHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -116,9 +119,9 @@ switch ($op) {
         }
         $id = Request::getInt('id', 0, 'POST');
         if ($id) {
-            $obj = $pedigreeFieldsHandler->get($id);
+            $obj = $fieldsHandler->get($id);
         } else {
-            $obj = $pedigreeFieldsHandler->create();
+            $obj = $fieldsHandler->create();
         }
         //Form isactive
         $obj->setVar('isactive', Request::getInt('isActive', 0, 'POST'));
@@ -160,7 +163,7 @@ switch ($op) {
         //Form order
         $obj->setVar('order', Request::getInt('order', 0, 'POST'));
 
-        if ($pedigreeFieldsHandler->insert($obj)) {
+        if ($fieldsHandler->insert($obj)) {
             redirect_header('pedigree_config.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
@@ -174,27 +177,27 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_config.php?op=new_pedigree_config', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_config.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $pedigreeFieldsHandler->get(Request::getInt('id', 0));
+        $obj  = $fieldsHandler->get(Request::getInt('id', 0));
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree_config':
         $id  = Request::getInt('id', 0);
-        $obj = $pedigreeFieldsHandler->get($id);
+        $obj = $fieldsHandler->get($id);
         $ok  = Request::getInt('ok', 0, 'POST');
         if ('0' != $ok) {
             //        if (isset($_REQUEST['ok']) && (1 == $_REQUEST['ok'])) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeFieldsHandler->delete($obj)) {
+            if ($fieldsHandler->delete($obj)) {
                 redirect_header('pedigree_config.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'id' => $id, 'op' => 'delete_pedigree_config'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_config')));
+            xoops_confirm(['ok' => 1, 'id' => $id, 'op' => 'delete_pedigree_config'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_config')));
         }
         break;
 }

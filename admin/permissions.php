@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 //xoops_cp_header();
@@ -34,7 +35,7 @@ $permissions_admin = \Xmf\Module\Admin::getInstance();
 echo $permissions_admin->displayNavigation(basename(__FILE__));
 
 $permission                = Request::getInt('permission', 1, 'POST');
-$selected                  = array('', '', '');
+$selected                  = ['', '', ''];
 $selected[$permission - 1] = ' selected';
 
 echo '
@@ -72,9 +73,9 @@ switch ($permission) {
         break;
 }
 
-$permform = new XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, 'admin/permissions.php');
+$permform = new \XoopsGroupPermForm($formTitle, $module_id, $permName, $permDesc, 'admin/permissions.php');
 //    $xdir_catHandler= xoops_getModuleHandler('xdirectory_xdir_cat', $xoopsModule->getVar("dirname"));
-$criteria = new CriteriaCompo();
+$criteria = new \CriteriaCompo();
 $criteria->setSort('title');
 $criteria->setOrder('ASC');
 //    $xdir_cat_arr = $xdir_catHandler->getObjects($criteria);

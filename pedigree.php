@@ -20,18 +20,20 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
+
 
 $rootPath      = dirname(dirname(__DIR__));
 $moduleDirName = basename(__DIR__);
 $mydirpath     = dirname(__DIR__);
 
-require_once __DIR__ . '/../../mainfile.php';
+require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
-require_once $rootPath . '/include/cp_functions.php';
-require_once $rootPath . '/include/cp_header.php';
+//require_once $rootPath . '/include/cp_functions.php';
+//require_once $rootPath . '/include/cp_header.php';
 //require_once $rootPath . '/class/xoopsformloader.php';
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 //xoops_cp_header();
 
 xoops_loadLanguage('main', $moduleDirName);
@@ -58,7 +60,6 @@ $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/c
 $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/css/magnific-popup.css");
 
 require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
@@ -78,19 +79,17 @@ include __DIR__ . '/footer.php';
 // Displays the "Main" tab of the module
 //
 /**
- * @internal param $Id
  */
 function pedigree_main()
 {
     $moduleDirName = basename(__DIR__);
-    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
     $id     = Request::getInt('pedid', 1, 'GET');
-    $animal = new PedigreeAnimal($id);
+    $animal = new Pedigree\Animal($id);
     //test to find out how many user fields there are.
     $fields      = $animal->getNumOfFields();
     $fieldsCount = count($fields);
 
-    $qarray = array('d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm');
+    $qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
 
     $querystring = 'SELECT ';
 
@@ -126,14 +125,14 @@ function pedigree_main()
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create array for animal (and all parents)
         foreach ($qarray as $key) {
-            $d[$key] = array(
+            $d[$key] = [
                 'id'     => $row[$key . '_id'],
                 'name'   => stripslashes($row[$key . '_naam']),
                 'mother' => $row[$key . '_mother'],
                 'father' => $row[$key . '_father'],
                 'roft'   => $row[$key . '_roft'],
                 'nhsb'   => ''
-            );
+            ];
             if ((3 != strlen($key) || (0 != $moduleConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
                 //show image in last row of pedigree if image exists
                 $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
@@ -146,11 +145,11 @@ function pedigree_main()
 
             if ('' == !$d[$key]['id']) {
                 //if exists create animal object
-                $animal = new PedigreeAnimal($d[$key]['id']);
+                $animal = new Pedigree\Animal($d[$key]['id']);
                 $fields = $animal->getNumOfFields();
             }
-            for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-                $userField = new Field($fields[$i], $animal->getConfig());
+            foreach ($fields as $i => $iValue) {
+                $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
                 if ($userField->isActive() && $userField->inPedigree()) {
                     $fieldType = $userField->getSetting('FieldType');
                     $fieldObj  = new $fieldType($userField, $animal);
@@ -162,7 +161,7 @@ function pedigree_main()
     }
 
     //add data to smarty template
-    $GLOBALS['xoopsTpl']->assign(array(
+    $GLOBALS['xoopsTpl']->assign([
                                      'page_title' => stripslashes($row['d_naam']),
                                      'd'          => $d,  //assign dog
                                      //assign config options
@@ -174,7 +173,7 @@ function pedigree_main()
                                      'PA'         => _MA_PEDIGREE_PA,
                                      'GP'         => _MA_PEDIGREE_GP,
                                      'GGP'        => _MA_PEDIGREE_GGP
-                                 ));
+                                 ]);
 
     //    include __DIR__ . '/footer.php';
 }

@@ -1,15 +1,15 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+use XoopsModules\Pedigree;
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 
 //needed for generation of pie charts
 ob_start();
-//include(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_eq_pie.php');
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_advanced.tpl';
 
@@ -20,8 +20,8 @@ $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.canvasjs.min.js');
 
 global $xoopsTpl, $xoopsDB;
-$totpl = array();
-$books = array();
+$totpl = [];
+$books = [];
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
@@ -68,12 +68,12 @@ $numbers_pie->MakePie('assets/images/numbers.png', '200', '200', '10', $odd, $da
 
 //create animal object
 
-$animal = new PedigreeAnimal();
+$animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
 $fields = $animal->getNumOfFields();
 
 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-    $userField   = new Field($fields[$i], $animal->getConfig());
+    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType   = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     if ($userField->isActive() && $userField->inAdvanced()) {
@@ -116,41 +116,41 @@ for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
 */
 //strtr(_MA_PEDIGREE_FLD_MALE, array( '[male]' => $moduleConfig['male'] ))
 //strtr(_MA_PEDIGREE_ADV_ORPMUM, array( '[mother]' => $moduleConfig['mother'], '[animalTypes]' => $moduleConfig['animalTypes'] ))
-if ($moduleConfig['proversion'] == '1') {
+if ('1' == $moduleConfig['proversion']) {
     $xoopsTpl->assign('pro', true);
 }
-$xoopsTpl->assign('title', strtr(_MA_PEDIGREE_ADV_VTMF, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female'])));
-$xoopsTpl->assign('topmales', '<a href="topstud.php?com=father">' . strtr(_MA_PEDIGREE_ADV_STUD, array(
+$xoopsTpl->assign('title', strtr(_MA_PEDIGREE_ADV_VTMF, ['[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female']]));
+$xoopsTpl->assign('topmales', '<a href="topstud.php?com=father">' . strtr(_MA_PEDIGREE_ADV_STUD, [
                                 '[male]'     => $moduleConfig['male'],
                                 '[children]' => $moduleConfig['children']
-                            )) . '</a>');
-$xoopsTpl->assign('topfemales', '<a href="topstud.php?com=mother">' . strtr(_MA_PEDIGREE_ADV_BITC, array(
+                            ]) . '</a>');
+$xoopsTpl->assign('topfemales', '<a href="topstud.php?com=mother">' . strtr(_MA_PEDIGREE_ADV_BITC, [
                                   '[female]'   => $moduleConfig['female'],
                                   '[children]' => $moduleConfig['children']
-                              )) . '</a>');
-$xoopsTpl->assign('tnmftitle', strtr(_MA_PEDIGREE_ADV_TNMFTIT, array('[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female'])));
-$xoopsTpl->assign('countmales', '<img src="assets/images/male.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCMA, array(
+                              ]) . '</a>');
+$xoopsTpl->assign('tnmftitle', strtr(_MA_PEDIGREE_ADV_TNMFTIT, ['[male]' => $moduleConfig['male'], '[female]' => $moduleConfig['female']]));
+$xoopsTpl->assign('countmales', '<img src="assets/images/male.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCMA, [
                                   '[male]'   => $moduleConfig['male'],
                                   '[female]' => $moduleConfig['female']
-                              )) . ' : <a href="result.php?f=roft&w=zero&o=naam">' . $countmales . '</a>');
-$xoopsTpl->assign('countfemales', '<img src="assets/images/female.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCFE, array(
+                              ]) . ' : <a href="result.php?f=roft&w=zero&o=naam">' . $countmales . '</a>');
+$xoopsTpl->assign('countfemales', '<img src="assets/images/female.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCFE, [
                                     '[male]'   => $moduleConfig['male'],
                                     '[female]' => $moduleConfig['female']
-                                )) . ' : <a href="result.php?f=roft&w=1&o=naam">' . $countfemales) . '</a>';
+                                ]) . ' : <a href="result.php?f=roft&w=1&o=naam">' . $countfemales) . '</a>';
 $xoopsTpl->assign('pienumber', '<img src="assets/images/numbers.png">');
 $xoopsTpl->assign('totpl', $totpl);
 $xoopsTpl->assign('books', $books);
 
 $xoopsTpl->assign('orptitle', _MA_PEDIGREE_ADV_ORPTIT);
-$xoopsTpl->assign('orpall', '<a href="result.php?f=father=0 and mother&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPALL, array('[animalTypes]' => $moduleConfig['animalTypes'])) . '</a>');
-$xoopsTpl->assign('orpdad', '<a href="result.php?f=mother!=0 and father&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPDAD, array(
+$xoopsTpl->assign('orpall', '<a href="result.php?f=father=0 and mother&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPALL, ['[animalTypes]' => $moduleConfig['animalTypes']]) . '</a>');
+$xoopsTpl->assign('orpdad', '<a href="result.php?f=mother!=0 and father&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPDAD, [
                               '[father]'      => $moduleConfig['father'],
                               '[animalTypes]' => $moduleConfig['animalTypes']
-                          )) . '</a>');
-$xoopsTpl->assign('orpmum', '<a href="result.php?f=father!=0 and mother&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPMUM, array(
+                          ]) . '</a>');
+$xoopsTpl->assign('orpmum', '<a href="result.php?f=father!=0 and mother&w=zero&o=naam">' . strtr(_MA_PEDIGREE_ADV_ORPMUM, [
                               '[mother]'      => $moduleConfig['mother'],
                               '[animalTypes]' => $moduleConfig['animalTypes']
-                          )) . '</a>');
+                          ]) . '</a>');
 $xoopsTpl->assign('position', _MA_PEDIGREE_M50_POS);
 $xoopsTpl->assign('numdogs', _MA_PEDIGREE_M50_NUMD);
 $xoopsTpl->assign('maledogs', $perc_mdogs);

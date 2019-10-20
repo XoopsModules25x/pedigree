@@ -1,7 +1,9 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+use XoopsModules\Pedigree;
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -20,9 +22,9 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 $xoopsTpl->assign('page_title', 'Pedigree database - View owner/breeder');
 
 // Breadcrumb
-$breadcrumb = new PedigreeBreadcrumb();
-$breadcrumb->addLink($pedigree->getModule()->getVar('name'), PEDIGREE_URL);
-$GLOBALS['xoopsTpl']->assign('module_home', PedigreeUtility::getModuleName(false)); // this definition is not removed for backward compatibility issues
+$breadcrumb = new Pedigree\Breadcrumb();
+$breadcrumb->addLink($helper->getModule()->getVar('name'), PEDIGREE_URL);
+$GLOBALS['xoopsTpl']->assign('module_home', Pedigree\Utility::getModuleName(false)); // this definition is not removed for backward compatibility issues
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
@@ -42,7 +44,7 @@ if (isset($_GET['l'])) {
     $l = 'a';
 }
 $w = $l . '%';
-if ($l == 1) {
+if (1 == $l) {
     $l = 'LIKE';
 }
 if (!isset($o)) {
@@ -118,20 +120,20 @@ $pages .= '<br>';
 if ($numPages > 1) {
     if ($currentPage > 1) {
         $pages .= '<a href="breeder.php?f=' . $f . '&o=' . $o . '&d=' . $d . '&l=' . $l . '&st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp;';
-    }
+}
 
-    //create numbers
+//create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
-        //create line break after 20 number
-        if (($x % 20) == 0) {
+    //create line break after 20 number
+        if (0 == ($x % 20)) {
             $pages .= '<br>';
-        }
+    }
         if ($x != $currentPage) {
             $pages .= '<a href="breeder.php?f=' . $f . '&o=' . $o . '&d=' . $d . '&l=' . $l . '&st=' . ($perPage * ($x - 1)) . '">' . $x . '</a>&nbsp;&nbsp;';
-        } else {
-            $pages .= $x . '&nbsp;&nbsp';
-        }
+    } else {
+        $pages .= $x . '&nbsp;&nbsp';
     }
+}
 }
 
 //create next button
@@ -149,7 +151,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //check for access
     $access = '';
     if (!empty($xoopsUser)) {
-        if ($row['user'] == $xoopsUser->getVar('uid') || $modadmin === true) {
+        if (true === $modadmin || $row['user'] == $xoopsUser->getVar('uid')) {
             //$access = "<a href=\"dog.php?id=".$row['id']."\"><img src=\"assets/images/edit.png\" alt="._EDIT."></a>";
             $access .= '<a href="deletebreeder.php?id=' . $row['id'] . "\"><img src='" . $pathIcon16 . "/delete.png' alt=" . _DELETE . '></a>';
         } else {
@@ -159,11 +161,11 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //make names
     $name = $access . '<a href="owner.php?ownid=' . $row['id'] . '">' . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . '</a>';
     //create array for owners
-    $dogs[] = array(
+    $dogs[] = [
         'id'   => $row['id'],
         'name' => $name,
         'city' => $row['city']
-    );
+    ];
 }
 
 //add data to smarty template
@@ -172,7 +174,7 @@ if (isset($dogs)) {
     $xoopsTpl->assign('dogs', $dogs);
 }
 //assign links
-if ($d === 'ASC') {
+if ('ASC' === $d) {
     $nl = '<a href="breeder.php?f=' . $f . '&o=lastname&d=DESC">' . _MA_PEDIGREE_OWN_NAME . '</a>';
     $cl = '<a href="breeder.php?f=' . $f . '&o=city&d=DESC">' . _MA_PEDIGREE_OWN_CITY . '</a>';
 } else {
@@ -194,10 +196,10 @@ $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $n
 $xoopsTpl->assign('nummatch', $nummatchstr);
 $xoopsTpl->assign('pages', $pages);
 
-//$breederArray['letters']          = PedigreeUtility::lettersChoice();
+//$breederArray['letters']          = Pedigree\Utility::lettersChoice();
 
-$myObject     = PedigreePedigree::getInstance();
-$criteria     = $myObject->getHandler('tree')->getActiveCriteria();
+$myObject     = Pedigree\Helper::getInstance();
+$criteria     = $myObject->getHandler('Tree')->getActiveCriteria();
 $activeObject = 'owner';
 $name         = 'lastname';
 //$file         = 'breeder.php';
@@ -205,7 +207,7 @@ $name         = 'lastname';
 $link  = "breeder.php?f={$name}&amp;o={$name}&amp;d=ASC&amp;st=0&amp;l=";
 $link2 = '';
 
-$breederArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
+$breederArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2);
 //$catarray['toolbar']          = pedigree_toolbar();
 
 $xoopsTpl->assign('breederArray', $breederArray);

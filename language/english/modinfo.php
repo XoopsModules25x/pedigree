@@ -200,3 +200,14 @@ define('_MI_PEDIGREE_TEMPL_TABLE_SORT', "Template for javascript table sort'");
 define('_MI_PEDIGREE_TEMPL_BREADCRUMB', 'Breadcrumb');
 define('_MI_PEDIGREE_TEMPL_LETTERCHOICE', 'Letter selection');
 define('_MI_PEDIGREE_TEMPL_HEADER', 'Header Front Page');
+
+//Help
+define('_MI_PEDIGREE_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_PEDIGREE_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
+define('_MI_PEDIGREE_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_PEDIGREE_OVERVIEW', 'Overview');
+
+//help multi-page
+define('_MI_PEDIGREE_DISCLAIMER', 'Disclaimer');
+define('_MI_PEDIGREE_LICENSE', 'License');
+define('_MI_PEDIGREE_SUPPORT', 'Support');

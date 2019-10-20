@@ -138,8 +138,7 @@
                                     <td class="odd" width="25%">
                                         <{$ASCall}>
                                     </td>
-                                </tr>
-                                </tr>
+                                  </tr>
                                 <td class="even">
                                     <{$ASCuni}>
                                 </td>
@@ -216,7 +215,7 @@
                                     <tr class="<{cycle values="even,odd"}>">
 
                                         <td>
-                                            <{$TCApib}><a href="dog.php?id=<{$link.id}>"><{$link.name}></a>
+                                            <{$TCApib}><a href="dog.php?Id=<{$link.id}>"><{$link.name}></a>
                                         </td>
                                         <td width="25%">
                                             <{$link.coi}>%
@@ -256,7 +255,7 @@
                                     <tr class="<{cycle values="even,odd"}>">
 
                                         <td>
-                                            <a href="dog.php?id=<{$vals.id}>"><{$vals.name}></a>
+                                            <a href="dog.php?Id=<{$vals.id}>"><{$vals.name}></a>
                                         </td>
                                         <td width="25%">
                                             <{$vals.coi}>%

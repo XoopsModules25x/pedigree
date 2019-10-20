@@ -9,7 +9,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  PedigreePedigree class
+ *  Pedigree class
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -18,19 +18,19 @@
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
  */
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class PedigreePedigree
+ * Class Pedigree
  */
-class PedigreePedigree
+class Pedigree
 {
     public $dirname;
     public $module;
     public $handler;
     public $config;
     public $debug;
-    public $debugArray = array();
+    public $debugArray = [];
 
     /**
      * @param $debug
@@ -38,13 +38,14 @@ class PedigreePedigree
     protected function __construct($debug)
     {
         $this->debug   = $debug;
-        $this->dirname = basename(dirname(__DIR__));
+       $moduleDirName = basename(dirname(__DIR__));
+       parent::__construct($moduleDirName);
     }
 
     /**
      * @param bool $debug
      *
-     * @return PedigreePedigree
+     * @return Pedigree
      */
     public static function getInstance($debug = false)
     {
@@ -60,7 +61,7 @@ class PedigreePedigree
 
     public function getModule()
     {
-        if ($this->module === null) {
+        if (null === $this->module) {
             $this->initModule();
         }
 
@@ -74,7 +75,7 @@ class PedigreePedigree
      */
     public function getConfig($name = null)
     {
-        if ($this->config === null) {
+        if (null === $this->config) {
             $this->initConfig();
         }
         if (!$name) {
@@ -100,7 +101,7 @@ class PedigreePedigree
      */
     public function setConfig($name = null, $value = null)
     {
-        if ($this->config === null) {
+        if (null === $this->config) {
             $this->initConfig();
         }
         $this->config[$name] = $value;

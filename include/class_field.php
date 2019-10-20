@@ -36,7 +36,7 @@ class Animal
     public function __construct($animalnumber = 0)
     {
         global $xoopsDB;
-        if ($animalnumber == 0) {
+        if (0 == $animalnumber) {
             $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id = '1'";
         } else {
             $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id = ' . $animalnumber;
@@ -57,7 +57,7 @@ class Animal
     {
         global $xoopsDB;
         $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' ORDER BY `order`';
-        $fields = array();
+        $fields = [];
         $result = $GLOBALS['xoopsDB']->query($SQL);
         $count  = 0;
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -110,7 +110,7 @@ class Field
     public function isActive()
     {
         $active = $this->getSetting('isActive');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -124,7 +124,7 @@ class Field
     {
         $active = $this->getSetting('ViewInAdvanced');
         // return ('1' == $active) ? true : false;
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -137,7 +137,7 @@ class Field
     public function isLocked()
     {
         $active = $this->getSetting('locked');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -150,7 +150,7 @@ class Field
     public function hasSearch()
     {
         $active = $this->getSetting('HasSearch');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -163,7 +163,7 @@ class Field
     public function addLitter()
     {
         $active = $this->getSetting('Litter');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -176,7 +176,7 @@ class Field
     public function generalLitter()
     {
         $active = $this->getSetting('Generallitter');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -189,7 +189,7 @@ class Field
     public function hasLookup()
     {
         $active = $this->getSetting('LookupTable');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -210,7 +210,7 @@ class Field
     public function inPie()
     {
         $active = $this->getSetting('ViewInPie');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -223,7 +223,7 @@ class Field
     public function inPedigree()
     {
         $active = $this->getSetting('viewinpedigree');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -236,7 +236,7 @@ class Field
     public function inList()
     {
         $active = $this->getSetting('ViewInList');
-        if ($active == '1') {
+        if ('1' == $active) {
             return true;
         }
 
@@ -265,12 +265,12 @@ class Field
      */
     public function lookupField($fieldnumber)
     {
-        $ret = array();
+        $ret = [];
         global $xoopsDB;
         $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = array('id' => $row['id'], 'value' => $row['value']);
+            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
         }
 
         //array_multisort($ret,SORT_ASC);
@@ -282,7 +282,7 @@ class Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, $this->value);
+        $view = new \XoopsFormLabel($this->fieldname, $this->value);
 
         return $view;
     }
@@ -332,7 +332,7 @@ class RadioButton extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '0') {
+        if ('0' == $this->lookuptable) {
             new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -342,7 +342,7 @@ class RadioButton extends Field
      */
     public function editField()
     {
-        $radio          = new XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
+        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -358,7 +358,7 @@ class RadioButton extends Field
      */
     public function newField($name = '')
     {
-        $radio          = new XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
+        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -379,7 +379,7 @@ class RadioButton extends Field
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
         }
-        $view = new XoopsFormLabel($this->fieldname, $choosenvalue);
+        $view = new \XoopsFormLabel($this->fieldname, $choosenvalue);
 
         return $view;
     }
@@ -448,7 +448,7 @@ class SelectBox extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '0') {
+        if ('0' == $this->lookuptable) {
             new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -458,7 +458,7 @@ class SelectBox extends Field
      */
     public function editField()
     {
-        $select         = new XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
+        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -474,7 +474,7 @@ class SelectBox extends Field
      */
     public function newField($name = '')
     {
-        $select         = new XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
+        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
         $lookupcontents = Field::lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
@@ -495,7 +495,7 @@ class SelectBox extends Field
                 $choosenvalue = $lookupcontents[$i]['value'];
             }
         }
-        $view = new XoopsFormLabel($this->fieldname, $choosenvalue);
+        $view = new \XoopsFormLabel($this->fieldname, $choosenvalue);
 
         return $view;
     }
@@ -564,13 +564,13 @@ class TextBox extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '1') {
+        if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -580,7 +580,7 @@ class TextBox extends Field
      */
     public function editField()
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->value);
 
         return $textbox;
     }
@@ -592,7 +592,7 @@ class TextBox extends Field
      */
     public function newField($name = '')
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 50, $value = $this->defaultvalue);
 
         return $textbox;
     }
@@ -621,13 +621,13 @@ class TextArea extends Field
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        if ($parentObject->LookupTable == '1') {
+        if ('1' == $parentObject->LookupTable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -637,7 +637,7 @@ class TextArea extends Field
      */
     public function editField()
     {
-        $textarea = new XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -649,7 +649,7 @@ class TextArea extends Field
      */
     public function newField($name = '')
     {
-        $textarea = new XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
+        $textarea = new \XoopsFormTextArea('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $rows = 5, $cols = 50);
 
         return $textarea;
     }
@@ -678,13 +678,13 @@ class DataSelect extends Field
         $this->fieldname    = $parentObject->fieldname;
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        if ($parentObject->lookuptable == '1') {
+        if ('1' == $parentObject->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -694,8 +694,8 @@ class DataSelect extends Field
      */
     public function editField()
     {
-        //$textarea = new XoopsFormFile("<b>".$this->fieldname."</b>", $this->fieldname, $maxfilesize = 2000);
-        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
+        //$textarea = new \XoopsFormFile("<b>".$this->fieldname."</b>", $this->fieldname, $maxfilesize = 2000);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
 
         return $textarea;
     }
@@ -707,7 +707,7 @@ class DataSelect extends Field
      */
     public function newField($name = '')
     {
-        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
 
         return $textarea;
     }
@@ -737,13 +737,13 @@ class UrlField extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '1') {
+        if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -753,7 +753,7 @@ class UrlField extends Field
      */
     public function editField()
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
 
         return $textbox;
     }
@@ -765,7 +765,7 @@ class UrlField extends Field
      */
     public function newField($name = '')
     {
-        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
+        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
 
         return $textbox;
     }
@@ -775,7 +775,7 @@ class UrlField extends Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
+        $view = new \XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
 
         return $view;
     }
@@ -821,19 +821,19 @@ class Picture extends Field
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
-        if ($this->lookuptable == '1') {
+        if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInAdvanced == '1') {
+        if ('1' == $parentObject->ViewInAdvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ($parentObject->ViewInPie == '1') {
+        if ('1' == $parentObject->ViewInPie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
-        if ($parentObject->ViewInList == '1') {
+        if ('1' == $parentObject->ViewInList) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be included in listview');
         }
-        if ($parentObject->HasSearch == '1') {
+        if ('1' == $parentObject->HasSearch) {
             new SystemMessage('Search cannot be defined for userfield' . $this->fieldnumber);
         }
     }
@@ -843,7 +843,7 @@ class Picture extends Field
      */
     public function editField()
     {
-        $pictureField = new XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
+        $pictureField = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
         $pictureField->setExtra("size ='50'");
 
         return $pictureField;
@@ -856,7 +856,7 @@ class Picture extends Field
      */
     public function newField($name = '')
     {
-        $pictureField = new XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
+        $pictureField = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
         $pictureField->setExtra("size ='50'");
 
         return $pictureField;
@@ -867,7 +867,7 @@ class Picture extends Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
+        $view = new \XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
 
         return $view;
     }
@@ -902,7 +902,7 @@ class SISContext
      */
     public function __construct()
     {
-        $this->contexts = array();
+        $this->contexts = [];
         $this->depth    = 0;
     }
 

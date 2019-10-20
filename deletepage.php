@@ -2,14 +2,15 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
-//require_once __DIR__ . '/../../mainfile.php';
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/class_field.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_delete.tpl';
 
@@ -17,7 +18,7 @@ include XOOPS_ROOT_PATH . '/header.php';
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
@@ -41,12 +42,12 @@ if (!empty($dogname)) {
                 $access = 1;
             }
         }
-        if ($access == '1') {
+        if ('1' == $access) {
             $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ".id='" . $dogid . "'";
             $GLOBALS['xoopsDB']->query($sql);
             $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id ='" . $row['id'] . "'";
             $GLOBALS['xoopsDB']->query($delsql);
-            if ($row['roft'] == '0') {
+            if ('0' == $row['roft']) {
                 $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET father = '0' where father = '" . $row['id'] . "'";
             } else {
                 $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET mother = '0' where mother = '" . $row['id'] . "'";

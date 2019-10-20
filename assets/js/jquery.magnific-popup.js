@@ -85,7 +85,7 @@
             }
             return mfp.currTemplate.closeBtn;
         },
-    // Initialize Magnific Popup only when called at least once
+        // Initialize Magnific Popup only when called at least once
         _checkInstance = function () {
             if (!$.magnificPopup.instance) {
                 mfp = new MagnificPopup();
@@ -93,7 +93,7 @@
                 $.magnificPopup.instance = mfp;
             }
         },
-    // CSS transition detection, http://stackoverflow.com/questions/7264899/detect-css-transitions-using-javascript-and-without-modernizr
+        // CSS transition detection, http://stackoverflow.com/questions/7264899/detect-css-transitions-using-javascript-and-without-modernizr
         supportsTransitions = function () {
             var s = document.createElement('p').style, // 's' for style. better to create an element if body yet to exist
                 v = ['ms', 'O', 'Moz', 'Webkit']; // 'v' for vendor
@@ -262,19 +262,19 @@
 
             if (mfp.fixedContentPos) {
                 mfp.wrap.css({
-                    overflow : mfp.st.overflowY,
+                    overflow: mfp.st.overflowY,
                     overflowX: 'hidden',
                     overflowY: mfp.st.overflowY
                 });
             } else {
                 mfp.wrap.css({
-                    top     : _window.scrollTop(),
+                    top: _window.scrollTop(),
                     position: 'absolute'
                 });
             }
             if (mfp.st.fixedBgPos === false || (mfp.st.fixedBgPos === 'auto' && !mfp.fixedContentPos)) {
                 mfp.bgOverlay.css({
-                    height  : _document.height(),
+                    height: _document.height(),
                     position: 'absolute'
                 });
             }
@@ -560,10 +560,10 @@
                 type;
 
             if (item.tagName) {
-                item = { el: $(item) };
+                item = {el: $(item)};
             } else {
                 type = item.type;
-                item = { data: item, src: item.src };
+                item = {data: item, src: item.src};
             }
 
             if (item.el) {
@@ -596,7 +596,7 @@
         /**
          * Initializes single popup or a group of popups
          */
-        addGroup  : function (el, options) {
+        addGroup: function (el, options) {
             var eHandler = function (e) {
                 e.mfpEl = this;
                 mfp._openClick(e, el, options);
@@ -665,7 +665,7 @@
         /**
          * Updates text on preloader
          */
-        updateStatus       : function (status, text) {
+        updateStatus: function (status, text) {
 
             if (mfp.preloader) {
                 if (_prevStatus !== status) {
@@ -678,7 +678,7 @@
 
                 var data = {
                     status: status,
-                    text  : text
+                    text: text
                 };
                 // allows to modify status
                 _mfpTrigger('UpdateStatus', data);
@@ -703,7 +703,7 @@
          */
         // Check to close popup or not
         // "target" is an element that was clicked
-        _checkIfClose      : function (target) {
+        _checkIfClose: function (target) {
 
             if ($(target).hasClass(PREVENT_CLOSE_CLASS)) {
                 return;
@@ -736,7 +736,7 @@
             }
             return false;
         },
-        _addClassToMFP     : function (cName) {
+        _addClassToMFP: function (cName) {
             mfp.bgOverlay.addClass(cName);
             mfp.wrap.addClass(cName);
         },
@@ -744,19 +744,19 @@
             this.bgOverlay.removeClass(cName);
             mfp.wrap.removeClass(cName);
         },
-        _hasScrollBar      : function (winHeight) {
+        _hasScrollBar: function (winHeight) {
             return (  (mfp.isIE7 ? _document.height() : document.body.scrollHeight) > (winHeight || _window.height()) );
         },
-        _setFocus          : function () {
+        _setFocus: function () {
             (mfp.st.focus ? mfp.content.find(mfp.st.focus).eq(0) : mfp.wrap).focus();
         },
-        _onFocusIn         : function (e) {
+        _onFocusIn: function (e) {
             if (e.target !== mfp.wrap[0] && !$.contains(mfp.wrap[0], e.target)) {
                 mfp._setFocus();
                 return false;
             }
         },
-        _parseMarkup       : function (template, values, item) {
+        _parseMarkup: function (template, values, item) {
             var arr;
             if (item.data) {
                 values = $.extend(item.data, values);
@@ -816,8 +816,8 @@
      */
     $.magnificPopup = {
         instance: null,
-        proto   : MagnificPopup.prototype,
-        modules : [],
+        proto: MagnificPopup.prototype,
+        modules: [],
 
         open: function (options, index) {
             _checkInstance();
@@ -984,10 +984,10 @@
     $.magnificPopup.registerModule(INLINE_NS, {
         options: {
             hiddenClass: 'hide', // will be appended with `mfp-` prefix
-            markup     : '',
-            tNotFound  : 'Content not found'
+            markup: '',
+            tNotFound: 'Content not found'
         },
-        proto  : {
+        proto: {
 
             initInline: function () {
                 mfp.types.push(INLINE_NS);
@@ -1057,8 +1057,8 @@
 
         options: {
             settings: null,
-            cursor  : 'mfp-ajax-cur',
-            tError  : '<a href="%url%">The content</a> could not be loaded.'
+            cursor: 'mfp-ajax-cur',
+            tError: '<a href="%url%">The content</a> could not be loaded.'
         },
 
         proto: {
@@ -1069,7 +1069,7 @@
                 _mfpOn(CLOSE_EVENT + '.' + AJAX_NS, _destroyAjaxRequest);
                 _mfpOn('BeforeChange.' + AJAX_NS, _destroyAjaxRequest);
             },
-            getAjax : function (item) {
+            getAjax: function (item) {
 
                 if (_ajaxCur)
                     _body.addClass(_ajaxCur);
@@ -1077,11 +1077,11 @@
                 mfp.updateStatus('loading');
 
                 var opts = $.extend({
-                    url    : item.src,
+                    url: item.src,
                     success: function (data, textStatus, jqXHR) {
                         var temp = {
                             data: data,
-                            xhr : jqXHR
+                            xhr: jqXHR
                         };
 
                         _mfpTrigger('ParseAjax', temp);
@@ -1102,7 +1102,7 @@
 
                         _mfpTrigger('AjaxContentAdded');
                     },
-                    error  : function () {
+                    error: function () {
                         _removeAjaxCursor();
                         item.finished = item.loadError = true;
                         mfp.updateStatus('error', mfp.st.ajax.tError.replace('%url%', item.src));
@@ -1140,7 +1140,7 @@
     $.magnificPopup.registerModule('image', {
 
         options: {
-            markup     : '<div class="mfp-figure">' +
+            markup: '<div class="mfp-figure">' +
             '<div class="mfp-close"></div>' +
             '<figure>' +
             '<div class="mfp-img"></div>' +
@@ -1152,14 +1152,14 @@
             '</figcaption>' +
             '</figure>' +
             '</div>',
-            cursor     : 'mfp-zoom-out-cur',
-            titleSrc   : 'title',
+            cursor: 'mfp-zoom-out-cur',
+            titleSrc: 'title',
             verticalFit: true,
-            tError     : '<a href="%url%">The image</a> could not be loaded.'
+            tError: '<a href="%url%">The image</a> could not be loaded.'
         },
 
         proto: {
-            initImage      : function () {
+            initImage: function () {
                 var imgSt = mfp.st.image,
                     ns = '.image';
 
@@ -1183,7 +1183,7 @@
                     _mfpOn('AfterChange', mfp.resizeImage);
                 }
             },
-            resizeImage    : function () {
+            resizeImage: function () {
                 var item = mfp.currItem;
                 if (!item || !item.img) return;
 
@@ -1260,7 +1260,7 @@
 
                 var guard = 0,
 
-                // image load complete handler
+                    // image load complete handler
                     onLoadComplete = function () {
                         if (item) {
                             if (item.img[0].complete) {
@@ -1290,7 +1290,7 @@
                         }
                     },
 
-                // image error handler
+                    // image error handler
                     onLoadError = function () {
                         if (item) {
                             item.img.off('.mfploader');
@@ -1329,7 +1329,7 @@
                 }
 
                 mfp._parseMarkup(template, {
-                    title          : _getTitle(item),
+                    title: _getTitle(item),
                     img_replaceWith: item.img
                 }, item);
 
@@ -1377,10 +1377,10 @@
     $.magnificPopup.registerModule('zoom', {
 
         options: {
-            enabled : false,
-            easing  : 'ease-in-out',
+            enabled: false,
+            easing: 'ease-in-out',
             duration: 300,
-            opener  : function (element) {
+            opener: function (element) {
                 return element.is('img') ? element : element.find('img');
             }
         },
@@ -1401,10 +1401,10 @@
                         var newImg = image.clone().removeAttr('style').removeAttr('class').addClass('mfp-animated-image'),
                             transition = 'all ' + (zoomSt.duration / 1000) + 's ' + zoomSt.easing,
                             cssObj = {
-                                position                     : 'fixed',
-                                zIndex                       : 9999,
-                                left                         : 0,
-                                top                          : 0,
+                                position: 'fixed',
+                                zIndex: 9999,
+                                left: 0,
+                                top: 0,
                                 '-webkit-backface-visibility': 'hidden'
                             },
                             t = 'transition';
@@ -1512,7 +1512,7 @@
             },
 
             // Get element postion relative to viewport
-            _getOffset    : function (isLarge) {
+            _getOffset: function (isLarge) {
                 var el;
                 if (isLarge) {
                     el = mfp.currItem.img;
@@ -1532,7 +1532,7 @@
 
                  */
                 var obj = {
-                    width : el.width(),
+                    width: el.width(),
                     // fix Zepto height+padding issue
                     height: (_isJQ ? el.innerHeight() : el[0].offsetHeight) - paddingBottom - paddingTop
                 };
@@ -1586,20 +1586,20 @@
             srcAction: 'iframe_src',
 
             // we don't care and support only one default type of URL by default
-            patterns : {
+            patterns: {
                 youtube: {
                     index: 'youtube.com',
-                    id   : 'v=',
-                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
+                    id: 'v=',
+                    src: '//www.youtube.com/embed/%id%?autoplay=1'
                 },
-                vimeo  : {
+                vimeo: {
                     index: 'vimeo.com/',
-                    id   : '/',
-                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
+                    id: '/',
+                    src: '//player.vimeo.com/video/%id%?autoplay=1'
                 },
-                gmaps  : {
+                gmaps: {
                     index: '//maps.google.',
-                    src  : '%id%&output=embed'
+                    src: '%id%&output=embed'
                 }
             }
         },
@@ -1679,19 +1679,19 @@
     $.magnificPopup.registerModule('gallery', {
 
         options: {
-            enabled           : false,
-            arrowMarkup       : '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',
-            preload           : [0, 2],
+            enabled: false,
+            arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',
+            preload: [0, 2],
             navigateByImgClick: true,
-            arrows            : true,
+            arrows: true,
 
-            tPrev   : 'Previous (Left arrow key)',
-            tNext   : 'Next (Right arrow key)',
+            tPrev: 'Previous (Left arrow key)',
+            tNext: 'Next (Right arrow key)',
             tCounter: '%curr% of %total%'
         },
 
         proto: {
-            initGallery        : function () {
+            initGallery: function () {
 
                 var gSt = mfp.st.gallery,
                     ns = '.mfp-gallery',
@@ -1781,17 +1781,17 @@
                 });
 
             },
-            next               : function () {
+            next: function () {
                 mfp.direction = true;
                 mfp.index = _getLoopedId(mfp.index + 1);
                 mfp.updateItemHTML();
             },
-            prev               : function () {
+            prev: function () {
                 mfp.direction = false;
                 mfp.index = _getLoopedId(mfp.index - 1);
                 mfp.updateItemHTML();
             },
-            goTo               : function (newIndex) {
+            goTo: function (newIndex) {
                 mfp.direction = (newIndex >= mfp.index);
                 mfp.index = newIndex;
                 mfp.updateItemHTML();
@@ -1809,7 +1809,7 @@
                     mfp._preloadItem(mfp.index - i);
                 }
             },
-            _preloadItem       : function (index) {
+            _preloadItem: function (index) {
                 index = _getLoopedId(index);
 
                 if (mfp.items[index].preloaded) {
@@ -1904,9 +1904,9 @@
                     return '@2x' + m;
                 });
             },
-            ratio     : 1 // Function or number.  Set to 1 to disable.
+            ratio: 1 // Function or number.  Set to 1 to disable.
         },
-        proto  : {
+        proto: {
             initRetina: function () {
                 if (window.devicePixelRatio > 1) {
 
@@ -1919,7 +1919,7 @@
                         _mfpOn('ImageHasSize' + '.' + RETINA_NS, function (e, item) {
                             item.img.css({
                                 'max-width': item.img[0].naturalWidth / ratio,
-                                'width'    : '100%'
+                                'width': '100%'
                             });
                         });
                         _mfpOn('ElementParse' + '.' + RETINA_NS, function (e, item) {

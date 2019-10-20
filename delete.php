@@ -1,7 +1,10 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+use XoopsModules\Pedigree;
+
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -21,7 +24,7 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
@@ -47,17 +50,17 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'post', true);
+$form = new \XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'post', true);
 //hidden value current record owner
-$form->addElement(new XoopsFormHidden('dbuser', $dbuser));
+$form->addElement(new \XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID
-$form->addElement(new XoopsFormHidden('dogid', $_GET['id']));
-$form->addElement(new XoopsFormHidden('curname', $naam));
-$form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-$form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $moduleConfig['animalType'] . ' : <b>' . $naam . '</b>?'));
+$form->addElement(new \XoopsFormHidden('dogid', $_GET['id']));
+$form->addElement(new \XoopsFormHidden('curname', $naam));
+$form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+$form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $moduleConfig['animalType'] . ' : <b>' . $naam . '</b>?'));
 $pups = pups($_GET['id'], $roft);
-$form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $moduleConfig['children'] . _MA_PEDIGREE_ALL_ORPH . $pups));
-$form->addElement(new XoopsFormButton('', 'button_id', _DELETE, 'submit'));
+$form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $moduleConfig['children'] . _MA_PEDIGREE_ALL_ORPH . $pups));
+$form->addElement(new \XoopsFormButton('', 'button_id', _DELETE, 'submit'));
 //add data (form) to smarty template
 $xoopsTpl->assign('form', $form->render());
 

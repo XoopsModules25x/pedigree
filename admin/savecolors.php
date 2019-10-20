@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+use XoopsModules\Pedigree;
+
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
 
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php';

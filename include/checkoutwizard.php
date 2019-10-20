@@ -13,13 +13,13 @@ class CheckoutWizard extends ZervWizard
     {
         global $field;
         // start the session and initialize the wizard
-        if (!isset($_SESSION)) {
+        if (null === $_SESSION) {
             session_start();
         }
         parent::__construct($_SESSION, __CLASS__);
 
         $this->addStep('fieldname', _MA_PEDIGREE_ENTER_FIELD);
-        if ($this->getValue('field') == 0) { //only for a new field
+        if (0 == $this->getValue('field')) { //only for a new field
             $this->addStep('fieldtype', _MA_PEDIGREE_FIELD_TYP_SEL);
             if (('selectbox' === $this->getValue('fieldtype')) || ('radiobutton' === $this->getValue('fieldtype'))) {
                 $this->addStep('lookup', _MA_PEDIGREE_FIELD_ADD_VALUE);
@@ -37,7 +37,7 @@ class CheckoutWizard extends ZervWizard
     }
 
     /**
-     * @todo change access to fields using PedigreeFields
+     * @todo change access to fields using Pedigree\Fields
      * @return void
      */
     public function prepareFieldname()
@@ -91,12 +91,12 @@ class CheckoutWizard extends ZervWizard
      */
     public function prepareFieldtype()
     {
-        $this->fieldtype[] = array('value' => 'radiobutton', 'description' => _MA_PEDIGREE_RADIOBUTTONFIELD);
-        $this->fieldtype[] = array('value' => 'selectbox', 'description' => _MA_PEDIGREE_DROPDOWNFIELD);
-        $this->fieldtype[] = array('value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD);
-        $this->fieldtype[] = array('value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD);
-        $this->fieldtype[] = array('value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD);
-        $this->fieldtype[] = array('value' => 'urlfield', 'description' => _MA_PEDIGREE_URLFIELD);
+        $this->fieldtype[] = ['value' => 'radiobutton', 'description' => _MA_PEDIGREE_RADIOBUTTONFIELD];
+        $this->fieldtype[] = ['value' => 'selectbox', 'description' => _MA_PEDIGREE_DROPDOWNFIELD];
+        $this->fieldtype[] = ['value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD];
+        $this->fieldtype[] = ['value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD];
+        $this->fieldtype[] = ['value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD];
+        $this->fieldtype[] = ['value' => 'urlfield', 'description' => _MA_PEDIGREE_URLFIELD];
     }
 
     /**
@@ -129,15 +129,15 @@ class CheckoutWizard extends ZervWizard
             $this->setValue('id' . $fc, $lookupid);
         }
         $lastlookup = $this->getValue('lookup' . $fc);
-        if ($lastlookup == '') {
+        if ('' == $lastlookup) {
             $this->setValue('fc', $fc - 1);
         }
 
         for ($i = 0; $i < $fc; ++$i) {
-            $radioarray[] = array(
+            $radioarray[] = [
                 'id'    => $this->getValue('id' . ($i + 1)),
                 'value' => $this->getValue('lookup' . ($i + 1))
-            );
+            ];
         }
         //print_r($radioarray); die();
         $this->setValue('radioarray', $radioarray);
@@ -267,12 +267,12 @@ class CheckoutWizard extends ZervWizard
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $def = $row['DefaultValue'];
                 $this->setValue('defaultvalue', $def);
-                if ($row['LookupTable'] == '1') { //we have a lookup table; load values
+                if ('1' == $row['LookupTable']) { //we have a lookup table; load values
                     $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $this->getValue('field')) . " ORDER BY 'order'";
                     $fc     = 0;
                     $result = $GLOBALS['xoopsDB']->query($sql);
                     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                        $radioarray[] = array('id' => $row['id'], 'value' => $row['value']);
+                        $radioarray[] = ['id' => $row['id'], 'value' => $row['value']];
                         ++$fc;
                     }
                     $this->setValue('radioarray', $radioarray);
@@ -315,7 +315,7 @@ class CheckoutWizard extends ZervWizard
 
         //can this field be searched
         $search = $this->getValue('hassearch');
-        if ($search === 'hassearch') {
+        if ('hassearch' === $search) {
             $search        = '1';
             $searchname    = $this->getValue('searchname');
             $searchexplain = $this->getValue('searchexplain');
@@ -326,28 +326,28 @@ class CheckoutWizard extends ZervWizard
         }
         //show in pedigree
         $viewinpedigree = $this->getValue('viewinpedigree');
-        if ($viewinpedigree === 'viewinpedigree') {
+        if ('viewinpedigree' === $viewinpedigree) {
             $viewinpedigree = '1';
         } else {
             $viewinpedigree = '0';
         }
         //show in advanced
         $viewinadvanced = $this->getValue('viewinadvanced');
-        if ($viewinadvanced === 'viewinadvanced') {
+        if ('viewinadvanced' === $viewinadvanced) {
             $viewinadvanced = '1';
         } else {
             $viewinadvanced = '0';
         }
         //show in pie
         $viewinpie = $this->getValue('viewinpie');
-        if ($viewinpie === 'viewinpie') {
+        if ('viewinpie' === $viewinpie) {
             $viewinpie = '1';
         } else {
             $viewinpie = '0';
         }
         //view in list
         $viewinlist = $this->getValue('viewinlist');
-        if ($viewinlist === 'viewinlist') {
+        if ('viewinlist' === $viewinlist) {
             $viewinlist = '1';
         } else {
             $viewinlist = '0';
@@ -365,7 +365,7 @@ class CheckoutWizard extends ZervWizard
             $sql = 'UPDATE '
                    . $GLOBALS['xoopsDB']->prefix('pedigree_fields')
                    . " SET fieldname = '"
-                   . htmlspecialchars($this->getValue('name'))
+                   . htmlspecialchars($this->getValue('name'), ENT_QUOTES | ENT_HTML5)
                    . "', fieldtype = '"
                    . $this->getValue('fieldtype')
                    . "', defaultvalue = '"
@@ -409,7 +409,7 @@ class CheckoutWizard extends ZervWizard
             }
             //add userfield to various tables as a new field.
             //always add at the end of the table
-            $tables = array('pedigree_tree', 'pedigree_temp', 'pedigree_trash');
+            $tables = ['pedigree_tree', 'pedigree_temp', 'pedigree_trash'];
             foreach ($tables as $table) {
                 $SQL = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix($table) . ' ADD `user' . $nextfieldnum . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
                 $GLOBALS['xoopsDB']->queryF($SQL);
@@ -439,7 +439,7 @@ class CheckoutWizard extends ZervWizard
                    . " VALUES ('"
                    . $nextfieldnum
                    . "', '1', '"
-                   . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name')))
+                   . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name'), ENT_QUOTES | ENT_HTML5))
                    . "', '"
                    . $GLOBALS['xoopsDB']->escape($this->getValue('fieldtype'))
                    . "', '"

@@ -21,11 +21,11 @@
 
 function b_waiting_animal()
 {
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-    $ret     = array();
+    $xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
+    $ret     = [];
 
     // waiting pedigree_trash
-    $block = array();
+    $block = [];
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE pedigree_trash_waiting=1');
     if ($result) {
@@ -36,7 +36,7 @@ function b_waiting_animal()
     $ret[] = $block;
 
     // waiting mod_owner
-    $block = array();
+    $block = [];
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE owner_waiting=1');
     if ($result) {
@@ -47,7 +47,7 @@ function b_waiting_animal()
     $ret[] = $block;
 
     // waiting pedigree_temp
-    $block = array();
+    $block = [];
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' WHERE pedigree_temp_waiting=1');
     if ($result) {
@@ -58,7 +58,7 @@ function b_waiting_animal()
     $ret[] = $block;
 
     // waiting pedigree
-    $block = array();
+    $block = [];
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE pedigree_waiting=1');
     if ($result) {
@@ -69,7 +69,7 @@ function b_waiting_animal()
     $ret[] = $block;
 
     // waiting pedigree_config
-    $block = array();
+    $block = [];
 
     $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE pedigree_config_waiting=1');
     if ($result) {

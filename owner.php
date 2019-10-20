@@ -2,8 +2,9 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 //xoops_loadLanguage('main', basename(dirname(__DIR__)));
@@ -36,6 +37,7 @@ if (isset($GLOBALS['xoTheme'])) {
     echo '<script type="text/javascript" src="' . XOOPS_URL . '/include/color-picker.js"></script>';
 }
 
+//@todo move language string to language file
 $xoopsTpl->assign('page_title', 'Pedigree database - View Owner/Breeder details');
 
 //get module configuration
@@ -73,21 +75,26 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //email
     $email = $row['emailadres'];
 
-    //homepage
+    //homepage - changed to be regular expression check for http or https (case insensitive)
     $homepage = $row['website'];
+    if (!empty($homepage) && !preg_match('/^(https?:\/\/)/i', $homepage)) {
+        $homepage = "http://{$homepage}";
+    }
+}
+/*
     $check    = substr($homepage, 0, 7);
-    if ($check !== 'http://') {
+    if ('http://' !== $check) {
         $homepage = 'http://' . $homepage;
     }
 
     //Owner of
-    $owner = PedigreeUtility::breederof($row['id'], 0);
+    $owner = Pedigree\Utility::breederof($row['id'], 0);
 
     //Breeder of
-    $breeder = PedigreeUtility::breederof($row['id'], 1);
+    $breeder = Pedigree\Utility::breederof($row['id'], 1);
 
     //entered into the database by
-    $dbuser = XoopsUserUtility::getUnameFromId($row['user']);
+    $dbuser = \XoopsUserUtility::getUnameFromId($row['user']);
 
     //check for edit rights
     $access      = 0;
@@ -102,50 +109,50 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
 
     //lastname
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_LNAME,
         'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naaml . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
 
     //firstname
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_FNAME,
         'data'   => '<a href="owner.php?ownid=' . $row['id'] . '">' . $naamf . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
 
     //email
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
         'data'   => '<a href="mailto:' . $email . '">' . $email . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
     //homepage
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
         'data'   => '<a href="' . $homepage . '" target="_blank">' . $homepage . '</a>',
         'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
-    );
+    ];
     //owner of
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_OWN,
         'data'   => $owner,
         'edit'   => ''
-    );
+    ];
     //breeder of
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_OWN_BRE,
         'data'   => $breeder,
         'edit'   => ''
-    );
+    ];
 
     //database user
-    $items[] = array(
+    $items[] = [
         'header' => _MA_PEDIGREE_FLD_DBUS,
         'data'   => $dbuser,
         'edit'   => ''
-    );
+    ];
 }
 
 //add data to smarty template
@@ -158,3 +165,4 @@ $xoopsTpl->assign('delete', "<img src=' " . $pathIcon16 . "/delete.png' border='
 
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';
+*/

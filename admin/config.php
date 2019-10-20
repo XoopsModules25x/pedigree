@@ -29,10 +29,11 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 //To be deleted?
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 //require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
 //require_once dirname(__DIR__) . "/include/pedigree_includes.php";
 
@@ -61,7 +62,7 @@ function pedigree_config_form()
             <table width='100%' border='0' cellpadding='4' cellspacing='1'>\n";
 
     foreach ($config_fields as $field => $prompt) {
-        if ($field === 'config_id') {
+        if ('config_id' === $field) {
             continue;
         }
         $pname = 'param_' . $field;

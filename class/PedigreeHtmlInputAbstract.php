@@ -10,7 +10,7 @@
  * @since      1.3.1
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * PedigreeHtmlInputAbstract
@@ -24,9 +24,9 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 require_once __DIR__ . '/field.php';
 
 /**
- * Class PedigreeHtmlInputAbstract
+ * Class HtmlInputAbstract
  */
-abstract class PedigreeHtmlInputAbstract extends PedigreeField
+abstract class PedigreeHtmlInputAbstract extends Field
 {
     /**
      * @return mixed
@@ -81,12 +81,12 @@ abstract class PedigreeHtmlInputAbstract extends PedigreeField
      */
     public function lookupField($fieldnumber)
     {
-        $ret = array();
+        $ret = [];
         global $xoopsDB;
         $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = array('id' => $row['id'], 'value' => $row['value']);
+            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
         }
 
         //array_multisort($ret,SORT_ASC);

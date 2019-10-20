@@ -17,11 +17,11 @@
  * @author         XOOPS Development Team
  */
 
-include __DIR__ . '/../../mainfile.php';
-$com_itemid = isset($HTTP_GET_VARS['com_itemid']) ? (int)$HTTP_GET_VARS['com_itemid'] : 0;
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
+$com_itemid = \Xmf\Request::getInt('com_itemid', 0, 'GET');
 if ($com_itemid > 0) {
     // Get link title
-    $sql            = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $com_itemid . '';
+    $sql            = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $com_itemid . ' ';
     $result         = $GLOBALS['xoopsDB']->query($sql);
     $row            = $GLOBALS['xoopsDB']->fetchArray($result);
     $com_replytitle = stripslashes($row['naam']);

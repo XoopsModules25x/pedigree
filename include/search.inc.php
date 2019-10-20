@@ -31,13 +31,13 @@ function pedigree_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $sql .= ') ';
     } // end if
-    if ($userid != 0) {
+    if (0 != $userid) {
         $sql .= ' WHERE user=' . $userid . ' ';
     }
     $sql .= 'ORDER BY naam ASC';
 
     $result = $GLOBALS['xoopsDB']->query($sql, $limit, $offset);
-    $ret    = array();
+    $ret    = [];
     $i      = 0;
     // with the search results, build the links to the hits the search query made
     while (false !== ($myrow = $GLOBALS['xoopsDB']->fetchArray($result))) {

@@ -2,13 +2,14 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_load('PedigreeAnimal', $moduleDirName);
+xoops_load('Pedigree\Animal', $moduleDirName);
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
@@ -93,14 +94,14 @@ if (($numPages > 1) && ($currentPage < $numPages)) {
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY naam LIMIT {$st}, {$perPage}";
 $result      = $GLOBALS['xoopsDB']->query($queryString);
 
-$animal = new PedigreeAnimal();
+$animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
 $fields       = $animal->getNumOfFields();
 $fieldsCount  = count($fields);
 $numofcolumns = 1;
-$columns[]    = array('columnname' => 'Name');
-for ($i = 0; $i < $fieldsCount; ++$i) {
-    $userField = new Field($fields[$i], $animal->getConfig());
+$columns[]    = ['columnname' => 'Name'];
+foreach ($fields as $i => $iValue) {
+    $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType = $userField->getSetting('FieldType');
     $fieldObj  = new $fieldType($userField, $animal);
     //create empty string
@@ -112,42 +113,42 @@ for ($i = 0; $i < $fieldsCount; ++$i) {
         } else {
             $lookupValues = '';
         }
-        $columns[] = array(
+        $columns[] = [
             'columnname'   => $fieldObj->fieldname,
             'columnnumber' => $userField->getId(),
             'lookupval'    => $lookupValues
-        );
+        ];
         ++$numofcolumns;
         unset($lookupValues);
     }
 }
 
-$empty = array_fill(0, $numofcolumns, array('value' => ''));
+$empty = array_fill(0, $numofcolumns, ['value' => '']);
 /*
 for ($i = 1; $i < $numofcolumns; ++$i) {
     $empty[] = array('value' => "");
 }
 */
 if (0 == $gend) {
-    $dogs [] = array(
+    $dogs [] = [
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, array('[father]' => $moduleConfig['father'])) . '</a>',
+        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, ['[father]' => $moduleConfig['father']]) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
-    );
+    ];
 } else {
-    $dogs [] = array(
+    $dogs [] = [
         'id'          => '0',
         'name'        => '',
         'gender'      => '',
-        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, array('[mother]' => $moduleConfig['mother'])) . '</a>',
+        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, ['[mother]' => $moduleConfig['mother']]) . '</a>',
         'colour'      => '',
         'number'      => '',
         'usercolumns' => $empty
-    );
+    ];
 }
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -168,51 +169,51 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             //debug information
             ///echo $columns[$i]['columnname']."is an array !";
         } //format value - cant use object because of query count
-        elseif (0 === strpos($row[$x], 'http://')) {
+        elseif (0 === strncmp($row[$x], 'http://', 7)) {
             $value = "<a href='{$row[$x]}'>{$row[$x]}</a>";
         } else {
             $value = $row[$x];
         }
-        $columnvalue[] = array('value' => $value);
+        $columnvalue[] = ['value' => $value];
     }
     if (0 == $gend) {
-        $dogs[] = array(
+        $dogs[] = [
             'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/male.gif">',
             'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => isset($columnvalue) ?: array()
-        );
+            'usercolumns' => isset($columnvalue) ?: []
+        ];
     } else {
-        $dogs[] = array(
+        $dogs[] = [
             'id'          => $row['id'],
             'name'        => $name,
             'gender'      => '<img src="assets/images/female.gif">',
             'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => isset($columnvalue) ?: array()
-        );
+            'usercolumns' => isset($columnvalue) ?: []
+        ];
     }
 }
 
 //add data to smarty template
 //assign dog
-$GLOBALS['xoopsTpl']->assign(array(
+$GLOBALS['xoopsTpl']->assign([
                                  'dogs'         => $dogs,
                                  'columns'      => $columns,
                                  'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => PedigreeUtility::sortTable($numofcolumns)
-                             ));
+                                 'tsarray'      => Pedigree\Utility::sortTable($numofcolumns)
+                             ]);
 //add data to smarty template
 if (0 == $gend) {
-    $selTtlParent = strtr(_MA_PEDIGREE_FLD_FATH, array('[father]' => $moduleConfig['father']));
+    $selTtlParent = strtr(_MA_PEDIGREE_FLD_FATH, ['[father]' => $moduleConfig['father']]);
 } else {
-    $selTtlParent = strtr(_MA_PEDIGREE_FLD_MOTH, array('[mother]' => $moduleConfig['mother']));
+    $selTtlParent = strtr(_MA_PEDIGREE_FLD_MOTH, ['[mother]' => $moduleConfig['mother']]);
 }
-$seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . PedigreeUtility::getName($curval);
+$seltitle = _MA_PEDIGREE_SEL . $selTtlParent . _MA_PEDIGREE_FROM . Pedigree\Utility::getName($curval);
 
 $GLOBALS['xoopsTpl']->assign('seltitle', $seltitle);
 
@@ -221,28 +222,28 @@ $lastshown = (($st + $perPage) > $numResults) ? $numResults : $st + $perPage;
 
 //create string
 /* @todo: move hard coded language string to language files */
-$matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
+$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = "{$numResults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numPages} pages)";
-$GLOBALS['xoopsTpl']->assign(array(
+$GLOBALS['xoopsTpl']->assign([
                                  'nummatch' => $nummatchstr,
                                  'pages'    => $pages,
                                  'curval'   => $curval
-                             ));
+                             ]);
 
 //mb ========= MOTHER LETTERS===============================
-$myObject = PedigreePedigree::getInstance();
+$myObject = Pedigree\Helper::getInstance();
 $roft     = $gend;
-//    $criteria     = $myObject->getHandler('tree')->getActiveCriteria($roft);
-$activeObject = 'tree';
+//    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
+$activeObject = 'Tree';
 $name         = 'naam';
 $number1      = '1';
 $number2      = '0';
 $link         = "seldog.php?gend={$gend}&curval={$curval}&letter=";
 
-$criteria = $myObject->getHandler('tree')->getActiveCriteria($roft);
+$criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
 $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');
 
-$motherArray['letters'] = PedigreeUtility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
+$motherArray['letters'] = Pedigree\Utility::lettersChoice($myObject, $activeObject, $criteria, $name, $link);
 //$catarray['toolbar']          = pedigree_toolbar();
 $xoopsTpl->assign('motherArray', $motherArray);
 

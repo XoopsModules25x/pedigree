@@ -39,7 +39,7 @@ function lookup($category, $item_id)
         $config = $xoopsModuleConfig;
     }
 
-    if ($category === 'global') {
+    if ('global' === $category) {
         $item['name'] = '';
         $item['url']  = '';
 
@@ -48,7 +48,7 @@ function lookup($category, $item_id)
     $item_id = (int)$item_id;
 
     global $xoopsDB;
-    if ($category === 'dog') {
+    if ('dog' === $category) {
         // Assume we have a valid forum id
         $sql = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id = ' . $item_id;
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
@@ -61,7 +61,7 @@ function lookup($category, $item_id)
         return $item;
     }
 
-    if ($category === 'thread') {
+    if ('thread' === $category) {
         // Assume we have a valid topid id
         $sql = 'SELECT t.topic_title,f.forum_id,f.forum_name FROM ' . $GLOBALS['xoopsDB']->prefix('bb_topics') . ' t, ' . $GLOBALS['xoopsDB']->prefix('bb_forums') . ' f WHERE t.forum_id = f.forum_id AND t.topic_id = ' . $item_id . ' LIMIT 1';
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
@@ -74,7 +74,7 @@ function lookup($category, $item_id)
         return $item;
     }
 
-    if ($category === 'post') {
+    if ('post' === $category) {
         // Assume we have a valid post id
         $sql = 'SELECT subject,topic_id,forum_id FROM ' . $GLOBALS['xoopsDB']->prefix('bb_posts') . ' WHERE post_id = ' . $item_id . ' LIMIT 1';
         if (!$result = $GLOBALS['xoopsDB']->query($sql)) {

@@ -23,8 +23,9 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -32,15 +33,13 @@ xoops_loadLanguage('main', $moduleDirName);
 
 //check for access
 //$xoopsModule = XoopsModule::getByDirname($moduleDirName);
-if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-xoops_load('PedigreeAnimal', $moduleDirName);
 
 // Include any common code for this module.
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
 
 /*
 $GLOBALS['xoopsOption']['template_main'] = "pedigree_update.tpl";
@@ -72,19 +71,19 @@ $gender   = Request::getString('roft', '', 'POST'); //Richard
 $id_owner = Request::getInt('id_owner', 0, 'POST');
 
 //$id       = (!isset($_POST['dogid']) ? $id = '' : $id = $_POST['dogid']);
-$animal = new PedigreeAnimal($dogid);
+$animal = new Pedigree\Animal($dogid);
 $fields = $animal->getNumOfFields();
 
-for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
-    if ('user' . $fields[$i] === $_POST['dbfield']) {
-        $userField = new Field($fields[$i], $animal->getConfig());
+foreach ($fields as $i => $iValue) {
+    if ('user' . $iValue === $_POST['dbfield']) {
+        $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-            $currentfield = 'user' . $fields[$i];
+            $currentfield = 'user' . $iValue;
             $pictureField = $_FILES[$currentfield]['name'];
             if (empty($pictureField)) {
-                $newvalue = $_POST['user' . $fields[$i]];
+                $newvalue = $_POST['user' . $iValue];
             } else {
-                $newvalue = PedigreeUtility::uploadPicture(0);
+                $newvalue = Pedigree\Utility::uploadPicture(0);
             }
             $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . " SET {$field}='{$newvalue}' WHERE id='{$dogid}'";
             $GLOBALS['xoopsDB']->queryF($sql);
@@ -137,7 +136,7 @@ if (!empty($_POST['roft']) || '0' == $_POST['roft']) {
 if (isset($_GET['gend'])) {
     $curval = Request::getInt('curval', 0, 'GET');
     $thisid = Request::getInt('thisid', 0, 'GET');
-    //$curname = PedigreeUtility::getName($curval);
+    //$curname = Pedigree\Utility::getName($curval);
     $table = 'pedigree_tree';
     if (0 == Request::getInt('gend', '', 'GET')) {
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . " SET father='" . $thisid . "' WHERE id='{$curval}'";
@@ -151,9 +150,9 @@ if (isset($_GET['gend'])) {
     $dogid = $curval;
 }
 //picture
-if ($_POST['dbfield'] === 'foto') {
+if ('foto' === $_POST['dbfield']) {
     $curval = Request::getString('curvalpic', '', 'POST');
-    $foto   = PedigreeUtility::uploadPicture(0);
+    $foto   = Pedigree\Utility::uploadPicture(0);
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . " SET foto='" . $GLOBALS['xoopsDB']->escape($foto) . "' WHERE id='{$dogid}'";
     $GLOBALS['xoopsDB']->queryF($sql);
 

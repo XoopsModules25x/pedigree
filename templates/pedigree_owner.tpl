@@ -31,7 +31,7 @@
                             <{$smarty.const._DELETE}>
                         </td>
                         <td>
-                            <a href="deletebreeder.php?id=<{$id}>"><{$delete}></a>
+                            <a href="deletebreeder.php?Id=<{$id}>"><{$delete}></a>
                         </td>
                         <td>
                             &nbsp;

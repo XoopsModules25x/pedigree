@@ -20,11 +20,14 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
+
+$ownerHandler = Pedigree\Helper::getInstance()->getHandler('Owner');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -34,11 +37,11 @@ switch ($op) {
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
         $adminObject->displayButton('left');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows   = $pedigreeOwnerHandler->getCount();
-        $owner_arr = $pedigreeOwnerHandler->getall($criteria);
+        $numrows   = $ownerHandler->getCount();
+        $owner_arr = $ownerHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -61,9 +64,9 @@ switch ($op) {
             $class = 'odd';
 
             foreach (array_keys($owner_arr) as $i) {
-                if ($owner_arr[$i]->getVar('owner_pid') == 0) {
+                if (0 == $owner_arr[$i]->getVar('owner_pid')) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo '<td class="center">' . $owner_arr[$i]->getVar('firstname') . '</td>';
                     echo '<td class="center">' . $owner_arr[$i]->getVar('lastname') . '</td>';
                     echo '<td class="center">' . $owner_arr[$i]->getVar('postcode') . '</td>';
@@ -92,7 +95,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $pedigreeOwnerHandler->create();
+        $obj  = $ownerHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -102,9 +105,9 @@ switch ($op) {
             redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj = $pedigreeOwnerHandler->get($_REQUEST['id']);
+            $obj = $ownerHandler->get($_REQUEST['id']);
         } else {
-            $obj = $pedigreeOwnerHandler->create();
+            $obj = $ownerHandler->create();
         }
 
         //Form firstname
@@ -128,7 +131,7 @@ switch ($op) {
         //Form user
         $obj->setVar('user', $_REQUEST['user']);
 
-        if ($pedigreeOwnerHandler->insert($obj)) {
+        if ($ownerHandler->insert($obj)) {
             redirect_header('owner.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
@@ -142,24 +145,24 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $pedigreeOwnerHandler->get($_REQUEST['id']);
+        $obj  = $ownerHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_owner':
-        $obj = $pedigreeOwnerHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        $obj = $ownerHandler->get($_REQUEST['id']);
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeOwnerHandler->delete($obj)) {
+            if ($ownerHandler->delete($obj)) {
                 redirect_header('owner.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_owner'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('owner')));
+            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_owner'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('owner')));
         }
         break;
 }

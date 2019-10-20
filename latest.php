@@ -1,7 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+use Xmf\Request;
+use XoopsModules\Pedigree;
+
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -9,7 +13,6 @@ xoops_loadLanguage('main', $moduleDirName);
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/class_field.php");
 //path taken
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_latest.tpl';
@@ -23,11 +26,7 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-if (isset($st)) {
-    $st = $_GET['st'];
-} else {
-    $st = 0;
-}
+$st = Request::getInt('st', 0, 'GET');
 
 $perPage = $moduleConfig['perpage'];
 global $xoopsTpl, $xoopsModuleConfig;
@@ -79,44 +78,44 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
     $gender = '';
     if (!empty($GLOBALS['xoopsUser'])) {
-        if ($row['d_user'] == $GLOBALS['xoopsUser']->getVar('uid') || $modadmin === true) {
+        if ($row['d_user'] == $GLOBALS['xoopsUser']->getVar('uid') || true === $modadmin) {
             $gender = '<a href="dog.php?id=' . $row['d_id'] . '"><img src=' . $pathIcon16 . '/edit.png alt=' . _EDIT . '></a><a href="delete.php?id=' . $row['d_id'] . '"><img src=' . $pathIcon16 . '/delete.png alt=' . _DELETE . '></a>';
         } else {
             $gender = '';
         }
     }
 
-    if ($row['d_foto'] != '') {
+    if ('' != $row['d_foto']) {
         $camera = ' <img src="assets/images/camera.png">';
     } else {
         $camera = '';
     }
 
-    if ($row['d_roft'] == 0) {
+    if (0 == $row['d_roft']) {
         $gender .= '<img src="assets/images/male.gif">';
     } else {
         $gender .= '<img src="assets/images/female.gif">';
     }
     //create string for parents
-    if ($row['f_naam'] == '') {
+    if ('' == $row['f_naam']) {
         $dad = _MA_PEDIGREE_UNKNOWN;
     } else {
         $dad = '<a href="pedigree.php?pedid=' . $row['f_id'] . '">' . stripslashes($row['f_naam']) . '</a>';
     }
-    if ($row['m_naam'] == '') {
+    if ('' == $row['m_naam']) {
         $mom = _MA_PEDIGREE_UNKNOWN;
     } else {
         $mom = '<a href="pedigree.php?pedid=' . $row['m_id'] . '">' . stripslashes($row['m_naam']) . '</a>';
     }
     $parents = $dad . ' x ' . $mom;
     //create array for animals
-    $animals[] = array(
+    $animals[] = [
         'id'      => $row['d_id'],
         'name'    => stripslashes($row['d_naam']) . $camera,
         'gender'  => $gender,
         'parents' => $parents,
         'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>'
-    );
+    ];
     //reset rights ready for the next dog
     $editdel = '0';
 }
@@ -134,7 +133,7 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches     = strtr(_MA_PEDIGREE_MATCHES, array('[animalTypes]' => $moduleConfig['animalTypes']));
+$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
 $xoopsTpl->assign('nummatch', $nummatchstr);
 if (isset($pages)) {

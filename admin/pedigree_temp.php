@@ -20,11 +20,15 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
+
+
+$tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -34,11 +38,11 @@ switch ($op) {
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
         $adminObject->displayButton('left');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows           = $pedigreeTempHandler->getCount();
-        $pedigree_temp_arr = $pedigreeTempHandler->getall($criteria);
+        $numrows           = $tempHandler->getCount();
+        $pedigree_temp_arr = $tempHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -61,9 +65,9 @@ switch ($op) {
             $class = 'odd';
 
             foreach (array_keys($pedigree_temp_arr) as $i) {
-                if ($pedigree_temp_arr[$i]->getVar('pedigree_temp_pid') == 0) {
+                if (0 == $pedigree_temp_arr[$i]->getVar('pedigree_temp_pid')) {
                     echo "<tr class='{$class}'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('naam') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('id_breeder') . '</td>';
@@ -91,7 +95,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $tempHandler = xoops_getModuleHandler('temp', 'pedigree');
+        $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
         $obj         = $tempHandler->create();
         $form        = $obj->getForm();
         $form->display();
@@ -102,9 +106,9 @@ switch ($op) {
             redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id']) && (0 < ($id = Request::getInt('id', 1)))) {
-            $obj = $pedigreeTempHandler->get($id);
+            $obj = $tempHandler->get($id);
         } else {
-            $obj = $pedigreeTempHandler->create();
+            $obj = $tempHandler->create();
         }
 
         //Form naam
@@ -126,7 +130,7 @@ switch ($op) {
         //Form coi
         $obj->setVar('coi', $_REQUEST['coi']);
 
-        if ($pedigreeTempHandler->insert($obj)) {
+        if ($tempHandler->insert($obj)) {
             redirect_header('pedigree_temp.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
@@ -140,24 +144,24 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $pedigreeTempHandler->get($_REQUEST['id']);
+        $obj  = $tempHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree_temp':
-        $obj = $pedigreeTempHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        $obj = $tempHandler->get($_REQUEST['id']);
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeTempHandler->delete($obj)) {
+            if ($tempHandler->delete($obj)) {
                 redirect_header('pedigree_temp.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_pedigree_temp'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_temp')));
+            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_pedigree_temp'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree_temp')));
         }
         break;
 }

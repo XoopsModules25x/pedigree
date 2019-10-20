@@ -16,18 +16,22 @@
  * @package         pedigree
  * @author          Xoops Module Dev Team
  */
-require_once __DIR__ . '/../../mainfile.php';
+
+use XoopsModules\Pedigree;
+
+require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
-//require_once __DIR__ . '/../class/utility.php';
+
+/** @var Pedigree\Helper $helper */
+$helper = Pedigree\Helper::getInstance();
 
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-xoops_load('PedigreeAnimal', $moduleDirName);
 $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
-    $GLOBALS['xoopsTpl'] = new XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }
 //$xoops = Xoops::getInstance();
 //$xoopsTpl = $xoops->tpl();

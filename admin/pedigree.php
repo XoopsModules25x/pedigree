@@ -20,11 +20,14 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
+
+$treeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -34,11 +37,11 @@ switch ($op) {
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         $adminObject->displayButton('left');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows      = $pedigreeTreeHandler->getCount();
-        $pedigree_arr = $pedigreeTreeHandler->getall($criteria);
+        $numrows      = $treeHandler->getCount();
+        $pedigree_arr = $treeHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
@@ -60,9 +63,9 @@ switch ($op) {
             $class = 'odd';
 
             foreach (array_keys($pedigree_arr) as $i) {
-                if ($pedigree_arr[$i]->getVar('pedigree_pid') == 0) {
+                if (0 == $pedigree_arr[$i]->getVar('pedigree_pid')) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class === 'even') ? 'odd' : 'even';
+                    $class = ('even' === $class) ? 'odd' : 'even';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('naam') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('id_owner') . '</td>';
                     echo '<td align="center">' . $pedigree_arr[$i]->getVar('id_breeder') . '</td>';
@@ -90,7 +93,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $pedigreeTreeHandler->create();
+        $obj  = $treeHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
@@ -100,9 +103,9 @@ switch ($op) {
             redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj = $pedigreeTreeHandler->get($_REQUEST['id']);
+            $obj = $treeHandler->get($_REQUEST['id']);
         } else {
-            $obj = $pedigreeTreeHandler->create();
+            $obj = $treeHandler->create();
         }
 
         //Form naam
@@ -124,7 +127,7 @@ switch ($op) {
         //Form coi
         $obj->setVar('coi', $_REQUEST['coi']);
 
-        if ($pedigreeTreeHandler->insert($obj)) {
+        if ($treeHandler->insert($obj)) {
             redirect_header('pedigree.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
@@ -138,24 +141,24 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $pedigreeTreeHandler->get($_REQUEST['id']);
+        $obj  = $treeHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
     case 'delete_pedigree':
-        $obj = $pedigreeTreeHandler->get($_REQUEST['id']);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        $obj = $treeHandler->get($_REQUEST['id']);
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeTreeHandler->delete($obj)) {
+            if ($treeHandler->delete($obj)) {
                 redirect_header('pedigree.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_pedigree'), $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree')));
+            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_pedigree'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('pedigree')));
         }
         break;
 }

@@ -157,7 +157,7 @@ h4 {
 
 .pedigree_newlist_top fieldset {
     text-align: center;
-    border: 1px solid silver;
+    border: 1px solid #c0c0c0;
     width: 450px;
 }
 
@@ -272,7 +272,7 @@ h4 {
     margin-left: 10px;
     margin-right: 10px;
     padding: 4px;
-    background-color: silver;
+    background-color: #c0c0c0;
     border-color: #999999;
     font-size: .8em;
 }
@@ -296,7 +296,7 @@ h4 {
 
 .pedigree_down_main_bottom2 {
     text-align: center;
-    background-color: silver;
+    background-color: #c0c0c0;
     width: 100%;
     position: relative;
     line-height: 150%;
@@ -359,7 +359,7 @@ h4 {
     margin-left: 10px;
     margin-right: 10px;
     padding: 4px;
-    background-color: silver;
+    background-color: #c0c0c0;
     border-color: #999999;
     color: #333;
     font-size: .8em;
@@ -377,7 +377,7 @@ h4 {
 
 .pedigree_single_main_bottom {
     text-align: center;
-    background-color: silver;
+    background-color: #c0c0c0;
     width: 100%;
     position: relative;
     float: bottom;

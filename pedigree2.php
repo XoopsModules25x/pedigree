@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once __DIR__ . '/../../mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -41,8 +41,8 @@ function pedigree_main($ID)
     global $xoopsTpl;
     global $xoopsModuleConfig;
 
-    if (isset($HTTP_POST_VARS['detail'])) {
-        $detail = trim($HTTP_POST_VARS['detail']);
+    if (isset($_POST['detail'])) {
+        $detail = trim($_POST['detail']);
     }
 
     $queryString = '
@@ -186,138 +186,138 @@ function pedigree_main($ID)
         $d['d']['roft']   = $row['d_roft'];
         $d['d']['nhsb']   = $row['d_nhsb'];
         $d['d']['colour'] = $row['d_kleur'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['d']['photo'] = $row['d_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['d']['hd'] = hd($row['d_hd']);
         }
         //father
         $d['f']['name'] = stripslashes($row['f_naam']);
         $d['f']['id']   = $row['f_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['f']['photo'] = $row['f_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['f']['hd'] = hd($row['f_hd']);
         }
         //mother
         $d['m']['name'] = stripslashes($row['m_naam']);
         $d['m']['id']   = $row['m_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['m']['photo'] = $row['m_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['m']['hd'] = hd($row['m_hd']);
         }
         //grandparents
         //father father
         $d['ff']['name'] = stripslashes($row['ff_naam']);
         $d['ff']['id']   = $row['ff_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['ff']['photo'] = $row['ff_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['ff']['hd'] = hd($row['ff_hd']);
         }
         //father mother
         $d['fm']['name'] = stripslashes($row['fm_naam']);
         $d['fm']['id']   = $row['fm_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['fm']['photo'] = $row['fm_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['fm']['hd'] = hd($row['fm_hd']);
         }
         //mother father
         $d['mf']['name'] = stripslashes($row['mf_naam']);
         $d['mf']['id']   = $row['mf_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['mf']['photo'] = $row['mf_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['mf']['hd'] = hd($row['mf_hd']);
         }
         //mother mother
         $d['mm']['name'] = stripslashes($row['mm_naam']);
         $d['mm']['id']   = $row['mm_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['mm']['photo'] = $row['mm_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['mm']['hd'] = hd($row['mm_hd']);
         }
         //great-grandparents
         //father father father
         $d['fff']['name'] = stripslashes($row['fff_naam']);
         $d['fff']['id']   = $row['fff_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['fff']['photo'] = $row['fff_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['fff']['hd'] = hd($row['fff_hd']);
         }
         //father father mother
         $d['ffm']['name'] = stripslashes($row['ffm_naam']);
         $d['ffm']['id']   = $row['ffm_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['ffm']['photo'] = $row['ffm_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['ffm']['hd'] = hd($row['ffm_hd']);
         }
         //father mother father
         $d['fmf']['name'] = stripslashes($row['fmf_naam']);
         $d['fmf']['id']   = $row['fmf_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['fmf']['photo'] = $row['fmf_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['fmf']['hd'] = hd($row['fmf_hd']);
         }
         //father mother mother
         $d['fmm']['name'] = stripslashes($row['fmm_naam']);
         $d['fmm']['id']   = $row['fmm_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['fmm']['photo'] = $row['fmm_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['fmm']['hd'] = hd($row['fmm_hd']);
         }
         //mother father father
         $d['mff']['name'] = stripslashes($row['mff_naam']);
         $d['mff']['id']   = $row['mff_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['mff']['photo'] = $row['mff_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['mff']['hd'] = hd($row['mff_hd']);
         }
         //mother father mother
         $d['mfm']['name'] = stripslashes($row['mfm_naam']);
         $d['mfm']['id']   = $row['mfm_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['mfm']['photo'] = $row['mfm_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['mfm']['hd'] = hd($row['mfm_hd']);
         }
         //mother mother father
         $d['mmf']['name'] = stripslashes($row['mmf_naam']);
         $d['mmf']['id']   = $row['mmf_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['mmf']['photo'] = $row['mmf_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['mmf']['hd'] = hd($row['mmf_hd']);
         }
         //mother mother mother
         $d['mmm']['name'] = stripslashes($row['mmm_naam']);
         $d['mmm']['id']   = $row['mmm_id'];
-        if ($pic == 1) {
+        if (1 == $pic) {
             $d['mmm']['photo'] = $row['mmm_foto'];
         }
-        if ($hd == 1) {
+        if (1 == $hd) {
             $d['mmm']['hd'] = hd($row['mmm_hd']);
         }
     }
@@ -330,12 +330,12 @@ function pedigree_main($ID)
     $ov = $moduleConfig['overview'];
     $xoopsTpl->assign('overview', $ov);
     $sign = $moduleConfig['gender'];
-    if ($sign == 1) {
+    if (1 == $sign) {
         $xoopsTpl->assign('male', '<img src="assets/images/male.gif">');
         $xoopsTpl->assign('female', '<img src="assets/images/female.gif">');
     }
     $addit = $moduleConfig['adinfo'];
-    if ($addit == 1) {
+    if (1 == $addit) {
         $xoopsTpl->assign('addinfo', '1');
     }
     $xoopsTpl->assign('pics', $pic);

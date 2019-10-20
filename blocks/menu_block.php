@@ -4,14 +4,14 @@
 //        Copyright 2004, James Cotton
 //         http://www.dobermannvereniging.nl
 
+use XoopsModules\Pedigree;
+
 // Include any constants used for internationalizing templates.
 $moduleDirName = basename(dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
 //xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/class_field.php");
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
-require_once $GLOBALS['xoops']->path('modules/' . $moduleDirName . '/class/field.php');
+
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
@@ -23,18 +23,15 @@ function menu_block()
 {
     global $xoopsTpl, $xoopsUser, $pedigree;
     $moduleDirName = basename(dirname(__DIR__));
-    if (!class_exists('PedigreePedigree')) {
-        $pedigree = PedigreePedigree::getInstance(false);
-    }
     /*
     //get module configuration
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    */
+*/
     //colour variables
-    $colors  = explode(',', $pedigree->getConfig('colourscheme'));
+    $colors  = explode(',', $helper->getConfig('colourscheme'));
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -69,7 +66,7 @@ function menu_block()
 
     //iscurrent user a module admin ?
     $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-    if ((!empty($xoopsUser)) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)
+    if (!empty($xoopsUser) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
         && $xoopsUser->isAdmin($xoopsModule->mid())) {
         $modadmin = true;
     } else {
@@ -82,128 +79,128 @@ function menu_block()
     $lastpos = my_strrpos($x, '/');
     $len     = strlen($x);
     $curpage = substr($x, $lastpos, $len);
-    if (1 == $pedigree->getConfig('showwelcome')) {
+    if (1 == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>Welcome</b>';
         } else {
             $title = 'Welcome';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'welcome.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'welcome.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
     }
-    if ($curpage === '/index.php' || $curpage === '/result.php') {
-        $title = '<b>View/Search ' . $pedigree->getConfig('animalTypes') . '</b>';
+    if ('/index.php' === $curpage || '/result.php' === $curpage) {
+        $title = '<b>View/Search ' . $helper->getConfig('animalTypes') . '</b>';
     } else {
-        $title = 'View/Search ' . $pedigree->getConfig('animalTypes');
+        $title = 'View/Search ' . $helper->getConfig('animalTypes');
     }
-    $menuarray[] = array('title' => $title, 'link' => 'index.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'index.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($curpage === '/add_dog.php') {
-        $title = '<b>Add a ' . $pedigree->getConfig('animalType') . '</b>';
+    if ('/add_dog.php' === $curpage) {
+        $title = '<b>Add a ' . $helper->getConfig('animalType') . '</b>';
     } else {
-        $title = 'Add a ' . $pedigree->getConfig('animalType');
+        $title = 'Add a ' . $helper->getConfig('animalType');
     }
-    $menuarray[] = array('title' => $title, 'link' => 'add_dog.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'add_dog.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $pedigree->getConfig('uselitter')) {
-        if ($curpage === '/add_litter.php') {
-            $title = '<b>Add a ' . $pedigree->getConfig('litter') . '</b>';
+    if ('1' == $helper->getConfig('uselitter')) {
+        if ('/add_litter.php' === $curpage) {
+            $title = '<b>Add a ' . $helper->getConfig('litter') . '</b>';
         } else {
-            $title = 'Add a ' . $pedigree->getConfig('litter');
+            $title = 'Add a ' . $helper->getConfig('litter');
         }
-        $menuarray[] = array('title' => $title, 'link' => 'add_litter.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'add_litter.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
     }
-    if ('1' == $pedigree->getConfig('ownerbreeder')) {
-        if ($curpage === '/breeder.php' || $curpage === '/owner.php') {
+    if ('1' == $helper->getConfig('ownerbreeder')) {
+        if ('/breeder.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>View owners/breeders</b>';
         } else {
             $title = 'View owners/breeders';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'breeder.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'breeder.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
-        if ($curpage === '/add_breeder.php') {
+        if ('/add_breeder.php' === $curpage) {
             $title = '<b>Add an owner/breeder</b>';
         } else {
             $title = 'Add an owner/breeder';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'add_breeder.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'add_breeder.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
     }
-    if ($curpage === '/advanced.php') {
+    if ('/advanced.php' === $curpage) {
         $title = '<b>Advanced info</b>';
     } else {
         $title = 'Advanced info';
     }
-    $menuarray[] = array('title' => $title, 'link' => 'advanced.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'advanced.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $pedigree->getConfig('proversion')) {
-        if ($curpage === '/virtual.php') {
+    if ('1' == $helper->getConfig('proversion')) {
+        if ('/virtual.php' === $curpage) {
             $title = '<b>Virtual mating</b>';
         } else {
             $title = 'Virtual Mating';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'virtual.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'virtual.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
     }
-    if ($curpage === '/latest.php') {
+    if ('/latest.php' === $curpage) {
         $title = '<b>latest additions</b>';
     } else {
         $title = 'latest additions';
     }
-    $menuarray[] = array('title' => $title, 'link' => 'latest.php', 'counter' => $counter);
+    $menuarray[] = ['title' => $title, 'link' => 'latest.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ($modadmin === true) {
-        if ($curpage === '/tools.php') {
+    if (true === $modadmin) {
+        if ('/tools.php' === $curpage) {
             $title = '<b>Webmaster tools</b>';
         } else {
             $title = 'Webmaster tools';
         }
-        $menuarray[] = array('title' => $title, 'link' => 'tools.php?op=index', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => 'tools.php?op=index', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
         $title       = 'Logout';
-        $menuarray[] = array('title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
     } else {
-        if ($curpage === '/user.php') {
+        if ('/user.php' === $curpage) {
             $title = '<b>User login</b>';
         } else {
             $title = 'User login';
         }
-        $menuarray[] = array('title' => $title, 'link' => '../../user.php', 'counter' => $counter);
+        $menuarray[] = ['title' => $title, 'link' => '../../user.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;

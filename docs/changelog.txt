@@ -1,12 +1,18 @@
+<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.10, PHP 7.3.10
+<hr>
+- namespaces, autoloading (mamba)
+WORK IN PROGRESS
+
+
 ---------------------------------------
 1.31 Alpha 8             NOT RELEASED
 ---------------------------------------
 - split ./include/class_field.php into individual class files in ./class (zyspec)
-- moved PedigreeUtility from pedigreeUtility.php to utility.php (zyspec)
-- utilize PedigreePedigree module helper (zyspec)
+- moved Pedigree\Utility from Pedigree\Utility.php to utility.php (zyspec)
+- utilize Pedigree\Helper module helper (zyspec)
 - significant code cleanup (zyspec)
-- switched from Field class to PedigreeField (zyspec)
-- created PedigreeAnimal class to replace Animal class (zyspec)
+- switched from Field class to Pedigree\Field (zyspec)
+- created Pedigree\Animal class to replace Animal class (zyspec)
 - refactored install routine (zyspec)
   - <uploads>/images and <uploads>/images/thumbnails directories were not being created
 - improved XOOPS 2.5.7 compatibility (zyspec)
@@ -29,7 +35,7 @@ TODO (suggested by Zyspec):
 - move ZervWizard classes to ./library
 - move hard coded language strings to language files
 - some code assumes "dog" but should be expanded to include all animals
-- refactor PedigreeField::getForm() - it tries to use XoopsObjectTree which isn't
+- refactor Pedigree\Field::getForm() - it tries to use XoopsObjectTree which isn't
   appropriate for the pedigree_fields dB structure
 - most text fields are only 30 chars long in dB, should be increased.
 - Make form entry fields match dB varchar length so users can know what's being stored.

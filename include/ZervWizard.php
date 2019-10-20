@@ -24,13 +24,14 @@
  *
  * @author  Quentin Zervaas
  */
+
 class ZervWizard
 {
     // whether or not all steps of the form are complete
     public $_complete = false;
 
     // internal array to store the various steps
-    public $_steps = array();
+    public $_steps = [];
 
     // the current step
     public $_currentStep = null;
@@ -39,7 +40,7 @@ class ZervWizard
     public $_containerPrefix = '__wiz_';
 
     // an array of any errors that have occurred
-    public $_errors = array();
+    public $_errors = [];
 
     // key in container where step status is stored
     public $_step_status_key = '__step_complete';
@@ -48,7 +49,7 @@ class ZervWizard
     public $_step_expected_key = '__expected_action';
 
     // options to use for the wizard
-    public $options = array('redirectAfterPost' => true);
+    public $options = ['redirectAfterPost' => true];
 
     // action that resets the container
     public $resetAction = '__reset';
@@ -71,13 +72,13 @@ class ZervWizard
 
         $containerKey = $this->_containerPrefix . $name;
         if (!array_key_exists($containerKey, $container)) {
-            $container[$containerKey] = array();
+            $container[$containerKey] = [];
         }
 
         $this->container =& $container[$containerKey];
 
         if (!array_key_exists('_errors', $this->container)) {
-            $this->container['_errors'] = array();
+            $this->container['_errors'] = [];
         }
         $this->_errors =& $this->container['_errors'];
     }
@@ -93,7 +94,7 @@ class ZervWizard
      *
      * @todo    Need a way to jump between steps, e.g. from step 2 to 4 and validating all data
      *
-     * @param string $action  The step being processed. This should correspond
+     * @param string|null $action  The step being processed. This should correspond
      *                        to a step created in addStep()
      * @param array  &$form   The unmodified form values to process
      * @param bool   $process True if the step is being processed, false if being prepared
@@ -108,13 +109,13 @@ class ZervWizard
             $this->setCurrentStep($this->getFirstIncompleteStep());
         } elseif (isset($form['previous']) && !$this->isFirstStep()) {
             // clear out errors
-            $this->_errors = array();
+            $this->_errors = [];
 
             $this->setCurrentStep($this->getPreviousStep($action));
             $this->doRedirect();
         } elseif (isset($form['addvalue']) && !$this->isFirstStep()) {
             // clear out errors
-            $this->_errors = array();
+            $this->_errors = [];
 
             // processing callback must exist and validate to proceed
             $callback = 'process' . $action;
@@ -141,7 +142,7 @@ class ZervWizard
             if ($proceed) {
                 if ($process) {
                     // clear out errors
-                    $this->_errors = array();
+                    $this->_errors = [];
 
                     // processing callback must exist and validate to proceed
                     $callback = 'process' . $action;
@@ -219,11 +220,11 @@ class ZervWizard
      * called internally but you may have reason to change the current
      * step.
      *
-     * @param string $step The step to set as current
+     * @param string|null $step The step to set as current
      */
     public function setCurrentStep($step)
     {
-        if (is_null($step) || !$this->stepExists($step)) {
+        if (null === $step || !$this->stepExists($step)) {
             $this->_complete                            = true;
             $this->container[$this->_step_expected_key] = null;
         } else {
@@ -291,7 +292,7 @@ class ZervWizard
         }
 
         $ret = 0;
-        for ($n = 1; $n <= $numSteps && $ret == 0; ++$n) {
+        for ($n = 1; $n <= $numSteps && 0 == $ret; ++$n) {
             if ($step == $steps[$n - 1]) {
                 $ret = $n;
             }
@@ -310,8 +311,8 @@ class ZervWizard
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
 
-        for ($i = 0; $i < $numSteps; ++$i) {
-            $_step = $steps[$i];
+        foreach ($steps as $iValue) {
+            $_step = $iValue;
             if ($_step == $step) {
                 break;
             }
@@ -367,8 +368,8 @@ class ZervWizard
         $steps    = array_keys($this->_steps);
         $numSteps = count($steps);
 
-        for ($i = 0; $i < $numSteps; ++$i) {
-            $_step = $steps[$i];
+        foreach ($steps as $iValue) {
+            $_step = $iValue;
 
             if (!array_key_exists($this->_step_status_key, $this->container)
                 || !$this->container[$this->_step_status_key][$_step]) {
@@ -452,10 +453,10 @@ class ZervWizard
             return;
         }
 
-        $this->_steps[$stepname] = array('title' => $title);
+        $this->_steps[$stepname] = ['title' => $title];
 
         if (!array_key_exists($this->_step_status_key, $this->container)) {
-            $this->container[$this->_step_status_key] = array();
+            $this->container[$this->_step_status_key] = [];
         }
 
         if (!array_key_exists($stepname, $this->container[$this->_step_status_key])) {
@@ -545,7 +546,7 @@ class ZervWizard
      */
     public function coalesce(&$var, $default = null)
     {
-        return isset($var) && !is_null($var) ? $var : $default;
+        return (isset($var) && null !== $var) ? $var : $default;
     }
 
     /**
@@ -572,7 +573,7 @@ class ZervWizard
      */
     public function isError($key = null)
     {
-        if (!is_null($key)) {
+        if (null !== $key) {
             return array_key_exists($key, $this->_errors);
         }
 
