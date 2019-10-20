@@ -432,7 +432,7 @@ class CheckoutWizard extends ZervWizard
                 }
             }
 
-            //Insert new record into pedigree_config
+            //Insert new record into pedigree_fields db table
             //            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " VALUES ('" . $nextfieldnum . "', '1', '" . htmlspecialchars($this->getValue('name')) . "', '" . $this->getValue('fieldtype') . "', '" . $lookup . "', '" . $this->getValue('defaultvalue') . "', '" . $this->getValue('explain') . "', '" . $search . "', '" . $Litter . "', '" . $generalLitter . "', '" . $searchname . "', '" . $searchexplain . "', '" . $viewinpedigree . "', '" . $viewinadvanced . "', '" . $viewinpie . "', '" . $viewinlist . "','','" . $nextfieldnum . "')";
             $sql = 'INSERT INTO '
                    . $GLOBALS['xoopsDB']->prefix('pedigree_fields')

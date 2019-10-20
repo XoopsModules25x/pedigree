@@ -14,17 +14,17 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 //@todo move language string to language file
-$xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
+$GLOBALS['xoopsTpl']->assign('page_title', 'Pedigree database - Add owner/breeder');
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser'])) {
-    redirect_header('index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    $helper->redirect('admin/index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 //add JS routines
-//@todo change this to send to Tpl using ./browse.php
-echo '<script language="JavaScript" src="picker.js"></script>';
+//@todo change this to send to Tpl addScript
+echo '<script language="JavaScript" src="assets/js/picker.js"></script>';
 
 //set form to be empty
 $form = '';

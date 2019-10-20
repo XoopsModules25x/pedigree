@@ -103,7 +103,7 @@ switch ($op) {
 
     case 'save_pedigree_temp':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            $helper->redirect('admin/pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id']) && (0 < ($id = Request::getInt('id', 1)))) {
             $obj = $tempHandler->get($id);
@@ -131,7 +131,7 @@ switch ($op) {
         $obj->setVar('coi', $_REQUEST['coi']);
 
         if ($tempHandler->insert($obj)) {
-            redirect_header('pedigree_temp.php?op=list', 2, _AM_PEDIGREE_FORMOK);
+            $helper->redirect('admin/pedigree_temp.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -153,10 +153,10 @@ switch ($op) {
         $obj = $tempHandler->get($_REQUEST['id']);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                $helper->redirect('admin/pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($tempHandler->delete($obj)) {
-                redirect_header('pedigree_temp.php', 3, _AM_PEDIGREE_FORMDELOK);
+                $helper->redirect('admin/pedigree_temp.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }

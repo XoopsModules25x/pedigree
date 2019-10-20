@@ -834,24 +834,6 @@ class Utility
     }
 
     /**
-     * @deprecated
-     * @param bool $withLink
-     *
-     * @return string
-     */
-    public static function getModuleName($withLink = true)
-    {
-        $helper = Pedigree\Helper::getInstance();
-
-        $pedigreeModuleName = $helper->getModule()->getVar('name');
-        if (!$withLink) {
-            return $pedigreeModuleName;
-        } else {
-            return '<a href="' . PEDIGREE_URL . '/">{$pedigreeModuleName}</a>';
-        }
-    }
-
-    /**
      * Detemines if a table exists in the current db
      *
      * @param string $table the table name (without XOOPS prefix)

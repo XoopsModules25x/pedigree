@@ -18,7 +18,7 @@
  * @subpackage  class
  * @since       1.3.1
  * @author      XOOPS Module Dev Team
- * @author      ZySpec <owners@zyspec.com>
+ * @author      ZySpec <zyspec@yahoo.com>
  */
 
 use XoopsModules\Pedigree;

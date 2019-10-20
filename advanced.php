@@ -3,6 +3,7 @@
 
 use XoopsModules\Pedigree;
 
+/** @var \XoopsModules\Pedigree\Helper $helper */
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
@@ -15,9 +16,9 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_advanced.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/common.php';
+require_once $helper->path('include/common.php');
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.canvasjs.min.js');
+$xoTheme->addScript($helper->url('assets/js/jquery.canvasjs.min.js'));
 
 global $xoopsTpl, $xoopsDB;
 $totpl = [];
@@ -40,6 +41,7 @@ $head    = $colors[5];
 $body    = $colors[6];
 $title   = $colors[7];
 
+//@todo convert to use Object CRUD using \Criteria instead of SQL call
 //query to count male dogs
 $result = $GLOBALS['xoopsDB']->query('SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='0'");
 list($countmales) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -57,8 +59,10 @@ $data[0][1]  = $countmales;
 $data[0][2]  = '#C8C8FF';
 */
 $totaldogs  = $countmales + $countfemales;
-$perc_mdogs = round(100 / $totaldogs * $countmales, 1);
-$perc_fdogs = round(100 / $totaldogs * $countfemales, 1);
+$perc_mdogs = (($totaldogs > 0) && ($countmales > 0)) ? round(100 / $totaldogs * $countmales, 1) : 0;
+// to eliminate rounding errors
+$perc_fdogs = $totaldogs - $perc_mdogs;
+//$perc_fdogs = round(100 / $totaldogs * $countfemales, 1);
 /*
 $data[1][0] = strtr(_MA_PEDIGREE_FLD_FEMA, array('[female]' => $moduleConfig['female']));
 $data[1][1] = $countfemales;

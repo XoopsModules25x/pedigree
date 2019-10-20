@@ -33,19 +33,19 @@
 include __DIR__ . '/preloads/autoloader.php';
 
 $modversion['version']       = 1.32;
-$modversion['release_date']  = '2018/05/05';
+$modversion['release_date']  = '2019/10/20';
 $modversion['module_status'] = 'Alpha 1';
 $modversion['name']          = _MI_PEDIGREE_NAME;
-$modversion['description'] = _MI_PEDIGREE_DESC;
-$modversion['credits']     = 'http://tech.groups.yahoo.com/group/animalpedigree/';
-$modversion['author']      = 'James Cotton';
-$modversion['help']        = 'page=pedigree_admin';
-//$modversion['help']        = 'page=help';
-$modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']    = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-$modversion['image']       = 'assets/images/logoModule.png';
-$modversion['dirname']     = basename(__DIR__);
+$modversion['description']   = _MI_PEDIGREE_DESC;
+$modversion['credits']       = 'http://tech.groups.yahoo.com/group/animalpedigree/';
+$modversion['author']        = 'James Cotton';
+$modversion['help']          = 'page=pedigree_admin';
+//$modversion['help']          = 'page=help';
+$modversion['license']       = 'GNU GPL 2.0 or later';
+$modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html';
+$modversion['official']      = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
+$modversion['image']         = 'assets/images/logoModule.png';
+$modversion['dirname']       = basename(__DIR__);
 
 //$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
 //$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
@@ -57,8 +57,8 @@ $modversion['onInstall'] = 'include/install_function.php';
 $modversion['onUpdate']  = 'include/update_function.php';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.9';
+$modversion['min_php']             = '5.7';
+$modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
 

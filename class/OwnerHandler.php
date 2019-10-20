@@ -14,15 +14,14 @@
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
- * @package         pedigree
- * @since           2.5.x
+ * @package         \XoopsModules\Pedigree\Class
+ * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 
 /**
  * Class Pedigree\OwnerHandler
@@ -44,7 +43,8 @@ class OwnerHandler extends \XoopsPersistableObjectHandler
      */
     public function getActiveCriteria()
     {
-        $grouppermHandler = xoops_getHandler('groupperm');
+        /** @todo this currently returns all animals, not just active ones - should it? */
+        //$grouppermHandler = xoops_getHandler('groupperm');
 
         //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         //        $criteria->add(new \Criteria('published', 0, '>'));
@@ -58,7 +58,7 @@ class OwnerHandler extends \XoopsPersistableObjectHandler
         //mb        $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
         $criteria = new \CriteriaCompo();
-        $criteria->setSort('lastname ASC');
+        $criteria->setSort('lastname');
         $criteria->setOrder('ASC');
 
         return $criteria;

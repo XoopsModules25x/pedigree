@@ -10,12 +10,12 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * Pedigree\Breadcrumb Class
+ * Pedigree\Picture Class
  *
  * @copyright   {@link https://xoops.org/ XOOPS Project}
  * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @author      lucio <lucio.rota@gmail.com>
- * @package     Pedigree
+ * @package     \XoopsModules\Pedigree\Class
  * @since       1.31
  *
  */
@@ -27,7 +27,7 @@ use XoopsModules\Pedigree;
 class Picture extends Pedigree\HtmlInputAbstract
 {
     /**
-     * @param Field           $parentObject
+     * @param Pedigree\Field  $parentObject
      * @param Pedigree\Animal $animalObject
      */
     public function __construct($parentObject, $animalObject)
@@ -105,7 +105,7 @@ class Picture extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return mixed|void
+     * @return null
      */
     public function searchField()
     {
@@ -113,7 +113,7 @@ class Picture extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return mixed|void
+     * @return null
      */
     public function getSearchString()
     {

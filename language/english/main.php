@@ -465,7 +465,7 @@ define('_MA_PEDIGREE_MPED_M4', 'Male [animalType] present four times in 4 genera
 //pedigreebook results
 define('_MA_PEDIGREE_BOOK_INTRO', 'The data on this page is only for the following pedigreebook :  [flag]  [country]');
 
-// Alpha 4
+//v1.31 Alpha 4
 define('_MA_PEDIGREE_QUERY_EXPLAN', 'Please use the menu items on the left to run preset database queries or if you would like to create a new one, please visit <a href ="https://xoops.org">XOOPS Support Forums</a> and ask for help there ');
 
 define('_MA_PEDIGREE_BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse Pedigree Animals in alphabetical order</span><br>");
@@ -477,12 +477,16 @@ define('_MA_PEDIGREE_ADD_OWNER_BREEDER', 'Pedigree database - Add owner/breeder'
 
 define('_MA_PEDIGREE_SETTINGS_SAVED_OK', 'Your settings have been saved.');
 
-//Alpha 7
+//v1.31 Alpha 7
 define('_MA_PEDIGREE_RADIOBUTTONFIELD', 'Radiobutton');
 
-//Alpha 8
+//v1.31 Alpha 8
 define('_MA_PEDIGREE_BREEDER_PAGETITLE', "<span style='font-weight: bold;'>Browse Breeders/Owners in alphabetical order</span><br>");
 
+//v1.32 Alpha 1
+define('_MA_PEDIGREE_OWNER_PAGETITLE', 'Pedigree database - View Owner/Breeder details');
+define('_MA_PEDIGREE_ADD_OWNER_PAGETITLE', 'Pedigree database - Add Owner/Breeder');
+define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');
 /**
  * @return array
  */

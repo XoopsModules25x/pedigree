@@ -104,7 +104,7 @@ switch ($op) {
 
     case 'save_pedigree_trash':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            $helper->redirect('admin/pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
             $obj = $trashHandler->get($_REQUEST['id']);
@@ -132,7 +132,7 @@ switch ($op) {
         $obj->setVar('coi', $_REQUEST['coi']);
 
         if ($trashHandler->insert($obj)) {
-            redirect_header('pedigree_trash.php?op=list', 2, _AM_PEDIGREE_FORMOK);
+            $helper->redirect('admin/pedigree_trash.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -154,10 +154,10 @@ switch ($op) {
         $obj = $trashHandler->get($_REQUEST['id']);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                $helper->redirect('admin/pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($trashHandler->delete($obj)) {
-                redirect_header('pedigree_trash.php', 3, _AM_PEDIGREE_FORMDELOK);
+                $helper->redirect('admin/pedigree_trash.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }

@@ -24,7 +24,7 @@ use XoopsModules\Pedigree;
 
 
 $rootPath      = dirname(dirname(__DIR__));
-$moduleDirName = basename(__DIR__);
+//$moduleDirName = basename(__DIR__);
 $mydirpath     = dirname(__DIR__);
 
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
@@ -69,111 +69,101 @@ $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //draw pedigree
-//$id = Request::getInt('pedid',0,'GET');
-pedigree_main();
-
-//include XOOPS_ROOT_PATH . "/footer.php";
-include __DIR__ . '/footer.php';
 
 //
 // Displays the "Main" tab of the module
 //
-/**
- */
-function pedigree_main()
-{
-    $moduleDirName = basename(__DIR__);
-    $id     = Request::getInt('pedid', 1, 'GET');
-    $animal = new Pedigree\Animal($id);
-    //test to find out how many user fields there are.
-    $fields      = $animal->getNumOfFields();
-    $fieldsCount = count($fields);
+$id     = Request::getInt('pedid', 1, 'GET');
+$animal = new Pedigree\Animal($id);
+//test to find out how many user fields there are.
+$fields      = $animal->getNumOfFields();
+$fieldsCount = count($fields);
 
-    $qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
+$qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
 
-    $querystring = 'SELECT ';
+$querystring = 'SELECT ';
 
+foreach ($qarray as $key) {
+    $querystring .= $key . '.id as ' . $key . '_id, ';
+    $querystring .= $key . '.naam as ' . $key . '_naam, ';
+    $querystring .= $key . '.mother as ' . $key . '_mother, ';
+    $querystring .= $key . '.father as ' . $key . '_father, ';
+    $querystring .= $key . '.roft as ' . $key . '_roft, ';
+    $querystring .= $key . '.foto as ' . $key . '_foto, ';
+}
+
+$querystring .= 'mmm.coi as mmm_coi FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
+             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.id
+             WHERE d.id={$id}";
+
+$result = $GLOBALS['xoopsDB']->query($querystring);
+global $moduleConfig;
+
+while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+    //create array for animal (and all parents)
     foreach ($qarray as $key) {
-        $querystring .= $key . '.id as ' . $key . '_id, ';
-        $querystring .= $key . '.naam as ' . $key . '_naam, ';
-        $querystring .= $key . '.mother as ' . $key . '_mother, ';
-        $querystring .= $key . '.father as ' . $key . '_father, ';
-        $querystring .= $key . '.roft as ' . $key . '_roft, ';
-        $querystring .= $key . '.foto as ' . $key . '_foto, ';
-    }
+        $d[$key] = [
+            'id'     => $row[$key . '_id'],
+            'name'   => stripslashes($row[$key . '_naam']),
+            'mother' => $row[$key . '_mother'],
+            'father' => $row[$key . '_father'],
+            'roft'   => $row[$key . '_roft'],
+            'nhsb'   => ''
+        ];
+        if ((3 != strlen($key) || (0 != $helper->getConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
+            //show image in last row of pedigree if image exists
+            $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
+            $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
+        }
 
-    $querystring .= 'mmm.coi as mmm_coi FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
-                 LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.id
-                 WHERE d.id={$id}";
+        $d[$key]['overig'] = '';
+        // $pedidata to hold viewable data to be shown in pedigree
+        $pedidata = '';
 
-    $result = $GLOBALS['xoopsDB']->query($querystring);
-    global $moduleConfig;
-
-    while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        //create array for animal (and all parents)
-        foreach ($qarray as $key) {
-            $d[$key] = [
-                'id'     => $row[$key . '_id'],
-                'name'   => stripslashes($row[$key . '_naam']),
-                'mother' => $row[$key . '_mother'],
-                'father' => $row[$key . '_father'],
-                'roft'   => $row[$key . '_roft'],
-                'nhsb'   => ''
-            ];
-            if ((3 != strlen($key) || (0 != $moduleConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
-                //show image in last row of pedigree if image exists
-                $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
-                $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
+        if ('' == !$d[$key]['id']) {
+            //if exists create animal object
+            $animal = new Pedigree\Animal($d[$key]['id']);
+            $fields = $animal->getNumOfFields();
+        }
+        foreach ($fields as $i => $iValue) {
+            $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
+            if ($userField->isActive() && $userField->inPedigree()) {
+                $fieldType = $userField->getSetting('FieldType');
+                $fieldObj  = new $fieldType($userField, $animal);
+                $pedidata  .= $fieldObj->showField() . '<br>';
             }
-
-            $d[$key]['overig'] = '';
-            // $pedidata to hold viewable data to be shown in pedigree
-            $pedidata = '';
-
-            if ('' == !$d[$key]['id']) {
-                //if exists create animal object
-                $animal = new Pedigree\Animal($d[$key]['id']);
-                $fields = $animal->getNumOfFields();
-            }
-            foreach ($fields as $i => $iValue) {
-                $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-                if ($userField->isActive() && $userField->inPedigree()) {
-                    $fieldType = $userField->getSetting('FieldType');
-                    $fieldObj  = new $fieldType($userField, $animal);
-                    $pedidata  .= $fieldObj->showField() . '<br>';
-                }
-                $d[$key]['hd'] = $pedidata;
-            }
+            $d[$key]['hd'] = $pedidata;
         }
     }
-
-    //add data to smarty template
-    $GLOBALS['xoopsTpl']->assign([
-                                     'page_title' => stripslashes($row['d_naam']),
-                                     'd'          => $d,  //assign dog
-                                     //assign config options
-                                     'male'       => "<img src='assets/images/male.gif'>",
-                                     'female'     => "<img src='assets/images/female.gif'>",
-                                     //assign extra display options
-                                     'unknown'    => 'Unknown',
-                                     'SD'         => _MA_PEDIGREE_SD,
-                                     'PA'         => _MA_PEDIGREE_PA,
-                                     'GP'         => _MA_PEDIGREE_GP,
-                                     'GGP'        => _MA_PEDIGREE_GGP
-                                 ]);
-
-    //    include __DIR__ . '/footer.php';
 }
+
+//add data to smarty template
+$GLOBALS['xoopsTpl']->assign([
+                                 'page_title' => stripslashes($row['d_naam']),
+                                 'd'          => $d,  //assign dog
+                                 //assign config options
+                                 'male'       => "<img src=\"assets/images/male.gif\" alt=\"_MA_PEDIGREE_FLD_MALE\" title=\"_MA_PEDIGREE_FLD_MALE\">",
+                                 'female'     => "<img src=\"assets/images/female.gif\" alt=\"_MA_PEDIGREE_FLD_FEMA\" title=\"_MA_PEDIGREE_FLD_FEMA\">",
+                                 //assign extra display options
+                                 'unknown'    => _MA_PEDIGREE_UNKNOWN,
+                                 'SD'         => _MA_PEDIGREE_SD,
+                                 'PA'         => _MA_PEDIGREE_PA,
+                                 'GP'         => _MA_PEDIGREE_GP,
+                                 'GGP'        => _MA_PEDIGREE_GGP
+                             ]);
+
+//include XOOPS_ROOT_PATH . "/footer.php";
+include __DIR__ . '/footer.php';

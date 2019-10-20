@@ -12,10 +12,10 @@
 /**
  * Pedigree module for XOOPS
  *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         GPL 2.0 or later
- * @package         pedigree
- * @since           2.5.x
+ * @copyright       Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @package         XoopsModules\Pedigree\Class
+ * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
@@ -55,12 +55,14 @@ class Owner extends \XoopsObject
      */
     public function getForm($action = false)
     {
-        global $xoopsModuleConfig;
+        //global $xoopsModuleConfig;
 
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
-
+        /** @var \XoopsModules\Pedigree\Helper $helper */
+        $helper =  XoopsModules\Pedigree\Helper::getInstance();
+        $helper->loadLanguage('admin');
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_OWNER_ADD) : sprintf(_AM_PEDIGREE_OWNER_EDIT);
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -81,6 +83,9 @@ class Owner extends \XoopsObject
 
         $form->addElement(new \XoopsFormHidden('op', 'save_owner'));
 
+        // Submit tray
+        $form->addElement(new \XoopsFormButtonTray('submit', _SUBMIT));
+        /*
         //Submit buttons
         $button_tray   = new \XoopsFormElementTray('', '');
         $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
@@ -91,6 +96,7 @@ class Owner extends \XoopsObject
         $button_tray->addElement($cancel_button);
 
         $form->addElement($button_tray);
+        */
 
         return $form;
     }

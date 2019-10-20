@@ -28,7 +28,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //require_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
 
 if (!empty($_POST['submit'])) {
-    redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/permissions.php', 1, _MP_GPERMUPDATED);
+    $helper->redirect('admin/permissions.php', 1, _MP_GPERMUPDATED);
 }
 
 $permissions_admin = \Xmf\Module\Admin::getInstance();

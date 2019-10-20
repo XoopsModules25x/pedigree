@@ -28,14 +28,16 @@ class Helper extends \Xmf\Module\Helper
     public $debug;
 
     /**
-     * 
+     *
      * @param bool $debug
      */
     public function __construct($debug = false)
     {
-        $this->debug   = $debug;
-       $moduleDirName = basename(dirname(__DIR__));
-       parent::__construct($moduleDirName);
+        if (null === $dirname) {
+            $dirname = basename(dirname(__DIR__));
+            $this->dirname = $dirname;
+        }
+        parent::__construct($moduleDirName);
     }
 
     /**
@@ -72,8 +74,7 @@ class Helper extends \Xmf\Module\Helper
     {
         $ret   = false;
         $db    = \XoopsDatabaseFactory::getDatabaseConnection();
-        $class = '\\XoopsModules\\' . ucfirst(strtolower(basename(dirname(__DIR__)))) . '\\' . $name . 'Handler';
-        $ret   = new $class($db);
-        return $ret;
+        $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
+        return new $class($db);
     }
 }

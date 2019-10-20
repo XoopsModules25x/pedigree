@@ -15,19 +15,25 @@
  * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @package     pedigree
  * @author      XOOPS Module Dev Team
+ * @todo  Move this file to the ./include directory
  */
 
 use XoopsModules\Pedigree;
 
+if (count(debug_backtrace(FALSE, 1)) !== 0) {
+    // Fail if file was called directly - it should only be accessed by being included
+    exit('Restricted access');
+}
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 //require_once __DIR__ . '/header.php';
 
 //$moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
+//xoops_loadLanguage('main', $moduleDirName);
+$helper->loadLanguage('main');
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once $helper->path('include/common.php');
 
 //$GLOBALS['xoopsOption']['template_main'] = 'pedigree_welcome.tpl';
 //include $GLOBALS['xoops']->path('/header.php');
@@ -35,7 +41,8 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 $myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
 //query to count dogs
-$treeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
+/** @var XoopsModules\Pedigree\TreeHandler $treeHandler */
+$treeHandler = $helper->getHandler('Tree');
 $numdogs     = $treeHandler->getCount();
 /*
 $result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_tree"));
@@ -56,6 +63,5 @@ $word = $myts->displayTarea(strtr($helper->getConfig('welcome'), [
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);
 $GLOBALS['xoopsTpl']->assign('word', $word);
-//comments and footer
 
 //include $GLOBALS['xoops']->path('/footer.php');

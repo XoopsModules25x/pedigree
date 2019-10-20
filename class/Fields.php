@@ -67,6 +67,10 @@ class Fields extends \XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
 
+        /** \XoopsModules\Pedigree\Helper $helper */
+        $helper = \XoopsModules\Pedigree\Helper::getInstance();
+        $helper->loadLanguage('admin');
+
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
@@ -148,11 +152,11 @@ class Fields extends \XoopsObject
                 $button_tray   = new \XoopsFormElementTray("", "");
                 $submit_button = new \XoopsFormButton("", "submit", _SUBMIT, "submit");
                 $button_tray->addElement($submit_button);
-        
+
                 $cancel_button = new \XoopsFormButton("", "", _CANCEL, "cancel");
                 $cancel_button->setExtra('onclick="history.go(-1)"');
                 $button_tray->addElement($cancel_button);
-        
+
                 $form->addElement($button_tray);
         */
 
