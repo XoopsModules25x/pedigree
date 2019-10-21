@@ -75,8 +75,8 @@ define('_AM_PEDIGREE_PEDIGREE_CONFIGLIST', 'List Custom Fields');
 //General
 define('_AM_PEDIGREE_FORMOK', 'Registered successfull');
 define('_AM_PEDIGREE_FORMDELOK', 'Deleted successfull');
-define('_AM_PEDIGREE_FORMSUREDEL', 'Are you sure to Delete: <b><span style="color : Red;"> %s </span></b>');
-define('_AM_PEDIGREE_FORMSURERENEW', 'Are you sure to Update: <b><span style="color : Red;"> %s </span></b>');
+define('_AM_PEDIGREE_FORMSUREDEL', 'Are you sure to Delete: <b><span style="color : #ff0000;"> %s </span></b>');
+define('_AM_PEDIGREE_FORMSURERENEW', 'Are you sure to Update: <b><span style="color : #ff0000;"> %s </span></b>');
 define('_AM_PEDIGREE_FORMUPLOAD', 'Upload');
 define('_AM_PEDIGREE_FORMIMAGE_PATH', 'File presents in %s');
 define('_AM_PEDIGREE_FORMACTION', 'Action');

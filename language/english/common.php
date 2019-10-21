@@ -137,9 +137,9 @@ define('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK', 'Feedback');
 define('CO_' . $moduleDirNameUpper . '_' . 'NEW_VERSION', 'New Version: ');
 
 //DirectoryChecker
-define('CO_' . $moduleDirNameUpper . '_' . 'AVAILABLE', "<span style='color: green;'>Available</span>");
-define('CO_' . $moduleDirNameUpper . '_' . 'NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
-define('CO_' . $moduleDirNameUpper . '_' . 'NOTWRITABLE', "<span style='color: red;'>Should have permission ( %d ), but it has ( %d )</span>");
+define('CO_' . $moduleDirNameUpper . '_' . 'AVAILABLE', "<span style='color: #008000;'>Available</span>");
+define('CO_' . $moduleDirNameUpper . '_' . 'NOTAVAILABLE', "<span style='color: #ff0000;'>Not available</span>");
+define('CO_' . $moduleDirNameUpper . '_' . 'NOTWRITABLE', "<span style='color: #ff0000;'>Should have permission ( %d ), but it has ( %d )</span>");
 define('CO_' . $moduleDirNameUpper . '_' . 'CREATETHEDIR', 'Create it');
 define('CO_' . $moduleDirNameUpper . '_' . 'SETMPERM', 'Set the permission');
 define('CO_' . $moduleDirNameUpper . '_' . 'DIRCREATED', 'The directory has been created');
