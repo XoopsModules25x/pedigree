@@ -12,46 +12,29 @@
 /**
  * animal module for xoops
  *
+ * @package         XoopsModules\Pedigree
  * @copyright       {@link http://sourceforge.net/projects/thmod/ The TXMod XOOPS Project}
  * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
- * @license         GPL 2.0 or later
- * @package         pedigree
- * @author          XOOPS Mod Development Team
+ * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @author          XOOPS Module Development Team
  */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-
-$rootPath      = dirname(dirname(__DIR__));
-//$moduleDirName = basename(__DIR__);
-$mydirpath     = dirname(__DIR__);
-
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
-//require_once $rootPath . '/include/cp_functions.php';
-//require_once $rootPath . '/include/cp_header.php';
-//require_once $rootPath . '/class/xoopsformloader.php';
-
-//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 //xoops_cp_header();
-
-xoops_loadLanguage('main', $moduleDirName);
+$helper->loadLanguage('main');
 
 //require_once __DIR__ . '/header.php';
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once $helper->path('include/common.php');
 //require_once(XOOPS_ROOT_PATH ."/modules/" . $xoopsModule->dirname() . "/include/css.php");
-
-// Get all HTTP post or get parameters into global variables that are prefixed with "param_"
-//import_request_variables("gp", "param_");
-//extract($_GET, EXTR_PREFIX_ALL, "param");
-//extract($_POST, EXTR_PREFIX_ALL, "param");
 
 // This page uses smarty templates. Set "$xoopsOption['template_main']" before including header
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_pedigree.tpl';
-
 include $GLOBALS['xoops']->path('/header.php');
 
 $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
@@ -61,23 +44,14 @@ $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/c
 
 require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
-//get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
-$configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-
-//draw pedigree
-
 //
 // Displays the "Main" tab of the module
 //
-$id     = Request::getInt('pedid', 1, 'GET');
-$animal = new Pedigree\Animal($id);
+$id = Request::getInt('pedid', 1, 'GET');
+//$animal = new Pedigree\Animal($id);
 //test to find out how many user fields there are.
-$fields      = $animal->getNumOfFields();
-$fieldsCount = count($fields);
+//$fields      = $animal->getNumOfFields();
+//$fieldsCount = count($fields);
 
 $qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
 
@@ -110,12 +84,12 @@ $querystring .= 'mmm.coi as mmm_coi FROM ' . $GLOBALS['xoopsDB']->prefix('pedigr
              WHERE d.id={$id}";
 
 $result = $GLOBALS['xoopsDB']->query($querystring);
-global $moduleConfig;
 
+$dogs = []; // initialize dogs array
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //create array for animal (and all parents)
     foreach ($qarray as $key) {
-        $d[$key] = [
+        $dogs[$key] = [
             'id'     => $row[$key . '_id'],
             'name'   => stripslashes($row[$key . '_naam']),
             'mother' => $row[$key . '_mother'],
@@ -125,17 +99,17 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         ];
         if ((3 != strlen($key) || (0 != $helper->getConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
             //show image in last row of pedigree if image exists
-            $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
-            $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
+            $dogs[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
+            $dogs[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
         }
 
-        $d[$key]['overig'] = '';
+        $dogs[$key]['overig'] = '';
         // $pedidata to hold viewable data to be shown in pedigree
         $pedidata = '';
 
-        if ('' == !$d[$key]['id']) {
+        if (0 !== $dogs[$key]['id']) {
             //if exists create animal object
-            $animal = new Pedigree\Animal($d[$key]['id']);
+            $animal = new Pedigree\Animal($dogs[$key]['id']);
             $fields = $animal->getNumOfFields();
         }
         foreach ($fields as $i => $iValue) {
@@ -145,25 +119,24 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $fieldObj  = new $fieldType($userField, $animal);
                 $pedidata  .= $fieldObj->showField() . '<br>';
             }
-            $d[$key]['hd'] = $pedidata;
+            $dogs[$key]['hd'] = $pedidata;
         }
     }
 }
 
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign([
-                                 'page_title' => stripslashes($row['d_naam']),
-                                 'd'          => $d,  //assign dog
-                                 //assign config options
-                                 'male'       => '<img src="assets/images/male.gif" alt="_MA_PEDIGREE_FLD_MALE" title="_MA_PEDIGREE_FLD_MALE">',
-                                 'female'     => '<img src="assets/images/female.gif" alt="_MA_PEDIGREE_FLD_FEMA" title="_MA_PEDIGREE_FLD_FEMA">',
-                                 //assign extra display options
-                                 'unknown'    => _MA_PEDIGREE_UNKNOWN,
-                                 'SD'         => _MA_PEDIGREE_SD,
-                                 'PA'         => _MA_PEDIGREE_PA,
-                                 'GP'         => _MA_PEDIGREE_GP,
-                                 'GGP'        => _MA_PEDIGREE_GGP
-                             ]);
+        'page_title' => stripslashes($row['d_naam']),
+        'd'          => $dogs,  //assign dogs array
+        //assign config options
+        'male'       => '<img src="assets/images/male.gif" alt="_MA_PEDIGREE_FLD_MALE" title="_MA_PEDIGREE_FLD_MALE">',
+        'female'     => '<img src="assets/images/female.gif" alt="_MA_PEDIGREE_FLD_FEMA" title="_MA_PEDIGREE_FLD_FEMA">',
+        //assign extra display options
+        'unknown'    => _MA_PEDIGREE_UNKNOWN,
+        'SD'         => _MA_PEDIGREE_SD,
+        'PA'         => _MA_PEDIGREE_PA,
+        'GP'         => _MA_PEDIGREE_GP,
+        'GGP'        => _MA_PEDIGREE_GGP
+]);
 
-//include XOOPS_ROOT_PATH . "/footer.php";
 include __DIR__ . '/footer.php';

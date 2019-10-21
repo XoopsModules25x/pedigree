@@ -26,7 +26,7 @@ ob_end_clean();
 //$PHPTHUMB_CONFIG['document_root'] = '/home/httpd/httpdocs';
 //$PHPTHUMB_CONFIG['document_root'] = 'c:\\webroot\\example.com\\www';
 //$PHPTHUMB_CONFIG['document_root'] = $_SERVER['DOCUMENT_ROOT'];
-//$PHPTHUMB_CONFIG['document_root'] = realpath((@$_SERVER['DOCUMENT_ROOT'] && file_exists(@$_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'])) ? $_SERVER['DOCUMENT_ROOT'] : str_replace(dirname(@$_SERVER['PHP_SELF']), '', str_replace(DIRECTORY_SEPARATOR, '/', realpath('.'))));
+//$PHPTHUMB_CONFIG['document_root'] = realpath((@$_SERVER['DOCUMENT_ROOT'] && file_exists(@$_SERVER['DOCUMENT_ROOT'].$_SERVER['SCRIPT_NAME'])) ? $_SERVER['DOCUMENT_ROOT'] : str_replace(dirname(@$_SERVER['SCRIPT_NAME']), '', str_replace(DIRECTORY_SEPARATOR, '/', realpath('.'))));
 $PHPTHUMB_CONFIG['document_root'] = XOOPS_ROOT_PATH;
 
 // * Cache directory configuration (choose only one of these - leave the other lines commented-out):

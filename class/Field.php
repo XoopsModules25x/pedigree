@@ -31,8 +31,8 @@ class Field
     protected $id;
 
     /**
-     * @param $fieldnumber
-     * @param $config
+     * @param int   $fieldnumber
+     * @param array $config
      */
     public function __construct($fieldnumber, $config)
     {

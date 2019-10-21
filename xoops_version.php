@@ -252,7 +252,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_COLOR_DESC',//'The colour scheme to be used',
     'formtype'    => 'textbox',
     'valuetype'   => 'textbox',
-    'default'     => '#663300,#999966,#B2B27F,#333333,#020000,#80804D,#999999,#663300'
+    'default'     => '#663300;#999966;#B2B27F;#333333;#020000;#80804D;#999999;#663300'
 ];
 
 $modversion['config'][] = [

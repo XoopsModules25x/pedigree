@@ -445,20 +445,20 @@ class phpthumb
             $destination_offset_y = round($this->thumbnail_height - $this->thumbnail_image_height);
         }
 
-        //		// copy/resize image to appropriate dimensions
-        //		$borderThickness = 0;
-        //		if (!empty($this->fltr)) {
-        //			foreach ($this->fltr as $key => $value) {
-        //				if (preg_match('#^bord\|([0-9]+)#', $value, $matches)) {
-        //					$borderThickness = $matches[1];
-        //					break;
-        //				}
-        //			}
-        //		}
-        //		if ($borderThickness > 0) {
-        //			//$this->DebugMessage('Skipping ImageResizeFunction() because BorderThickness="'.$borderThickness.'"', __FILE__, __LINE__);
-        //			$this->thumbnail_image_height /= 2;
-        //		}
+        //        // copy/resize image to appropriate dimensions
+        //        $borderThickness = 0;
+        //        if (!empty($this->fltr)) {
+        //            foreach ($this->fltr as $key => $value) {
+        //                if (preg_match('#^bord\|([0-9]+)#', $value, $matches)) {
+        //                    $borderThickness = $matches[1];
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //        if ($borderThickness > 0) {
+        //            //$this->DebugMessage('Skipping ImageResizeFunction() because BorderThickness="'.$borderThickness.'"', __FILE__, __LINE__);
+        //            $this->thumbnail_image_height /= 2;
+        //        }
         $this->ImageResizeFunction($this->gdimg_output, $this->gdimg_source, $destination_offset_x, $destination_offset_y, $this->thumbnailCropX, $this->thumbnailCropY, $this->thumbnail_image_width, $this->thumbnail_image_height, $this->thumbnailCropW, $this->thumbnailCropH);
 
         $this->DebugMessage('memory_get_usage() after copy-resize = ' . (function_exists('memory_get_usage') ? @memory_get_usage() : 'n/a'), __FILE__, __LINE__);
@@ -1454,17 +1454,17 @@ class phpthumb
             // relative to current directory (any OS)
             $AbsoluteFilename = __DIR__ . DIRECTORY_SEPARATOR . preg_replace('#[/\\\\]#', DIRECTORY_SEPARATOR, $filename);
 
-            if ('/~' === substr(dirname(@$_SERVER['PHP_SELF']), 0, 2)) {
-                if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray(dirname(@$_SERVER['PHP_SELF']))) {
+            if ('/~' === substr(dirname(@$_SERVER['SCRIPT_NAME']), 0, 2)) {
+                if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray(dirname(@$_SERVER['SCRIPT_NAME']))) {
                     $AbsoluteFilename = $ApacheLookupURIarray['filename'] . DIRECTORY_SEPARATOR . $filename;
                 } else {
                     $AbsoluteFilename = $this->realPathSafe('.') . DIRECTORY_SEPARATOR . $filename;
                     if (@is_readable($AbsoluteFilename)) {
-                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "' . dirname(@$_SERVER['PHP_SELF']) . '", but the correct filename (' . $AbsoluteFilename . ') seems to have been resolved with $this->realPathSafe(.)/$filename', __FILE__, __LINE__);
+                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "' . dirname(@$_SERVER['SCRIPT_NAME']) . '", but the correct filename (' . $AbsoluteFilename . ') seems to have been resolved with $this->realPathSafe(.)/$filename', __FILE__, __LINE__);
                     } elseif (is_dir(dirname($AbsoluteFilename))) {
-                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "' . dirname(@$_SERVER['PHP_SELF']) . '", but the correct directory (' . dirname($AbsoluteFilename) . ') seems to have been resolved with $this->realPathSafe(.)', __FILE__, __LINE__);
+                        $this->DebugMessage('phpthumb_functions::ApacheLookupURIarray() failed for "' . dirname(@$_SERVER['SCRIPT_NAME']) . '", but the correct directory (' . dirname($AbsoluteFilename) . ') seems to have been resolved with $this->realPathSafe(.)', __FILE__, __LINE__);
                     } else {
-                        return $this->ErrorImage('phpthumb_functions::ApacheLookupURIarray() failed for "' . dirname(@$_SERVER['PHP_SELF']) . '". This has been known to fail on Apache2 - try using the absolute filename for the source image');
+                        return $this->ErrorImage('phpthumb_functions::ApacheLookupURIarray() failed for "' . dirname(@$_SERVER['SCRIPT_NAME']) . '". This has been known to fail on Apache2 - try using the absolute filename for the source image');
                     }
                 }
             }
@@ -1825,9 +1825,9 @@ class phpthumb
         }
         // TO BE FIXED
         //if (true) {
-        //	$this->DebugMessage('ImageMagickThumbnailToGD() aborting it is broken right now', __FILE__, __LINE__);
-        //	$this->useRawIMoutput = false;
-        //	return false;
+        //    $this->DebugMessage('ImageMagickThumbnailToGD() aborting it is broken right now', __FILE__, __LINE__);
+        //    $this->useRawIMoutput = false;
+        //    return false;
         //}
 
         $commandline = $this->ImageMagickCommandlineBase();
@@ -3991,7 +3991,7 @@ class phpthumb
                 return $this->ErrorImage('$this->md5s != md5($this->rawImageData)' . "\n" . '"' . $this->md5s . '" != ' . "\n" . '"' . md5($this->rawImageData) . '"');
             }
             //if ($this->issafemode) {
-            //	return $this->ErrorImage('Cannot generate thumbnails from raw image data when PHP SAFE_MODE enabled');
+            //    return $this->ErrorImage('Cannot generate thumbnails from raw image data when PHP SAFE_MODE enabled');
             //}
             $this->gdimg_source = $this->ImageCreateFromStringReplacement($this->rawImageData);
             if (!$this->gdimg_source) {
@@ -4003,7 +4003,7 @@ class phpthumb
                     $this->getimagesizeinfo[2] = 8; // TIFF (bigendian)
                 }
                 $this->DebugMessage('SourceImageToGD.ImageCreateFromStringReplacement() failed with unknown image type "' . substr($this->rawImageData, 0, 4) . '" (' . phpthumb_functions::HexCharDisplay(substr($this->rawImageData, 0, 4)) . ')', __FILE__, __LINE__);
-                //				return $this->ErrorImage('Unknown image type identified by "'.substr($this->rawImageData, 0, 4).'" ('.phpthumb_functions::HexCharDisplay(substr($this->rawImageData, 0, 4)).') in SourceImageToGD()['.__LINE__.']');
+                //                return $this->ErrorImage('Unknown image type identified by "'.substr($this->rawImageData, 0, 4).'" ('.phpthumb_functions::HexCharDisplay(substr($this->rawImageData, 0, 4)).') in SourceImageToGD()['.__LINE__.']');
             }
         } elseif (!$this->gdimg_source && $this->sourceFilename) {
             if ($this->md5s && ($this->md5s != phpthumb_functions::md5_file_safe($this->sourceFilename))) {
@@ -4139,16 +4139,16 @@ class phpthumb
                                                                                                                                                                                                                                                                   . '"')) . '), cannot generate thumbnail');
                     //$this->DebugMessage('All attempts to create GD image source failed ('.($GDreadSupport ? 'source image probably corrupt' : 'GD does not have read support for "'.$imageHeader.'"').'), outputing raw image', __FILE__, __LINE__);
                     //if (!$this->phpThumbDebug) {
-                    //	header($imageHeader);
-                    //	echo $this->rawImageData;
-                    //	exit;
+                    //    header($imageHeader);
+                    //    echo $this->rawImageData;
+                    //    exit;
                     //}
                     return false;
                 }
             }
 
             //switch (substr($this->rawImageData, 0, 2)) {
-            //	case 'BM':
+            //    case 'BM':
             switch (@$this->getimagesizeinfo[2]) {
                 case 6:
                     ob_start();
@@ -4176,16 +4176,16 @@ class phpthumb
                     break;
                 //}
                 //switch (substr($this->rawImageData, 0, 4)) {
-                //	case 'II'."\x2A\x00":
-                //	case 'MM'."\x00\x2A":
+                //    case 'II'."\x2A\x00":
+                //    case 'MM'."\x00\x2A":
                 case 7:
                 case 8:
                     return $this->ErrorImage($this->ImageMagickVersion() ? 'ImageMagick failed on TIFF source conversion' : 'ImageMagick is unavailable and phpThumb() does not support TIFF source images without it');
                     break;
 
                 //case "\xD7\xCD\xC6\x9A":
-                //	return $this->ErrorImage($this->ImageMagickVersion() ? 'ImageMagick failed on WMF source conversion' : 'ImageMagick is unavailable and phpThumb() does not support WMF source images without it');
-                //	break;
+                //    return $this->ErrorImage($this->ImageMagickVersion() ? 'ImageMagick failed on WMF source conversion' : 'ImageMagick is unavailable and phpThumb() does not support WMF source images without it');
+                //    break;
             }
 
             if (!$this->gdimg_source) {
@@ -4395,7 +4395,7 @@ class phpthumb
         $DebugOutput[] = '$_SERVER[SERVER_SOFTWARE]   = ' . @$_SERVER['SERVER_SOFTWARE'];
         $DebugOutput[] = '__FILE__                    = ' . __FILE__;
         $DebugOutput[] = 'realpath(.)                 = ' . @realpath('.');
-        $DebugOutput[] = '$_SERVER[PHP_SELF]          = ' . @$_SERVER['PHP_SELF'];
+        $DebugOutput[] = '$_SERVER[SCRIPT_NAME]          = ' . @$_SERVER['SCRIPT_NAME'];
         $DebugOutput[] = '$_SERVER[HOST_NAME]         = ' . @$_SERVER['HOST_NAME'];
         $DebugOutput[] = '$_SERVER[HTTP_REFERER]      = ' . @$_SERVER['HTTP_REFERER'];
         $DebugOutput[] = '$_SERVER[QUERY_STRING]      = ' . @$_SERVER['QUERY_STRING'];
@@ -4481,7 +4481,7 @@ class phpthumb
         }
         $DebugOutput[] = '';
 
-        if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray(dirname(@$_SERVER['PHP_SELF']))) {
+        if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray(dirname(@$_SERVER['SCRIPT_NAME']))) {
             foreach ($ApacheLookupURIarray as $key => $value) {
                 $DebugOutput[] = 'ApacheLookupURIarray.' . str_pad($key, 15, ' ', STR_PAD_RIGHT) . ' = ' . $this->phpThumbDebugVarDump($value);
             }

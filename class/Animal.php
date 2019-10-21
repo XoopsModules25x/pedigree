@@ -12,10 +12,9 @@
 /**
  * Pedigree module for XOOPS
  *
+ * @package     XoopsModules\Pedigree
  * @copyright   {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
  * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @package     pedigree
- * @subpackage  class
  * @since       1.3.1
  * @author      XOOPS Module Dev Team
  * @author      ZySpec <zyspec@yahoo.com>
@@ -79,7 +78,8 @@ class Animal
         $this->fields       = $fieldsHandler->getIds($criteria); //get all object IDs
         $this->configValues = $fieldsHandler->getAll($criteria, null, false); //get objects as arrays
         if (empty($this->configValues)) {
-            $this->configValues = '';
+            /** @internal changed from '' to [] in v1.32 Alpha 1; not sure this is really needed since getAll() above will return empty array */
+            $this->configValues = [];
         }
         /*
         $SQL    = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_fields") . " ORDER BY `order`";
