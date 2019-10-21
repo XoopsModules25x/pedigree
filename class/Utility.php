@@ -710,9 +710,11 @@ class Utility
      */
     public static function lettersChoice($myObject, $activeObject, $criteria, $name, $link, $link2 = null)
     {
-        /*
-        $pedigree = Pedigree\Helper::getInstance();
+        /** @var \XoopsModules\Pedigree\Helper $helper */
+        $helper = Pedigree\Helper::getInstance();
+        $helper->loadLanguage('main');
         xoops_load('XoopsLocal');
+        /*
 
         $criteria = $helper->getHandler('tree')->getActiveCriteria();
         $criteria->setGroupby('UPPER(LEFT(naam,1))');
@@ -763,7 +765,8 @@ class Utility
         //        xoops_load('XoopsLocal');
         //        $xLocale        = new \XoopsLocal;
         //        $alphabet       = $xLocale->getAlphabet();
-        $alphabet       = pedigreeGetAlphabet();
+        $alphabet       = explode(',', _MA_PEDIGREE_LTRCHARS);
+        //$alphabet       = pedigreeGetAlphabet();
         $alphabet_array = [];
         foreach ($alphabet as $letter) {
             /*

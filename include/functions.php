@@ -687,12 +687,14 @@ function animal_meta_description($content)
  *
  * @return string html
  *
+ * @deprecated
  * @access  public
  * @author  luciorota
  */
 function lettersChoice()
 {
     $helper = Pedigree\Helper::getInstance();
+    $helper->loadLanguage('main');
     xoops_load('XoopsLocal');
 
     $criteria = $helper->getHandler('Tree')->getActiveCriteria();
@@ -702,7 +704,8 @@ function lettersChoice()
     //    $alphabet       = XoopsLocal::getAlphabet();
     //        $xLocale = new \XoopsLocal;
     //        $alphabet =  $xLocale->getAlphabet();
-    $alphabet       = pedigreeGetAlphabet();
+    $alphabet       = explode(',', _MA_PEDIGREE_LTRCHARS);
+    //$alphabet       = pedigreeGetAlphabet();
     $alphabet_array = [];
     foreach ($alphabet as $letter) {
         $letter_array = [];
@@ -728,7 +731,7 @@ function lettersChoice()
     $letterschoiceTpl          = new \XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch('db:' . $helper->getModule()->dirname() . '_common_letterschoice.tpl');
+    $html = $letterschoiceTpl->fetch('db:' . $helper->getDirname() . '_common_letterschoice.tpl');
     unset($letterschoiceTpl);
 
     return $html;
