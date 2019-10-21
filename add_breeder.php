@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: Pedigree
  *
  * @package   XoopsModules\Pedigree
  * @author    XOOPS Module Development Team
@@ -39,34 +39,9 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-$f = Request::getString('f', '', 'GET');
+$f = Request::getString('f', '', 'POST');
 if ('check' === $f) {
     //check for access
-    /*
-    $achternaam  = Request::getString('achternaam', '', 'POST');
-    $voornaam    = Request::getString('voornaam', '', 'POST');
-    $email       = Request::getEmail('email', '', 'POST');
-    $website     = Request::getUrl('website', '', 'POST');
-    $user        = Request::getString('user', '', 'POST');
-
-    //insert into owner
-    //$query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . " VALUES ('','" . $voornaam . "','" . $achternaam . "','','','','','','" . $email . "','" . $website . "','" . $user . "')";
-    $query = 'INSERT INTO '
-             . $GLOBALS['xoopsDB']->prefix('pedigree_owner')
-             . " VALUES (0,'"
-             . $GLOBALS['xoopsDB']->escape($voornaam)
-             . "','"
-             . $GLOBALS['xoopsDB']->escape($achternaam)
-             . "','','','','','','"
-             . $GLOBALS['xoopsDB']->escape($email)
-             . "','"
-             . $GLOBALS['xoopsDB']->escape($website)
-             . "','"
-             . $GLOBALS['xoopsDB']->escape($user)
-             . "')";
-
-    $GLOBALS['xoopsDB']->query($query);
-    */
     $objVars = [
         'firstname' => Request::getString('voornaam', '', 'POST'),
          'lastname' => Request::getString('achternaam', '', 'POST'),
@@ -80,25 +55,25 @@ if ('check' === $f) {
     $oObj->setVars($objVars);
     $ownerHandler->insert($oObj);
 
-    redirect_header($helper->url(), 3, _MA_PEDIGREE_ADDED_TO_DB);
+    $helper->redirect('', 3, _MA_PEDIGREE_ADDED_TO_DB);
 }
 
 //create form
 include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new \XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'post', true);
+$form = new \XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'post');
 $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 $form->addElement(new \XoopsFormHidden('user', $GLOBALS['xoopsUser']->getVar('uid')));
 //lastname
-$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_LNAME . '</b>', 'achternaam', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_LNAME . '</b>', 'achternaam', $size = 30, $maxsize = 30, $value = ''));
 
 //firstname
-$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_FNAME . '</b>', 'voornaam', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_FNAME . '</b>', 'voornaam', $size = 3050, $maxsize = 30, $value = ''));
 
 //email
-$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_EMAIL . '</b>', 'email', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_EMAIL . '</b>', 'email', $size = 30, $maxsize = 40, $value = ''));
 
 //website
-$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_WEB . '</b>', 'website', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_WEB . '</b>', 'website', $size = 30, $maxsize = 60, $value = ''));
 $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_OWN_WEB_EX));
 
 //submit button
