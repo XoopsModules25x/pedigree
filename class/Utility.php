@@ -1,4 +1,20 @@
 <?php namespace XoopsModules\Pedigree;
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @package      XoopsModules\Pedigree
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author       XOOPS Module Dev Team
+ */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
@@ -53,6 +69,28 @@ class Utility
         }
 
         return $tsarray;
+    }
+
+    /**
+     * @param string $haystack
+     * @param string $needle
+     * @param int    $offset
+     *
+     * @return bool|int
+     */
+    public static function myStrRpos($haystack, $needle, $offset = 0)
+    {
+        // same as strrpos, except $needle can be a string
+        $strrpos = false;
+        if (is_string($haystack) && is_string($needle) && is_numeric($offset)) {
+            $strlen = strlen($haystack);
+            $strpos = strpos(strrev(substr($haystack, $offset)), strrev($needle));
+            if (is_numeric($strpos)) {
+                $strrpos = $strlen - $strpos - strlen($needle);
+            }
+        }
+
+        return $strrpos;
     }
 
     /**
@@ -822,20 +860,33 @@ class Utility
     }
 
     /**
-     * @return bool
+     * Alias for Pedigree\Helper->isUserAdmin
+     *
+     * Makes sure \XoopsModules\Pedigree\Helper class is loaded
+     *
+     * @return bool true if user is admin, false if not
      */
-    public static function userIsAdmin()
+    public static function isUserAdmin()
     {
+        /** @var \XoopsModules\Pedigree\Helper $helper */
         $helper = Pedigree\Helper::getInstance();
-
-       $pedigree_isAdmin = $helper->isUserAdmin();
-
-         return $pedigree_isAdmin;
+        return $helper->isUserAdmin();
     }
 
-    public static function getXoopsCpHeader()
+    /**
+     * Get the current colour scheme
+     *
+     * @return array colours for current colour scheme
+     */
+    public static function getColourScheme()
     {
-        xoops_cp_header();
+        $helper       = Pedigree\Helper::getInstance();
+        $colValues    = $helper->getConfig('colourscheme');
+        $patterns     = ['\s', '\,'];
+        $replacements = ['', ';'];
+        $colValues    = preg_replace($patterns, $replacements, $colValues); // remove spaces and commas - backward compatibility
+        $colors       = explode(';', $colValues);
+        return $colors;
     }
 
     /**
@@ -954,7 +1005,7 @@ class Utility
     public static function getCurrentUrls()
     {
         $http        = (false === strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
-        $phpSelf     = $_SERVER['PHP_SELF'];
+        $phpSelf     = $_SERVER['SCRIPT_NAME'];
         $httpHost    = $_SERVER['HTTP_HOST'];
         $queryString = $_SERVER['QUERY_STRING'];
 

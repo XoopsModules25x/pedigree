@@ -126,7 +126,9 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'colours':
-        $colors  = explode(';', $helper->getConfig('colourscheme'));
+        //colour variables
+        list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+        /*
         $actlink = $colors[0];
         $even    = $colors[1];
         $odd     = $colors[2];
@@ -135,6 +137,7 @@ switch ($op) {
         $head    = $colors[5];
         $body    = $colors[6];
         $title   = $colors[7];
+        */
         echo "<script type=\"text/javascript\">\n"
            . "  $('.color-box').colpick({\n"
            . "    colorScheme: 'dark',\n"
@@ -803,10 +806,10 @@ function userfields($field = 0)
         } else {
             $form = _MA_PEDIGREE_FIELDPROP_ELSE;
         }
-        $form .= "<form method='post' action='" . $_SERVER['PHP_SELF'] . '?op=userfields&action=' . $wizard->resetAction() . "'>";
+        $form .= "<form method='post' action='" . $_SERVER['SCRIPT_NAME'] . '?op=userfields&action=' . $wizard->resetAction() . "'>";
         $form .= "<input type='submit' value='" . _MA_PEDIGREE_FINISH_BUTTON . "'></form>";
     } else {
-        $form = "<form method='post' action='" . $_SERVER['PHP_SELF'] . '?op=userfields&action=' . $wizard->getStepName() . "'>";
+        $form = "<form method='post' action='" . $_SERVER['SCRIPT_NAME'] . '?op=userfields&action=' . $wizard->getStepName() . "'>";
         if (0 == !$field) {
             $form .= "<input type='hidden' name='field' value='{$field}'>";
         }

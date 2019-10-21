@@ -30,8 +30,9 @@ $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-//colour variables
-$colors  = explode(';', $moduleConfig['colourscheme']);
+//get colour variables
+list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+/*
 $actlink = $colors[0];
 $even    = $colors[1];
 $odd     = $colors[2];
@@ -40,7 +41,7 @@ $hovlink = $colors[4];
 $head    = $colors[5];
 $body    = $colors[6];
 $title   = $colors[7];
-
+*/
 //@todo convert to use Object CRUD using \Criteria instead of SQL call
 //query to count male dogs
 $result = $GLOBALS['xoopsDB']->query('SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE roft='0'");

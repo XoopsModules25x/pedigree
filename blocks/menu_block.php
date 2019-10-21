@@ -8,11 +8,11 @@ use XoopsModules\Pedigree;
 
 // Include any constants used for internationalizing templates.
 $moduleDirName = basename(dirname(__DIR__));
-xoops_loadLanguage('main', $moduleDirName);
-//xoops_loadLanguage('main', $moduleDirName);
-// Include any common code for this module.
+$helper        = Pedigree\Helper::getInstance();
+$helper->loadLanguage('main');
 
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+// Include any common code for this module.
+require_once $helper->path('include/common.php');
 
 /**
  * @todo: move hard coded language strings to language file
@@ -21,17 +21,12 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
  */
 function menu_block()
 {
-    global $xoopsTpl, $xoopsUser, $pedigree;
     $moduleDirName = basename(dirname(__DIR__));
-    /*
-    //get module configuration
-    $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname($moduleDirName);
-    $configHandler = xoops_getHandler('config');
-    $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-*/
+    $helper        = Pedigree\Helper::getInstance();
+
     //colour variables
-    $colors  = explode(',', $helper->getConfig('colourscheme'));
+    list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+    /*
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -40,7 +35,7 @@ function menu_block()
     $head    = $colors[5];
     $body    = $colors[6];
     $title   = $colors[7];
-
+    */
     /*
         //inline-css
         echo '<style>';
@@ -64,21 +59,13 @@ function menu_block()
         echo '</style>';
     */
 
-    //iscurrent user a module admin ?
-    $xoopsModule = XoopsModule::getByDirname($moduleDirName);
-    if (!empty($xoopsUser) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-        && $xoopsUser->isAdmin($xoopsModule->mid())) {
-        $modadmin = true;
-    } else {
-        $modadmin = false;
-    }
     $counter   = 1;
     $menuwidth = 4;
+    $x         = $_SERVER['SCRIPT_NAME'];
+    $lastpos   = Pedigree\Utility::myStrRpos($x, '/');
+    $len       = strlen($x);
+    $curpage   = substr($x, $lastpos, $len);
 
-    $x       = $_SERVER['PHP_SELF'];
-    $lastpos = my_strrpos($x, '/');
-    $len     = strlen($x);
-    $curpage = substr($x, $lastpos, $len);
     if (1 == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>Welcome</b>';
@@ -177,7 +164,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if (true === $modadmin) {
+    if (true === $helper->isUserAdmin()) {
         if ('/tools.php' === $curpage) {
             $title = '<b>Webmaster tools</b>';
         } else {
@@ -209,30 +196,8 @@ function menu_block()
 
     //create path taken
     //showpath();
-    $xoopsTpl->assign('menuarray', $menuarray);
+    $GLOBALS['xoopsTpl']->assign('menuarray', $menuarray);
 
     //return the template contents
-    return $xoopsTpl;
-}
-
-/**
- * @param     $haystack
- * @param     $needle
- * @param int $offset
- *
- * @return bool|int
- */
-function my_strrpos($haystack, $needle, $offset = 0)
-{
-    // same as strrpos, except $needle can be a string
-    $strrpos = false;
-    if (is_string($haystack) && is_string($needle) && is_numeric($offset)) {
-        $strlen = strlen($haystack);
-        $strpos = strpos(strrev(substr($haystack, $offset)), strrev($needle));
-        if (is_numeric($strpos)) {
-            $strrpos = $strlen - $strpos - strlen($needle);
-        }
-    }
-
-    return $strrpos;
+    return $GLOBALS['xoopsTpl'];
 }

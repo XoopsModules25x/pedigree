@@ -738,33 +738,6 @@ function lettersChoice()
 }
 
 /**
- * @return bool
- */
-function userIsAdmin()
-{
-    $helper = Pedigree\Helper::getInstance();
-
-    static $pedigree_isAdmin;
-
-    if (isset($pedigree_isAdmin)) {
-        return $pedigree_isAdmin;
-    }
-
-    if (!$GLOBALS['xoopsUser']) {
-        $pedigree_isAdmin = false;
-    } else {
-        $pedigree_isAdmin = $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
-    }
-
-    return $pedigree_isAdmin;
-}
-
-function getXoopsCpHeader()
-{
-    xoops_cp_header();
-}
-
-/**
  * Detemines if a table exists in the current db
  *
  * @param string $table the table name (without XOOPS prefix)
@@ -880,7 +853,7 @@ function getCookieVar($name, $default = '')
 function getCurrentUrls()
 {
     $http        = (false === strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
-    $phpSelf     = $_SERVER['PHP_SELF'];
+    $phpSelf     = $_SERVER['SCRIPT_NAME'];
     $httpHost    = $_SERVER['HTTP_HOST'];
     $queryString = $_SERVER['QUERY_STRING'];
 

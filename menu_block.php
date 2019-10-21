@@ -1,35 +1,35 @@
 <?php
-// -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
 
-// Include any constants used for internationalizing templates.
+/**
+ * Include any constants used for internationalizing templates.
+ *
+ * @package      XoopsModules\Pedigree
+ * @copyright    2004 James Cotton
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author       James Cotton {@link http://www.dobermannvereniging.nl James Cotton}
+ * @author       XOOPS Module Dev Team
+ */
 
 use XoopsModules\Pedigree;
 
 $moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
+$helper = Pedigree\Helper::getInstance();
+$helper->loadLanguage('main');
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once $helper->path('include/common.php');
 
 /**
  * @return XoopsTpl
  */
 function menu_block()
 {
-    //    global $apppath;
+    /** @var \XoopsModules\Pedigree\Helper $helper */
+    $helper  = Pedigree\Helper::getInstance();
 
-    //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler = xoops_getHandler('module');
-    $module        = $moduleHandler->getByDirname($moduleDirName);
-    $configHandler = xoops_getHandler('config');
-    $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-
-    //colour variables
-    $colors  = explode(';', $moduleConfig['colourscheme']);
+    list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+    /*
     $actlink = $colors[0];
     $even    = $colors[1];
     $odd     = $colors[2];
@@ -38,6 +38,7 @@ function menu_block()
     $head    = $colors[5];
     $body    = $colors[6];
     $title   = $colors[7];
+    */
     //inline-css
     echo '<style>';
     //text-colour
@@ -70,11 +71,11 @@ function menu_block()
     $counter   = 1;
     $menuwidth = 4;
 
-    $x       = $_SERVER['PHP_SELF'];
-    $lastpos = my_strrpos($x, '/');
+    $x       = $_SERVER['SCRIPT_NAME'];
+    $lastpos = Pedigree\Utility::myStrRpos($x, '/');
     $len     = strlen($x);
     $curpage = substr($x, $lastpos, $len);
-    if ('1' == $moduleConfig['showwelcome']) {
+    if ('1' == $helper->getConfig['showwelcome']) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_WELCOME . '</b>';
         } else {
@@ -87,9 +88,9 @@ function menu_block()
         }
     }
     if ('/index.php' === $curpage || '/result.php' == $curpage) {
-        $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $moduleConfig['animalTypes'] . '</b>';
+        $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $helper->getConfig['animalTypes'] . '</b>';
     } else {
-        $title = '_MA_PEDIGREE_VIEWSEARCH ' . $moduleConfig['animalTypes'];
+        $title = '_MA_PEDIGREE_VIEWSEARCH ' . $helper->getConfig['animalTypes'];
     }
     $menuarray[] = ['title' => $title, 'link' => 'result.php', 'counter' => $counter];
     ++$counter;
@@ -97,20 +98,20 @@ function menu_block()
         $counter = 1;
     }
     if ('/index.php' === $curpage) {
-        $title = '<b>' . _MA_PEDIGREE_ADD_A . $moduleConfig['animalType'] . '</b>';
+        $title = '<b>' . _MA_PEDIGREE_ADD_A . $helper->getConfig['animalType'] . '</b>';
     } else {
-        $title = 'PED_ADD_A ' . $moduleConfig['animalType'];
+        $title = 'PED_ADD_A ' . $helper->getConfig['animalType'];
     }
     $menuarray[] = ['title' => $title, 'link' => 'add_dog.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $moduleConfig['uselitter']) {
+    if ('1' == $helper->getConfig['uselitter']) {
         if ('/index.php' === $curpage) {
-            $title = '<b>' . _MA_PEDIGREE_ADD_LITTER . $moduleConfig['litter'] . '</b>';
+            $title = '<b>' . _MA_PEDIGREE_ADD_LITTER . $helper->getConfig['litter'] . '</b>';
         } else {
-            $title = '_MA_PEDIGREE_ADD_LITTER ' . $moduleConfig['litter'];
+            $title = '_MA_PEDIGREE_ADD_LITTER ' . $helper->getConfig['litter'];
         }
         $menuarray[] = ['title' => $title, 'link' => 'add_litter.php', 'counter' => $counter];
         ++$counter;
@@ -118,7 +119,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ('1' == $moduleConfig['ownerbreeder']) {
+    if ('1' == $helper->getConfig['ownerbreeder']) {
         if ('/index.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIEW_OWNBREED . '</b>';
         } else {
@@ -150,7 +151,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $moduleConfig['proversion']) {
+    if ('1' == $helper->getConfig['proversion']) {
         if ('/index.php' === $curpage || '/virtual.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIRUTALTIT . '</b>';
         } else {
@@ -209,26 +210,4 @@ function menu_block()
 
     //return the template contents
     return $GLOBALS['xoopsTpl'];
-}
-
-/**
- * @param     $haystack
- * @param     $needle
- * @param int $offset
- *
- * @return bool|int
- */
-function my_strrpos($haystack, $needle, $offset = 0)
-{
-    // same as strrpos, except $needle can be a string
-    $strrpos = false;
-    if (is_string($haystack) && is_string($needle) && is_numeric($offset)) {
-        $strlen = strlen($haystack);
-        $strpos = strpos(strrev(substr($haystack, $offset)), strrev($needle));
-        if (is_numeric($strpos)) {
-            $strrpos = $strlen - $strpos - strlen($needle);
-        }
-    }
-
-    return $strrpos;
 }

@@ -173,7 +173,7 @@ if (!empty($PHPTHUMB_CONFIG)) {
 
 if (empty($phpThumb->config_disable_pathinfo_parsing) && (empty($_GET) || isset($_GET['phpThumbDebug']))
     && !empty($_SERVER['PATH_INFO'])) {
-    $_SERVER['PHP_SELF'] = str_replace($_SERVER['PATH_INFO'], '', @$_SERVER['PHP_SELF']);
+    $_SERVER['SCRIPT_NAME'] = str_replace($_SERVER['PATH_INFO'], '', @$_SERVER['SCRIPT_NAME']);
 
     $args = explode(';', substr($_SERVER['PATH_INFO'], 1));
     $phpThumb->DebugMessage('PATH_INFO.$args set to (' . implode(')(', $args) . ')', __FILE__, __LINE__);
@@ -456,15 +456,15 @@ if (isset($_GET['phpThumbDebug']) && ('3' == $_GET['phpThumbDebug'])) {
 ////////////////////////////////////////////////////////////////
 
 //if (!@$_GET['phpThumbDebug'] && !is_file($phpThumb->sourceFilename) && !phpthumb_functions::gd_version()) {
-//	if (!headers_sent()) {
-//		// base64-encoded error image in GIF format
-//		$ERROR_NOGD = 'R0lGODlhIAAgALMAAAAAABQUFCQkJDY2NkZGRldXV2ZmZnJycoaGhpSUlKWlpbe3t8XFxdXV1eTk5P7+/iwAAAAAIAAgAAAE/vDJSau9WILtTAACUinDNijZtAHfCojS4W5H+qxD8xibIDE9h0OwWaRWDIljJSkUJYsN4bihMB8th3IToAKs1VtYM75cyV8sZ8vygtOE5yMKmGbO4jRdICQCjHdlZzwzNW4qZSQmKDaNjhUMBX4BBAlmMywFSRWEmAI6b5gAlhNxokGhooAIK5o/pi9vEw4Lfj4OLTAUpj6IabMtCwlSFw0DCKBoFqwAB04AjI54PyZ+yY3TD0ss2YcVmN/gvpcu4TOyFivWqYJlbAHPpOntvxNAACcmGHjZzAZqzSzcq5fNjxFmAFw9iFRunD1epU6tsIPmFCAJnWYE0FURk7wJDA0MTKpEzoWAAskiAAA7';
-//		header('Content-Type: image/gif');
-//		echo base64_decode($ERROR_NOGD);
-//	} else {
-//		echo '*** ERROR: No PHP-GD support available ***';
-//	}
-//	exit;
+//    if (!headers_sent()) {
+//        // base64-encoded error image in GIF format
+//        $ERROR_NOGD = 'R0lGODlhIAAgALMAAAAAABQUFCQkJDY2NkZGRldXV2ZmZnJycoaGhpSUlKWlpbe3t8XFxdXV1eTk5P7+/iwAAAAAIAAgAAAE/vDJSau9WILtTAACUinDNijZtAHfCojS4W5H+qxD8xibIDE9h0OwWaRWDIljJSkUJYsN4bihMB8th3IToAKs1VtYM75cyV8sZ8vygtOE5yMKmGbO4jRdICQCjHdlZzwzNW4qZSQmKDaNjhUMBX4BBAlmMywFSRWEmAI6b5gAlhNxokGhooAIK5o/pi9vEw4Lfj4OLTAUpj6IabMtCwlSFw0DCKBoFqwAB04AjI54PyZ+yY3TD0ss2YcVmN/gvpcu4TOyFivWqYJlbAHPpOntvxNAACcmGHjZzAZqzSzcq5fNjxFmAFw9iFRunD1epU6tsIPmFCAJnWYE0FURk7wJDA0MTKpEzoWAAskiAAA7';
+//        header('Content-Type: image/gif');
+//        echo base64_decode($ERROR_NOGD);
+//    } else {
+//        echo '*** ERROR: No PHP-GD support available ***';
+//    }
+//    exit;
 //}
 
 // check to see if file can be output from source with no processing or caching
@@ -659,7 +659,7 @@ if ($phpThumb->rawImageData) {
         $phpThumb->ErrorImage('failed to create "new" image (' . $phpThumb->w . 'x' . $phpThumb->h . ')');
     }
 } elseif (!$phpThumb->src) {
-    $phpThumb->ErrorImage('Usage: ' . $_SERVER['PHP_SELF'] . '?src=/path/and/filename.jpg' . "\n" . 'read Usage comments for details');
+    $phpThumb->ErrorImage('Usage: ' . $_SERVER['SCRIPT_NAME'] . '?src=/path/and/filename.jpg' . "\n" . 'read Usage comments for details');
 } elseif (preg_match('#^([a-z0-9]+)://#i', $_GET['src'], $protocol_matches)) {
     if (preg_match('#^(f|ht)tps?://#i', $_GET['src'])) {
         $phpThumb->DebugMessage('$phpThumb->src (' . $phpThumb->src . ') is remote image, attempting to download', __FILE__, __LINE__);

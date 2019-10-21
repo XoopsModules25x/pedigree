@@ -170,7 +170,7 @@ define('_MI_PEDIGREE_FEMALE_DESC', 'female language option'); // female language
 define('_MI_PEDIGREE_LITTER_DESC', 'litter language option'); // litter language option");
 define('_MI_PEDIGREE_USELITTER_DESC', 'Should the add a litter feature be used ?'); // Should the add a litter feature be used ?");
 define('_MI_PEDIGREE_SHOWELCOME_DESC', 'Show the welcome screen ?'); // Show the welcome screen ?");
-define('_MI_PEDIGREE_COLOR_DESC', 'Set Color Preferences');
+define('_MI_PEDIGREE_COLOR_DESC', 'Set Color Preferences separated by \';\'');
 define('_MI_PEDIGREE_CHILDREN_DESC', 'Children language option'); // "mother language option");
 
 //Templates
