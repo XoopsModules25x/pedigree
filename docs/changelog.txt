@@ -1,4 +1,4 @@
-<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.10, PHP 7.2.4
+<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.10, PHP 7.3.10
 <hr>
 - namespaces, autoloading (mamba)
 - use Xmf\Request to sanitize input (zysoec)

@@ -24,9 +24,9 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 require_once __DIR__ . '/field.php';
 
 /**
- * Class PedigreeHtmlInputAbstract
+ * Class HtmlInputAbstract
  */
-abstract class PedigreeHtmlInputAbstract extends PedigreeField
+abstract class PedigreeHtmlInputAbstract extends Field
 {
     /**
      * @return mixed

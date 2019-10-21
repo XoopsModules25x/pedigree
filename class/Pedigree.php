@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php 
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -81,6 +83,7 @@ class Pedigree
     public function getConfig($name = null)
     {
         $helper = Helper::getInstance();
+
         if (null === $this->config) {
             $this->initConfig();
         }
@@ -97,6 +100,7 @@ class Pedigree
         $helper->addLog("Getting config '{$name}' : " . print_r($this->config[$name], true));
         //$this->addLog("Getting config '{$name}' : " . print_r($this->config[$name], true));
 
+
         return $this->config[$name];
     }
 
@@ -110,12 +114,14 @@ class Pedigree
     {
         /** @var \XoopsModules\Pedigree\Helper $helper */
         $helper = Helper::getInstance();
+
         if (null === $this->config) {
             $this->initConfig();
         }
         $this->config[$name] = $value;
         $helper->addLog("Setting config '{$name}' : " . $this->config[$name]);
         //$this->addLog("Setting config '{$name}' : " . $this->config[$name]);
+
 
         return $this->config[$name];
     }
@@ -149,6 +155,7 @@ class Pedigree
         $this->module = $helper->getModule();
         $helper->addLog('INIT MODULE');
         /*
+
         global $xoopsModule;
         if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
@@ -158,6 +165,7 @@ class Pedigree
         }
         $this->addLog('INIT MODULE');
         */
+
     }
 
     public function initConfig()
@@ -185,6 +193,7 @@ class Pedigree
         $this->addLog('INIT ' . ucase($name) . ' HANDLER');
         $this->handler[$name . 'Handler'] = xoops_getModuleHandler($name, $this->dirname);
         */
+
     }
 
     /**
@@ -201,6 +210,7 @@ class Pedigree
                 $GLOBALS['xoopsLogger']->addExtra($this->module->name(), $log);
             }
             */
+
         }
     }
 }

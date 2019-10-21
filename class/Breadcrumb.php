@@ -60,6 +60,7 @@ class Breadcrumb
                 'title' => $title
             ];
         }
+
     }
 
     /**

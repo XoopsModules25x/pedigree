@@ -32,29 +32,30 @@
 
 include __DIR__ . '/preloads/autoloader.php';
 
+$moduleDirName = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+xoops_loadLanguage('common', $moduleDirName);
+
+
 $modversion['version']       = 1.32;
 $modversion['release_date']  = '2019/10/20';
 $modversion['module_status'] = 'Alpha 1';
 $modversion['name']          = _MI_PEDIGREE_NAME;
 $modversion['description']   = _MI_PEDIGREE_DESC;
 $modversion['credits']       = 'http://tech.groups.yahoo.com/group/animalpedigree/';
-$modversion['author']        = 'James Cotton';
-$modversion['help']          = 'page=pedigree_admin';
-//$modversion['help']          = 'page=help';
-$modversion['license']       = 'GNU GPL 2.0 or later';
-$modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']      = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-$modversion['image']         = 'assets/images/logoModule.png';
-$modversion['dirname']       = basename(__DIR__);
-
-//$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-//$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-//$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
-$modversion['modicons16'] = 'assets/images/icons/16';
-$modversion['modicons32'] = 'assets/images/icons/32';
-
-$modversion['onInstall'] = 'include/install_function.php';
-$modversion['onUpdate']  = 'include/update_function.php';
+$modversion['author']        = 'James Cotton, Zyspec, Mamba, Geekwright';
+//$modversion['help']          = 'page=pedigree_admin';
+$modversion['help']                = 'page=help';
+$modversion['license']             = 'GNU GPL 2.0 or later';
+$modversion['license_url']         = 'www.gnu.org/licenses/gpl-2.0.html';
+$modversion['official']            = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
+$modversion['image']               = 'assets/images/logoModule.png';
+$modversion['dirname']             = basename(__DIR__);
+$modversion['modicons16']          = 'assets/images/icons/16';
+$modversion['modicons32']          = 'assets/images/icons/32';
+$modversion['onInstall']           = 'include/install_function.php';
+$modversion['onUpdate']            = 'include/update_function.php';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.7';
@@ -80,6 +81,14 @@ $modversion['system_menu'] = 1;
 $modversion['adminindex']  = 'admin/index.php';
 $modversion['adminmenu']   = 'admin/menu.php';
 //admin settings
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = [
+    ['name' => _MI_PEDIGREE_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_PEDIGREE_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_PEDIGREE_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_PEDIGREE_SUPPORT, 'link' => 'page=support'],
+];
 
 $modversion['config'][] = [
     'name'        => 'proversion',
@@ -306,11 +315,23 @@ $modversion['config'][] = [
  */
 $modversion['config'][] = [
     'name'        => 'displaySampleButton',
-    'title'       => '_MI_PEDIGREE_SHOW_SAMPLE_BUTTON',
-    'description' => '_MI_PEDIGREE_SHOW_SAMPLE_BUTTON_DESC',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name' => 'displayDeveloperTools',
+    'title' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
+    'default' => 0,
 ];
 
 // Menu contents

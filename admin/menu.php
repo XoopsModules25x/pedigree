@@ -31,12 +31,20 @@
 use XoopsModules\Pedigree;
 
 include dirname(__DIR__) . '/preloads/autoloader.php';
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
 //require_once  dirname(__DIR__) . '/include/common.php';
 /** @var \XoopsModules\Pedigree\Helper $helper */
-$helper = Pedigree\Helper::getInstance();
+$helper = \XoopsModules\Pedigree\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+if (is_object($helper->getModule())) {
+    //    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
+}
 
 //xoops_cp_header();
 //echo "<h4>Pedigree Administration</h4><table width='100%' border='0' cellspacing='1' class='outer'>";
@@ -99,6 +107,21 @@ $adminmenu[] = array(
     'icon'  => $pathIcon32.'/permissions.png'
 );
 */
+
+// Blocks Admin
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+    'link' => 'admin/blocksadmin.php',
+    'icon' => $pathIcon32 . '/block.png',
+];
+
+if ($helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link' => 'admin/migrate.php',
+        'icon' => $pathIcon32 . '/database_go.png',
+    ];
+}
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU8,

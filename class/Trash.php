@@ -55,6 +55,7 @@ class Trash extends \XoopsObject
     {
         //global $xoopsModuleConfig;
 
+
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
