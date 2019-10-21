@@ -299,7 +299,7 @@ switch ($op) {
         break;
     case 'togglelocked':
         //find current status
-        $id = Request::getint('id', 0);
+        $id = Request::getInt('id', 0);
         $sql    = 'SELECT locked FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id = '{$id}'";
         $result = $GLOBALS['xoopsDB']->query($sql);
 
@@ -320,37 +320,37 @@ switch ($op) {
         fieldmove($field, $move);
         break;
     case 'deluserfield':
-        $id = Request::getint('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " SET isActive = '0' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($sql);
         $form = listuserfields();
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'restoreuserfield':
-        $id = Request::getint('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " SET isActive = '1' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($sql);
         $form = listuserfields();
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'editlookup':
-        $id = Request::getint('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         editlookup($id);
         break;
     case 'lookupmove':
-        $id   = Request::getint('id', 0, 'get');
+        $id   = Request::getInt('id', 0, 'get');
         $move = Request::getCmd('move', '', 'get');
         lookupmove($field, $id, $move);
         break;
     case 'dellookupvalue':
-        $id = Request::getint('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         dellookupvalue($field, $id);
         break;
     case 'addlookupvalue':
         addlookupvalue($field);
         break;
     case 'editlookupvalue':
-        $id     = Request::getint('id', 0, 'get');
+        $id     = Request::getInt('id', 0, 'get');
         $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -361,7 +361,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'savelookupvalue':
-        $id    = Request::getint('id', 0, 'get');
+        $id    = Request::getInt('id', 0, 'get');
         $value = Request::getString('value', '', 'POST');
         $SQL   = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . " SET value = '{$value}' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($SQL);
@@ -371,7 +371,7 @@ switch ($op) {
         deleted();
         break;
     case 'delperm':
-        $id = Request::getint('id', 0);
+        $id = Request::getInt('id', 0);
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . " WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($sql);
         deleted();
@@ -382,7 +382,7 @@ switch ($op) {
         deleted();
         break;
     case 'restore':
-        $id = Request::getint('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         $queryvalues = '';
         $sql         = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
         $result      = $GLOBALS['xoopsDB']->query($sql);
