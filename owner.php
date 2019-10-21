@@ -43,7 +43,7 @@ $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 xoops_load('XoopsUserUtility');
 
 $ownId = Request::getInt('ownid', 0, 'GET');
-$items = array();
+$items = [];
 
 //query
 /** @var \XoopsModules\Pedigree\OwnerHandler $ownerHandler */
@@ -208,11 +208,11 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     ];
 */
     //add dog/owner/breeder to smarty template
-    $GLOBALS['xoopsTpl']->assign(array('access' => $access, 'dogs' =>$items, 'name' => $naam, 'id' => $ownId));
+    $GLOBALS['xoopsTpl']->assign(['access' => $access, 'dogs' =>$items, 'name' => $naam, 'id' => $ownId]);
 }
 
 //add data to smarty template
-$GLOBALS['xoopsTpl']->assign(array('delete' => "<img src=\"{$pathIcon16}/delete.png\" border=\"0\" alt=\"_DELETE\" title=\"_DELETE\">"));
+$GLOBALS['xoopsTpl']->assign(['delete' => "<img src=\"{$pathIcon16}/delete.png\" border=\"0\" alt=\"_DELETE\" title=\"_DELETE\">"]);
 
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';

@@ -113,7 +113,7 @@ switch ($op) {
         $id   = Request::getInt('id', null, 'post');
         $tObj = $treeHandler->get($id);
 
-        $varArray = array(
+        $varArray = [
                 'naam' => Request::getString('naam', '', 'post'),
             'id_owner' => Request::getInt('id_owner', 0, 'post'),
           'id_breeder' => Request::getInt('id_breeder', 0, 'post'),
@@ -123,7 +123,7 @@ switch ($op) {
               'father' => Request::getInt('father', 0, 'post'),
                 'foto' => Request::getString('foto', '', 'post'),
                  'coi' => Request::getString('coi', '', 'post')
-        );
+        ];
 
         $tObj->setVars($varArray);
         if ($treeHandler->insert($tObj)) {
