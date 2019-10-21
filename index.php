@@ -8,7 +8,7 @@ $helper->loadLanguage('main');
 
 // Include any common code for this module.
 require_once $helper->path('include/common.php');
-require_once __DIR__ . '/welcome.php';
+//require_once __DIR__ . '/welcome.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_index.tpl';
 
@@ -93,6 +93,6 @@ $GLOBALS['xoopsTpl']->assign([
                              ]);
 $GLOBALS['xoopsTpl']->assign('showwelcome', $moduleConfig['showwelcome']);
 //$GLOBALS['xoopsTpl']->assign('welcome', $GLOBALS['myts']->displayTarea($moduleConfig['welcome']));
-//$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes'))));
+$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes'))));
 $GLOBALS['xoopsTpl']->assign('word', $word);
 include $GLOBALS['xoops']->path('footer.php');

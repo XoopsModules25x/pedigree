@@ -1,6 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
+use \Xmf\Request;
 use XoopsModules\Pedigree;
 
 /** @var \XoopsModules\Pedigree\Helper $helper */
@@ -135,7 +136,7 @@ $pages .= '<br>';
 //create previous button
 if ($numPages > 1) {
     if ($currentPage > 1) {
-        $pages .= "<a href=\"" . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($st - $perPage)) . "\">" . _MA_PEDIGREE_PREVIOUS . "</a>&nbsp;&nbsp;";
+        $pages .= '<a href="' . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($st - $perPage)) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp;';
     }
 
     // create numbers
@@ -145,7 +146,7 @@ if ($numPages > 1) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
-                $pages .= "<a href=\"" . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($perPage * ($x - 1))) . "\">{$x}</a>&nbsp;&nbsp;";
+                $pages .= '<a href="' . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($perPage * ($x - 1))) . "\">{$x}</a>&nbsp;&nbsp;";
         } else {
             $pages .= $x . '&nbsp;&nbsp';
         }
@@ -155,7 +156,7 @@ if ($numPages > 1) {
 //create next button
 if ($numPages > 1) {
     if ($currentPage < $numPages) {
-        $pages .= "<a href=\"" . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($st + $perPage)) . "\">" . _MA_PEDIGREE_NEXT . "</a>&nbsp;&nbsp;";
+        $pages .= '<a href="' . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($st + $perPage)) . '">' . _MA_PEDIGREE_NEXT . '</a>&nbsp;&nbsp;';
     }
 }
 
@@ -169,13 +170,13 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     if (!empty($xoopsUser)) {
         if (true === $modAdmin || $row['user'] == $xoopsUser->getVar('uid')) {
             //$access = "<a href=\"dog.php?id=".$row['id']."\"><img src=\"assets/images/edit.png\" alt="._EDIT."></a>";
-            $access .= "<a href=\"" . $helper->url("deletebreeder.php?id={$row['id']}") . "\"><img src=\"" . $pathIcon16 . "/delete.png\" title=\"" . _DELETE . "\" alt=\"" . _DELETE . "\"</a>";
+            $access .= '<a href="' . $helper->url("deletebreeder.php?id={$row['id']}") . '"><img src="' . $pathIcon16 . '/delete.png" title="' . _DELETE . '" alt="' . _DELETE . '"</a>';
         } else {
             $access = '';
         }
     }
     //make names
-    $name = $access . "<a href=\"" . $helper->url("owner.php?ownid={$row['id']}") . "\">" . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . "</a>";
+    $name = $access . '<a href="' . $helper->url("owner.php?ownid={$row['id']}") . '">' . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . '</a>';
     //create array for owners
     $dogs[] = [
         'id'   => $row['id'],
@@ -191,11 +192,11 @@ if (isset($dogs)) {
 }
 //assign links
 if ('ASC' === $d) {
-    $nl = "<a href=\"" . $helper->url("breeder.php?f={$f}&o=lastname&d=DESC") . "\">" . _MA_PEDIGREE_OWN_NAME . "</a>";
-    $cl = "<a href=\"" . $helper->url("breeder.php?f={$f}&o=city&d=DESC") . "\">" . _MA_PEDIGREE_OWN_CITY . "</a>";
+    $nl = '<a href="' . $helper->url("breeder.php?f={$f}&o=lastname&d=DESC") . '">' . _MA_PEDIGREE_OWN_NAME . '</a>';
+    $cl = '<a href="' . $helper->url("breeder.php?f={$f}&o=city&d=DESC") . '">' . _MA_PEDIGREE_OWN_CITY . '</a>';
 } else {
-    $nl = "<a href=\"" . $helper->url("breeder.php?f={$f}&o=lastname&d=ASC") . "\">" . _MA_PEDIGREE_OWN_NAME . "</a>";
-    $cl = "<a href=\"" . $helper->url("breeder.php?f={$f}&o=city&d=ASC") . "\">" . _MA_PEDIGREE_OWN_CITY . "</a>";
+    $nl = '<a href="' . $helper->url("breeder.php?f={$f}&o=lastname&d=ASC") . '">' . _MA_PEDIGREE_OWN_NAME . '</a>';
+    $cl = '<a href="' . $helper->url("breeder.php?f={$f}&o=city&d=ASC") . '">' . _MA_PEDIGREE_OWN_CITY . '</a>';
 }
 $GLOBALS['xoopsTpl']->assign('namelink', $nl);
 $GLOBALS['xoopsTpl']->assign('colourlink', $cl);

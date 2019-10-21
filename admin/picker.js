@@ -31,7 +31,7 @@ function TCSelect(c) {
 function TCPaint(c, b_noPref) {
     c = (b_noPref ? '' : '#') + c.toUpperCase();
     if (this.o_samp)
-        this.o_samp.innerHTML = '<font face=Tahoma size=2>' + c + ' <font color=white>' + c + '</font></font>'
+        this.o_samp.innerHTML = '<span  style="font-family: Tahoma; font-size: x-small; ">' + c + ' <span style="color: white; ">' + c + '</span></span>'
     if (this.doc.layers)
         this.sample.bgColor = c;
     else {

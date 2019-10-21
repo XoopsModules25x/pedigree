@@ -67,13 +67,13 @@ if ('check' === $f) {
 
     $GLOBALS['xoopsDB']->query($query);
     */
-    $objVars = array(
+    $objVars = [
         'firstname' => Request::getString('voornaam', '', 'POST'),
          'lastname' => Request::getString('achternaam', '', 'POST'),
        'emailadres' => Request::getEmail('email', '', 'POST'),
           'website' => Request::getUrl('website', '', 'POST'),
              'user' => Request::getString('user', '', 'POST')
-        );
+    ];
 
     $ownerHandler = $helper->getHandler('Owner');
     $oObj = $ownerHandler->create();

@@ -71,7 +71,7 @@ abstract class PedigreeHtmlInputAbstract extends Field
      */
     public function echoMsg($message)
     {
-        echo "<span style='color: red;'><h3>{$message}</h3></span>";
+        echo "<span style='color: #ff0000;'><h3>{$message}</h3></span>";
     }
 
     /**

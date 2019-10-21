@@ -1180,7 +1180,9 @@ class phpthumb_functions
                     // directory name already exists as a file
                     return false;
                 }
-                @mkdir($test_directory, 0755);
+                if (!mkdir($test_directory, 0755) && !is_dir($test_directory)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $test_directory));
+                }
                 @chmod($test_directory, 0755);
                 if (!@is_dir($test_directory) || !@is_writable($test_directory)) {
                     return false;

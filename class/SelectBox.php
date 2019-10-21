@@ -49,7 +49,7 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->lookuptable;
         if (0 == $this->lookuptable) {
-            echo "<span style='color: red;'><h3>A lookuptable must be specified for userfield" . $this->fieldnumber . '</h3></span>';
+            echo "<span style='color: #ff0000;'><h3>A lookuptable must be specified for userfield" . $this->fieldnumber . '</h3></span>';
         }
     }
 

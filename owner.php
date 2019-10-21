@@ -43,7 +43,7 @@ $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 xoops_load('XoopsUserUtility');
 
 $ownId = Request::getInt('ownid', 0, 'GET');
-$items = array();
+$items = [];
 
 //query
 /** @var \XoopsModules\Pedigree\OwnerHandler $ownerHandler */
@@ -74,25 +74,25 @@ foreach ($ownObjArray as $ownObj) {
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_LNAME,
         'data'   => "<a href=\"owner.php?ownid={$ownId}\">{$naaml}</a>",
-        'edit'   => "<a href=\"" . $helper->url("updateowner.php?id={$ownId}&fld=nl") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
+        'edit'   => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=nl") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
     ];
     //firstname
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_FNAME,
-        'data'   => "<a href=\"" . $helper->url("owner.php?ownid={$ownId}") . "\">{$naamf}</a>",
-        'edit'   => "<a href=\"" . $helper->url("updateowner.php?id={$ownId}&fld=nf") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
+        'data'   => '<a href="' . $helper->url("owner.php?ownid={$ownId}") . "\">{$naamf}</a>",
+        'edit'   => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=nf") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
     ];
     //email
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
         'data'   => "<a href=\"mailto:{$email}\">{$email}</a>",
-        'edit'   => "<a href=\"" . $helper->url("updateowner.php?id={$ownId}&fld=em") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
+        'edit'   => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=em") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
     ];
     //homepage
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
         'data'   => "<a href=\"{$homepage}\" target=\"_blank\">{$homepage}</a>",
-        'edit'   => "<a href=\"" . $helper->url("updateowner.php?id={$ownId}&fld=we") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
+        'edit'   => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=we") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>"
     ];
     //owner of
     $items[] = [
@@ -208,11 +208,11 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     ];
 */
     //add dog/owner/breeder to smarty template
-    $GLOBALS['xoopsTpl']->assign(array('access' => $access, 'dogs' =>$items, 'name' => $naam, 'id' => $ownId));
+    $GLOBALS['xoopsTpl']->assign(['access' => $access, 'dogs' =>$items, 'name' => $naam, 'id' => $ownId]);
 }
 
 //add data to smarty template
-$GLOBALS['xoopsTpl']->assign(array('delete' => "<img src=\"{$pathIcon16}/delete.png\" border=\"0\" alt=\"_DELETE\" title=\"_DELETE\">"));
+$GLOBALS['xoopsTpl']->assign(['delete' => "<img src=\"{$pathIcon16}/delete.png\" border=\"0\" alt=\"_DELETE\" title=\"_DELETE\">"]);
 
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';

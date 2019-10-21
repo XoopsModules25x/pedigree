@@ -155,8 +155,8 @@ $GLOBALS['xoopsTpl']->assign([
                                  'page_title' => stripslashes($row['d_naam']),
                                  'd'          => $d,  //assign dog
                                  //assign config options
-                                 'male'       => "<img src=\"assets/images/male.gif\" alt=\"_MA_PEDIGREE_FLD_MALE\" title=\"_MA_PEDIGREE_FLD_MALE\">",
-                                 'female'     => "<img src=\"assets/images/female.gif\" alt=\"_MA_PEDIGREE_FLD_FEMA\" title=\"_MA_PEDIGREE_FLD_FEMA\">",
+                                 'male'       => '<img src="assets/images/male.gif" alt="_MA_PEDIGREE_FLD_MALE" title="_MA_PEDIGREE_FLD_MALE">',
+                                 'female'     => '<img src="assets/images/female.gif" alt="_MA_PEDIGREE_FLD_FEMA" title="_MA_PEDIGREE_FLD_FEMA">',
                                  //assign extra display options
                                  'unknown'    => _MA_PEDIGREE_UNKNOWN,
                                  'SD'         => _MA_PEDIGREE_SD,

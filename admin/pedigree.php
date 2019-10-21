@@ -49,16 +49,16 @@ switch ($op) {
         if ($numrows > 0) {
             echo "<table class=\"width100 outer\" cellspacing=\"1\">\n"
                . "  <tr>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_NAAM . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_ID_OWNER . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_ID_BREEDER . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_USER . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_ROFT . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_MOTHER . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_FATHER . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_FOTO . "</th>\n"
-               . "    <th class=\"center\">" . _AM_PEDIGREE_PEDIGREE_COI . "</th>\n"
-               . "    <th class=\"center width10\">" . _AM_PEDIGREE_FORMACTION . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_NAAM . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_ID_OWNER . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_ID_BREEDER . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_USER . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_ROFT . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_MOTHER . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_FATHER . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_FOTO . "</th>\n"
+                 . '    <th class="center">' . _AM_PEDIGREE_PEDIGREE_COI . "</th>\n"
+                 . '    <th class="center width10">' . _AM_PEDIGREE_FORMACTION . "</th>\n"
                . "  </tr>\n";
 
             $class = 'even';
@@ -68,18 +68,18 @@ switch ($op) {
                 if (0 == $tObj->getVar('pedigree_pid')) {
                     $class = ('even' === $class) ? 'odd' : 'even';
                     echo "  <tr class=\"{$class}\">\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('naam') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('id_owner') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('id_breeder') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('user') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('roft') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('mother') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('father') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('foto') . "</td>\n"
-                       . "    <td class=\"center\">" . $tObj->getVar('coi') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('naam') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('id_owner') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('id_breeder') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('user') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('roft') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('mother') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('father') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('foto') . "</td>\n"
+                         . '    <td class="center">' . $tObj->getVar('coi') . "</td>\n"
                        . "    <td class=\"center width10\">\n"
-                       . "      <a href=\"" . $_SERVER['SCRIPT_NAME'] . "?op=edit_pedigree&id=" . $tObj->getVar('id') . "\"><img src=\"{$pathIcon16}/edit.png\" alt=\"" . _EDIT . "\" title=\"" . _EDIT . "\"></a>\n"
-                       . "      <a href=" . $helper->url('delete.php?id=' . $tObj->getVar('id')) . "><img src=\"{$pathIcon16}/delete.png\" alt=\"" . _DELETE . "\" title=\"" . _DELETE . "\"></a>\n"
+                         . '      <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit_pedigree&id=' . $tObj->getVar('id') . "\"><img src=\"{$pathIcon16}/edit.png\" alt=\"" . _EDIT . '" title="' . _EDIT . "\"></a>\n"
+                         . '      <a href=' . $helper->url('delete.php?id=' . $tObj->getVar('id')) . "><img src=\"{$pathIcon16}/delete.png\" alt=\"" . _DELETE . '" title="' . _DELETE . "\"></a>\n"
                        . "    </td>\n"
                        . "  </tr>\n";
                 }
@@ -113,7 +113,7 @@ switch ($op) {
         $id   = Request::getInt('id', null, 'post');
         $tObj = $treeHandler->get($id);
 
-        $varArray = array(
+        $varArray = [
                 'naam' => Request::getString('naam', '', 'post'),
             'id_owner' => Request::getInt('id_owner', 0, 'post'),
           'id_breeder' => Request::getInt('id_breeder', 0, 'post'),
@@ -123,7 +123,7 @@ switch ($op) {
               'father' => Request::getInt('father', 0, 'post'),
                 'foto' => Request::getString('foto', '', 'post'),
                  'coi' => Request::getString('coi', '', 'post')
-        );
+        ];
 
         $tObj->setVars($varArray);
         if ($treeHandler->insert($tObj)) {

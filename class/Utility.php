@@ -27,7 +27,9 @@ class Utility
     {
         //        $filteredFolder = XoopsFilterInput::clean($folder, 'PATH');
         if (!is_dir($folder)) {
-            mkdir($folder);
+            if (!mkdir($folder) && !is_dir($folder)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $folder));
+            }
             file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
         }
         //        chmod($filteredFolder, 0777);
