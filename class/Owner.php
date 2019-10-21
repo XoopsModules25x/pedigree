@@ -61,7 +61,7 @@ class Owner extends \XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
         /** @var \XoopsModules\Pedigree\Helper $helper */
-        $helper =  XoopsModules\Pedigree\Helper::getInstance();
+        $helper =  \XoopsModules\Pedigree\Helper::getInstance();
         $helper->loadLanguage('admin');
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_OWNER_ADD) : sprintf(_AM_PEDIGREE_OWNER_EDIT);
 
