@@ -73,8 +73,15 @@ class Helper extends \Xmf\Module\Helper
     public function getHandler($name)
     {
         $ret   = false;
-        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
         $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
+        if (!class_exists($class)) {
+            throw new \RuntimeException("Class '$class' not found");
+        }
+        /** @var \XoopsMySQLDatabase $db */
+        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $helper = self::getInstance();
+        $ret    = new $class($db, $helper);
+        $this->addLog("Getting handler '{$name}'");
         return new $class($db);
     }
 }
