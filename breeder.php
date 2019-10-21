@@ -1,6 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
+use \Xmf\Request;
 use XoopsModules\Pedigree;
 
 /** @var \XoopsModules\Pedigree\Helper $helper */
