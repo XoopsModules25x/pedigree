@@ -33,11 +33,11 @@ class Helper extends \Xmf\Module\Helper
      */
     public function __construct($debug = false)
     {
-        if (null === $dirname) {
+        if (null === $this->dirname) {
             $dirname = basename(dirname(__DIR__));
             $this->dirname = $dirname;
         }
-        parent::__construct($moduleDirName);
+        parent::__construct($this->dirname);
     }
 
     /**
