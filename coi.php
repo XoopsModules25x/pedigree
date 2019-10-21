@@ -639,7 +639,7 @@ function CONSANG($a)
     }
     pater_side($p, $m, $a, 1); // launch tree exploration
     if ($verbose) {
-        echo "</pre><center>$nl";
+        echo "</pre><div style=\"text-align: center;\">$nl";
     }
 
     $ICknown[$a] = 1;
