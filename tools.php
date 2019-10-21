@@ -79,7 +79,7 @@ if (isset($_GET['field'])) {
 switch ($op) {
     case 'lang':
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', $pHandler->url("tools.php?op=langsave"), 'post', true);
+        $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', $pHandler->url('tools.php?op=langsave'), 'post', true);
         $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
         $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $helper->getConfig('animalType')));
         $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN . $helper->getConfig('animalType') . _MA_PEDIGREE_SEARCH_FORM . $helper->getConfig('animalType') . '</b>.'));
@@ -174,19 +174,19 @@ switch ($op) {
               . $GLOBALS['xoopsSecurity']->getTokenHTML() . "\n"
                . "<table>\n"
                . "<!--\n"
-               . "<tr><td>" . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input type=\"text\" id=\"text\" name=\"text\" value=\"{$text}\" size=\"11\" maxlength=\"7\">\n"
                . "  <a href=\"TCP.popup(document.forms['myForm'].elements['text'])\">\n"
                . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to pick the color\" src=\"assets/images/sel.gif\"></a>\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input type=\"text\" id=\"actlink\" name=\"actlink\" value=\"{$actlink}\" size=\"11\" maxlength=\"7\">\n"
                . "  <a href=\"TCP.popup(document.forms['myForm'].elements['actlink'])\">\n"
                . "  <img width=\15\ height=\13\ border=\0\ alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input type=\"text\" id=\"even\" name=\"even\" value=\"{$even}\" size=\"11\" maxlength=\"7\">\n"
                . "  <a href=\"TCP.popup(document.forms['myForm'].elements['even'])\">\n"
@@ -200,36 +200,36 @@ switch ($op) {
                . "</td></tr>\n"
                . "-->\n"
                . "<!--\n"
-               . "<tr><td>" . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
                . "<td>\n"
                . "  #<input type=\"text\" id=\"picker\" name=\"text\" value=\"{$text}\" size=\"11\" maxlength=\"7\">\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
                . "<td>\n"
                . "  #<input type=\"text\" id=\"picker\" name=\"actlink\" value=\"{$actlink}\" size=\"11\" maxlength=\"7\">\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
                . "<td>\n"
                . "  #<input type=\"text\" id=\"picker\" name=\"even\" value=\"{$even}\" size=\"11\" maxlength=\"7\">\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
                . "<td>\n"
                . "  #<input type=\"text\" id=\"picker\" name=\"body\" value=\"{$body}\" size=\"11\" maxlength=\"7\">\n"
                . "</td></tr>\n"
                . "-->\n"
-               . "<tr><td>" . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"text\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$text}\">\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"actlink\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$actlink}\">\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"even\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$even}\">\n"
                . "</td></tr>\n"
-               . "<tr><td>" . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
+                 . '<tr><td>' . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
                . "<td>\n"
                . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"body\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$body}\">\n"
                . "</td></tr>\n"
@@ -282,7 +282,7 @@ switch ($op) {
                 $GLOBALS['xoopsDB']->query($query);
             }
         }
-        redirect_header($helper->url("tools.php?op=settings"), 1, 'Your settings have been saved.');
+        redirect_header($helper->url('tools.php?op=settings'), 1, 'Your settings have been saved.');
         break;
     case 'pro':
         $form = 'Pro version settings go here.<hr>';
@@ -354,9 +354,9 @@ switch ($op) {
         $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= "<form method=\"post\" action=\"" . $pHandler->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n"
-                   . "<input type=\"text\" name=\"value\" value=\"{$row['value']}\" style=\"width: 140px;\">&nbsp;\n"
-                   . "<input type=\"submit\" value=\"Save value\">\n";
+            $form .= '<form method="post" action="' . $pHandler->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n"
+                     . "<input type=\"text\" name=\"value\" value=\"{$row['value']}\" style=\"width: 140px;\">&nbsp;\n"
+                     . "<input type=\"submit\" value=\"Save value\">\n";
         }
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
@@ -544,22 +544,22 @@ function listuserfields()
         $form .= "<tr>\n";
         //display locked fields
         if (1 == $row['locked']) {
-            $form .= "<td><a href=\"" . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"assets/images/locked.gif\" alt=\"click to open this field\"></a></td>\n";
+            $form .= '<td><a href="' . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"assets/images/locked.gif\" alt=\"click to open this field\"></a></td>\n";
         } else {
-            $form .= "<td><a href=\"" . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"assets/images/open.gif\" alt=\"click to lock this field\"></a></td>\n";
+            $form .= '<td><a href="' . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"assets/images/open.gif\" alt=\"click to lock this field\"></a></td>\n";
         }
 
         if (0 == $count) { //first row
-            $form .= "<td style=\"width: 15px;\">&nbsp;</td><td style=\"width: 15px;\"><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . "\">" . "<img src=\"assets/images/down.gif\" alt=\"move field down\"></a></td>\n";
+            $form .= '<td style="width: 15px;">&nbsp;</td><td style="width: 15px;"><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . '">' . "<img src=\"assets/images/down.gif\" alt=\"move field down\"></a></td>\n";
         } elseif ($count == $numrows - 1) { //last row
-            $form .= "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . "\">" . "<img src=\"assets/images/up.gif\" alt=\"move field up\"></a></td>\n" . "<td>&nbsp;</td>\n";
+            $form .= '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . '">' . "<img src=\"assets/images/up.gif\" alt=\"move field up\"></a></td>\n" . "<td>&nbsp;</td>\n";
         } else { //other rows
-            $form .= "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . "\">"
-                . "<img src=\"assets/images/up.gif\" alt=\"move field up\"></a></td>\n"
-                    . "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . "\">\n"
-                        . "<img src=\"assets/images/down.gif\" alt=\"move field down\"></a></td>\n";
+            $form .= '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . '">'
+                     . "<img src=\"assets/images/up.gif\" alt=\"move field up\"></a></td>\n"
+                     . '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . "\">\n"
+                     . "<img src=\"assets/images/down.gif\" alt=\"move field down\"></a></td>\n";
         }
-        $form .= "<td><a href=\"" . $helper->url("tools.php?op=deluserfield&id={$row['id']}") . "\">" . "<img src=\"images/delete.png\" alt=\"delete field\"></a>&nbsp;" . "<a href=\"" . $helper->url("tools.php?op=userfields&field={$row['id']}") . "\">{$row['fieldName']}</a></td>\n";
+        $form .= '<td><a href="' . $helper->url("tools.php?op=deluserfield&id={$row['id']}") . '">' . '<img src="images/delete.png" alt="delete field"></a>&nbsp;' . '<a href="' . $helper->url("tools.php?op=userfields&field={$row['id']}") . "\">{$row['fieldName']}</a></td>\n";
         //can the filed be shown in a list
         if (1 == $row['ViewInList']) {
             $form .= $mark;
@@ -574,7 +574,7 @@ function listuserfields()
         }
         //has lookuptable ?
         if (1 == $row['LookupTable']) {
-            $form .= "<td><a href=\"" . $pHandler->url("tools.php?op=editlookup&id={$row['id']}") . "\">" . _EDIT . "</a></td>\n";
+            $form .= '<td><a href="' . $pHandler->url("tools.php?op=editlookup&id={$row['id']}") . '">' . _EDIT . "</a></td>\n";
         } else {
             $form .= "<td>&nbsp;</td>\n";
         }
@@ -589,7 +589,7 @@ function listuserfields()
         $form .= _MA_PEDIGREE_FIELD_EXPLAIN5;
         $form .= "<ul>\n";
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= "<li><a href=\"" . $pHandler->url("tools.php?op=restoreuserfield&id={$row['id']}") . "\">{$row['fieldName']}</a></li>\n";
+            $form .= '<li><a href="' . $pHandler->url("tools.php?op=restoreuserfield&id={$row['id']}") . "\">{$row['fieldName']}</a></li>\n";
         }
         $form .= "</ul>\n";
     }
@@ -1065,7 +1065,7 @@ function settings()
     $helper = Pedigree\Helper::getInstance();
 
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $pHandler->url("tools.php?op=settingssave"), 'POST', 1);
+    $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $pHandler->url('tools.php?op=settingssave'), 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $select  = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
     $options = [

@@ -78,7 +78,7 @@ function saveSampleData()
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
     foreach ($tables as $table) {
-        \Xmf\Database\TableLoad::saveTableToYamlFile($table, $table . '_' . date("Y-m-d H-i-s") . '.yml');
+        \Xmf\Database\TableLoad::saveTableToYamlFile($table, $table . '_' . date('Y-m-d H-i-s') . '.yml');
     }
 
     redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
