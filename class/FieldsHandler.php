@@ -37,7 +37,7 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_fields', Fields::class, 'id', 'FieldName');
+        parent::__construct($db, 'pedigree_fields', Fields::class, 'id', 'fieldname');
     }
 
     /**

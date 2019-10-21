@@ -1,4 +1,21 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package         pedigree
+ * @since
+ * @author          XOOPS Module Dev Team
+ */
 
 use XoopsModules\Pedigree;
 
@@ -40,8 +57,8 @@ $borderStyle        = $colors[16];
 $borderWidth        = $colors[17];
 $borderColour       = $colors[18];
 
-echo '<script language="JavaScript" src="picker.js"></script>
-<script language="JavaScript" src="colors.js"></script>';
+echo '<script language="JavaScript" src="assets/js/picker.js"></script>
+<script language="JavaScript" src="assets/js/colors.js"></script>';
 echo '
 <table width="90%" id="background" cellspacing="0" style=" background-color: #'
      . $mainBackColour

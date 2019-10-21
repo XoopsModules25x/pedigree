@@ -115,7 +115,7 @@ switch ($op) {
 
     case 'save_pedigree_config':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            $helper->redirect('admin/pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $id = Request::getInt('id', 0, 'POST');
         if ($id) {
@@ -164,7 +164,7 @@ switch ($op) {
         $obj->setVar('order', Request::getInt('order', 0, 'POST'));
 
         if ($fieldsHandler->insert($obj)) {
-            redirect_header('pedigree_config.php?op=list', 2, _AM_PEDIGREE_FORMOK);
+            $helper->redirect('admin/pedigree_config.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -189,10 +189,10 @@ switch ($op) {
         if ('0' != $ok) {
             //        if (isset($_REQUEST['ok']) && (1 == $_REQUEST['ok'])) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                $helper->redirect('admin/pedigree_config.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($fieldsHandler->delete($obj)) {
-                redirect_header('pedigree_config.php', 3, _AM_PEDIGREE_FORMDELOK);
+                $helper->redirect('admin/pedigree_config.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }

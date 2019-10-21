@@ -40,7 +40,7 @@ class TextArea extends Pedigree\HtmlInputAbstract
      * @param Field          $parentObject
      * @param Pedigree\Animal $animalObject
      */
-    public function __construct($parentObject, $animalObject)
+    public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
     {
         $this->fieldnumber  = $parentObject->getId();
         $this->fieldname    = $parentObject->fieldname;

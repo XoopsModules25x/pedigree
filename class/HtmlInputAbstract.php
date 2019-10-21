@@ -18,9 +18,9 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Pedigree\HtmlInputAbstract
  *
- * @package   pedigree
- * @author    zyspec <owners@zyspec.com>
- * @copyright Copyright (c) 2014 ZySpec Incorporated
+ * @package   \XoopsModules\Pedigree\Class
+ * @author    zyspec <zyspec@yahoo.com>
+ * @copyright Copyright (c) 2014-2019 ZySpec Incorporated
  * @access    public
  */
 
@@ -84,11 +84,18 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
     public function lookupField($fieldnumber)
     {
         $ret = [];
-        global $xoopsDB;
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
-        $result = $GLOBALS['xoopsDB']->query($SQL);
-        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
+
+        /** @var \Xmf\Database\Tables $pTables */
+        $pTables = new \Xmf\Database\Tables();
+        $exists  = $pTables->useTable('pedigree_lookup' . $fieldnumber);
+        if ($exists) {
+            $tableName = $pTables->name('pedigree_lookup' . $fieldnumber);
+            $SQL    = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
+            //$SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+            $result = $GLOBALS['xoopsDB']->query($SQL);
+            while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+                $ret[] = ['id' => $row['id'], 'value' => $row['value']];
+            }
         }
 
         //array_multisort($ret,SORT_ASC);

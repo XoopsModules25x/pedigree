@@ -21,15 +21,16 @@ use XoopsModules\Pedigree;
 
 include __DIR__ . '/../preloads/autoloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = strtoupper($moduleDirName); //$capsDirName
 
-
-/** @var \XoopsDatabase $db */
-/** @var Pedigree\Helper $helper */
-/** @var Pedigree\Utility $utility */
+/**
+ * @var \XoopsDatabase $db
+ * @var Pedigree\Helper $helper
+ * @var Pedigree\Utility $utility
+ */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = Pedigree\Helper::getInstance();
+$helper = Pedigree\Helper::getInstance();
 $utility = new Pedigree\Utility();
 //$configurator = new Pedigree\Common\Configurator();
 

@@ -108,7 +108,6 @@ function pedigree_config_main()
 /**
  *
  * @todo: create pedigree_get_config_fields() method, it doesn't exist anywhere
- * @todo: pedigree_config dB table doesn't exist should this be 'config' or something else?
  *
  * Processes the configuration update request, by
  * getting the HTTP parameters, and putting them into the database.
@@ -121,7 +120,7 @@ function pedigree_config_post()
         global $$param;
     }
     $param_config_id = 1;
-    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_config') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
+    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
 
     $first = true;
     foreach ($config_fields as $field => $prompt) {
@@ -130,7 +129,7 @@ function pedigree_config_post()
             $sql .= ', ';
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
-        $param_value = get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
+        $param_value = $$param;
         $sql         .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
         $first       = false;
     }

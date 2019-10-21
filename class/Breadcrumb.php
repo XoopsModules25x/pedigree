@@ -54,10 +54,13 @@ class Breadcrumb
      */
     public function addLink($title = '', $link = '')
     {
-        $this->bread[] = [
-            'link'  => $link,
-            'title' => $title
-        ];
+        if ('' !== $title && '' !== $link) {
+            $this->bread[] = [
+                'link'  => $link,
+                'title' => $title
+            ];
+        }
+
     }
 
     /**

@@ -1,14 +1,15 @@
-<table width="100%">
+<table class="width100">
     <!-- header; owner name -->
     <tr>
-        <th colspan="2" style="text-align:center;">
+        <th colspan="2" class="center">
             <{$name}>
         </th>
     </tr>
+    <!-- END header; owner name -->
     <!-- main table -->
     <tr>
         <!-- intro fields + content fields -->
-        <td valign="top">
+        <td class="top">
             <table>
                 <{foreach item=link from=$dogs}>
                     <tr class="<{cycle values="odd,even"}>">
@@ -31,7 +32,7 @@
                             <{$smarty.const._DELETE}>
                         </td>
                         <td>
-                            <a href="deletebreeder.php?Id=<{$id}>"><{$delete}></a>
+                            <a href="deletebreeder.php?id=<{$id}>"><{$delete}></a>
                         </td>
                         <td>
                             &nbsp;
@@ -40,9 +41,7 @@
                 <{/if}>
             </table>
         </td>
-
+        <!-- END intro fields + content fields -->
     </tr>
+    <!-- END main table -->
 </table>
-
-
-

@@ -39,7 +39,7 @@ xoops_loadLanguage('common', $moduleDirName);
 
 
 $modversion['version']       = 1.32;
-$modversion['release_date']  = '2018/05/05';
+$modversion['release_date']  = '2019/10/20';
 $modversion['module_status'] = 'Alpha 1';
 $modversion['name']          = _MI_PEDIGREE_NAME;
 $modversion['description']   = _MI_PEDIGREE_DESC;
@@ -58,7 +58,7 @@ $modversion['onInstall']           = 'include/install_function.php';
 $modversion['onUpdate']            = 'include/update_function.php';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.6';
+$modversion['min_php']             = '5.7';
 $modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];

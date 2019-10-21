@@ -160,11 +160,18 @@ class Field
     public function lookupField($fieldnumber)
     {
         $ret = [];
-        global $xoopsDB;
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix("pedigree_lookup{$fieldnumber}") . " ORDER BY 'order'";
-        $result = $GLOBALS['xoopsDB']->query($SQL);
-        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $ret[] = ['id' => $row['id'], 'value' => $row['value']];
+
+        /** @var \Xmf\Database\Tables $pTables */
+        $pTables = new \Xmf\Database\Tables();
+        $exists  = $pTables->useTable('pedigree_lookup' . $fieldnumber);
+        if ($exists) {
+            $tableName = $pTables->name('pedigree_lookup' . $fieldnumber);
+            $SQL    = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
+            //$SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix("pedigree_lookup{$fieldnumber}") . " ORDER BY 'order'";
+            $result = $GLOBALS['xoopsDB']->query($SQL);
+            while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+                $ret[] = ['id' => $row['id'], 'value' => $row['value']];
+            }
         }
 
         //array_multisort($ret,SORT_ASC);
@@ -194,10 +201,8 @@ class Field
      */
     public function showValue()
     {
-        global $myts;
-
+        $myts = \MyTextSanitizer::getInstance();
         return $myts->displayTarea($this->value);
-        //return $this->value;
     }
 
     /**

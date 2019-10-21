@@ -1,8 +1,19 @@
 <h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.10, PHP 7.3.10
 <hr>
 - namespaces, autoloading (mamba)
-WORK IN PROGRESS
+- use Xmf\Request to sanitize input (zysoec)
+- minor bug fixes (zyspec)
+- minor code/HTML cleanup & add some PhpDoc comments (zyspec)
+- replace Jquery Magnific Popup v0.9.9 w/ v1.1.0 (zyspec)
+- updated to require XOOPS 2.5.10 (zyspec)
+- use Pedigree\Helper for url definitions ($helper->url()) (zyspec)
+- fixed links in breeder.php page(s) (zyspec)
+- refactored ./tools.php (zyspec)
+- moved picker.js and picker.html to ./assets/js folder (zyspec)
+- moved some hard coded language strings to language file(s) (zyspec)
+- begin conversion from direct SQL SELECT calls to use object classes (zyspec)
 
+WORK IN PROGRESS
 
 ---------------------------------------
 1.31 Alpha 8             NOT RELEASED

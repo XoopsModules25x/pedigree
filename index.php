@@ -4,12 +4,10 @@
 use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/header.php';
-
-$moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
+$helper->loadLanguage('main');
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once $helper->path('include/common.php');
 require_once __DIR__ . '/welcome.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_index.tpl';
@@ -18,26 +16,26 @@ include $GLOBALS['xoops']->path('/header.php');
 
 //load javascript
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-//$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
+//$xoTheme->addScript($helper->url('assets/js/jquery.ThickBox/thickbox-compressed.js'));
 
-$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.magnific-popup.min.js');
-$xoTheme->addScript(PEDIGREE_URL . '/assets/js/colpick.js');
+$xoTheme->addScript($helper->url('assets/js/jquery.magnific-popup.min.js'));
+$xoTheme->addScript($helper->url('assets/js/colpick.js'));
 
 //load CSS style sheets
-$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/colpick.css');
-$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/magnific-popup.css');
-$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/style.css');
+$xoTheme->addStylesheet($helper->url('assets/css/colpick.css'));
+$xoTheme->addStylesheet($helper->url('assets/css/magnific-popup.css'));
+$xoTheme->addStylesheet($helper->url('assets/css/style.css'));
 
-//$xoTheme->addStylesheet(PEDIGREE_URL . '/assets/css/jquery.ThickBox/thickbox.css');
-//$xoTheme->addStylesheet(PEDIGREE_URL . '/module.css');
+//$xoTheme->addStylesheet($helper->url('assets/css/jquery.ThickBox/thickbox.css'));
+//$xoTheme->addStylesheet($helper->url('assets/css/module.css'));
 
-$GLOBALS['xoopsTpl']->assign('pedigree_url', PEDIGREE_URL . '/');
+$GLOBALS['xoopsTpl']->assign('pedigree_url', $helper->url());
 
 // Breadcrumb
 $breadcrumb = new Pedigree\Breadcrumb();
-$breadcrumb->addLink($helper->getModule()->getVar('name'), PEDIGREE_URL);
+$breadcrumb->addLink($helper->getModule()->getVar('name'), $helper->url());
 
-$GLOBALS['xoopsTpl']->assign('module_home', Pedigree\Utility::getModuleName(false)); // this definition is not removed for backward compatibility issues
+$GLOBALS['xoopsTpl']->assign('module_home', $helper->getDirname()); // this definition is not removed for backward compatibility issues
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration

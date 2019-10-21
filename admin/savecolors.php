@@ -51,6 +51,7 @@ $colourString = substr($_POST['mainbgcolor'], 1)
 //$GLOBALS['xoopsDB']->queryf($sql);
 $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value='" . $GLOBALS['xoopsDB']->escape($colourString) . "' WHERE conf_name = 'pedigreeColours'";
 $GLOBALS['xoopsDB']->queryF($sql);
-redirect_header('colors.php', 3, 'Your settings have been saved...');
+//@todo move hard coded language string to language file(s)
+$helper->redirect('admin/colors.php', 3, 'Your settings have been saved...');
 
 xoops_cp_footer();
