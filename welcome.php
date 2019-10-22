@@ -20,7 +20,7 @@
 
 use XoopsModules\Pedigree;
 
-if (count(debug_backtrace(FALSE, 1)) !== 0) {
+if (count(debug_backtrace(false, 1)) !== 0) {
     // Fail if file was called directly - it should only be accessed by being included
     exit('Restricted access');
 }
