@@ -183,7 +183,7 @@ if ('upload' === $op) {
 if ('doupload' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/uploader.php';
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $imgcat = $imgcatHandler->get((int)$imgcat_id);
+    $imgcat = $imgcatHandler->get($imgcat_id);
     $error = false;
     if (!is_object($imgcat)) {
         $error = true;
