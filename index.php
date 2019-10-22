@@ -92,7 +92,7 @@ $criteria->setGroupby('UPPER(LEFT(' . $name . ', 1))');
 $catarray['letters'] = Pedigree\Utility::lettersChoice($helper, 'Tree', $criteria, $name, $link, $link2);
 //$catarray['toolbar'] = pedigree_toolbar();
 
-$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes'))));
+$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), ['[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes')]));
 
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign([
