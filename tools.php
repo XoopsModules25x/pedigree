@@ -44,12 +44,12 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 //$xoTheme->addScript(PEDIGREE_URL . '/assets/js/jquery.ThickBox/thickbox-compressed.js');
 
-$xoTheme->addScript($pHandler->url('assets/js/jquery.magnific-popup.min.js'));
-$xoTheme->addScript($pHandler->url('assets/js/colpick.js'));
+$xoTheme->addScript($helper->url('assets/js/jquery.magnific-popup.min.js'));
+$xoTheme->addScript($helper->url('assets/js/colpick.js'));
 
-$xoTheme->addStylesheet($pHandler->url('assets/css/colpick.css'));
-$xoTheme->addStylesheet($pHandler->url('assets/css/magnific-popup.css'));
-$xoTheme->addStylesheet($pHandler->url('assets/css/style.css'));
+$xoTheme->addStylesheet($helper->url('assets/css/colpick.css'));
+$xoTheme->addStylesheet($helper->url('assets/css/magnific-popup.css'));
+$xoTheme->addStylesheet($helper->url('assets/css/style.css'));
 
 global $field;
 //add JS routines
@@ -77,7 +77,7 @@ if (isset($_GET['field'])) {
 switch ($op) {
     case 'lang':
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', $pHandler->url('tools.php?op=langsave'), 'post', true);
+        $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', $helper->url('tools.php?op=langsave'), 'post', true);
         $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
         $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $helper->getConfig('animalType')));
         $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FIELD_EXPLAIN . $helper->getConfig('animalType') . _MA_PEDIGREE_SEARCH_FORM . $helper->getConfig('animalType') . '</b>.'));
@@ -269,7 +269,7 @@ switch ($op) {
         $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value = '" . $GLOBALS['xoopsDB']->escape($col) . "' WHERE conf_name = 'colourscheme'";
         $GLOBALS['xoopsDB']->query($query);
         //@todo move hard coded language string to language file(s)
-        redirect_header($pHandler->url('tools.php?op=colours'), 1, 'Your settings have been saved.');
+        redirect_header($helper->url('tools.php?op=colours'), 1, 'Your settings have been saved.');
         break;
     case 'settings':
         settings();
@@ -355,7 +355,7 @@ switch ($op) {
         $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= '<form method="post" action="' . $pHandler->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n"
+            $form .= '<form method="post" action="' . $helper->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n"
                      . "<input type=\"text\" name=\"value\" value=\"{$row['value']}\" style=\"width: 140px;\">&nbsp;\n"
                      . "<input type=\"submit\" value=\"Save value\">\n";
         }
@@ -574,7 +574,7 @@ function listuserfields()
         }
         //has lookuptable ?
         if (1 == $row['LookupTable']) {
-            $form .= '<td><a href="' . $pHandler->url("tools.php?op=editlookup&id={$row['id']}") . '">' . _EDIT . "</a></td>\n";
+            $form .= '<td><a href="' . $helper->url("tools.php?op=editlookup&id={$row['id']}") . '">' . _EDIT . "</a></td>\n";
         } else {
             $form .= "<td>&nbsp;</td>\n";
         }
@@ -589,7 +589,7 @@ function listuserfields()
         $form .= _MA_PEDIGREE_FIELD_EXPLAIN5;
         $form .= "<ul>\n";
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= '<li><a href="' . $pHandler->url("tools.php?op=restoreuserfield&id={$row['id']}") . "\">{$row['fieldName']}</a></li>\n";
+            $form .= '<li><a href="' . $helper->url("tools.php?op=restoreuserfield&id={$row['id']}") . "\">{$row['fieldName']}</a></li>\n";
         }
         $form .= "</ul>\n";
     }
@@ -1066,7 +1066,7 @@ function settings()
     $helper = Pedigree\Helper::getInstance();
 
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $pHandler->url('tools.php?op=settingssave'), 'POST', 1);
+    $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $helper->url('tools.php?op=settingssave'), 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $select = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
     $options = [
