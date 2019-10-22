@@ -216,7 +216,7 @@ function add_multi($ch, $niv)
             $j     = min($im, 6);
             $c     = $couls[$j];
             $first = 0;
-            echo '<font color=' . $c . ' size="+2"><b>*' . $i . '*</b></font>';
+            echo '<span color=' . $c . ' size="+2"><b>*' . $i . '*</b></span>';
         }
     }
 
