@@ -486,6 +486,7 @@ define('_MA_PEDIGREE_BREEDER_PAGETITLE', "<span style='font-weight: bold;'>Brows
 //v1.32 Alpha 1
 define('_MA_PEDIGREE_OWNER_PAGETITLE', 'Pedigree database - View Owner/Breeder details');
 define('_MA_PEDIGREE_ADD_OWNER_PAGETITLE', 'Pedigree database - Add Owner/Breeder');
+define('_MA_PEDIGREE_ADD_LITTER_PAGETITLE', 'Pedigree database - Add a Litter');
 define('_MA_PEDIGREE_UPDATE', 'Pedigree database - Update details');
 define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');
 define('_MA_PEDIGREE_LTRCHARS', "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z");
