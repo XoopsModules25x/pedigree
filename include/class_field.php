@@ -343,7 +343,7 @@ class RadioButton extends Field
     public function editField()
     {
         $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -359,7 +359,7 @@ class RadioButton extends Field
     public function newField($name = '')
     {
         $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -373,7 +373,7 @@ class RadioButton extends Field
     public function viewField()
     {
         $choosenvalue = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -390,7 +390,7 @@ class RadioButton extends Field
     public function showField()
     {
         $choosenvalue = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -406,7 +406,7 @@ class RadioButton extends Field
     public function showValue()
     {
         $choosenvalue = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -422,7 +422,7 @@ class RadioButton extends Field
     public function searchField()
     {
         $select = '<select size="1" name="query" style="width: 140px;">';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select .= '<option value="' . $lookupcontents[$i]['id'] . '">' . $lookupcontents[$i]['value'] . '</option>';
         }
@@ -459,7 +459,7 @@ class SelectBox extends Field
     public function editField()
     {
         $select = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -475,7 +475,7 @@ class SelectBox extends Field
     public function newField($name = '')
     {
         $select = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -489,7 +489,7 @@ class SelectBox extends Field
     public function viewField()
     {
         $choosenvalue = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -506,7 +506,7 @@ class SelectBox extends Field
     public function showField()
     {
         $choosenvalue = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -522,7 +522,7 @@ class SelectBox extends Field
     public function showValue()
     {
         $choosenvalue = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -538,7 +538,7 @@ class SelectBox extends Field
     public function searchField()
     {
         $select = '<select size="1" name="query" style="width: 140px;">';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select .= '<option value="' . $lookupcontents[$i]['id'] . '">' . $lookupcontents[$i]['value'] . '</option>';
         }
