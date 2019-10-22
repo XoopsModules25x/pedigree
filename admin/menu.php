@@ -65,39 +65,38 @@ $adminmenu = [];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU1,
-    'link'  => 'admin/index.php',
-    'icon'  => $pathIcon32 . '/home.png'
+    'link' => 'admin/index.php',
+    'icon' => $pathIcon32 . '/home.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU5,
-    'link'  => 'admin/pedigree.php',
-    'icon'  => $pathIcon32 . '/groupmod.png'
+    'link' => 'admin/pedigree.php',
+    'icon' => $pathIcon32 . '/groupmod.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU3,
-    'link'  => 'admin/owner.php',
-    'icon'  => $pathIcon32 . '/user-icon.png'
+    'link' => 'admin/owner.php',
+    'icon' => $pathIcon32 . '/user-icon.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU4,
-    'link'  => 'admin/pedigree_temp.php',
-    'icon'  => $pathIcon32 . '/wizard.png'
+    'link' => 'admin/pedigree_temp.php',
+    'icon' => $pathIcon32 . '/wizard.png',
 ];
-
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU2,
-    'link'  => 'admin/pedigree_trash.php',
-    'icon'  => $pathIcon32 . '/alert.png'
+    'link' => 'admin/pedigree_trash.php',
+    'icon' => $pathIcon32 . '/alert.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
-    'link'  => 'admin/pedigree_config.php',
-    'icon'  => $pathIcon32 . '/administration.png'
+    'link' => 'admin/pedigree_config.php',
+    'icon' => $pathIcon32 . '/administration.png',
 ];
 
 /*
@@ -125,6 +124,6 @@ if ($helper->getConfig('displayDeveloperTools')) {
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU8,
-    'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png'
+    'link' => 'admin/about.php',
+    'icon' => $pathIcon32 . '/about.png',
 ];

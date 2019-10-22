@@ -1,8 +1,6 @@
 <?php
 // -------------------------------------------------------------------------
 
-use XoopsModules\Pedigree;
-
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
@@ -16,9 +14,9 @@ global $xoopsTpl, $xoopsDB;
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 echo '<form method="post" action="convert.php">convert:<input type="text" name="van">';
 echo 'to:<input type="text" name="naar">';
@@ -31,8 +29,8 @@ if ('' != $_POST['naar']) {
 }
 
 $result = $GLOBALS['xoopsDB']->query("SELECT user4, count('user4') AS X FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " GROUP BY 'user4'");
-$count  = 0;
-$total  = 0;
+$count = 0;
+$total = 0;
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     ++$count;
     echo $row['user4'] . ' - ' . $row['X'] . '<br>';

@@ -26,13 +26,13 @@ include $GLOBALS['xoops']->path('/header.php');
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 $perPage = $moduleConfig['perpage'];
 
-$st  = Request::getInt('st', 0, 'GET');
+$st = Request::getInt('st', 0, 'GET');
 $com = Request::getString('com', 'father', 'GET');
 /*
 $st = isset($_GET['st']) ? $_GET['st'] : null;
@@ -45,9 +45,9 @@ if (!$com) {
 }
 */
 
-$dogs         = []; // an empty array
+$dogs = []; // an empty array
 $numofcolumns = 0;
-$pages        = '';
+$pages = '';
 
 //count total number of dogs
 $numDog = "SELECT COUNT( {$com} ) AS X, {$com} FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE {$com} !=0 GROUP BY {$com}";
@@ -104,7 +104,7 @@ $queryString = 'SELECT count( d.'
                . $st
                . ', '
                . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $numofcolumns = 2;
@@ -133,13 +133,13 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $columnvalue[] = ['value' => $row['X']];
     }
     $dogs[] = [
-        'id'          => $row[$com],
-        'name'        => $name,
-        'gender'      => $gender,
-        'link'        => '<a href="pedigree.php?pedid=' . $row[$com] . '">' . $name . '</a>',
-        'colour'      => '',
-        'number'      => '',
-        'usercolumns' => $columnvalue
+        'id' => $row[$com],
+        'name' => $name,
+        'gender' => $gender,
+        'link' => '<a href="pedigree.php?pedid=' . $row[$com] . '">' . $name . '</a>',
+        'colour' => '',
+        'number' => '',
+        'usercolumns' => $columnvalue,
     ];
     unset($columnvalue);
 }
@@ -160,7 +160,7 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches     = _MA_PEDIGREE_MATCHES;
+$matches = _MA_PEDIGREE_MATCHES;
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
 $GLOBALS['xoopsTpl']->assign('nummatch', strtr($nummatchstr, ['[animalTypes]' => $moduleConfig['animalTypes']]));
 $GLOBALS['xoopsTpl']->assign('pages', $pages);

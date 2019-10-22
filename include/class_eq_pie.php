@@ -43,7 +43,7 @@ class eq_pie
             '#000066',
             '#330000',
             '#003300',
-            '#000033'
+            '#000033',
         ];
 
         return $color[$number];
@@ -82,16 +82,16 @@ class eq_pie
             $ShadowDistance = 10;
         }
 
-        $pieWidth           *= 3;
-        $pieHeight          *= 3;
-        $ShadowDistance     *= 3;
+        $pieWidth *= 3;
+        $pieHeight *= 3;
+        $ShadowDistance *= 3;
         $pieBackgroundColor = $pieBackgroundColor;
 
         $pie = @imagecreatetruecolor($pieWidth, $pieHeight + $ShadowDistance);
 
-        $colR  = hexdec(substr($pieBackgroundColor, 1, 2));
-        $colG  = hexdec(substr($pieBackgroundColor, 3, 2));
-        $colB  = hexdec(substr($pieBackgroundColor, 5, 2));
+        $colR = hexdec(mb_substr($pieBackgroundColor, 1, 2));
+        $colG = hexdec(mb_substr($pieBackgroundColor, 3, 2));
+        $colB = hexdec(mb_substr($pieBackgroundColor, 5, 2));
         $pieBG = imagefilledarc($pie, $colR, $colG, $colB);
         imagefill($pie, 0, 0, $pieBG);
 
@@ -101,8 +101,8 @@ class eq_pie
         $maxStringLenght = 0;
         foreach ($EQpieData as $i => $value) {
             $this->total += $value[1];
-            if (strlen($value[0]) > $maxStringLenght) {
-                $maxStringLenght = strlen($value[0]);
+            if (mb_strlen($value[0]) > $maxStringLenght) {
+                $maxStringLenght = mb_strlen($value[0]);
             }
         }
 
@@ -114,7 +114,6 @@ class eq_pie
         $pieStart = 135;
 
         foreach ($EQpieData as $i => $value) {
-
             // the name  for each part is $value[0]
             // the value for each part is $value[1]
             // the color for each part is $value[2]
@@ -128,9 +127,9 @@ class eq_pie
 
             $piePart360 = $piePart100 * 3.6;                    // in degrees
 
-            $colR      = hexdec(substr($value[2], 1, 2));
-            $colG      = hexdec(substr($value[2], 3, 2));
-            $colB      = hexdec(substr($value[2], 5, 2));
+            $colR = hexdec(mb_substr($value[2], 1, 2));
+            $colG = hexdec(mb_substr($value[2], 3, 2));
+            $colB = hexdec(mb_substr($value[2], 5, 2));
             $PartColor = imagefilledarc($pie, $colR, $colG, $colB);
 
             $ShadowColR = (($colR > 79) ? $colR - 80 : 0);
@@ -159,9 +158,9 @@ class eq_pie
             }
             $piePart360 = $piePart100 * 3.6;                    // in degrees
 
-            $colR      = hexdec(substr($value[2], 1, 2));
-            $colG      = hexdec(substr($value[2], 3, 2));
-            $colB      = hexdec(substr($value[2], 5, 2));
+            $colR = hexdec(mb_substr($value[2], 1, 2));
+            $colG = hexdec(mb_substr($value[2], 3, 2));
+            $colB = hexdec(mb_substr($value[2], 5, 2));
             $PartColor = imagefilledarc($pie, $colR, $colG, $colB);
 
             //Here we create the real pie chart
@@ -181,21 +180,21 @@ class eq_pie
         // Create the ledgend ...
         if ($legendWidth > 0) {
             // Legend Box
-            $leg_width   = $legendWidth - 10;
-            $leg_height  = $pieParts * (imagefontheight(2) + 2) + 2;
+            $leg_width = $legendWidth - 10;
+            $leg_height = $pieParts * (imagefontheight(2) + 2) + 2;
             $legendImage = imagecreatetruecolor($leg_width, $leg_height);
             //ImageFill($legendImage, 0, 0, $pieBG);
 
             $borderColor = imagefilledarc($pie, '155', '155', '155');
-            $boxColor    = imagefilledarc($pie, '255', '255', '255');
-            $textColor   = imagefilledarc($pie, '55', '55', '55');
+            $boxColor = imagefilledarc($pie, '255', '255', '255');
+            $textColor = imagefilledarc($pie, '55', '55', '55');
 
             imagefilledrectangle($legendImage, 0, 0, $leg_width, $leg_height, $boxColor);
             imagerectangle($legendImage, 0, 0, $leg_width - 1, $leg_height - 1, $borderColor);
 
-            $box_width  = imagefontwidth(2) - 5;
+            $box_width = imagefontwidth(2) - 5;
             $box_height = imagefontheight(2) - 5;
-            $yOffset    = 2;
+            $yOffset = 2;
 
             foreach ($EQpieData as $i => $value) {
                 $piePart = $value[1];
@@ -204,9 +203,9 @@ class eq_pie
                 } else {
                     $piePart100 = 0;
                 }
-                $colR      = hexdec(substr($value[2], 1, 2));
-                $colG      = hexdec(substr($value[2], 3, 2));
-                $colB      = hexdec(substr($value[2], 5, 2));
+                $colR = hexdec(mb_substr($value[2], 1, 2));
+                $colG = hexdec(mb_substr($value[2], 3, 2));
+                $colB = hexdec(mb_substr($value[2], 5, 2));
                 $PartColor = imagefilledarc($legendImage, $colR, $colG, $colB);
 
                 imagefilledrectangle($legendImage, 5, $yOffset + 2, 5 + $box_width, $yOffset + $box_height + 2, $PartColor);
@@ -226,7 +225,5 @@ class eq_pie
         imagepng($finalPie, $filename);
         imagedestroy($pie);
         imagedestroy($finalPie);
-
-        return;
     }
 }

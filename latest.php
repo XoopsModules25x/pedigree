@@ -2,8 +2,6 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -22,9 +20,9 @@ include $GLOBALS['xoops']->path('/header.php');
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 $st = Request::getInt('st', 0, 'GET');
 
@@ -32,7 +30,7 @@ $perPage = $moduleConfig['perpage'];
 global $xoopsTpl, $xoopsModuleConfig;
 
 //iscurrent user a module admin ?
-$modadmin    = false;
+$modadmin = false;
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (!empty($GLOBALS['xoopsUser'])) {
     if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
@@ -42,7 +40,7 @@ if (!empty($GLOBALS['xoopsUser'])) {
 
 //count total number of animals
 $numanimal = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' NOLIMIT';
-$numRes    = $GLOBALS['xoopsDB']->query($numanimal);
+$numRes = $GLOBALS['xoopsDB']->query($numanimal);
 //total number of animals the query will find
 $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
 //total number of pages
@@ -71,8 +69,8 @@ $queryString = 'SELECT d.id AS d_id, d.naam AS d_naam, d.roft AS d_roft, d.mothe
                . $st
                . ', '
                . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
-$pathIcon16  = \Xmf\Module\Admin::iconUrl('', 16);
+$result = $GLOBALS['xoopsDB']->query($queryString);
+$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
@@ -110,11 +108,11 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $parents = $dad . ' x ' . $mom;
     //create array for animals
     $animals[] = [
-        'id'      => $row['d_id'],
-        'name'    => stripslashes($row['d_naam']) . $camera,
-        'gender'  => $gender,
+        'id' => $row['d_id'],
+        'name' => stripslashes($row['d_naam']) . $camera,
+        'gender' => $gender,
         'parents' => $parents,
-        'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>'
+        'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>',
     ];
     //reset rights ready for the next dog
     $editdel = '0';
@@ -133,7 +131,7 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
+$matches = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
 $xoopsTpl->assign('nummatch', $nummatchstr);
 if (isset($pages)) {

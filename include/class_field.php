@@ -9,8 +9,6 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
-use XoopsModules\Pedigree;
-
 /**
  * Class SystemMessage
  * @deprecated
@@ -43,11 +41,11 @@ class Animal
         } else {
             $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id = ' . $animalnumber;
         }
-        $result    = $GLOBALS['xoopsDB']->query($SQL);
-        $row       = $GLOBALS['xoopsDB']->fetchRow($result);
+        $result = $GLOBALS['xoopsDB']->query($SQL);
+        $row = $GLOBALS['xoopsDB']->fetchRow($result);
         $numfields = $GLOBALS['xoopsDB']->getFieldsNum($result);
         for ($i = 0; $i < $numfields; ++$i) {
-            $key        = mysqli_fetch_field_direct($result, $i)->name;
+            $key = mysqli_fetch_field_direct($result, $i)->name;
             $this->$key = $row[$i];
         }
     }
@@ -58,10 +56,10 @@ class Animal
     public function getNumOfFields()
     {
         global $xoopsDB;
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' ORDER BY `order`';
+        $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' ORDER BY `order`';
         $fields = [];
         $result = $GLOBALS['xoopsDB']->query($SQL);
-        $count  = 0;
+        $count = 0;
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $fields[] = $row['id'];
             ++$count;
@@ -269,7 +267,7 @@ class Field
     {
         $ret = [];
         global $xoopsDB;
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+        $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $ret[] = ['id' => $row['id'], 'value' => $row['value']];
@@ -323,17 +321,17 @@ class Field
 class RadioButton extends Field
 {
     /**
-     * @param Pedigree\Field  $parentObject
-     * @param Pedigree\Animal $animalObject
+     * @param \PedigreeField  $parentObject
+     * @param \PedigreeAnimal $animalObject
      */
     public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
     {
         $this->fieldnumber = $parentObject->getId();
 
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
+        $this->lookuptable = $parentObject->lookuptable;
         if ('0' == $this->lookuptable) {
             new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
@@ -344,8 +342,8 @@ class RadioButton extends Field
      */
     public function editField()
     {
-        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -360,8 +358,8 @@ class RadioButton extends Field
      */
     public function newField($name = '')
     {
-        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $radio->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -374,8 +372,8 @@ class RadioButton extends Field
      */
     public function viewField()
     {
-        $choosenvalue   = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $choosenvalue = '';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -391,8 +389,8 @@ class RadioButton extends Field
      */
     public function showField()
     {
-        $choosenvalue   = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $choosenvalue = '';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -407,8 +405,8 @@ class RadioButton extends Field
      */
     public function showValue()
     {
-        $choosenvalue   = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $choosenvalue = '';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -423,8 +421,8 @@ class RadioButton extends Field
      */
     public function searchField()
     {
-        $select         = '<select size="1" name="query" style="width: 140px;">';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $select = '<select size="1" name="query" style="width: 140px;">';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select .= '<option value="' . $lookupcontents[$i]['id'] . '">' . $lookupcontents[$i]['value'] . '</option>';
         }
@@ -445,11 +443,11 @@ class SelectBox extends Field
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
+        $this->lookuptable = $parentObject->lookuptable;
         if ('0' == $this->lookuptable) {
             new SystemMessage('A lookuptable must be specified for userfield' . $this->fieldnumber);
         }
@@ -460,8 +458,8 @@ class SelectBox extends Field
      */
     public function editField()
     {
-        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $select = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value, $size = 1, $multiple = false);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -476,8 +474,8 @@ class SelectBox extends Field
      */
     public function newField($name = '')
     {
-        $select         = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $select = new \XoopsFormSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $value = $this->defaultvalue, $size = 1, $multiple = false);
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select->addOption($lookupcontents[$i]['id'], $name = ($lookupcontents[$i]['value'] . '<br>'));
         }
@@ -490,8 +488,8 @@ class SelectBox extends Field
      */
     public function viewField()
     {
-        $choosenvalue   = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $choosenvalue = '';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -507,8 +505,8 @@ class SelectBox extends Field
      */
     public function showField()
     {
-        $choosenvalue   = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $choosenvalue = '';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -523,8 +521,8 @@ class SelectBox extends Field
      */
     public function showValue()
     {
-        $choosenvalue   = '';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $choosenvalue = '';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -539,8 +537,8 @@ class SelectBox extends Field
      */
     public function searchField()
     {
-        $select         = '<select size="1" name="query" style="width: 140px;">';
-        $lookupcontents = Field::lookupField($this->fieldnumber);
+        $select = '<select size="1" name="query" style="width: 140px;">';
+        $lookupcontents = $this->lookupField($this->fieldnumber);
         for ($i = 0, $iMax = count($lookupcontents); $i < $iMax; ++$i) {
             $select .= '<option value="' . $lookupcontents[$i]['id'] . '">' . $lookupcontents[$i]['value'] . '</option>';
         }
@@ -561,11 +559,11 @@ class TextBox extends Field
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
+        $this->lookuptable = $parentObject->lookuptable;
         if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
@@ -619,9 +617,9 @@ class TextArea extends Field
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         if ('1' == $parentObject->LookupTable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
@@ -676,9 +674,9 @@ class DataSelect extends Field
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         if ('1' == $parentObject->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
@@ -734,11 +732,11 @@ class UrlField extends Field
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
+        $this->lookuptable = $parentObject->lookuptable;
         if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
@@ -818,11 +816,11 @@ class Picture extends Field
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
+        $this->lookuptable = $parentObject->lookuptable;
         if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
@@ -905,7 +903,7 @@ class SISContext
     public function __construct()
     {
         $this->contexts = [];
-        $this->depth    = 0;
+        $this->depth = 0;
     }
 
     /**
@@ -918,7 +916,7 @@ class SISContext
         for ($i = 0; $i < $this->depth; ++$i) {
             if ($keys[$i] == $name) {
                 $this->contexts[$name] = $url; // the url might be slightly different
-                $this->depth           = $i + 1;
+                $this->depth = $i + 1;
 
                 for ($x = count($this->contexts); $x > $i + 1; $x--) {
                     array_pop($this->contexts);

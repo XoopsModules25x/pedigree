@@ -24,7 +24,6 @@
  *
  * @author  Quentin Zervaas
  */
-
 class ZervWizard
 {
     // whether or not all steps of the form are complete
@@ -75,12 +74,12 @@ class ZervWizard
             $container[$containerKey] = [];
         }
 
-        $this->container =& $container[$containerKey];
+        $this->container = &$container[$containerKey];
 
         if (!array_key_exists('_errors', $this->container)) {
             $this->container['_errors'] = [];
         }
-        $this->_errors =& $this->container['_errors'];
+        $this->_errors = &$this->container['_errors'];
     }
 
     /**
@@ -225,10 +224,10 @@ class ZervWizard
     public function setCurrentStep($step)
     {
         if (null === $step || !$this->stepExists($step)) {
-            $this->_complete                            = true;
+            $this->_complete = true;
             $this->container[$this->_step_expected_key] = null;
         } else {
-            $this->_currentStep                         = $step;
+            $this->_currentStep = $step;
             $this->container[$this->_step_expected_key] = $step;
         }
     }
@@ -284,7 +283,7 @@ class ZervWizard
      */
     public function getStepNumber($step = null)
     {
-        $steps    = array_keys($this->_steps);
+        $steps = array_keys($this->_steps);
         $numSteps = count($steps);
 
         if ('' === $step) {
@@ -308,7 +307,7 @@ class ZervWizard
      */
     public function stepCanBeProcessed($step)
     {
-        $steps    = array_keys($this->_steps);
+        $steps = array_keys($this->_steps);
         $numSteps = count($steps);
 
         foreach ($steps as $iValue) {
@@ -361,11 +360,11 @@ class ZervWizard
     }
 
     /**
-     * @return null
+     * @return mixed|null
      */
     public function getFirstIncompleteStep()
     {
-        $steps    = array_keys($this->_steps);
+        $steps = array_keys($this->_steps);
         $numSteps = count($steps);
 
         foreach ($steps as $iValue) {
@@ -392,7 +391,7 @@ class ZervWizard
      */
     public function getPreviousStep($step)
     {
-        $ret   = null;
+        $ret = null;
         $steps = array_keys($this->_steps);
 
         $done = false;
@@ -419,7 +418,7 @@ class ZervWizard
      */
     public function getFollowingStep($step)
     {
-        $ret   = null;
+        $ret = null;
         $steps = array_keys($this->_steps);
 
         $ready = false;
@@ -582,8 +581,7 @@ class ZervWizard
 
     /**
      * @param $key
-     *
-     * @return null
+     * @return mixed|null
      */
     public function getError($key)
     {

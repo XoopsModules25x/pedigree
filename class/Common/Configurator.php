@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree\Common;
+<?php
+
+namespace XoopsModules\Pedigree\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -17,10 +19,8 @@
  * @author      XOOPS Development Team
  * @package     Publisher
  * @since       1.05
- *
  */
-
-require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+require_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class Configurator
@@ -28,13 +28,13 @@ require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 class Configurator
 {
     public $name;
-    public $paths           = [];
-    public $uploadFolders   = [];
-    public $copyBlankFiles  = [];
+    public $paths = [];
+    public $uploadFolders = [];
+    public $copyBlankFiles = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles        = [];
-    public $oldFolders      = [];
+    public $oldFiles = [];
+    public $oldFolders = [];
     public $modCopyright;
 
     /**
@@ -42,17 +42,16 @@ class Configurator
      */
     public function __construct()
     {
-
         $config = include dirname(dirname(__DIR__)) . '/config/config.php';
 
-        $this->name            = $config->name;
-        $this->paths           = $config->paths;
-        $this->uploadFolders   = $config->uploadFolders;
-        $this->copyBlankFiles  = $config->copyBlankFiles;
+        $this->name = $config->name;
+        $this->paths = $config->paths;
+        $this->uploadFolders = $config->uploadFolders;
+        $this->copyBlankFiles = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
         $this->templateFolders = $config->templateFolders;
-        $this->oldFiles        = $config->oldFiles;
-        $this->oldFolders      = $config->oldFolders;
-        $this->modCopyright    = $config->modCopyright;
+        $this->oldFiles = $config->oldFiles;
+        $this->oldFolders = $config->oldFolders;
+        $this->modCopyright = $config->modCopyright;
     }
 }

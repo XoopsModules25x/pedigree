@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -25,7 +27,6 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -38,9 +39,6 @@ class Breadcrumb
     public $dirname;
     private $bread = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->dirname = basename(dirname(__DIR__));
@@ -56,16 +54,14 @@ class Breadcrumb
     {
         if ('' !== $title && '' !== $link) {
             $this->bread[] = [
-                'link'  => $link,
-                'title' => $title
+                'link' => $link,
+                'title' => $title,
             ];
         }
-
     }
 
     /**
      * Render Pedigree BreadCrumb
-     *
      */
     public function render()
     {

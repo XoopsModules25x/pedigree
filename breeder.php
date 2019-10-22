@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
-use \Xmf\Request;
+use Xmf\Request;
 use XoopsModules\Pedigree;
 
 /** @var \XoopsModules\Pedigree\Helper $helper */
@@ -32,9 +32,9 @@ $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 //get module configuration
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 /** @internal Code below replaced in v1.32 Alpha 1 (Oct 20, 2019)- code didn't take into account
  * that 'extract' command above adds 'param' prefix to 'incoming' variables.
@@ -70,11 +70,10 @@ $w = $l . '%';
 if ('1' === $l) {
     $l = 'LIKE';
 }
-$o  = Request::getString('o', 'lastname');
-$d  = Request::getString('d', 'ASC');
+$o = Request::getString('o', 'lastname');
+$d = Request::getString('d', 'ASC');
 $st = Request::getInt('st', 0);
 /** @internal end of code replacement from v1.32 Alpha 1 */
-
 $perPage = $helper->getConfig('perpage');
 //$perPage = $moduleConfig['perpage'];
 
@@ -91,7 +90,7 @@ if (!empty($GLOBALS['xoopsUser'])) {
 */
 //count total number of owners
 $numowner = 'SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "'";
-$numRes   = $GLOBALS['xoopsDB']->query($numowner);
+$numRes = $GLOBALS['xoopsDB']->query($numowner);
 //total number of owners the query will find
 list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
 //total number of pages
@@ -146,7 +145,7 @@ if ($numPages > 1) {
             $pages .= '<br>';
         }
         if ($x != $currentPage) {
-                $pages .= '<a href="' . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($perPage * ($x - 1))) . "\">{$x}</a>&nbsp;&nbsp;";
+            $pages .= '<a href="' . $helper->url("breeder.php?f={$f}&o={$o}&d={$d}&l={$l}&st=" . ($perPage * ($x - 1))) . "\">{$x}</a>&nbsp;&nbsp;";
         } else {
             $pages .= $x . '&nbsp;&nbsp';
         }
@@ -162,7 +161,7 @@ if ($numPages > 1) {
 
 //query
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //check for access
@@ -179,9 +178,9 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $name = $access . '<a href="' . $helper->url("owner.php?ownid={$row['id']}") . '">' . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . '</a>';
     //create array for owners
     $dogs[] = [
-        'id'   => $row['id'],
+        'id' => $row['id'],
         'name' => $name,
-        'city' => $row['city']
+        'city' => $row['city'],
     ];
 }
 
@@ -205,16 +204,16 @@ $GLOBALS['xoopsTpl']->assign('colourlink', $cl);
 $lastshown = ($st + $perPage) > $numResults ? $numResults : $st + $perPage;
 
 //create string
-$matches     = _MA_PEDIGREE_MATCHESB;
+$matches = _MA_PEDIGREE_MATCHESB;
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
 $GLOBALS['xoopsTpl']->assign('nummatch', $nummatchstr);
 $GLOBALS['xoopsTpl']->assign('pages', $pages);
 
-$criteria     = $helper->getHandler('Tree')->getActiveCriteria();
+$criteria = $helper->getHandler('Tree')->getActiveCriteria();
 $activeObject = 'owner';
-$name         = 'lastname';
-$link         = $helper->url("breeder.php?f={$name}&amp;o={$name}&amp;d=ASC&amp;st=0&amp;l=");
-$link2        = '';
+$name = 'lastname';
+$link = $helper->url("breeder.php?f={$name}&amp;o={$name}&amp;d=ASC&amp;st=0&amp;l=");
+$link2 = '';
 
 $breederArray['letters'] = Pedigree\Utility::lettersChoice($helper, $activeObject, $criteria, $name, $link, $link2);
 //$catarray['toolbar']     = pedigree_toolbar();

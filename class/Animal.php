@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -19,32 +21,29 @@
  * @author      XOOPS Module Dev Team
  * @author      ZySpec <zyspec@yahoo.com>
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- *
  * Animal Class
- *
  */
 class Animal
 {
-    protected $myTree       = [];
-    protected $fields       = [];
+    protected $myTree = [];
+    protected $fields = [];
     protected $configValues = [];
 
     /**
      * class constructor
      *
      * initializes the tree array
-     * @param integer|null $id
+     * @param int|null $id
      */
     public function __construct($id = null)
     {
         $moduleDirName = basename(dirname(__DIR__));
-        $id            = null !== $id ? (int)$id : 1;
+        $id = null !== $id ? (int)$id : 1;
         $myTreeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 
         $criteria = new \CriteriaCompo();
@@ -64,7 +63,6 @@ class Animal
     }
 
     /**
-     *
      * Number of Fields
      * @return array
      */
@@ -72,10 +70,10 @@ class Animal
     {
         $moduleDirName = basename(dirname(__DIR__));
         $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
-        $criteria      = new \CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('`order`');
         $criteria->setOrder('ASC');
-        $this->fields       = $fieldsHandler->getIds($criteria); //get all object IDs
+        $this->fields = $fieldsHandler->getIds($criteria); //get all object IDs
         $this->configValues = $fieldsHandler->getAll($criteria, null, false); //get objects as arrays
         if (empty($this->configValues)) {
             /** @internal changed from '' to [] in v1.32 Alpha 1; not sure this is really needed since getAll() above will return empty array */

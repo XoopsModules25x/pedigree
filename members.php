@@ -1,9 +1,6 @@
 <?php
 // -------------------------------------------------------------------------
 
-use XoopsModules\Pedigree;
-
-
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
@@ -22,23 +19,23 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_members.tpl';
 include $GLOBALS['xoops']->path('/header.php');
 
 $queryString = 'SELECT COUNT(d.user) AS X, d.user AS d_user, u.uname AS u_uname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('users') . ' u ON d.user = u.uid GROUP  BY user    ORDER BY X DESC LIMIT 50';
-$result      = $GLOBALS['xoopsDB']->query($queryString);
-$numpos      = 1;
+$result = $GLOBALS['xoopsDB']->query($queryString);
+$numpos = 1;
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $content = '';
-    $star    = $row['X'];
+    $star = $row['X'];
     if ($star > 10000) {
         $sterretje = floor($star / 10000);
         for ($c = 0; $c < $sterretje; ++$c) {
             $content .= '<img src="assets/images/star.png" border="0">';
-            $star    -= 10000;
+            $star -= 10000;
         }
     }
     if ($star > 1000) {
         $sterretje = floor($star / 1000);
         for ($c = 0; $c < $sterretje; ++$c) {
             $content .= '<img src="assets/images/star3.gif" border="0">';
-            $star    -= 1000;
+            $star -= 1000;
         }
     }
     if ($star > 100) {
@@ -50,9 +47,9 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
     $members[] = [
         'position' => $numpos,
-        'user'     => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>',
-        'stars'    => $content,
-        'nument'   => '<a href="result.php?f=user&l=0&w=' . $row['d_user'] . '&o=naam">' . $row['X'] . '</a>'
+        'user' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>',
+        'stars' => $content,
+        'nument' => '<a href="result.php?f=user&l=0&w=' . $row['d_user'] . '&o=naam">' . $row['X'] . '</a>',
     ];
     ++$numpos;
 }

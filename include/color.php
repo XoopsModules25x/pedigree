@@ -68,7 +68,7 @@ class Image_Color
      * Boolean value for determining whether colors outputted should be limited
      * to the web safe pallet or not.
      *
-     * @var boolean
+     * @var bool
      * @access  private
      * @see     setWebSafe()
      */
@@ -103,23 +103,22 @@ class Image_Color
             array_walk($color3, '_makeWebSafe');
         }
 
-        return self::rgb2hex($color3);
+        return $this->rgb2hex($color3);
     }
 
     /**
      * Determines whether colors the returned by this class will be rounded to
      * the nearest web safe value.
      *
-     * @param boolean $bool Indicates if colors should be limited to the
+     * @param bool $bool Indicates if colors should be limited to the
      *                      websafe pallet.
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
     public function setWebSafe($bool = true)
     {
-        $this->websafeb = (boolean)$bool;
+        $this->websafeb = (bool)$bool;
     }
 
     /**
@@ -128,7 +127,6 @@ class Image_Color
      * @param string $col1 The first color in hex format
      * @param string $col2 The second color in hex format
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
@@ -140,7 +138,7 @@ class Image_Color
     /**
      * Get the range of colors between the class's two colors, given a degree.
      *
-     * @param integer $degrees How large a 'step' we should take between the
+     * @param int $degrees How large a 'step' we should take between the
      *                         colors.
      *
      * @return array Returns an array of hex strings, one element for each
@@ -159,9 +157,9 @@ class Image_Color
         // phase of the loop.  This way, the advance is equal throughout all
         // the colors.
 
-        $red_steps   = ($this->color2[0] - $this->color1[0]) / $degrees;
+        $red_steps = ($this->color2[0] - $this->color1[0]) / $degrees;
         $green_steps = ($this->color2[1] - $this->color1[1]) / $degrees;
-        $blue_steps  = ($this->color2[2] - $this->color1[2]) / $degrees;
+        $blue_steps = ($this->color2[2] - $this->color1[2]) / $degrees;
 
         $allcolors = [];
 
@@ -196,7 +194,7 @@ class Image_Color
                 array_walk($newcolor, '_makeWebSafe');
             }
 
-            $allcolors[] = self::rgb2hex($newcolor);
+            $allcolors[] = $this->rgb2hex($newcolor);
         }
 
         return $allcolors;
@@ -205,10 +203,9 @@ class Image_Color
     /**
      * Change the lightness of the class's two colors.
      *
-     * @param integer $degree The degree of the change. Positive values
+     * @param int $degree The degree of the change. Positive values
      *                        lighten the color while negative values will darken it.
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      * @uses    Image_Color::$color1 as an input and return value.
@@ -216,8 +213,8 @@ class Image_Color
      */
     public function changeLightness($degree = 10)
     {
-        $color1 =& $this->color1;
-        $color2 =& $this->color2;
+        $color1 = &$this->color1;
+        $color2 = &$this->color2;
 
         for ($x = 0; $x < 3; ++$x) {
             if (($color1[$x] + $degree) < 256) {
@@ -262,12 +259,12 @@ class Image_Color
      */
     public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
-        $color = self::splitColor($color);
+        $color = $this->splitColor($color);
         if ($color[1] > hexdec('66')) {
             return $dark;
-        } else {
-            return $light;
         }
+
+        return $light;
     }
 
     /**
@@ -276,17 +273,16 @@ class Image_Color
      * @param string $col1 First color, either a name or hex value
      * @param string $col2 Second color, either a name or hex value
      *
-     * @return void
      * @access  private
      * @author  Jason Lotito <jason@lehighweb.com>
      */
     private function setInternalColors($col1, $col2)
     {
         if ($col1) {
-            $this->color1 = self::splitColor($col1);
+            $this->color1 = $this->splitColor($col1);
         }
         if ($col2) {
-            $this->color2 = self::splitColor($col2);
+            $this->color2 = $this->splitColor($col2);
         }
     }
 
@@ -303,9 +299,9 @@ class Image_Color
     private function splitColor($color)
     {
         $color = str_replace('#', '', $color);
-        $c[]   = hexdec(substr($color, 0, 2));
-        $c[]   = hexdec(substr($color, 2, 2));
-        $c[]   = hexdec(substr($color, 4, 2));
+        $c[] = hexdec(mb_substr($color, 0, 2));
+        $c[] = hexdec(mb_substr($color, 2, 2));
+        $c[] = hexdec(mb_substr($color, 4, 2));
 
         return $c;
     }
@@ -323,7 +319,7 @@ class Image_Color
      */
     private function returnColor($color)
     {
-        return self::rgb2hex($color);
+        return $this->rgb2hex($color);
     }
 
     /**
@@ -357,7 +353,7 @@ class Image_Color
      */
     public function hex2rgb($hex)
     {
-        $return        = self::splitColor($hex);
+        $return = $this->splitColor($hex);
         $return['hex'] = $hex;
 
         return $return;
@@ -366,9 +362,9 @@ class Image_Color
     /**
      * Convert an HSV (Hue, Saturation, Brightness) value to RGB.
      *
-     * @param integer $h Hue
-     * @param integer $s Saturation
-     * @param integer $v Brightness
+     * @param int $h Hue
+     * @param int $s Saturation
+     * @param int $v Brightness
      *
      * @return array RGB array.
      * @access  public
@@ -379,7 +375,7 @@ class Image_Color
      */
     public function hsv2rgb($h, $s, $v)
     {
-        return self::hex2rgb(self::hsv2hex($h, $s, $v));
+        return $this->hex2rgb($this->hsv2hex($h, $s, $v));
     }
 
     /**
@@ -388,9 +384,9 @@ class Image_Color
      * Originally written by Jurgen Schwietering. Integrated into the class by
      * Jason Lotito.
      *
-     * @param integer $h Hue
-     * @param integer $s Saturation
-     * @param integer $v Brightness
+     * @param int $h Hue
+     * @param int $s Saturation
+     * @param int $v Brightness
      *
      * @return string The hex string.
      * @access  public
@@ -406,53 +402,47 @@ class Image_Color
             $r = $g = $b = $v;
 
             return '';
-        } else {
-            $h = $h / 256.0 * 6.0;
-            $i = floor($h);
-            $f = $h - $i;
+        }
+        $h = $h / 256.0 * 6.0;
+        $i = floor($h);
+        $f = $h - $i;
 
-            $v *= 256.0;
-            $p = (integer)($v * (1.0 - $s));
-            $q = (integer)($v * (1.0 - $s * $f));
-            $t = (integer)($v * (1.0 - $s * (1.0 - $f)));
-            switch ($i) {
+        $v *= 256.0;
+        $p = (int)($v * (1.0 - $s));
+        $q = (int)($v * (1.0 - $s * $f));
+        $t = (int)($v * (1.0 - $s * (1.0 - $f)));
+        switch ($i) {
                 case 0:
                     $r = $v;
                     $g = $t;
                     $b = $p;
                     break;
-
                 case 1:
                     $r = $q;
                     $g = $v;
                     $b = $p;
                     break;
-
                 case 2:
                     $r = $p;
                     $g = $v;
                     $b = $t;
                     break;
-
                 case 3:
                     $r = $p;
                     $g = $q;
                     $b = $v;
                     break;
-
                 case 4:
                     $r = $t;
                     $g = $p;
                     $b = $v;
                     break;
-
                 default:
                     $r = $v;
                     $g = $p;
                     $b = $q;
                     break;
             }
-        }
 
         return $this->rgb2hex([$r, $g, $b]);
     }
@@ -474,7 +464,7 @@ class Image_Color
      */
     public function allocateColor(&$img, $color)
     {
-        $color = self::color2RGB($color);
+        $color = $this->color2RGB($color);
 
         return imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
@@ -498,10 +488,10 @@ class Image_Color
     {
         $c = [];
 
-        if ('#' === $color{0}) {
-            $c = self::hex2rgb($color);
+        if ('#' === $color[0]) {
+            $c = $this->hex2rgb($color);
         } else {
-            $c = self::namedColor2RGB($color);
+            $c = $this->namedColor2RGB($color);
         }
 
         return $c;
@@ -525,150 +515,150 @@ class Image_Color
 
         if (!isset($colornames)) {
             $colornames = [
-                'aliceblue'            => [240, 248, 255],
-                'antiquewhite'         => [250, 235, 215],
-                'aqua'                 => [0, 255, 255],
-                'aquamarine'           => [127, 255, 212],
-                'azure'                => [240, 255, 255],
-                'beige'                => [245, 245, 220],
-                'bisque'               => [255, 228, 196],
-                'black'                => [0, 0, 0],
-                'blanchedalmond'       => [255, 235, 205],
-                'blue'                 => [0, 0, 255],
-                'blueviolet'           => [138, 43, 226],
-                'brown'                => [165, 42, 42],
-                'burlywood'            => [222, 184, 135],
-                'cadetblue'            => [95, 158, 160],
-                'chartreuse'           => [127, 255, 0],
-                'chocolate'            => [210, 105, 30],
-                'coral'                => [255, 127, 80],
-                'cornflowerblue'       => [100, 149, 237],
-                'cornsilk'             => [255, 248, 220],
-                'crimson'              => [220, 20, 60],
-                'cyan'                 => [0, 255, 255],
-                'darkblue'             => [0, 0, 13],
-                'darkcyan'             => [0, 139, 139],
-                'darkgoldenrod'        => [184, 134, 11],
-                'darkgray'             => [169, 169, 169],
-                'darkgreen'            => [0, 100, 0],
-                'darkkhaki'            => [189, 183, 107],
-                'darkmagenta'          => [139, 0, 139],
-                'darkolivegreen'       => [85, 107, 47],
-                'darkorange'           => [255, 140, 0],
-                'darkorchid'           => [153, 50, 204],
-                'darkred'              => [139, 0, 0],
-                'darksalmon'           => [233, 150, 122],
-                'darkseagreen'         => [143, 188, 143],
-                'darkslateblue'        => [72, 61, 139],
-                'darkslategray'        => [47, 79, 79],
-                'darkturquoise'        => [0, 206, 209],
-                'darkviolet'           => [148, 0, 211],
-                'deeppink'             => [255, 20, 147],
-                'deepskyblue'          => [0, 191, 255],
-                'dimgray'              => [105, 105, 105],
-                'dodgerblue'           => [30, 144, 255],
-                'firebrick'            => [178, 34, 34],
-                'floralwhite'          => [255, 250, 240],
-                'forestgreen'          => [34, 139, 34],
-                'fuchsia'              => [255, 0, 255],
-                'gainsboro'            => [220, 220, 220],
-                'ghostwhite'           => [248, 248, 255],
-                'gold'                 => [255, 215, 0],
-                'goldenrod'            => [218, 165, 32],
-                'gray'                 => [128, 128, 128],
-                'green'                => [0, 128, 0],
-                'greenyellow'          => [173, 255, 47],
-                'honeydew'             => [240, 255, 240],
-                'hotpink'              => [255, 105, 180],
-                'indianred'            => [205, 92, 92],
-                'indigo'               => [75, 0, 130],
-                'ivory'                => [255, 255, 240],
-                'khaki'                => [240, 230, 140],
-                'lavender'             => [230, 230, 250],
-                'lavenderblush'        => [255, 240, 245],
-                'lawngreen'            => [124, 252, 0],
-                'lemonchiffon'         => [255, 250, 205],
-                'lightblue'            => [173, 216, 230],
-                'lightcoral'           => [240, 128, 128],
-                'lightcyan'            => [224, 255, 255],
+                'aliceblue' => [240, 248, 255],
+                'antiquewhite' => [250, 235, 215],
+                'aqua' => [0, 255, 255],
+                'aquamarine' => [127, 255, 212],
+                'azure' => [240, 255, 255],
+                'beige' => [245, 245, 220],
+                'bisque' => [255, 228, 196],
+                'black' => [0, 0, 0],
+                'blanchedalmond' => [255, 235, 205],
+                'blue' => [0, 0, 255],
+                'blueviolet' => [138, 43, 226],
+                'brown' => [165, 42, 42],
+                'burlywood' => [222, 184, 135],
+                'cadetblue' => [95, 158, 160],
+                'chartreuse' => [127, 255, 0],
+                'chocolate' => [210, 105, 30],
+                'coral' => [255, 127, 80],
+                'cornflowerblue' => [100, 149, 237],
+                'cornsilk' => [255, 248, 220],
+                'crimson' => [220, 20, 60],
+                'cyan' => [0, 255, 255],
+                'darkblue' => [0, 0, 13],
+                'darkcyan' => [0, 139, 139],
+                'darkgoldenrod' => [184, 134, 11],
+                'darkgray' => [169, 169, 169],
+                'darkgreen' => [0, 100, 0],
+                'darkkhaki' => [189, 183, 107],
+                'darkmagenta' => [139, 0, 139],
+                'darkolivegreen' => [85, 107, 47],
+                'darkorange' => [255, 140, 0],
+                'darkorchid' => [153, 50, 204],
+                'darkred' => [139, 0, 0],
+                'darksalmon' => [233, 150, 122],
+                'darkseagreen' => [143, 188, 143],
+                'darkslateblue' => [72, 61, 139],
+                'darkslategray' => [47, 79, 79],
+                'darkturquoise' => [0, 206, 209],
+                'darkviolet' => [148, 0, 211],
+                'deeppink' => [255, 20, 147],
+                'deepskyblue' => [0, 191, 255],
+                'dimgray' => [105, 105, 105],
+                'dodgerblue' => [30, 144, 255],
+                'firebrick' => [178, 34, 34],
+                'floralwhite' => [255, 250, 240],
+                'forestgreen' => [34, 139, 34],
+                'fuchsia' => [255, 0, 255],
+                'gainsboro' => [220, 220, 220],
+                'ghostwhite' => [248, 248, 255],
+                'gold' => [255, 215, 0],
+                'goldenrod' => [218, 165, 32],
+                'gray' => [128, 128, 128],
+                'green' => [0, 128, 0],
+                'greenyellow' => [173, 255, 47],
+                'honeydew' => [240, 255, 240],
+                'hotpink' => [255, 105, 180],
+                'indianred' => [205, 92, 92],
+                'indigo' => [75, 0, 130],
+                'ivory' => [255, 255, 240],
+                'khaki' => [240, 230, 140],
+                'lavender' => [230, 230, 250],
+                'lavenderblush' => [255, 240, 245],
+                'lawngreen' => [124, 252, 0],
+                'lemonchiffon' => [255, 250, 205],
+                'lightblue' => [173, 216, 230],
+                'lightcoral' => [240, 128, 128],
+                'lightcyan' => [224, 255, 255],
                 'lightgoldenrodyellow' => [250, 250, 210],
-                'lightgreen'           => [144, 238, 144],
-                'lightgrey'            => [211, 211, 211],
-                'lightpink'            => [255, 182, 193],
-                'lightsalmon'          => [255, 160, 122],
-                'lightseagreen'        => [32, 178, 170],
-                'lightskyblue'         => [135, 206, 250],
-                'lightslategray'       => [119, 136, 153],
-                'lightsteelblue'       => [176, 196, 222],
-                'lightyellow'          => [255, 255, 224],
-                'lime'                 => [0, 255, 0],
-                'limegreen'            => [50, 205, 50],
-                'linen'                => [250, 240, 230],
-                'magenta'              => [255, 0, 255],
-                'maroon'               => [128, 0, 0],
-                'mediumaquamarine'     => [102, 205, 170],
-                'mediumblue'           => [0, 0, 205],
-                'mediumorchid'         => [186, 85, 211],
-                'mediumpurple'         => [147, 112, 219],
-                'mediumseagreen'       => [60, 179, 113],
-                'mediumslateblue'      => [123, 104, 238],
-                'mediumspringgreen'    => [0, 250, 154],
-                'mediumturquoise'      => [72, 209, 204],
-                'mediumvioletred'      => [199, 21, 133],
-                'midnightblue'         => [25, 25, 112],
-                'mintcream'            => [245, 255, 250],
-                'mistyrose'            => [255, 228, 225],
-                'moccasin'             => [255, 228, 181],
-                'navajowhite'          => [255, 222, 173],
-                'navy'                 => [0, 0, 128],
-                'oldlace'              => [253, 245, 230],
-                'olive'                => [128, 128, 0],
-                'olivedrab'            => [107, 142, 35],
-                'orange'               => [255, 165, 0],
-                'orangered'            => [255, 69, 0],
-                'orchid'               => [218, 112, 214],
-                'palegoldenrod'        => [238, 232, 170],
-                'palegreen'            => [152, 251, 152],
-                'paleturquoise'        => [175, 238, 238],
-                'palevioletred'        => [219, 112, 147],
-                'papayawhip'           => [255, 239, 213],
-                'peachpuff'            => [255, 218, 185],
-                'peru'                 => [205, 133, 63],
-                'pink'                 => [255, 192, 203],
-                'plum'                 => [221, 160, 221],
-                'powderblue'           => [176, 224, 230],
-                'purple'               => [128, 0, 128],
-                'red'                  => [255, 0, 0],
-                'rosybrown'            => [188, 143, 143],
-                'royalblue'            => [65, 105, 225],
-                'saddlebrown'          => [139, 69, 19],
-                'salmon'               => [250, 128, 114],
-                'sandybrown'           => [244, 164, 96],
-                'seagreen'             => [46, 139, 87],
-                'seashell'             => [255, 245, 238],
-                'sienna'               => [160, 82, 45],
-                'silver'               => [192, 192, 192],
-                'skyblue'              => [135, 206, 235],
-                'slateblue'            => [106, 90, 205],
-                'slategray'            => [112, 128, 144],
-                'snow'                 => [255, 250, 250],
-                'springgreen'          => [0, 255, 127],
-                'steelblue'            => [70, 130, 180],
-                'tan'                  => [210, 180, 140],
-                'teal'                 => [0, 128, 128],
-                'thistle'              => [216, 191, 216],
-                'tomato'               => [255, 99, 71],
-                'turquoise'            => [64, 224, 208],
-                'violet'               => [238, 130, 238],
-                'wheat'                => [245, 222, 179],
-                'white'                => [255, 255, 255],
-                'whitesmoke'           => [245, 245, 245],
-                'yellow'               => [255, 255, 0],
-                'yellowgreen'          => [154, 205, 50]
+                'lightgreen' => [144, 238, 144],
+                'lightgrey' => [211, 211, 211],
+                'lightpink' => [255, 182, 193],
+                'lightsalmon' => [255, 160, 122],
+                'lightseagreen' => [32, 178, 170],
+                'lightskyblue' => [135, 206, 250],
+                'lightslategray' => [119, 136, 153],
+                'lightsteelblue' => [176, 196, 222],
+                'lightyellow' => [255, 255, 224],
+                'lime' => [0, 255, 0],
+                'limegreen' => [50, 205, 50],
+                'linen' => [250, 240, 230],
+                'magenta' => [255, 0, 255],
+                'maroon' => [128, 0, 0],
+                'mediumaquamarine' => [102, 205, 170],
+                'mediumblue' => [0, 0, 205],
+                'mediumorchid' => [186, 85, 211],
+                'mediumpurple' => [147, 112, 219],
+                'mediumseagreen' => [60, 179, 113],
+                'mediumslateblue' => [123, 104, 238],
+                'mediumspringgreen' => [0, 250, 154],
+                'mediumturquoise' => [72, 209, 204],
+                'mediumvioletred' => [199, 21, 133],
+                'midnightblue' => [25, 25, 112],
+                'mintcream' => [245, 255, 250],
+                'mistyrose' => [255, 228, 225],
+                'moccasin' => [255, 228, 181],
+                'navajowhite' => [255, 222, 173],
+                'navy' => [0, 0, 128],
+                'oldlace' => [253, 245, 230],
+                'olive' => [128, 128, 0],
+                'olivedrab' => [107, 142, 35],
+                'orange' => [255, 165, 0],
+                'orangered' => [255, 69, 0],
+                'orchid' => [218, 112, 214],
+                'palegoldenrod' => [238, 232, 170],
+                'palegreen' => [152, 251, 152],
+                'paleturquoise' => [175, 238, 238],
+                'palevioletred' => [219, 112, 147],
+                'papayawhip' => [255, 239, 213],
+                'peachpuff' => [255, 218, 185],
+                'peru' => [205, 133, 63],
+                'pink' => [255, 192, 203],
+                'plum' => [221, 160, 221],
+                'powderblue' => [176, 224, 230],
+                'purple' => [128, 0, 128],
+                'red' => [255, 0, 0],
+                'rosybrown' => [188, 143, 143],
+                'royalblue' => [65, 105, 225],
+                'saddlebrown' => [139, 69, 19],
+                'salmon' => [250, 128, 114],
+                'sandybrown' => [244, 164, 96],
+                'seagreen' => [46, 139, 87],
+                'seashell' => [255, 245, 238],
+                'sienna' => [160, 82, 45],
+                'silver' => [192, 192, 192],
+                'skyblue' => [135, 206, 235],
+                'slateblue' => [106, 90, 205],
+                'slategray' => [112, 128, 144],
+                'snow' => [255, 250, 250],
+                'springgreen' => [0, 255, 127],
+                'steelblue' => [70, 130, 180],
+                'tan' => [210, 180, 140],
+                'teal' => [0, 128, 128],
+                'thistle' => [216, 191, 216],
+                'tomato' => [255, 99, 71],
+                'turquoise' => [64, 224, 208],
+                'violet' => [238, 130, 238],
+                'wheat' => [245, 222, 179],
+                'white' => [255, 255, 255],
+                'whitesmoke' => [245, 245, 245],
+                'yellow' => [255, 255, 0],
+                'yellowgreen' => [154, 205, 50],
             ];
         }
 
-        $color = strtolower($color);
+        $color = mb_strtolower($color);
 
         if (isset($colornames[$color])) {
             return $colornames[$color];
@@ -702,7 +692,7 @@ class Image_Color
                 $ret[$k] = 0;
             } elseif ($v <= 100) {
                 // add 0.5 then cast to an integer to round the value.
-                $ret[$k] = (integer)((2.55 * $v) + 0.5);
+                $ret[$k] = (int)((2.55 * $v) + 0.5);
             } else {
                 $ret[$k] = 255;
             }
@@ -717,9 +707,9 @@ class Image_Color
 /**
  * Function for array_walk() to round colors to the closest web safe value.
  *
- * @param integer $color One channel of an RGB color.
+ * @param int $color One channel of an RGB color.
  *
- * @return integer The websafe equivalent of the color channel.
+ * @return int The websafe equivalent of the color channel.
  * @author  Jason Lotito <jason@lehighweb.com>
  * @author  Andrew Morton <drewish@katherinehouse.com>
  * @access  private

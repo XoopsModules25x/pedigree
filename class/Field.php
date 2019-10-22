@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -17,11 +19,8 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Pedigree
  * @since       1.31
- *
  */
-
 use XoopsModules\Pedigree;
-
 
 /**
  * Class Field
@@ -137,6 +136,9 @@ class Field
         return '1' == $this->getSetting('viewinlist');
     }
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
@@ -163,10 +165,10 @@ class Field
 
         /** @var \Xmf\Database\Tables $pTables */
         $pTables = new \Xmf\Database\Tables();
-        $exists  = $pTables->useTable('pedigree_lookup' . $fieldnumber);
+        $exists = $pTables->useTable('pedigree_lookup' . $fieldnumber);
         if ($exists) {
             $tableName = $pTables->name('pedigree_lookup' . $fieldnumber);
-            $SQL    = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
+            $SQL = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
             //$SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix("pedigree_lookup{$fieldnumber}") . " ORDER BY 'order'";
             $result = $GLOBALS['xoopsDB']->query($SQL);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -202,6 +204,7 @@ class Field
     public function showValue()
     {
         $myts = \MyTextSanitizer::getInstance();
+
         return $myts->displayTarea($this->value);
     }
 

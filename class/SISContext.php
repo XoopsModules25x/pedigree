@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 use XoopsModules\Pedigree;
 
@@ -16,7 +18,7 @@ class SISContext
     public function __construct()
     {
         $this->contexts = [];
-        $this->depth    = 0;
+        $this->depth = 0;
     }
 
     /**
@@ -29,7 +31,7 @@ class SISContext
         for ($i = 0; $i < $this->depth; ++$i) {
             if ($keys[$i] == $name) {
                 $this->contexts[$name] = $url; // the url might be slightly different
-                $this->depth           = $i + 1;
+                $this->depth = $i + 1;
 
                 for ($x = count($this->contexts); $x > $i + 1; $x--) {
                     array_pop($this->contexts);

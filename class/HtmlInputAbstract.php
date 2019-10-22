@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /**
  *  pedigree HTML Input Interface Class Elements
@@ -10,7 +12,6 @@
  * @author     zyspec <owners@zyspec.com>
  * @since      1.3.1
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -23,7 +24,6 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  * @copyright Copyright (c) 2014-2019 ZySpec Incorporated
  * @access    public
  */
-
 
 /**
  * Class Pedigree\HtmlInputAbstract
@@ -68,8 +68,6 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
 
     /**
      * @param string $message
-     *
-     * @return void
      */
     public function echoMsg($message)
     {
@@ -87,10 +85,10 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
 
         /** @var \Xmf\Database\Tables $pTables */
         $pTables = new \Xmf\Database\Tables();
-        $exists  = $pTables->useTable('pedigree_lookup' . $fieldnumber);
+        $exists = $pTables->useTable('pedigree_lookup' . $fieldnumber);
         if ($exists) {
             $tableName = $pTables->name('pedigree_lookup' . $fieldnumber);
-            $SQL    = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
+            $SQL = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
             //$SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
             $result = $GLOBALS['xoopsDB']->query($SQL);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {

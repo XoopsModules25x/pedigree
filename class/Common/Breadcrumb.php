@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree\Common;
+<?php
+
+namespace XoopsModules\Pedigree\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -34,9 +36,6 @@ class Breadcrumb
     public $dirname;
     private $bread = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->dirname = basename(dirname(__DIR__));
@@ -51,14 +50,13 @@ class Breadcrumb
     public function addLink($title = '', $link = '')
     {
         $this->bread[] = [
-            'link'  => $link,
-            'title' => $title
+            'link' => $link,
+            'title' => $title,
         ];
     }
 
     /**
      * Render Pedigree BreadCrumb
-     *
      */
     public function render()
     {
