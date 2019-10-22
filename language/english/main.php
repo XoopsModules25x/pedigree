@@ -108,11 +108,11 @@ define('_MA_PEDIGREE_SYNTH6', 'Field will be shown once for all animals n the ad
 define('_MA_PEDIGREE_BGCOLOR', 'Use the fields below to change the colours of the pedigree database. We advice choosing a very light colour for the "Pedigree background color"');
 define(
     '_MA_PEDIGREE_ANCEST_EXPLAN',
-       "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require your attention."
+    "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require your attention."
 );
 define(
     '_MA_PEDIGREE_GENDER_EXPLAN',
-       'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require your attention.'
+    'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require your attention.'
 );
 define('_MA_PEDIGREE_QUERIE_EXPLAN', 'Shown below are your personal queries.<br>To request a user query, you can visit <a href ="https://xoops.org">XOOPS Support Forums</a>');
 define('_MA_PEDIGREE_LOOKUPFIELD', "Shown below are the user values for this lookupfield.<br>Click on the value to edit it.<br>Click on the 'X' to delete the value from the lookuptable.");
@@ -125,14 +125,14 @@ define('_MA_PEDIGREE_EXPLAIN_NUMB', 'This field is used to set the number of res
 define('_MA_PEDIGREE_WELC_SCREEN', 'Should the welcome page be shown ? This setting (if set to no) will also remove the Welcome button from the menu.');
 define(
     '_MA_PEDIGREE_OWN_EXPLAIN',
-       'Use this field to set if you would like to use the owner/breeder fields of the database.As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.The owner/breeder menu items will also be affected by this setting.'
+    'Use this field to set if you would like to use the owner/breeder fields of the database.As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.The owner/breeder menu items will also be affected by this setting.'
 );
 define('_MA_PEDIGREE_BROT_EXPLAIN', 'Use this field to set if you would like to use the add a litter feature.If your chosen animal only has one offspring at a time this feature will not be useful to you');
 define('_MA_PEDIGREE_USE_LITTER_EXPLAIN', 'Use this field to set if you would like to display the brothers & sisters field on the detailed animal information page. ');
 define('_MA_PEDIGREE_KITT_EXPLAIN', 'Use this field to set if you would like to display this field on the detailed information page.');
 define(
     '_MA_PEDIGREE_PICT_EXPLAIN',
-       "A pedigree can become very long and hard to fit on the screen if all the images are set for all animals in the pedigree. Using this setting you can switch off showing the images for the last row of the pedigree (great grandparents).<br><i>Note: this only applies to the standard image of an animal. If you define additional picture fields they will be shown.</i>'"
+    "A pedigree can become very long and hard to fit on the screen if all the images are set for all animals in the pedigree. Using this setting you can switch off showing the images for the last row of the pedigree (great grandparents).<br><i>Note: this only applies to the standard image of an animal. If you define additional picture fields they will be shown.</i>'"
 );
 define('_MA_PEDIGREE_SEARCH_FORM', '.In the search form, select the first letter of the ');
 define('_MA_PEDIGREE_FIELD_EXPLAIN', "'Use this field to set the animal type which will be used in the application.<br><i>example :snake, pigeon, dog, owl </i><br>The value should fit in the sentences below.<br>Please add optional information for this ");
@@ -160,7 +160,7 @@ define('_MA_PEDIGREE_SELECT', 'Select the first letter of the [animalType] ');
 define('_MA_PEDIGREE_SEARCHNAME', 'Search by name');
 define(
     '_MA_PEDIGREE_SEARCHNAME_EX',
-       'Here you can search for specific [animalTypes] by entering (part of) a name.<br><br>Searching for part of a name (a few letters) will find all [animalTypes] with those letters anywhere in the name.<br>Searching for <b>a</b> will not find [animalTypes] with <b>á</b> or other special characters.'
+    'Here you can search for specific [animalTypes] by entering (part of) a name.<br><br>Searching for part of a name (a few letters) will find all [animalTypes] with those letters anywhere in the name.<br>Searching for <b>a</b> will not find [animalTypes] with <b>á</b> or other special characters.'
 );
 define('_MA_PEDIGREE_SEARCH_SHORT', 'At least 3 characters are needed to perform a search.');
 define('_MA_PEDIGREE_SEARCH_NO', 'No [animalTypes] meeting your query have been found.');
@@ -312,7 +312,7 @@ define('_MA_PEDIGREE_COI_MORE', 'At least both parents need to be known to do an
 define('_MA_PEDIGREE_COI_CKRI', 'Coefficients of Kinship, Relationship and Inbreeding');
 define(
     '_MA_PEDIGREE_COI_CKRI_CT',
-       'This page consist of inbreeding calculations for the [animalType] you selected or the "Virtual Mating" you have entered.<br>The calculations on this page are accurate to the point that they can only be made based upon the information in the database.<br>For more detailed calculations please make sure that as many as possible of the ancestors are known in the database.<br>We hope this tool will be valuable to breeders and enthousiasts.<br>Each information block has an explanation button which can be clicked to find information on that specific subject. '
+    'This page consist of inbreeding calculations for the [animalType] you selected or the "Virtual Mating" you have entered.<br>The calculations on this page are accurate to the point that they can only be made based upon the information in the database.<br>For more detailed calculations please make sure that as many as possible of the ancestors are known in the database.<br>We hope this tool will be valuable to breeders and enthousiasts.<br>Each information block has an explanation button which can be clicked to find information on that specific subject. '
 );
 define('_MA_PEDIGREE_COI_SPANF1', 'Sorry, the parents of animal ');
 define('_MA_PEDIGREE_COI_SPANF2', ' are not found in the database.');
@@ -335,7 +335,7 @@ define('_MA_PEDIGREE_COI_TVI', 'this value is');
 define('_MA_PEDIGREE_COI_ACTIT', 'Ascendents count');
 define(
     '_MA_PEDIGREE_COI_ACEX',
-       'Shown here are the number of ascendents found in this specific pedigree tree.<br>A complete tree will contain up to 510 ascendants. (8 generations are used for the calculations on this page).<br>Also shown is the number of unique ascendents. These figures will give you an indication as to how varied the gene pool is for this animal.<br><br>A total count of 500 animals with only 100 unique ascendents means that out of the 500 animals found in 8 generations there are only 100 unique animals present. These 100 animals make up the tree. Obviousily 510 unique ascendents would be better for a more varied (less inbred) gene pool.'
+    'Shown here are the number of ascendents found in this specific pedigree tree.<br>A complete tree will contain up to 510 ascendants. (8 generations are used for the calculations on this page).<br>Also shown is the number of unique ascendents. These figures will give you an indication as to how varied the gene pool is for this animal.<br><br>A total count of 500 animals with only 100 unique ascendents means that out of the 500 animals found in 8 generations there are only 100 unique animals present. These 100 animals make up the tree. Obviousily 510 unique ascendents would be better for a more varied (less inbred) gene pool.'
 );
 define('_MA_PEDIGREE_COI_ASTC', 'Total count of known ascendants (over ');
 define('_MA_PEDIGREE_COI_ASTCGEN', ' generations : max=');
@@ -345,20 +345,20 @@ define('_MA_PEDIGREE_COI_COI', 'Coefficient of Inbreeding ');
 define('_MA_PEDIGREE_COI_COITIT', 'For any animal out of [father] and [mother] :');
 define(
     '_MA_PEDIGREE_COI_COIEX',
-       'If you clicked on the COI% calculation for a single [animalType] in the database the inbred percentage is shown here.<br>If you clicked on the "Virtual Mating" button the value shown here is for any [children] that these two [animalTypes] might produce.<br><table width="100%"><tr bgcolor="#EFEFEF"><td>percentage</td><td>Value</td></tr><tr><td>0% - 1%</td><td>too low to be reliable</td></tr><tr><td>1% - 2%</td><td>very very low</td></tr><tr><td>2% - 5%</td><td>very low</td></tr><tr><td>5% - 10%</td><td>low</td></tr><tr><td>10% - 20%</td><td>medium</td></tr><tr><td>20% - 35%</td><td>high</td></tr><tr><td>35% - 55%</td><td>very high</td></tr><tr><td>>55%</td><td>Huge!</td></tr></table>'
+    'If you clicked on the COI% calculation for a single [animalType] in the database the inbred percentage is shown here.<br>If you clicked on the "Virtual Mating" button the value shown here is for any [children] that these two [animalTypes] might produce.<br><table width="100%"><tr bgcolor="#EFEFEF"><td>percentage</td><td>Value</td></tr><tr><td>0% - 1%</td><td>too low to be reliable</td></tr><tr><td>1% - 2%</td><td>very very low</td></tr><tr><td>2% - 5%</td><td>very low</td></tr><tr><td>5% - 10%</td><td>low</td></tr><tr><td>10% - 20%</td><td>medium</td></tr><tr><td>20% - 35%</td><td>high</td></tr><tr><td>35% - 55%</td><td>very high</td></tr><tr><td>>55%</td><td>Huge!</td></tr></table>'
 );
 define('_MA_PEDIGREE_COI_TCATIT', 'Top contributing ascendants :');
 define('_MA_PEDIGREE_COI_TCApib', 'Partial inbreeding due to ');
 define(
     '_MA_PEDIGREE_COI_TCAEX',
-       "Here you'll find a list of the ascendents (parents, gandparents etc.) who contribute the most to the genetic makeup of the selected [animalType].<br>If you clicked on \"Virtual Mating\" these are the [animalTypes] who will contribute the most to any potential [children] that the chosen [father] and [mother] might produce.<br><br>The fact that a [animalType] is the most contributing ascendent does not have to mean that that [animalType] also has the highest inbred precentage.<br>A [animalType] with a low inbred percentage can have a large contributing factor by being a closer relative (grandparent and great-grandparent for example) than other [animalTypes] with a higher inbred percentage.<br><br>The [animalType] you selected will have most in common with the [animalTypes] in this list.<br>If you clicked on the \"Virtual Mating\" the potential [children] will have most in common with the [animalTypes] in this list."
+    "Here you'll find a list of the ascendents (parents, gandparents etc.) who contribute the most to the genetic makeup of the selected [animalType].<br>If you clicked on \"Virtual Mating\" these are the [animalTypes] who will contribute the most to any potential [children] that the chosen [father] and [mother] might produce.<br><br>The fact that a [animalType] is the most contributing ascendent does not have to mean that that [animalType] also has the highest inbred precentage.<br>A [animalType] with a low inbred percentage can have a large contributing factor by being a closer relative (grandparent and great-grandparent for example) than other [animalTypes] with a higher inbred percentage.<br><br>The [animalType] you selected will have most in common with the [animalTypes] in this list.<br>If you clicked on the \"Virtual Mating\" the potential [children] will have most in common with the [animalTypes] in this list."
 );
 define('_MA_PEDIGREE_COI_MIATIT', 'Most inbred ascendants :');
 define('_MA_PEDIGREE_COI_MIAEX', 'Shown here are the ascendents in the pedigree tree with the highest inbred percentages.<br>This list gives an indication of the inbred percentages in earlier generations which (could) affect the selected [animalType] or selected mating.');
 define('_MA_PEDIGREE_COI_SSDTIT', 'Statistics for [father] and [mother] :');
 define(
     '_MA_PEDIGREE_COI_SSDEX',
-       'Shown here are the statistics for the [father] and [mother] for the selected [animalType] or selected mating.<br><br>Coefficient of Relationship between [father] and [mother] is the amount of relationship between the pedigrees of the parents.<br>Also shown are the inbred percentages of both the [father] and [mother].'
+    'Shown here are the statistics for the [father] and [mother] for the selected [animalType] or selected mating.<br><br>Coefficient of Relationship between [father] and [mother] is the amount of relationship between the pedigrees of the parents.<br>Also shown are the inbred percentages of both the [father] and [mother].'
 );
 define('_MA_PEDIGREE_COI_SSDcor', 'Coefficient of Relationship');
 define('_MA_PEDIGREE_COI_SDDbsd', ' between [father] and [mother]');
@@ -443,7 +443,7 @@ define('_MA_PEDIGREE_WELCOME', 'Welcome');
 define('_MA_PEDIGREE_VIRUTALTIT', 'Virtual Mating');
 define(
     '_MA_PEDIGREE_VIRUTALSTO',
-       'By calculating the coefficients of Kinship, Relationship and Inbreeding for any combination of [father] and [mother] in the database a lot of statistical information can be shown about the potential [children].<br><br>This so called "Virtual Mating" can help you make a correct combination by calculating the inbred percentage (coi% or ci%) of potential [children]. You will be able to see how the (potential) parents relate to each other and which ancestors have the greatist influence on the chosen combination.<br><br>To start off with you need to select the parents of the virtual litter.<br>To complete these complex calculations at least the four grandparents need to have been entered into the database. If one of the parents is not shown in the list below it is possible that the pedigree is not "complete" enough to do a proper inbreeding calculation. The more ancestors in the pedigree the better these calculations become. The calculations go back 8 generations so it is important to make the pedigree as complete as possible.'
+    'By calculating the coefficients of Kinship, Relationship and Inbreeding for any combination of [father] and [mother] in the database a lot of statistical information can be shown about the potential [children].<br><br>This so called "Virtual Mating" can help you make a correct combination by calculating the inbred percentage (coi% or ci%) of potential [children]. You will be able to see how the (potential) parents relate to each other and which ancestors have the greatist influence on the chosen combination.<br><br>To start off with you need to select the parents of the virtual litter.<br>To complete these complex calculations at least the four grandparents need to have been entered into the database. If one of the parents is not shown in the list below it is possible that the pedigree is not "complete" enough to do a proper inbreeding calculation. The more ancestors in the pedigree the better these calculations become. The calculations go back 8 generations so it is important to make the pedigree as complete as possible.'
 );
 define('_MA_PEDIGREE_VIRT_SIRE', 'First select the [father] for the virtual mating.');
 define('_MA_PEDIGREE_VIRT_DAM', 'Select the [mother] for the virtual mating.');
@@ -488,4 +488,4 @@ define('_MA_PEDIGREE_OWNER_PAGETITLE', 'Pedigree database - View Owner/Breeder d
 define('_MA_PEDIGREE_ADD_OWNER_PAGETITLE', 'Pedigree database - Add Owner/Breeder');
 define('_MA_PEDIGREE_UPDATE', 'Pedigree database - Update details');
 define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');
-define('_MA_PEDIGREE_LTRCHARS', "0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z");
+define('_MA_PEDIGREE_LTRCHARS', '0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z');

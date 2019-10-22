@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,6 @@
  * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');

@@ -1,4 +1,7 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,9 +21,7 @@
  * @subpackage  class
  * @author      XOOPS Mod Development Team
  */
-
 use XoopsModules\Pedigree;
-
 
 /**
  * Class Pedigree\SelectBox
@@ -42,11 +43,11 @@ class TextBox extends Pedigree\HtmlInputAbstract
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->lookuptable;
+        $this->lookuptable = $parentObject->lookuptable;
         if ('1' == $this->lookuptable) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
@@ -57,7 +58,6 @@ class TextBox extends Pedigree\HtmlInputAbstract
             xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
     }
-
 
     /**
      * @return \XoopsFormText
@@ -120,6 +120,4 @@ class TextBox extends Pedigree\HtmlInputAbstract
     {
         return null;
     }
-
-
 }

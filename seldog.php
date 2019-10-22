@@ -27,12 +27,12 @@ include $GLOBALS['xoops']->path('/header.php');
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-$st     = Request::getInt('st', 0, 'GET');
-$gend   = Request::getInt('gend', 0, 'GET');
+$st = Request::getInt('st', 0, 'GET');
+$gend = Request::getInt('gend', 0, 'GET');
 $curval = Request::getInt('curval', 0, 'GET');
 
 /* @todo: default value of 'a' assumes english, this should be defined in language file */
@@ -92,31 +92,31 @@ if (($numPages > 1) && ($currentPage < $numPages)) {
 
 //query
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '{$letter}%' AND roft = '{$gend}' ORDER BY naam LIMIT {$st}, {$perPage}";
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
-$fields       = $animal->getNumOfFields();
-$fieldsCount  = count($fields);
+$fields = $animal->getNumOfFields();
+$fieldsCount = count($fields);
 $numofcolumns = 1;
-$columns[]    = ['columnname' => 'Name'];
+$columns[] = ['columnname' => 'Name'];
 foreach ($fields as $i => $iValue) {
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     $fieldType = $userField->getSetting('FieldType');
-    $fieldObj  = new $fieldType($userField, $animal);
+    $fieldObj = new $fieldType($userField, $animal);
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
         if ($userField->hasLookup()) {
             $lookupValues = $userField->lookupField($fields[$i]);
-            //debug information
+        //debug information
             //print_r($lookupValues);
         } else {
             $lookupValues = '';
         }
         $columns[] = [
-            'columnname'   => $fieldObj->fieldname,
+            'columnname' => $fieldObj->fieldname,
             'columnnumber' => $userField->getId(),
-            'lookupval'    => $lookupValues
+            'lookupval' => $lookupValues,
         ];
         ++$numofcolumns;
         unset($lookupValues);
@@ -130,31 +130,31 @@ for ($i = 1; $i < $numofcolumns; ++$i) {
 }
 */
 if (0 == $gend) {
-    $dogs [] = [
-        'id'          => '0',
-        'name'        => '',
-        'gender'      => '',
-        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, ['[father]' => $moduleConfig['father']]) . '</a>',
-        'colour'      => '',
-        'number'      => '',
-        'usercolumns' => $empty
+    $dogs[] = [
+        'id' => '0',
+        'name' => '',
+        'gender' => '',
+        'link' => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, ['[father]' => $moduleConfig['father']]) . '</a>',
+        'colour' => '',
+        'number' => '',
+        'usercolumns' => $empty,
     ];
 } else {
-    $dogs [] = [
-        'id'          => '0',
-        'name'        => '',
-        'gender'      => '',
-        'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, ['[mother]' => $moduleConfig['mother']]) . '</a>',
-        'colour'      => '',
-        'number'      => '',
-        'usercolumns' => $empty
+    $dogs[] = [
+        'id' => '0',
+        'name' => '',
+        'gender' => '',
+        'link' => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid=0'>" . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, ['[mother]' => $moduleConfig['mother']]) . '</a>',
+        'colour' => '',
+        'number' => '',
+        'usercolumns' => $empty,
     ];
 }
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //create picture information
     $camera = ('' != $row['foto']) ? ' <img src="assets/images/camera.png">' : '';
-    $name   = stripslashes($row['naam']) . $camera;
+    $name = stripslashes($row['naam']) . $camera;
     //empty array
     unset($columnvalue);
     //fill array
@@ -178,23 +178,23 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     }
     if (0 == $gend) {
         $dogs[] = [
-            'id'          => $row['id'],
-            'name'        => $name,
-            'gender'      => '<img src="assets/images/male.gif">',
-            'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
-            'colour'      => '',
-            'number'      => '',
-            'usercolumns' => isset($columnvalue) ?: []
+            'id' => $row['id'],
+            'name' => $name,
+            'gender' => '<img src="assets/images/male.gif">',
+            'link' => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
+            'colour' => '',
+            'number' => '',
+            'usercolumns' => isset($columnvalue) ?: [],
         ];
     } else {
         $dogs[] = [
-            'id'          => $row['id'],
-            'name'        => $name,
-            'gender'      => '<img src="assets/images/female.gif">',
-            'link'        => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
-            'colour'      => '',
-            'number'      => '',
-            'usercolumns' => isset($columnvalue) ?: []
+            'id' => $row['id'],
+            'name' => $name,
+            'gender' => '<img src="assets/images/female.gif">',
+            'link' => "<a href='updatepage.php?gend={$gend}&curval={$curval}&thisid={$row['id']}'>{$name}</a>",
+            'colour' => '',
+            'number' => '',
+            'usercolumns' => isset($columnvalue) ?: [],
         ];
     }
 }
@@ -202,10 +202,10 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 //add data to smarty template
 //assign dog
 $GLOBALS['xoopsTpl']->assign([
-                                 'dogs'         => $dogs,
-                                 'columns'      => $columns,
+                                 'dogs' => $dogs,
+                                 'columns' => $columns,
                                  'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => Pedigree\Utility::sortTable($numofcolumns)
+                                 'tsarray' => Pedigree\Utility::sortTable($numofcolumns),
                              ]);
 //add data to smarty template
 if (0 == $gend) {
@@ -222,23 +222,23 @@ $lastshown = (($st + $perPage) > $numResults) ? $numResults : $st + $perPage;
 
 //create string
 /* @todo: move hard coded language string to language files */
-$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
+$matches = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = "{$numResults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numPages} pages)";
 $GLOBALS['xoopsTpl']->assign([
                                  'nummatch' => $nummatchstr,
-                                 'pages'    => $pages,
-                                 'curval'   => $curval
+                                 'pages' => $pages,
+                                 'curval' => $curval,
                              ]);
 
 //mb ========= MOTHER LETTERS===============================
 $myObject = Pedigree\Helper::getInstance();
-$roft     = $gend;
+$roft = $gend;
 //    $criteria     = $myObject->getHandler('Tree')->getActiveCriteria($roft);
 $activeObject = 'Tree';
-$name         = 'naam';
-$number1      = '1';
-$number2      = '0';
-$link         = "seldog.php?gend={$gend}&curval={$curval}&letter=";
+$name = 'naam';
+$number1 = '1';
+$number2 = '0';
+$link = "seldog.php?gend={$gend}&curval={$curval}&letter=";
 
 $criteria = $myObject->getHandler('Tree')->getActiveCriteria($roft);
 $criteria->setGroupby('UPPER(LEFT(' . $name . ',1))');

@@ -19,9 +19,9 @@ include $GLOBALS['xoops']->path('/header.php');
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 $f = Request::getString('f', 'naam', 'GET');
 $q = Request::getString('query', '', 'POST');
@@ -90,7 +90,7 @@ if (!isset($_GET['st'])) {
 $perPage = $moduleConfig['perpage'];
 
 //is current user a module admin?
-$modadmin    = false;
+$modadmin = false;
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     && $GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
@@ -118,12 +118,12 @@ $currentPage = floor($st / $perPage) + 1;
 //create empty pages variable
 $pages = '';
 
-$length = strlen($w);
-if ('%' === substr($w, $length - 1, $length)) {
-    $whe = substr($w, 0, $length - 1) . '%25';
+$length = mb_strlen($w);
+if ('%' === mb_substr($w, $length - 1, $length)) {
+    $whe = mb_substr($w, 0, $length - 1) . '%25';
     if (0 === strncmp($whe, '%', 1)) {
-        $length = strlen($whe);
-        $whe    = '%25' . substr($whe, 1, $length);
+        $length = mb_strlen($whe);
+        $whe = '%25' . mb_substr($whe, 1, $length);
     }
 } else {
     $whe = $w;
@@ -133,20 +133,20 @@ if ('%' === substr($w, $length - 1, $length)) {
 if ($numPages > 1) {
     if ($currentPage > 1) {
         $pages .= '<a href="result.php?f=' . $f . '&amp;l=' . $l . '&amp;w=' . $whe . '&amp;o=' . $o . '&amp;d=' . $d . '&amp;st=' . ($st - $perPage) . '">' . _MA_PEDIGREE_PREVIOUS . '</a>&nbsp;&nbsp;';
-}
+    }
 
-//create numbers
+    //create numbers
     for ($x = 1; $x < ($numPages + 1); ++$x) {
-    //create line break after 20 number
+        //create line break after 20 number
         if (0 == ($x % 20)) {
             $pages .= '<br>';
-    }
+        }
         if ($x != $currentPage) {
             $pages .= '<a href="result.php?f=' . $f . '&l=' . $l . '&w=' . $whe . '&o=' . $o . '&d=' . $d . '&st=' . ($perPage * ($x - 1)) . '">' . $x . '</a>&nbsp;&nbsp;';
-    } else {
-        $pages .= '<b>' . $x . '</b>&nbsp;&nbsp';
+        } else {
+            $pages .= '<b>' . $x . '</b>&nbsp;&nbsp';
+        }
     }
-}
 }
 //create next button
 if ($numPages > 1) {
@@ -157,17 +157,17 @@ if ($numPages > 1) {
 
 //query
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
-$fields       = $animal->getNumOfFields();
-$fieldsCount  = count($fields);
+$fields = $animal->getNumOfFields();
+$fieldsCount = count($fields);
 $numofcolumns = 1;
-$columns      = [['columnname' => 'Name']];
+$columns = [['columnname' => 'Name']];
 foreach ($fields as $i => $iValue) {
-    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-    $fieldType   = $userField->getSetting('FieldType');
+    $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
+    $fieldType = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
@@ -178,9 +178,9 @@ foreach ($fields as $i => $iValue) {
         }
         /* print_r($lookupValues);            //debug information */
         $columns[] = [
-            'columnname'   => $fieldObject->fieldname,
+            'columnname' => $fieldObject->fieldname,
             'columnnumber' => $userField->getId(),
-            'lookupval'    => $lookupValues
+            'lookupval' => $lookupValues,
         ];
         ++$numofcolumns;
         unset($lookupValues);
@@ -238,23 +238,23 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         }
     }
     $animals[] = [
-        'id'          => $row['id'],
-        'name'        => $name,
-        'gender'      => $gender,
-        'link'        => "<a href='pedigree.php?pedid={$row['id']}'>{$name}</a>",
-        'colour'      => '',
-        'number'      => '',
-        'usercolumns' => isset($columnvalue) ? $columnvalue : 0
+        'id' => $row['id'],
+        'name' => $name,
+        'gender' => $gender,
+        'link' => "<a href='pedigree.php?pedid={$row['id']}'>{$name}</a>",
+        'colour' => '',
+        'number' => '',
+        'usercolumns' => isset($columnvalue) ? $columnvalue : 0,
     ];
 }
 
 //add data to smarty template
 //assign dog
 $GLOBALS['xoopsTpl']->assign([
-                                 'dogs'         => $animals,
-                                 'columns'      => $columns,
+                                 'dogs' => $animals,
+                                 'columns' => $columns,
                                  'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => Pedigree\Utility::sortTable($numofcolumns)
+                                 'tsarray' => Pedigree\Utility::sortTable($numofcolumns),
                              ]);
 //assign links
 
@@ -265,7 +265,7 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches     = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
+$matches = strtr(_MA_PEDIGREE_MATCHES, ['[animalTypes]' => $moduleConfig['animalTypes']]);
 $nummatchstr = "{$numResults}{$matches}" . ($st + 1) . " - {$lastshown} ({$numPages} pages)";
 $GLOBALS['xoopsTpl']->assign('nummatch', $nummatchstr);
 $GLOBALS['xoopsTpl']->assign('pages', $pages);

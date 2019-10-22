@@ -18,7 +18,6 @@
  * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
@@ -26,7 +25,6 @@ require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
-
 
 $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
 
@@ -41,7 +39,7 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows           = $tempHandler->getCount();
+        $numrows = $tempHandler->getCount();
         $pedigree_temp_arr = $tempHandler->getAll($criteria);
 
         //Table view
@@ -89,23 +87,21 @@ switch ($op) {
         }
 
         break;
-
     case 'new_pedigree_temp':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
 
         $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
-        $obj         = $tempHandler->create();
-        $form        = $obj->getForm();
+        $obj = $tempHandler->create();
+        $form = $obj->getForm();
         $form->display();
         break;
-
     case 'save_pedigree_temp':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             $helper->redirect('admin/pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST['id']) && (0 < ($id = Request::getInt('id', 1)))) {
+        if (isset($_REQUEST['id']) && (($id = Request::getInt('id', 1)) > 0)) {
             $obj = $tempHandler->get($id);
         } else {
             $obj = $tempHandler->create();
@@ -138,17 +134,15 @@ switch ($op) {
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'edit_pedigree_temp':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $tempHandler->get($_REQUEST['id']);
+        $obj = $tempHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'delete_pedigree_temp':
         $obj = $tempHandler->get($_REQUEST['id']);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {

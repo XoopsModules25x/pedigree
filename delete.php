@@ -1,9 +1,6 @@
 <?php
 // -------------------------------------------------------------------------
 
-use XoopsModules\Pedigree;
-
-
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
@@ -18,9 +15,9 @@ include XOOPS_ROOT_PATH . '/header.php';
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
@@ -35,17 +32,17 @@ global $xoopsModuleConfig;
 $id = $_GET['id'];
 //query (find values for this dog (and format them))
 $queryString = 'SELECT naam, user, roft FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $id;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
     $id = $row['id'];
     //name
-    $naam     = htmlentities(stripslashes($row['naam']), ENT_QUOTES);
+    $naam = htmlentities(stripslashes($row['naam']), ENT_QUOTES);
     $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>';
     //user who entered the info
     $dbuser = $row['user'];
-    $roft   = $row['roft'];
+    $roft = $row['roft'];
 }
 
 //create form

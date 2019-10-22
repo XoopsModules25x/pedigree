@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * Module: SmartClone
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
@@ -68,19 +67,19 @@
  */
 $i = 0;
 
-$pluginPatterns[$i]['key']         = '_PEDIGREE_';
+$pluginPatterns[$i]['key'] = '_PEDIGREE_';
 $pluginPatterns[$i]['replacement'] = 'CONSTANT';
-$pluginPatterns[$i]['prefix']      = '_';
-$pluginPatterns[$i]['suffix']      = '_';
+$pluginPatterns[$i]['prefix'] = '_';
+$pluginPatterns[$i]['suffix'] = '_';
 
 ++$i;
-$pluginPatterns[$i]['key']         = 'PEDIGREE_';
+$pluginPatterns[$i]['key'] = 'PEDIGREE_';
 $pluginPatterns[$i]['replacement'] = 'CONSTANT';
 //$pluginPatterns[$i]['prefix'] = '_';
 $pluginPatterns[$i]['suffix'] = '_';
 
 ++$i;
-$pluginPatterns[$i]['key']         = 'Pedigree';
+$pluginPatterns[$i]['key'] = 'Pedigree';
 $pluginPatterns[$i]['replacement'] = 'ModuleName';
 
 //++$i;

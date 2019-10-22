@@ -15,7 +15,6 @@
  * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author       XOOPS Module Dev Team
  */
-
 use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/header.php';
@@ -65,16 +64,16 @@ foreach ($fields as $i => $iValue) {
     /** @var \XoopsModules\Pedigree\Field $userField */
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     if ($userField->isActive() && $userField->hasSearch()) {
-        $fieldType   = $userField->getSetting('FieldType');
+        $fieldType = $userField->getSetting('FieldType');
         $fieldObject = new $fieldType($userField, $animal);
-        $function    = 'user' . $iValue . $fieldObject->getSearchString();
+        $function = 'user' . $iValue . $fieldObject->getSearchString();
         //echo $function."<br>";
         $usersearch[] = [
-            'title'       => $userField->getSetting('SearchName'),
-            'searchid'    => 'user' . $iValue,
-            'function'    => $function,
+            'title' => $userField->getSetting('SearchName'),
+            'searchid' => 'user' . $iValue,
+            'function' => $function,
             'explanation' => $userField->getSetting('SearchExplanation'),
-            'searchfield' => $fieldObject->searchfield()
+            'searchfield' => $fieldObject->searchfield(),
         ];
     }
 }
@@ -83,28 +82,28 @@ foreach ($fields as $i => $iValue) {
 //$letter       = '';
 //$myObject     = Pedigree\Helper::getInstance();
 //$activeObject = 'Tree';
-$name         = 'naam';
-$link         = "result.php?f={$name}&amp;l=1&amp;o={$name}&amp;w=";
-$link2        = '%25';
+$name = 'naam';
+$link = "result.php?f={$name}&amp;l=1&amp;o={$name}&amp;w=";
+$link2 = '%25';
 
 $criteria = $helper->getHandler('Tree')->getActiveCriteria();
 $criteria->setGroupby('UPPER(LEFT(' . $name . ', 1))');
 $catarray['letters'] = Pedigree\Utility::lettersChoice($helper, 'Tree', $criteria, $name, $link, $link2);
 //$catarray['toolbar'] = pedigree_toolbar();
 
-$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes'))));
+$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), ['[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes')]));
 
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign([
-    'catarray'    => $catarray,
-    'pageTitle'   => _MA_PEDIGREE_BROWSETOTOPIC,
-    'sselect'     => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $helper->getConfig['animalType']]),
-    'explain'     => _MA_PEDIGREE_EXPLAIN,
-    'sname'       => _MA_PEDIGREE_SEARCHNAME,
-    'snameex'     => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $helper->getConfig['animalTypes']]),
-    'usersearch'  => isset($usersearch) ? $usersearch : '',
+    'catarray' => $catarray,
+    'pageTitle' => _MA_PEDIGREE_BROWSETOTOPIC,
+    'sselect' => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $helper->getConfig['animalType']]),
+    'explain' => _MA_PEDIGREE_EXPLAIN,
+    'sname' => _MA_PEDIGREE_SEARCHNAME,
+    'snameex' => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $helper->getConfig['animalTypes']]),
+    'usersearch' => isset($usersearch) ? $usersearch : '',
     'showwelcome' => $helper->getConfig['showwelcome'],
-    'word'        => $word
+    'word' => $word,
     //'welcome'     => $GLOBALS['myts']->displayTarea($helper->getConfig['welcome'])
 ]);
 

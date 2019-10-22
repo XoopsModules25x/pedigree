@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace XoopsModules\Pedigree;
 
@@ -23,8 +23,6 @@ namespace XoopsModules\Pedigree;
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-use \XoopsModules\Pedigree\Helper;
-
 /**
  * Class Pedigree
  * @deprecated
@@ -43,9 +41,9 @@ class Pedigree
      */
     protected function __construct($debug)
     {
-       $this->debug   = $debug;
-       $moduleDirName = basename(dirname(__DIR__));
-       //parent::__construct($moduleDirName);
+        $this->debug = $debug;
+        $moduleDirName = basename(dirname(__DIR__));
+        //parent::__construct($moduleDirName);
     }
 
     /**
@@ -70,6 +68,7 @@ class Pedigree
         if (null === $this->module) {
             $this->initModule();
         }
+
         return $this->module;
     }
 
@@ -100,7 +99,6 @@ class Pedigree
         $helper->addLog("Getting config '{$name}' : " . print_r($this->config[$name], true));
         //$this->addLog("Getting config '{$name}' : " . print_r($this->config[$name], true));
 
-
         return $this->config[$name];
     }
 
@@ -121,7 +119,6 @@ class Pedigree
         $this->config[$name] = $value;
         $helper->addLog("Setting config '{$name}' : " . $this->config[$name]);
         //$this->addLog("Setting config '{$name}' : " . $this->config[$name]);
-
 
         return $this->config[$name];
     }
@@ -145,13 +142,11 @@ class Pedigree
 
     /**
      * initModule instantiates XOOPS module object
-     *
-     * @return void
      */
     public function initModule()
     {
         /** @var \XoopsModules\Pedigree\Helper $helper */
-        $helper       = Helper::getInstance();
+        $helper = Helper::getInstance();
         $this->module = $helper->getModule();
         $helper->addLog('INIT MODULE');
         /*
@@ -165,13 +160,12 @@ class Pedigree
         }
         $this->addLog('INIT MODULE');
         */
-
     }
 
     public function initConfig()
     {
         /** @var \XoopsModules\Pedigree\Helper $helper */
-        $helper       = Helper::getInstance();
+        $helper = Helper::getInstance();
         $this->config = $helper->getConfig();
         /*
         $this->addLog('INIT CONFIG');
@@ -193,7 +187,6 @@ class Pedigree
         $this->addLog('INIT ' . ucase($name) . ' HANDLER');
         $this->handler[$name . 'Handler'] = xoops_getModuleHandler($name, $this->dirname);
         */
-
     }
 
     /**
@@ -210,7 +203,6 @@ class Pedigree
                 $GLOBALS['xoopsLogger']->addExtra($this->module->name(), $log);
             }
             */
-
         }
     }
 }

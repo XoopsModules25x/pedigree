@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,6 @@
  * @since           2.5.x
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -29,9 +30,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class Temp extends \XoopsObject
 {
     //Constructor
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -78,10 +77,10 @@ class Temp extends \XoopsObject
 
         //            $Handler = xoops_getModuleHandler("animal_", $xoopsModule->getVar("dirname"));
         $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
-        $criteria    = new \CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $_arr   = $tempHandler->getAll();
+        $_arr = $tempHandler->getAll();
         //@todo - the keys below aren't right for XoopsObjectTree. _id should be id, then need to determine which lineage (father/mother)
         //        and then use the appropriate key ('father', 'mother'). Can't really do a "combined" tree using XoopsObjectTree only.
         $mytree = new \XoopsObjectTree($_arr, '_id', '_pid');
@@ -90,7 +89,7 @@ class Temp extends \XoopsObject
         $form->addElement(new \XoopsFormHidden('op', 'save_pedigree_temp'));
 
         //Submit buttons
-        $button_tray   = new \XoopsFormElementTray('', '');
+        $button_tray = new \XoopsFormElementTray('', '');
         $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
         $button_tray->addElement($submit_button);
 

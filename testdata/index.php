@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
@@ -14,7 +13,6 @@
  * @since           2.5.9
  * @author          Michael Beck (aka Mamba)
  */
-
 use XoopsModules\Pedigree;
 use XoopsModules\Pedigree\Common;
 
@@ -36,9 +34,9 @@ switch ($op) {
 function loadSampleData()
 {
     $moduleDirName = basename(dirname(__DIR__));
-    $helper        = Pedigree\Helper::getInstance();
-    $utility       = new Pedigree\Utility();
-    $configurator  = new Common\Configurator();
+    $helper = Pedigree\Helper::getInstance();
+    $utility = new Pedigree\Utility();
+    $configurator = new Common\Configurator();
     // Load language files
     $helper->loadLanguage('admin');
     $helper->loadLanguage('modinfo');
@@ -56,12 +54,11 @@ function loadSampleData()
         \Xmf\Database\TableLoad::loadTableFromArray($table, $tabledata);
     }
 
-
     //  ---  COPY test folder files ---------------
-    if (is_array ($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
+    if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
         //        $file = __DIR__ . '/../testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
-            $src  = $configurator->copyTestFolders[$i][0];
+            $src = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];
             $utility::xcopy($src, $dest);
         }
@@ -72,8 +69,8 @@ function loadSampleData()
 
 function saveSampleData()
 {
-    $moduleDirName      = basename(dirname(__DIR__));
-    $moduleDirNameUpper = strtoupper($moduleDirName);
+    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
@@ -87,10 +84,10 @@ function saveSampleData()
 function exportSchema()
 {
     try {
-        $moduleDirName      = basename(dirname(__DIR__));
-        $moduleDirNameUpper = strtoupper($moduleDirName);
+        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-        $migrate = new  \Xmf\Database\Migrate($moduleDirName);
+        $migrate = new \Xmf\Database\Migrate($moduleDirName);
         $migrate->saveCurrentSchema();
 
         redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));

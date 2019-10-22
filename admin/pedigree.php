@@ -16,7 +16,6 @@
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
@@ -28,7 +27,7 @@ xoops_cp_header();
  * @var XoopsModules\Pedigree\Helper $helper
  * @var XoopsModules\Pedigree\TreeHandler $treeHandler
  */
-$helper     = Pedigree\Helper::getInstance();
+$helper = Pedigree\Helper::getInstance();
 $treeHandler = $helper->getHandler('Tree');
 
 //It recovered the value of argument op in URL$
@@ -42,7 +41,7 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows      = $treeHandler->getCount();
+        $numrows = $treeHandler->getCount();
         $pedigree_arr = $treeHandler->getAll($criteria);
 
         //Table view
@@ -88,7 +87,6 @@ switch ($op) {
         } //@todo should add 'else' here to display "nothing here" message
 
         break;
-
     case 'new_pedigree':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREELIST, $helper->url('pedigree.php?op=list'), 'list');
@@ -97,12 +95,11 @@ switch ($op) {
         /**
          * @var XoopsModules\Pedigree\Tree $tObj
          * @var \XoopsThemeForm $form
-        */
+         */
         $tObj = $treeHandler->create();
         $form = $tObj->getForm();
         $form->display();
         break;
-
     case 'save_pedigree':
         /** @var \XoopsSecurity $GLOBALS['xoopsSecurity'] */
         if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -110,7 +107,7 @@ switch ($op) {
         }
 
         /** @var XoopsModules\Pedigree\Tree $tObj */
-        $id   = Request::getInt('id', null, 'post');
+        $id = Request::getInt('id', null, 'post');
         $tObj = $treeHandler->get($id);
 
         $varArray = [
@@ -122,7 +119,7 @@ switch ($op) {
               'mother' => Request::getInt('mother', 0, 'post'),
               'father' => Request::getInt('father', 0, 'post'),
                 'foto' => Request::getString('foto', '', 'post'),
-                 'coi' => Request::getString('coi', '', 'post')
+                 'coi' => Request::getString('coi', '', 'post'),
         ];
 
         $tObj->setVars($varArray);
@@ -135,7 +132,6 @@ switch ($op) {
         $form = $tObj->getForm();
         $form->display();
         break;
-
     case 'edit_pedigree':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, $helper->url('admin/pedigree.php?op=new_pedigree'), 'add');
@@ -146,15 +142,14 @@ switch ($op) {
          * @var XoopsModules\Pedigree\Tree $tObj
          * @var XoopsThemeForm $form
          */
-        $id   = Request::getInt('id', 0);
+        $id = Request::getInt('id', 0);
         $tObj = $treeHandler->get($id);
         $form = $tObj->getForm();
         $form->display();
         break;
-
     case 'delete_pedigree':
         /** @var XoopsModules\Pedigree\Tree $tObj */
-        $id  = Request::getInt('id', 0);
+        $id = Request::getInt('id', 0);
         $tObj = $treeHandler->get($id);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
