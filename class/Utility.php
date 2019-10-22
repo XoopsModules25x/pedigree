@@ -255,6 +255,7 @@ class Utility
     /**
      * @param $oid
      * @param $gender
+     * @return null
      */
     public static function pups($oid, $gender)
     {
@@ -359,6 +360,7 @@ class Utility
      * @param $oid
      * @param $pa
      * @param $ma
+     * @return null
      */
     public static function bas($oid, $pa, $ma)
     {

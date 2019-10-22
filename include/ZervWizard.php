@@ -359,6 +359,9 @@ class ZervWizard
         return count($steps) > 0 ? $steps[0] : null;
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getFirstIncompleteStep()
     {
         $steps = array_keys($this->_steps);
@@ -578,6 +581,7 @@ class ZervWizard
 
     /**
      * @param $key
+     * @return mixed|null
      */
     public function getError($key)
     {

@@ -105,11 +105,17 @@ class Picture extends Pedigree\HtmlInputAbstract
         return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">';
     }
 
+    /**
+     * @return mixed|null
+     */
     public function searchField()
     {
         return null;
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getSearchString()
     {
         return null;

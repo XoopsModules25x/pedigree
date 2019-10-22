@@ -37,6 +37,8 @@ class SelectBox extends Pedigree\HtmlInputAbstract
 
     /**
      * Constructor
+     * @param \XoopsModules\Pedigree\Field  $parentObject
+     * @param \XoopsModules\Pedigree\Animal $animalObject
      */
     public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
     {
@@ -149,6 +151,9 @@ class SelectBox extends Pedigree\HtmlInputAbstract
         return $select;
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getSearchString()
     {
         return null;

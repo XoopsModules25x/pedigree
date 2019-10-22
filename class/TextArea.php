@@ -38,7 +38,8 @@ class TextArea extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @param Field          $parentObject
+     * @param Field                         $parentObject
+     * @param \XoopsModules\Pedigree\Animal $animalObject
      */
     public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
     {

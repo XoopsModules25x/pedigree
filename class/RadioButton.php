@@ -42,6 +42,8 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
+     * @param \XoopsModules\Pedigree\Field  $parentObject
+     * @param \XoopsModules\Pedigree\Animal $animalObject
      * @todo move hard coded language string to language file
      */
     public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
@@ -153,6 +155,9 @@ class RadioButton extends Pedigree\HtmlInputAbstract
         return $select;
     }
 
+    /**
+     * @return mixed|void
+     */
     public function getSearchString()
     {
     }
