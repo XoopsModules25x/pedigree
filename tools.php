@@ -603,10 +603,11 @@ function listuserfields()
  * @param $field
  * @param $move
  *
+ * @return string
  * @todo this code needs to be refactored.
- *  - It assumes there are active fields which may not be true.
- *  - It does not check $x as a valid index.
- *  - It assumes there's less than 127 fields
+ *       - It assumes there are active fields which may not be true.
+ *       - It does not check $x as a valid index.
+ *       - It assumes there's less than 127 fields
  */
 function fieldmove($field, $move)
 {

@@ -137,6 +137,9 @@ class Field
         return '1' == $this->getSetting('viewinlist');
     }
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;

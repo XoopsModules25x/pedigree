@@ -323,8 +323,8 @@ class Field
 class RadioButton extends Field
 {
     /**
-     * @param Pedigree\Field  $parentObject
-     * @param Pedigree\Animal $animalObject
+     * @param \PedigreeField  $parentObject
+     * @param \PedigreeAnimal $animalObject
      */
     public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
     {
