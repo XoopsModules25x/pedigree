@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,6 @@
  * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -29,9 +30,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class Owner extends \XoopsObject
 {
     //Constructor
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -61,7 +60,7 @@ class Owner extends \XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
         /** @var \XoopsModules\Pedigree\Helper $helper */
-        $helper =  \XoopsModules\Pedigree\Helper::getInstance();
+        $helper = \XoopsModules\Pedigree\Helper::getInstance();
         $helper->loadLanguage('admin');
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_OWNER_ADD) : sprintf(_AM_PEDIGREE_OWNER_EDIT);
 

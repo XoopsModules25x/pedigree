@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -17,7 +19,6 @@
  * @package         pedigree
  * @author          XOOPS Module Dev Team
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -82,13 +83,13 @@ class Fields extends \XoopsObject
         $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE, 'isActive', (int)$this->getVar('isActive')), false);
         $fieldTypes = new \XoopsFormSelect(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, 'fieldType', $this->getVar('FieldType'), false);
         $fieldTypes->addOptionArray([
-                                        'DateSelect'  => 'DateSelect',
-                                        'Picture'     => 'Picture',
+                                        'DateSelect' => 'DateSelect',
+                                        'Picture' => 'Picture',
                                         'radiobutton' => 'radiobutton',
-                                        'selectbox'   => 'selectbox',
-                                        'textarea'    => 'textarea',
-                                        'textbox'     => 'textbox',
-                                        'urlfield'    => 'urlfield'
+                                        'selectbox' => 'selectbox',
+                                        'textarea' => 'textarea',
+                                        'textbox' => 'textbox',
+                                        'urlfield' => 'urlfield',
                                     ]);
         $form->addElement($fieldTypes);
         //        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, "FieldType", $this->getVar("FieldType"), 4, 47), false);
@@ -100,8 +101,8 @@ class Fields extends \XoopsObject
         $currentType = $this->getVar('litter') ? 'litter' : 'generallitter';
         $litterRadio = new \XoopsFormRadio(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER_TYPE, 'litterType', $currentType);
         $litterRadio->addOptionArray([
-                                         'litter'        => _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
-                                         'generallitter' => _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER
+                                         'litter' => _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
+                                         'generallitter' => _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER,
                                      ]);
         $form->addElement($litterRadio, false);
         //        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER, "Litter", $this->getVar("Litter")), false);
@@ -168,7 +169,7 @@ class Fields extends \XoopsObject
      */
     public function isActive()
     {
-        return (1 == $this->getVar('isActive'));// ? true : false;
+        return (1 == $this->getVar('isActive')); // ? true : false;
     }
 
     /**
@@ -176,7 +177,7 @@ class Fields extends \XoopsObject
      */
     public function inAdvanced()
     {
-        return (1 == $this->getVar('viewInAdvanced'));// ? true : false;
+        return (1 == $this->getVar('viewInAdvanced')); // ? true : false;
     }
 
     /**
@@ -184,7 +185,7 @@ class Fields extends \XoopsObject
      */
     public function isLocked()
     {
-        return (1 == $this->getVar('locked'));// ? true : false;
+        return (1 == $this->getVar('locked')); // ? true : false;
     }
 
     /**
@@ -192,7 +193,7 @@ class Fields extends \XoopsObject
      */
     public function hasSearch()
     {
-        return (1 == $this->getVar('hasSearch'));// ? true : false;
+        return (1 == $this->getVar('hasSearch')); // ? true : false;
     }
 
     /**
@@ -200,7 +201,7 @@ class Fields extends \XoopsObject
      */
     public function addLitter()
     {
-        return (1 == $this->getVar('litter'));// ? true : false;
+        return (1 == $this->getVar('litter')); // ? true : false;
     }
 
     /**
@@ -208,7 +209,7 @@ class Fields extends \XoopsObject
      */
     public function generalLitter()
     {
-        return (1 == $this->getVar('generalLitter'));// ? true : false;
+        return (1 == $this->getVar('generalLitter')); // ? true : false;
     }
 
     /**
@@ -216,7 +217,7 @@ class Fields extends \XoopsObject
      */
     public function hasLookup()
     {
-        return (1 == $this->getVar('lookupTable'));// ? true : false;
+        return (1 == $this->getVar('lookupTable')); // ? true : false;
     }
 
     /**
@@ -232,7 +233,7 @@ class Fields extends \XoopsObject
      */
     public function inPie()
     {
-        return (1 == $this->getVar('viewInPie'));// ? true : false;
+        return (1 == $this->getVar('viewInPie')); // ? true : false;
     }
 
     /**
@@ -240,7 +241,7 @@ class Fields extends \XoopsObject
      */
     public function inPedigree()
     {
-        return (1 == $this->getVar('viewInPedigree'));// ? true : false;
+        return (1 == $this->getVar('viewInPedigree')); // ? true : false;
     }
 
     /**
@@ -248,7 +249,7 @@ class Fields extends \XoopsObject
      */
     public function inList()
     {
-        return (1 == $this->getVar('viewInList'));// ? true : false;
+        return (1 == $this->getVar('viewInList')); // ? true : false;
     }
 
     /**

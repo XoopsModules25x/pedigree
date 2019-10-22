@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -17,7 +19,6 @@
  * @since
  * @author     XOOPS Development Team
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -28,7 +29,6 @@ class Helper extends \Xmf\Module\Helper
     public $debug;
 
     /**
-     *
      * @param bool $debug
      */
     public function __construct($debug = false)
@@ -72,16 +72,17 @@ class Helper extends \Xmf\Module\Helper
      */
     public function getHandler($name)
     {
-        $ret   = false;
+        $ret = false;
         $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
         if (!class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }
         /** @var \XoopsMySQLDatabase $db */
-        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
         $helper = self::getInstance();
-        $ret    = new $class($db, $helper);
+        $ret = new $class($db, $helper);
         $this->addLog("Getting handler '{$name}'");
+
         return new $class($db);
     }
 }

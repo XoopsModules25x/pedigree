@@ -8,7 +8,7 @@ use XoopsModules\Pedigree;
 
 // Include any constants used for internationalizing templates.
 $moduleDirName = basename(dirname(__DIR__));
-$helper        = Pedigree\Helper::getInstance();
+$helper = Pedigree\Helper::getInstance();
 $helper->loadLanguage('main');
 
 // Include any common code for this module.
@@ -22,7 +22,7 @@ require_once $helper->path('include/common.php');
 function menu_block()
 {
     $moduleDirName = basename(dirname(__DIR__));
-    $helper        = Pedigree\Helper::getInstance();
+    $helper = Pedigree\Helper::getInstance();
 
     //colour variables
     list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
@@ -59,12 +59,12 @@ function menu_block()
         echo '</style>';
     */
 
-    $counter   = 1;
+    $counter = 1;
     $menuwidth = 4;
-    $x         = $_SERVER['SCRIPT_NAME'];
-    $lastpos   = Pedigree\Utility::myStrRpos($x, '/');
-    $len       = strlen($x);
-    $curpage   = substr($x, $lastpos, $len);
+    $x = $_SERVER['SCRIPT_NAME'];
+    $lastpos = Pedigree\Utility::myStrRpos($x, '/');
+    $len = mb_strlen($x);
+    $curpage = mb_substr($x, $lastpos, $len);
 
     if (1 == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
@@ -175,7 +175,7 @@ function menu_block()
         if ($counter == $menuwidth) {
             $counter = 1;
         }
-        $title       = 'Logout';
+        $title = 'Logout';
         $menuarray[] = ['title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {

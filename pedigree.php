@@ -18,11 +18,10 @@
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author          XOOPS Module Development Team
  */
-
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 //xoops_cp_header();
 $helper->loadLanguage('main');
@@ -90,16 +89,16 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //create array for animal (and all parents)
     foreach ($qarray as $key) {
         $dogs[$key] = [
-            'id'     => $row[$key . '_id'],
-            'name'   => stripslashes($row[$key . '_naam']),
+            'id' => $row[$key . '_id'],
+            'name' => stripslashes($row[$key . '_naam']),
             'mother' => $row[$key . '_mother'],
             'father' => $row[$key . '_father'],
-            'roft'   => $row[$key . '_roft'],
-            'nhsb'   => ''
+            'roft' => $row[$key . '_roft'],
+            'nhsb' => '',
         ];
-        if ((3 != strlen($key) || (0 != $helper->getConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
+        if ((3 != mb_strlen($key) || (0 != $helper->getConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
             //show image in last row of pedigree if image exists
-            $dogs[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
+            $dogs[$key]['photo'] = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
             $dogs[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
         }
 
@@ -116,8 +115,8 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
             if ($userField->isActive() && $userField->inPedigree()) {
                 $fieldType = $userField->getSetting('FieldType');
-                $fieldObj  = new $fieldType($userField, $animal);
-                $pedidata  .= $fieldObj->showField() . '<br>';
+                $fieldObj = new $fieldType($userField, $animal);
+                $pedidata .= $fieldObj->showField() . '<br>';
             }
             $dogs[$key]['hd'] = $pedidata;
         }
@@ -127,16 +126,16 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 //add data to smarty template
 $GLOBALS['xoopsTpl']->assign([
         'page_title' => stripslashes($row['d_naam']),
-        'd'          => $dogs,  //assign dogs array
+        'd' => $dogs,  //assign dogs array
         //assign config options
-        'male'       => '<img src="assets/images/male.gif" alt="_MA_PEDIGREE_FLD_MALE" title="_MA_PEDIGREE_FLD_MALE">',
-        'female'     => '<img src="assets/images/female.gif" alt="_MA_PEDIGREE_FLD_FEMA" title="_MA_PEDIGREE_FLD_FEMA">',
+        'male' => '<img src="assets/images/male.gif" alt="_MA_PEDIGREE_FLD_MALE" title="_MA_PEDIGREE_FLD_MALE">',
+        'female' => '<img src="assets/images/female.gif" alt="_MA_PEDIGREE_FLD_FEMA" title="_MA_PEDIGREE_FLD_FEMA">',
         //assign extra display options
-        'unknown'    => _MA_PEDIGREE_UNKNOWN,
-        'SD'         => _MA_PEDIGREE_SD,
-        'PA'         => _MA_PEDIGREE_PA,
-        'GP'         => _MA_PEDIGREE_GP,
-        'GGP'        => _MA_PEDIGREE_GGP
+        'unknown' => _MA_PEDIGREE_UNKNOWN,
+        'SD' => _MA_PEDIGREE_SD,
+        'PA' => _MA_PEDIGREE_PA,
+        'GP' => _MA_PEDIGREE_GP,
+        'GGP' => _MA_PEDIGREE_GGP,
 ]);
 
 include __DIR__ . '/footer.php';

@@ -38,7 +38,6 @@ class CheckoutWizard extends ZervWizard
 
     /**
      * @todo change access to fields using Pedigree\Fields
-     * @return void
      */
     public function prepareFieldname()
     {
@@ -46,12 +45,12 @@ class CheckoutWizard extends ZervWizard
         if (0 == !$field) {
             // field already exists (editing mode)
 
-            $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $field;
+            $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $field;
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-                $name             = $row['fieldname'];
+                $name = $row['fieldname'];
                 $fieldexplanation = $row['fieldexplanation'];
-                $fieldtype        = $row['fieldtype'];
+                $fieldtype = $row['fieldtype'];
             }
             $this->setValue('name', $name);
             $this->setValue('explain', $fieldexplanation);
@@ -69,14 +68,14 @@ class CheckoutWizard extends ZervWizard
     public function processFieldname(&$form)
     {
         $name = $this->coalesce($form['name']);
-        if (strlen($name) > 0) {
+        if (mb_strlen($name) > 0) {
             $this->setValue('name', $name);
         } else {
             $this->addError('name', _MA_PEDIGREE_FIELD_NAM);
         }
 
         $fieldexplanation = $this->coalesce($form['explain']);
-        if (strlen($fieldexplanation) > 0) {
+        if (mb_strlen($fieldexplanation) > 0) {
             $this->setValue('explain', $fieldexplanation);
         } else {
             $this->addError('explain', _MA_PEDIGREE_FIELD_EXPLAN1);
@@ -87,7 +86,6 @@ class CheckoutWizard extends ZervWizard
 
     /**
      * Setup this class' fieldtype array
-     * @return void
      */
     public function prepareFieldtype()
     {
@@ -122,9 +120,9 @@ class CheckoutWizard extends ZervWizard
     {
         $fc = $this->coalesce($form['fc']);
         $this->setValue('fc', $fc);
-        $lookup   = $this->coalesce($form['lookup' . $fc]);
+        $lookup = $this->coalesce($form['lookup' . $fc]);
         $lookupid = $this->coalesce($form['id' . $fc]);
-        if (strlen($lookup) > 0) {
+        if (mb_strlen($lookup) > 0) {
             $this->setValue('lookup' . $fc, $lookup);
             $this->setValue('id' . $fc, $lookupid);
         }
@@ -135,15 +133,14 @@ class CheckoutWizard extends ZervWizard
 
         for ($i = 0; $i < $fc; ++$i) {
             $radioarray[] = [
-                'id'    => $this->getValue('id' . ($i + 1)),
-                'value' => $this->getValue('lookup' . ($i + 1))
+                'id' => $this->getValue('id' . ($i + 1)),
+                'value' => $this->getValue('lookup' . ($i + 1)),
             ];
         }
         //print_r($radioarray); die();
         $this->setValue('radioarray', $radioarray);
 
         return !$this->isError();
-        //
     }
 
     public function prepareSettings()
@@ -216,7 +213,7 @@ class CheckoutWizard extends ZervWizard
         if (0 == !$this->getValue('field')) {
             // field allready exists (editing mode)
 
-            $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
+            $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 if ('hasearch' === $this->getValue('hassearch')) {
@@ -238,14 +235,14 @@ class CheckoutWizard extends ZervWizard
     public function processSearch($form)
     {
         $searchname = $this->coalesce($form['searchname']);
-        if (strlen($searchname) > 0) {
+        if (mb_strlen($searchname) > 0) {
             $this->setValue('searchname', $searchname);
         } else {
             $this->addError('searchname', 'Please enter the searchname');
         }
 
         $fieldexplanation = $this->coalesce($form['searchexplain']);
-        if (strlen($fieldexplanation) > 0) {
+        if (mb_strlen($fieldexplanation) > 0) {
             $this->setValue('searchexplain', $fieldexplanation);
         } else {
             $this->addError('searchexplain', 'Please enter the search explanation for this field');
@@ -254,22 +251,19 @@ class CheckoutWizard extends ZervWizard
         return !$this->isError();
     }
 
-    /**
-     * @return void
-     */
     public function prepareDefaultvalue()
     {
         if (0 == !$this->getValue('field')) {
             // field allready exists (editing mode)
 
-            $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
+            $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $def = $row['DefaultValue'];
                 $this->setValue('defaultvalue', $def);
                 if ('1' == $row['LookupTable']) { //we have a lookup table; load values
-                    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $this->getValue('field')) . " ORDER BY 'order'";
-                    $fc     = 0;
+                    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $this->getValue('field')) . " ORDER BY 'order'";
+                    $fc = 0;
                     $result = $GLOBALS['xoopsDB']->query($sql);
                     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                         $radioarray[] = ['id' => $row['id'], 'value' => $row['value']];
@@ -291,7 +285,7 @@ class CheckoutWizard extends ZervWizard
     public function processDefaultValue($form)
     {
         $defaultvalue = $this->coalesce($form['defaultvalue']);
-        if (strlen($defaultvalue) >= 0) {
+        if (mb_strlen($defaultvalue) >= 0) {
             $this->setValue('defaultvalue', $defaultvalue);
         } else {
             $this->addError('defaultvalue', 'Please enter a defaultvalue');
@@ -312,16 +306,15 @@ class CheckoutWizard extends ZervWizard
 
     public function completeCallback()
     {
-
         //can this field be searched
         $search = $this->getValue('hassearch');
         if ('hassearch' === $search) {
-            $search        = '1';
-            $searchname    = $this->getValue('searchname');
+            $search = '1';
+            $searchname = $this->getValue('searchname');
             $searchexplain = $this->getValue('searchexplain');
         } else {
-            $search        = '0';
-            $searchname    = '';
+            $search = '0';
+            $searchname = '';
             $searchexplain = '';
         }
         //show in pedigree
@@ -402,7 +395,7 @@ class CheckoutWizard extends ZervWizard
             $sql = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' CHANGE `user' . $this->getValue('field') . '` `user' . $this->getValue('field') . "` VARCHAR( 255 ) NOT NULL DEFAULT '" . $this->getValue('defaultvalue') . "'";
             $GLOBALS['xoopsDB']->queryF($sql);
         } else { //this is a new field
-            $sql    = 'SELECT MAX(id) AS lid FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' LIMIT 1';
+            $sql = 'SELECT MAX(id) AS lid FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' LIMIT 1';
             $result = $GLOBALS['xoopsDB']->query($sql);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
                 $nextfieldnum = $row['lid'] + 1;
@@ -426,7 +419,7 @@ class CheckoutWizard extends ZervWizard
                 //fill table
                 $count = $this->getValue('fc');
                 for ($x = 1; $x < $count + 1; ++$x) {
-                    $y   = $x - 1;
+                    $y = $x - 1;
                     $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $nextfieldnum) . " ( `id` , `value`, `order`) VALUES ('" . $y . "', '" . $this->getValue('lookup' . $x) . "','" . $y . "')";
                     $GLOBALS['xoopsDB']->queryF($sql);
                 }
@@ -480,7 +473,6 @@ class CheckoutWizard extends ZervWizard
      *
      * @return int
      */
-
     public function isValidEmail($email)
     {
         return preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*$/i', $email);

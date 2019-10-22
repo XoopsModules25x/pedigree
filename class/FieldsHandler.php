@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -17,18 +19,14 @@
  * @package         pedigree
  * @author          XOOPS Module Dev Team
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 
 /**
  * Class Pedigree\FieldsHandler
  *
  * @param object $db reference to the {@link XoopsDatabase} object
- *
- * @return void
  */
 class FieldsHandler extends \XoopsPersistableObjectHandler
 {
@@ -49,8 +47,8 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      */
     public function lookupField($fieldnumber)
     {
-        $ret    = [];
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+        $ret = [];
+        $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $ret[] = ['id' => $row['id'], 'value' => $row['value']];

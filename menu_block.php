@@ -10,7 +10,6 @@
  * @author       James Cotton {@link http://www.dobermannvereniging.nl James Cotton}
  * @author       XOOPS Module Dev Team
  */
-
 use XoopsModules\Pedigree;
 
 $moduleDirName = basename(__DIR__);
@@ -26,7 +25,7 @@ require_once $helper->path('include/common.php');
 function menu_block()
 {
     /** @var \XoopsModules\Pedigree\Helper $helper */
-    $helper  = Pedigree\Helper::getInstance();
+    $helper = Pedigree\Helper::getInstance();
 
     list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
     /*
@@ -68,13 +67,13 @@ function menu_block()
         $isAdmin = false;
     }
 
-    $counter   = 1;
+    $counter = 1;
     $menuwidth = 4;
 
-    $x       = $_SERVER['SCRIPT_NAME'];
+    $x = $_SERVER['SCRIPT_NAME'];
     $lastpos = Pedigree\Utility::myStrRpos($x, '/');
-    $len     = strlen($x);
-    $curpage = substr($x, $lastpos, $len);
+    $len = mb_strlen($x);
+    $curpage = mb_substr($x, $lastpos, $len);
     if ('1' == $helper->getConfig['showwelcome']) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_WELCOME . '</b>';
@@ -185,7 +184,7 @@ function menu_block()
             $counter = 1;
         }
 
-        $title       = _MA_PEDIGREE_USER_LOGOUT;
+        $title = _MA_PEDIGREE_USER_LOGOUT;
         $menuarray[] = ['title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {

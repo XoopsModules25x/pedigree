@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -17,7 +19,6 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     \XoopsModules\Pedigree\Class
  * @since       1.31
- *
  */
 use XoopsModules\Pedigree;
 
@@ -32,11 +33,11 @@ class Picture extends Pedigree\HtmlInputAbstract
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->hasLookup();
+        $this->lookuptable = $parentObject->hasLookup();
         if ($this->lookuptable) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber);
         }
@@ -104,17 +105,11 @@ class Picture extends Pedigree\HtmlInputAbstract
         return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">';
     }
 
-    /**
-     * @return null
-     */
     public function searchField()
     {
         return null;
     }
 
-    /**
-     * @return null
-     */
     public function getSearchString()
     {
         return null;

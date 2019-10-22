@@ -2,8 +2,6 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -31,22 +29,22 @@ global $xoopsModuleConfig;
 $myts = \MyTextSanitizer::getInstance();
 
 $fld = Request::getWord('fld', '', 'GET');
-$id  = Request::getInt('id', 0, 'GET');
+$id = Request::getInt('id', 0, 'GET');
 /*
 $fld = $_GET['fld'];
 $id  = $_GET['id'];
 */
 //query (find values for this owner/breeder (and format them))
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
     $id = $row['id'];
     //name
-    $naaml    = htmlentities(stripslashes($row['lastname']), ENT_QUOTES);
-    $naamf    = htmlentities(stripslashes($row['firstname']), ENT_QUOTES);
-    $naam     = $naaml . ', ' . $naamf;
+    $naaml = htmlentities(stripslashes($row['lastname']), ENT_QUOTES);
+    $naamf = htmlentities(stripslashes($row['firstname']), ENT_QUOTES);
+    $naam = $naaml . ', ' . $naamf;
     $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>';
     //street
     $street = stripslashes($row['streetname']);

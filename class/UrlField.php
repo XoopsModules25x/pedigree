@@ -1,4 +1,7 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,9 +21,7 @@
  * @subpackage  class
  * @author      XOOPS Mod Development Team
  */
-
 use XoopsModules\Pedigree;
-
 
 /**
  * Class Pedigree\SelectBox
@@ -42,11 +43,11 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->hasLookup();
+        $this->lookuptable = $parentObject->hasLookup();
         if ($this->lookuptable) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
@@ -122,4 +123,3 @@ class UrlField extends Pedigree\HtmlInputAbstract
         return null;
     }
 }
-

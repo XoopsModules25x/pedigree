@@ -15,6 +15,8 @@
  * @package
  * @since
  * @author         XOOPS Development Team
+ * @param mixed $category
+ * @param mixed $item_id
  */
 
 /**
@@ -23,7 +25,6 @@
  *
  * @return mixed
  */
-
 function lookup($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
@@ -31,9 +32,9 @@ function lookup($category, $item_id)
     if (empty($xoopsModule) || $xoopsModule->getVar('dirname') !== $moduleDirName) {
         /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
-        $module        = $moduleHandler->getByDirname($moduleDirName);
+        $module = $moduleHandler->getByDirname($moduleDirName);
         $configHandler = xoops_getHandler('config');
-        $config        = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+        $config = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     } else {
         $module = $xoopsModule;
         $config = $xoopsModuleConfig;
@@ -41,7 +42,7 @@ function lookup($category, $item_id)
 
     if ('global' === $category) {
         $item['name'] = '';
-        $item['url']  = '';
+        $item['url'] = '';
 
         return $item;
     }
@@ -56,7 +57,7 @@ function lookup($category, $item_id)
         }
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['naam'];
-        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/dog.php?id=' . $item_id;
+        $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/dog.php?id=' . $item_id;
 
         return $item;
     }
@@ -69,7 +70,7 @@ function lookup($category, $item_id)
         }
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['topic_title'];
-        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum=' . $result_array['forum_id'] . '&topic_id=' . $item_id;
+        $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum=' . $result_array['forum_id'] . '&topic_id=' . $item_id;
 
         return $item;
     }
@@ -82,7 +83,7 @@ function lookup($category, $item_id)
         }
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['subject'];
-        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum= ' . $result_array['forum_id'] . '&amp;topic_id=' . $result_array['topic_id'] . '#forumpost' . $item_id;
+        $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum= ' . $result_array['forum_id'] . '&amp;topic_id=' . $result_array['topic_id'] . '#forumpost' . $item_id;
 
         return $item;
     }

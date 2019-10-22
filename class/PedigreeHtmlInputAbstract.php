@@ -9,7 +9,6 @@
  * @author     zyspec <owners@zyspec.com>
  * @since      1.3.1
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -20,7 +19,6 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  * @copyright Copyright (c) 2014 ZySpec Incorporated
  * @access    public
  */
-
 require_once __DIR__ . '/field.php';
 
 /**
@@ -66,8 +64,6 @@ abstract class PedigreeHtmlInputAbstract extends Field
 
     /**
      * @param string $message
-     *
-     * @return void
      */
     public function echoMsg($message)
     {
@@ -83,7 +79,7 @@ abstract class PedigreeHtmlInputAbstract extends Field
     {
         $ret = [];
         global $xoopsDB;
-        $SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+        $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
         $result = $GLOBALS['xoopsDB']->query($SQL);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $ret[] = ['id' => $row['id'], 'value' => $row['value']];

@@ -7,8 +7,6 @@
  * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @link            https://xoops.org XOOPS
  */
-
-
 use XoopsModules\Pedigree;
 
 /**
@@ -17,7 +15,6 @@ use XoopsModules\Pedigree;
  *
  * @return bool true if ready to uninstall, false if not
  */
-
 function xoops_module_pre_uninstall_pedigree(\XoopsModule $module)
 {
     // Do some synchronization
@@ -25,7 +22,6 @@ function xoops_module_pre_uninstall_pedigree(\XoopsModule $module)
 }
 
 /**
- *
  * Performs tasks required during uninstallation of the module
  * @param XoopsModule $module {@link XoopsModule}
  *
@@ -36,16 +32,14 @@ function xoops_module_uninstall_pedigree(\XoopsModule $module)
 //    return true;
 
     $moduleDirName = basename(dirname(__DIR__));
-    $moduleDirNameUpper = strtoupper($moduleDirName);
-     $helper      =Pedigree\Helper::getInstance();
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $helper = Pedigree\Helper::getInstance();
 
     /** @var Pedigree\Utility $utility */
-    $utility     = new Pedigree\Utility();
-
+    $utility = new Pedigree\Utility();
 
     $success = true;
     $helper->loadLanguage('admin');
-
 
     //------------------------------------------------------------------
     // Remove uploads folder (and all subfolders) if they exist

@@ -18,10 +18,8 @@
  * @subpackage  class
  * @author      XOOPS Module Dev Team
  */
-
 use Xmf\Request;
 use XoopsModules\Pedigree;
-
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 /** @var XoopsModules\Pedigree\Helper $helper */
@@ -104,7 +102,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'langsave':
-        $form     = '';
+        $form = '';
         $settings = [
             'animalType',
             'animalTypes',
@@ -114,7 +112,7 @@ switch ($op) {
             'mother',
             'father',
             'litter',
-            'welcome'
+            'welcome',
         ];
         foreach ($_POST as $key => $values) {
             if (in_array($key, $settings)) {
@@ -196,7 +194,7 @@ switch ($op) {
                . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
                . "</td></tr>\n"
                . "<tr><td>\n" . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
-               ." <td>\n"
+               . " <td>\n"
                . "  <input type=\"text\" id=\"body\" name=\"body\" value=\"{$body}\" size=\"11\" maxlength=\"7\">\n"
                . "  <a href=\"TCP.popup(document.forms['myForm'].elements['body'])\">\n"
                . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
@@ -249,9 +247,9 @@ switch ($op) {
         $color = new \XoopsModules\Pedigree\ImageColor();
         //create darker link hover colour
         $actLink = Request::getString('actlink', '', 'POST');  //active link color in hex
-        $even    = Request::getString('even', '', 'POST');     // even color in hex
-        $text    = Request::getString('text', '', 'POST');
-        $body    = Request::getString('body', '', 'POST');
+        $even = Request::getString('even', '', 'POST');     // even color in hex
+        $text = Request::getString('text', '', 'POST');
+        $body = Request::getString('body', '', 'POST');
 
         $color->setColors($actLink, $actLink);
         $color->changeLightness(-100);
@@ -303,7 +301,7 @@ switch ($op) {
     case 'togglelocked':
         //find current status
         $id = Request::getInt('id', 0);
-        $sql    = 'SELECT locked FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id = '{$id}'";
+        $sql = 'SELECT locked FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id = '{$id}'";
         $result = $GLOBALS['xoopsDB']->query($sql);
 
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -341,7 +339,7 @@ switch ($op) {
         editlookup($id);
         break;
     case 'lookupmove':
-        $id   = Request::getInt('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         $move = Request::getCmd('move', '', 'get');
         lookupmove($field, $id, $move);
         break;
@@ -353,8 +351,8 @@ switch ($op) {
         addlookupvalue($field);
         break;
     case 'editlookupvalue':
-        $id     = Request::getInt('id', 0, 'get');
-        $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
+        $id = Request::getInt('id', 0, 'get');
+        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $form .= '<form method="post" action="' . $pHandler->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n"
@@ -364,9 +362,9 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'savelookupvalue':
-        $id    = Request::getInt('id', 0, 'get');
+        $id = Request::getInt('id', 0, 'get');
         $value = Request::getString('value', '', 'POST');
-        $SQL   = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . " SET value = '{$value}' WHERE id = {$id}";
+        $SQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . " SET value = '{$value}' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($SQL);
         redirect_header($helper->url("tools.php?op=editlookup&id={$field}"), 2, 'The value has been saved.');
         break;
@@ -387,14 +385,14 @@ switch ($op) {
     case 'restore':
         $id = Request::getInt('id', 0, 'get');
         $queryvalues = '';
-        $sql         = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
-        $result      = $GLOBALS['xoopsDB']->query($sql);
+        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
+        $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             foreach ($row as $key => $values) {
                 $queryvalues .= "'" . $values . "',";
             }
             $outgoing = substr_replace($queryvalues, '', -1);
-            $query    = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' VALUES (' . $outgoing . ')';
+            $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' VALUES (' . $outgoing . ')';
             $GLOBALS['xoopsDB']->queryF($query);
             $delquery = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
             $GLOBALS['xoopsDB']->queryF($delquery);
@@ -411,8 +409,8 @@ switch ($op) {
         break;
     case 'userq':
         $form = _MA_PEDIGREE_QUERIE_EXPLAN;
-        $d    = $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/userqueries/');
-        $dir  = opendir($d);
+        $d = $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/userqueries/');
+        $dir = opendir($d);
         while (false !== ($f = readdir($dir))) {
             if (!preg_match("/\.jpg/", $f) && ('.' !== $f) && ('..' !== $f)) {
                 $form .= "<li><a href='tools.php?op=userqrun&f={$f}'>{$f}</a>";
@@ -429,8 +427,8 @@ switch ($op) {
         $db = true;
         break;
     case 'dbanc':
-        $form   = _MA_PEDIGREE_ANCEST_EXPLAN;
-        $sql    = 'SELECT d.id AS d_id, d.naam AS d_naam
+        $form = _MA_PEDIGREE_ANCEST_EXPLAN;
+        $sql = 'SELECT d.id AS d_id, d.naam AS d_naam
             FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON m.id = d.mother
             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON f.id = d.father
@@ -462,8 +460,8 @@ switch ($op) {
         $db = true;
         break;
     case 'fltypar':
-        $form   = _MA_PEDIGREE_GENDER_EXPLAN;
-        $sql    = 'SELECT d.id AS d_id, d.naam AS d_naam, d.mother AS d_mother, m.roft AS m_roft
+        $form = _MA_PEDIGREE_GENDER_EXPLAN;
+        $sql = 'SELECT d.id AS d_id, d.naam AS d_naam, d.mother AS d_mother, m.roft AS m_roft
             FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " m ON m.id = d.mother
             WHERE
@@ -473,7 +471,7 @@ switch ($op) {
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $form .= "<li><a href='dog.php?id={$row['d_id']}'>{$row['d_naam']}</a> [mother seems to be male]<br>";
         }
-        $sql    = 'SELECT d.id AS d_id, d.naam AS d_naam, d.father AS d_father, f.roft AS f_roft
+        $sql = 'SELECT d.id AS d_id, d.naam AS d_naam, d.father AS d_father, f.roft AS f_roft
             FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
             LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " f ON f.id = d.father
             WHERE
@@ -497,7 +495,7 @@ switch ($op) {
     case 'index':
         $form = '';
         break;
-    default :
+    default:
         userfields();
         $uf = true;
         break;
@@ -531,15 +529,14 @@ $GLOBALS['xoopsTpl']->assign('tools', $tools);
 include XOOPS_ROOT_PATH . '/footer.php';
 
 /**
- *
  * @return string HTML code to be appended to form for display
  */
 function listuserfields()
 {
-    $sql     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
-    $result  = $GLOBALS['xoopsDB']->query($sql);
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
+    $result = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
-    $count   = 0;
+    $count = 0;
     $form = _MA_PEDIGREE_FIELD_EXPLAIN4 . _MA_PEDIGREE_FIELD_FORM1 . "\n"
           . "<tr><td colspan=\"7\"><hr></td></tr>\n";
     $mark = "<td><span style='font-weight: bold;'>X</span></td>\n";
@@ -586,7 +583,7 @@ function listuserfields()
         ++$count;
     }
     $form .= "</table>\n";
-    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '0' ORDER BY 'id'";
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '0' ORDER BY 'id'";
     $result = $GLOBALS['xoopsDB']->query($sql);
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         $form .= _MA_PEDIGREE_FIELD_EXPLAIN5;
@@ -596,6 +593,7 @@ function listuserfields()
         }
         $form .= "</ul>\n";
     }
+
     return $form;
 }
 
@@ -612,11 +610,11 @@ function listuserfields()
 function fieldmove($field, $move)
 {
     //find next id
-    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $valorder[] = $row['order'];
-        $valid[]    = $row['id'];
+        $valid[] = $row['id'];
     }
     foreach ($valid as $key => $value) {
         //find current ID location
@@ -626,7 +624,7 @@ function fieldmove($field, $move)
     }
     //currentorder
     $currentorder = $valorder[$x];
-    $currentid    = $valid[$x];
+    $currentid = $valid[$x];
 
     if ('down' === $move) {
         $nextorder = $valorder[$x + 1];
@@ -643,6 +641,7 @@ function fieldmove($field, $move)
     $GLOBALS['xoopsDB']->queryF($sql);
     $form = listuserfields();
     $GLOBALS['xoopsTpl']->assign('form', $form);
+
     return ($form);
 }
 
@@ -653,11 +652,11 @@ function fieldmove($field, $move)
  */
 function editlookup($field)
 {
-    $form    = _MA_PEDIGREE_LOOKUPFIELD;
-    $sql     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
-    $result  = $GLOBALS['xoopsDB']->query($sql);
+    $form = _MA_PEDIGREE_LOOKUPFIELD;
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
+    $result = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
-    $count   = 0;
+    $count = 0;
     $form .= "<table>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "  <tr>\n";
@@ -701,18 +700,18 @@ function editlookup($field)
 
 /**
  * @param         $field
- * @param integer $id
+ * @param int $id
  * @param string  $move up|down
  */
 function lookupmove($field, $id, $move)
 {
     //find next id
-    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $values[] = ['id' => $row['id'], 'content' => $row['value'], 'orderof' => $row['order']];
     }
-    $arraycount    = 0;
+    $arraycount = 0;
     $arraylocation = 0;
     foreach ($values as $key => $value) {
         //find current ID location
@@ -724,13 +723,13 @@ function lookupmove($field, $id, $move)
     unset($arraycount);
 
     $currentorder = $values[$arraylocation]['orderof'];
-    $currentid    = $values[$arraylocation]['id'];
+    $currentid = $values[$arraylocation]['id'];
 
     if ('down' === $move) {
-        $nextid    = $values[$arraylocation + 1]['id'];
+        $nextid = $values[$arraylocation + 1]['id'];
         $nextorder = $values[$arraylocation + 1]['orderof'];
     } else {
-        $nextid    = $values[$arraylocation - 1]['id'];
+        $nextid = $values[$arraylocation - 1]['id'];
         $nextorder = $values[$arraylocation - 1]['orderof'];
     }
     $sql = 'UPDATE `draaf_pedigree_lookup' . $field . "` SET `order` = '" . $nextorder . "' WHERE `id` = '" . $id . "'";
@@ -746,10 +745,10 @@ function lookupmove($field, $id, $move)
  */
 function dellookupvalue($field, $id)
 {
-    $animal      = new Pedigree\Animal();
-    $fields      = $animal->getNumOfFields();
-    $userField   = new Pedigree\Field($field, $animal->getConfig());
-    $fieldType   = $userField->getSetting('FieldType');
+    $animal = new Pedigree\Animal();
+    $fields = $animal->getNumOfFields();
+    $userField = new Pedigree\Field($field, $animal->getConfig());
+    $fieldType = $userField->getSetting('FieldType');
     $fieldObject = new $fieldType($userField, $animal);
     //    $default     = $fieldObject->defaultvalue;
     $default = $GLOBALS['xoopsDB']->escape($fieldObject->defaultvalue);
@@ -773,7 +772,7 @@ function dellookupvalue($field, $id)
  */
 function addlookupvalue($field)
 {
-    $SQL    = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY id DESC LIMIT 1';
+    $SQL = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY id DESC LIMIT 1';
     $result = $GLOBALS['xoopsDB']->query($SQL);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $count = $row['id'];
@@ -996,8 +995,8 @@ function userfields($field = 0)
                     $count = $wizard->getValue('fc');
                     for ($x = 1; $x < $count + 1; ++$x) {
                         $radioarray[] = [
-                            'id'    => $wizard->getValue('id' . $x),
-                            'value' => $wizard->getValue('lookup' . $x)
+                            'id' => $wizard->getValue('id' . $x),
+                            'value' => $wizard->getValue('lookup' . $x),
                         ];
                     }
                     $val = $wizard->getValue('defaultvalue');
@@ -1045,15 +1044,13 @@ function userfields($field = 0)
 }
 
 /**
- *
  * @todo: move hard coded language strings to language file
- *
  */
 function deleted()
 {
     global $helper;
-    $form   = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
-    $sql    = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
+    $form = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
+    $sql = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src=' . $GLOBALS['pathIcon16'] . '/delete.png></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['naam'] . '</a><br>';
@@ -1071,16 +1068,16 @@ function settings()
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $pHandler->url('tools.php?op=settingssave'), 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-    $select  = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
+    $select = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
     $options = [
-        '50'    => 50,
-        '100'   => 100,
-        '250'   => 250,
-        '500'   => 500,
-        '1000'  => 1000,
-        '2000'  => 2000,
-        '5000'  => 5000,
-        '10000' => 10000
+        '50' => 50,
+        '100' => 100,
+        '250' => 250,
+        '500' => 500,
+        '1000' => 1000,
+        '2000' => 2000,
+        '5000' => 5000,
+        '10000' => 10000,
     ];
     foreach ($options as $key => $values) {
         $select->addOption($key, $name = $values);

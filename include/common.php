@@ -21,16 +21,16 @@ use XoopsModules\Pedigree;
 
 include __DIR__ . '/../preloads/autoloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName); //$capsDirName
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 /**
  * @var \XoopsDatabase $db
  * @var Pedigree\Helper $helper
  * @var Pedigree\Utility $utility
  */
-$db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = Pedigree\Helper::getInstance();
+$db = \XoopsDatabaseFactory::getDatabaseConnection();
+$helper = Pedigree\Helper::getInstance();
 $utility = new Pedigree\Utility();
 //$configurator = new Pedigree\Common\Configurator();
 
@@ -56,19 +56,19 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
 }
 
-$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
 
 $icons = [
-    'edit'    => "<img src='" . $pathIcon16 . "/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "' style='text-align: middle'>",
-    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "' style='text-align: middle'>",
-    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' title='" . _CLONE . "' style='text-align: middle'>",
+    'edit' => "<img src='" . $pathIcon16 . "/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "' style='text-align: middle'>",
+    'delete' => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "' style='text-align: middle'>",
+    'clone' => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' title='" . _CLONE . "' style='text-align: middle'>",
     'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' title='" . _PREVIEW . "' style='text-align: middle'>",
-    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' title='" . _CLONE . "' style='text-align: middle'>",
-    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' title='" . _CLONE . "' style='text-align: middle'>",
-    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' title='" . _ADD . "' style='text-align: middle'>",
-    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' title='" . 0 . "' style='text-align: middle'>",
-    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' title='" . 1 . "' style='text-align: middle'>",
+    'print' => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' title='" . _CLONE . "' style='text-align: middle'>",
+    'pdf' => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' title='" . _CLONE . "' style='text-align: middle'>",
+    'add' => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' title='" . _ADD . "' style='text-align: middle'>",
+    '0' => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' title='" . 0 . "' style='text-align: middle'>",
+    '1' => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' title='" . 1 . "' style='text-align: middle'>",
 ];
 
 $debug = false;
@@ -94,7 +94,7 @@ if (is_object($helper->getModule())) {
 //====================================
 
 // Load XOOPS handlers
-$moduleHandler       = xoops_getHandler('module');
-$memberHandler       = xoops_getHandler('member');
+$moduleHandler = xoops_getHandler('module');
+$memberHandler = xoops_getHandler('member');
 $notificationHandler = xoops_getHandler('notification');
-$grouppermHandler    = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');

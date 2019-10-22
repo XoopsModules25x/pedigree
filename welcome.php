@@ -17,10 +17,9 @@
  * @author      XOOPS Module Dev Team
  * @todo  Move this file to the ./include directory
  */
-
 use XoopsModules\Pedigree;
 
-if (count(debug_backtrace(false, 1)) !== 0) {
+if (0 !== count(debug_backtrace(false, 1))) {
     // Fail if file was called directly - it should only be accessed by being included
     exit('Restricted access');
 }
@@ -43,7 +42,7 @@ $myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 //query to count dogs
 /** @var XoopsModules\Pedigree\TreeHandler $treeHandler */
 $treeHandler = $helper->getHandler('Tree');
-$numdogs     = $treeHandler->getCount();
+$numdogs = $treeHandler->getCount();
 /*
 $result = $GLOBALS['xoopsDB']->query("select count(*) from " . $GLOBALS['xoopsDB']->prefix("pedigree_tree"));
 list($numdogs) = $GLOBALS['xoopsDB']->fetchRow($result);
@@ -56,9 +55,9 @@ $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
 $word = $myts->displayTarea(strtr($helper->getConfig('welcome'), [
-    '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
-    '[animalType]'  => '[b]' . $helper->getConfig('animalType') . '[/b]',
-    '[animalTypes]' => $helper->getConfig('animalTypes')
+    '[numanimals]' => '[b]' . $numdogs . ' [/b]',
+    '[animalType]' => '[b]' . $helper->getConfig('animalType') . '[/b]',
+    '[animalTypes]' => $helper->getConfig('animalTypes'),
 ]));
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);

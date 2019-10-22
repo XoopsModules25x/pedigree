@@ -17,7 +17,6 @@
  * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  */
-
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
@@ -47,7 +46,7 @@ if ('check' === $f) {
          'lastname' => Request::getString('achternaam', '', 'POST'),
        'emailadres' => Request::getEmail('email', '', 'POST'),
           'website' => Request::getUrl('website', '', 'POST'),
-             'user' => Request::getString('user', '', 'POST')
+             'user' => Request::getString('user', '', 'POST'),
     ];
 
     $ownerHandler = $helper->getHandler('Owner');

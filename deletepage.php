@@ -2,8 +2,6 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -24,15 +22,15 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
 
 global $xoopsTpl, $xoopsDB, $xoopsUser;
 
-$dogid   = Request::getInt('dogid', 0, 'post');
+$dogid = Request::getInt('dogid', 0, 'post');
 $dogname = Request::getString('curname', '', 'post');
 
 if (!empty($dogname)) {
     $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $dogid;
-    $result      = $GLOBALS['xoopsDB']->query($queryString);
+    $result = $GLOBALS['xoopsDB']->query($queryString);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //check for edit rights
-        $access      = 0;
+        $access = 0;
         $xoopsModule = XoopsModule::getByDirname($moduleDirName);
         if (!empty($xoopsUser)) {
             if ($xoopsUser->isAdmin($xoopsModule->mid())) {

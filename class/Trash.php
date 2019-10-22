@@ -1,4 +1,7 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,7 +20,6 @@
  * @since           2.5.x
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use XoopsModules\Pedigree;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -28,9 +30,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class Trash extends \XoopsObject
 {
     //Constructor
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -54,7 +54,6 @@ class Trash extends \XoopsObject
     public function getForm($action = false)
     {
         //global $xoopsModuleConfig;
-
 
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
@@ -80,7 +79,7 @@ class Trash extends \XoopsObject
         $form->addElement(new \XoopsFormHidden('op', 'save_pedigree_trash'));
 
         //Submit buttons
-        $button_tray   = new \XoopsFormElementTray('', '');
+        $button_tray = new \XoopsFormElementTray('', '');
         $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
         $button_tray->addElement($submit_button);
 
