@@ -9,6 +9,8 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
+use \XoopsModules\Pedigree;
+
 /**
  * Class SystemMessage
  * @deprecated
@@ -110,11 +112,7 @@ class Field
     public function isActive()
     {
         $active = $this->getSetting('isActive');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -124,11 +122,7 @@ class Field
     {
         $active = $this->getSetting('ViewInAdvanced');
         // return ('1' == $active) ? true : false;
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -137,11 +131,7 @@ class Field
     public function isLocked()
     {
         $active = $this->getSetting('locked');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -150,11 +140,7 @@ class Field
     public function hasSearch()
     {
         $active = $this->getSetting('HasSearch');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -163,11 +149,7 @@ class Field
     public function addLitter()
     {
         $active = $this->getSetting('Litter');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -176,11 +158,7 @@ class Field
     public function generalLitter()
     {
         $active = $this->getSetting('Generallitter');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -189,11 +167,7 @@ class Field
     public function hasLookup()
     {
         $active = $this->getSetting('LookupTable');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -210,11 +184,7 @@ class Field
     public function inPie()
     {
         $active = $this->getSetting('ViewInPie');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -223,11 +193,7 @@ class Field
     public function inPedigree()
     {
         $active = $this->getSetting('viewinpedigree');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     /**
@@ -236,11 +202,7 @@ class Field
     public function inList()
     {
         $active = $this->getSetting('ViewInList');
-        if ('1' == $active) {
-            return true;
-        }
-
-        return false;
+        return '1' == $active;
     }
 
     public function getId()
@@ -321,10 +283,10 @@ class Field
 class RadioButton extends Field
 {
     /**
-     * @param \PedigreeField  $parentObject
-     * @param \PedigreeAnimal $animalObject
+     * @param Pedigree\Field  $parentObject
+     * @param Pedigree\Animal $animalObject
      */
-    public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
+    public function __construct($parentObject, $animalObject)
     {
         $this->fieldnumber = $parentObject->getId();
 

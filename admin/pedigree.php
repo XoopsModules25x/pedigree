@@ -62,23 +62,23 @@ switch ($op) {
 
             $class = 'even';
 
-            /** @var XoopsModules\Pedigree\Tree $tObj */
-            foreach ($pedigree_arr as $i => $tObj) {
-                if (0 == $tObj->getVar('pedigree_pid')) {
+            /** @var XoopsModules\Pedigree\Tree $treeObj */
+            foreach ($pedigree_arr as $i => $treeObj) {
+                if (0 == $treeObj->getVar('pedigree_pid')) {
                     $class = ('even' === $class) ? 'odd' : 'even';
                     echo "  <tr class=\"{$class}\">\n"
-                         . '    <td class="center">' . $tObj->getVar('naam') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('id_owner') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('id_breeder') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('user') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('roft') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('mother') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('father') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('foto') . "</td>\n"
-                         . '    <td class="center">' . $tObj->getVar('coi') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('naam') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('id_owner') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('id_breeder') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('user') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('roft') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('mother') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('father') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('foto') . "</td>\n"
+                         . '    <td class="center">' . $treeObj->getVar('coi') . "</td>\n"
                        . "    <td class=\"center width10\">\n"
-                         . '      <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit_pedigree&id=' . $tObj->getVar('id') . "\"><img src=\"{$pathIcon16}/edit.png\" alt=\"" . _EDIT . '" title="' . _EDIT . "\"></a>\n"
-                         . '      <a href=' . $helper->url('delete.php?id=' . $tObj->getVar('id')) . "><img src=\"{$pathIcon16}/delete.png\" alt=\"" . _DELETE . '" title="' . _DELETE . "\"></a>\n"
+                         . '      <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit_pedigree&id=' . $treeObj->getVar('id') . "\"><img src=\"{$pathIcon16}/edit.png\" alt=\"" . _EDIT . '" title="' . _EDIT . "\"></a>\n"
+                         . '      <a href=' . $helper->url('delete.php?id=' . $treeObj->getVar('id')) . "><img src=\"{$pathIcon16}/delete.png\" alt=\"" . _DELETE . '" title="' . _DELETE . "\"></a>\n"
                        . "    </td>\n"
                        . "  </tr>\n";
                 }
@@ -93,11 +93,11 @@ switch ($op) {
         $adminObject->displayButton('left');
 
         /**
-         * @var XoopsModules\Pedigree\Tree $tObj
+         * @var XoopsModules\Pedigree\Tree $treeObj
          * @var \XoopsThemeForm $form
          */
-        $tObj = $treeHandler->create();
-        $form = $tObj->getForm();
+        $treeObj = $treeHandler->create();
+        $form = $treeObj->getForm();
         $form->display();
         break;
     case 'save_pedigree':
@@ -106,9 +106,9 @@ switch ($op) {
             $helper->redirect('admin/pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
 
-        /** @var XoopsModules\Pedigree\Tree $tObj */
+        /** @var XoopsModules\Pedigree\Tree $treeObj */
         $id = Request::getInt('id', null, 'post');
-        $tObj = $treeHandler->get($id);
+        $treeObj = $treeHandler->get($id);
 
         $varArray = [
                 'naam' => Request::getString('naam', '', 'post'),
@@ -122,14 +122,14 @@ switch ($op) {
                  'coi' => Request::getString('coi', '', 'post'),
         ];
 
-        $tObj->setVars($varArray);
-        if ($treeHandler->insert($tObj)) {
+        $treeObj->setVars($varArray);
+        if ($treeHandler->insert($treeObj)) {
             $helper->redirect('admin/pedigree.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
-        echo $tObj->getHtmlErrors();
+        echo $treeObj->getHtmlErrors();
         /** @var \XoopsThemeForm $form */
-        $form = $tObj->getForm();
+        $form = $treeObj->getForm();
         $form->display();
         break;
     case 'edit_pedigree':
@@ -139,18 +139,18 @@ switch ($op) {
         $adminObject->displayButton('left');
 
         /**
-         * @var XoopsModules\Pedigree\Tree $tObj
+         * @var XoopsModules\Pedigree\Tree $treeObj
          * @var XoopsThemeForm $form
          */
         $id = Request::getInt('id', 0);
-        $tObj = $treeHandler->get($id);
-        $form = $tObj->getForm();
+        $treeObj = $treeHandler->get($id);
+        $form = $treeObj->getForm();
         $form->display();
         break;
     case 'delete_pedigree':
-        /** @var XoopsModules\Pedigree\Tree $tObj */
+        /** @var XoopsModules\Pedigree\Tree $treeObj */
         $id = Request::getInt('id', 0);
-        $tObj = $treeHandler->get($id);
+        $treeObj = $treeHandler->get($id);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 $helper->redirect('admin/pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -158,10 +158,10 @@ switch ($op) {
             if ($treeHandler->delete($obj)) {
                 $helper->redirect('admin/pedigree.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
-                echo $tObj->getHtmlErrors();
+                echo $treeObj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(['ok' => 1, 'id' => $id, 'op' => 'delete_pedigree'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $tObj->getVar('pedigree')));
+            xoops_confirm(['ok' => 1, 'id' => $id, 'op' => 'delete_pedigree'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $treeObj->getVar('pedigree')));
         }
         break;
 }
