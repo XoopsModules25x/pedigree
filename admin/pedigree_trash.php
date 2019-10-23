@@ -62,7 +62,7 @@ switch ($op) {
 
             $class = 'odd';
 
-            foreach ($pedigreeTrashArr) as $tId => $trashObj) {
+            foreach ($pedigreeTrashArr as $tId => $trashObj) {
                 if (0 == $trashObj->getVar('pedigree_trash_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
