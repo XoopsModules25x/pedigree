@@ -412,7 +412,7 @@ switch ($op) {
         $d = $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/userqueries/');
         $dir = opendir($d);
         while (false !== ($f = readdir($dir))) {
-            if (!preg_match("/\.jpg/", $f) && ('.' !== $f) && ('..' !== $f)) {
+            if (!preg_match("/\.jpg$/", $f) && ('.' !== $f) && ('..' !== $f)) {
                 $form .= "<li><a href='tools.php?op=userqrun&f={$f}'>{$f}</a>";
             }
         }
