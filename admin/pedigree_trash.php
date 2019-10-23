@@ -144,7 +144,7 @@ switch ($op) {
 
     case 'delete_pedigree_trash':
         $tId = Request::getInt('id', 0);
-        if (!$tId)) {
+        if (!$tId) {
             $helper->redirect('admin/pedigree_trash.php', 3, _AM_PEDIGREE_ERR_INVALID);
         }
         $tObj = $trashHandler->get($tId);
