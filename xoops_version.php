@@ -164,8 +164,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name' => 'children',
-    'title' => '_MI_PEDIGREE_CHILDREN', //'language option children',
-    'description' => '_MI_PEDIGREE_CHILDREN_DESC', //'language option children',
+    'title' => '_MI_PEDIGREE_CHILDREN',
+    'description' => '_MI_PEDIGREE_CHILDREN_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textarea',
     'default' => 'children',
@@ -174,7 +174,7 @@ $modversion['config'][] = [
 $modversion['config'][] = [
     'name' => 'welcome',
     'title' => '_MI_PEDIGREE_WELCOME',
-    'description' => '_MI_PEDIGREE_WELCOME_DESC', //'language option children',
+    'description' => '_MI_PEDIGREE_WELCOME_DESC',
     'formtype' => 'textarea',
     'valuetype' => 'text',
     'default' => ' Welcome to the online pedigree database.
@@ -191,73 +191,81 @@ Because so many pedigrees have been merged into one big one lots of interesting 
 To keep a little controle over the [animalTypes] entered into the database only registered members of the website are allowed to enter information into the database. Registration is free and will give you full access to all the elements of this website.',
 ];
 
+// Text to show for mother
 $modversion['config'][] = [
     'name' => 'mother',
     'title' => '_MI_PEDIGREE_MOTHER',
-    'description' => '_MI_PEDIGREE_MOTHER_DESC', //'language option mother',
+    'description' => '_MI_PEDIGREE_MOTHER_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textarea',
     'default' => 'mother',
 ];
 
+// Text to show for father
 $modversion['config'][] = [
     'name' => 'father',
     'title' => '_MI_PEDIGREE_FATHER',
-    'description' => '_MI_PEDIGREE_FATHER_DESC', //'language option father',
+    'description' => '_MI_PEDIGREE_FATHER_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textarea',
     'default' => 'father',
 ];
 
+// Text to show for female
 $modversion['config'][] = [
     'name' => 'female',
     'title' => '_MI_PEDIGREE_FEMALE',
-    'description' => '_MI_PEDIGREE_FEMALE_DESC', //'language option female',
+    'description' => '_MI_PEDIGREE_FEMALE_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textarea',
     'default' => 'female',
 ];
 
+// Text to show for male
 $modversion['config'][] = [
     'name' => 'male',
     'title' => '_MI_PEDIGREE_MALE',
-    'description' => '_MI_PEDIGREE_MALE_DESC', //'language option male',
+    'description' => '_MI_PEDIGREE_MALE_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textarea',
     'default' => 'male',
 ];
 
+// Text to show for litter
 $modversion['config'][] = [
     'name' => 'litter',
     'title' => '_MI_PEDIGREE_LITTER',
-    'description' => '_MI_PEDIGREE_LITTER_DESC', //'language option litter',
+    'description' => '_MI_PEDIGREE_LITTER_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textbox',
     'default' => 'litter',
 ];
 
+// Should 'litter' feature be enabled
 $modversion['config'][] = [
     'name' => 'uselitter',
     'title' => '_MI_PEDIGREE_USELITTER',
-    'description' => '_MI_PEDIGREE_USELITTER_DESC', //'should the litter feature be used ?',
+    'description' => '_MI_PEDIGREE_USELITTER_DESC',
     'formtype' => 'yesno',
     'valuetype' => 'int',
     'default' => 1,
 ];
 
+// Colour scheme used
 $modversion['config'][] = [
     'name' => 'colourscheme',
     'title' => '_MI_PEDIGREE_COLOR',
-    'description' => '_MI_PEDIGREE_COLOR_DESC', //'The colour scheme to be used',
+    'description' => '_MI_PEDIGREE_COLOR_DESC',
     'formtype' => 'textbox',
     'valuetype' => 'textbox',
     'default' => '#663300;#999966;#B2B27F;#333333;#020000;#80804D;#999999;#663300',
 ];
 
+// Should Welcome be shown?
 $modversion['config'][] = [
     'name' => 'showwelcome',
     'title' => '_MI_PEDIGREE_SHOWELCOME',
-    'description' => '_MI_PEDIGREE_SHOWELCOME_DESC', //'Show the welcome screen',
+    'description' => '_MI_PEDIGREE_SHOWELCOME_DESC',
     'formtype' => 'yesno',
     'valuetype' => 'int',
     'default' => 1,
@@ -273,6 +281,7 @@ $modversion['config'][] = [
     'default' => 'odd',
 ];
 
+// Path for uploads
 $modversion['config'][] = [
     'name' => 'uploaddir',
     'title' => '_MI_PEDIGREE_UPLOADDIR',
@@ -282,6 +291,7 @@ $modversion['config'][] = [
     'default' => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'],
 ];
 
+// Max file size in bytes
 $modversion['config'][] = [
     'name' => 'maxfilesize',
     'title' => '_MI_PEDIGREE_MAXFILESIZE',
@@ -291,6 +301,7 @@ $modversion['config'][] = [
     'default' => 2097152,
 ]; // 2MB
 
+// Max image width in px
 $modversion['config'][] = [
     'name' => 'maximgwidth',
     'title' => '_MI_PEDIGREE_IMGWIDTH',
@@ -300,6 +311,7 @@ $modversion['config'][] = [
     'default' => 1500,
 ];
 
+// Max image height in px
 $modversion['config'][] = [
     'name' => 'maximgheight',
     'title' => '_MI_PEDIGREE_IMGHEIGHT',
@@ -309,9 +321,7 @@ $modversion['config'][] = [
     'default' => 1000,
 ];
 
-/**
- * Make Sample button visible?
- */
+// Make Sample button visible?
 $modversion['config'][] = [
     'name' => 'displaySampleButton',
     'title' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
@@ -321,9 +331,7 @@ $modversion['config'][] = [
     'default' => 1,
 ];
 
-/**
- * Show Developer Tools?
- */
+// Show Developer Tools?
 $modversion['config'][] = [
     'name' => 'displayDeveloperTools',
     'title' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
@@ -340,21 +348,24 @@ $modversion['sub'][] = [
     'name' => _MI_PEDIGREE_VIEW_SEARCH,
     'url' => 'index.php',
 ];
-$modversion['sub'][] = [
-    'name' => _MI_PEDIGREE_ADD_ANIMAL,
-    'url' => 'add_dog.php',
-];
-$modversion['sub'][] = [
-    'name' => _MI_PEDIGREE_ADD_LITTER,
-    'url' => 'add_litter.php',
-];
+// only show options if user is registered
+if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser) || $GLOBALS['xoopsUser']->isGuest()) {
+    $modversion['sub'][] = [
+        'name' => _MI_PEDIGREE_ADD_ANIMAL,
+        'url' => 'add_dog.php',
+    ];
+    $modversion['sub'][] = [
+        'name' => _MI_PEDIGREE_ADD_LITTER,
+        'url' => 'add_litter.php',
+    ];
+    $modversion['sub'][] = [
+        'name' => _MI_PEDIGREE_ADD_OWNER,
+        'url' => 'add_breeder.php',
+    ];
+}
 $modversion['sub'][] = [
     'name' => _MI_PEDIGREE_VIEW_OWNERS,
     'url' => 'breeder.php',
-];
-$modversion['sub'][] = [
-    'name' => _MI_PEDIGREE_ADD_OWNER,
-    'url' => 'add_breeder.php',
 ];
 $modversion['sub'][] = [
     'name' => _MI_PEDIGREE_ADVANCED_INFO,

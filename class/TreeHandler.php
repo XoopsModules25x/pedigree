@@ -40,12 +40,13 @@ class TreeHandler extends \XoopsPersistableObjectHandler
     /**
      * Get criteria for active animals
      *
+     * @todo Refactor: Currently this routine returns all animals with `roft` = $roft
      * @param null $roft
      * @return \CriteriaCompo
      */
     public function getActiveCriteria($roft = null)
     {
-        $grouppermHandler = xoops_getHandler('groupperm');
+        //$grouppermHandler = xoops_getHandler('groupperm');
 
         //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         //        $criteria->add(new \Criteria('published', 0, '>'));
