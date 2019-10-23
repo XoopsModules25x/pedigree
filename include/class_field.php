@@ -26,11 +26,11 @@ class SystemMessage
 
 /**
  * Class Animal
+ * @deprecated
  */
 class Animal
 {
     /**
-     * @deprecated
      * @param int $animalnumber * @internal param int $id animal ID
      */
     public function __construct($animalnumber = 0)

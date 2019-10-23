@@ -53,7 +53,7 @@ $xoTheme->addStylesheet($helper->url('assets/css/style.css'));
 
 global $field;
 //add JS routines
-echo '<script language="JavaScript" src="assets/js/picker.js"></script>';
+echo "<script type=\"text/javascript\" src=\"assets/js/picker.js\"></script>\n";
 
 //set form to be empty
 $form = '';
@@ -161,7 +161,7 @@ switch ($op) {
            . "  });\n"
            . "</script>\n"
            . "<script type=\"text/javascript\" src=\"assets/js/jscolor/jscolor.js\"></script>\n"
-           . "<script language=\"javascript\" type=\"text/javascript\">\n"
+           . "<script type=\"text/javascript\">\n"
            . "  function changeBackgroundColor(objDivID, colorvalue) {\n"
            . "    document.getElementById(objDivID).style.backgroundColor = colorvalue;\n"
            . "  }\n"

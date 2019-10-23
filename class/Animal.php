@@ -42,7 +42,6 @@ class Animal
      */
     public function __construct($id = null)
     {
-        $moduleDirName = basename(dirname(__DIR__));
         $id = null !== $id ? (int)$id : 1;
         $myTreeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 
@@ -68,7 +67,6 @@ class Animal
      */
     public function getNumOfFields()
     {
-        $moduleDirName = basename(dirname(__DIR__));
         $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
         $criteria = new \CriteriaCompo();
         $criteria->setSort('`order`');

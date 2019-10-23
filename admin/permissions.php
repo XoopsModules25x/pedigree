@@ -10,19 +10,20 @@
 */
 
 /**
- * Pedigree module for xoops
+ * Module: Pedigree
  *
- * @copyright       {@link https://xoops.org/ XOOPS Project}
- * @license         GPL 2.0 or later
- * @package         pedigree
- * @since
+ * @package         XoopsModules\Pedigree
+ * @copyright       2011-2019 XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @author          XOOPS Module Dev Team (https://xoops.org)
+ * @todo Refactor this code - it currently doesn't work as intended
  */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
 require_once __DIR__ . '/admin_header.php';
+
 //xoops_cp_header();
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //require_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
@@ -31,15 +32,15 @@ if (!empty($_POST['submit'])) {
     $helper->redirect('admin/permissions.php', 1, _MP_GPERMUPDATED);
 }
 
-$permissions_admin = \Xmf\Module\Admin::getInstance();
-echo $permissions_admin->displayNavigation(basename(__FILE__));
+/** @var \Xmf\Module\Admin $adminObject */
+echo $adminObject->displayNavigation(basename(__FILE__));
 
-$permission                = Request::getInt('permission', 1, 'POST');
-$selected                  = ['', '', ''];
+$permission = Request::getInt('permission', 1, 'POST');
+$selected = ['', '', ''];
 $selected[$permission - 1] = ' selected';
 
 echo '
-<form method="post" name="fselperm" action="permissions.php">
+<form method="post" name="fselperm" action="' . $helper->url('admin/permissions.php') . '">
     <table border=0>
         <tr>
             <td>

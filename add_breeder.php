@@ -31,7 +31,7 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
 include XOOPS_ROOT_PATH . '/header.php';
 
-$GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_ADD_OWNER_PAGETITLE);
+$GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_ADD_OWNER_BREEDER);
 
 //check for access
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
