@@ -94,8 +94,9 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $tObj  = $trashHandler->create();
-        $form = $tObj->getForm();
+        /** @var Pedigree\Trash $trashObj */
+        $trashObj = $trashHandler->create();
+        $form = $trashObj->getForm();
         $form->display();
         break;
 
@@ -104,7 +105,7 @@ switch ($op) {
             $helper->redirect('admin/pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $tId = Request::getInt('id', null, 'POST');
-        $tObj = $trashHandler->get($tId); // gets object or creates one if tId is empty
+        $trashObj = $trashHandler->get($tId); // gets object or creates one if tId is empty
         /*
         if (isset($_REQUEST['id'])) {
             $obj = $trashHandler->get($_REQUEST['id']);
@@ -113,22 +114,22 @@ switch ($op) {
         }
         */
 
-        $tObj->setVar('naam', Request::getString('naam', '', 'POST')); //Form naam
-        $tObj->setVar('id_owner', Request::getInt('id_owner', 0, 'POST')); //Form id_owner
-        $tObj->setVar('id_breeder', Request::getInt('id_breeder', 0, 'POST')); //Form id_breeder
-        $tObj->setVar('user', Request::getString('user', '', 'POST')); //Form user
-        $tObj->setVar('roft', Request::getString('roft', '', 'POST')); //Form roft
-        $tObj->setVar('mother', Request::getInt('mother', 0, 'POST')); //Form mother
-        $tObj->setVar('father', Request::getInt('father', 0, 'POST')); //Form father
-        $tObj->setVar('foto', Request::getString('foto', '', 'POST')); //Form foto
-        $tObj->setVar('coi', Request::getString('coi', '', 'POST')); //Form coi
+        $trashObj->setVar('naam', Request::getString('naam', '', 'POST')); //Form naam
+        $trashObj->setVar('id_owner', Request::getInt('id_owner', 0, 'POST')); //Form id_owner
+        $trashObj->setVar('id_breeder', Request::getInt('id_breeder', 0, 'POST')); //Form id_breeder
+        $trashObj->setVar('user', Request::getString('user', '', 'POST')); //Form user
+        $trashObj->setVar('roft', Request::getString('roft', '', 'POST')); //Form roft
+        $trashObj->setVar('mother', Request::getInt('mother', 0, 'POST')); //Form mother
+        $trashObj->setVar('father', Request::getInt('father', 0, 'POST')); //Form father
+        $trashObj->setVar('foto', Request::getString('foto', '', 'POST')); //Form foto
+        $trashObj->setVar('coi', Request::getString('coi', '', 'POST')); //Form coi
 
-        if ($trashHandler->insert($tObj)) {
+        if ($trashHandler->insert($trashObj)) {
             $helper->redirect('admin/pedigree_trash.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
-        echo $tObj->getHtmlErrors();
-        $form = $tObj->getForm();
+        echo $trashObj->getHtmlErrors();
+        $form = $trashObj->getForm();
         $form->display();
         break;
 
@@ -147,7 +148,7 @@ switch ($op) {
         if (!$tId) {
             $helper->redirect('admin/pedigree_trash.php', 3, _AM_PEDIGREE_ERR_INVALID);
         }
-        $tObj = $trashHandler->get($tId);
+        $trashObj = $trashHandler->get($tId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 $helper->redirect('admin/pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
