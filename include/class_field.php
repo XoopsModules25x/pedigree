@@ -9,6 +9,8 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 
+use \XoopsModules\Pedigree;
+
 /**
  * Class SystemMessage
  * @deprecated
@@ -281,10 +283,10 @@ class Field
 class RadioButton extends Field
 {
     /**
-     * @param \PedigreeField  $parentObject
-     * @param \PedigreeAnimal $animalObject
+     * @param Pedigree\Field  $parentObject
+     * @param Pedigree\Animal $animalObject
      */
-    public function __construct(PedigreeField $parentObject, PedigreeAnimal $animalObject)
+    public function __construct($parentObject, $animalObject)
     {
         $this->fieldnumber = $parentObject->getId();
 
