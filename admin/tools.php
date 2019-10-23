@@ -24,7 +24,7 @@ if (empty($GLOBALS['xoopsUser'])) {
 
 //add JS routines
 //@todo change this to send to Tpl addScript
-echo '<script language="JavaScript" src="assets/js/picker.js"></script>';
+echo "<script type=\"text/javascript\" src=\"assets/js/picker.js\"></script>\n";
 
 //set form to be empty
 $form = '';

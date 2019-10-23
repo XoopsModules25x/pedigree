@@ -473,7 +473,7 @@ define('_MA_PEDIGREE_BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse Pe
 define('_MA_PEDIGREE_TITLE', 'Pedigree Database');
 define('_MA_PEDIGREE_DESC', 'This project documents ancestry of selected animals.<br>');
 
-define('_MA_PEDIGREE_ADD_OWNER_BREEDER', 'Pedigree database - Add owner/breeder');
+define('_MA_PEDIGREE_ADD_OWNER_BREEDER', 'Pedigree database - Add Owner/Breeder');
 
 define('_MA_PEDIGREE_SETTINGS_SAVED_OK', 'Your settings have been saved.');
 
@@ -485,7 +485,6 @@ define('_MA_PEDIGREE_BREEDER_PAGETITLE', "<span style='font-weight: bold;'>Brows
 
 //v1.32 Alpha 1
 define('_MA_PEDIGREE_OWNER_PAGETITLE', 'Pedigree database - View Owner/Breeder details');
-define('_MA_PEDIGREE_ADD_OWNER_PAGETITLE', 'Pedigree database - Add Owner/Breeder');
 define('_MA_PEDIGREE_ADD_LITTER_PAGETITLE', 'Pedigree database - Add a Litter');
 define('_MA_PEDIGREE_UPDATE', 'Pedigree database - Update details');
 define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');

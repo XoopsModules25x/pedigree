@@ -33,7 +33,7 @@ $GLOBALS['xoTheme']->addStylesheet('browse.php?' . $helper->url('assets/css/magn
 if (isset($GLOBALS['xoTheme'])) {
     $GLOBALS['xoTheme']->addScript('include/color-picker.js');
 } else {
-    echo '<script type="text/javascript" src="' . XOOPS_URL . '/include/color-picker.js"></script>';
+    echo "<script type=\"text/javascript\" src=\"" . XOOPS_URL . "/include/color-picker.js\"></script>\n";
 }
 */
 $GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_OWNER_PAGETITLE);

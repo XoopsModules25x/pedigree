@@ -57,8 +57,8 @@ $borderStyle        = $colors[16];
 $borderWidth        = $colors[17];
 $borderColour       = $colors[18];
 
-echo '<script language="JavaScript" src="assets/js/picker.js"></script>
-<script language="JavaScript" src="assets/js/colors.js"></script>';
+echo "<script type=\"text/javascript\" src=\"assets/js/picker.js\"></script>\n"
+   . "<script type=\"text/javascript\" src=\"assets/js/colors.js\"></script>\n";
 echo '
 <table width="90%" id="background" cellspacing="0" style=" background-color: #'
      . $mainBackColour
