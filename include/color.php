@@ -18,7 +18,7 @@
  * @author      Andrew Morton <drewish@katherinehouse.com>
  * @copyright   2003-2005 The PHP Group
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version     CVS: $Id: color.php,v 1.1 2006/04/30 13:44:19 Administrator Exp $
+ * @version     1.1 2006/04/30
  * @link        http://pear.php.net/package/Image_Color
  */
 
@@ -53,7 +53,7 @@ class Image_Color
      * @access  public
      * @see     setColors()
      */
-    var $color1 = array();
+    public $color1 = [];
 
     /**
      * Second color that the class handles for ranges and mixes.
@@ -62,17 +62,17 @@ class Image_Color
      * @access  public
      * @see     setColors()
      */
-    var $color2 = array();
+    public $color2 = [];
 
     /**
      * Boolean value for determining whether colors outputted should be limited
      * to the web safe pallet or not.
      *
-     * @var boolean
+     * @var bool
      * @access  private
      * @see     setWebSafe()
      */
-    var $_websafeb = false;
+    private $websafeb = false;
 
     /**
      * Mix two colors together by finding their average. If the colors are not
@@ -84,13 +84,13 @@ class Image_Color
      * @return string The mixed color.
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
-     * @uses    _setColors() to assign the colors if any are passed to the
+     * @uses    setInternalColors() to assign the colors if any are passed to the
      *                class.
      */
-    function mixColors($col1 = false, $col2 = false)
+    public function mixColors($col1 = false, $col2 = false)
     {
         if ($col1) {
-            $this->_setColors($col1, $col2);
+            $this->setInternalColors($col1, $col2);
         }
 
         // after finding the average, it will be a float. add 0.5 and then
@@ -99,27 +99,26 @@ class Image_Color
         $color3[1] = (int)((($this->color1[1] + $this->color2[1]) / 2) + 0.5);
         $color3[2] = (int)((($this->color1[2] + $this->color2[2]) / 2) + 0.5);
 
-        if ($this->_websafeb) {
+        if ($this->websafeb) {
             array_walk($color3, '_makeWebSafe');
         }
 
-        return Image_Color::rgb2hex($color3);
+        return $this->rgb2hex($color3);
     }
 
     /**
      * Determines whether colors the returned by this class will be rounded to
      * the nearest web safe value.
      *
-     * @param boolean $bool Indicates if colors should be limited to the
+     * @param bool $bool Indicates if colors should be limited to the
      *                      websafe pallet.
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function setWebSafe($bool = true)
+    public function setWebSafe($bool = true)
     {
-        $this->_websafeb = (boolean)$bool;
+        $this->websafeb = (bool)$bool;
     }
 
     /**
@@ -128,19 +127,18 @@ class Image_Color
      * @param string $col1 The first color in hex format
      * @param string $col2 The second color in hex format
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function setColors($col1, $col2)
+    public function setColors($col1, $col2)
     {
-        $this->_setColors($col1, $col2);
+        $this->setInternalColors($col1, $col2);
     }
 
     /**
      * Get the range of colors between the class's two colors, given a degree.
      *
-     * @param integer $degrees How large a 'step' we should take between the
+     * @param int $degrees How large a 'step' we should take between the
      *                         colors.
      *
      * @return array Returns an array of hex strings, one element for each
@@ -149,9 +147,9 @@ class Image_Color
      * @author  Jason Lotito <jason@lehighweb.com>
      * @todo    Allow for degrees for individual parts of the colors.
      */
-    function getRange($degrees = 2)
+    public function getRange($degrees = 2)
     {
-        if ($degrees == 0) {
+        if (0 == $degrees) {
             $degrees = 1;
         }
 
@@ -159,11 +157,11 @@ class Image_Color
         // phase of the loop.  This way, the advance is equal throughout all
         // the colors.
 
-        $red_steps   = ($this->color2[0] - $this->color1[0]) / $degrees;
+        $red_steps = ($this->color2[0] - $this->color1[0]) / $degrees;
         $green_steps = ($this->color2[1] - $this->color1[1]) / $degrees;
-        $blue_steps  = ($this->color2[2] - $this->color1[2]) / $degrees;
+        $blue_steps = ($this->color2[2] - $this->color1[2]) / $degrees;
 
-        $allcolors = array();
+        $allcolors = [];
 
         /**
          * The loop stops once any color has gone beyond the end color.
@@ -192,11 +190,11 @@ class Image_Color
                 }
             }
 
-            if ($this->_websafeb) {
+            if ($this->websafeb) {
                 array_walk($newcolor, '_makeWebSafe');
             }
 
-            $allcolors[] = Image_Color::rgb2hex($newcolor);
+            $allcolors[] = $this->rgb2hex($newcolor);
         }
 
         return $allcolors;
@@ -205,19 +203,18 @@ class Image_Color
     /**
      * Change the lightness of the class's two colors.
      *
-     * @param integer $degree The degree of the change. Positive values
+     * @param int $degree The degree of the change. Positive values
      *                        lighten the color while negative values will darken it.
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      * @uses    Image_Color::$color1 as an input and return value.
      * @uses    Image_Color::$color2 as an input and return value.
      */
-    function changeLightness($degree = 10)
+    public function changeLightness($degree = 10)
     {
-        $color1 =& $this->color1;
-        $color2 =& $this->color2;
+        $color1 = &$this->color1;
+        $color2 = &$this->color2;
 
         for ($x = 0; $x < 3; ++$x) {
             if (($color1[$x] + $degree) < 256) {
@@ -260,14 +257,14 @@ class Image_Color
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
+    public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
-        $color = Image_Color::_splitColor($color);
+        $color = $this->splitColor($color);
         if ($color[1] > hexdec('66')) {
             return $dark;
-        } else {
-            return $light;
         }
+
+        return $light;
     }
 
     /**
@@ -276,17 +273,16 @@ class Image_Color
      * @param string $col1 First color, either a name or hex value
      * @param string $col2 Second color, either a name or hex value
      *
-     * @return void
      * @access  private
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function _setColors($col1, $col2)
+    private function setInternalColors($col1, $col2)
     {
         if ($col1) {
-            $this->color1 = Image_Color::_splitColor($col1);
+            $this->color1 = $this->splitColor($col1);
         }
         if ($col2) {
-            $this->color2 = Image_Color::_splitColor($col2);
+            $this->color2 = $this->splitColor($col2);
         }
     }
 
@@ -300,12 +296,12 @@ class Image_Color
      * @static
      * @author  Jason Lotito <jason@lehighweb.com>
      */
-    function _splitColor($color)
+    private function splitColor($color)
     {
         $color = str_replace('#', '', $color);
-        $c[]   = hexdec(substr($color, 0, 2));
-        $c[]   = hexdec(substr($color, 2, 2));
-        $c[]   = hexdec(substr($color, 4, 2));
+        $c[] = hexdec(mb_substr($color, 0, 2));
+        $c[] = hexdec(mb_substr($color, 2, 2));
+        $c[] = hexdec(mb_substr($color, 4, 2));
 
         return $c;
     }
@@ -321,9 +317,9 @@ class Image_Color
      *
      * @return string
      */
-    function _returnColor($color)
+    private function returnColor($color)
     {
-        return Image_Color::rgb2hex($color);
+        return $this->rgb2hex($color);
     }
 
     /**
@@ -337,7 +333,7 @@ class Image_Color
      * @author  Jason Lotito <jason@lehighweb.com>
      * @see     hex2rgb()
      */
-    function rgb2hex($color)
+    public function rgb2hex($color)
     {
         return sprintf('%02X%02X%02X', $color[0], $color[1], $color[2]);
     }
@@ -355,9 +351,9 @@ class Image_Color
      * @author  Jason Lotito <jason@lehighweb.com>
      * @see     rgb2hex()
      */
-    function hex2rgb($hex)
+    public function hex2rgb($hex)
     {
-        $return        = Image_Color::_splitColor($hex);
+        $return = $this->splitColor($hex);
         $return['hex'] = $hex;
 
         return $return;
@@ -366,9 +362,9 @@ class Image_Color
     /**
      * Convert an HSV (Hue, Saturation, Brightness) value to RGB.
      *
-     * @param integer $h Hue
-     * @param integer $s Saturation
-     * @param integer $v Brightness
+     * @param int $h Hue
+     * @param int $s Saturation
+     * @param int $v Brightness
      *
      * @return array RGB array.
      * @access  public
@@ -377,9 +373,9 @@ class Image_Color
      * @uses    hsv2hex() to convert the HSV value to Hex.
      * @uses    hex2rgb() to convert the Hex value to RGB.
      */
-    function hsv2rgb($h, $s, $v)
+    public function hsv2rgb($h, $s, $v)
     {
-        return Image_Color::hex2rgb(Image_Color::hsv2hex($h, $s, $v));
+        return $this->hex2rgb($this->hsv2hex($h, $s, $v));
     }
 
     /**
@@ -388,9 +384,9 @@ class Image_Color
      * Originally written by Jurgen Schwietering. Integrated into the class by
      * Jason Lotito.
      *
-     * @param integer $h Hue
-     * @param integer $s Saturation
-     * @param integer $v Brightness
+     * @param int $h Hue
+     * @param int $s Saturation
+     * @param int $v Brightness
      *
      * @return string The hex string.
      * @access  public
@@ -398,63 +394,57 @@ class Image_Color
      * @author  Jurgen Schwietering <jurgen@schwietering.com>
      * @uses    rgb2hex() to convert the return value to a hex string.
      */
-    function hsv2hex($h, $s, $v)
+    public function hsv2hex($h, $s, $v)
     {
         $s /= 256.0;
         $v /= 256.0;
-        if ($s == 0.0) {
+        if (0.0 == $s) {
             $r = $g = $b = $v;
 
             return '';
-        } else {
-            $h = $h / 256.0 * 6.0;
-            $i = floor($h);
-            $f = $h - $i;
+        }
+        $h = $h / 256.0 * 6.0;
+        $i = floor($h);
+        $f = $h - $i;
 
-            $v *= 256.0;
-            $p = (integer)($v * (1.0 - $s));
-            $q = (integer)($v * (1.0 - $s * $f));
-            $t = (integer)($v * (1.0 - $s * (1.0 - $f)));
-            switch ($i) {
+        $v *= 256.0;
+        $p = (int)($v * (1.0 - $s));
+        $q = (int)($v * (1.0 - $s * $f));
+        $t = (int)($v * (1.0 - $s * (1.0 - $f)));
+        switch ($i) {
                 case 0:
                     $r = $v;
                     $g = $t;
                     $b = $p;
                     break;
-
                 case 1:
                     $r = $q;
                     $g = $v;
                     $b = $p;
                     break;
-
                 case 2:
                     $r = $p;
                     $g = $v;
                     $b = $t;
                     break;
-
                 case 3:
                     $r = $p;
                     $g = $q;
                     $b = $v;
                     break;
-
                 case 4:
                     $r = $t;
                     $g = $p;
                     $b = $v;
                     break;
-
                 default:
                     $r = $v;
                     $g = $p;
                     $b = $q;
                     break;
             }
-        }
 
-        return $this->rgb2hex(array($r, $g, $b));
+        return $this->rgb2hex([$r, $g, $b]);
     }
 
     /**
@@ -466,17 +456,17 @@ class Image_Color
      * @param resource     $img   Image handle
      * @param string|array $color Name or hex string or an RGB array.
      *
-     * @return resource Image color handle.
+     * @return bool Image color handle.
      * @access  public
      * @static
-     * @uses    ImageColorAllocate() to allocate the color.
+     * @uses    imagefilledarc() to allocate the color.
      * @uses    color2RGB() to parse the color into RGB values.
      */
-    function allocateColor(&$img, $color)
+    public function allocateColor(&$img, $color)
     {
-        $color = Image_Color::color2RGB($color);
+        $color = $this->color2RGB($color);
 
-        return ImageColorAllocate($img, $color[0], $color[1], $color[2]);
+        return imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
 
     /**
@@ -494,14 +484,14 @@ class Image_Color
      * @uses    hex2rgb() to convert colors begining with the # character.
      * @uses    namedColor2RGB() to convert everything not starting with a #.
      */
-    function color2RGB($color)
+    public function color2RGB($color)
     {
-        $c = array();
+        $c = [];
 
-        if ($color{0} == '#') {
-            $c = Image_Color::hex2rgb($color);
+        if ('#' === $color[0]) {
+            $c = $this->hex2rgb($color);
         } else {
-            $c = Image_Color::namedColor2RGB($color);
+            $c = $this->namedColor2RGB($color);
         }
 
         return $c;
@@ -519,162 +509,162 @@ class Image_Color
      * @static
      * @author  Sebastian Bergmann <sb@sebastian-bergmann.de>
      */
-    function namedColor2RGB($color)
+    public function namedColor2RGB($color)
     {
         static $colornames;
 
         if (!isset($colornames)) {
-            $colornames = array(
-                'aliceblue'            => array(240, 248, 255),
-                'antiquewhite'         => array(250, 235, 215),
-                'aqua'                 => array(0, 255, 255),
-                'aquamarine'           => array(127, 255, 212),
-                'azure'                => array(240, 255, 255),
-                'beige'                => array(245, 245, 220),
-                'bisque'               => array(255, 228, 196),
-                'black'                => array(0, 0, 0),
-                'blanchedalmond'       => array(255, 235, 205),
-                'blue'                 => array(0, 0, 255),
-                'blueviolet'           => array(138, 43, 226),
-                'brown'                => array(165, 42, 42),
-                'burlywood'            => array(222, 184, 135),
-                'cadetblue'            => array(95, 158, 160),
-                'chartreuse'           => array(127, 255, 0),
-                'chocolate'            => array(210, 105, 30),
-                'coral'                => array(255, 127, 80),
-                'cornflowerblue'       => array(100, 149, 237),
-                'cornsilk'             => array(255, 248, 220),
-                'crimson'              => array(220, 20, 60),
-                'cyan'                 => array(0, 255, 255),
-                'darkblue'             => array(0, 0, 13),
-                'darkcyan'             => array(0, 139, 139),
-                'darkgoldenrod'        => array(184, 134, 11),
-                'darkgray'             => array(169, 169, 169),
-                'darkgreen'            => array(0, 100, 0),
-                'darkkhaki'            => array(189, 183, 107),
-                'darkmagenta'          => array(139, 0, 139),
-                'darkolivegreen'       => array(85, 107, 47),
-                'darkorange'           => array(255, 140, 0),
-                'darkorchid'           => array(153, 50, 204),
-                'darkred'              => array(139, 0, 0),
-                'darksalmon'           => array(233, 150, 122),
-                'darkseagreen'         => array(143, 188, 143),
-                'darkslateblue'        => array(72, 61, 139),
-                'darkslategray'        => array(47, 79, 79),
-                'darkturquoise'        => array(0, 206, 209),
-                'darkviolet'           => array(148, 0, 211),
-                'deeppink'             => array(255, 20, 147),
-                'deepskyblue'          => array(0, 191, 255),
-                'dimgray'              => array(105, 105, 105),
-                'dodgerblue'           => array(30, 144, 255),
-                'firebrick'            => array(178, 34, 34),
-                'floralwhite'          => array(255, 250, 240),
-                'forestgreen'          => array(34, 139, 34),
-                'fuchsia'              => array(255, 0, 255),
-                'gainsboro'            => array(220, 220, 220),
-                'ghostwhite'           => array(248, 248, 255),
-                'gold'                 => array(255, 215, 0),
-                'goldenrod'            => array(218, 165, 32),
-                'gray'                 => array(128, 128, 128),
-                'green'                => array(0, 128, 0),
-                'greenyellow'          => array(173, 255, 47),
-                'honeydew'             => array(240, 255, 240),
-                'hotpink'              => array(255, 105, 180),
-                'indianred'            => array(205, 92, 92),
-                'indigo'               => array(75, 0, 130),
-                'ivory'                => array(255, 255, 240),
-                'khaki'                => array(240, 230, 140),
-                'lavender'             => array(230, 230, 250),
-                'lavenderblush'        => array(255, 240, 245),
-                'lawngreen'            => array(124, 252, 0),
-                'lemonchiffon'         => array(255, 250, 205),
-                'lightblue'            => array(173, 216, 230),
-                'lightcoral'           => array(240, 128, 128),
-                'lightcyan'            => array(224, 255, 255),
-                'lightgoldenrodyellow' => array(250, 250, 210),
-                'lightgreen'           => array(144, 238, 144),
-                'lightgrey'            => array(211, 211, 211),
-                'lightpink'            => array(255, 182, 193),
-                'lightsalmon'          => array(255, 160, 122),
-                'lightseagreen'        => array(32, 178, 170),
-                'lightskyblue'         => array(135, 206, 250),
-                'lightslategray'       => array(119, 136, 153),
-                'lightsteelblue'       => array(176, 196, 222),
-                'lightyellow'          => array(255, 255, 224),
-                'lime'                 => array(0, 255, 0),
-                'limegreen'            => array(50, 205, 50),
-                'linen'                => array(250, 240, 230),
-                'magenta'              => array(255, 0, 255),
-                'maroon'               => array(128, 0, 0),
-                'mediumaquamarine'     => array(102, 205, 170),
-                'mediumblue'           => array(0, 0, 205),
-                'mediumorchid'         => array(186, 85, 211),
-                'mediumpurple'         => array(147, 112, 219),
-                'mediumseagreen'       => array(60, 179, 113),
-                'mediumslateblue'      => array(123, 104, 238),
-                'mediumspringgreen'    => array(0, 250, 154),
-                'mediumturquoise'      => array(72, 209, 204),
-                'mediumvioletred'      => array(199, 21, 133),
-                'midnightblue'         => array(25, 25, 112),
-                'mintcream'            => array(245, 255, 250),
-                'mistyrose'            => array(255, 228, 225),
-                'moccasin'             => array(255, 228, 181),
-                'navajowhite'          => array(255, 222, 173),
-                'navy'                 => array(0, 0, 128),
-                'oldlace'              => array(253, 245, 230),
-                'olive'                => array(128, 128, 0),
-                'olivedrab'            => array(107, 142, 35),
-                'orange'               => array(255, 165, 0),
-                'orangered'            => array(255, 69, 0),
-                'orchid'               => array(218, 112, 214),
-                'palegoldenrod'        => array(238, 232, 170),
-                'palegreen'            => array(152, 251, 152),
-                'paleturquoise'        => array(175, 238, 238),
-                'palevioletred'        => array(219, 112, 147),
-                'papayawhip'           => array(255, 239, 213),
-                'peachpuff'            => array(255, 218, 185),
-                'peru'                 => array(205, 133, 63),
-                'pink'                 => array(255, 192, 203),
-                'plum'                 => array(221, 160, 221),
-                'powderblue'           => array(176, 224, 230),
-                'purple'               => array(128, 0, 128),
-                'red'                  => array(255, 0, 0),
-                'rosybrown'            => array(188, 143, 143),
-                'royalblue'            => array(65, 105, 225),
-                'saddlebrown'          => array(139, 69, 19),
-                'salmon'               => array(250, 128, 114),
-                'sandybrown'           => array(244, 164, 96),
-                'seagreen'             => array(46, 139, 87),
-                'seashell'             => array(255, 245, 238),
-                'sienna'               => array(160, 82, 45),
-                'silver'               => array(192, 192, 192),
-                'skyblue'              => array(135, 206, 235),
-                'slateblue'            => array(106, 90, 205),
-                'slategray'            => array(112, 128, 144),
-                'snow'                 => array(255, 250, 250),
-                'springgreen'          => array(0, 255, 127),
-                'steelblue'            => array(70, 130, 180),
-                'tan'                  => array(210, 180, 140),
-                'teal'                 => array(0, 128, 128),
-                'thistle'              => array(216, 191, 216),
-                'tomato'               => array(255, 99, 71),
-                'turquoise'            => array(64, 224, 208),
-                'violet'               => array(238, 130, 238),
-                'wheat'                => array(245, 222, 179),
-                'white'                => array(255, 255, 255),
-                'whitesmoke'           => array(245, 245, 245),
-                'yellow'               => array(255, 255, 0),
-                'yellowgreen'          => array(154, 205, 50)
-            );
+            $colornames = [
+                'aliceblue' => [240, 248, 255],
+                'antiquewhite' => [250, 235, 215],
+                'aqua' => [0, 255, 255],
+                'aquamarine' => [127, 255, 212],
+                'azure' => [240, 255, 255],
+                'beige' => [245, 245, 220],
+                'bisque' => [255, 228, 196],
+                'black' => [0, 0, 0],
+                'blanchedalmond' => [255, 235, 205],
+                'blue' => [0, 0, 255],
+                'blueviolet' => [138, 43, 226],
+                'brown' => [165, 42, 42],
+                'burlywood' => [222, 184, 135],
+                'cadetblue' => [95, 158, 160],
+                'chartreuse' => [127, 255, 0],
+                'chocolate' => [210, 105, 30],
+                'coral' => [255, 127, 80],
+                'cornflowerblue' => [100, 149, 237],
+                'cornsilk' => [255, 248, 220],
+                'crimson' => [220, 20, 60],
+                'cyan' => [0, 255, 255],
+                'darkblue' => [0, 0, 13],
+                'darkcyan' => [0, 139, 139],
+                'darkgoldenrod' => [184, 134, 11],
+                'darkgray' => [169, 169, 169],
+                'darkgreen' => [0, 100, 0],
+                'darkkhaki' => [189, 183, 107],
+                'darkmagenta' => [139, 0, 139],
+                'darkolivegreen' => [85, 107, 47],
+                'darkorange' => [255, 140, 0],
+                'darkorchid' => [153, 50, 204],
+                'darkred' => [139, 0, 0],
+                'darksalmon' => [233, 150, 122],
+                'darkseagreen' => [143, 188, 143],
+                'darkslateblue' => [72, 61, 139],
+                'darkslategray' => [47, 79, 79],
+                'darkturquoise' => [0, 206, 209],
+                'darkviolet' => [148, 0, 211],
+                'deeppink' => [255, 20, 147],
+                'deepskyblue' => [0, 191, 255],
+                'dimgray' => [105, 105, 105],
+                'dodgerblue' => [30, 144, 255],
+                'firebrick' => [178, 34, 34],
+                'floralwhite' => [255, 250, 240],
+                'forestgreen' => [34, 139, 34],
+                'fuchsia' => [255, 0, 255],
+                'gainsboro' => [220, 220, 220],
+                'ghostwhite' => [248, 248, 255],
+                'gold' => [255, 215, 0],
+                'goldenrod' => [218, 165, 32],
+                'gray' => [128, 128, 128],
+                'green' => [0, 128, 0],
+                'greenyellow' => [173, 255, 47],
+                'honeydew' => [240, 255, 240],
+                'hotpink' => [255, 105, 180],
+                'indianred' => [205, 92, 92],
+                'indigo' => [75, 0, 130],
+                'ivory' => [255, 255, 240],
+                'khaki' => [240, 230, 140],
+                'lavender' => [230, 230, 250],
+                'lavenderblush' => [255, 240, 245],
+                'lawngreen' => [124, 252, 0],
+                'lemonchiffon' => [255, 250, 205],
+                'lightblue' => [173, 216, 230],
+                'lightcoral' => [240, 128, 128],
+                'lightcyan' => [224, 255, 255],
+                'lightgoldenrodyellow' => [250, 250, 210],
+                'lightgreen' => [144, 238, 144],
+                'lightgrey' => [211, 211, 211],
+                'lightpink' => [255, 182, 193],
+                'lightsalmon' => [255, 160, 122],
+                'lightseagreen' => [32, 178, 170],
+                'lightskyblue' => [135, 206, 250],
+                'lightslategray' => [119, 136, 153],
+                'lightsteelblue' => [176, 196, 222],
+                'lightyellow' => [255, 255, 224],
+                'lime' => [0, 255, 0],
+                'limegreen' => [50, 205, 50],
+                'linen' => [250, 240, 230],
+                'magenta' => [255, 0, 255],
+                'maroon' => [128, 0, 0],
+                'mediumaquamarine' => [102, 205, 170],
+                'mediumblue' => [0, 0, 205],
+                'mediumorchid' => [186, 85, 211],
+                'mediumpurple' => [147, 112, 219],
+                'mediumseagreen' => [60, 179, 113],
+                'mediumslateblue' => [123, 104, 238],
+                'mediumspringgreen' => [0, 250, 154],
+                'mediumturquoise' => [72, 209, 204],
+                'mediumvioletred' => [199, 21, 133],
+                'midnightblue' => [25, 25, 112],
+                'mintcream' => [245, 255, 250],
+                'mistyrose' => [255, 228, 225],
+                'moccasin' => [255, 228, 181],
+                'navajowhite' => [255, 222, 173],
+                'navy' => [0, 0, 128],
+                'oldlace' => [253, 245, 230],
+                'olive' => [128, 128, 0],
+                'olivedrab' => [107, 142, 35],
+                'orange' => [255, 165, 0],
+                'orangered' => [255, 69, 0],
+                'orchid' => [218, 112, 214],
+                'palegoldenrod' => [238, 232, 170],
+                'palegreen' => [152, 251, 152],
+                'paleturquoise' => [175, 238, 238],
+                'palevioletred' => [219, 112, 147],
+                'papayawhip' => [255, 239, 213],
+                'peachpuff' => [255, 218, 185],
+                'peru' => [205, 133, 63],
+                'pink' => [255, 192, 203],
+                'plum' => [221, 160, 221],
+                'powderblue' => [176, 224, 230],
+                'purple' => [128, 0, 128],
+                'red' => [255, 0, 0],
+                'rosybrown' => [188, 143, 143],
+                'royalblue' => [65, 105, 225],
+                'saddlebrown' => [139, 69, 19],
+                'salmon' => [250, 128, 114],
+                'sandybrown' => [244, 164, 96],
+                'seagreen' => [46, 139, 87],
+                'seashell' => [255, 245, 238],
+                'sienna' => [160, 82, 45],
+                'silver' => [192, 192, 192],
+                'skyblue' => [135, 206, 235],
+                'slateblue' => [106, 90, 205],
+                'slategray' => [112, 128, 144],
+                'snow' => [255, 250, 250],
+                'springgreen' => [0, 255, 127],
+                'steelblue' => [70, 130, 180],
+                'tan' => [210, 180, 140],
+                'teal' => [0, 128, 128],
+                'thistle' => [216, 191, 216],
+                'tomato' => [255, 99, 71],
+                'turquoise' => [64, 224, 208],
+                'violet' => [238, 130, 238],
+                'wheat' => [245, 222, 179],
+                'white' => [255, 255, 255],
+                'whitesmoke' => [245, 245, 245],
+                'yellow' => [255, 255, 0],
+                'yellowgreen' => [154, 205, 50],
+            ];
         }
 
-        $color = strtolower($color);
+        $color = mb_strtolower($color);
 
         if (isset($colornames[$color])) {
             return $colornames[$color];
-        } else {
-            return array(0, 0, 0);
         }
+
+        return [0, 0, 0];
     }
 
     /**
@@ -686,7 +676,7 @@ class Image_Color
      * @access  public
      * @static
      */
-    function percentageColor2RGB($color)
+    public function percentageColor2RGB($color)
     {
         // remove spaces
         $color = str_replace(' ', '', $color);
@@ -695,14 +685,14 @@ class Image_Color
         // split the string by commas
         $color = explode(',', $color);
 
-        $ret = array();
+        $ret = [];
         foreach ($color as $k => $v) {
             // range checks
             if ($v <= 0) {
                 $ret[$k] = 0;
             } elseif ($v <= 100) {
                 // add 0.5 then cast to an integer to round the value.
-                $ret[$k] = (integer)((2.55 * $v) + 0.5);
+                $ret[$k] = (int)((2.55 * $v) + 0.5);
             } else {
                 $ret[$k] = 255;
             }
@@ -717,9 +707,9 @@ class Image_Color
 /**
  * Function for array_walk() to round colors to the closest web safe value.
  *
- * @param   integer $color One channel of an RGB color.
+ * @param int $color One channel of an RGB color.
  *
- * @return  integer The websafe equivalent of the color channel.
+ * @return int The websafe equivalent of the color channel.
  * @author  Jason Lotito <jason@lehighweb.com>
  * @author  Andrew Morton <drewish@katherinehouse.com>
  * @access  private

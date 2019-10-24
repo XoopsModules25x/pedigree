@@ -7,11 +7,11 @@
     </div>
 </div>
 <div id="myid">
-	<div class="width45 floatleft pad5">
-	<{$smarty.const._AH_ANIMAL_HELP1}>
-	</div>
-	<div class="width45 floatright pad5">
-	<{$smarty.const._AH_ANIMAL_HELP2}>
-	</div>
+    <div class="width45 floatleft pad5">
+        <{$smarty.const._AH_ANIMAL_HELP1}>
+    </div>
+    <div class="width45 floatright pad5">
+        <{$smarty.const._AH_ANIMAL_HELP2}>
+    </div>
 </div>
 <div class="clear"></div>

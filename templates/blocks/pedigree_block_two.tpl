@@ -2,7 +2,7 @@
 
 <{* Display error messages, if any. If no error, do not show the table *}>
 <{if $block.error.msg}>
-<table border="0" cellpadding="10px" cellspacing="0" ID="Table1">
+<table border="0" cellpadding="10px" cellspacing="0" id="Table1">
 	<tr>
 		<td>
 			<{$block.lang.error}>:
@@ -23,7 +23,7 @@
 <{/if}>
 
 <{* Display the data *}>
-<table cellspacing="0" ID="Table2">
+<table cellspacing="0" id="Table2">
 	<{foreach item=link from=$block.data}>
 	<tr>
 		<td><{$link.table_one_char}></td>

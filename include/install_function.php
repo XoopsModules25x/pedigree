@@ -12,61 +12,73 @@
  * animal module for xoops
  *
  * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
  * @package         animal
  * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: const_entete.php 9860 2012-07-13 10:41:41Z txmodxoops $
+ * @author          XOOPS Development Team ( name@site.com ) - ( https://xoops.org )
  */
 
-$indexFile = "index.html";
-$blankFile = XOOPS_ROOT_PATH . "/modules/TDMCreate/images/icons/blank.gif";
+$indexFile = 'index.html';
+
+$blankFile =  dirname(__DIR__) . '/assets/images/blank.gif';
 global $xoopsModule;
 //Creation du dossier "uploads" pour le module à la racine du site
-$module_uploads = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname();
+$module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname();
 if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
+    if (!mkdir($module_uploads, 0777) && !is_dir($module_uploads)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $module_uploads));
+    }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/index.html");
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/index.html');
 
 //Creation du fichier pedigree_trash dans uploads
-$module_uploads = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree_trash";
+$module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_trash';
 if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
+    if (!mkdir($module_uploads, 0777) && !is_dir($module_uploads)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $module_uploads));
+    }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree_trash/index.html");
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_trash/index.html');
 
 //Creation du fichier owner dans uploads
-$module_uploads = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/owner";
+$module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/owner';
 if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
+    if (!mkdir($module_uploads, 0777) && !is_dir($module_uploads)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $module_uploads));
+    }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/owner/index.html");
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/owner/index.html');
 
 //Creation du fichier pedigree_temp dans uploads
-$module_uploads = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree_temp";
+$module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_temp';
 if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
+    if (!mkdir($module_uploads, 0777) && !is_dir($module_uploads)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $module_uploads));
+    }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree_temp/index.html");
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_temp/index.html');
 
 //Creation du fichier pedigree dans uploads
-$module_uploads = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree";
+$module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree';
 if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
+    if (!mkdir($module_uploads, 0777) && !is_dir($module_uploads)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $module_uploads));
+    }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree/index.html");
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree/index.html');
 
 //Creation du fichier pedigree_config dans uploads
-$module_uploads = XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree_config";
+$module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_config';
 if (!is_dir($module_uploads)) {
-    mkdir($module_uploads, 0777);
+    if (!mkdir($module_uploads, 0777) && !is_dir($module_uploads)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $module_uploads));
+    }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . "/uploads/" . $xoopsModule->dirname() . "/pedigree_config/index.html");
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_config/index.html');

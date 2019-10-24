@@ -8,123 +8,131 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
- * animal module for xoops
+ * Pedigree module for XOOPS
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
- * @package         animal
+ * @package         pedigree
  * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: owner.php 12277 2014-01-26 01:21:57Z beckmi $
+ * @author          XOOPS Development Team ( name@site.com ) - ( https://xoops.org )
  */
 
-include_once 'admin_header.php';
+use Xmf\Request;
+use XoopsModules\Pedigree;
+
+require_once __DIR__ . '/admin_header.php';
+
+xoops_cp_header();
+//$adminObject = \Xmf\Module\Admin::getInstance();
+
+$ownerHandler = Pedigree\Helper::getInstance()->getHandler('Owner');
+
 //It recovered the value of argument op in URL$
-$op = animal_CleanVars($_REQUEST, 'op', 'list', 'string');
+$op = Request::getCmd('op', 'list');
 switch ($op) {
-    case "list":
+    case 'list':
     default:
-        echo $adminMenu->addNavigation('owner.php');
-        $adminMenu->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
-        echo $adminMenu->renderButton('left');
-        $criteria = new CriteriaCompo();
-        $criteria->setSort("ID");
-        $criteria->setOrder("ASC");
-        $numrows   = $pedigreeOwnerHandler->getCount();
-        $owner_arr = $pedigreeOwnerHandler->getall($criteria);
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
+        $adminObject->displayButton('left');
+        $criteria = new \CriteriaCompo();
+        $criteria->setSort('id');
+        $criteria->setOrder('ASC');
+        $numrows   = $ownerHandler->getCount();
+        $owner_arr = $ownerHandler->getAll($criteria);
 
         //Table view
         if ($numrows > 0) {
             echo "<table width='100%' cellspacing='1' class='outer'>
                 <tr>
-                    <th align=\"center\">" . _AM_PEDIGREE_OWNER_FIRSTNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_LASTNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_POSTCODE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_CITY . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_STREETNAME . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_HOUSENUMBER . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_PHONENUMBER . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_EMAILADRES . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_WEBSITE . "</th>
-                        <th align=\"center\">" . _AM_PEDIGREE_OWNER_USER . "</th>
+                    <th align=\"center\">" . _AM_PEDIGREE_OWNER_FIRSTNAME . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_LASTNAME . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_POSTCODE . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_CITY . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_STREETNAME . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_HOUSENUMBER . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_PHONENUMBER . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_EMAILADRES . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_WEBSITE . '</th>
+                        <th class="center">' . _AM_PEDIGREE_OWNER_USER . "</th>
 
-                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . "</th>
-                </tr>";
+                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . '</th>
+                </tr>';
 
-            $class = "odd";
+            $class = 'odd';
 
             foreach (array_keys($owner_arr) as $i) {
-                if ($owner_arr[$i]->getVar("owner_pid") == 0) {
+                if (0 == $owner_arr[$i]->getVar('owner_pid')) {
                     echo "<tr class='" . $class . "'>";
-                    $class = ($class == "even") ? "odd" : "even";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("firstname") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("lastname") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("postcode") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("city") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("streetname") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("housenumber") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("phonenumber") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("emailadres") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("website") . "</td>";
-                    echo "<td align=\"center\">" . $owner_arr[$i]->getVar("user") . "</td>";
+                    $class = ('even' === $class) ? 'odd' : 'even';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('firstname') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('lastname') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('postcode') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('city') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('streetname') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('housenumber') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('phonenumber') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('emailadres') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('website') . '</td>';
+                    echo '<td class="center">' . $owner_arr[$i]->getVar('user') . '</td>';
 
-                    echo "<td align='center' width='10%'>
-                        <a href='owner.php?op=edit_owner&ID=" . $owner_arr[$i]->getVar("ID") . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='owner.php?op=delete_owner&ID=" . $owner_arr[$i]->getVar("ID") . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
+                    echo "<td class='center' width='10%'>
+                        <a href='owner.php?op=edit_owner&id=" . $owner_arr[$i]->getVar('id') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
+                        <a href='owner.php?op=delete_owner&id=" . $owner_arr[$i]->getVar('id') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
                         </td>";
-                    echo "</tr>";
+                    echo '</tr>';
                 }
             }
-            echo "</table><br /><br />";
+            echo '</table><br><br>';
         }
 
         break;
 
-    case "new_owner":
-        echo $adminMenu->addNavigation("owner.php");
-        $adminMenu->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
-        echo $adminMenu->renderButton();
+    case 'new_owner':
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
+        $adminObject->displayButton('left');
 
-        $obj  = $pedigreeOwnerHandler->create();
+        $obj  = $ownerHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
 
-    case "save_owner":
-        if (!$GLOBALS["xoopsSecurity"]->check()) {
-            redirect_header("owner.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
+    case 'save_owner':
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            $helper->redirect('admin/owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($_REQUEST["ID"])) {
-            $obj = $pedigreeOwnerHandler->get($_REQUEST["ID"]);
+        if (isset($_REQUEST['id'])) {
+            $obj = $ownerHandler->get($_REQUEST['id']);
         } else {
-            $obj = $pedigreeOwnerHandler->create();
+            $obj = $ownerHandler->create();
         }
 
         //Form firstname
-        $obj->setVar("firstname", $_REQUEST["firstname"]);
+        $obj->setVar('firstname', $_REQUEST['firstname']);
         //Form lastname
-        $obj->setVar("lastname", $_REQUEST["lastname"]);
+        $obj->setVar('lastname', $_REQUEST['lastname']);
         //Form postcode
-        $obj->setVar("postcode", $_REQUEST["postcode"]);
+        $obj->setVar('postcode', $_REQUEST['postcode']);
         //Form city
-        $obj->setVar("city", $_REQUEST["city"]);
+        $obj->setVar('city', $_REQUEST['city']);
         //Form streetname
-        $obj->setVar("streetname", $_REQUEST["streetname"]);
+        $obj->setVar('streetname', $_REQUEST['streetname']);
         //Form housenumber
-        $obj->setVar("housenumber", $_REQUEST["housenumber"]);
+        $obj->setVar('housenumber', $_REQUEST['housenumber']);
         //Form phonenumber
-        $obj->setVar("phonenumber", $_REQUEST["phonenumber"]);
+        $obj->setVar('phonenumber', $_REQUEST['phonenumber']);
         //Form emailadres
-        $obj->setVar("emailadres", $_REQUEST["emailadres"]);
+        $obj->setVar('emailadres', $_REQUEST['emailadres']);
         //Form website
-        $obj->setVar("website", $_REQUEST["website"]);
+        $obj->setVar('website', $_REQUEST['website']);
         //Form user
-        $obj->setVar("user", $_REQUEST["user"]);
+        $obj->setVar('user', $_REQUEST['user']);
 
-        if ($pedigreeOwnerHandler->insert($obj)) {
-            redirect_header("owner.php?op=list", 2, _AM_PEDIGREE_FORMOK);
+        if ($ownerHandler->insert($obj)) {
+            $helper->redirect('admin/owner.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
@@ -132,30 +140,30 @@ switch ($op) {
         $form->display();
         break;
 
-    case "edit_owner":
-        echo $adminMenu->addNavigation("owner.php");
-        $adminMenu->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
-        $adminMenu->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
-        echo $adminMenu->renderButton();
-        $obj  = $pedigreeOwnerHandler->get($_REQUEST["ID"]);
+    case 'edit_owner':
+        $adminObject->displayNavigation(basename(__FILE__));
+        $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
+        $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
+        $adminObject->displayButton('left');
+        $obj  = $ownerHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
-    case "delete_owner":
-        $obj = $pedigreeOwnerHandler->get($_REQUEST["ID"]);
-        if (isset($_REQUEST["ok"]) && $_REQUEST["ok"] == 1) {
-            if (!$GLOBALS["xoopsSecurity"]->check()) {
-                redirect_header("owner.php", 3, implode(",", $GLOBALS["xoopsSecurity"]->getErrors()));
+    case 'delete_owner':
+        $obj = $ownerHandler->get($_REQUEST['id']);
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                $helper->redirect('admin/owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($pedigreeOwnerHandler->delete($obj)) {
-                redirect_header("owner.php", 3, _AM_PEDIGREE_FORMDELOK);
+            if ($ownerHandler->delete($obj)) {
+                $helper->redirect('admin/owner.php', 3, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array("ok" => 1, "ID" => $_REQUEST["ID"], "op" => "delete_owner"), $_SERVER["REQUEST_URI"], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar("owner")));
+            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_owner'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('owner')));
         }
         break;
 }
-include_once 'admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

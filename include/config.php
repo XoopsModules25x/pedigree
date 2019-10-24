@@ -9,45 +9,71 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * animal module for xoops
+ * Pedigree module for XOOPS
  *
- * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       {@link https://xoops.org/  XOOPS Project}
  * @license         GPL 2.0 or later
- * @package         animal
- * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: const_entete.php 9860 2012-07-13 10:41:41Z txmodxoops $
+ * @package         pedigree
+ * @author          XOOPS Module Dev Team (https://xoops.org)
  */
+function getConfig()
+{
+    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+    return (object)[
+        'name' => mb_strtoupper($moduleDirName) . ' Module Configurator',
+        'paths' => [
+            'dirname' => $moduleDirName,
+            'admin' => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
+            'modPath' => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+            'modUrl' => XOOPS_URL . '/modules/' . $moduleDirName,
+            'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            'uploadUrl' => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
+        ],
+        'uploadFolders' => [
+            constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+            constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/images',
+            constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/images/thumbnails',
+            //XOOPS_UPLOAD_PATH . '/flags'
+        ],
+        'copyBlankFiles' => [
+            constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+            constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/images',
+            constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/images/thumbnails',
+            //XOOPS_UPLOAD_PATH . '/flags'
+        ],
 
-global $xoopsModule;
-if (!defined('PEDIGREE_DIRNAME')) {
-    define("PEDIGREE_DIRNAME", $xoopsModule->dirname());
-    define("PEDIGREE_PATH", XOOPS_ROOT_PATH . "/modules/" . PEDIGREE_DIRNAME);
-    define("PEDIGREE_URL", XOOPS_URL . "/modules/" . PEDIGREE_DIRNAME);
-    define("PEDIGREE_ADMIN", PEDIGREE_URL . "/admin/index.php");
+        'copyTestFolders' => [
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+            //[
+            //    constant($moduleDirNameUpper . '_PATH') . '/testdata/images',
+            //    constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/images',
+            //]
+        ],
+
+        'templateFolders' => [
+            '/templates/',
+            '/templates/blocks/',
+            '/templates/admin/',
+        ],
+        'oldFiles' => [
+            '/class/request.php',
+            '/class/registry.php',
+            '/class/utilities.php',
+            '/class/util.php',
+            //            '/include/constants.php',
+            //            '/include/functions.php',
+            '/ajaxrating.txt',
+        ],
+        'oldFolders' => [
+            '/images',
+            '/css',
+            '/js',
+            '/tcpdf',
+            '/images',
+        ],
+        'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',
+    ];
 }
-define("PEDIGREE_AUTHOR_LOGOIMG", PEDIGREE_URL . "/assets/images/xoopsproject_logo.png");
-
-
-// Define here the place where main upload path
-
-$img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'];
-
-define("PEDIGREE_UPLOAD_URL", XOOPS_UPLOAD_URL . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
-//define("PEDIGREE_UPLOAD_PATH", $img_dir); // WITHOUT Trailing slash
-define("PEDIGREE_UPLOAD_PATH", XOOPS_UPLOAD_PATH . '/' . PEDIGREE_DIRNAME); // WITHOUT Trailing slash
-
-
-$uploadFolders = array(
-    PEDIGREE_UPLOAD_PATH,
-    PEDIGREE_UPLOAD_PATH . '/images',
-    PEDIGREE_UPLOAD_PATH . '/images/thumbnails'
-);
-
-// module information
-$mod_copyright
-    = "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . PEDIGREE_AUTHOR_LOGOIMG . "' alt='XOOPS Project' /></a>";

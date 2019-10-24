@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
-//	pedigree
-//		Copyright 2004, James Cotton
-// 		http://www.dobermannvereniging.nl
-//	Template
-//		Copyright 2004 Thomas Hill
-//		<a href="http://www.worldware.com">worldware.com</a>
+//  pedigree
+//      Copyright 2004, James Cotton
+//      http://www.dobermannvereniging.nl
+//  Template
+//      Copyright 2004 Thomas Hill
+//      <a href="http://www.worldware.com">worldware.com</a>
 // -------------------------------------------------------------------------
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -28,14 +28,32 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Pedigree;
+
+include dirname(__DIR__) . '/preloads/autoloader.php';
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+//require_once  dirname(__DIR__) . '/include/common.php';
+/** @var \XoopsModules\Pedigree\Helper $helper */
+$helper = \XoopsModules\Pedigree\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
+
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+if (is_object($helper->getModule())) {
+    //    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
+}
+
 //xoops_cp_header();
 //echo "<h4>Pedigree Administration</h4><table width='100%' border='0' cellspacing='1' class='outer'>";
 //echo "<tr><td class='odd'> - <b><a href='database_table.php?op=sql'>SQL actions</a></b>";
-//echo "<br /><br />";
+//echo "<br><br>";
 //echo " - <b><a href='database_table.php?op=main'>Edit entry</a></b>";
-//echo "<br /><br />";
+//echo "<br><br>";
 //echo " - <b><a href='database_table.php?op=add'>Add entry</a></b>";
-//echo "<br /><br />";
+//echo "<br><br>";
 //echo "- <b><a href='".XOOPS_URL."/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=".$xoopsModule->getVar('mid') ."'>Preferences</a></b></td></tr></table>";
 
 // $adminmenu[0]['link'] = "admin/database_table.php?op=sql";
@@ -43,48 +61,43 @@
 // $adminmenu[1]['link'] = "admin/colors.php";
 // $adminmenu[1]['title'] = "Create colours";
 
-$dirname        = basename(dirname(__DIR__));
-$module_handler = xoops_getHandler("module");
-$xoopsModule    = XoopsModule::getByDirname($dirname);
-$moduleInfo     = $module_handler->get($xoopsModule->getVar("mid"));
-$pathIcon32     = $moduleInfo->getInfo("icons32");
-$adminmenu      = array();
+$adminmenu = [];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU1,
-    'link'  => 'admin/index.php',
-    'icon'  => $pathIcon32 . '/home.png'
-);
+    'link' => 'admin/index.php',
+    'icon' => $pathIcon32 . '/home.png',
+];
 
-$adminmenu[] = array(
-    'title' => _MI_PEDIGREE_ADMENU2,
-    'link'  => 'admin/pedigree_trash.php',
-    'icon'  => $pathIcon32 . '/alert.png'
-);
-
-$adminmenu[] = array(
-    'title' => _MI_PEDIGREE_ADMENU3,
-    'link'  => 'admin/owner.php',
-    'icon'  => $pathIcon32 . '/user-icon.png'
-);
-
-$adminmenu[] = array(
-    'title' => _MI_PEDIGREE_ADMENU4,
-    'link'  => 'admin/pedigree_temp.php',
-    'icon'  => $pathIcon32 . '/wizard.png'
-);
-
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU5,
-    'link'  => 'admin/pedigree.php',
-    'icon'  => $pathIcon32 . '/groupmod.png'
-);
+    'link' => 'admin/pedigree.php',
+    'icon' => $pathIcon32 . '/groupmod.png',
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
+    'title' => _MI_PEDIGREE_ADMENU3,
+    'link' => 'admin/owner.php',
+    'icon' => $pathIcon32 . '/user-icon.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_PEDIGREE_ADMENU4,
+    'link' => 'admin/pedigree_temp.php',
+    'icon' => $pathIcon32 . '/wizard.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_PEDIGREE_ADMENU2,
+    'link' => 'admin/pedigree_trash.php',
+    'icon' => $pathIcon32 . '/alert.png',
+];
+
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
-    'link'  => 'admin/pedigree_config.php',
-    'icon'  => $pathIcon32 . '/administration.png'
-);
+    'link' => 'admin/pedigree_config.php',
+    'icon' => $pathIcon32 . '/administration.png',
+];
 
 /*
 $adminmenu[] = array(
@@ -94,8 +107,23 @@ $adminmenu[] = array(
 );
 */
 
-$adminmenu[] = array(
+// Blocks Admin
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+    'link' => 'admin/blocksadmin.php',
+    'icon' => $pathIcon32 . '/block.png',
+];
+
+if ($helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link' => 'admin/migrate.php',
+        'icon' => $pathIcon32 . '/database_go.png',
+    ];
+}
+
+$adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU8,
-    'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png'
-);
+    'link' => 'admin/about.php',
+    'icon' => $pathIcon32 . '/about.png',
+];
