@@ -130,9 +130,10 @@ function colours()
     global $xoopsTpl, $femaleTextColour;
     $form = 'This will be the wizard to create and modify the website colourscheme.<hr>';
     $form .= '<form name="myForm" action=\'savecolors.php\' method=\'POST\'>';
+    $form .= $GLOBALS['xoopsSecurity']->getTokenHTML();
     $form .= '<input type="text" id="ftxtcolor" name="ftxtcolor" value="#' . $femaleTextColour . '" size="11" maxlength="7">';
     $form .= '<a href="javascript:TCP.popup(document.forms[\'myForm\'].elements[\'ftxtcolor\'])">';
-    $form .= '<img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="img/sel.gif"></a>';
+    $form .= '<img width="15" height="13" border="0" alt="Click here to pick the color" src="img/sel.gif"></a>';
     $form .= '</form>';
     $xoopsTpl->assign('form', $form);
 }

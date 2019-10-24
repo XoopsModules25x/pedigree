@@ -19,18 +19,18 @@
  * @author         Fernando Santos (topet05) <fernando@mastop.com.br>
  */
 use Xmf\Request;
+use XoopsModules\Pedigree;
 
-include __DIR__ . '/admin_header.php';
+require __DIR__ . '/admin_header.php';
 
-$adminObject = \Xmf\Module\Admin::getInstance();
+/** @var \Xmf\Module\Admin $adminObject */
 
-$feedback = new \XoopsModules\Pedigree\Common\ModuleFeedback();
+$feedback = XoopsModules\Pedigree\Common\ModuleFeedback::getInstance();
 
 // It recovered the value of argument op in URL$
-$op = Request::getString('op', 'list');
-$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
+$op = Request::getCmd('op', 'list');
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-xoops_loadLanguage('feedback', $moduleDirName);
+$helper->loadLanguage('common');
 
 xoops_cp_header();
 
@@ -85,7 +85,7 @@ switch ($op) {
         $feedback->site = $your_site;
         $feedback->type = $fb_type;
         $feedback->content = $fb_content;
-        echo '<div align="center" style="width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
+        echo '<div style="text-align: center; width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
             <h3>' . constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_ERROR') . '</h3>
             </div>';
         $form = $feedback->getFormFeedback();

@@ -169,9 +169,9 @@ define('_MI_PEDIGREE_MALE_DESC', 'male language option'); // male language optio
 define('_MI_PEDIGREE_FEMALE_DESC', 'female language option'); // female language option");
 define('_MI_PEDIGREE_LITTER_DESC', 'litter language option'); // litter language option");
 define('_MI_PEDIGREE_USELITTER_DESC', 'Should the add a litter feature be used ?'); // Should the add a litter feature be used ?");
-define('_MI_PEDIGREE_SHOWELCOME_DESC', 'Show the welcome screen ?'); // Show the welcome screen ?");
+define('_MI_PEDIGREE_SHOWELCOME_DESC', 'Show the welcome screen?'); // Show the welcome screen?);
 define('_MI_PEDIGREE_COLOR_DESC', 'Set Color Preferences separated by \';\'');
-define('_MI_PEDIGREE_CHILDREN_DESC', 'Children language option'); // "mother language option");
+define('_MI_PEDIGREE_CHILDREN_DESC', 'Children language option'); // children language option);
 
 //Templates
 
@@ -211,3 +211,6 @@ define('_MI_PEDIGREE_OVERVIEW', 'Overview');
 define('_MI_PEDIGREE_DISCLAIMER', 'Disclaimer');
 define('_MI_PEDIGREE_LICENSE', 'License');
 define('_MI_PEDIGREE_SUPPORT', 'Support');
+
+// v1.32 Alpha 8
+define('_MI_PEDIGREE_SAVE_SETTINGS', 'Your settings have been saved...');
