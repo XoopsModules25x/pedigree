@@ -211,3 +211,6 @@ define('_MI_PEDIGREE_OVERVIEW', 'Overview');
 define('_MI_PEDIGREE_DISCLAIMER', 'Disclaimer');
 define('_MI_PEDIGREE_LICENSE', 'License');
 define('_MI_PEDIGREE_SUPPORT', 'Support');
+
+// v1.32 Alpha 8
+define('_MI_PEDIGREE_SAVE_SETTINGS', 'Your settings have been saved...');
