@@ -12,6 +12,7 @@
 - moved picker.js and picker.html to ./assets/js folder (zyspec)
 - moved some hard coded language strings to language file(s) (zyspec)
 - begin conversion from direct SQL SELECT calls to use object classes (zyspec)
+- added Pedigree\Constants Interface
 
 WORK IN PROGRESS
 
@@ -40,7 +41,8 @@ WORK IN PROGRESS
 
 
 
-TODO (suggested by Zyspec):
+TODO (suggested by ZySpec):
+- need to change SQL tables so that pedigree_trash, pedigree_temp, & pedigree_tree all have same var types
 - refactor most of the module
 - move CheckoutWizard class to ./class
 - move ZervWizard classes to ./library

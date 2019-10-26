@@ -3,6 +3,7 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -27,7 +28,7 @@ switch ($f) {
         //create xoopsform
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $searchform = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_LITTER, ['[litter]' => $helper->getConfig['litter']]), 'searchform', $helper->url('add_litter.php?f=sire'), 'post');
-        $searchform->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+        $searchform->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
         //create random value
         $random = (mt_rand() % 10000);
         $searchform->addElement(new \XoopsFormHidden('random', $random));
@@ -44,8 +45,8 @@ switch ($f) {
             //gender
             $gender_radio[$count] = new \XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft' . $count, $value = '0');
             $gender_radio[$count]->addOptionArray([
-                '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $helper->getConfig['male']]),
-                '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $helper->getConfig['female']])
+                Constants::MALE => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $helper->getConfig['male']]),
+                Constants::FEMALE => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $helper->getConfig['female']])
             ]);
             $searchform->addElement($gender_radio[$count]);
             //add userfields

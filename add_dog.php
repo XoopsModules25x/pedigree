@@ -19,6 +19,7 @@
  */
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 //require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
@@ -59,7 +60,7 @@ switch ($f) {
             //create form
             include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
             $form = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $helper->getConfig['animalType']]), 'dogname', 'add_dog.php?f=checkName&r=1', 'post');
-            $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+            $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
             $form->addElement(new \XoopsFormHidden('naam', $name));
             $form->addElement(new \XoopsFormHidden('user', $GLOBALS['xoopsUser']->getVar('uid')));
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchBoth($result))) {
@@ -76,7 +77,7 @@ switch ($f) {
             $form = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $helper->getConfig['animalType']]), 'dogname', 'add_dog.php?f=sire', 'post');
             //added to handle upload
             $form->setExtra("enctype='multipart/form-data'");
-            $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+            $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
             //create random value
             $random = (mt_rand() % 10000);
             $form->addElement(new \XoopsFormHidden('random', $random));
@@ -628,7 +629,7 @@ switch ($f) {
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         //create form
         $form = new \XoopsThemeForm(strtr(_MA_PEDIGREE_ADD_DOG, ['[animalType]' => $helper->getConfig['animalType']]), 'dogname', 'add_dog.php?f=checkName', 'post');
-        $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+        $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
         //create random value
         $random = (mt_rand() % 10000);
         $form->addElement(new \XoopsFormHidden('random', $random));
