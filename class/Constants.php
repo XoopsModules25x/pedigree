@@ -28,8 +28,7 @@ interface Constants
 {
     /**#@+
      * Constant definition
-     */
-
+    */
     /**
      * XOOPSTOKEN Request Timeout value
      */
@@ -43,13 +42,73 @@ interface Constants
      */
     const FEMALE = 1;
     /**
-     * default forms to show per page in lists
+     * Default gender
      */
-    const PER_PAGE_DEFAULT = 10;
+    const DEFAULT_ROFT = Constants::MALE;
+    /**
+     * Default tree ID
+     */
+    const DEFAULT_TREE_ID = 1;
+    /**
+     * default items to show per page in lists
+     */
+    const DEFAULT_PER_PAGE = 10;
+    /**
+     * default order
+     */
+    const DEFAULT_ORDER = 0;
     /**
      * Percent precision - digits after decimal point
      */
     const PCT_PRECISION = 2;
+    /**
+     * item is not active
+     */
+    const IS_NOT_ACTIVE = 0;
+    /**
+     * item is active
+     */
+    const IS_ACTIVE = 1;
+    /**
+     * item does not have search
+     */
+    const DOES_NOT_HAVE_SEARCH = 0;
+    /**
+     * item has search
+     */
+    const HAS_SEARCH = 1;
+    /**
+     * view item false
+     */
+    const DO_NOT_VIEW_IN = 0;
+    /**
+     * view item true
+     */
+    const VIEW_IN = 1;
+    /**
+     * item is not locked
+     */
+    const UNLOCKED = 0;
+    /**
+     * item is locked
+     */
+    const LOCKED = 1;
+    /**
+     * is not a litter
+     */
+    const NOT_LITTER = 0;
+    /**
+     * is a litter
+     */
+    const LITTER = 1;
+    /**
+     * is not general litter
+     */
+    const NOT_GENERAL_LITTER = 0;
+    /**
+     * is general litter
+     */
+    const GENERAL_LITTER = 1;
     /**
      * no delay XOOPS redirect delay (in seconds)
      */

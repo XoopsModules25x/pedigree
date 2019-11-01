@@ -41,15 +41,22 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
      */
     abstract public function newField($name);
 
-    /**
-     * @return mixed
-     */
-    abstract public function viewField();
 
     /**
-     * @return mixed
+     * @return mixed|void
      */
-    abstract public function showField();
+    public function showField()
+    {
+        return null;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function viewField()
+    {
+        return null;
+    }
 
     /**
      * @return mixed
@@ -57,14 +64,20 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
     abstract public function showValue();
 
     /**
-     * @return mixed
+     * @return mixed|void
      */
-    abstract public function searchField();
+    public function searchField()
+    {
+        return null;
+    }
 
     /**
-     * @return mixed
+     * @return mixed|null
      */
-    abstract public function getSearchString();
+    public function getSearchString()
+    {
+        return null;
+    }
 
     /**
      * @param string $message

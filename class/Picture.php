@@ -1,24 +1,21 @@
 <?php
-
 namespace XoopsModules\Pedigree;
 
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
-/**
- * Pedigree\Picture Class
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * @copyright   {@link https://xoops.org/ XOOPS Project}
- * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @author      lucio <lucio.rota@gmail.com>
- * @package     \XoopsModules\Pedigree\Class
- * @since       1.31
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
  */
 use XoopsModules\Pedigree;
 
@@ -27,6 +24,7 @@ use XoopsModules\Pedigree;
  */
 class Picture extends Pedigree\HtmlInputAbstract
 {
+    private $maxfilesize = 1024000;
     /**
      * @param Pedigree\Field  $parentObject
      * @param Pedigree\Animal $animalObject
@@ -60,7 +58,7 @@ class Picture extends Pedigree\HtmlInputAbstract
      */
     public function editField()
     {
-        $picturefield = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, 1024000);
+        $picturefield = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, $this->maxfilesize);
         $picturefield->setExtra("size ='50'");
 
         return $picturefield;
@@ -73,7 +71,7 @@ class Picture extends Pedigree\HtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $picturefield = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, 1024000);
+        $picturefield = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, $this->maxfilesize);
         $picturefield->setExtra("size ='50'");
 
         return $picturefield;
@@ -103,21 +101,5 @@ class Picture extends Pedigree\HtmlInputAbstract
     public function showValue()
     {
         return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">';
-    }
-
-    /**
-     * @return mixed|null
-     */
-    public function searchField()
-    {
-        return null;
-    }
-
-    /**
-     * @return mixed|null
-     */
-    public function getSearchString()
-    {
-        return null;
     }
 }

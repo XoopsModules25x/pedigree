@@ -1,25 +1,21 @@
 <?php
-
 namespace XoopsModules\Pedigree;
 
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
-/**
- * Pedigree module for XOOPS
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * @copyright   {@link http://sourceforge.net/projects/thmod/ The TXMod XOOPS Project}
- * @copyright   {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
- * @license     GPL 2.0 or later
- * @package     pedigree
- * @subpackage  class
- * @author      XOOPS Mod Development Team
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
  */
 use XoopsModules\Pedigree;
 
@@ -153,12 +149,5 @@ class RadioButton extends Pedigree\HtmlInputAbstract
         $select .= '</select>';
 
         return $select;
-    }
-
-    /**
-     * @return mixed|void
-     */
-    public function getSearchString()
-    {
     }
 }
