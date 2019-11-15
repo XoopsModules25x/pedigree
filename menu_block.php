@@ -74,7 +74,7 @@ function menu_block()
     $lastpos = Pedigree\Utility::myStrRpos($x, '/');
     $len = mb_strlen($x);
     $curpage = mb_substr($x, $lastpos, $len);
-    if ('1' == $helper->getConfig['showwelcome']) {
+    if ('1' == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_WELCOME . '</b>';
         } else {
@@ -87,9 +87,9 @@ function menu_block()
         }
     }
     if ('/index.php' === $curpage || '/result.php' == $curpage) {
-        $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $helper->getConfig['animalTypes'] . '</b>';
+        $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $helper->getConfig('animalTypes') . '</b>';
     } else {
-        $title = '_MA_PEDIGREE_VIEWSEARCH ' . $helper->getConfig['animalTypes'];
+        $title = '_MA_PEDIGREE_VIEWSEARCH ' . $helper->getConfig('animalTypes');
     }
     $menuarray[] = ['title' => $title, 'link' => 'result.php', 'counter' => $counter];
     ++$counter;
@@ -97,20 +97,20 @@ function menu_block()
         $counter = 1;
     }
     if ('/index.php' === $curpage) {
-        $title = '<b>' . _MA_PEDIGREE_ADD_A . $helper->getConfig['animalType'] . '</b>';
+        $title = '<b>' . _MA_PEDIGREE_ADD_A . $helper->getConfig('animalType') . '</b>';
     } else {
-        $title = 'PED_ADD_A ' . $helper->getConfig['animalType'];
+        $title = 'PED_ADD_A ' . $helper->getConfig('animalType');
     }
     $menuarray[] = ['title' => $title, 'link' => 'add_dog.php', 'counter' => $counter];
     ++$counter;
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $helper->getConfig['uselitter']) {
+    if ('1' == $helper->getConfig('uselitter') {
         if ('/index.php' === $curpage) {
-            $title = '<b>' . _MA_PEDIGREE_ADD_LITTER . $helper->getConfig['litter'] . '</b>';
+            $title = '<b>' . _MA_PEDIGREE_ADD_LITTER . $helper->getConfig('litter') . '</b>';
         } else {
-            $title = '_MA_PEDIGREE_ADD_LITTER ' . $helper->getConfig['litter'];
+            $title = '_MA_PEDIGREE_ADD_LITTER ' . $helper->getConfig('litter');
         }
         $menuarray[] = ['title' => $title, 'link' => 'add_litter.php', 'counter' => $counter];
         ++$counter;
@@ -118,7 +118,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ('1' == $helper->getConfig['ownerbreeder']) {
+    if ('1' == $helper->getConfig('ownerbreeder')) {
         if ('/index.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIEW_OWNBREED . '</b>';
         } else {
@@ -150,7 +150,7 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $helper->getConfig['proversion']) {
+    if ('1' == $helper->getConfig('proversion')) {
         if ('/index.php' === $curpage || '/virtual.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIRUTALTIT . '</b>';
         } else {

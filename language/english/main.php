@@ -308,7 +308,7 @@ define('_MA_PEDIGREE_FROM', ' of ');
 
 //coi
 define('_MA_PEDIGREE_COI_WAIT', 'Click here to calculate the inbred percententage for this [animalType].<br>Due to the complexity of these calculations it can take a few minutes to load the page.');
-define('_MA_PEDIGREE_COI_MORE', 'At least both parents need to be known to do an inbreeding calculation.');
+define('_MA_PEDIGREE_COI_MORE', 'At a minimum both parents need to be known to do an inbreeding calculation.');
 define('_MA_PEDIGREE_COI_CKRI', 'Coefficients of Kinship, Relationship and Inbreeding');
 define(
     '_MA_PEDIGREE_COI_CKRI_CT',
@@ -490,3 +490,4 @@ define('_MA_PEDIGREE_VIRTUAL_PAGETITLE', 'Pedigree database - Virtual Mating');
 define('_MA_PEDIGREE_UPDATE', 'Pedigree database - Update details');
 define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');
 define('_MA_PEDIGREE_LTRCHARS', '0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z');
+define('_MA_PEDIGREE_ERR_INVALID', 'Invalid item specified.');

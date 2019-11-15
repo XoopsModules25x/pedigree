@@ -22,6 +22,7 @@ namespace XoopsModules\Pedigree;
  * @author      ZySpec <zyspec@yahoo.com>
  */
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -42,13 +43,12 @@ class Animal
      */
     public function __construct($id = null)
     {
-        $id = null !== $id ? (int)$id : 1;
-        $myTreeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
-
-        $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('id', $id));
+        $id = null !== $id ? (int)$id : Constants::DEFAULT_TREE_ID;
+        /** @var XoopsModules\Pedigree\TreeHandler $treeHandler */
+        $treeHandler = XoopsModules\Pedigree\Helper::getInstance()->getHandler('Tree');
+        $criteria = new \Criteria('id', $id);
         $criteria->setLimit(1);
-        $this->myTree = $myTreeHandler->getAll($criteria, null, false);
+        $this->myTree = $treeHandler->getAll($criteria, null, false);
         /*
         $SQL = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_tree") . " WHERE id = {$id}";
         $result    = $GLOBALS['xoopsDB']->query($SQL);
@@ -62,21 +62,23 @@ class Animal
     }
 
     /**
-     * Number of Fields
+     * Ids of Fields
      * @return array
      */
-    public function getNumOfFields()
+    public function getFieldsIds()
     {
-        $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
-        $criteria = new \CriteriaCompo();
-        $criteria->setSort('`order`');
-        $criteria->setOrder('ASC');
-        $this->fields = $fieldsHandler->getIds($criteria); //get all object IDs
-        $this->configValues = $fieldsHandler->getAll($criteria, null, false); //get objects as arrays
+        /** @var XoopsModules\Pedigree\FieldsHandler $fieldsHandler */
+        $fieldsHandler = XoopsModules\Pedigree\Helper::getInstance()->getHandler('Fields');
+        $criteria = new \Criteria();
+        $criteria->setSort('order');
+        $criteria->order = 'ASC';
+        //$this->fields = $fieldsHandler->getIds($criteria); //get all object IDs
+        $this->configValues = $fieldsHandler->getAll($criteria, null, false, true); //get objects as arrays w/ id as array key
         if (empty($this->configValues)) {
             /** @internal changed from '' to [] in v1.32 Alpha 1; not sure this is really needed since getAll() above will return empty array */
             $this->configValues = [];
         }
+        $this->fields = array_keys($this->configValues);
         /*
         $SQL    = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_fields") . " ORDER BY `order`";
         $result = $GLOBALS['xoopsDB']->query($SQL);
@@ -100,5 +102,32 @@ class Animal
     public function getConfig()
     {
         return $this->configValues;
+    }
+
+    /**
+     * Get Fields Elements to display in a form
+     *
+     * example usage: $formElements = $animal->getFormFieldsElements();
+     *                foreach ($formElements as $fElement) {
+     *                   $form->addElement($fElement);
+     *                }
+     *
+     * @return array form element array to be added to form
+     */
+    public function getFormFieldsElements()
+    {
+        $formElements = [];
+        $this->fields = $this->getFieldsIds();
+        $fieldCount = count($this->fields);
+        for ($i = 0; $i < $fieldCount; ++$i) {
+            $userField = new Pedigree\Field($this->fields[$i], $this->getConfig());
+            if ($userField->isActive()) {
+                $fieldType = $userField->getVar('fieldtype');
+                $fieldObject = new $fieldType($userField, $this);
+                $edditable[$i] = $fieldObject->editField();
+                $formElements[] = $edditable[$i];
+            }
+        }
+        return $formElements;
     }
 }

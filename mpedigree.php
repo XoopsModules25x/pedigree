@@ -301,8 +301,8 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 $GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $d['d']['name'] . ' -- mega pedigree');
 //assign dog(s)
 $GLOBALS['xoopsTpl']->assign('d', $d);
-$GLOBALS['xoopsTpl']->assign('male', '<img src="assets/images/male.gif">');
-$GLOBALS['xoopsTpl']->assign('female', '<img src="assets/images/female.gif">');
+$GLOBALS['xoopsTpl']->assign('male', "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">");
+$GLOBALS['xoopsTpl']->assign('female', "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">");
 //assign extra display options
 $GLOBALS['xoopsTpl']->assign('unknown', 'Unknown');
 $GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, ['[animalType]' => $helper->getConfig('animalType')]));
@@ -313,14 +313,30 @@ $GLOBALS['xoopsTpl']->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, ['[animalType]' =
 $GLOBALS['xoopsTpl']->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, ['[animalType]' => $helper->getConfig('animalType')]));
 
 /**
- * @param $sex
- * @param $item
+ * @param string $gender m|f
+ * @param int $item
  *
  * @return string
  * @todo move this to ./include directory
  */
-function crcolour($sex, $item)
+function crcolour($gender, $item)
 {
+    switch ($item) {
+        case '1':
+        default:
+            $col = 'transparent';
+            break;
+        case '2':
+            $col = ('f' === $gender) ? '#C8C8FF' : '#FFC8C8';
+            break;
+        case '3':
+            $col = ('f' === $gender) ? '#6464FF' : '#FF6464';
+            break;
+        case '4':
+            $col = ('f' === $gender) ? '#0000FF' : '#FF0000';
+            break;
+    }
+    /*
     if ('1' == $item) {
         $col = 'transparant';
     } elseif ('2' == $item && 'f' === $sex) {
@@ -338,6 +354,7 @@ function crcolour($sex, $item)
     } else {
         $col = 'transparant';
     }
+    */
 
     return $col;
 }

@@ -49,7 +49,7 @@ require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 $id = Request::getInt('pedid', 1, 'GET');
 //$animal = new Pedigree\Animal($id);
 //test to find out how many user fields there are.
-//$fields      = $animal->getNumOfFields();
+//$fields      = $animal->getFieldsIds();
 //$fieldsCount = count($fields);
 
 $qarray = ['d', 'f', 'm', 'ff', 'mf', 'fm', 'mm', 'fff', 'ffm', 'fmf', 'fmm', 'mmf', 'mff', 'mfm', 'mmm'];
@@ -96,7 +96,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             'roft' => $row[$key . '_roft'],
             'nhsb' => '',
         ];
-        if ((3 != mb_strlen($key) || (0 != $helper->getConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
+        if ((3 != mb_strlen($key) || (0 != $helper->getConfig('lastimage'))) && ('' !== $row[$key . '_foto'])) {
             //show image in last row of pedigree if image exists
             $dogs[$key]['photo'] = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
             $dogs[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
@@ -109,12 +109,12 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         if (0 !== $dogs[$key]['id']) {
             //if exists create animal object
             $animal = new Pedigree\Animal($dogs[$key]['id']);
-            $fields = $animal->getNumOfFields();
+            $fields = $animal->getFieldsIds();
         }
         foreach ($fields as $i => $iValue) {
             $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
             if ($userField->isActive() && $userField->inPedigree()) {
-                $fieldType = $userField->getSetting('FieldType');
+                $fieldType = $userField->getSetting('fieldtype');
                 $fieldObj = new $fieldType($userField, $animal);
                 $pedidata .= $fieldObj->showField() . '<br>';
             }
@@ -128,8 +128,8 @@ $GLOBALS['xoopsTpl']->assign([
         'page_title' => stripslashes($row['d_naam']),
         'd' => $dogs,  //assign dogs array
         //assign config options
-        'male' => '<img src="assets/images/male.gif" alt="_MA_PEDIGREE_FLD_MALE" title="_MA_PEDIGREE_FLD_MALE">',
-        'female' => '<img src="assets/images/female.gif" alt="_MA_PEDIGREE_FLD_FEMA" title="_MA_PEDIGREE_FLD_FEMA">',
+        'male' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\" alt=\"" . _MA_PEDIGREE_FLD_MALE . "\" title=\"" . _MA_PEDIGREE_FLD_MALE . "\">",
+        'female' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\" alt=\"" . _MA_PEDIGREE_FLD_FEMA . "\" title=\"" . _MA_PEDIGREE_FLD_FEMA . "\">",
         //assign extra display options
         'unknown' => _MA_PEDIGREE_UNKNOWN,
         'SD' => _MA_PEDIGREE_SD,

@@ -96,11 +96,11 @@ $numbers_pie->MakePie('assets/images/numbers.png', '200', '200', '10', $odd, $da
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
-$fields = $animal->getNumOfFields();
+$fields = $animal->getFieldsIds();
 
 for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
     $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-    $fieldType   = $userField->getSetting('FieldType');
+    $fieldType   = $userField->getSetting('fieldtype');
     $fieldObject = new $fieldType($userField, $animal);
     if ($userField->isActive() && $userField->inAdvanced()) {
         $queryString =
@@ -159,15 +159,15 @@ $GLOBALS['xoopsTpl']->assign([
                         '[children]' => $configs['children'],
                     ]) . '</a>',
     'tnmftitle' => strtr(_MA_PEDIGREE_ADV_TNMFTIT, ['[male]' => $configs['male'], '[female]' => $configs['female']]),
-    'countmales' => '<img src="assets/images/male.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCMA, [
+    'countmales' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\"> " . strtr(_MA_PEDIGREE_ADV_TCMA, [
                         '[male]' => $configs['male'],
                         '[female]' => $configs['female'],
                     ]) . ' : <a href="result.php?f=roft&w=zero&o=naam">' . $countMales . '</a>',
-    'countfemales' => '<img src="assets/images/female.gif"> ' . strtr(_MA_PEDIGREE_ADV_TCFE, [
+    'countfemales' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\"> " . strtr(_MA_PEDIGREE_ADV_TCFE, [
                         '[male]' => $configs['male'],
                         '[female]' => $configs['female'],
                     ]) . ' : <a href="result.php?f=roft&w=1&o=naam">' . $countFemales . '</a>',
-    'pienumber' => '<img src="assets/images/numbers.png">',
+    'pienumber' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/numbers.png\">",
     'totpl' => $totpl,
     'books' => $books,
     'orptitle' => _MA_PEDIGREE_ADV_ORPTIT,

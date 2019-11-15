@@ -10,28 +10,18 @@
  */
 
 /**
+ * @package        XoopsModules\Pedigree
  * @copyright      {@link https://xoops.org/ XOOPS Project}
  * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
  * @since
+ * @author         Tobias Liegl (aka CHAPI)
  * @author         XOOPS Development Team
+ * @link           http://www.chapi.de
  */
 use XoopsModules\Pedigree;
-
-// ------------------------------------------------------------------------- //
-// Author: Tobias Liegl (AKA CHAPI)                                          //
-// Site: http://www.chapi.de                                                 //
-// Project: XOOPS Project                                                    //
-// ------------------------------------------------------------------------- //
+use XoopsModules\Pedigree\Constants;
 
 xoops_load('Pedigree\Animal', $moduleDirName);
-
-//get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
-$module = $moduleHandler->getByDirname($moduleDirName);
-$configHandler = xoops_getHandler('config');
-$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 /**
  * @param $columncount
@@ -114,9 +104,9 @@ function createThumbs($filename)
             }
             unset($phpThumb);
         }
-    
+
         return true;
-    
+
         */
 
     // load the image
@@ -233,7 +223,7 @@ function pups($oid, $gender)
                     . ' m ON d.mother = m.id WHERE d.father='
                     . $oid
                     . ' ORDER BY d.naam';
-    } else {
+    } else { //@todo - what's suppose to happen for females? this is the same as for male above
         $sqlQuery = 'SELECT d.id AS d_id, d.naam AS d_naam, d.roft AS d_roft, d.* FROM '
                     . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
                     . ' d LEFT JOIN '
@@ -249,12 +239,12 @@ function pups($oid, $gender)
 
     $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
-    $fields = $animal->getNumOfFields();
+    $fields = $animal->getFieldsIds();
     $numofcolumns = 1;
     $columns[] = ['columnname' => 'Name'];
     foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-        $fieldType = $userField->getSetting('FieldType');
+        $fieldType = $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
         $lookupValues = '';
@@ -334,12 +324,12 @@ function bas($oid, $pa, $ma)
 
     $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
-    $fields = $animal->getNumOfFields();
+    $fields = $animal->getFieldsIds();
     $numofcolumns1 = 1;
     $columns1[] = ['columnname' => 'Name'];
     foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-        $fieldType = $userField->getSetting('FieldType');
+        $fieldType = $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
         $lookupValues = '';
@@ -493,12 +483,12 @@ function createList($result, $prefix, $link, $element)
     global $xoopsTpl;
     $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
-    $fields = $animal->getNumOfFields();
+    $fields = $animal->getFieldsIds();
     $numofcolumns = 1;
     $columns[] = ['columnname' => 'Name'];
     foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-        $fieldType = $userField->getSetting('FieldType');
+        $fieldType = $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         if ($userField->isActive() && $userField->inList()) {
             if ($userField->hasLookup()) {
@@ -521,17 +511,20 @@ function createList($result, $prefix, $link, $element)
         $dogs[] = $prefix;
     }
 
+    $helper = XoopsModules\Pedigree\Helper::getInstance();
+    require_once $helper->path('include/common.php');
+
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //reset $gender
         $gender = '';
         if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser)
             && ($row['user'] == $GLOBALS['xoopsUser']->getVar('uid') || true === $modadmin)) {
-            $gender = "<a href='dog.php?id={$row['id']}'><img src='images/edit.png' alt='" . _EDIT . "'></a>
-                     . <a href='delete.php?id={$row['id']}'><img src='images/delete.png' alt='" . _DELETE . "'></a>";
+            $gender = "<a href=\"dog.php?id={$row['id']}\">{$icons['edit']}</a>
+                     . <a href=\"'delete.php?id={$row['id']}\">{$icons['delete']}</a>";
         }
 
-        $genImg = (0 == $row['roft']) ? 'male.gif' : 'female.gif';
-        $gender .= "<img src='assets/images/{$genImg}'>";
+        $genImg = (Constants::MALE == $row['roft']) ? 'male.gif' : 'female.gif';
+        $gender .= "<img src=\"" . PEDIGREE_IMAGE_PATH . "/{$genImg}'>";
 
         if ('' != $row['foto']) {
             $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
@@ -585,6 +578,7 @@ function createList($result, $prefix, $link, $element)
 
 /***************Blocks**************
  *
+ * @deprecated - NOT USED
  * @param $cats
  *
  * @return string
@@ -631,6 +625,7 @@ function animal_CleanVars(&$global, $key, $default = '', $type = 'int')
 }
 
 /**
+ * @deprecated - NOT USED
  * @param $content
  */
 function animal_meta_keywords($content)
@@ -646,6 +641,7 @@ function animal_meta_keywords($content)
 }
 
 /**
+ * @deprecated - NOT USED
  * @param $content
  */
 function animal_meta_description($content)

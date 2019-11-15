@@ -47,6 +47,15 @@ class Trash extends \XoopsObject
     }
 
     /**
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getVar('naam');
+    }
+
+    /**
      * @param bool $action
      *
      * @return \XoopsThemeForm

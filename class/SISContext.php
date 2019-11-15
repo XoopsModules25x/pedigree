@@ -33,7 +33,13 @@ class SISContext
                 $this->contexts[$name] = $url; // the url might be slightly different
                 $this->depth = $i + 1;
 
-                for ($x = count($this->contexts); $x > $i + 1; $x--) {
+                $contextsCount = count($this->contexts);
+                /** @internal test new calc below - should be faster than for loop w/ array_pop */
+                /*
+                $newLen = $contextsCount - $this->depth;
+                array_slice($this->contexts, 0, $newLen);
+                */
+                for ($contextsCount; $contextsCount > $this->depth; $contextsCount--) {
                     array_pop($this->contexts);
                 }
 

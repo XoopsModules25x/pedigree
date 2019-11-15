@@ -73,25 +73,25 @@ foreach ($ownObjArray as $ownObj) {
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_LNAME,
         'data' => "<a href=\"owner.php?ownid={$ownId}\">{$naaml}</a>",
-        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=nl") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>",
+        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=nl") . "\">{$icons['edit']}</a>",
     ];
     //firstname
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_FNAME,
         'data' => '<a href="' . $helper->url("owner.php?ownid={$ownId}") . "\">{$naamf}</a>",
-        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=nf") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>",
+        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=nf") . "\">{$icons['edit']}</a>",
     ];
     //email
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
         'data' => "<a href=\"mailto:{$email}\">{$email}</a>",
-        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=em") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>",
+        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=em") . "\">{$icons['edit']}</a>",
     ];
     //homepage
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
         'data' => "<a href=\"{$homepage}\" target=\"_blank\">{$homepage}</a>",
-        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=we") . "\"><img src=\"{$pathIcon16}/edit.png\" border=\"0\" alt=\"_EDIT\" title=\"_EDIT\"></a>",
+        'edit' => '<a href="' . $helper->url("updateowner.php?id={$ownId}&fld=we") . "\">{$icons['edit']}</a>",
     ];
     //owner of
     $items[] = [
@@ -211,7 +211,7 @@ foreach ($ownObjArray as $ownObj) {
 }
 
 //add data to smarty template
-$GLOBALS['xoopsTpl']->assign(['delete' => "<img src=\"{$pathIcon16}/delete.png\" border=\"0\" alt=\"_DELETE\" title=\"_DELETE\">"]);
+$GLOBALS['xoopsTpl']->assign(['delete' => $icons['delete']]);
 
 //comments and footer
 include XOOPS_ROOT_PATH . '/footer.php';

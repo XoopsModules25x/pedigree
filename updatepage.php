@@ -10,36 +10,33 @@
 */
 
 /**
- * animal module for XOOPS
+ * Module: Pedigree animal module for XOOPS
  *
+ * @package         XoopsModules\Pedigree
  * @copyright       {@link http://sourceforge.net/projects/thmod/ The TXMod XOOPS Project}
  * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
  * @license         GPL 2.0 or later
- * @package         pedigree
  * @author          XOOPS Mod Development Team
- * @version         $Id: $
  *
- * @todo            : move hard coded language strings to language files
+ * @todo move hard coded language strings to language file
  */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
+/** @var XoopsModules\Pedigree\Helper $helper */
+$helper->loadLanguage('main');
 
-$moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
-
-//check for access
+//check for access - only allow registered users
 //$xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-
 // Include any common code for this module.
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
+require_once $helper->path('include/common.php');
 
 /*
 $GLOBALS['xoopsOption']['template_main'] = "pedigree_update.tpl";
@@ -48,7 +45,10 @@ include $GLOBALS['xoops']->path('/header.php');
 $GLOBALS['xoopsTpl']->assign('page_title', "Pedigree database - Update details");
 */
 
-//@todo need to check XOOPS security token here...
+//check XOOPS security token
+if (!$GLOBALS['xoopsSecurity']->check()) {
+    $helper->redirect('', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
+}
 
 //possible variables (specific variables are found in the specified IF statement
 $dogid   = Request::getInt('dogid', 0, 'POST');
@@ -72,7 +72,7 @@ $id_owner = Request::getInt('id_owner', 0, 'POST');
 
 //$id       = (!isset($_POST['dogid']) ? $id = '' : $id = $_POST['dogid']);
 $animal = new Pedigree\Animal($dogid);
-$fields = $animal->getNumOfFields();
+$fields = $animal->getFieldsIds();
 
 foreach ($fields as $i => $iValue) {
     if ('user' . $iValue === $_POST['dbfield']) {
@@ -93,6 +93,9 @@ foreach ($fields as $i => $iValue) {
     }
 }
 
+$ch = false;
+$chow = false;
+
 //name
 if (!empty($name)) {
     $curval = Request::getString('curvalname', '', 'POST');
@@ -100,7 +103,7 @@ if (!empty($name)) {
     $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $GLOBALS['xoopsDB']->escape($name) . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
 
-    $ch = 1;
+    $ch = true;
 }
 //owner
 if (isset($_POST['id_owner'])) {
@@ -109,7 +112,7 @@ if (isset($_POST['id_owner'])) {
     $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $_POST['id_owner'] . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
 
-    $ch = 1;
+    $ch = true;
 }
 //breeder
 if (isset($_POST['id_breeder'])) {
@@ -119,7 +122,7 @@ if (isset($_POST['id_breeder'])) {
     $sql        = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $id_breeder . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
 
-    $ch = 1;
+    $ch = true;
 }
 //gender
 if (!empty($_POST['roft']) || '0' == $_POST['roft']) {
@@ -130,7 +133,7 @@ if (!empty($_POST['roft']) || '0' == $_POST['roft']) {
     $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $roft . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
 
-    $ch = 1;
+    $ch = true;
 }
 //sire - dam
 if (isset($_GET['gend'])) {
@@ -146,7 +149,7 @@ if (isset($_GET['gend'])) {
         $GLOBALS['xoopsDB']->queryF($sql);
     }
 
-    $ch    = 1;
+    $ch    = true;
     $dogid = $curval;
 }
 //picture
@@ -156,7 +159,7 @@ if ('foto' === $_POST['dbfield']) {
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . " SET foto='" . $GLOBALS['xoopsDB']->escape($foto) . "' WHERE id='{$dogid}'";
     $GLOBALS['xoopsDB']->queryF($sql);
 
-    $ch = 1;
+    $ch = true;
 }
 
 //owner
@@ -168,7 +171,7 @@ if (isset($_POST['naaml'])) {
     $naaml  = Request::getString('naaml', '', 'POST');
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $GLOBALS['xoopsDB']->escape($naaml) . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
-    $chow = 1;
+    $chow = true;
 }
 //firstname
 if (isset($_POST['naamf'])) {
@@ -178,7 +181,7 @@ if (isset($_POST['naamf'])) {
     $naaml  = Request::getString('naamf', '', 'POST');
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $GLOBALS['xoopsDB']->escape($naamf) . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
-    $chow = 1;
+    $chow = true;
 }
 //streetname
 if (isset($_POST['street'])) {
@@ -188,7 +191,7 @@ if (isset($_POST['street'])) {
     $street = $GLOBALS['xoopsDB']->escape(Request::getString('street', '', 'POST'));
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $street . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
-    $chow = 1;
+    $chow = true;
 }
 //housenumber
 if (isset($_POST['housenumber'])) {
@@ -198,7 +201,7 @@ if (isset($_POST['housenumber'])) {
     $housenumber = $GLOBALS['xoopsDB']->escape(Request::getString('housenumber', '', 'POST'));
     $sql         = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $housenumber . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
-    $chow = 1;
+    $chow = true;
 }
 //postcode
 if (isset($_POST['postcode'])) {
@@ -208,7 +211,7 @@ if (isset($_POST['postcode'])) {
     $postcode = $GLOBALS['xoopsDB']->escape(Request::getString('postcode', '', 'POST'));
     $sql      = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $postcode . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
-    $chow = 1;
+    $chow = true;
 }
 //city
 if (isset($_POST['city'])) {
@@ -218,7 +221,7 @@ if (isset($_POST['city'])) {
     $city   = $GLOBALS['xoopsDB']->escape(Request::getString('city', '', 'POST'));
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $city . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
-    $chow = 1;
+    $chow = true;
 }
 //phonenumber
 if (isset($_POST['phonenumber'])) {
@@ -228,7 +231,7 @@ if (isset($_POST['phonenumber'])) {
     $phonenumber = $GLOBALS['xoopsDB']->escape(Request::getString('phonenumber', '', 'POST'));
     $sql         = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $phonenumber . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
-    $chow = 1;
+    $chow = true;
 }
 //email
 if (isset($_POST['email'])) {
@@ -238,7 +241,7 @@ if (isset($_POST['email'])) {
     $email  = $GLOBALS['xoopsDB']->escape(Request::getEmail('email', '', 'POST'));
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $email . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
-    $chow = 1;
+    $chow = true;
 }
 //website
 if (isset($_POST['web'])) {
@@ -248,20 +251,21 @@ if (isset($_POST['web'])) {
     $web    = $GLOBALS['xoopsDB']->escape(Request::getUrl('web', '', 'POST'));
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $web . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
-    $chow = 1;
+    $chow = true;
 }
 
 //check for access and completion
 if ($ch) {
-    redirect_header('dog.php?id=' . $dogid, 1, _MD_DATACHANGED);
+    $helper->redirect('dog.php?id=' . $dogid, Constants::REDIRECT_DELAY_SHORT, _MD_DATACHANGED);
 } elseif ($chow) {
-    redirect_header('owner.php?ownid=' . $dogid, 1, _MD_DATACHANGED);
+    $helper->redirect('owner.php?ownid=' . $dogid, Constants::REDIRECT_DELAY_SHORT, _MD_DATACHANGED);
 } else {
+    //@todo REFACTOR THIS CODE - IT IS A POTENTIAL SECURITY RISK
     foreach ($_POST as $key => $values) {
         $filesval .= $key . ' : ' . Request::getString($values) . '<br>';
     }
 
-    redirect_header('dog.php?id=' . $dogid, 15, 'ERROR!!<br>' . $filesval);
+    $helper->redirect('dog.php?id=' . $dogid, Constants::REDIRECT_DELAY_LONG, 'ERROR!!<br>' . $filesval);
 }
 //footer
 include XOOPS_ROOT_PATH . '/footer.php';

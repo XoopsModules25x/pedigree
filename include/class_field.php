@@ -55,7 +55,7 @@ class Animal
     /**
      * @return array
      */
-    public function getNumOfFields()
+    public function getFieldsIds()
     {
         global $xoopsDB;
         $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' ORDER BY `order`';
@@ -111,7 +111,7 @@ class Field
      */
     public function isActive()
     {
-        $active = $this->getSetting('isActive');
+        $active = $this->getSetting('isactive');
         return '1' == $active;
     }
 
@@ -120,7 +120,7 @@ class Field
      */
     public function inAdvanced()
     {
-        $active = $this->getSetting('ViewInAdvanced');
+        $active = $this->getSetting('viewinadvanced');
         // return ('1' == $active) ? true : false;
         return '1' == $active;
     }
@@ -139,7 +139,7 @@ class Field
      */
     public function hasSearch()
     {
-        $active = $this->getSetting('HasSearch');
+        $active = $this->getSetting('hassearch');
         return '1' == $active;
     }
 
@@ -148,7 +148,7 @@ class Field
      */
     public function addLitter()
     {
-        $active = $this->getSetting('Litter');
+        $active = $this->getSetting('litter');
         return '1' == $active;
     }
 
@@ -157,7 +157,7 @@ class Field
      */
     public function generalLitter()
     {
-        $active = $this->getSetting('Generallitter');
+        $active = $this->getSetting('generallitter');
         return '1' == $active;
     }
 
@@ -166,7 +166,7 @@ class Field
      */
     public function hasLookup()
     {
-        $active = $this->getSetting('LookupTable');
+        $active = $this->getSetting('lookuptable');
         return '1' == $active;
     }
 
@@ -183,7 +183,7 @@ class Field
      */
     public function inPie()
     {
-        $active = $this->getSetting('ViewInPie');
+        $active = $this->getSetting('viewinpie');
         return '1' == $active;
     }
 
@@ -201,7 +201,7 @@ class Field
      */
     public function inList()
     {
-        $active = $this->getSetting('ViewInList');
+        $active = $this->getSetting('viewinlist');
         return '1' == $active;
     }
 
@@ -279,6 +279,7 @@ class Field
 
 /**
  * Class RadioButton
+ * @deprecated
  */
 class RadioButton extends Field
 {
@@ -396,6 +397,7 @@ class RadioButton extends Field
 
 /**
  * Class SelectBox
+ * @deprecated
  */
 class SelectBox extends Field
 {
@@ -512,6 +514,7 @@ class SelectBox extends Field
 
 /**
  * Class TextBox
+ * @deprecated
  */
 class TextBox extends Field
 {
@@ -529,10 +532,10 @@ class TextBox extends Field
         if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ('1' == $parentObject->ViewInAdvanced) {
+        if ('1' == $parentObject->viewinadvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ('1' == $parentObject->ViewInPie) {
+        if ('1' == $parentObject->viewinpie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -570,6 +573,7 @@ class TextBox extends Field
 
 /**
  * Class TextArea
+ * @deprecated
  */
 class TextArea extends Field
 {
@@ -583,13 +587,13 @@ class TextArea extends Field
         $this->fieldname = $parentObject->fieldname;
         $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        if ('1' == $parentObject->LookupTable) {
+        if ('1' == $parentObject->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ('1' == $parentObject->ViewInAdvanced) {
+        if ('1' == $parentObject->viewinadvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ('1' == $parentObject->ViewInPie) {
+        if ('1' == $parentObject->viewinpie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -627,6 +631,7 @@ class TextArea extends Field
 
 /**
  * Class DataSelect
+ * @deprecated
  */
 class DataSelect extends Field
 {
@@ -643,10 +648,10 @@ class DataSelect extends Field
         if ('1' == $parentObject->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ('1' == $parentObject->ViewInAdvanced) {
+        if ('1' == $parentObject->viewinadvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ('1' == $parentObject->ViewInPie) {
+        if ('1' == $parentObject->viewinpie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -685,6 +690,7 @@ class DataSelect extends Field
 
 /**
  * Class UrlField
+ * @deprecated
  */
 class UrlField extends Field
 {
@@ -702,10 +708,10 @@ class UrlField extends Field
         if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ('1' == $parentObject->ViewInAdvanced) {
+        if ('1' == $parentObject->viewinadvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ('1' == $parentObject->ViewInPie) {
+        if ('1' == $parentObject->viewinpie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
     }
@@ -769,6 +775,7 @@ class UrlField extends Field
 
 /**
  * Class Picture
+ * @deprecated
  */
 class Picture extends Field
 {
@@ -786,16 +793,16 @@ class Picture extends Field
         if ('1' == $this->lookuptable) {
             new SystemMessage('No lookuptable may be specified for userfield' . $this->fieldnumber);
         }
-        if ('1' == $parentObject->ViewInAdvanced) {
+        if ('1' == $parentObject->viewinadvanced) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be shown in advanced info');
         }
-        if ('1' == $parentObject->ViewInPie) {
+        if ('1' == $parentObject->viewinpie) {
             new SystemMessage('A Pie-chart cannot be specified for userfield' . $this->fieldnumber);
         }
-        if ('1' == $parentObject->ViewInList) {
+        if ('1' == $parentObject->viewinlist) {
             new SystemMessage('userfield' . $this->fieldnumber . ' cannot be included in listview');
         }
-        if ('1' == $parentObject->HasSearch) {
+        if ('1' == $parentObject->hassearch) {
             new SystemMessage('Search cannot be defined for userfield' . $this->fieldnumber);
         }
     }
@@ -853,6 +860,7 @@ class Picture extends Field
 
 /**
  * Class SISContext
+ * @deprecated
  */
 class SISContext
 {

@@ -27,21 +27,21 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     if ($star > 10000) {
         $sterretje = floor($star / 10000);
         for ($c = 0; $c < $sterretje; ++$c) {
-            $content .= '<img src="assets/images/star.png" border="0">';
+            $content .= "<img src=\"" . PEDIGREE_IMAGE_URL . "/star.png\" border=\"0\">";
             $star -= 10000;
         }
     }
     if ($star > 1000) {
         $sterretje = floor($star / 1000);
         for ($c = 0; $c < $sterretje; ++$c) {
-            $content .= '<img src="assets/images/star3.gif" border="0">';
+            $content .= "<img src=\"" . PEDIGREE_IMAGE_URL . "/star3.gif\" border=\"0\">";
             $star -= 1000;
         }
     }
     if ($star > 100) {
         $sterretje = floor($star / 100);
         for ($c = 0; $c < $sterretje; ++$c) {
-            $content .= '<img src="assets/images/star2.gif" border="0">';
+            $content .= "<img src=\"" . PEDIGREE_IMAGE_URL . "/star2.gif\" border=\"0\">";
         }
     }
 

@@ -21,15 +21,18 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 require_once __DIR__ . '/admin_header.php';
+
+/** @var XoopsModules\Pedigree\Helper $helper */
 
 //xoops_cp_header();
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //require_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
 
 if (!empty($_POST['submit'])) {
-    $helper->redirect('admin/permissions.php', 1, _MP_GPERMUPDATED);
+    $helper->redirect('admin/permissions.php', Constants::REDIRECT_DELAY_SHORT, _MP_GPERMUPDATED);
 }
 
 /** @var \Xmf\Module\Admin $adminObject */
@@ -54,22 +57,23 @@ echo '
     </table>
 </form>';
 
-$module_id = $xoopsModule->getVar('mid');
+//$module_id = $xoopsModule->getVar('mid');
+$module_id = $helper->getModule()->getVar('mid');
 
 switch ($permission) {
     case 1:
         $formTitle = _AM_PEDIGREE_PERMISSIONS_ACCESS;
-        $permName  = 'xdirectory_access';
+        $permName  = 'pedigree_access';
         $permDesc  = '';
         break;
     case 2:
         $formTitle = _AM_PEDIGREE_PERMISSIONS_SUBMIT;
-        $permName  = 'xdirectory_submit';
+        $permName  = 'pedigree_submit';
         $permDesc  = '';
         break;
     case 3:
         $formTitle = _AM_PEDIGREE_PERMISSIONS_VIEW;
-        $permName  = 'xdirectory_view';
+        $permName  = 'pedigree_view';
         $permDesc  = '';
         break;
 }

@@ -331,8 +331,8 @@ function pedigree_main($ID)
     $xoopsTpl->assign('overview', $ov);
     $sign = $moduleConfig['gender'];
     if (1 == $sign) {
-        $xoopsTpl->assign('male', '<img src="assets/images/male.gif">');
-        $xoopsTpl->assign('female', '<img src="assets/images/female.gif">');
+        $xoopsTpl->assign('male', "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">");
+        $xoopsTpl->assign('female', "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">");
     }
     $addit = $moduleConfig['adinfo'];
     if (1 == $addit) {

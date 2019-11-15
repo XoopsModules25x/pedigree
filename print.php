@@ -86,25 +86,22 @@ LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother 
 where d.Id=$dogid";
 
 $result = $GLOBALS['xoopsDB']->query($queryString);
+$male   = "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">";
+$female = "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">";
+$gender = '';
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+    $gender = (Constants::MALE == $row['d_roft']) ? $male : $female;
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <html><head>
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="AUTHOR" content="' . $GLOBALS['xoopsConfig']['sitename'] . '">
-    <meta name="COPYRIGHT" content="Copyright (c) 2018 by ' . $GLOBALS['xoopsConfig']['sitename'] . '">
+    <meta name="COPYRIGHT" content="Copyright (c) 2019 by ' . $GLOBALS['xoopsConfig']['sitename'] . '">
     <meta name="GENERATOR" content="XOOPS Pedigree database">
     </head>
     <body bgcolor="#ffffff" text="#000000" onload="window.print()">
     <table border="0" width="640">
         <tr>
             <td>';
-    $male   = '<img src="assets/images/male.gif">';
-    $female = '<img src="assets/images/female.gif">';
-    if (0 == $row['d_roft']) {
-        $gender = $male;
-    } else {
-        $gender = $female;
-    }
 
     echo "    <table width='100%' cellspacing='2' border='2'>\n"
          . "      <!-- header (dog name) -->\n"

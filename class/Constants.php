@@ -62,6 +62,22 @@ interface Constants
      */
     const PCT_PRECISION = 2;
     /**
+     * use to test if owner
+     */
+    const IS_OWNER = 0;
+    /**
+     * use to test if breeder
+     */
+    const IS_BREEDER = 1;
+    /**
+     * do not use (false)
+     */
+    const DO_NOT_USE = 0;
+    /**
+     * use (true)
+     */
+    const OK_TO_USE = 1;
+    /**
      * item is not active
      */
     const IS_NOT_ACTIVE = 0;
@@ -69,6 +85,14 @@ interface Constants
      * item is active
      */
     const IS_ACTIVE = 1;
+    /**
+     * is not locked
+     */
+    const IS_NOT_LOCKED = 0;
+    /**
+     * is locked
+     */
+    const IS_LOCKED = 1;
     /**
      * item does not have search
      */

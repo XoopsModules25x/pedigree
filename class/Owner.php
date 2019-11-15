@@ -48,6 +48,20 @@ class Owner extends \XoopsObject
     }
 
     /**
+     *
+     * @param bool $reverse true - "lastname, firstname" else "firstname lastname"
+     * @return string
+     */
+    public function getFullName(bool $reverse = false)
+    {
+        $name = $this->getVar('firstname') . ' ' . $this->getVar('lastname');
+        if ($reverse) {
+            $name = $this->getVar('lastname') . ', ' . $this->getVar('firstname');
+        }
+        return $name;
+    }
+
+    /**
      * @param bool $action
      *
      * @return \XoopsThemeForm

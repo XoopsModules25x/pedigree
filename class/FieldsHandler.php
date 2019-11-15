@@ -39,9 +39,7 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @todo table pedigree_lookup doesn't exist in dB this function will FAIL if called
-     *
-     * @param $fieldnumber
+     * @param int $fieldnumber
      *
      * @return array
      */

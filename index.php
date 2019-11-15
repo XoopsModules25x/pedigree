@@ -58,13 +58,13 @@ $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
  * @var \XoopsModules\Pedigree\Animal $animal
  */
 $animal = new Pedigree\Animal();
-$fields = $animal->getNumOfFields(); //find out how many user fields there are
+$fields = $animal->getFieldsIds(); //find out how many user fields there are
 
 foreach ($fields as $i => $iValue) {
     /** @var \XoopsModules\Pedigree\Field $userField */
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     if ($userField->isActive() && $userField->hasSearch()) {
-        $fieldType = $userField->getSetting('FieldType');
+        $fieldType = $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         $function = 'user' . $iValue . $fieldObject->getSearchString();
         //echo $function."<br>";
@@ -97,14 +97,14 @@ $word = $myts->displayTarea(strtr($helper->getConfig('welcome'), ['[numanimals]'
 $GLOBALS['xoopsTpl']->assign([
     'catarray' => $catarray,
     'pageTitle' => _MA_PEDIGREE_BROWSETOTOPIC,
-    'sselect' => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $helper->getConfig['animalType']]),
+    'sselect' => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $helper->getConfig('animalType')]),
     'explain' => _MA_PEDIGREE_EXPLAIN,
     'sname' => _MA_PEDIGREE_SEARCHNAME,
-    'snameex' => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $helper->getConfig['animalTypes']]),
+    'snameex' => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $helper->getConfig('animalTypes')]),
     'usersearch' => isset($usersearch) ? $usersearch : '',
-    'showwelcome' => $helper->getConfig['showwelcome'],
+    'showwelcome' => $helper->getConfig('showwelcome'),
     'word' => $word,
-    //'welcome'     => $GLOBALS['myts']->displayTarea($helper->getConfig['welcome'])
+    //'welcome'     => $GLOBALS['myts']->displayTarea($helper->getConfig('welcome'))
 ]);
 
 include $GLOBALS['xoops']->path('footer.php');

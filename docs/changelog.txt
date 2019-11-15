@@ -4,15 +4,25 @@
 - use Xmf\Request to sanitize input (zysoec)
 - minor bug fixes (zyspec)
 - minor code/HTML cleanup & add some PhpDoc comments (zyspec)
+-  use configs ($icons[]) to simplify HTML rendering (zyspec)
 - replace Jquery Magnific Popup v0.9.9 w/ v1.1.0 (zyspec)
 - updated to require XOOPS 2.5.10 (zyspec)
-- use Pedigree\Helper for url definitions ($helper->url()) (zyspec)
+- use Pedigree\Helper (zyspec)
 - fixed links in breeder.php page(s) (zyspec)
 - refactored ./tools.php (zyspec)
 - moved picker.js and picker.html to ./assets/js folder (zyspec)
 - moved some hard coded language strings to language file(s) (zyspec)
 - begin conversion from direct SQL SELECT calls to use object classes (zyspec)
 - added Pedigree\Constants Interface
+- reduce use of globals (zyspec)
+- remove require_once for ./include/common.php in files that already include ./header.php since it's included there
+- add validation to 'perPage' preference setting to ensure it's a reasonable value, set default if not
+- combine some template assign statements to reduce code overhead
+- mark several unused functions as @deprecated
+- add \Animal::getFormFieldsElements() method
+- add \Owner::getFullName() method
+- add \Tree::getParents() method
+- fix bug in 'coi' default value in \Temp::getForm() method
 
 WORK IN PROGRESS
 
@@ -42,6 +52,7 @@ WORK IN PROGRESS
 
 
 TODO (suggested by ZySpec):
+- the file PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png is referenced several places in the code but does not exist
 - need to change SQL tables so that pedigree_trash, pedigree_temp, & pedigree_tree all have same var types
 - refactor most of the module
 - move CheckoutWizard class to ./class

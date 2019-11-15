@@ -20,7 +20,7 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
-use XoopsModules;
+use XoopsModules\Pedigree\Constants;
 
 require_once __DIR__ . '/header.php';
 /** @var XoopsModules\Pedigree\Helper $helper */
@@ -36,7 +36,7 @@ $GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_UPDATE);
 
 //check for access
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    redirect_header('javascript:history.go(-1)', Constants::REDIRECT_DELAY_MEDIUM, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 $fld = Request::getWord('fld', '', 'GET');
@@ -47,22 +47,17 @@ $ownerHandler = $helper->getHandler('Owner');
 $thisOwner = $ownerHandler->get($id);
 
 if ($thisOwner && $thisOwner instanceof Pedigree\Owner) {
-    //name
+    //get owner's name
+    $ownerVals = $thisOwner->getValues(['housenumber', 'streetname', 'postcode', 'city', 'phonenumber', 'emailadres', 'website', 'user']);
+    /*
     $naaml = $thisOwner->getVar('lastname');
     $naamf = $thisOwner->getVar('firstname');
     $naam = $naaml . ', ' . $naamf;
+    */
+    $naam = $thisOwner->getFullName(true);
     $namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$naam}</a>";
     //street
-    $housenumber = $thisOwner->getVar('housenumber');
-    $street = $thisOwner->getVar('streetname');
-    $postcode = $thisOwner->getVar('postcode');
-    $city = $thisOwner->getVar('city');
-    $phonenumber = $thisOwner->getVar('phonenumber');
-    $email = $thisOwner->getVar('emailadres');
-    $web = $thisOwner->getVar('website');
-
-    //user who entered the info
-    $dbuser = $thisOwner->getVar('user');
+    list ($housenumber, $street, $postcode, $city, $phonenumber, $email, $web, $dbuser) = $ownerVals;
 }
 /*
 $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;

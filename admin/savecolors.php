@@ -1,25 +1,29 @@
 <?php
 /*
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * @copyright       {@link https://xoops.org/ XOOPS Project}
- * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package         pedigree
- * @since
- * @author          XOOPS Module Dev Team
+ * Module: Pedigree
+ *
+ * @package   XoopsModules\Pedigree
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.32
  */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
-$helper = Pedigree\Helper::getInstance();
+/** @var XoopsModules\Pedigree\Helper $helper */
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 $helper->loadLanguage('modinfo');
 
@@ -27,7 +31,7 @@ require_once $helper->path('admin/menu.php');
 
 // check referrer
 if (!$GLOBALS['xoopsSecurity']->check()) {
-    $helper->redirect('', 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
+    $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
 }
 
 xoops_cp_header();
@@ -120,6 +124,7 @@ $colourString = mb_substr($_POST['mainbgcolor'], 1)
 
 //$sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value='" . $colourString . "' WHERE conf_name = 'pedigreeColours'";
 //$GLOBALS['xoopsDB']->queryf($sql);
+//@todo refactor to use class object CRUD access
 $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value='" . $GLOBALS['xoopsDB']->escape($colourString) . "' WHERE conf_name = 'pedigreeColours'";
 $GLOBALS['xoopsDB']->queryF($sql);
 

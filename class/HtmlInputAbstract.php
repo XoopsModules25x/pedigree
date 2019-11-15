@@ -9,7 +9,7 @@ namespace XoopsModules\Pedigree;
  * @license    {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @package    pedigree
  * @subpackage class
- * @author     zyspec <owners@zyspec.com>
+ * @author     zyspec <zyspec@yahoo.com>
  * @since      1.3.1
  */
 use XoopsModules\Pedigree;

@@ -21,22 +21,14 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 /** @var XoopsModules\Pedigree\Helper $helper */
 require_once __DIR__ . '/header.php';
-$moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
-$helper = Pedigree\Helper::getInstance();
+$helper->load('main');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
-
 include $GLOBALS['xoops']->path('/header.php');
 
-// Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
-
 //check for access
-$xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
@@ -66,13 +58,8 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
 $op = Request::getCmd('op', 'none', 'GET');
 
-//always check to see if a certain field was refferenced.
-$field = Request::getInt('field', null, 'get');
-/*
-if (isset($_GET['field'])) {
-    $field = $_GET['field'];
-}
-*/
+//always check to see if a certain field was referenced
+$field = Request::getInt('field', null, 'GET');
 
 switch ($op) {
     case 'lang':
@@ -503,10 +490,11 @@ switch ($op) {
 
 //create tools array
 $tools[] = ['title' => _MA_PEDIGREE_GENSTTINGS, 'link' => 'tools.php?op=settings', 'main' => '1'];
-//if ($moduleConfig['proversion'] == '1')
-//{
-//  $tools[] = array ( 'title' => "Pro-version settings", 'link' => "tools.php?op=pro", 'main' => "1" );
-//}
+/*
+if (1 == $helper->getConfig('proversion')) {
+  $tools[] = array ( 'title' => "Pro-version settings", 'link' => "tools.php?op=pro", 'main' => "1" );
+}
+*/
 $tools[] = ['title' => _MA_PEDIGREE_LANG_OPTIONS, 'link' => 'tools.php?op=lang', 'main' => '1'];
 $tools[] = ['title' => _MA_PEDIGREE_CREATE_USER_FIELD, 'link' => 'tools.php?op=userfields', 'main' => '1'];
 $tools[] = ['title' => _MA_PEDIGREE_LIST_USER_FIELD, 'link' => 'tools.php?op=listuserfields', 'main' => '1'];
@@ -542,43 +530,31 @@ function listuserfields()
     $mark = "<td><span style='font-weight: bold;'>X</span></td>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "<tr>\n";
+        //@todo move hard coded language strings to language file
         //display locked fields
-        if (1 == $row['locked']) {
-            $form .= '<td><a href="' . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"assets/images/locked.gif\" alt=\"click to open this field\"></a></td>\n";
+        if (Constants::IS_LOCKED == $row['locked']) {
+            $form .= "<td><a href=\"" . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"" . PEDIGREE_IMAGE_URL . "/locked.gif\" alt=\"click to open this field\"></a></td>\n";
         } else {
-            $form .= '<td><a href="' . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"assets/images/open.gif\" alt=\"click to lock this field\"></a></td>\n";
+            $form .= "<td><a href=\"" . $helper->url("tools.php?op=togglelocked&field={$row['id']}") . "\"><img src=\"" . PEDIGREE_IMAGE_URL . "/open.gif\" alt=\"click to lock this field\"></a></td>\n";
         }
 
         if (0 == $count) { //first row
-            $form .= '<td style="width: 15px;">&nbsp;</td><td style="width: 15px;"><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . '">' . "<img src=\"assets/images/down.gif\" alt=\"move field down\"></a></td>\n";
+            $form .= '<td style="width: 15px;">&nbsp;</td><td style="width: 15px;"><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . '">' . "<img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\" alt=\"move field down\"></a></td>\n";
         } elseif ($count == $numrows - 1) { //last row
-            $form .= '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . '">' . "<img src=\"assets/images/up.gif\" alt=\"move field up\"></a></td>\n" . "<td>&nbsp;</td>\n";
+            $form .= '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . '">' . "<img src=\"" . PEDIGREE_IMAGE_URL . "/up.gif\" alt=\"move field up\"></a></td>\n" . "<td>&nbsp;</td>\n";
         } else { //other rows
-            $form .= '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . '">'
-                     . "<img src=\"assets/images/up.gif\" alt=\"move field up\"></a></td>\n"
-                     . '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . "\">\n"
-                     . "<img src=\"assets/images/down.gif\" alt=\"move field down\"></a></td>\n";
+            $form .= "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . "\>"
+                   . "<img src=\"" . PEDIGREE_IMAGE_URL . "/up.gif\" alt=\"move field up\"></a></td>\n"
+                   . "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . "\">\n"
+                   . "<img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\" alt=\"move field down\"></a></td>\n";
         }
-        $form .= '<td><a href="' . $helper->url("tools.php?op=deluserfield&id={$row['id']}") . '">' . '<img src="images/delete.png" alt="delete field"></a>&nbsp;' . '<a href="' . $helper->url("tools.php?op=userfields&field={$row['id']}") . "\">{$row['fieldName']}</a></td>\n";
+        $form .= "<td><a href=\"" . $helper->url("tools.php?op=deluserfield&id={$row['id']}") . "\">{$icons['delete']}</a>&nbsp;<a href=\"" . $helper->url("tools.php?op=userfields&field={$row['id']}") . "\">{$row['fieldName']}</a></td>\n";
         //can the filed be shown in a list
-        if (1 == $row['ViewInList']) {
-            $form .= $mark;
-        } else {
-            $form .= "<td>&nbsp;</td>\n";
-        }
+        $form .= (1 == $row['ViewInList']) ? $mark : "<td>&nbsp;</td>\n";
         //is searchable ?
-        if (1 == $row['HasSearch']) {
-            $form .= $mark;
-        } else {
-            $form .= "<td>&nbsp;</td>\n";
-        }
+        $form .= (1 == $row['HasSearch']) ? $mark : "<td>&nbsp;</td>\n";
         //has lookuptable ?
-        if (1 == $row['LookupTable']) {
-            $form .= '<td><a href="' . $helper->url("tools.php?op=editlookup&id={$row['id']}") . '">' . _EDIT . "</a></td>\n";
-        } else {
-            $form .= "<td>&nbsp;</td>\n";
-        }
-
+        $form .= (1 == $row['LookupTable']) ? '<td><a href="' . $helper->url("tools.php?op=editlookup&id={$row['id']}") . '">' . _EDIT . "</a></td>\n" : "<td>&nbsp;</td>\n";
         $form .= "</tr>\n";
         ++$count;
     }
@@ -661,39 +637,42 @@ function editlookup($field)
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "  <tr>\n";
         if (0 == $count) { //first row
-            $form .= "    <td style='width: 15px;'>&nbsp;</td>\n"
-                     . "    <td style='width: 15px;'>\n"
-                     . "      <a href='tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down'><img src='assets/images/down.gif'></a>\n"
-                     . "    </td>\n"
-                     . "    <td>\n"
-                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='images/delete.png'></a>\n"
-                     . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
-                     . "    </td>\n";
-        } elseif ($count == $numrows - 1) { //last row
+            $form .= "    <td style=\"width: 15px;\">&nbsp;</td>\n"
+                   . "    <td style=\"width: 15px;\">\n"
+                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down\"><img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\"></a>\n"
+                   . "    </td>\n"
+                   . "    <td>\n"
+                   . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
+                   . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
+                   . "    </td>\n";
+      } elseif ($count == $numrows - 1) { //last row
             $form .= "    <td>\n"
-                     . "      <a href='tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up'><img src='assets/images/up.gif'></a>\n"
-                     . "    </td>\n"
-                     . "    <td>&nbsp;</td>\n"
-                     . "    <td>\n"
-                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='assets/images/delete.png'></a>\n"
-                     . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
-                     . "    </td>\n";
+                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up\"><img src=\"" . PEDIGRE_IMAGE_URL . "/up.gif\"></a>\n"
+                   . "    </td>\n"
+                   . "    <td>&nbsp;</td>\n"
+                   . "    <td>\n"
+                   . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
+                   . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
+                   . "    </td>\n";
         } else { //other rows
             $form .= "    <td>\n"
-                     . "      <a href='tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up'><img src='assets/images/up.gif'></a>\n"
-                     . "    </td>\n"
-                     . "    <td>\n"
-                     . "      <a href='tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down'><img src='assets/images/down.gif'></a>\n"
-                     . "    </td>\n"
-                     . "    <td>\n"
-                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='images/delete.png'></a>\n"
-                     . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
-                     . "    </td>\n";
+                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up\"><img src=\"" . PEDIGREE_IMAGE_URL . "/up.gif\"></a>\n"
+                   . "    </td>\n"
+                   . "    <td>\n"
+                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down\"><img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\"></a>\n"
+                   . "    </td>\n"
+                   . "    <td>\n"
+                   . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
+                   . "      &nbsp;<a href=\"tools.php?op=editlookupvalue&field={$field}&id={$row['id']}\">{$row['value']}</a>\n"
+                   . "    </td>\n";
         }
         $form .= "</tr>\n";
         ++$count;
     }
-    $form .= "</table>\n" . "<form method='post' action='tools.php?op=addlookupvalue&field={$field}'>\n" . "<input type='text' name='value' style='width: 140px;'>&nbsp;\n" . "<input type='submit' value='Add value'>\n" . _MA_PEDIGREE_DELVALUE . "\n";
+    $form .= "</table>\n" . "<form method='post' action='tools.php?op=addlookupvalue&field={$field}'>\n"
+           . "<input type='text' name='value' style='width: 140px;'>&nbsp;\n"
+           . "<input type='submit' value='Add value'>\n"
+           . _MA_PEDIGREE_DELVALUE . "\n";
     //    $form .= '<br><br><input type="submit" name="reset" value=Exit>&nbsp;';
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
@@ -746,9 +725,9 @@ function lookupmove($field, $id, $move)
 function dellookupvalue($field, $id)
 {
     $animal = new Pedigree\Animal();
-    $fields = $animal->getNumOfFields();
+    $fields = $animal->getFieldsIds();
     $userField = new Pedigree\Field($field, $animal->getConfig());
-    $fieldType = $userField->getSetting('FieldType');
+    $fieldType = $userField->getSetting('fieldtype');
     $fieldObject = new $fieldType($userField, $animal);
     //    $default     = $fieldObject->defaultvalue;
     $default = $GLOBALS['xoopsDB']->escape($fieldObject->defaultvalue);
@@ -794,18 +773,16 @@ function userfields($field = 0)
     $wizard = new CheckoutWizard();
     $action = $wizard->coalesce($_GET['action']);
 
-    $wizard->process($action, $_POST, 'POST' === $_SERVER['REQUEST_METHOD']);
+    //$wizard->process($action, $_POST, 'POST' === $_SERVER['REQUEST_METHOD']);
+    $wizard->process($action, $GLOBALS['POST'], 'POST' === $_SERVER['REQUEST_METHOD']);
+
     // only processes the form if it was posted. this way, we
     // can allow people to refresh the page without resubmitting
     // form data
 
     if ($wizard->isComplete()) {
-        if (0 == !$wizard->getValue('field')) {
-            // field allready exists (editing mode)
-            $form = _MA_PEDIGREE_FIELPROP;
-        } else {
-            $form = _MA_PEDIGREE_FIELDPROP_ELSE;
-        }
+        // check if field already exists (editing mode)
+        $form = (0 == !$wizard->getValue('field')) ? _MA_PEDIGREE_FIELPROP : _MA_PEDIGREE_FIELDPROP_ELSE;
         $form .= "<form method='post' action='" . $_SERVER['SCRIPT_NAME'] . '?op=userfields&action=' . $wizard->resetAction() . "'>";
         $form .= "<input type='submit' value='" . _MA_PEDIGREE_FINISH_BUTTON . "'></form>";
     } else {
@@ -813,7 +790,7 @@ function userfields($field = 0)
         if (0 == !$field) {
             $form .= "<input type='hidden' name='field' value='{$field}'>";
         }
-        if (0 == !$wizard->getValue('field')) { // field allready exists (editing mode)
+        if (0 == !$wizard->getValue('field')) { // field already exists (editing mode)
             $form .= '<h2>' . $wizard->getStepProperty('title') . ' - ' . $wizard->getValue('name') . ' - step ' . $wizard->getStepNumber() . '</h2>';
         } else {
             $form .= '<h2>' . $wizard->getStepProperty('title') . ' - step ' . $wizard->getStepNumber() . '</h2>';
@@ -1048,14 +1025,15 @@ function userfields($field = 0)
  */
 function deleted()
 {
-    global $helper;
+    $helper = Pedigree\Helper::getInstance();
     $form = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
     $sql = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src=' . $GLOBALS['pathIcon16'] . '/delete.png></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['naam'] . '</a><br>';
+        $form .= "<a href=\"tools.php?op=delperm&id={$row['id']}\">{$icons['delete']}</a>&nbsp;<a href=\"tools.php?op=restore&id={$row['id']}\">{$row['naam']}</a><br>";
     }
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
+        //@todo move hard coded language string to language file
         $form .= '<hr><a href="tools.php?op=delall">Click here</a> to remove all these ' . $helper->getConfig('animalTypes') . ' permenantly ';
     }
     $GLOBALS['xoopsTpl']->assign('form', $form);
@@ -1068,8 +1046,9 @@ function settings()
     include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $helper->url('tools.php?op=settingssave'), 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-    $select = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage'), $size = 1, $multiple = false);
+    $select = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE), $size = 1, $multiple = false);
     $options = [
+        '10' => 10,
         '50' => 50,
         '100' => 100,
         '250' => 250,

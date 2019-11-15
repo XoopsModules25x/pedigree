@@ -20,10 +20,14 @@
  */
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 require __DIR__ . '/admin_header.php';
 
-/** @var \Xmf\Module\Admin $adminObject */
+/**
+ * @var XoopsModules\Pedigree\Helper $helper
+ * @var \Xmf\Module\Admin $adminObject
+ */
 
 $feedback = XoopsModules\Pedigree\Common\ModuleFeedback::getInstance();
 
@@ -47,14 +51,14 @@ switch ($op) {
     case 'send':
         // Security Check
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('index.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
 
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('feedback.php'));
 
         $your_name = Request::getString('your_name', '');
-        $your_site = Request::getString('your_site', '');
-        $your_mail = Request::getString('your_mail', '');
+        $your_site = Request::getUrl('your_site', '');
+        $your_mail = Request::getEmail('your_mail', '');
         $fb_type = Request::getString('fb_type', '');
         $fb_content = Request::getText('fb_content', '');
         $fb_content = str_replace(["\r\n", "\n", "\r"], '<br>', $fb_content); //clean line break from dhtmltextarea
@@ -76,7 +80,7 @@ switch ($op) {
         $xoopsMailer->setBody($body);
         $ret = $xoopsMailer->send();
         if ($ret) {
-            redirect_header('index.php', 3, constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_SUCCESS'));
+            $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_SUCCESS'));
         }
 
         // show form with content again
@@ -85,12 +89,11 @@ switch ($op) {
         $feedback->site = $your_site;
         $feedback->type = $fb_type;
         $feedback->content = $fb_content;
-        echo '<div style="text-align: center; width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
+        echo '<div class="center width80" style="padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
             <h3>' . constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_ERROR') . '</h3>
             </div>';
         $form = $feedback->getFormFeedback();
         echo $form->display();
-
         break;
 }
 require __DIR__ . '/admin_footer.php';

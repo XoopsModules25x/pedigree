@@ -1,17 +1,34 @@
 <?php
-// -------------------------------------------------------------------------
+/*
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+/**
+ * Module: Pedigree
+ *
+ * @package   XoopsModules\Pedigree
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
-$moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
+/** @var XoopsModules\Pedigree\Helper $helper */
+$helper->loadLanguage('main');
 
 // Include any common code for this module.
-require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
+require_once $helper->path('include/common.php');
 
 /*
 // Get all HTTP post or get parameters into global variables that are prefixed with "param_"
@@ -20,7 +37,6 @@ extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 */
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
-
 include $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
@@ -30,7 +46,8 @@ $module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
-$perPage = $moduleConfig['perpage'];
+$perPage = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE);
+$perPage = (int)$perPage > 0 ? (int)$perPage : Constants::DEFAULT_PER_PAGE; // default if invalid number in module param
 
 $st = Request::getInt('st', 0, 'GET');
 $com = Request::getString('com', 'father', 'GET');
@@ -108,11 +125,8 @@ $result = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $numofcolumns = 2;
-    if ('father' === $com) {
-        $gender = '<img src="assets/images/male.gif">';
-    } else {
-        $gender = '<img src="assets/images/female.gif">';
-    }
+    $gender = ('father' === $com) ? "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">" : "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">";
+
     //read coi% information if exists or create link if not
     if ('' == $row['p_coi'] || '0' == $row['p_coi']) {
         $coi = '<a href="coi.php?s=' . $row['p_father'] . '&d=' . $row['p_mother'] . '&dogid=' . $row[$com] . '&detail=1">' . _MA_PEDIGREE_UNKNOWN . '</a>';
@@ -123,6 +137,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $dob = $row['X'];
     //create array for dogs
     if ('' != $row['p_foto']) {
+        //@todo figure out what this file is and where it should be placed
         $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
     } else {
         $camera = '';

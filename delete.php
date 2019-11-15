@@ -27,10 +27,7 @@ require_once __DIR__ . '/header.php';
 /** @var XoopsModules\Pedigree\Helper $helper */
 $helper->loadLanguage('main');
 
-// Include any common code for this module.
-require_once $helper->path('include/common.php');
-
-//check for access
+//check for access - only allow registered users
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
@@ -47,7 +44,7 @@ if (empty($id)) {
 $treeHandler = $helper->getHandler('Tree');
 $treeObj = $treeHandler->get($id);
 
-if ($treeObj instanceof Pedigree\Tree) {
+if ($treeObj instanceof Pedigree\Tree && !$treeObj->isNew()) {
     $naam = $treeObj->getVar('naam', 's');
     //$namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$naam}</a>";
 
@@ -60,10 +57,10 @@ if ($treeObj instanceof Pedigree\Tree) {
     $form->addElement(new \XoopsFormHidden('dogid', $id));
     $form->addElement(new \XoopsFormHidden('curname', $naam));
     $form->addElement(new \XoopsFormHiddenToken('XOOPS_TOKEN_REQUEST', Constants::TOKEN_TIMEOUT));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $helper->getConfig['animalType'] . " : <span style=\"font-weight: bold;\">{$naam}</span>?"));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $helper->getConfig('animalType') . " : <span style=\"font-weight: bold;\">{$naam}</span>?"));
     //@todo move pups() function to Tree class method
     $pups = pups($id, (int)$treeObj->getVar('roft'));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $helper->getConfig['children'] . _MA_PEDIGREE_ALL_ORPH . $pups));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $helper->getConfig('children') . _MA_PEDIGREE_ALL_ORPH . $pups));
     $form->addElement(new \XoopsFormButton('', 'button_id', _DELETE, 'submit'));
     //add data (form) to smarty template
     $GLOBALS['xoopsTpl']->assign('form', $form->render());

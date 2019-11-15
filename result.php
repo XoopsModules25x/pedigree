@@ -161,13 +161,13 @@ $result = $GLOBALS['xoopsDB']->query($queryString);
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
-$fields = $animal->getNumOfFields();
+$fields = $animal->getFieldsIds();
 $fieldsCount = count($fields);
 $numofcolumns = 1;
 $columns = [['columnname' => 'Name']];
 foreach ($fields as $i => $iValue) {
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-    $fieldType = $userField->getSetting('FieldType');
+    $fieldType = $userField->getSetting('fieldtype');
     $fieldObject = new $fieldType($userField, $animal);
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
@@ -192,24 +192,17 @@ $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
     $gender = '';
-    if ((!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser))
-        && (($row['user'] == $xoopsUser->getVar('uid')) || (true === $modadmin))) {
-        $gender = "<a href='dog.php?id={$row['id']}'><img src=" . $pathIcon16 . '/edit.png alt=' . _EDIT . "'></a>
-              <a href='delete.php?id={$row['id']}'><img src=" . $pathIcon16 . '/delete.png alt=' . _DELETE . "'></a>";
+    if ($helper->isUserAdmin()) {
+        $gender = "<a href=\"dog.php?id={$row['id']}\">{$icons['edit']}</a>&nbsp;<a href=\"delete.php?id={$row['id']}\">{$icons['delete']}</a>&nbsp;";
     }
-    if (0 == $row['roft']) {
-        $gender .= "<img src='assets/images/male.gif'>";
+    if (Constants::MALE == $row['roft']) {
+        $gender .= "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\" alt=\"" . $helper->getConfig('male') . "\" title=\"" . $helper->getConfig('male') . "\">";
     } else {
-        $gender .= "<img src='assets/images/female.gif'>";
+        $gender .= "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\" alt=\"" . $helper->getConfig('female') . "\" title=\"" . $helper->getConfig('female') . "\">";
     }
 
-    //    $camera = ('' != $row['foto']) ? " <img src='" . PEDIGREE_UPLOAD_URL . "/images/dog-icon25.png'>" : '';
-    if ('' != $row['foto']) {
-        $camera = ' <img src="assets/images/camera.png">';
-    } else {
-        $camera = '';
-    }
-
+    //$camera = ('' != $row['foto']) ? " <img src='" . PEDIGREE_UPLOAD_URL . "/images/dog-icon25.png'>" : '';
+    $camera = ('' !== $row['foto']) ? "&nbsp;<img src=\"" . PEDIGREE_IMAGE_URL . "/camera.png\">" : '';
     $name = stripslashes($row['naam']) . $camera;
     //empty array
     unset($columnvalue);

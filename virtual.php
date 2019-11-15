@@ -20,16 +20,12 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 require_once __DIR__ . '/header.php';
 
 /** @var XoopsModules\Pedigree\Helper $helper */
 $helper->loadLanguage('main');
-
-xoops_load('Pedigree\Animal', $moduleDirName);
-
-// Include any common code for this module.
-require_once $helper->path('include/common.php');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_virtual.tpl';
 include $GLOBALS['xoops']->path('/header.php');
@@ -42,13 +38,13 @@ switch($f) {
     case 'dam':
         $pages = '';
         $st = Request::getString('st', 0, 'GET');
-        $l = Request::getString('l', 'a', 'GET');
+        $l = Request::getString('l', 'A', 'GET');
         $selsire = Request::getInt('selsire', 0, 'GET');
 
         $GLOBALS['xoopsTpl']->assign('sire', '1');
         //create list of males dog to select from
-        $perPage = $helper->getConfig('perpage');
-        $perPage = (int)$perPage > 0 ? (int)$perPage : 10; // make sure $perPage is 'valid'
+        $perPage = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE);
+        $perPage = (int)$perPage > 0 ? (int)$perPage : Constants::DEFAULT_PER_PAGE; // make sure $perPage is 'valid'
 
         //Count total number of dogs
         $numDog = 'SELECT COUNT(d.id) FROM '
@@ -148,12 +144,12 @@ switch($f) {
 
         $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
-        $fields = $animal->getNumOfFields();
+        $fields = $animal->getFieldsIds();
         $numOfColumns = 1;
         $columns[] = ['columnname' => 'Name'];
         foreach ($fields as $i => $iValue) {
             $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-            $fieldType = $userField->getSetting('FieldType');
+            $fieldType = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
             $lookupValues = '';
@@ -208,7 +204,8 @@ switch($f) {
             $dogs[] = [
                 'id' => $row['d_id'],
                 'name' => $name,
-                'gender' => '<img src="assets/images/female.gif">',
+                //@todo add alt and title tags
+                'gender' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">",
                 'link' => "<a href=\"" / $helper->url("virtual.php?f=check&selsire={$selsire}&seldam={$row['d_id']}") . "\">{$name}</a>",
                 'colour' => '',
                 'number' => '',
@@ -310,8 +307,8 @@ switch($f) {
 
         $GLOBALS['xoopsTpl']->assign('sire', '1');
         //create list of males dog to select from
-        $perPage = $helper->getConfig('perpage');
-        $perPage = (int)$perPage > 0 ? (int)$perPage : 10; // make sure $perPage is 'valid'
+        $perPage = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE);
+        $perPage = (int)$perPage > 0 ? (int)$perPage : Constants::DEFAULT_PER_PAGE; // make sure $perPage is 'valid'
         //count total number of dogs
         $numDog = 'SELECT COUNT(d.id) FROM '
                 . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
@@ -387,13 +384,13 @@ switch($f) {
         $result = $GLOBALS['xoopsDB']->query($queryString);
         $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
-        $fields = $animal->getNumOfFields();
+        $fields = $animal->getFieldsIds();
         $animalConfig = $animal->getConfig();
         $numOfColumns = 1;
         $columns[] = ['columnname' => 'Name'];
         foreach ($fields as $i => $iValue) {
             $userField = new Pedigree\Field($fields[$i], $animalConfig);
-            $fieldType = $userField->getSetting('FieldType');
+            $fieldType = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
             $lookupValues = '';
@@ -448,7 +445,8 @@ switch($f) {
             $dogs[] = [
                 'id' => $row['d_id'],
                 'name' => $name,
-                'gender' => '<img src="assets/images/male.gif">',
+                //@todo add alt and title tags
+                'gender' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">",
                 'link' => "<a href=\"" . $helper->url("virtual.php?f=dam&selsire=" . $row['d_id']) . "\">{$name}</a>",
                 'colour' => '',
                 'number' => '',

@@ -21,6 +21,7 @@ use XoopsModules\Pedigree;
 
 require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
+/** @var XoopsModules\Pedigree\Helper $helper */
 $helper = Pedigree\Helper::getInstance();
 $helper->loadLanguage('main');
 
