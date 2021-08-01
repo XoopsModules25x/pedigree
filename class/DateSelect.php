@@ -17,7 +17,10 @@ namespace XoopsModules\Pedigree;
  * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author          XOOPS Module Dev Team
  */
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Animal,
+    Field
+};
 
 /**
  * Class Pedigree\DateSelectBox
@@ -36,16 +39,17 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @param Pedigree\Fields $parentObject
-     * @param                $animalObject
+     * @param Field $parentObject
+     * @param Animal $animalObject
+     *
      */
-    public function __construct($parentObject, $animalObject)
+    public function __construct(Field $parentObject, Animal $animalObject)
     {
         //@todo move language strings to language file
         $this->fieldnumber = $parentObject->getId();
-        $this->fieldname = $parentObject->fieldname;
+        $this->fieldname = $parentObject->getSetting('fieldname');
         $this->value = $animalObject->{'user' . $this->fieldnumber};
-        $this->defaultvalue = $parentObject->defaultvalue;
+        $this->defaultvalue = $parentObject->getSetting('defaultvalue');
         if ($parentObject->hasLookup()) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
         }
@@ -60,11 +64,9 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     /**
      * @return \XoopsFormTextDateSelect
      */
-    public function editField()
+    public function editField(): \XoopsFormTextDateSelect
     {
-        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $this->size, $this->value);
-
-        return $textarea;
+        return new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $this->size, $this->value);
     }
 
     /**
@@ -72,11 +74,9 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      *
      * @return \XoopsFormTextDateSelect
      */
-    public function newField($name = '')
+    public function newField(?string $name = ''): \XoopsFormTextDateSelect
     {
-        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $this->size, $this->defaultvalue);
-
-        return $textarea;
+        return new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $this->size, $this->defaultvalue);
     }
 
     /**
@@ -88,10 +88,10 @@ class DateSelect extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return mixed|void
+     * Show the value - which is nothing for this data type
      */
     public function showValue()
     {
-        return null;
+
     }
 }
