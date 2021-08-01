@@ -17,25 +17,42 @@ namespace XoopsModules\Pedigree;
  * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author          XOOPS Module Dev Team
  */
-use XoopsModules\Pedigree;
+
+use XoopsModules\Pedigree\{
+    Animal,
+    Field,
+    Helper
+};
 
 /**
  * Class Picture
  */
-class Picture extends Pedigree\HtmlInputAbstract
+class Picture extends HtmlInputAbstract
 {
-    private $maxfilesize = 1024000;
-    /**
-     * @param Pedigree\Field  $parentObject
-     * @param Pedigree\Animal $animalObject
+    /** @TODO: make file size a module Preferences config setting */
+    private const MAXFILESIZE = 1024000;
+
+    protected $fieldnumber  = 0;
+    protected $fieldname    = '';
+    protected $value        = null;
+    protected $defaultvalue = '';
+    protected $lookuptable  = 0;
+    private $helper = null;
+
+/**
+     * @param Field  $parentObject
+     * @param Animal $animalObject
      */
-    public function __construct($parentObject, $animalObject)
+    public function __construct(Field $parentObject, Animal $animalObject)
     {
-        $this->fieldnumber = $parentObject->getId();
-        $this->fieldname = $parentObject->fieldname;
-        $this->value = $animalObject->{'user' . $this->fieldnumber};
-        $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable = $parentObject->hasLookup();
+        $this->helper       = Helper::getInstance();
+        $this->fieldnumber  = $parentObject->getId();
+        $this->fieldname    = $parentObject->getSetting('fieldname');
+        $this->value        = $animalObject->{'user' . (string) $this->fieldnumber};
+        $this->defaultvalue = $parentObject->getSetting('defaultvalue');
+        $this->lookuptable  = $parentObject->hasLookup();
+
+        /** @TODO move hard coded language strings to language files */
         if ($this->lookuptable) {
             xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber);
         }
@@ -56,22 +73,22 @@ class Picture extends Pedigree\HtmlInputAbstract
     /**
      * @return \XoopsFormFile
      */
-    public function editField()
+    public function editField(): \XoopsFormFile
     {
-        $picturefield = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, $this->maxfilesize);
+        $picturefield = new \XoopsFormFile($this->fieldname, 'user' . $this->fieldnumber, self::MAXFILESIZE);
         $picturefield->setExtra("size ='50'");
 
         return $picturefield;
     }
 
     /**
-     * @param string $name
+     * @param null|string $name
      *
      * @return \XoopsFormFile
      */
-    public function newField($name = '')
+    public function newField($name = ''): \XoopsFormFile
     {
-        $picturefield = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, $this->maxfilesize);
+        $picturefield = new \XoopsFormFile($this->fieldname, $name . 'user' . $this->fieldnumber, self::MAXFILESIZE);
         $picturefield->setExtra("size ='50'");
 
         return $picturefield;
@@ -80,9 +97,9 @@ class Picture extends Pedigree\HtmlInputAbstract
     /**
      * @return \XoopsFormLabel
      */
-    public function viewField()
+    public function viewField(): \XoopsFormLabel
     {
-        $view = new \XoopsFormLabel($this->fieldname, '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">');
+        $view = new \XoopsFormLabel($this->fieldname, '<img src="' . $this->helper->uploadUrl('images/thumbnails/' . $this->value . '_400.jpeg') . '">');
 
         return $view;
     }
@@ -90,16 +107,16 @@ class Picture extends Pedigree\HtmlInputAbstract
     /**
      * @return string
      */
-    public function showField()
+    public function showField(): string
     {
-        return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_150.jpeg">';
+        return '<img src="' . $this->helper->uploadUrl('images/thumbnails/' . $this->value . '_150.jpeg') . '">';
     }
 
     /**
      * @return string
      */
-    public function showValue()
+    public function showValue(): string
     {
-        return '<img src="' . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $this->value . '_400.jpeg">';
+        return '<img src="' . $this->helper->uploadUrl('images/thumbnails/' . $this->value . '_400.jpeg') . '">';
     }
 }
