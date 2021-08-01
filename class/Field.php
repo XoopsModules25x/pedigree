@@ -12,7 +12,7 @@ namespace XoopsModules\Pedigree;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Pedigree\Breadcrumb Class
+ * Pedigree\Field Class
  *
  * @copyright   {@link https://xoops.org/ XOOPS Project}
  * @license     {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
@@ -33,13 +33,15 @@ class Field
      * @param int   $fieldnumber
      * @param array $config
      */
-    public function __construct($fieldnumber, $config)
+    public function __construct(int $fieldnumber, array $config)
     {
         //find key where id = $fieldnumber;
         $configCount = count($config);
         foreach ($config as $x => $xValue) {
-            //@todo - figure out if this is suppose to be an assignment or just a compare ('=' or '==')
-            if ($config[$x]['id'] = $fieldnumber) {
+            /**
+             * @TODO - figure out if this is suppose to be an assignment or just a compare ('=' or '=='), set to compare in v1.32
+             */
+            if ($config[$x]['id'] == $fieldnumber) {
                 foreach ($config[$x] as $key => $value) {
                     $this->$key = $value;
                 }
@@ -51,7 +53,7 @@ class Field
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return '1' == $this->getSetting('isactive');
     }
@@ -59,55 +61,55 @@ class Field
     /**
      * @return bool
      */
-    public function inAdvanced()
+    public function inAdvanced(): bool
     {
-        return '1' == $this->getSetting('viewinadvanced');
+        return (1 == $this->getSetting('viewinadvanced'));
     }
 
     /**
      * @return bool
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
-        return '1' == $this->getSetting('locked');
+        return (1 == $this->getSetting('locked'));
     }
 
     /**
      * @return bool
      */
-    public function hasSearch()
+    public function hasSearch(): bool
     {
-        return '1' == $this->getSetting('hassearch');
+        return (1 == $this->getSetting('hassearch'));
     }
 
     /**
      * @return bool
      */
-    public function addLitter()
+    public function addLitter(): bool
     {
-        return '1' == $this->getSetting('litter');
+        return (1 == $this->getSetting('litter'));
     }
 
     /**
      * @return bool
      */
-    public function generalLitter()
+    public function generalLitter(): bool
     {
-        return ('1' == $this->getSetting('generallitter'));
+        return (1 == $this->getSetting('generallitter'));
     }
 
     /**
      * @return bool
      */
-    public function hasLookup()
+    public function hasLookup(): bool
     {
-        return ('1' == $this->getSetting('lookuptable'));
+        return (1 == $this->getSetting('lookuptable'));
     }
 
     /**
      * @return string
      */
-    public function getSearchString()
+    public function getSearchString(): string
     {
         return '&amp;o=naam&amp;p';
     }
@@ -115,41 +117,41 @@ class Field
     /**
      * @return bool
      */
-    public function inPie()
+    public function inPie(): bool
     {
-        return ('1' == $this->getSetting('viewinpie'));
+        return (1 == $this->getSetting('viewinpie'));
     }
 
     /**
      * @return bool
      */
-    public function inPedigree()
+    public function inPedigree(): bool
     {
-        return ('1' == $this->getSetting('viewinpedigree'));
+        return (1 == $this->getSetting('viewinpedigree'));
     }
 
     /**
      * @return bool
      */
-    public function inList()
+    public function inList(): bool
     {
-        return '1' == $this->getSetting('viewinlist');
+        return (1 == $this->getSetting('viewinlist'));
     }
 
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param $setting
+     * @param string $setting
      *
      * @return mixed
      */
-    public function getSetting($setting)
+    public function getSetting(string $setting)
     {
         return $this->{$setting};
     }
@@ -159,11 +161,20 @@ class Field
      *
      * @return array
      */
-    public function lookupField($fieldnumber)
+    public function lookupField(int $fieldnumber): array
     {
         $ret = [];
+        /** @var \XoopsMySQLDatabase $GLOBALS['xoopsDB'] */
+        $tableName = $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . (string) $fieldnumber);
+        $query     =  "SELECT * FROM `{$tableName}` ORDER BY 'order'";
+        $result    = $GLOBALS['xoopsDB']->query($query);
+        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
+            /** @TODO investigate using $GLOBALS['xoopsDB']->getFieldType() to type cast 'value' */
+            $ret[] = ['id' => (int) $row['id'], 'value' => $row['value']];
+        }
 
         /** @var \Xmf\Database\Tables $pTables */
+/*
         $pTables = new \Xmf\Database\Tables();
         $exists = $pTables->useTable('pedigree_lookup' . $fieldnumber);
         if ($exists) {
@@ -175,7 +186,7 @@ class Field
                 $ret[] = ['id' => $row['id'], 'value' => $row['value']];
             }
         }
-
+*/
         //array_multisort($ret,SORT_ASC);
         return $ret;
     }
@@ -183,7 +194,7 @@ class Field
     /**
      * @return \XoopsFormLabel
      */
-    public function viewField()
+    public function viewField(): \XoopsFormLabel
     {
         $view = new \XoopsFormLabel($this->fieldname, $this->value);
 
@@ -193,15 +204,15 @@ class Field
     /**
      * @return string
      */
-    public function showField()
+    public function showField(): string
     {
         return $this->fieldname . ' : ' . $this->value;
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function showValue()
+    public function showValue(): string
     {
         $myts = \MyTextSanitizer::getInstance();
 
@@ -211,8 +222,9 @@ class Field
     /**
      * @return string
      */
-    public function searchField()
+    public function searchField(): string
     {
+        /** @TODO look at possibly using HTML5 type='search' here */
         return '<input type="text" name="query" size="20">';
     }
 }

@@ -18,7 +18,9 @@ namespace XoopsModules\Pedigree;
  * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author          XOOPS Module Dev Team
  */
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -59,21 +61,21 @@ class Fields extends \XoopsObject
     }
 
     /**
-     * @param bool $action
+     * @param null|bool $action
      *
      * @todo refactor to eliminate XoopsObjectTree since it's not structured to
      *       handle this type of object
      *
-     * @return object {@see XoopsThemeForm}
+     * @return object {@see \XoopsThemeForm}
      */
-    public function getForm($action = false)
+    public function getForm(?bool $action = false): \XoopsThemeForm
     {
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
-        /** \XoopsModules\Pedigree\Helper $helper */
-        $helper = \XoopsModules\Pedigree\Helper::getInstance();
+        /** @var Helper $helper */
+        $helper = Helper::getInstance();
         $helper->loadLanguage('admin');
 
         $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
@@ -171,63 +173,63 @@ class Fields extends \XoopsObject
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
-        return (1 == $this->getVar('isactive')); // ? true : false;
+        return (1 == $this->getVar('isactive'));
     }
 
     /**
      * @return bool
      */
-    public function inAdvanced()
+    public function inAdvanced(): bool
     {
-        return (1 == $this->getVar('viewinadvanced')); // ? true : false;
+        return (1 == $this->getVar('viewinadvanced'));
     }
 
     /**
      * @return bool
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
-        return (1 == $this->getVar('locked')); // ? true : false;
+        return (1 == $this->getVar('locked'));
     }
 
     /**
      * @return bool
      */
-    public function hasSearch()
+    public function hasSearch(): bool
     {
-        return (1 == $this->getVar('hassearch')); // ? true : false;
+        return (1 == $this->getVar('hassearch'));
     }
 
     /**
      * @return bool
      */
-    public function addLitter()
+    public function addLitter(): bool
     {
-        return (1 == $this->getVar('litter')); // ? true : false;
+        return (1 == $this->getVar('litter'));
     }
 
     /**
      * @return bool
      */
-    public function generalLitter()
+    public function generalLitter(): bool
     {
-        return (1 == $this->getVar('generallitter')); // ? true : false;
+        return (1 == $this->getVar('generallitter'));
     }
 
     /**
      * @return bool
      */
-    public function hasLookup()
+    public function hasLookup(): bool
     {
-        return (1 == $this->getVar('lookuptable')); // ? true : false;
+        return (1 == $this->getVar('lookuptable'));
     }
 
     /**
      * @return string
      */
-    public function getSearchString()
+    public function getSearchString(): string
     {
         return '&amp;o=naam&amp;p';
     }
@@ -235,35 +237,35 @@ class Fields extends \XoopsObject
     /**
      * @return bool
      */
-    public function inPie()
+    public function inPie(): bool
     {
-        return (1 == $this->getVar('viewinpie')); // ? true : false;
+        return (1 == $this->getVar('viewinpie'));
     }
 
     /**
      * @return bool
      */
-    public function inPedigree()
+    public function inPedigree(): bool
     {
-        return (1 == $this->getVar('viewinpedigree')); // ? true : false;
+        return (1 == $this->getVar('viewinpedigree'));
     }
 
     /**
      * @return bool
      */
-    public function inList()
+    public function inList(): bool
     {
-        return (1 == $this->getVar('viewinlist')); // ? true : false;
+        return (1 == $this->getVar('viewinlist'));
     }
 
     /**
-     * @return int|mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         $id = $this->getVar('id');
 
-        return !empty($id) ? $id : 0;
+        return !empty($id) ? (int) $id : 0;
     }
 
     /**
@@ -272,7 +274,7 @@ class Fields extends \XoopsObject
      *
      * @return mixed
      */
-    public function getSetting($setting)
+    public function getSetting(string $setting)
     {
         return isset($this->$setting) ? $this->setting : null;
     }

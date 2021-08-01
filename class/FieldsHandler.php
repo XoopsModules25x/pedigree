@@ -26,14 +26,13 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class Pedigree\FieldsHandler
  *
- * @param object $db reference to the {@link XoopsDatabase} object
  */
 class FieldsHandler extends \XoopsPersistableObjectHandler
 {
     use CountOverload;  // changed getCount() and getCounts() return values to integers
 
     /**
-     * @param null|object|\XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      */
     public function __construct(?\XoopsDatabase $db = null)
     {
