@@ -34,6 +34,18 @@ interface Constants
      */
     const TOKEN_TIMEOUT = 360;
     /**
+     * DO NOT Hide YAML Sample Button in Admin
+     */
+    const DO_NOT_DISP_SAMPLE_BTN = 0;
+    /**
+     * Hide YAML Sample Button in Admin
+     */
+    const HIDE_SAMPLE_BTN = 1;
+    /**
+     * Display YAML Sample Button in Admin
+     */
+    const DISP_SAMPLE_BTN = 1;
+    /**
      * Male animal value
      */
     const MALE = 0;
@@ -133,6 +145,8 @@ interface Constants
      * is general litter
      */
     const GENERAL_LITTER = 1;
+
+    // Navigation
     /**
      * no delay XOOPS redirect delay (in seconds)
      */
