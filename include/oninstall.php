@@ -19,7 +19,7 @@
  * @author          XOOPS Development Team ( name@site.com ) - ( https://xoops.org )
  */
 
-$indexFile = 'index.html';
+$indexFile = 'index.php';
 
 $blankFile = XOOPS_ROOT_PATH . '/modules/TDMCreate/assets/images/icons/blank.gif';
 global $xoopsModule;
@@ -31,7 +31,7 @@ if (!is_dir($module_uploads)) {
     }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/index.html');
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/index.php');
 
 //Creation du fichier pedigree_trash dans uploads
 $module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_trash';
@@ -41,7 +41,7 @@ if (!is_dir($module_uploads)) {
     }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_trash/index.html');
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_trash/index.php');
 
 //Creation du fichier owner dans uploads
 $module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/owner';
@@ -51,7 +51,7 @@ if (!is_dir($module_uploads)) {
     }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/owner/index.html');
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/owner/index.php');
 
 //Creation du fichier pedigree_temp dans uploads
 $module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_temp';
@@ -61,7 +61,7 @@ if (!is_dir($module_uploads)) {
     }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_temp/index.html');
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_temp/index.php');
 
 //Creation du fichier pedigree dans uploads
 $module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree';
@@ -71,7 +71,7 @@ if (!is_dir($module_uploads)) {
     }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree/index.html');
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree/index.php');
 
 //Creation du fichier pedigree_config dans uploads
 $module_uploads = XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_config';
@@ -81,4 +81,4 @@ if (!is_dir($module_uploads)) {
     }
 }
 chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_config/index.html');
+copy($indexFile, XOOPS_ROOT_PATH . '/uploads/' . $xoopsModule->dirname() . '/pedigree_config/index.php');

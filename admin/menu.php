@@ -28,21 +28,24 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
 
-use XoopsModules\Pedigree;
+use Xmf\Module\Admin;
+use XoopsModules\Pedigree\{
+    Helper
+};
 
 include dirname(__DIR__) . '/preloads/autoloader.php';
+
 $moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-//require_once  dirname(__DIR__) . '/include/common.php';
-/** @var \XoopsModules\Pedigree\Helper $helper */
-$helper = \XoopsModules\Pedigree\Helper::getInstance();
+/** @var Helper $helper */
+$helper = Helper::getInstance();
+
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32 = Admin::menuIconPath('');
 if (is_object($helper->getModule())) {
-    //    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
     $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
@@ -65,38 +68,38 @@ $adminmenu = [];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU1,
-    'link' => 'admin/index.php',
-    'icon' => $pathIcon32 . '/home.png',
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU5,
     'link' => 'admin/pedigree.php',
-    'icon' => $pathIcon32 . '/groupmod.png',
+    'icon'  => $pathIcon32 . '/groupmod.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU3,
-    'link' => 'admin/owner.php',
-    'icon' => $pathIcon32 . '/user-icon.png',
+    'link'  => 'admin/owner.php',
+    'icon'  => $pathIcon32 . '/user-icon.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU4,
-    'link' => 'admin/pedigree_temp.php',
-    'icon' => $pathIcon32 . '/wizard.png',
+    'link'  => 'admin/pedigree_temp.php',
+    'icon'  => $pathIcon32 . '/wizard.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU2,
-    'link' => 'admin/pedigree_trash.php',
-    'icon' => $pathIcon32 . '/alert.png',
+    'link'  => 'admin/pedigree_trash.php',
+    'icon'  => $pathIcon32 . '/alert.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
-    'link' => 'admin/pedigree_config.php',
-    'icon' => $pathIcon32 . '/administration.png',
+    'link'  => 'admin/pedigree_config.php',
+    'icon'  => $pathIcon32 . '/administration.png',
 ];
 
 /*
@@ -110,20 +113,20 @@ $adminmenu[] = array(
 // Blocks Admin
 $adminmenu[] = [
     'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
-    'link' => 'admin/blocksadmin.php',
-    'icon' => $pathIcon32 . '/block.png',
+    'link'  => 'admin/blocksadmin.php',
+    'icon'  => $pathIcon32 . '/block.png',
 ];
 
 if ($helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
-        'link' => 'admin/migrate.php',
-        'icon' => $pathIcon32 . '/database_go.png',
+        'link'  => 'admin/migrate.php',
+        'icon'  => $pathIcon32 . '/database_go.png',
     ];
 }
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU8,
-    'link' => 'admin/about.php',
-    'icon' => $pathIcon32 . '/about.png',
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png',
 ];

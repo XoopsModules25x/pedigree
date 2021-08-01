@@ -35,7 +35,7 @@ class Utility
 
     /**
      * @deprecated - NOT USED : use Pedigree\Common\FilesManagement methods instead
-     * Function responsible for checking if a directory exists, we can also write in and create an index.html file
+     * Function responsible for checking if a directory exists, we can also write in and create an index.php file
      *
      * @param string $folder The full path of the directory to check
      */
@@ -46,7 +46,7 @@ class Utility
             if (!mkdir($folder) && !is_dir($folder)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $folder));
             }
-            file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+            file_put_contents($folder . '/index.php', "<?php\n\nheader('HTTP/1.0 404 Not Found');\n");
         }
         //        chmod($filteredFolder, 0777);
     }
