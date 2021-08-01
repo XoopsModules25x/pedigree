@@ -29,6 +29,8 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class TreeHandler extends \XoopsPersistableObjectHandler
 {
+    use CountOverload;
+
     /**
      * @param null|object|\XoopsDatabase $db
      */
@@ -41,10 +43,10 @@ class TreeHandler extends \XoopsPersistableObjectHandler
      * Get criteria for active animals
      *
      * @todo Refactor: Currently this routine returns all animals with `roft` = $roft
-     * @param null $roft
+     * @param null|string $roft
      * @return \CriteriaCompo
      */
-    public function getActiveCriteria($roft = null)
+    public function getActiveCriteria(?string $roft = null)
     {
         //$grouppermHandler = xoops_getHandler('groupperm');
 

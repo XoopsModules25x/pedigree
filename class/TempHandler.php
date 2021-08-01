@@ -14,10 +14,9 @@ namespace XoopsModules\Pedigree;
 /**
  * Pedigree module for XOOPS
  *
+ * @package         XoopsModules\Ppedigree
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
- * @package         pedigree
- * @since           2.5.x
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 use XoopsModules\Pedigree;
@@ -29,6 +28,8 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class TempHandler extends \XoopsPersistableObjectHandler
 {
+    use CountOverload;  // changed getCount() and getCounts() return values to integers
+
     /**
      * @param null|\XoopsDatabase $db
      */

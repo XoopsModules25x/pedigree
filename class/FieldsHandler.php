@@ -30,10 +30,12 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class FieldsHandler extends \XoopsPersistableObjectHandler
 {
+    use CountOverload;  // changed getCount() and getCounts() return values to integers
+
     /**
      * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(?\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'pedigree_fields', Fields::class, 'id', 'fieldname');
     }
@@ -43,11 +45,11 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      *
      * @return array
      */
-    public function lookupField($fieldnumber)
+    public function lookupField(int $fieldnumber): array
     {
         $ret = [];
-        $SQL = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
-        $result = $GLOBALS['xoopsDB']->query($SQL);
+        $query = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+        $result = $GLOBALS['xoopsDB']->query($query);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $ret[] = ['id' => $row['id'], 'value' => $row['value']];
         }
