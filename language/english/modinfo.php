@@ -82,7 +82,7 @@ define('_MI_PEDIGREE_ADMIN_ABOUT_DESC', 'About this module');
 define('_MI_PEDIGREE_ADMIN_HELP_DESC', 'Help for this module');
 define('_MI_PEDIGREE_ADMIN_DESC', 'This module does the following: ');
 
-//Menu
+//Admin Menu
 define('_MI_PEDIGREE_ADMENU1', 'Home');
 define('_MI_PEDIGREE_ADMENU2', 'Deleted');
 define('_MI_PEDIGREE_ADMENU3', 'Owner');
