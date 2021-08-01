@@ -46,8 +46,10 @@ class Breadcrumb
      *
      * @param string $title
      * @param string $link
+     *
+     * @return void
      */
-    public function addLink($title = '', $link = '')
+    public function addLink(?string $title = '', ?string $link = ''): void
     {
         $this->bread[] = [
             'link' => $link,
@@ -57,6 +59,8 @@ class Breadcrumb
 
     /**
      * Render Pedigree BreadCrumb
+     *
+     * @return false|mixed|string HTML rendered text
      */
     public function render()
     {

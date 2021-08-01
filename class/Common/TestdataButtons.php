@@ -23,6 +23,7 @@ namespace XoopsModules\Pedigree\Common;
  */
 
 use Xmf\{
+    Module\Admin,
     Request,
     Yaml
 };
@@ -35,11 +36,15 @@ use XoopsModules\Pedigree\{
 
 /**
  * Class TestdataButtons
+ *
+ * Contains methods for to create the Test buttons and change their visibility
  */
 class TestdataButtons
 {
+    /** Button status constants */
+    private const SHOW_BUTTONS = 1;
+    private const HIDE_BUTTONS = 0;
 
-    // Functions to import buttons
     /**
      * Load the test button configuration
      *
@@ -47,7 +52,7 @@ class TestdataButtons
      *
      * @return void
      */
-    public static function loadButtonConfig(\Xmf\Module\Admin $adminObject): void
+    public static function loadButtonConfig(Admin $adminObject): void
     {
         $moduleDirName       = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper  = mb_strtoupper($moduleDirName);
@@ -56,7 +61,7 @@ class TestdataButtons
         $config              = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
         $displaySampleButton = $config['displaySampleButton'];
 
-        if (1 == $displaySampleButton) {
+        if (self::SHOW_BUTTONS == $displaySampleButton) {
             xoops_loadLanguage('admin/modulesadmin', 'system');
             $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA'), $helper->url('testdata/index.php?op=load'), 'add');
             $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), $helper->url('testdata/index.php?op=save'), 'add');
@@ -79,7 +84,7 @@ class TestdataButtons
         $helper                     = Helper::getInstance();
         $yamlFile                   = $helper->path('config/admin.yml');
         $app                        = [];
-        $app['displaySampleButton'] = 0;
+        $app['displaySampleButton'] = self::HIDE_BUTTONS;
         Yaml::save($app, $yamlFile);
         $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_NONE, '');
     }
@@ -94,7 +99,7 @@ class TestdataButtons
         $helper                     = Helper::getInstance();
         $yamlFile                   = $helper->path('config/admin.yml');
         $app                        = [];
-        $app['displaySampleButton'] = 1;
+        $app['displaySampleButton'] = self::SHOW_BUTTONS;
         Yaml::save($app, $yamlFile);
         $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_NONE, '');
     }

@@ -12,38 +12,43 @@ namespace XoopsModules\Pedigree\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use \XoopsModules\Pedigree\Common;
+
 /**
  * Class Migrate synchronize existing tables with target schema
  *
  * @category  Migrate
  * @author    Richard Griffith <richard@geekwright.com>
  * @copyright 2016 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
 class Migrate extends \Xmf\Database\Migrate
 {
     private $renameTables;
+    private $moduleDirName;
 
     /**
-     * Migrate constructor.
+     * Migrate constructor
+     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function __construct()
+    public function __construct(?Configurator $configurator = null)
     {
-        $config = include dirname(dirname(__DIR__)) . '/config/config.php';
-
-        $this->renameTables = $config->renameTables;
-
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
-        parent::__construct($moduleDirName);
+        if (null !== $configurator) {
+            $this->renameTables = $configurator->renameTables;
+            $this->moduleDirName = basename(dirname(__DIR__, 2));
+            parent::__construct($this->moduleDirName);
+        }
     }
 
     /**
      * change table prefix if needed
+     *
+     * @return void
      */
-    private function changePrefix()
+    private function changePrefix(): void
     {
         foreach ($this->renameTables as $oldName => $newName) {
             if ($this->tableHandler->useTable($oldName) && !$this->tableHandler->useTable($newName)) {
@@ -57,8 +62,10 @@ class Migrate extends \Xmf\Database\Migrate
      *
      * @param string $tableName  table to convert
      * @param string $columnName column with IP address
+     *
+     * @return void
      */
-    private function convertIPAddresses($tableName, $columnName)
+    private function convertIPAddresses(string $tableName, string $columnName): void
     {
         if ($this->tableHandler->useTable($tableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
@@ -74,14 +81,18 @@ class Migrate extends \Xmf\Database\Migrate
     }
 
     /**
+     * @deprecated - not used in Pedigree module
+     *
      * Move do* columns from newbb_posts to newbb_posts_text table
      */
     private function moveDoColumns()
     {
-        $tableName = 'newbb_posts_text';
+        return; // added when method was deprecated
+        $tableName    = 'newbb_posts_text';
         $srcTableName = 'newbb_posts';
-        if (false !== $this->tableHandler->useTable($tableName)
-            && false !== $this->tableHandler->useTable($srcTableName)) {
+        if ($this->tableHandler->useTable($tableName)
+            && $this->tableHandler->useTable($srcTableName))
+        {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
             if (false === $attributes) {
                 $this->synchronizeTable($tableName);
@@ -96,18 +107,20 @@ class Migrate extends \Xmf\Database\Migrate
     /**
      * Perform any upfront actions before synchronizing the schema
      *
-     * Some typical uses include
+     * Some typical uses include:
      *   table and column renames
      *   data conversions
+     *
+     * @return void
      */
-    protected function preSyncActions()
+    protected function preSyncActions(): void
     {
         // change 'bb' table prefix to 'newbb'
         $this->changePrefix();
         // columns dohtml, dosmiley, doxcode, doimage and dobr moved between tables as some point
-        $this->moveDoColumns();
+        //$this->moveDoColumns();
         // Convert IP address columns from int to readable varchar(45) for IPv6
-        $this->convertIPAddresses('newbb_posts', 'poster_ip');
-        $this->convertIPAddresses('newbb_report', 'reporter_ip');
+        //$this->convertIPAddresses('newbb_posts', 'poster_ip');
+        //$this->convertIPAddresses('newbb_report', 'reporter_ip');
     }
 }

@@ -20,23 +20,19 @@ namespace XoopsModules\Pedigree\Common;
 trait ServerStats
 {
     /**
-     * serverStats()
+     * Get statistics for the Server
+     *
+     * Creates HTML string containing various stats for display
      *
      * @return string
      */
-    public static function getServerStats()
+    public static function getServerStats(): string
     {
-        //mb    $wfdownloads = WfdownloadsWfdownloads::getInstance();
         $moduleDirName = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         xoops_loadLanguage('common', $moduleDirName);
-        $html = '';
-        //        $sql   = 'SELECT metavalue';
-        //        $sql   .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_meta');
-        //        $sql   .= " WHERE metakey='version' LIMIT 1";
-        //        $query = $GLOBALS['xoopsDB']->query($sql);
-        //        list($meta) = $GLOBALS['xoopsDB']->fetchRow($query);
-        $html .= "<fieldset><legend style='font-weight: bold; color: #900;'>" . constant('CO_' . $moduleDirNameUpper . '_IMAGEINFO') . "</legend>\n";
+
+        $html = "<fieldset><legend style='font-weight: bold; color: #900;'>" . constant('CO_' . $moduleDirNameUpper . '_IMAGEINFO') . "</legend>\n";
         $html .= "<div style='padding: 8px;'>\n";
         //        $html .= '<div>' . constant('CO_' . $moduleDirNameUpper . '_METAVERSION') . $meta . "</div>\n";
         //        $html .= "<br>\n";

@@ -12,6 +12,8 @@ namespace XoopsModules\Pedigree\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use XoopsModule;
+
 /**
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -21,15 +23,14 @@ trait VersionChecks
 {
     /**
      * Verifies XOOPS version meets minimum requirements for this module
-     * @static
      *
      * @param \XoopsModule|null $module
-     * @param null|string       $requiredVer
+     * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
+    public static function checkVerXoops(?\XoopsModule $module = null, ?string $requiredVer = null): bool
     {
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
+        $moduleDirName      = basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -59,9 +60,9 @@ trait VersionChecks
      * @param \XoopsModule|null $module
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerPhp(\XoopsModule $module = null)
+    public static function checkVerPhp(?\XoopsModule $module = null): bool
     {
-        $moduleDirName = basename(dirname(dirname(__DIR__)));
+        $moduleDirName = basename(dirname(__DIR__,2 ));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -70,15 +71,15 @@ trait VersionChecks
         xoops_loadLanguage('common', $moduleDirName);
 
         // check for minimum PHP version
-        $success = true;
+        $success = false; // assume it fails until it passes test(s)
+        $verNum  = PHP_VERSION;
+        $reqVer  = &$module->getInfo('min_php');
 
-        $verNum = PHP_VERSION;
-        $reqVer = &$module->getInfo('min_php');
-
-        if (false !== $reqVer && '' !== $reqVer && !is_array($reqVer)) {
+        if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
-                $success = false;
+            } else {
+                $success = true;
             }
         }
 
@@ -86,22 +87,26 @@ trait VersionChecks
     }
 
     /**
-     * compares current module version with latest GitHub release
-     * @static
-     * @param \Xmf\Module\Helper $helper
-     * @param string|null        $source
-     * @param string|null        $default
+     * Compares current module version with latest GitHub release
      *
-     * @return string|array info about the latest module version, if newer
+     * @static
+     * @param \Xmf\Module\Helper $helper module helper object
+     * @param string|null        $source repository location
+     * @param string|null        $default repository branch to check
+     *
+     * @return array info about the latest module version, if newer
      */
-    public static function checkVerModule($helper, $source = 'github', $default = 'master')
+    public static function checkVerModule(
+        \Xmf\Module\Helper $helper,
+        ?string $source = 'github',
+        ?string $default = 'master'): array
     {
         $moduleDirName = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         $update = '';
         $repository = 'XoopsModules25x/' . $moduleDirName;
-        //        $repository         = 'XoopsModules25x/publisher'; //for testing only
-        $ret = '';
+        //$repository = 'XoopsModules25x/publisher'; //for testing only
+        $ret = [];
         $infoReleasesUrl = "https://api.github.com/repos/$repository/releases";
         if ('github' === $source) {
             if (function_exists('curl_init') && false !== ($curlHandle = curl_init())) {

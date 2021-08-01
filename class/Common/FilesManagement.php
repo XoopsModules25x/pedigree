@@ -13,6 +13,8 @@ namespace XoopsModules\Pedigree\Common;
  */
 
 /**
+ *
+ * @package     \XoopsModules\Pedigree
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      mamba <mambax7@gmail.com>
@@ -23,8 +25,10 @@ trait FilesManagement
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
      * @param string $folder The full path of the directory to check
+     *
+     * @return void
      */
-    public static function createFolder($folder)
+    public static function createFolder(string $folder): void
     {
         try {
             if (!file_exists($folder)) {
@@ -40,20 +44,26 @@ trait FilesManagement
     }
 
     /**
-     * @param $file
-     * @param $folder
+     * Copy a file to a folder
+     *
+     * @param string $file
+     * @param string $folder
      * @return bool
      */
-    public static function copyFile($file, $folder)
+    public static function copyFile(string $file, string $folder): bool
     {
         return copy($file, $folder);
     }
 
     /**
-     * @param $src
-     * @param $dst
+     * Recursive copy from one location to another
+     *
+     * @param string $src
+     * @param string $dst
+     *
+     * @return void
      */
-    public static function recurseCopy($src, $dst)
+    public static function recurseCopy(string $src, string $dst): void
     {
         $dir = opendir($src);
         //        @mkdir($dst);
@@ -81,7 +91,7 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-    public static function deleteDirectory($src)
+    public static function deleteDirectory(string $src): bool
     {
         // Only continue if user is a 'global' Admin
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -123,13 +133,13 @@ trait FilesManagement
     /**
      * Recursively remove directory
      *
-     * @todo currently won't remove directories with hidden files, should it?
+     * @TODO currently won't remove directories with hidden files, should it?
      *
      * @param string $src directory to remove (delete)
      *
      * @return bool true on success
      */
-    public static function rrmdir($src)
+    public static function rrmdir(string $src): bool
     {
         // Only continue if user is a 'global' Admin
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -169,7 +179,7 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-    public static function rmove($src, $dest)
+    public static function rmove(string $src, string $dest): bool
     {
         // Only continue if user is a 'global' Admin
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -212,7 +222,7 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-    public static function rcopy($src, $dest)
+    public static function rcopy(string $src, string $dest): bool
     {
         // Only continue if user is a 'global' Admin
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {

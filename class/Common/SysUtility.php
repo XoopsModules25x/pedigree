@@ -59,7 +59,12 @@ class SysUtility
      *
      * @return string Trimmed string.
      */
-    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
+    public static function truncateHtml(
+        string $text,
+        ?int $length = 100,
+        ?string $ending = '...',
+        ?bool $exact = false,
+        ?bool $considerHtml = true): string
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
@@ -155,6 +160,7 @@ class SysUtility
      *
      * @param \Xmf\Module\Helper $helper
      * @param array|null         $options
+     *
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
     public static function getEditor(?\Xmf\Module\Helper $helper = null, ?array $options = null)
@@ -194,12 +200,13 @@ class SysUtility
     /**
      * Check if column in dB table exists
      *
-     * @param string $fieldname
-     * @param string $table
+     * @deprecated
+     * @param string $fieldname name of dB table field
+     * @param string $table name of dB table (including prefix)
      *
-     * @return bool
+     * @return bool true if table exists
      */
-    public static function fieldExists($fieldname, $table)
+    public static function fieldExists(string $fieldname, string $table): bool
     {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
         trigger_error(__METHOD__ . " is deprecated, use Xmf\Database\Tables instead - instantiated from {$trace[0]['file']} line {$trace[0]['line']},");
@@ -210,18 +217,20 @@ class SysUtility
     /**
      * Clone a record in a dB
      *
-     * @param array|string $tableName
-     * @param string       $idField
-     * @param int          $id
+     * @TODO need to exit more gracefully on error. Should throw/trigger error and then return false
+     *
+     * @param string $tableName name of dB table (without prefix)
+     * @param string $idField name of field (column) in dB table
+     * @param int    $id item id to clone
      *
      * @return mixed
      */
-    public static function cloneRecord($tableName, $idField, $id)
+    public static function cloneRecord(string $tableName, string $idField, int $id)
     {
         $newId = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
-        $sql       = "SELECT * FROM $table WHERE $idField='$id' ";
+        $sql       = "SELECT * FROM $table WHERE $idField='" . (int) $id . "' ";
         $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), MYSQLI_ASSOC);
         if (!$tempTable) {
             exit($GLOBALS['xoopsDB']->error());
@@ -241,13 +250,13 @@ class SysUtility
     /**
      * Check if dB table table exists
      *
-     * @param string $tablename
-     * @return bool
+     * @param string $tablename dB tablename with prefix
+     * @return bool true if table exists
      */
-    public static function tableExists($tablename)
+    public static function tableExists(string $tablename)
     {
         $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-        return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
+        return (0 < $GLOBALS['xoopsDB']->getRowsNum($result));
     }
 }

@@ -23,13 +23,15 @@ namespace XoopsModules\Pedigree\Common;
 trait ModuleStats
 {
     /**
+     *
      * @param \XoopsModules\Pedigree\Common\Configurator $configurator
      * @param array $moduleStats
+     *
      * @return array
      */
-    public static function getModuleStats($configurator, $moduleStats)
+    public static function getModuleStats(Configurator $configurator, array $moduleStats): array
     {
-        if (count($configurator->moduleStats) > 0) {
+        if (0 < count($configurator->moduleStats)) {
             foreach (array_keys($configurator->moduleStats) as $i) {
                 $moduleStats[$i] = $configurator->moduleStats[$i];
             }
