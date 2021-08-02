@@ -70,8 +70,9 @@ $modversion['image']         = 'assets/images/logoModule.png';
 $modversion['dirname']       = basename(__DIR__);
 $modversion['modicons16']    = 'assets/images/icons/16';
 $modversion['modicons32']    = 'assets/images/icons/32';
-$modversion['onInstall']     = 'include/install_function.php';
-$modversion['onUpdate']      = 'include/update_function.php';
+$modversion['onInstall']     = 'include/oninstall.php';
+$modversion['onUpdate']      = 'include/onupdate.php';
+$modversion['onUninstall']   = 'include/onuninstall.php';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
 

@@ -1,75 +1,73 @@
 <?php
+
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
+
 /**
- * uninstall.php - cleanup on module uninstall
  *
- * @author          XOOPS Module Development Team
- * @copyright       {@link https://xoops.org 2001-2016 XOOPS Project}
- * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @link            https://xoops.org XOOPS
+ * @package         XoopsModules\Pedigree
+ * @author          XOOPS Development Team <https://xoops.org>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         GPL 2.0 or later
+ * @link            https://xoops.org/
  */
-use XoopsModules\Pedigree;
+
+use XoopsModules\Pedigree\{
+    Common\Configurator,
+    Helper,
+    Utility
+};
+
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 /**
  * Prepares system prior to attempting to uninstall module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to uninstall, false if not
  */
-function xoops_module_pre_uninstall_pedigree(\XoopsModule $module)
+function xoops_module_pre_uninstall_pedigree(\XoopsModule $module): bool
 {
-    // Do some synchronization
+    // Do some synchronization if needed
     return true;
 }
 
 /**
  * Performs tasks required during uninstallation of the module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_pedigree(\XoopsModule $module)
+function xoops_module_uninstall_pedigree(\XoopsModule $module): bool
 {
-//    return true;
+    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
-    $moduleDirName = basename(dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-    $helper = Pedigree\Helper::getInstance();
+    $helper       = Helper::getInstance();
+    $configurator = new Configurator();
 
-    /** @var Pedigree\Utility $utility */
-    $utility = new Pedigree\Utility();
+    //    $configurator = new Pedigree\Common\Configurator();
 
-    $success = true;
+    // Load language files
     $helper->loadLanguage('admin');
+    $helper->loadLanguage('common');
+    $success = true;
 
     //------------------------------------------------------------------
     // Remove uploads folder (and all subfolders) if they exist
     //------------------------------------------------------------------
-
-    $old_directories = [$GLOBALS['xoops']->path("uploads/{$moduleDirName}")];
-    foreach ($old_directories as $old_dir) {
-        $dirInfo = new \SplFileInfo($old_dir);
-        if ($dirInfo->isDir()) {
-            // The directory exists so delete it
-            if (false === $utility::rrmdir($old_dir)) {
-                $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_DEL_PATH'), $old_dir));
-                $success = false;
-            }
-        }
-        unset($dirInfo);
-    }
-    /*
-    //------------ START ----------------
-    //------------------------------------------------------------------
-    // Remove xsitemap.xml from XOOPS root folder if it exists
-    //------------------------------------------------------------------
-    $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
-    if (is_file($xmlfile)) {
-        if (false === ($delOk = unlink($xmlfile))) {
-            $module->setErrors(sprintf(_AM_PEDIGREE_ERROR_BAD_REMOVE, $xmlfile));
+    if (0 < count($configurator->uploadFolders)) {
+        foreach (array_keys($configurator->uploadFolders) as $i) {
+           $success = $success && Utility::deleteDirectory($configurator->uploadFolders[$i]);
         }
     }
-//    return $success && $delOk; // use this if you're using this routine
-*/
 
     return $success;
     //------------ END  ----------------
