@@ -4,11 +4,11 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
+require \dirname(__DIR__, 3) . '/mainfile.php';
+xoops_loadLanguage('main', basename(dirname(__DIR__, 2)));
 
 // Include any common code for this module.
-require_once dirname(__DIR__) . '/include/common.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
@@ -30,9 +30,10 @@ echo '<script language="JavaScript" src="picker.js"></script>';
 $form = '';
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -117,18 +118,12 @@ $xoopsTpl->assign('tools', $tools);
 //footer
 require_once XOOPS_ROOT_PATH . '/footer.php';
 
-/**
- *
- * @return void
- */
 function index()
 {
     $form = '';
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function colours()
@@ -144,8 +139,6 @@ function colours()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function userfields()
@@ -156,8 +149,6 @@ function userfields()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function credits()
@@ -175,8 +166,6 @@ function database()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function database_oa()
@@ -215,8 +204,6 @@ function database_oa()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function database_fp()
@@ -247,8 +234,6 @@ function database_fp()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function pro()
@@ -259,7 +244,6 @@ function pro()
 }
 
 /**
- * @return void
  * @todo refactor using {@see Pedigree\Trash} class
  */
 function deleted()
@@ -279,7 +263,6 @@ function deleted()
 
 /**
  * @param $id
- * @return void
  * @todo refactor using {@see Pedigree\Trash} class
  */
 function delperm($id)
@@ -291,7 +274,6 @@ function delperm($id)
 }
 
 /**
- * @return void
  * @todo refactor using {@see Pedigree\Trash} class
  */
 function delall()
@@ -326,7 +308,6 @@ function restore($id)
 }
 
 /**
- * @return void
  * @todo move language strings to language file
  */
 function settings()
@@ -344,25 +325,28 @@ function settings()
         '1000'  => 1000,
         '2000'  => 2000,
         '5000'  => 5000,
-        '10000' => 10000
+        '10000' => 10000,
     ];
     foreach ($options as $key => $values) {
         $select->addOption($key, $name = $values);
     }
     unset($options);
     $form->addElement($select);
-    $form->addElement(new \XoopsFormLabel(
-        _MA_PEDIGREE_EXPLAIN,
-                                         'This field is used to set the number of results a page will return from a search. If more results are returned extra pages will be created for easy browsing.<br>Set this number higher as your database grows and the number of pages increase.'
-    ));
+    $form->addElement(
+        new \XoopsFormLabel(
+            _MA_PEDIGREE_EXPLAIN, 'This field is used to set the number of results a page will return from a search. If more results are returned extra pages will be created for easy browsing.<br>Set this number higher as your database grows and the number of pages increase.'
+        )
+    );
     $radio = new \XoopsFormRadio('<b>Use owner/breeder fields</b>', 'ownerbreeder', $value = $moduleConfig['ownerbreeder']);
     $radio->addOption(1, $name = 'yes');
     $radio->addOption(0, $name = 'no');
     $form->addElement($radio);
-    $form->addElement(new \XoopsFormLabel(
-        _MA_PEDIGREE_EXPLAIN,
-                                         'Use this field to set if you would like to use the owner/breeder fields of the database.<br>As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.<br>The owner/breeder menu items will also be affected by this setting.'
-    ));
+    $form->addElement(
+        new \XoopsFormLabel(
+            _MA_PEDIGREE_EXPLAIN,
+            'Use this field to set if you would like to use the owner/breeder fields of the database.<br>As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.<br>The owner/breeder menu items will also be affected by this setting.'
+        )
+    );
     $radiobr = new \XoopsFormRadio('<b>Show brother & sister field</b>', 'brothers', $value = $moduleConfig['brothers']);
     $radiobr->addOption(1, $name = 'yes');
     $radiobr->addOption(0, $name = 'no');
@@ -383,8 +367,6 @@ function settings()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function settingssave()
@@ -404,8 +386,6 @@ function settingssave()
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function lang()
@@ -415,15 +395,25 @@ function lang()
     $form = new \XoopsThemeForm('Language options', 'language', 'tools.php?op=langsave', 'post', true);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
     $form->addElement(new \XoopsFormText('<b>type of animal</b>', 'animalType', $size = 50, $maxsize = 255, $value = $moduleConfig['animalType']));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the animal type which will be used in the application.<br><i>example : </i>snake, pigeon, dog, owl<br><br>The value should fit in the sentences below.<br>Please add optional information for this <b>'
-                                                               . $moduleConfig['animalType']
-                                                               . '</b>.<br>Select the first letter of the <b>'
-                                                               . $moduleConfig['animalType']
-                                                               . '</b>.'));
+    $form->addElement(
+        new \XoopsFormLabel(
+            _MA_PEDIGREE_EXPLAIN,
+            'Use this field to set the animal type which will be used in the application.<br><i>example : </i>snake, pigeon, dog, owl<br><br>The value should fit in the sentences below.<br>Please add optional information for this <b>'
+            . $moduleConfig['animalType']
+            . '</b>.<br>Select the first letter of the <b>'
+            . $moduleConfig['animalType']
+            . '</b>.'
+        )
+    );
     $form->addElement(new \XoopsFormText('<b>type of animal</b>', 'animalTypes', $size = 50, $maxsize = 255, $value = $value = $moduleConfig['animalTypes']));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the animal type which will be used in the application.<br>This field is the plural of the previous field<br><i>example : </i>snakes, pigeons, dogs, owls<br><br>The value should fit in the sentence below.<br>No <b>'
-                                                               . $moduleConfig['animalTypes']
-                                                               . '</b> meeting your query have been found.'));
+    $form->addElement(
+        new \XoopsFormLabel(
+            _MA_PEDIGREE_EXPLAIN,
+            'Use this field to set the animal type which will be used in the application.<br>This field is the plural of the previous field<br><i>example : </i>snakes, pigeons, dogs, owls<br><br>The value should fit in the sentence below.<br>No <b>'
+            . $moduleConfig['animalTypes']
+            . '</b> meeting your query have been found.'
+        )
+    );
     $form->addElement(new \XoopsFormText('<b>male</b>', 'male', $size = 50, $maxsize = 255, $value = $moduleConfig['male']));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the name used for the male animal.<br><i>example : </i>male, buck, sire etc.'));
     $form->addElement(new \XoopsFormText('<b>female</b>', 'female', $size = 50, $maxsize = 255, $value = $moduleConfig['female']));
@@ -438,18 +428,17 @@ function lang()
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the name used for a collection of newborn animals.<br><i>example : </i>litter, nest etc.'));
     $form->addElement(new \XoopsFormTextArea('<b>Welcome text</b>', 'welcome', $value = $moduleConfig['welcome'], $rows = 15, $cols = 50));
 
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the text you would like to display for the welcome page.<br><br>You may use the follwing variables :<br>[animalType] = '
-                                                               . $moduleConfig['animalType']
-                                                               . '<br>[animalTypes] ='
-                                                               . $moduleConfig['animalTypes']
-                                                               . '<br>[numanimals] = number of animals in the database.'));
+    $form->addElement(
+        new \XoopsFormLabel(
+            _MA_PEDIGREE_EXPLAIN,
+            'Use this field to set the text you would like to display for the welcome page.<br><br>You may use the follwing variables :<br>[animalType] = ' . $moduleConfig['animalType'] . '<br>[animalTypes] =' . $moduleConfig['animalTypes'] . '<br>[numanimals] = number of animals in the database.'
+        )
+    );
     $form->addElement(new \XoopsFormButton('', 'button_id', 'Submit', 'submit'));
     $xoopsTpl->assign('form', $form->render());
 }
 
 /**
- *
- * @return void
  * @todo move language string to language file
  */
 function langsave()
@@ -465,7 +454,7 @@ function langsave()
         'mother',
         'father',
         'litter',
-        'welcome'
+        'welcome',
     ];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {

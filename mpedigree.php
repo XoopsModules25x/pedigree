@@ -4,7 +4,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -21,6 +21,7 @@ require_once $GLOBALS['xoops']->path('/header.php');
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -302,12 +303,12 @@ $GLOBALS['xoopsTpl']->assign('male', '<img src="assets/images/male.gif">');
 $GLOBALS['xoopsTpl']->assign('female', '<img src="assets/images/female.gif">');
 //assign extra display options
 $GLOBALS['xoopsTpl']->assign('unknown', 'Unknown');
-$GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, ['[animalType]' => $helper->$getConfig('animalType')]));
-$GLOBALS['xoopsTpl']->assign('f3', strtr(_MA_PEDIGREE_MPED_F3, ['[animalType]' => $helper->$getConfig('animalType')]));
-$GLOBALS['xoopsTpl']->assign('f4', strtr(_MA_PEDIGREE_MPED_F4, ['[animalType]' => $helper->$getConfig('animalType')]));
-$GLOBALS['xoopsTpl']->assign('m2', strtr(_MA_PEDIGREE_MPED_M2, ['[animalType]' => $helper->$getConfig('animalType')]));
-$GLOBALS['xoopsTpl']->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, ['[animalType]' => $helper->$getConfig('animalType')]));
-$GLOBALS['xoopsTpl']->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, ['[animalType]' => $helper->$getConfig('animalType')]));
+$GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, ['[animalType]' => $helper->getConfig('animalType')]));
+$GLOBALS['xoopsTpl']->assign('f3', strtr(_MA_PEDIGREE_MPED_F3, ['[animalType]' => $helper->getConfig('animalType')]));
+$GLOBALS['xoopsTpl']->assign('f4', strtr(_MA_PEDIGREE_MPED_F4, ['[animalType]' => $helper->getConfig('animalType')]));
+$GLOBALS['xoopsTpl']->assign('m2', strtr(_MA_PEDIGREE_MPED_M2, ['[animalType]' => $helper->getConfig('animalType')]));
+$GLOBALS['xoopsTpl']->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, ['[animalType]' => $helper->getConfig('animalType')]));
+$GLOBALS['xoopsTpl']->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, ['[animalType]' => $helper->getConfig('animalType')]));
 
 /**
  * @param $sex

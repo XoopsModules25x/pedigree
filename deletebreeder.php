@@ -4,7 +4,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -16,16 +16,17 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_delete.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 global $xoopsTpl;
@@ -34,14 +35,14 @@ global $xoopsModuleConfig;
 
 $id = Request::getInt('id', 0, 'GET');
 //query (find values for this dog (and format them))
-$sql = 'SELECT lastname, firstname, user FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
-$result      = $GLOBALS['xoopsDB']->query($sql);
+$sql    = 'SELECT lastname, firstname, user FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
     $id = $row['id'];
     //name
-    $pname     = htmlentities(stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']), ENT_QUOTES);
+    $pname    = htmlentities(stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']), ENT_QUOTES);
     $namelink = '<a href="owner.php?ownid=' . $row['id'] . '">' . stripslashes($row['lastname']) . ', ' . stripslashes($row['firstname']) . '</a>';
     //user who entered the info
     $dbuser = $row['user'];

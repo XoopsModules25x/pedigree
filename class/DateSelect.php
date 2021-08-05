@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -20,7 +23,11 @@
  * @author      XOOPS Mod Development Team
  */
 
+use XoopsFormTextDateSelect;
 use XoopsModules\Pedigree;
+
+
+
 
 /**
  * Class Pedigree\DateSelectBox
@@ -39,7 +46,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      * Constructor
      *
      * @param Pedigree\Fields $parentObject
-     * @param                $animalObject
+     * @param                 $animalObject
      */
     public function __construct($parentObject, $animalObject)
     {
@@ -49,13 +56,13 @@ class DateSelect extends Pedigree\HtmlInputAbstract
         $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         if ($parentObject->hasLookup()) {
-            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
         if ($parentObject->inAdvanced()) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
+            \xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', \get_class($this));
         }
         if ($parentObject->inPie()) {
-            xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
     }
 
@@ -64,7 +71,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      */
     public function editField()
     {
-        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
+        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
 
         return $textarea;
     }
@@ -76,7 +83,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
+        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
 
         return $textarea;
     }

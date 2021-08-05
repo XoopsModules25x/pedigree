@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -41,10 +44,10 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @todo move hard coded language string to language file
-     *
      * @param Pedigree\Field  $parentObject
      * @param Pedigree\Animal $animalObject
+     * @todo move hard coded language string to language file
+     *
      */
     public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
     {
@@ -65,7 +68,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     {
         $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = count($lookupcontents);
+        $lcCount        = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $radio->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
@@ -82,7 +85,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     {
         $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', "{$name}user" . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = count($lookupcontents);
+        $lcCount        = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $radio->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
@@ -96,7 +99,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     public function viewField()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = count($lookupcontents);
+        $lcCount        = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -108,14 +111,13 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     *
-     * @todo error checking
      * @return string
+     * @todo error checking
      */
     public function showField()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = count($lookupcontents);
+        $lcCount        = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -147,7 +149,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     {
         $select         = "<select size='1' name='query' style='width: 140px;'>";
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = count($lookupcontents);
+        $lcCount        = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $select .= "<option value='" . $lookupcontents[$i]['id'] . "'>" . $lookupcontents[$i]['value'] . '</option>';
         }
@@ -156,9 +158,6 @@ class RadioButton extends Pedigree\HtmlInputAbstract
         return $select;
     }
 
-    /**
-     *
-     */
     public function getSearchString()
     {
     }

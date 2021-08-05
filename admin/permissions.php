@@ -19,6 +19,7 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
@@ -31,7 +32,7 @@ if (!empty($_POST['submit'])) {
     redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/permissions.php', 1, _MP_GPERMUPDATED);
 }
 
-$permissions_admin = \Xmf\Module\Admin::getInstance();
+$permissions_admin = Admin::getInstance();
 echo $permissions_admin->displayNavigation(basename(__FILE__));
 
 $permission                = Request::getInt('permission', 1, 'POST');

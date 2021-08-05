@@ -28,8 +28,6 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 $moduleDirName = basename(__DIR__);
 
 require_once __DIR__ . '/preloads/autoloader.php';
@@ -37,7 +35,7 @@ require_once __DIR__ . '/preloads/autoloader.php';
 $modversion = [
     'version'             => 1.32,
     'module_status'       => 'Alpha 1',
-    'release_date'        => '2018/05/05',
+    'release_date'        => '2019/10/05',
     'name'                => _MI_PEDIGREE_NAME,
     'description'         => _MI_PEDIGREE_DESC,
     'release'             => '2017-04-01',
@@ -54,8 +52,8 @@ $modversion = [
     'release_file'        => XOOPS_URL . "/modules/{$moduleDirName}/docs/release_info file",
     'manual'              => 'Installation.txt',
     'manual_file'         => XOOPS_URL . "/modules/{$moduleDirName}/docs/link to manual file",
-    'min_php'             => '5.6',
-    'min_xoops'           => '2.5.9',
+    'min_php'             => '7.3',
+    'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
     'image'               => 'assets/images/logoModule.png',
@@ -90,15 +88,13 @@ $modversion = [
 
 //$modversion['help']        = 'page=pedigree_admin';
 
-
-
 // Tables created by sql file (without prefix!)
 $modversion['tables'] = [
     'pedigree_registry',
     'pedigree_fields',
     'pedigree_temp',
     'pedigree_trash',
-    'pedigree_owner'
+    'pedigree_owner',
 ];
 
 // Admin things
@@ -111,37 +107,37 @@ $modversion['adminmenu']   = 'admin/menu.php';
 $modversion['config'][] = [
     'name'        => 'proversion',
     'title'       => '_MI_PEDIGREE_PROVERSION',
-    'description' => '_MI_PEDIGREE_PROVERSION_DESC',//'is this the pro version ?',
+    'description' => '_MI_PEDIGREE_PROVERSION_DESC', //'is this the pro version ?',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 1,
 ];
 
 $modversion['config'][] = [
     'name'        => 'ownerbreeder',
     'title'       => '_MI_PEDIGREE_OWNERBREEDER',
-    'description' => '_MI_PEDIGREE_OWNERBREEDER_DESC',//'should the owner/breeder fields be used ?',
+    'description' => '_MI_PEDIGREE_OWNERBREEDER_DESC', //'should the owner/breeder fields be used ?',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 1,
 ];
 
 $modversion['config'][] = [
     'name'        => 'brothers',
     'title'       => '_MI_PEDIGREE_BROTHERS',
-    'description' => '_MI_PEDIGREE_BROTHERS_DESC',//'should the brothers & sisters field be shown ?',
+    'description' => '_MI_PEDIGREE_BROTHERS_DESC', //'should the brothers & sisters field be shown ?',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 1,
 ];
 
 $modversion['config'][] = [
     'name'        => 'pups',
     'title'       => '_MI_PEDIGREE_PUPS',
-    'description' => '_MI_PEDIGREE_PUPS_DESC',//'should the pups/children field be shown ?',
+    'description' => '_MI_PEDIGREE_PUPS_DESC', //'should the pups/children field be shown ?',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 1,
 ];
 
 $modversion['config'][] = [
@@ -151,7 +147,7 @@ $modversion['config'][] = [
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 100,
-    'options'     => ['10' => 10, '50' => 50, '100' => 100, '250' => 250, '500' => 500, '1000' => 1000]
+    'options'     => ['10' => 10, '50' => 50, '100' => 100, '250' => 250, '500' => 500, '1000' => 1000],
 ];
 
 $modversion['config'][] = [
@@ -160,7 +156,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_ANIMALTYPE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'dog'
+    'default'     => 'dog',
 ];
 
 $modversion['config'][] = [
@@ -169,7 +165,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_ANIMALTYPES_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'dogs'
+    'default'     => 'dogs',
 ];
 
 $modversion['config'][] = [
@@ -178,22 +174,22 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_LASTIMAGE_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 0
+    'default'     => 0,
 ];
 
 $modversion['config'][] = [
     'name'        => 'children',
-    'title'       => '_MI_PEDIGREE_CHILDREN',//'language option children',
-    'description' => '_MI_PEDIGREE_CHILDREN_DESC',//'language option children',
+    'title'       => '_MI_PEDIGREE_CHILDREN', //'language option children',
+    'description' => '_MI_PEDIGREE_CHILDREN_DESC', //'language option children',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'children'
+    'default'     => 'children',
 ];
 
 $modversion['config'][] = [
     'name'        => 'welcome',
     'title'       => '_MI_PEDIGREE_WELCOME',
-    'description' => '_MI_PEDIGREE_WELCOME_DESC',//'language option children',
+    'description' => '_MI_PEDIGREE_WELCOME_DESC', //'language option children',
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => ' Welcome to the online pedigree database.
@@ -207,96 +203,98 @@ When the correct [animalType] has been found you are able to view its pedigree. 
 
 Because so many pedigrees have been merged into one big one lots of interesting data can be shown. It is possible to calculate the coefficients of Kinship, Relationship and Inbreeding of any [animalType] very accurately. Using such tools has shown this pedigree database to be an extremely valuable resource of information used by breeders and enthusiasts.
 
-To keep a little controle over the [animalTypes] entered into the database only registered members of the website are allowed to enter information into the database. Registration is free and will give you full access to all the elements of this website.'
+To keep a little controle over the [animalTypes] entered into the database only registered members of the website are allowed to enter information into the database. Registration is free and will give you full access to all the elements of this website.',
 ];
 
 $modversion['config'][] = [
     'name'        => 'mother',
     'title'       => '_MI_PEDIGREE_MOTHER',
-    'description' => '_MI_PEDIGREE_MOTHER_DESC',//'language option mother',
+    'description' => '_MI_PEDIGREE_MOTHER_DESC', //'language option mother',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'mother'
+    'default'     => 'mother',
 ];
 
 $modversion['config'][] = [
     'name'        => 'father',
     'title'       => '_MI_PEDIGREE_FATHER',
-    'description' => '_MI_PEDIGREE_FATHER_DESC',//'language option father',
+    'description' => '_MI_PEDIGREE_FATHER_DESC', //'language option father',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'father'
+    'default'     => 'father',
 ];
 
 $modversion['config'][] = [
     'name'        => 'female',
     'title'       => '_MI_PEDIGREE_FEMALE',
-    'description' => '_MI_PEDIGREE_FEMALE_DESC',//'language option female',
+    'description' => '_MI_PEDIGREE_FEMALE_DESC', //'language option female',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'female'
+    'default'     => 'female',
 ];
 
 $modversion['config'][] = [
     'name'        => 'male',
     'title'       => '_MI_PEDIGREE_MALE',
-    'description' => '_MI_PEDIGREE_MALE_DESC',//'language option male',
+    'description' => '_MI_PEDIGREE_MALE_DESC', //'language option male',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
-    'default'     => 'male'
+    'default'     => 'male',
 ];
 
 $modversion['config'][] = [
     'name'        => 'litter',
     'title'       => '_MI_PEDIGREE_LITTER',
-    'description' => '_MI_PEDIGREE_LITTER_DESC',//'language option litter',
+    'description' => '_MI_PEDIGREE_LITTER_DESC', //'language option litter',
     'formtype'    => 'textbox',
     'valuetype'   => 'textbox',
-    'default'     => 'litter'
+    'default'     => 'litter',
 ];
 
 $modversion['config'][] = [
     'name'        => 'uselitter',
     'title'       => '_MI_PEDIGREE_USELITTER',
-    'description' => '_MI_PEDIGREE_USELITTER_DESC',//'should the litter feature be used ?',
+    'description' => '_MI_PEDIGREE_USELITTER_DESC', //'should the litter feature be used ?',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 1,
 ];
 
 $modversion['config'][] = [
     'name'        => 'colourscheme',
     'title'       => '_MI_PEDIGREE_COLOR',
-    'description' => '_MI_PEDIGREE_COLOR_DESC',//'The colour scheme to be used',
+    'description' => '_MI_PEDIGREE_COLOR_DESC', //'The colour scheme to be used',
     'formtype'    => 'textbox',
     'valuetype'   => 'textbox',
-    'default'     => '#663300,#999966,#B2B27F,#333333,#020000,#80804D,#999999,#663300'
+    'default'     => '#663300,#999966,#B2B27F,#333333,#020000,#80804D,#999999,#663300',
 ];
 
 $modversion['config'][] = [
     'name'        => 'showwelcome',
     'title'       => '_MI_PEDIGREE_SHOWELCOME',
-    'description' => '_MI_PEDIGREE_SHOWELCOME_DESC',//'Show the welcome screen',
+    'description' => '_MI_PEDIGREE_SHOWELCOME_DESC', //'Show the welcome screen',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => 1
+    'default'     => 1,
 ];
 
 $modversion['config'][] = [
-    'name' => 'adminpager',
-    'title' => 'MI_PEDIGREE_ADMINPAGER',
+    'name'        => 'adminpager',
+    'title'       => 'MI_PEDIGREE_ADMINPAGER',
     'description' => 'MI_PEDIGREE_ADMINPAGER_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'int',
-    'default' => 10];
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
 
 $modversion['config'][] = [
-    'name' => 'userpager',
-    'title' => 'MI_PEDIGREE_USERPAGER',
+    'name'        => 'userpager',
+    'title'       => 'MI_PEDIGREE_USERPAGER',
     'description' => 'MI_PEDIGREE_USERPAGER_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'int',
-    'default' => 10];
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
 
 // Files configs
 $modversion['config'][] = [
@@ -305,7 +303,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_FILESUPLOADS_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'odd'
+    'default'     => 'odd',
 ];
 
 $modversion['config'][] = [
@@ -314,7 +312,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_UPLOADDIRDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname']
+    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'],
 ];
 
 $modversion['config'][] = [
@@ -323,7 +321,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_MAXFILESIZEDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 2097152
+    'default'     => 2097152,
 ]; // 2MB
 
 $modversion['config'][] = [
@@ -332,7 +330,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_IMGWIDTHDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 1500
+    'default'     => 1500,
 ];
 
 $modversion['config'][] = [
@@ -341,7 +339,7 @@ $modversion['config'][] = [
     'description' => '_MI_PEDIGREE_IMGHEIGHTDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 1000
+    'default'     => 1000,
 ];
 
 /**
@@ -361,45 +359,45 @@ $modversion['hasMain'] = 1;
 $i                     = 0;
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_VIEW_SEARCH,
-    'url'  => 'index.php'
+    'url'  => 'index.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_ADD_ANIMAL,
-    'url'  => 'add_dog.php'
+    'url'  => 'add_dog.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_ADD_LITTER,
-    'url'  => 'add_litter.php'
+    'url'  => 'add_litter.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_VIEW_OWNERS,
-    'url'  => 'breeder.php'
+    'url'  => 'breeder.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_ADD_OWNER,
-    'url'  => 'add_breeder.php'
+    'url'  => 'add_breeder.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_ADVANCED_INFO,
-    'url'  => 'advanced.php'
+    'url'  => 'advanced.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_VIRTUAL_MATING,
-    'url'  => 'virtual.php'
+    'url'  => 'virtual.php',
 ];
 $modversion['sub'][]   = [
     'name' => _MI_PEDIGREE_LATEST_ADDITIONS,
-    'url'  => 'latest.php'
+    'url'  => 'latest.php',
 ];
 
 if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser) && $GLOBALS['xoopsUser']->isAdmin()) {
     $modversion['sub'][] = [
         'name' => _MI_PEDIGREE_WEBMASTER_TOOLS,
-        'url'  => 'tools.php?op=index'
+        'url'  => 'tools.php?op=index',
     ];
 }
 
-// Templates
+// ------------------- Templates ------------------- //
 $modversion['templates'] = [
     ['file' => 'pedigree_index.tpl', 'description' => _MI_PEDIGREE_TEMPL_INDEX],
     ['file' => 'pedigree_header.tpl', 'description' => _MI_PEDIGREE_TEMPL_HEADER],
@@ -425,10 +423,11 @@ $modversion['templates'] = [
     ['file' => 'pedigree_edit.tpl', 'description' => _MI_PEDIGREE_TEMPL_PAGE_EDIT],
     ['file' => 'table_sort.tpl', 'description' => _MI_PEDIGREE_TEMPL_TABLE_SORT],
     ['file' => 'pedigree_common_breadcrumb.tpl', 'description' => _MI_PEDIGREE_TEMPL_BREADCRUMB],
-    ['file' => 'pedigree_common_letterschoice.tpl', 'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE]
+    ['file' => 'pedigree_common_letterschoice.tpl', 'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE],
 ];
 
-// Blocks (Start indexes with 1, not 0!)
+// ------------------- Blocks ------------------- //
+// (Start indexes with 1, not 0!)
 
 //this block shows the random pedigrees
 $modversion['blocks'][] = [
@@ -436,14 +435,14 @@ $modversion['blocks'][] = [
     'name'        => _MI_PEDIGREE_BLOCK_MENU_TITLE,
     'description' => _MI_PEDIGREE_BLOCK_MENU_DESC,
     'show_func'   => 'menu_block',
-    'template'    => 'pedigree_menu.tpl'
+    'template'    => 'pedigree_menu.tpl',
 ];
 
 // Search function
 $modversion['hasSearch'] = 1;
 $modversion['search'][]  = [
     'file' => 'include/search.inc.php',
-    'func' => 'pedigree_search'
+    'func' => 'pedigree_search',
 ];
 
 //comments function
@@ -457,7 +456,7 @@ $modversion['search'][]  = [
 $modversion['hasNotification'] = 1;
 $modversion['notification'][]  = [
     'lookup_file' => 'include/notification.inc.php',
-    'lookup_func' => 'lookup'
+    'lookup_func' => 'lookup',
 ];
 
 //notify of changes in the dog's data
@@ -468,7 +467,7 @@ $modversion['notification']['category'][] = [
     'description'    => _MI_PEDIGREE_DOG_NOTIFY_DSC,
     'subscribe_from' => ['dog.php', 'pedigree.php'],
     'item_name'      => 'id',
-    'allow_bookmark' => 1
+    'allow_bookmark' => 1,
 ];
 $modversion['notification']['event'][]    = [
     'name'          => 'change_data',
@@ -477,7 +476,7 @@ $modversion['notification']['event'][]    = [
     'caption'       => _MI_PEDIGREE_DATA_NOTIFYCAP,
     'description'   => _MI_PEDIGREE_DATA_NOTIFYDSC,
     'mail_template' => 'dog_data_notify',
-    'mail_subject'  => _MI_PEDIGREE_DATA_NOTIFYSBJ
+    'mail_subject'  => _MI_PEDIGREE_DATA_NOTIFYSBJ,
 ];
 
 //comments function

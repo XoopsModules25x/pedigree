@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -18,17 +21,13 @@
  * @subpackage  class
  * @since       1.3.1
  * @author      XOOPS Module Dev Team
- * @author      ZySpec <owners@zyspec.com>
+ * @author      ZySpec <zyspec@yahoo.com>
  */
 
 use XoopsModules\Pedigree;
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
- *
  * Animal Class
- *
  */
 class Animal
 {
@@ -40,11 +39,11 @@ class Animal
      * class constructor
      *
      * initializes the tree array
-     * @param integer|null $id
+     * @param int|null $id
      */
     public function __construct($id = null)
     {
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         $id            = null !== $id ? (int)$id : 1;
         $myTreeHandler = Pedigree\Helper::getInstance()->getHandler('Tree');
 
@@ -65,13 +64,12 @@ class Animal
     }
 
     /**
-     *
      * Number of Fields
      * @return array
      */
     public function getNumOfFields()
     {
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
         $criteria      = new \CriteriaCompo();
         $criteria->setSort('`order`');
@@ -84,14 +82,14 @@ class Animal
         /*
         $SQL    = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_fields") . " ORDER BY `order`";
         $result = $GLOBALS['xoopsDB']->query($SQL);
-        $fields = array();
+        $fields = [];
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $fields[] = $row['id'];
             $configValues[] = $row;
 
         }
         $this->configValues = isset($configValues) ? $configValues : '';
-        //print_r ($this->configValues); die();
+        //print_r ($this->configValues); exit();
         */
         unset($fieldsHandler, $criteria);
 

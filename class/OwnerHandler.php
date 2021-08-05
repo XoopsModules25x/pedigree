@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -20,9 +23,6 @@
  */
 
 use XoopsModules\Pedigree;
-
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 
 /**
  * Class Pedigree\OwnerHandler
@@ -44,7 +44,7 @@ class OwnerHandler extends \XoopsPersistableObjectHandler
      */
     public function getActiveCriteria()
     {
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         //        $criteria->add(new \Criteria('published', 0, '>'));

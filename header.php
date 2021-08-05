@@ -8,30 +8,33 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * pedigree module
  *
  * @copyright       {@link https://xoops.org/  XOOPS Project}
- * @license         {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package         pedigree
  * @author          Xoops Module Dev Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Helper;
 
-require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 $moduleDirName = basename(__DIR__);
 
 /** @var \XoopsModules\Pedigree\Helper $helper */
-$helper = \XoopsModules\Pedigree\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('main');
 $helper->loadLanguage('common');
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16 = Admin::iconUrl('', 16);
 
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
     $GLOBALS['xoopsTpl'] = new \XoopsTpl();
 }

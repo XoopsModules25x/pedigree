@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -18,24 +21,21 @@
  * @author          XOOPS Module Dev Team
  */
 
+use XoopsDatabase;
 use XoopsModules\Pedigree;
-
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
+use XoopsPersistableObjectHandler;
 
 /**
  * Class Pedigree\FieldsHandler
  *
  * @param object $db reference to the {@link XoopsDatabase} object
- *
- * @return void
  */
-class FieldsHandler extends \XoopsPersistableObjectHandler
+class FieldsHandler extends XoopsPersistableObjectHandler
 {
     /**
      * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(XoopsDatabase $db = null)
     {
         parent::__construct($db, 'pedigree_fields', Fields::class, 'id', 'fieldname');
     }

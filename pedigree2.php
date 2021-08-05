@@ -1,7 +1,9 @@
 <?php
 // -------------------------------------------------------------------------
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
+use Xmf\Request;
+
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -41,7 +43,7 @@ function pedigree_main($ID)
     global $xoopsTpl;
     global $xoopsModuleConfig;
 
-    if (\Xmf\Request::hasVar('detail', 'POST')) {
+    if (Request::hasVar('detail', 'POST')) {
         $detail = trim($_POST['detail']);
     }
 
@@ -170,9 +172,10 @@ function pedigree_main($ID)
     $result = $GLOBALS['xoopsDB']->query($sql);
 
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 

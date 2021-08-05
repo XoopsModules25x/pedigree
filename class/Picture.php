@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree\Breadcrumb Class
  *
@@ -17,8 +20,8 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Pedigree
  * @since       1.31
- *
  */
+
 use XoopsModules\Pedigree;
 
 /**
@@ -38,19 +41,19 @@ class Picture extends Pedigree\HtmlInputAbstract
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->hasLookup();
         if ($this->lookuptable) {
-            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber);
+            \xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber);
         }
         if ($parentObject->inAdvanced()) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
+            \xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', \get_class($this));
         }
         if ($parentObject->inPie()) {
-            xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
         if ('1' == $parentObject->viewinlist) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be included in listview', get_class($this));
+            \xoops_error('userfield ' . $this->fieldnumber . ' cannot be included in listview', \get_class($this));
         }
         if ('1' == $parentObject->hassearch) {
-            xoops_error('Search cannot be defined for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('Search cannot be defined for userfield ' . $this->fieldnumber, \get_class($this));
         }
     }
 

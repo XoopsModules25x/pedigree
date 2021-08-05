@@ -21,12 +21,18 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\CheckoutWizard;
+use XoopsModules\Pedigree\ImageColor;
+/** @var Pedigree\Helper $helper */
+/** @var \XoopsModuleHandler $moduleHandler */
+/** @var \XoopsConfigHandler $configHandler */
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-/** @var Pedigree\Helper $helper */
+
 $helper = Pedigree\Helper::getInstance();
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
@@ -58,16 +64,19 @@ echo '<script language="JavaScript" src="picker.js"></script>';
 
 //set form to be empty
 $form = '';
-/*
+
 //get module configuration
+/*
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
+
+
 $op = Request::getString('op', 'none', 'GET');
 
-//always check to see if a certain field was refferenced.
+//always check to see if a certain field was referenced.
 if (\Xmf\Request::hasVar('field', 'GET')) {
     $field = $_GET['field'];
 }
@@ -123,8 +132,8 @@ switch ($op) {
     case 'dellookupvalue':
         dellookupvalue($field, $_GET['id']);
         break;
-    case 'addlookupvalue':
-        addlookupvalue($field);
+    case 'addLookupValue':
+        addLookupValue($field);
         break;
     case 'editlookupvalue':
         editlookupvalue($field, $_GET['id']);
@@ -327,16 +336,13 @@ function colours()
 }
 
 /**
- *
  * Save the colors
  *
  * @todo move hard coded language string to language file
- *
- * @return void
  */
 function savecolours()
 {
-    $color = new \XoopsModules\Pedigree\ImageColor();
+    $color = new ImageColor();
     //create darker link hover colour
     $actLink = Request::getString('actlink', '', 'POST');  //active link color in hex
     $even    = Request::getString('even', '', 'POST');     // even color in hex
@@ -364,7 +370,6 @@ function savecolours()
 }
 
 /**
- *
  * Create/Display HTML to display fields
  *
  * @todo move hard coded language strings to language files
@@ -372,14 +377,14 @@ function savecolours()
 function listuserfields()
 {
     global $form;
-    $form .= _MA_PEDIGREE_FIELD_EXPLAIN4;
+    $form    .= _MA_PEDIGREE_FIELD_EXPLAIN4;
     $sql     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
     $result  = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
     $count   = 0;
-    $form .= _MA_PEDIGREE_FIELD_FORM1;
+    $form    .= _MA_PEDIGREE_FIELD_FORM1;
     $form    .= "<tr ><td colspan='7'><hr></td></tr>";
-    $mark = "<td><span style='font-weight: bold;'>X</span></td>\n";
+    $mark    = "<td><span style='font-weight: bold;'>X</span></td>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "<tr>\n";
         //display locked fields
@@ -399,21 +404,21 @@ function listuserfields()
                      . "<td><a href='tools.php?op=fieldmove&field={$row['id']}&move=down'>\n"
                      . "<img src='assets/images/down.gif' alt='move field down'></a></td>\n";
         }
-        $form .= "<td><a href='tools.php?op=deluserfield&id={$row['id']}'>" . "<img src='images/delete.png' alt='delete field'></a>&nbsp;" . "<a href='tools.php?op=userfields&field={$row['id']}'>{$row['fieldName']}</a></td>\n";
+        $form .= "<td><a href='tools.php?op=deluserfield&id={$row['id']}'>" . "<img src='assets/images/delete.png' alt='delete field'></a>&nbsp;" . "<a href='tools.php?op=userfields&field={$row['id']}'>{$row['fieldname']}</a></td>\n";
         //can the filed be shown in a list
-        if (1 == $row['ViewInList']) {
+        if (1 == $row['viewinlist']) {
             $form .= $mark;
         } else {
             $form .= "<td>&nbsp;</td>\n";
         }
         //is searchable ?
-        if (1 == $row['HasSearch']) {
+        if (1 == $row['hassearch']) {
             $form .= $mark;
         } else {
             $form .= "<td>&nbsp;</td>\n";
         }
         //has lookuptable ?
-        if (1 == $row['LookupTable']) {
+        if (1 == $row['lookuptable']) {
             $form .= "<td><a href='tools.php?op=editlookup&id={$row['id']}'>" . _EDIT . "</a></td>\n";
         } else {
             $form .= "<td>&nbsp;</td>\n";
@@ -422,14 +427,14 @@ function listuserfields()
         $form .= "</tr>\n";
         ++$count;
     }
-    $form .= "</table>\n";
+    $form   .= "</table>\n";
     $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '0' ORDER BY 'id'";
     $result = $GLOBALS['xoopsDB']->query($sql);
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         $form .= _MA_PEDIGREE_FIELD_EXPLAIN5;
         $form .= "<ul>\n";
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= "<li><a href='tools.php?op=restoreuserfield&id={$row['id']}'>{$row['fieldName']}</a></li>\n";
+            $form .= "<li><a href='tools.php?op=restoreuserfield&id={$row['id']}'>{$row['fieldname']}</a></li>\n";
         }
         $form .= "</ul>\n";
     }
@@ -437,10 +442,8 @@ function listuserfields()
 }
 
 /**
- * @param integer $id field id
+ * @param int $id field id
  * @uses listuserfields() to display user fields
- *
- * @return void
  */
 function togglelocked($id)
 {
@@ -458,9 +461,7 @@ function togglelocked($id)
 }
 
 /**
- * @param integer $id field id
- *
- * @return void
+ * @param int $id field id
  */
 function lock($id)
 {
@@ -470,7 +471,7 @@ function lock($id)
 }
 
 /**
- * @param integer $id field id
+ * @param int $id field id
  */
 function unlock($id)
 {
@@ -524,7 +525,7 @@ function fieldmove($field, $move)
 }
 
 /**
- * @param integer $id field id
+ * @param int $id field id
  *
  * @uses listuserfields() method to display fields
  */
@@ -537,8 +538,7 @@ function deluserfield($id)
 }
 
 /**
- *
- * @param integer $id field id
+ * @param int $id field id
  *
  * @uses listuserfields() method to display fields
  */
@@ -551,9 +551,9 @@ function restoreuserfield($id)
 }
 
 /**
+ * @param $field
  * @todo: move hard coded language string to language file
  *
- * @param $field
  */
 function editlookup($field)
 {
@@ -562,7 +562,7 @@ function editlookup($field)
     $result  = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
     $count   = 0;
-    $form .= "<table>\n";
+    $form    .= "<table>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "  <tr>\n";
         if (0 == $count) { //first row
@@ -571,7 +571,7 @@ function editlookup($field)
                      . "      <a href='tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down'><img src='assets/images/down.gif'></a>\n"
                      . "    </td>\n"
                      . "    <td>\n"
-                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='images/delete.png'></a>\n"
+                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='assets/images/delete.png'></a>\n"
                      . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
                      . "    </td>\n";
         } elseif ($count == $numrows - 1) { //last row
@@ -591,7 +591,7 @@ function editlookup($field)
                      . "      <a href='tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down'><img src='assets/images/down.gif'></a>\n"
                      . "    </td>\n"
                      . "    <td>\n"
-                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='images/delete.png'></a>\n"
+                     . "      <a href='tools.php?op=dellookupvalue&field={$field}&id={$row['id']}'><img src='assets/images/delete.png'></a>\n"
                      . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
                      . "    </td>\n";
         }
@@ -605,7 +605,7 @@ function editlookup($field)
 
 /**
  * @param         $field
- * @param integer $id
+ * @param int     $id
  * @param string  $move up|down
  */
 function lookupmove($field, $id, $move)
@@ -645,11 +645,9 @@ function lookupmove($field, $id, $move)
 }
 
 /**
- *
- * @todo: move hard coded language string to language file
- *
  * @param         $field
- * @param integer $id
+ * @param int     $id
+ * @todo: move hard coded language string to language file
  *
  */
 function editlookupvalue($field, $id)
@@ -663,10 +661,9 @@ function editlookupvalue($field, $id)
 }
 
 /**
- * @todo: move hard coded language string to language file
- *
  * @param         $field
- * @param integer $id
+ * @param int     $id
+ * @todo: move hard coded language string to language file
  *
  */
 function savelookupvalue($field, $id)
@@ -687,7 +684,7 @@ function dellookupvalue($field, $id)
     $animal      = new Pedigree\Animal();
     $fields      = $animal->getNumOfFields();
     $userField   = new Pedigree\Field($field, $animal->getConfig());
-    $fieldType   = $userField->getSetting('FieldType');
+    $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
     $fieldObject = new $fieldType($userField, $animal);
     //    $default     = $fieldObject->defaultvalue;
     $default = $GLOBALS['xoopsDB']->escape($fieldObject->defaultvalue);
@@ -709,7 +706,7 @@ function dellookupvalue($field, $id)
 /**
  * @param $field
  */
-function addlookupvalue($field)
+function addLookupValue($field)
 {
     $SQL    = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY id DESC LIMIT 1';
     $result = $GLOBALS['xoopsDB']->query($SQL);
@@ -728,9 +725,9 @@ function addlookupvalue($field)
 function userfields($field = 0)
 {
     global $field;
-//    require_once __DIR__ . '/include/checkoutwizard.php';
+    //    require_once __DIR__ . '/include/checkoutwizard.php';
 
-    $wizard = new \XoopsModules\Pedigree\CheckoutWizard();
+    $wizard = new CheckoutWizard();
     $action = $wizard->coalesce($_GET['action']);
 
     $wizard->process($action, $_POST, 'POST' === $_SERVER['REQUEST_METHOD']);
@@ -740,19 +737,19 @@ function userfields($field = 0)
 
     if ($wizard->isComplete()) {
         if (0 == !$wizard->getValue('field')) {
-            // field allready exists (editing mode)
+            // field already exists (editing mode)
             $form = _MA_PEDIGREE_FIELPROP;
         } else {
             $form = _MA_PEDIGREE_FIELDPROP_ELSE;
         }
-        $form .= "<form method='post' action='" . $_SERVER['PHP_SELF'] . '?op=userfields&action=' . $wizard->resetAction() . "'>";
+        $form .= "<form method='post' action='" . $_SERVER['SCRIPT_NAME'] . '?op=userfields&action=' . $wizard->resetAction() . "'>";
         $form .= "<input type='submit' value='" . _MA_PEDIGREE_FINISH_BUTTON . "'></form>";
     } else {
-        $form = "<form method='post' action='" . $_SERVER['PHP_SELF'] . '?op=userfields&action=' . $wizard->getStepName() . "'>";
+        $form = "<form method='post' action='" . $_SERVER['SCRIPT_NAME'] . '?op=userfields&action=' . $wizard->getStepName() . "'>";
         if (0 == !$field) {
             $form .= "<input type='hidden' name='field' value='{$field}'>";
         }
-        if (0 == !$wizard->getValue('field')) { // field allready exists (editing mode)
+        if (0 == !$wizard->getValue('field')) { // field already exists (editing mode)
             $form .= '<h2>' . $wizard->getStepProperty('title') . ' - ' . $wizard->getValue('name') . ' - step ' . $wizard->getStepNumber() . '</h2>';
         } else {
             $form .= '<h2>' . $wizard->getStepProperty('title') . ' - step ' . $wizard->getStepNumber() . '</h2>';
@@ -774,7 +771,7 @@ function userfields($field = 0)
             }
             $form .= '</td></tr></table>';
             $form .= _MA_PEDIGREE_FIELDNAME;
-        } elseif ('Fieldtype' === $wizard->getStepName()) {
+        } elseif ('fieldtype' === $wizard->getStepName()) {
             $form .= '<table><tr><td>';
             if ('' == $wizard->getValue('fieldtype')) {
                 $wizard->setValue('fieldtype', 'textbox');
@@ -828,7 +825,7 @@ function userfields($field = 0)
                 }
                 $form .= '>' . _MA_PEDIGREE_SHOWFIELD . '<br>';
                 //viewinadvanced
-                if ('radiobutton' === $fieldtype || 'selectbox' === $fieldtype) {
+                if ('RadioButton' === $fieldtype || 'SelectBox' === $fieldtype) {
                     $form .= "<input type='checkbox' name='viewinadvanced' value='viewinadvanced'";
                     if ('viewinadvanced' === $wizard->getValue('viewinadvanced')) {
                         $form .= ' checked=checked';
@@ -838,7 +835,7 @@ function userfields($field = 0)
                     $form .= "<input type='checkbox' name='viewinadvanced' disabled='true' value='viewinadvanced'>" . _MA_PEDIGREE_SHOWFIELD_ADVANCE . '<br>';
                 }
                 //viewinpie
-                if ('radiobutton' === $fieldtype || 'selectbox' === $fieldtype) {
+                if ('RadioButton' === $fieldtype || 'SelectBox' === $fieldtype) {
                     $form .= "<input type='checkbox' name='viewinpie' value='viewinpie'";
                     if ('viewinpie' === $wizard->getValue('viewinpie')) {
                         $form .= ' checked =_MA_PEDIGREE_CHECKED ';
@@ -878,7 +875,7 @@ function userfields($field = 0)
                 $form .= '>' . _MA_PEDIGREE_SHOWFIELD_ADDLITTGLOBAL . '<br>';
             } else {
                 if ('search' === $wizard->getStepName()) {
-                    $form .= _MA_PEDIGREE_SEARCH_NAME;
+                    $form              .= _MA_PEDIGREE_SEARCH_NAME;
                     $currentsearchname = $wizard->getValue('searchname');
                     if ('' == $currentsearchname) {
                         $currentsearchname = htmlspecialchars($wizard->getValue('name'), ENT_QUOTES | ENT_HTML5);
@@ -900,10 +897,10 @@ function userfields($field = 0)
                     $form .= '</td></tr></table>';
                     $form .= _MA_PEDIGREE_SEARCHNAME_EXPLAIN;
                 } elseif ('defaultvalue' === $wizard->getStepName()) {
-                    if ('selectbox' === $wizard->getValue('fieldtype')
-                        || 'radiobutton' === $wizard->getValue('fieldtype')) {
-                        $count = $wizard->getValue('fc');
-                        $form .= "Default value : <select size='1' name='defaultvalue'>";
+                    if ('SelectBox' === $wizard->getValue('fieldtype')
+                        || 'RadioButton' === $wizard->getValue('fieldtype')) {
+                        $count      = $wizard->getValue('fc');
+                        $form       .= "Default value : <select size='1' name='defaultvalue'>";
                         $radioarray = $wizard->getValue('radioarray');
                         foreach ($radioarray as $x => $xValue) {
                             $form .= "<option value='" . $radioarray[$x]['id'] . "'";
@@ -918,7 +915,7 @@ function userfields($field = 0)
                     }
                     $form .= _MA_PEDIGREE_DEFAUTVALUE_EXPLAIN;
                 } elseif ('confirm' === $wizard->getStepName()) {
-                    if (0 == !$wizard->getValue('field')) { // field allready exists (editing mode)
+                    if (0 == !$wizard->getValue('field')) { // field already exists (editing mode)
                         $form .= _MA_PEDIGREE_FIELDCONTROL1;
                     }
                 } else {
@@ -929,16 +926,16 @@ function userfields($field = 0)
                 $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL4 . $wizard->getValue('name') . '</b><br>';
                 $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL5 . stripslashes($wizard->getValue('explain')) . '</b><br>';
                 $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL6 . $wizard->getValue('fieldtype') . '</b><br>';
-                if ('selectbox' === $wizard->getValue('fieldtype')
-                    || 'radiobutton' === $wizard->getValue('fieldtype')) {
+                if ('SelectBox' === $wizard->getValue('fieldtype')
+                    || 'RadioButton' === $wizard->getValue('fieldtype')) {
                     $count = $wizard->getValue('fc');
                     for ($x = 1; $x < $count + 1; ++$x) {
                         $radioarray[] = [
                             'id'    => $wizard->getValue('id' . $x),
-                            'value' => $wizard->getValue('lookup' . $x)
+                            'value' => $wizard->getValue('lookup' . $x),
                         ];
                     }
-                    $val = $wizard->getValue('defaultvalue');
+                    $val  = $wizard->getValue('defaultvalue');
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('lookup' . $val) . '</b><br>';
                 } else {
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('defaultvalue') . '</b><br>';
@@ -984,18 +981,18 @@ function userfields($field = 0)
 
 function credits()
 {
-    /*
-        $moduleHandler = xoops_getHandler('module');
-        $module        = $moduleHandler->getByDirname($moduleDirName);
-        $configHandler = xoops_getHandler('config');
-        $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-        */
+/*
+    $moduleHandler = xoops_getHandler('module');
+    $module        = $moduleHandler->getByDirname($moduleDirName);
+    $configHandler = xoops_getHandler('config');
+    $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+*/
     $helper = Pedigree\Helper::getInstance(false);
-    $form     = 'Pedigree database module<br><br><li>Programming : James Cotton<br><li>Design & Layout : Ton van der Hagen<br><li>Version : '
-                . round($helper->getModule()->getVar('version') / 100, 2)
-                . ' '
-                . $helper->getModule()->getVar('module_status')
-                . '<br><br>Technical support :<br><li><a href="https://xoops.org">www.xoops.org</a><hr>';
+    $form   = 'Pedigree database module<br><br><li>Programming : James Cotton<br><li>Design & Layout : Ton van der Hagen<br><li>Version : '
+              . round($helper->getModule()->getVar('version') / 100, 2)
+              . ' '
+              . $helper->getModule()->getVar('module_status')
+              . '<br><br>Technical support :<br><li><a href="https://xoops.org">www.xoops.org</a><hr>';
 
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
@@ -1030,9 +1027,7 @@ function userqrun($file)
 }
 
 /**
- *
  * @todo: move hard coded language string to language file
- *
  */
 function database_oa()
 {
@@ -1069,7 +1064,6 @@ function database_oa()
 }
 
 /**
- *
  * @todo: move hard coded language string to language file
  */
 function database_fp()
@@ -1099,9 +1093,7 @@ function database_fp()
 }
 
 /**
- *
  * @todo: move hard coded language string to language file
- *
  */
 function pro()
 {
@@ -1110,9 +1102,7 @@ function pro()
 }
 
 /**
- *
  * @todo: move hard coded language strings to language file
- *
  */
 function deleted()
 {
@@ -1187,7 +1177,7 @@ function settings()
         '1000'  => 1000,
         '2000'  => 2000,
         '5000'  => 5000,
-        '10000' => 10000
+        '10000' => 10000,
     ];
     foreach ($options as $key => $values) {
         $select->addOption($key, $name = $values);
@@ -1230,9 +1220,7 @@ function settings()
 }
 
 /**
- *
  * @todo: move hard coded language string to language file
- *
  */
 function settingssave()
 {
@@ -1277,9 +1265,7 @@ function lang()
 }
 
 /**
- *
  * @todo: move hard coded language string to language file
- *
  */
 function langsave()
 {
@@ -1293,7 +1279,7 @@ function langsave()
         'mother',
         'father',
         'litter',
-        'welcome'
+        'welcome',
     ];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {

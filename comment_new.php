@@ -11,19 +11,19 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author         XOOPS Development Team
  */
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-$com_itemid = \Xmf\Request::getInt('com_itemid', 0, 'GET');
+use Xmf\Request;
+
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
+$com_itemid = Request::getInt('com_itemid', 0, 'GET');
 if ($com_itemid > 0) {
     // Get link title
     $sql            = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $com_itemid . ' ';
     $result         = $GLOBALS['xoopsDB']->query($sql);
     $row            = $GLOBALS['xoopsDB']->fetchArray($result);
     $com_replytitle = stripslashes($row['pname']);
-    require_once XOOPS_ROOT_PATH . '/include/comment_new.php';
+    require XOOPS_ROOT_PATH . '/include/comment_new.php';
 }

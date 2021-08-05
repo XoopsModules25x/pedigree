@@ -22,17 +22,17 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-$rootPath      = dirname(dirname(__DIR__));
+$rootPath      = \dirname(__DIR__, 2);
 $moduleDirName = basename(__DIR__);
-$mydirpath     = dirname(__DIR__);
+$mydirpath     = \dirname(__DIR__);
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 //require_once $rootPath . '/include/cp_functions.php';
 //require_once $rootPath . '/include/cp_header.php';
 //require_once $rootPath . '/class/xoopsformloader.php';
 
-//require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 //xoops_cp_header();
 
 xoops_loadLanguage('main', $moduleDirName);
@@ -61,9 +61,10 @@ $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/c
 require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -72,19 +73,18 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 pedigree_main();
 
 //require_once XOOPS_ROOT_PATH . "/footer.php";
-require_once __DIR__   . '/footer.php';
+require_once __DIR__ . '/footer.php';
 
 //
 // Displays the "Main" tab of the module
 //
-/**
- */
+
 function pedigree_main()
 {
     require_once __DIR__ . '/include/common.php';
     $moduleDirName = basename(__DIR__);
-    $id     = Request::getInt('pedid', 1, 'GET');
-    $animal = new Pedigree\Animal($id);
+    $id            = Request::getInt('pedid', 1, 'GET');
+    $animal        = new Pedigree\Animal($id);
     //test to find out how many user fields there are.
     $fields      = $animal->getNumOfFields();
     $fieldsCount = count($fields);
@@ -131,9 +131,9 @@ function pedigree_main()
                 'mother' => $row[$key . '_mother'],
                 'father' => $row[$key . '_father'],
                 'roft'   => $row[$key . '_roft'],
-                'nhsb'   => ''
+                'nhsb'   => '',
             ];
-            if ((3 != strlen($key) || (0 != $moduleConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
+            if ((3 != mb_strlen($key) || (0 != $moduleConfig['lastimage'])) && ('' !== $row[$key . '_foto'])) {
                 //show image in last row of pedigree if image exists
                 $d[$key]['photo']    = PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row[$key . '_foto'] . '_150.jpeg';
                 $d[$key]['photoBig'] = PEDIGREE_UPLOAD_URL . '/images/' . $row[$key . '_foto'] . '.jpeg';
@@ -151,7 +151,7 @@ function pedigree_main()
             foreach ($fields as $i => $iValue) {
                 $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
                 if ($userField->isActive() && $userField->inPedigree()) {
-                    $fieldType = $userField->getSetting('FieldType');
+                    $fieldType = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
                     $fieldObj  = new $fieldType($userField, $animal);
                     $pedidata  .= $fieldObj->showField() . '<br>';
                 }
@@ -161,19 +161,20 @@ function pedigree_main()
     }
 
     //add data to smarty template
-    $GLOBALS['xoopsTpl']->assign([
-                                     'page_title' => stripslashes($row['d_pname']),
-                                     'd'          => $d,  //assign dog
-                                     //assign config options
-                                     'male'       => "<img src='assets/images/male.gif'>",
-                                     'female'     => "<img src='assets/images/female.gif'>",
-                                     //assign extra display options
-                                     'unknown'    => 'Unknown',
-                                     'SD'         => _MA_PEDIGREE_SD,
-                                     'PA'         => _MA_PEDIGREE_PA,
-                                     'GP'         => _MA_PEDIGREE_GP,
-                                     'GGP'        => _MA_PEDIGREE_GGP
-                                 ]);
-
+    $GLOBALS['xoopsTpl']->assign(
+        [
+            'page_title' => stripslashes($row['d_pname']),
+            'd'          => $d,  //assign dog
+            //assign config options
+            'male'       => "<img src='assets/images/male.gif'>",
+            'female'     => "<img src='assets/images/female.gif'>",
+            //assign extra display options
+            'unknown'    => 'Unknown',
+            'SD'         => _MA_PEDIGREE_SD,
+            'PA'         => _MA_PEDIGREE_PA,
+            'GP'         => _MA_PEDIGREE_GP,
+            'GGP'        => _MA_PEDIGREE_GGP,
+        ]
+    );
     //    require_once __DIR__   . '/footer.php';
 }

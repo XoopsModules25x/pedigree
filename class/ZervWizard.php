@@ -1,4 +1,15 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
+
+
+
+
+
+
+
+
+
 
 /**
  *  Copyright 2005 Zervaas Enterprises (www.zervaas.com.au)
@@ -25,33 +36,24 @@
  *
  * @author  Quentin Zervaas
  */
-
 class ZervWizard
 {
     // whether or not all steps of the form are complete
     public $_complete = false;
-
     // internal array to store the various steps
     public $_steps = [];
-
     // the current step
     public $_currentStep = null;
-
     // the prefix of the container key where form values are stored
     public $_containerPrefix = '__wiz_';
-
     // an array of any errors that have occurred
     public $_errors = [];
-
     // key in container where step status is stored
     public $_step_status_key = '__step_complete';
-
     // key in container where expected action is stored
     public $_step_expected_key = '__expected_action';
-
     // options to use for the wizard
     public $options = ['redirectAfterPost' => true];
-
     // action that resets the container
     public $resetAction = '__reset';
 
@@ -61,27 +63,27 @@ class ZervWizard
      * Constructor. Primarily sets up the container
      *
      * @param array  &$container Reference to container array
-     * @param string $name       A unique name for the wizard for container storage
+     * @param string  $name      A unique name for the wizard for container storage
      */
     public function __construct($container, $name)
     {
-        if (!is_array($container)) {
+        if (!\is_array($container)) {
             $this->addError('container', 'Container not valid');
 
             return;
         }
 
         $containerKey = $this->_containerPrefix . $name;
-        if (!array_key_exists($containerKey, $container)) {
+        if (!\array_key_exists($containerKey, $container)) {
             $container[$containerKey] = [];
         }
 
-        $this->container =& $container[$containerKey];
+        $this->container = &$container[$containerKey];
 
-        if (!array_key_exists('_errors', $this->container)) {
+        if (!\array_key_exists('_errors', $this->container)) {
             $this->container['_errors'] = [];
         }
-        $this->_errors =& $this->container['_errors'];
+        $this->_errors = &$this->container['_errors'];
     }
 
     /**
@@ -93,12 +95,12 @@ class ZervWizard
      * first step. Once the next step is determined, the prepare method
      * is called for the step. This has the method name prepare_[step name]()
      *
+     * @param string|null $action  The step being processed. This should correspond
+     *                             to a step created in addStep()
+     * @param array  &    $form    The unmodified form values to process
+     * @param bool        $process True if the step is being processed, false if being prepared
      * @todo    Need a way to jump between steps, e.g. from step 2 to 4 and validating all data
      *
-     * @param string|null $action  The step being processed. This should correspond
-     *                        to a step created in addStep()
-     * @param array  &$form   The unmodified form values to process
-     * @param bool   $process True if the step is being processed, false if being prepared
      */
     public function process($action, $form, $process = true)
     {
@@ -120,7 +122,7 @@ class ZervWizard
 
             // processing callback must exist and validate to proceed
             $callback = 'process' . $action;
-            $complete = method_exists($this, $callback) && $this->$callback($form);
+            $complete = \method_exists($this, $callback) && $this->$callback($form);
 
             $this->container[$this->_step_status_key][$action] = $complete;
             $this->setCurrentStep($action);
@@ -147,7 +149,7 @@ class ZervWizard
 
                     // processing callback must exist and validate to proceed
                     $callback = 'process' . $action;
-                    $complete = method_exists($this, $callback) && $this->$callback($form);
+                    $complete = \method_exists($this, $callback) && $this->$callback($form);
 
                     $this->container[$this->_step_status_key][$action] = $complete;
 
@@ -176,7 +178,7 @@ class ZervWizard
 
         // setup any required data for this step
         $callback = 'prepare' . $this->getStepName();
-        if (method_exists($this, $callback)) {
+        if (\method_exists($this, $callback)) {
             $this->$callback();
         }
     }
@@ -195,8 +197,8 @@ class ZervWizard
     {
         if ($this->coalesce($this->options['redirectAfterPost'], false)) {
             $redir = $_SERVER['REQUEST_URI'];
-            $redir = preg_replace('/\?' . preg_quote($_SERVER['QUERY_STRING'], '/') . '$/', '', $redir);
-            header('Location: ' . $redir);
+            $redir = \preg_replace('/\?' . preg_quote($_SERVER['QUERY_STRING'], '/') . '$/', '', $redir);
+            \header('Location: ' . $redir);
             exit;
         }
     }
@@ -258,7 +260,7 @@ class ZervWizard
      */
     public function stepExists($stepname)
     {
-        return array_key_exists($stepname, $this->_steps);
+        return \array_key_exists($stepname, $this->_steps);
     }
 
     /**
@@ -285,8 +287,8 @@ class ZervWizard
      */
     public function getStepNumber($step = null)
     {
-        $steps    = array_keys($this->_steps);
-        $numSteps = count($steps);
+        $steps    = \array_keys($this->_steps);
+        $numSteps = \count($steps);
 
         if ('' === $step) {
             $step = $this->getStepName();
@@ -309,8 +311,8 @@ class ZervWizard
      */
     public function stepCanBeProcessed($step)
     {
-        $steps    = array_keys($this->_steps);
-        $numSteps = count($steps);
+        $steps    = \array_keys($this->_steps);
+        $numSteps = \count($steps);
 
         foreach ($steps as $iValue) {
             $_step = $iValue;
@@ -356,23 +358,20 @@ class ZervWizard
      */
     public function getFirstStep()
     {
-        $steps = array_keys($this->_steps);
+        $steps = \array_keys($this->_steps);
 
-        return count($steps) > 0 ? $steps[0] : null;
+        return \count($steps) > 0 ? $steps[0] : null;
     }
 
-    /**
-     * @return null
-     */
     public function getFirstIncompleteStep()
     {
-        $steps    = array_keys($this->_steps);
-        $numSteps = count($steps);
+        $steps    = \array_keys($this->_steps);
+        $numSteps = \count($steps);
 
         foreach ($steps as $iValue) {
             $_step = $iValue;
 
-            if (!array_key_exists($this->_step_status_key, $this->container)
+            if (!\array_key_exists($this->_step_status_key, $this->container)
                 || !$this->container[$this->_step_status_key][$_step]) {
                 return $_step;
             }
@@ -394,7 +393,7 @@ class ZervWizard
     public function getPreviousStep($step)
     {
         $ret   = null;
-        $steps = array_keys($this->_steps);
+        $steps = \array_keys($this->_steps);
 
         $done = false;
         foreach ($steps as $s) {
@@ -421,7 +420,7 @@ class ZervWizard
     public function getFollowingStep($step)
     {
         $ret   = null;
-        $steps = array_keys($this->_steps);
+        $steps = \array_keys($this->_steps);
 
         $ready = false;
         foreach ($steps as $s) {
@@ -448,7 +447,7 @@ class ZervWizard
      */
     public function addStep($stepname, $title)
     {
-        if (array_key_exists($stepname, $this->_steps)) {
+        if (\array_key_exists($stepname, $this->_steps)) {
             $this->addError('step', 'Step with name ' . $stepname . ' already exists');
 
             return;
@@ -456,11 +455,11 @@ class ZervWizard
 
         $this->_steps[$stepname] = ['title' => $title];
 
-        if (!array_key_exists($this->_step_status_key, $this->container)) {
+        if (!\array_key_exists($this->_step_status_key, $this->container)) {
             $this->container[$this->_step_status_key] = [];
         }
 
-        if (!array_key_exists($stepname, $this->container[$this->_step_status_key])) {
+        if (!\array_key_exists($stepname, $this->container[$this->_step_status_key])) {
             $this->container[$this->_step_status_key][$stepname] = false;
         }
     }
@@ -474,9 +473,9 @@ class ZervWizard
      */
     public function isFirstStep()
     {
-        $steps = array_keys($this->_steps);
+        $steps = \array_keys($this->_steps);
 
-        return count($steps) > 0 && $steps[0] == $this->getStepName();
+        return \count($steps) > 0 && $steps[0] == $this->getStepName();
     }
 
     /**
@@ -488,9 +487,9 @@ class ZervWizard
      */
     public function isLastStep()
     {
-        $steps = array_keys($this->_steps);
+        $steps = \array_keys($this->_steps);
 
-        return count($steps) > 0 && array_pop($steps) == $this->getStepName();
+        return \count($steps) > 0 && \array_pop($steps) == $this->getStepName();
     }
 
     /**
@@ -540,12 +539,12 @@ class ZervWizard
      * Initializes a variable, by returning either the variable
      * or a default value
      *
-     * @param mixed &$var    The variable to fetch
-     * @param mixed $default The value to return if variable doesn't exist or is null
+     * @param mixed &$var     The variable to fetch
+     * @param mixed  $default The value to return if variable doesn't exist or is null
      *
      * @return mixed The variable value or the default value
      */
-    public function coalesce(&$var, $default = null)
+    public function coalesce($var, $default = null)
     {
         return (isset($var) && null !== $var) ? $var : $default;
     }
@@ -575,19 +574,18 @@ class ZervWizard
     public function isError($key = null)
     {
         if (null !== $key) {
-            return array_key_exists($key, $this->_errors);
+            return \array_key_exists($key, $this->_errors);
         }
 
-        return count($this->_errors) > 0;
+        return \count($this->_errors) > 0;
     }
 
     /**
      * @param $key
-     *
-     * @return null
+     * @return mixed|null
      */
     public function getError($key)
     {
-        return array_key_exists($key, $this->_errors) ? $this->_errors[$key] : null;
+        return \array_key_exists($key, $this->_errors) ? $this->_errors[$key] : null;
     }
 }

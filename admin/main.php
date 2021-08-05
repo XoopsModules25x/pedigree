@@ -29,6 +29,6 @@
 
 use XoopsModules\Pedigree;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
 xoops_loadLanguage('modinfo', basename(dirname(__DIR__)));
 require_once $GLOBALS['xoops']->path('modules/' . $xoopsModule->dirname() . '/admin/menu.php');

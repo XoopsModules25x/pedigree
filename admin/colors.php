@@ -1,9 +1,7 @@
 <?php
 
-use XoopsModules\Pedigree;
-
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+xoops_loadLanguage('main', basename(dirname(__DIR__, 2)));
 
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php';
 

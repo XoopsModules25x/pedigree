@@ -1,19 +1,17 @@
 <?php
 
-use XoopsModules\Pedigree;
-
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+xoops_loadLanguage('modinfo', basename(dirname(__DIR__, 2)));
 
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/menu.php';
 
 xoops_cp_header();
 
-$colourString = substr($_POST['mainbgcolor'], 1)
+$colourString = mb_substr($_POST['mainbgcolor'], 1)
                 . ';'
-                . substr($_POST['sbgcolor'], 1)
+                . mb_substr($_POST['sbgcolor'], 1)
                 . ';'
-                . substr($_POST['stxtcolor'], 1)
+                . mb_substr($_POST['stxtcolor'], 1)
                 . ';'
                 . $_POST['sfont']
                 . ';'
@@ -21,9 +19,9 @@ $colourString = substr($_POST['mainbgcolor'], 1)
                 . ';'
                 . $_POST['sfontstyle']
                 . ';'
-                . substr($_POST['mbgcolor'], 1)
+                . mb_substr($_POST['mbgcolor'], 1)
                 . ';'
-                . substr($_POST['mtxtcolor'], 1)
+                . mb_substr($_POST['mtxtcolor'], 1)
                 . ';'
                 . $_POST['mfont']
                 . ';'
@@ -31,9 +29,9 @@ $colourString = substr($_POST['mainbgcolor'], 1)
                 . ';'
                 . $_POST['mfontstyle']
                 . ';'
-                . substr($_POST['fbgcolor'], 1)
+                . mb_substr($_POST['fbgcolor'], 1)
                 . ';'
-                . substr($_POST['ftxtcolor'], 1)
+                . mb_substr($_POST['ftxtcolor'], 1)
                 . ';'
                 . $_POST['ffont']
                 . ';'
@@ -43,9 +41,9 @@ $colourString = substr($_POST['mainbgcolor'], 1)
                 . ';'
                 . $_POST['bstyle']
                 . ';'
-                . substr($_POST['bwidth'], 0, 1)
+                . mb_substr($_POST['bwidth'], 0, 1)
                 . ';'
-                . substr($_POST['bcolor'], 1);
+                . mb_substr($_POST['bcolor'], 1);
 
 //$sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('config') . " SET conf_value='" . $colourString . "' WHERE conf_name = 'pedigreeColours'";
 //$GLOBALS['xoopsDB']->queryf($sql);

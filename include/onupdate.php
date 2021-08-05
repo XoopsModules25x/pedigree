@@ -3,13 +3,13 @@
 /**
  * Verify that a mysql table exists
  *
- * @package       News
- * @author        Hervé Thouzard (http://www.herve-thouzard.com)
- * @copyright (c) Hervé Thouzard
- *
  * @param $tablename
  *
  * @return bool
+ * @copyright (c) Hervé Thouzard
+ *
+ * @package       News
+ * @author        Hervé Thouzard (http://www.herve-thouzard.com)
  */
 {
     global $xoopsDB;
@@ -25,7 +25,7 @@ function xoops_module_update_animal()
 {
     global $xoopsDB;
 
-    if (tableExists($GLOBALS['xoopsDB']->prefix('owner'))) {
+    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('owner'))) {
         $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('owner') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
@@ -34,7 +34,7 @@ function xoops_module_update_animal()
         }
     }
 
-    if (tableExists($GLOBALS['xoopsDB']->prefix('stamboom'))) {
+    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('stamboom'))) {
         $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('stamboom') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
@@ -43,7 +43,7 @@ function xoops_module_update_animal()
         }
     }
 
-    if (tableExists($GLOBALS['xoopsDB']->prefix('pedigree_fields'))) {
+    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('pedigree_fields'))) {
         $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
@@ -52,7 +52,7 @@ function xoops_module_update_animal()
         }
     }
 
-    if (tableExists($GLOBALS['xoopsDB']->prefix('pedigree_temp'))) {
+    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('pedigree_temp'))) {
         $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
@@ -61,7 +61,7 @@ function xoops_module_update_animal()
         }
     }
 
-    if (tableExists($GLOBALS['xoopsDB']->prefix('pedigree_trash'))) {
+    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('pedigree_trash'))) {
         $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
@@ -72,3 +72,4 @@ function xoops_module_update_animal()
 
     return true;
 }
+

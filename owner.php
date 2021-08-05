@@ -1,6 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
@@ -33,15 +34,16 @@ if (isset($GLOBALS['xoTheme'])) {
 $xoopsTpl->assign('page_title', 'Pedigree database - View Owner/Breeder details');
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 global $xoopsTpl, $xoopsModuleConfig, $xoopsModule;
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16 = Admin::iconUrl('', 16);
 
 xoops_load('XoopsUserUtility');
 
@@ -73,7 +75,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $homepage = "http://{$homepage}";
     }
 
-    $check = substr($homepage, 0, 7);
+    $check = mb_substr($homepage, 0, 7);
     if ('http://' !== $check) {
         $homepage = 'http://' . $homepage;
     }
@@ -103,46 +105,46 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_LNAME,
         'data'   => '<a href="owner.php?id=' . $row['id'] . '">' . $pnamel . '</a>',
-        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nl\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
 
     //firstname
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_FNAME,
         'data'   => '<a href="owner.php?id=' . $row['id'] . '">' . $pnamef . '</a>',
-        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=nf\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
 
     //email
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_EMAIL,
         'data'   => '<a href="mailto:' . $email . '">' . $email . '</a>',
-        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=em\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
     //homepage
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_OWN_WEB,
         'data'   => '<a href="' . $homepage . '" target="_blank">' . $homepage . '</a>',
-        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="updateowner.php?id=' . $row['id'] . "&fld=we\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
     //owner of
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_OWN,
         'data'   => $owner,
-        'edit'   => ''
+        'edit'   => '',
     ];
     //breeder of
     $items[] = [
         'header' => _MA_PEDIGREE_OWN_BRE,
         'data'   => $breeder,
-        'edit'   => ''
+        'edit'   => '',
     ];
 
     //database user
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_DBUS,
         'data'   => $dbuser,
-        'edit'   => ''
+        'edit'   => '',
     ];
 }
 //add data to smarty template

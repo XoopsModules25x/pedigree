@@ -20,11 +20,11 @@
 
 use Xmf\Request;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-require_once __DIR__ . '/include/config.php';
+require_once __DIR__ . '/config/config.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 $dogid = Request::getInt('dogid', 0, 'GET');
 
@@ -87,7 +87,7 @@ where d.Id=$dogid";
 
 $result = $GLOBALS['xoopsDB']->query($sql);
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-    echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+    echo '<!DOCTYPE HTML>
     <html><head>
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="AUTHOR" content="' . $GLOBALS['xoopsConfig']['sitename'] . '">

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -19,19 +22,19 @@
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
 
+use XoopsDatabase;
 use XoopsModules\Pedigree;
-
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+use XoopsPersistableObjectHandler;
 
 /**
  * Class Pedigree\TempHandler
  */
-class TempHandler extends \XoopsPersistableObjectHandler
+class TempHandler extends XoopsPersistableObjectHandler
 {
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(XoopsDatabase $db = null)
     {
         parent::__construct($db, 'pedigree_temp', Temp::class, 'id', 'pname');
     }

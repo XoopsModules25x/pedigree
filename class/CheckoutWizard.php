@@ -1,6 +1,31 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 //require_once __DIR__ . '/wizard.php';
+use RuntimeException;
+
+
+
+
+
+
+
+
+
+
+use const _MA_PEDIGREE_FIELD_EXPLAN1;
+
+
+
+
+
+
+
+
+
+use const ENT_HTML5;
+
 
 /**
  * Class CheckoutWizard
@@ -15,31 +40,32 @@ class CheckoutWizard extends ZervWizard
         global $field;
         // start the session and initialize the wizard
         if (null === $_SESSION) {
-            session_start();
+            if (false === @\session_start()) {
+                throw new RuntimeException('Session could not start.');
+            }
         }
         parent::__construct($_SESSION, __CLASS__);
 
-        $this->addStep('fieldname', _MA_PEDIGREE_ENTER_FIELD);
+        $this->addStep('fieldname', \_MA_PEDIGREE_ENTER_FIELD);
         if (0 == $this->getValue('field')) { //only for a new field
-            $this->addStep('fieldtype', _MA_PEDIGREE_FIELD_TYP_SEL);
+            $this->addStep('fieldtype', \_MA_PEDIGREE_FIELD_TYP_SEL);
             if (('selectbox' === $this->getValue('fieldtype')) || ('radiobutton' === $this->getValue('fieldtype'))) {
-                $this->addStep('lookup', _MA_PEDIGREE_FIELD_ADD_VALUE);
+                $this->addStep('lookup', \_MA_PEDIGREE_FIELD_ADD_VALUE);
             }
         }
 
-        $this->addStep('Settings', _MA_PEDIGREE_FIELD_PARAM);
+        $this->addStep('Settings', \_MA_PEDIGREE_FIELD_PARAM);
         if ('hassearch' === $this->getValue('hassearch')) {
-            $this->addStep('search', _MA_PEDIGREE_SEARCH_PARAMFIELD);
+            $this->addStep('search', \_MA_PEDIGREE_SEARCH_PARAMFIELD);
         }
         if ('picture' !== $this->getValue('fieldtype')) {
-            $this->addStep('defaultvalue', _MA_PEDIGREE_FIELD_DEFAUT);
+            $this->addStep('defaultvalue', \_MA_PEDIGREE_FIELD_DEFAUT);
         }
-        $this->addStep('confirm', _MA_PEDIGREE_FIELDCONFIRM);
+        $this->addStep('confirm', \_MA_PEDIGREE_FIELDCONFIRM);
     }
 
     /**
      * @todo change access to fields using Pedigree\Fields
-     * @return void
      */
     public function prepareFieldname()
     {
@@ -67,17 +93,17 @@ class CheckoutWizard extends ZervWizard
      *
      * @return bool
      */
-    public function processFieldname(&$form)
+    public function processFieldname($form)
     {
         $name = $this->coalesce($form['name']);
-        if (strlen($name) > 0) {
+        if (mb_strlen($name) > 0) {
             $this->setValue('name', $name);
         } else {
-            $this->addError('name', _MA_PEDIGREE_FIELD_NAM);
+            $this->addError('name', \_MA_PEDIGREE_FIELD_NAM);
         }
 
         $fieldexplanation = $this->coalesce($form['explain']);
-        if (strlen($fieldexplanation) > 0) {
+        if (mb_strlen($fieldexplanation) > 0) {
             $this->setValue('explain', $fieldexplanation);
         } else {
             $this->addError('explain', _MA_PEDIGREE_FIELD_EXPLAN1);
@@ -88,16 +114,15 @@ class CheckoutWizard extends ZervWizard
 
     /**
      * Setup this class' fieldtype array
-     * @return void
      */
     public function prepareFieldtype()
     {
-        $this->fieldtype[] = ['value' => 'radiobutton', 'description' => _MA_PEDIGREE_RADIOBUTTONFIELD];
-        $this->fieldtype[] = ['value' => 'selectbox', 'description' => _MA_PEDIGREE_DROPDOWNFIELD];
-        $this->fieldtype[] = ['value' => 'textbox', 'description' => _MA_PEDIGREE_TEXTBOXFIELD];
-        $this->fieldtype[] = ['value' => 'textarea', 'description' => _MA_PEDIGREE_TEXTAREAFIELD];
-        $this->fieldtype[] = ['value' => 'DateSelect', 'description' => _MA_PEDIGREE_DATEFIELD];
-        $this->fieldtype[] = ['value' => 'UrlField', 'description' => _MA_PEDIGREE_URLFIELD];
+        $this->fieldtype[] = ['value' => 'radiobutton', 'description' => \_MA_PEDIGREE_RADIOBUTTONFIELD];
+        $this->fieldtype[] = ['value' => 'selectbox', 'description' => \_MA_PEDIGREE_DROPDOWNFIELD];
+        $this->fieldtype[] = ['value' => 'textbox', 'description' => \_MA_PEDIGREE_TEXTBOXFIELD];
+        $this->fieldtype[] = ['value' => 'textarea', 'description' => \_MA_PEDIGREE_TEXTAREAFIELD];
+        $this->fieldtype[] = ['value' => 'DateSelect', 'description' => \_MA_PEDIGREE_DATEFIELD];
+        $this->fieldtype[] = ['value' => 'UrlField', 'description' => \_MA_PEDIGREE_URLFIELD];
     }
 
     /**
@@ -125,7 +150,7 @@ class CheckoutWizard extends ZervWizard
         $this->setValue('fc', $fc);
         $lookup   = $this->coalesce($form['lookup' . $fc]);
         $lookupid = $this->coalesce($form['id' . $fc]);
-        if (strlen($lookup) > 0) {
+        if (mb_strlen($lookup) > 0) {
             $this->setValue('lookup' . $fc, $lookup);
             $this->setValue('id' . $fc, $lookupid);
         }
@@ -137,20 +162,19 @@ class CheckoutWizard extends ZervWizard
         for ($i = 0; $i < $fc; ++$i) {
             $radioarray[] = [
                 'id'    => $this->getValue('id' . ($i + 1)),
-                'value' => $this->getValue('lookup' . ($i + 1))
+                'value' => $this->getValue('lookup' . ($i + 1)),
             ];
         }
-        //print_r($radioarray); die();
+        //print_r($radioarray); exit();
         $this->setValue('radioarray', $radioarray);
 
         return !$this->isError();
-        //
     }
 
     public function prepareSettings()
     {
         if (0 == !$this->getValue('field')) {
-            // field allready exists (editing mode)
+            // field already exists (editing mode)
 
             {
                 $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id='" . $this->getValue('field') . "'";
@@ -215,7 +239,7 @@ class CheckoutWizard extends ZervWizard
     public function prepareSearch()
     {
         if (0 == !$this->getValue('field')) {
-            // field allready exists (editing mode)
+            // field already exists (editing mode)
 
             $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
             $result = $GLOBALS['xoopsDB']->query($sql);
@@ -239,14 +263,14 @@ class CheckoutWizard extends ZervWizard
     public function processSearch($form)
     {
         $searchname = $this->coalesce($form['searchname']);
-        if (strlen($searchname) > 0) {
+        if (mb_strlen($searchname) > 0) {
             $this->setValue('searchname', $searchname);
         } else {
             $this->addError('searchname', 'Please enter the searchname');
         }
 
         $fieldexplanation = $this->coalesce($form['searchexplain']);
-        if (strlen($fieldexplanation) > 0) {
+        if (mb_strlen($fieldexplanation) > 0) {
             $this->setValue('searchexplain', $fieldexplanation);
         } else {
             $this->addError('searchexplain', 'Please enter the search explanation for this field');
@@ -255,13 +279,10 @@ class CheckoutWizard extends ZervWizard
         return !$this->isError();
     }
 
-    /**
-     * @return void
-     */
     public function prepareDefaultvalue()
     {
         if (0 == !$this->getValue('field')) {
-            // field allready exists (editing mode)
+            // field already exists (editing mode)
 
             $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE id=' . $this->getValue('field');
             $result = $GLOBALS['xoopsDB']->query($sql);
@@ -292,7 +313,7 @@ class CheckoutWizard extends ZervWizard
     public function processDefaultValue($form)
     {
         $defaultvalue = $this->coalesce($form['defaultvalue']);
-        if (strlen($defaultvalue) >= 0) {
+        if (mb_strlen($defaultvalue) >= 0) {
             $this->setValue('defaultvalue', $defaultvalue);
         } else {
             $this->addError('defaultvalue', 'Please enter a defaultvalue');
@@ -313,7 +334,6 @@ class CheckoutWizard extends ZervWizard
 
     public function completeCallback()
     {
-
         //can this field be searched
         $search = $this->getValue('hassearch');
         if ('hassearch' === $search) {
@@ -360,13 +380,13 @@ class CheckoutWizard extends ZervWizard
         $generallitter = ('generallitter' === $this->getValue('generalLitter')) ? '1' : '0';
 
         if (0 == !$this->getValue('field')) {
-            // field allready exists (editing mode)
+            // field already exists (editing mode)
 
             //@todo refactor using class methods
             $sql = 'UPDATE '
                    . $GLOBALS['xoopsDB']->prefix('pedigree_fields')
                    . " SET fieldname = '"
-                   . htmlspecialchars($this->getValue('name'), ENT_QUOTES | ENT_HTML5)
+                   . \htmlspecialchars($this->getValue('name'), \ENT_QUOTES | ENT_HTML5)
                    . "', fieldtype = '"
                    . $this->getValue('fieldtype')
                    . "', defaultvalue = '"
@@ -440,7 +460,7 @@ class CheckoutWizard extends ZervWizard
                    . " VALUES ('"
                    . $nextfieldnum
                    . "', '1', '"
-                   . $GLOBALS['xoopsDB']->escape(htmlspecialchars($this->getValue('name'), ENT_QUOTES | ENT_HTML5))
+                   . $GLOBALS['xoopsDB']->escape(\htmlspecialchars($this->getValue('name'), \ENT_QUOTES | ENT_HTML5))
                    . "', '"
                    . $GLOBALS['xoopsDB']->escape($this->getValue('fieldtype'))
                    . "', '"
@@ -481,9 +501,8 @@ class CheckoutWizard extends ZervWizard
      *
      * @return int
      */
-
     public function isValidEmail($email)
     {
-        return preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*$/i', $email);
+        return \preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*$/i', $email);
     }
 }

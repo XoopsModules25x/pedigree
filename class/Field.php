@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Pedigree\Breadcrumb Class
  *
@@ -17,10 +20,11 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Pedigree
  * @since       1.31
- *
  */
 
+use XoopsFormLabel;
 use XoopsModules\Pedigree;
+
 
 /**
  * Class Field
@@ -36,10 +40,11 @@ class Field
     public function __construct($fieldnumber, $config)
     {
         //find key where id = $fieldnumber;
-        $configCount = count($config);
+        $configCount = \count($config);
         foreach ($config as $x => $xValue) {
             //@todo - figure out if this is suppose to be an assignment or just a compare ('=' or '==')
-            if ($config[$x]['id'] = $fieldnumber) {
+            $config[$x]['id'] = $fieldnumber;
+            if ($config[$x]['id']) {
                 foreach ($config[$x] as $key => $value) {
                     $this->$key = $value;
                 }
@@ -148,7 +153,7 @@ class Field
      */
     public function getSetting($setting)
     {
-//        return $this->{$setting};
+        //        return $this->{$setting};
         return isset($this->$setting) ? $this->$setting : null;
     }
 
@@ -176,7 +181,7 @@ class Field
      */
     public function viewField()
     {
-        $view = new \XoopsFormLabel($this->fieldname, $this->value);
+        $view = new XoopsFormLabel($this->fieldname, $this->value);
 
         return $view;
     }

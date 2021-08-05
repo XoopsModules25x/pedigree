@@ -41,9 +41,10 @@ $GLOBALS['xoopsTpl']->assign('module_home', Pedigree\Utility::getModuleName(fals
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($xoopsModule->dirname());
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -56,7 +57,7 @@ $fields = $animal->getNumOfFields();
 foreach ($fields as $i => $iValue) {
     $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
     if ($userField->isActive() && $userField->hasSearch()) {
-        $fieldType   = $userField->getSetting('FieldType');
+        $fieldType   = '\\XoopsModules\\' . ucfirst(mb_strtolower(basename(__DIR__))) . '\\' . $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         $function    = 'user' . $iValue . $fieldObject->getSearchString();
         //echo $function."<br>";
@@ -65,15 +66,15 @@ foreach ($fields as $i => $iValue) {
             'searchid'    => 'user' . $iValue,
             'function'    => $function,
             'explanation' => $userField->getSetting('SearchExplanation'),
-            'searchfield' => $fieldObject->searchfield()
+            'searchfield' => $fieldObject->searchfield(),
         ];
     }
 }
 
 //$catarray['letters']          = Pedigree\Utility::lettersChoice();
-$letter              = '';
+$letter = '';
 /** @var Pedigree\Helper $helper */
-$helper = Pedigree\Helper::getInstance();
+$helper       = Pedigree\Helper::getInstance();
 $activeObject = 'Tree';
 $name         = 'pname';
 $link         = "result.php?f={$name}&amp;l=1&amp;o={$name}&amp;w=";
@@ -87,13 +88,15 @@ $xoopsTpl->assign('catarray', $catarray);
 $xoopsTpl->assign('pageTitle', _MA_PEDIGREE_BROWSETOTOPIC);
 
 //add data to smarty template
-$GLOBALS['xoopsTpl']->assign([
-                                 'sselect'    => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $moduleConfig['animalType']]),
-                                 'explain'     => _MA_PEDIGREE_EXPLAIN,
-                                 'sname'       => _MA_PEDIGREE_SEARCHNAME,
-                                 'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $moduleConfig['animalTypes']]),
-                                 'usersearch' => isset($usersearch) ? $usersearch : ''
-                             ]);
+$GLOBALS['xoopsTpl']->assign(
+    [
+        'sselect'    => strtr(_MA_PEDIGREE_SELECT, ['[animalType]' => $moduleConfig['animalType']]),
+        'explain'    => _MA_PEDIGREE_EXPLAIN,
+        'sname'      => _MA_PEDIGREE_SEARCHNAME,
+        'snameex'    => strtr(_MA_PEDIGREE_SEARCHNAME_EX, ['[animalTypes]' => $moduleConfig['animalTypes']]),
+        'usersearch' => isset($usersearch) ? $usersearch : '',
+    ]
+);
 $GLOBALS['xoopsTpl']->assign('showwelcome', $moduleConfig['showwelcome']);
 //$GLOBALS['xoopsTpl']->assign('welcome', $GLOBALS['myts']->displayTarea($moduleConfig['welcome']));
 //$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), array('[numanimals]' => $numdogs, '[animalType]' => $helper->getConfig('animalType'), '[animalTypes]' => $helper->getConfig('animalTypes'))));

@@ -30,7 +30,7 @@ xoops_cp_header();
 $ownerHandler = Pedigree\Helper::getInstance()->getHandler('Owner');
 
 //It recovered the value of argument op in URL$
-$op = Request::getString('op', 'list');
+$op    = Request::getString('op', 'list');
 $order = Request::getString('order', 'desc');
 $sort  = Request::getString('sort', '');
 switch ($op) {
@@ -100,7 +100,7 @@ switch ($op) {
             $class = 'odd';
 
             //mb            foreach (array_keys($owner_arr) as $i) {
-//            if (0 == $owner_arr[$i]->getVar('owner_pid')) {
+            //            if (0 == $owner_arr[$i]->getVar('owner_pid')) {
 
             if ($ownerCount > 0) {
                 foreach (array_keys($ownerTempArray) as $i) {
@@ -140,20 +140,19 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
         }
 
-    echo $GLOBALS['xoopsTpl']->fetch(XOOPS_ROOT_PATH . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/templates/admin/pedigree_admin_owner.tpl');
+        echo $GLOBALS['xoopsTpl']->fetch(XOOPS_ROOT_PATH . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/templates/admin/pedigree_admin_owner.tpl');
 
         break;
-
     case 'new_owner':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $ownerHandler->create();
+        $obj = $ownerHandler->create();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'save_owner':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -190,10 +189,10 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'edit_owner':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
@@ -203,7 +202,6 @@ switch ($op) {
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'delete_owner':
         $obj = $ownerHandler->get($_REQUEST['id']);
         if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {

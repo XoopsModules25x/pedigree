@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -46,8 +48,6 @@
  * @link        http://pear.php.net/package/ImageColor
  */
 
-use XoopsModules\Pedigree;
-
 /**
  * Class ImageColor
  */
@@ -61,7 +61,6 @@ class ImageColor
      * @see     setColors()
      */
     public $color1 = [];
-
     /**
      * Second color that the class handles for ranges and mixes.
      *
@@ -70,12 +69,11 @@ class ImageColor
      * @see     setColors()
      */
     public $color2 = [];
-
     /**
      * Boolean value for determining whether colors outputted should be limited
      * to the web safe pallet or not.
      *
-     * @var boolean
+     * @var bool
      * @access  private
      * @see     setWebSafe()
      */
@@ -107,7 +105,7 @@ class ImageColor
         $color3[2] = (int)((($this->color1[2] + $this->color2[2]) / 2) + 0.5);
 
         if ($this->websafeb) {
-            array_walk($color3, '_makeWebSafe');
+            \array_walk($color3, '\_makeWebSafe');
         }
 
         return $this->rgb2hex($color3);
@@ -117,16 +115,15 @@ class ImageColor
      * Determines whether colors the returned by this class will be rounded to
      * the nearest web safe value.
      *
-     * @param boolean $bool Indicates if colors should be limited to the
+     * @param bool $bool    Indicates if colors should be limited to the
      *                      websafe pallet.
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
     public function setWebSafe($bool = true)
     {
-        $this->websafeb = (boolean)$bool;
+        $this->websafeb = (bool)$bool;
     }
 
     /**
@@ -135,7 +132,6 @@ class ImageColor
      * @param string $col1 The first color in hex format
      * @param string $col2 The second color in hex format
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      */
@@ -147,7 +143,7 @@ class ImageColor
     /**
      * Get the range of colors between the class's two colors, given a degree.
      *
-     * @param integer $degrees How large a 'step' we should take between the
+     * @param int $degrees     How large a 'step' we should take between the
      *                         colors.
      *
      * @return array Returns an array of hex strings, one element for each
@@ -200,7 +196,7 @@ class ImageColor
             }
 
             if ($this->websafeb) {
-                array_walk($newcolor, '_makeWebSafe');
+                \array_walk($newcolor, '\_makeWebSafe');
             }
 
             $allcolors[] = $this->rgb2hex($newcolor);
@@ -212,10 +208,9 @@ class ImageColor
     /**
      * Change the lightness of the class's two colors.
      *
-     * @param integer $degree The degree of the change. Positive values
+     * @param int $degree     The degree of the change. Positive values
      *                        lighten the color while negative values will darken it.
      *
-     * @return void
      * @access  public
      * @author  Jason Lotito <jason@lehighweb.com>
      * @uses    ImageColor::$color1 as an input and return value.
@@ -223,8 +218,8 @@ class ImageColor
      */
     public function changeLightness($degree = 10)
     {
-        $color1 =& $this->color1;
-        $color2 =& $this->color2;
+        $color1 = &$this->color1;
+        $color2 = &$this->color2;
 
         for ($x = 0; $x < 3; ++$x) {
             if (($color1[$x] + $degree) < 256) {
@@ -256,10 +251,10 @@ class ImageColor
      * black and white.
      *
      * @param string|array $color The hex color to analyze
-     * @param string $light The light color value to return if we should
-     *                      have light text.
-     * @param string $dark  The dark color value to return if we should have
-     *                      dark text.
+     * @param string       $light The light color value to return if we should
+     *                            have light text.
+     * @param string       $dark  The dark color value to return if we should have
+     *                            dark text.
      *
      * @return string The light or dark value which would make the text most
      *                readable.
@@ -270,11 +265,11 @@ class ImageColor
     public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
         $color = $this->splitColor($color);
-        if ($color[1] > hexdec('66')) {
+        if ($color[1] > \hexdec('66')) {
             return $dark;
-        } else {
-            return $light;
         }
+
+        return $light;
     }
 
     /**
@@ -283,7 +278,6 @@ class ImageColor
      * @param string $col1 First color, either a name or hex value
      * @param string $col2 Second color, either a name or hex value
      *
-     * @return void
      * @access  private
      * @author  Jason Lotito <jason@lehighweb.com>
      */
@@ -309,10 +303,10 @@ class ImageColor
      */
     private function splitColor($color)
     {
-        $color = str_replace('#', '', $color);
-        $c[]   = hexdec(substr($color, 0, 2));
-        $c[]   = hexdec(substr($color, 2, 2));
-        $c[]   = hexdec(substr($color, 4, 2));
+        $color = \str_replace('#', '', $color);
+        $c[]   = \hexdec(mb_substr($color, 0, 2));
+        $c[]   = \hexdec(mb_substr($color, 2, 2));
+        $c[]   = \hexdec(mb_substr($color, 4, 2));
 
         return $c;
     }
@@ -321,12 +315,12 @@ class ImageColor
      * This is deprecated. Use rgb2hex() instead.
      *
      * @access     private
-     * @deprecated Function deprecated after 1.0.1
-     * @see        rgb2hex().
-     *
      * @param $color
      *
      * @return string
+     * @deprecated Function deprecated after 1.0.1
+     * @see        rgb2hex().
+     *
      */
     private function returnColor($color)
     {
@@ -346,7 +340,7 @@ class ImageColor
      */
     public function rgb2hex($color)
     {
-        return sprintf('%02X%02X%02X', $color[0], $color[1], $color[2]);
+        return \sprintf('%02X%02X%02X', $color[0], $color[1], $color[2]);
     }
 
     /**
@@ -373,9 +367,9 @@ class ImageColor
     /**
      * Convert an HSV (Hue, Saturation, Brightness) value to RGB.
      *
-     * @param integer $h Hue
-     * @param integer $s Saturation
-     * @param integer $v Brightness
+     * @param int $h Hue
+     * @param int $s Saturation
+     * @param int $v Brightness
      *
      * @return array RGB array.
      * @access  public
@@ -395,9 +389,9 @@ class ImageColor
      * Originally written by Jurgen Schwietering. Integrated into the class by
      * Jason Lotito.
      *
-     * @param integer $h Hue
-     * @param integer $s Saturation
-     * @param integer $v Brightness
+     * @param int $h Hue
+     * @param int $s Saturation
+     * @param int $v Brightness
      *
      * @return string The hex string.
      * @access  public
@@ -413,52 +407,46 @@ class ImageColor
             $r = $g = $b = $v;
 
             return '';
-        } else {
-            $h = $h / 256.0 * 6.0;
-            $i = floor($h);
-            $f = $h - $i;
+        }
+        $h = $h / 256.0 * 6.0;
+        $i = \floor($h);
+        $f = $h - $i;
 
-            $v *= 256.0;
-            $p = (integer)($v * (1.0 - $s));
-            $q = (integer)($v * (1.0 - $s * $f));
-            $t = (integer)($v * (1.0 - $s * (1.0 - $f)));
-            switch ($i) {
-                case 0:
-                    $r = $v;
-                    $g = $t;
-                    $b = $p;
-                    break;
-
-                case 1:
-                    $r = $q;
-                    $g = $v;
-                    $b = $p;
-                    break;
-
-                case 2:
-                    $r = $p;
-                    $g = $v;
-                    $b = $t;
-                    break;
-
-                case 3:
-                    $r = $p;
-                    $g = $q;
-                    $b = $v;
-                    break;
-
-                case 4:
-                    $r = $t;
-                    $g = $p;
-                    $b = $v;
-                    break;
-
-                default:
-                    $r = $v;
-                    $g = $p;
-                    $b = $q;
-                    break;
-            }
+        $v *= 256.0;
+        $p = (int)($v * (1.0 - $s));
+        $q = (int)($v * (1.0 - $s * $f));
+        $t = (int)($v * (1.0 - $s * (1.0 - $f)));
+        switch ($i) {
+            case 0:
+                $r = $v;
+                $g = $t;
+                $b = $p;
+                break;
+            case 1:
+                $r = $q;
+                $g = $v;
+                $b = $p;
+                break;
+            case 2:
+                $r = $p;
+                $g = $v;
+                $b = $t;
+                break;
+            case 3:
+                $r = $p;
+                $g = $q;
+                $b = $v;
+                break;
+            case 4:
+                $r = $t;
+                $g = $p;
+                $b = $v;
+                break;
+            default:
+                $r = $v;
+                $g = $p;
+                $b = $q;
+                break;
         }
 
         return $this->rgb2hex([$r, $g, $b]);
@@ -479,11 +467,11 @@ class ImageColor
      * @uses    imagefilledarc() to allocate the color.
      * @uses    color2RGB() to parse the color into RGB values.
      */
-    public function allocateColor(&$img, $color)
+    public function allocateColor($img, $color)
     {
         $color = $this->color2RGB($color);
 
-        return imagefilledarc($img, $color[0], $color[1], $color[2]);
+        return \imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
 
     /**
@@ -505,7 +493,7 @@ class ImageColor
     {
         $c = [];
 
-        if ('#' === $color{0}) {
+        if ('#' === $color[0]) {
             $c = $this->hex2rgb($color);
         } else {
             $c = $this->namedColor2RGB($color);
@@ -671,11 +659,11 @@ class ImageColor
                 'white'                => [255, 255, 255],
                 'whitesmoke'           => [245, 245, 245],
                 'yellow'               => [255, 255, 0],
-                'yellowgreen'          => [154, 205, 50]
+                'yellowgreen'          => [154, 205, 50],
             ];
         }
 
-        $color = strtolower($color);
+        $color = mb_strtolower($color);
 
         if (isset($colornames[$color])) {
             return $colornames[$color];
@@ -696,11 +684,11 @@ class ImageColor
     public function percentageColor2RGB($color)
     {
         // remove spaces
-        $color = str_replace(' ', '', $color);
+        $color = \str_replace(' ', '', $color);
         // remove the percent signs
-        $color = str_replace('%', '', $color);
+        $color = \str_replace('%', '', $color);
         // split the string by commas
-        $color = explode(',', $color);
+        $color = \explode(',', $color);
 
         $ret = [];
         foreach ($color as $k => $v) {
@@ -709,7 +697,7 @@ class ImageColor
                 $ret[$k] = 0;
             } elseif ($v <= 100) {
                 // add 0.5 then cast to an integer to round the value.
-                $ret[$k] = (integer)((2.55 * $v) + 0.5);
+                $ret[$k] = (int)((2.55 * $v) + 0.5);
             } else {
                 $ret[$k] = 255;
             }
@@ -724,9 +712,9 @@ class ImageColor
 /**
  * Function for array_walk() to round colors to the closest web safe value.
  *
- * @param integer $color One channel of an RGB color.
+ * @param int $color One channel of an RGB color.
  *
- * @return integer The websafe equivalent of the color channel.
+ * @return int The websafe equivalent of the color channel.
  * @author  Jason Lotito <jason@lehighweb.com>
  * @author  Andrew Morton <drewish@katherinehouse.com>
  * @access  private

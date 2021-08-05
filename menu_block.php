@@ -22,9 +22,10 @@ function menu_block()
     //    global $apppath;
 
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -70,10 +71,10 @@ function menu_block()
     $counter   = 1;
     $menuwidth = 4;
 
-    $x       = $_SERVER['PHP_SELF'];
+    $x       = $_SERVER['SCRIPT_NAME'];
     $lastpos = my_strrpos($x, '/');
-    $len     = strlen($x);
-    $curpage = substr($x, $lastpos, $len);
+    $len     = mb_strlen($x);
+    $curpage = mb_substr($x, $lastpos, $len);
     if ('1' == $moduleConfig['showwelcome']) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_WELCOME . '</b>';
@@ -86,7 +87,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ('/index.php' === $curpage || '/result.php' == $curpage) {
+    if ('/index.php' === $curpage || '/result.php' === $curpage) {
         $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $moduleConfig['animalTypes'] . '</b>';
     } else {
         $title = '_MA_PEDIGREE_VIEWSEARCH ' . $moduleConfig['animalTypes'];
@@ -223,10 +224,10 @@ function my_strrpos($haystack, $needle, $offset = 0)
     // same as strrpos, except $needle can be a string
     $strrpos = false;
     if (is_string($haystack) && is_string($needle) && is_numeric($offset)) {
-        $strlen = strlen($haystack);
-        $strpos = strpos(strrev(substr($haystack, $offset)), strrev($needle));
+        $strlen = mb_strlen($haystack);
+        $strpos = mb_strpos(strrev(mb_substr($haystack, $offset)), strrev($needle));
         if (is_numeric($strpos)) {
-            $strrpos = $strlen - $strpos - strlen($needle);
+            $strrpos = $strlen - $strpos - mb_strlen($needle);
         }
     }
 

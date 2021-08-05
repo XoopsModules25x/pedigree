@@ -1,10 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -22,14 +23,15 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 global $xoopsUser, $xoopsTpl, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 global $numofcolumns, $numMatch, $pages, $columns, $dogs;
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16 = Admin::iconUrl('', 16);
 
 xoops_load('XoopsUserUtility');
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -39,7 +41,7 @@ if (\Xmf\Request::hasVar('id', 'GET')) {
     $id = Request::getInt('id', 0, 'GET');
 } else {
     echo 'No dog has been selected';
-    die();
+    exit();
 }
 
 if (\Xmf\Request::hasVar('delpicture', 'GET') && 'true' === $_GET['delpicture']) {
@@ -47,8 +49,8 @@ if (\Xmf\Request::hasVar('delpicture', 'GET') && 'true' === $_GET['delpicture'])
     $GLOBALS['xoopsDB']->query($delpicsql);
 }
 //query
-$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $id;
-$result      = $GLOBALS['xoopsDB']->query($sql);
+$sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $id;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //name
@@ -138,45 +140,45 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_NAME,
         'data'   => '<a href="pedigree.php?pedid=' . $row['id'] . '">' . $pname . '</a> (click to view pedigree)',
-        'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=nm\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=nm\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
     if ('1' == $moduleConfig['ownerbreeder']) {
         //owner
         $items[] = [
             'header' => _MA_PEDIGREE_FLD_OWNE,
             'data'   => $eig,
-            'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=ow\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+            'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=ow\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
         ];
         //breeder
         $items[] = [
             'header' => _MA_PEDIGREE_FLD_BREE,
             'data'   => $fok,
-            'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=br\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+            'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=br\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
         ];
     }
     //gender
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_GEND,
         'data'   => $gender,
-        'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=sx\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=sx\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
     //sire
     $items[] = [
         'header' => strtr(_MA_PEDIGREE_FLD_FATH, ['[father]' => $moduleConfig['father']]),
         'data'   => $sire,
-        'edit'   => '<a href="seldog.php?curval=' . $row['id'] . "&gend=0&letter=A\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="seldog.php?curval=' . $row['id'] . "&gend=0&letter=A\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
     //dam
     $items[] = [
         'header' => strtr(_MA_PEDIGREE_FLD_MOTH, ['[mother]' => $moduleConfig['mother']]),
         'data'   => $dam,
-        'edit'   => '<a href="seldog.php?curval=' . $row['id'] . "&gend=1&letter=A\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+        'edit'   => '<a href="seldog.php?curval=' . $row['id'] . "&gend=1&letter=A\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
     ];
     //picture
     $items[] = [
         'header' => _MA_PEDIGREE_FLD_PICT,
         'data'   => $picture,
-        'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=pc\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a><a href=\"dog.php?id=" . $row['id'] . "&delpicture=true\"><img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE></a>"
+        'edit'   => '<a href="update.php?id=' . $row['id'] . "&fld=pc\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a><a href=\"dog.php?id=" . $row['id'] . "&delpicture=true\"><img src=' " . $pathIcon16 . "/delete.png' border='0' alt=_DELETE title=_DELETE></a>",
     ];
 
     //userdefined fields
@@ -190,26 +192,24 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     foreach ($fields as $i => $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-//            $fieldType   = $userField->getSetting('FieldType');
-//            $fieldObject = new $fieldType($userField, $animal);
-
+            //            $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
+            //            $fieldObject = new $fieldType($userField, $animal);
 
             $fieldType   = $userField->getSetting('fieldtype');
-            $className = '\\XoopsModules\\' . ucfirst(strtolower(basename(__DIR__))) . '\\' . $fieldType;
+            $className   = '\\XoopsModules\\' . ucfirst(mb_strtolower(basename(__DIR__))) . '\\' . $fieldType;
             $fieldObject = new $className($userField, $animal);
-
 
             if ($userField->isLocked()) {
                 $items[] = [
-                    'header' => $userField->getSetting('FieldName'),
+                    'header' => $userField->getSetting('fieldname'),
                     'data'   => $fieldObject->showValue(),
-                    'edit'   => ''
+                    'edit'   => '',
                 ];
             } else {
                 $items[] = [
-                    'header' => $userField->getSetting('FieldName'),
+                    'header' => $userField->getSetting('fieldname'),
                     'data'   => $fieldObject->showValue(),
-                    'edit'   => '<a href="update.php?id=' . $row['id'] . '&fld=' . $iValue . "\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>"
+                    'edit'   => '<a href="update.php?id=' . $row['id'] . '&fld=' . $iValue . "\"><img src=' " . $pathIcon16 . "/edit.png' border='0' alt=_EDIT title=_EDIT></a>",
                 ];
             }
         }
@@ -221,7 +221,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $items[] = [
             'header' => _MA_PEDIGREE_FLD_INBR,
             'data'   => $inbred,
-            'edit'   => ''
+            'edit'   => '',
         ];
     }
     if ('1' == $moduleConfig['pups']) {
@@ -234,7 +234,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $items[] = [
             'header' => $moduleConfig['children'],
             'data'   => $pups,
-            'edit'   => ''
+            'edit'   => '',
         ];
     }
     if ('1' == $moduleConfig['brothers']) {
@@ -247,7 +247,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $items[] = [
             'header' => _MA_PEDIGREE_FLD_BAS,
             'data'   => $bas,
-            'edit'   => ''
+            'edit'   => '',
         ];
     }
     //database user
@@ -255,7 +255,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $items[] = [
             'header' => _MA_PEDIGREE_FLD_DBUS,
             'data'   => \XoopsUserUtility::getUnameFromId($row['user']),
-            'edit'   => ''
+            'edit'   => '',
         ];
     }
     //inbred pedigree
@@ -263,7 +263,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $items[] = [
             'header' => 'Inbred Pedigree',
             'data'   => '<a href="mpedigree.php?pedid=' . $row['id'] . '">Inbreeding pedigree</a>',
-            'edit'   => ''
+            'edit'   => '',
         ];
     }
     $id = $row['id'];
@@ -300,5 +300,5 @@ $xoopsTpl->assign('id', $id);
 $xoopsTpl->assign('delete', _DELETE);
 
 //comments and footer
-require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
+require XOOPS_ROOT_PATH . '/include/comment_view.php';
 require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -20,9 +23,6 @@
  */
 
 use XoopsModules\Pedigree;
-
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 
 /**
  * Class Pedigree\TrashHandler

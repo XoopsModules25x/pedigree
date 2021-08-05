@@ -7,7 +7,7 @@
 use XoopsModules\Pedigree;
 
 // Include any constants used for internationalizing templates.
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
 //xoops_loadLanguage('main', $moduleDirName);
 // Include any common code for this module.
@@ -15,21 +15,23 @@ xoops_loadLanguage('main', $moduleDirName);
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 /**
+ * @return XoopsTpl
  * @todo: move hard coded language strings to language file
  *
- * @return XoopsTpl
  */
 function menu_block()
 {
     global $xoopsTpl, $xoopsUser, $pedigree;
-    $moduleDirName = basename(dirname(__DIR__));
+    $moduleDirName = \basename(\dirname(__DIR__));
     /*
     //get module configuration
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-*/
+    */
     //colour variables
     $colors  = explode(',', $helper->getConfig('colourscheme'));
     $actlink = $colors[0];
@@ -75,10 +77,10 @@ function menu_block()
     $counter   = 1;
     $menuwidth = 4;
 
-    $x       = $_SERVER['PHP_SELF'];
+    $x       = $_SERVER['SCRIPT_NAME'];
     $lastpos = my_strrpos($x, '/');
-    $len     = strlen($x);
-    $curpage = substr($x, $lastpos, $len);
+    $len     = mb_strlen($x);
+    $curpage = mb_substr($x, $lastpos, $len);
     if (1 == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
             $title = '<b>Welcome</b>';
@@ -227,10 +229,10 @@ function my_strrpos($haystack, $needle, $offset = 0)
     // same as strrpos, except $needle can be a string
     $strrpos = false;
     if (is_string($haystack) && is_string($needle) && is_numeric($offset)) {
-        $strlen = strlen($haystack);
-        $strpos = strpos(strrev(substr($haystack, $offset)), strrev($needle));
+        $strlen = mb_strlen($haystack);
+        $strpos = mb_strpos(strrev(mb_substr($haystack, $offset)), strrev($needle));
         if (is_numeric($strpos)) {
-            $strrpos = $strlen - $strpos - strlen($needle);
+            $strrpos = $strlen - $strpos - mb_strlen($needle);
         }
     }
 

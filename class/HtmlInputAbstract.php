@@ -1,29 +1,28 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /**
  *  pedigree HTML Input Interface Class Elements
  *
  * @copyright  ZySpec Incorporated
- * @license    {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @license    {@link https://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
  * @package    pedigree
  * @subpackage class
- * @author     zyspec <owners@zyspec.com>
+ * @author     zyspec <zyspec@yahoo.com>
  * @since      1.3.1
  */
 
 use XoopsModules\Pedigree;
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
  * Pedigree\HtmlInputAbstract
  *
  * @package   pedigree
- * @author    zyspec <owners@zyspec.com>
+ * @author    zyspec <zyspec@yahoo.com>
  * @copyright Copyright (c) 2014 ZySpec Incorporated
  * @access    public
  */
-
 
 /**
  * Class Pedigree\HtmlInputAbstract
@@ -68,8 +67,6 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
 
     /**
      * @param string $message
-     *
-     * @return void
      */
     public function echoMsg($message)
     {

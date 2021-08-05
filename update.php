@@ -4,7 +4,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -19,7 +19,7 @@ $xoopsTpl->assign('page_title', 'Pedigree database - Update details');
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 // ( $xoopsUser->isAdmin($xoopsModule->mid() ) )
 
@@ -29,12 +29,14 @@ global $xoopsModuleConfig;
 
 //get module configuration
 /*
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$helper     = Pedigree\Helper::getInstance(false);
+$helper       = Pedigree\Helper::getInstance(false);
 $moduleConfig = $helper->getConfig();
 
 $myts = \MyTextSanitizer::getInstance();
@@ -47,14 +49,14 @@ $id  = $_GET['id'];
 */
 
 //query (find values for this dog (and format them))
-$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $id;
-$result      = $GLOBALS['xoopsDB']->query($sql);
+$sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $id;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
     $id = $row['id'];
     //name
-    $pname     = htmlentities(stripslashes($row['pname']), ENT_QUOTES);
+    $pname    = htmlentities(stripslashes($row['pname']), ENT_QUOTES);
     $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['pname']) . '</a>';
     //owner
     $queryeig = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $row['id_owner'];
@@ -192,7 +194,7 @@ foreach ($fields as $i => $iValue) {
     if ($_GET['fld'] == $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-            $fieldType   = $userField->getSetting('FieldType');
+            $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             $edditable   = $fieldObject->editField();
             $form->addElement($edditable);

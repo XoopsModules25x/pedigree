@@ -1,10 +1,11 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -17,9 +18,10 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
 require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -101,7 +103,7 @@ if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUse
 $numDog = 'SELECT COUNT(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "'";
 $numRes = $GLOBALS['xoopsDB']->query($numDog);
 //total number of dogs the query will find
-list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
+[$numResults] = $GLOBALS['xoopsDB']->fetchRow($numRes);
 //if nothing is found
 if (0 == $numResults) {
     //just for debug information
@@ -118,12 +120,12 @@ $currentPage = floor($st / $perPage) + 1;
 //create empty pages variable
 $pages = '';
 
-$length = strlen($w);
-if ('%' === substr($w, $length - 1, $length)) {
-    $whe = substr($w, 0, $length - 1) . '%25';
+$length = mb_strlen($w);
+if ('%' === mb_substr($w, $length - 1, $length)) {
+    $whe = mb_substr($w, 0, $length - 1) . '%25';
     if (0 === strncmp($whe, '%', 1)) {
-        $length = strlen($whe);
-        $whe    = '%25' . substr($whe, 1, $length);
+        $length = mb_strlen($whe);
+        $whe    = '%25' . mb_substr($whe, 1, $length);
     }
 } else {
     $whe = $w;
@@ -156,8 +158,8 @@ if ($numPages > 1) {
 }
 
 //query
-$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($sql);
+$sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $f . ' ' . $l . " '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 $animal = new Pedigree\Animal();
 //test to find out how many user fields there are...
@@ -166,15 +168,13 @@ $fieldsCount  = count($fields);
 $numofcolumns = 1;
 $columns      = [['columnname' => 'Name']];
 foreach ($fields as $i => $iValue) {
-//    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-//    $fieldType   = $userField->getSetting('FieldType');
-//    $fieldObject = new $fieldType($userField, $animal);
+    //    $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
+    //    $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
+    //    $fieldObject = new $fieldType($userField, $animal);
 
-
-    $userField   = new \XoopsModules\Pedigree\Field($fields[$i], $animal->getConfig());
-    $fieldType   = $userField->getSetting('FieldType');
-    $className = '\\XoopsModules\\' . ucfirst(strtolower(basename(__DIR__))) . '\\' . $fieldType;
-
+    $userField = new \XoopsModules\Pedigree\Field($fields[$i], $animal->getConfig());
+    $fieldType = $userField->getSetting('fieldtype');
+    $className = '\XoopsModules\\' . ucfirst(mb_strtolower(basename(__DIR__))) . '\\' . $fieldType;
 
     //create empty string
     if ($userField->isActive() && $userField->inList()) {
@@ -187,14 +187,14 @@ foreach ($fields as $i => $iValue) {
         $columns[] = [
             'columnname'   => $fieldObject->fieldname,
             'columnnumber' => $userField->getId(),
-            'lookupval'    => $lookupValues
+            'lookupval'    => $lookupValues,
         ];
         ++$numofcolumns;
         unset($lookupValues);
     }
 }
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16 = Admin::iconUrl('', 16);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
@@ -210,7 +210,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $gender .= "<img src='assets/images/female.gif'>";
     }
 
-    //    $camera = ('' != $row['foto']) ? " <img src='" . PEDIGREE_UPLOAD_URL . "/images/dog-icon25.png'>" : '';
+    //    $camera = ('' != $row['foto']) ? " <img src='" . PEDIGREE_UPLOAD_URL . "/images/camera.png'>" : '';
     if ('' != $row['foto']) {
         $camera = ' <img src="assets/images/camera.png">';
     } else {
@@ -251,18 +251,20 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'link'        => "<a href='pedigree.php?pedid={$row['id']}'>{$name}</a>",
         'colour'      => '',
         'number'      => '',
-        'usercolumns' => isset($columnvalue) ? $columnvalue : 0
+        'usercolumns' => isset($columnvalue) ? $columnvalue : 0,
     ];
 }
 
 //add data to smarty template
 //assign dog
-$GLOBALS['xoopsTpl']->assign([
-                                 'dogs'         => $animals,
-                                 'columns'      => $columns,
-                                 'numofcolumns' => $numofcolumns,
-                                 'tsarray'      => Pedigree\Utility::sortTable($numofcolumns)
-                             ]);
+$GLOBALS['xoopsTpl']->assign(
+    [
+        'dogs'         => $animals,
+        'columns'      => $columns,
+        'numofcolumns' => $numofcolumns,
+        'tsarray'      => Pedigree\Utility::sortTable($numofcolumns),
+    ]
+);
 //assign links
 
 //find last shown number

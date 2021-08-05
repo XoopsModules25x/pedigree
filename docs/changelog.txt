@@ -1,12 +1,12 @@
-<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.4
+<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.10, PHP 7.3.10
 <hr>
 - namespaces, autoloading (mamba)
 WORK IN PROGRESS
 
 
----------------------------------------
-1.31 Alpha 8             NOT RELEASED
----------------------------------------
+
+<h5>1.31 Alpha 8             NOT RELEASED</h5>
+<hr>
 - split ./include/class_field.php into individual class files in ./class (zyspec)
 - moved Pedigree\Utility from Pedigree\Utility.php to utility.php (zyspec)
 - utilize Pedigree\Helper module helper (zyspec)
@@ -30,6 +30,7 @@ WORK IN PROGRESS
 
 
 TODO (suggested by Zyspec):
+<hr>
 - refactor most of the module
 - move CheckoutWizard class to ./class
 - move ZervWizard classes to ./library
@@ -41,9 +42,9 @@ TODO (suggested by Zyspec):
 - Make form entry fields match dB varchar length so users can know what's being stored.
 - rewrite Waiting module plugin - currently doesn't work
 
----------------------------------------
-1.31 Alpha 6                2016-04-22
----------------------------------------
+
+<h5>1.31 Alpha 6                2016-04-22</h5>
+<hr>
 - Convert mysql_* calls to database connector (geekwright)
 - Template name fixes (geekwright)
 - Cleanup (geekwright)
@@ -59,9 +60,9 @@ TODO (suggested by Zyspec):
 - process input with XoopsRequest (geekwright)
 - add escape() calls in sql builds (geekwright)
 
----------------------------------------
-1.31 Alpha 5  NOT RELEASED
----------------------------------------
+
+<h5>1.31 Alpha 5  NOT RELEASED</h5>
+<hr>
 - replaced phpThumbnail with Zebra Image (mamba)
 - added "Magnific Popup" for images (mamba)
 - moved uploads to /uploads/pedigree (mamba)
@@ -76,36 +77,36 @@ TODO:
 - improve security with XoopsRequest
 
 
----------------------------------------
-1.31 Alpha 4  NOT RELEASED
----------------------------------------
+
+<h5>1.31 Alpha 4  NOT RELEASED</h5>
+<hr>
 - changes to COI templates  (mamba)
 - replaced ColorPicker with jsColor (mamba)
 - English corrections (mamba)
 
----------------------------------------
-1.31 Alpha 3  2014-01-25
----------------------------------------
+
+<h5>1.31 Alpha 3  2014-01-25</h5>
+<hr>
 - converting more Dutch terms to English  (mamba)
 - fixing bugs reported originally by luwie  (mamba)
 
----------------------------------------
-1.31 Alpha 2  2013-05-21
----------------------------------------
+
+<h5>1.31 Alpha 2  2013-05-21</h5>
+<hr>
 - fixed wrong table names in handlers (luwie/mamba)
 
----------------------------------------
-1.31 Alpha 1  2013-04-12
----------------------------------------
+
+<h5>1.31 Alpha 1  2013-04-12</h5>
+<hr>
 - renamed to Pedigree (Mamba)
 - fixed several PHP 5.4 related bugs (Mamba)
 - standardized names of language variables (Mamba)
 - added cloning with SmartClone (Mamba)
 - sub-menus names will come from language files (mamba)
 
----------------------------------------
-1.30 Beta 1  2013-03-03
----------------------------------------
+
+<h5>1.30 Beta 1  2013-03-03</h5>
+<hr>
 - Converted to XOOPS 2.5.5 Admin GUI (Mamba)
 - Added classes for tables
 - renamed tables to follow XOOPS new standard "mod_module_table"
@@ -113,7 +114,7 @@ TODO:
 - added menu items to main menu
 - fixed two wrong handlers (flipse/mamba)
 
----------------------------------------
-1.29 Final  ??????
----------------------------------------
+
+<h5>1.29 Final  ??????</h5>
+<hr>
 released by James Cotton

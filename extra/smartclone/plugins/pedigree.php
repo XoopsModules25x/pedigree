@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * Module: SmartClone
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU

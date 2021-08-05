@@ -11,20 +11,18 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author         XOOPS Development Team
  */
 
-use XoopsModules\Pedigree;
+use Xmf\Request;
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 if (!isset($_GET['target']) && !isset($_POST['target'])) {
     exit();
 }
 $op = 'list';
-if (\Xmf\Request::hasVar('op', 'GET') && 'upload' === $_GET['op']) {
+if (Request::hasVar('op', 'GET') && 'upload' === $_GET['op']) {
     $op = 'upload';
 }
 if (isset($_POST)) {
@@ -52,7 +50,7 @@ if ('list' === $op) {
     $xoopsTpl->assign('lang_close', _CLOSE);
     if ($catcount > 0) {
         $xoopsTpl->assign('lang_go', _GO);
-        $catshow = \Xmf\Request::getInt('cat_id', 0, 'GET');
+        $catshow = Request::getInt('cat_id', 0, 'GET');
         $catshow = (!empty($catshow) && array_key_exists($catshow, $catlist)) ? $catshow : 0;
         $xoopsTpl->assign('show_cat', $catshow);
         if ($catshow > 0) {
@@ -80,7 +78,7 @@ if ('list' === $op) {
                 $xoopsTpl->assign('lang_image', _IMAGE);
                 $xoopsTpl->assign('lang_imagename', _IMAGENAME);
                 $xoopsTpl->assign('lang_imagemime', _IMAGEMIME);
-                $start = \Xmf\Request::getInt('start', 0, 'GET');
+                $start = Request::getInt('start', 0, 'GET');
                 $criteria->setLimit(10);
                 $criteria->setStart($start);
                 $storetype = $imgcat->getVar('imgcat_storetype');
@@ -104,15 +102,18 @@ if ('list' === $op) {
                         $rcode = '[img align=right]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
                         $src   = XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name');
                     }
-                    $xoopsTpl->append('images', [
-                        'id'       => $images[$i]->getVar('image_id'),
-                        'nicename' => $images[$i]->getVar('image_nicename'),
-                        'mimetype' => $images[$i]->getVar('image_mimetype'),
-                        'src'      => $src,
-                        'lxcode'   => $lcode,
-                        'xcode'    => $code,
-                        'rxcode'   => $rcode
-                    ]);
+                    $xoopsTpl->append(
+                        'images',
+                        [
+                            'id'       => $images[$i]->getVar('image_id'),
+                            'nicename' => $images[$i]->getVar('image_nicename'),
+                            'mimetype' => $images[$i]->getVar('image_mimetype'),
+                            'src'      => $src,
+                            'lxcode'   => $lcode,
+                            'xcode'    => $code,
+                            'rxcode'   => $rcode,
+                        ]
+                    );
                 }
                 if ($total > 10) {
                     require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
@@ -135,7 +136,7 @@ if ('list' === $op) {
 
 if ('upload' === $op) {
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $imgcat_id     = \Xmf\Request::getInt('imgcat_id', 0, 'GET');
+    $imgcat_id     = Request::getInt('imgcat_id', 0, 'GET');
     $imgcat        = $imgcatHandler->get($imgcat_id);
     $error         = false;
     if (!is_object($imgcat)) {

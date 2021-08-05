@@ -58,16 +58,16 @@ define('_AM_PEDIGREE_THEREARE_PEDIGREE_TRASH', "There are <span class='bold'>%s<
 define('_AM_PEDIGREE_THEREARE_OWNER', "There are <span class='bold'>%s</span> Owners in the Database");
 define('_AM_PEDIGREE_THEREARE_PEDIGREE_TEMP', "There are <span class='bold'>%s</span> Temp Pedigrees in the Database");
 define('_AM_PEDIGREE_THEREARE_PEDIGREE', "There are <span class='bold'>%s</span> Pedigrees in the Database");
-define('_AM_PEDIGREE_THEREARE_PEDIGREE_CONFIG', "There are <span class='bold'>%s</span> Custom Fields in the Database");//Buttons
+define('_AM_PEDIGREE_THEREARE_PEDIGREE_CONFIG', "There are <span class='bold'>%s</span> Custom Fields in the Database"); //Buttons
 
 define('_AM_PEDIGREE_NEWPEDIGREE_TRASH', 'Add New Deleted');
-define('_AM_PEDIGREE_PEDIGREE_TRASHLIST', 'List Deleted');//Buttons
+define('_AM_PEDIGREE_PEDIGREE_TRASHLIST', 'List Deleted'); //Buttons
 define('_AM_PEDIGREE_NEWOWNER', 'Add New Owner');
-define('_AM_PEDIGREE_OWNERLIST', 'List Owners');//Buttons
+define('_AM_PEDIGREE_OWNERLIST', 'List Owners'); //Buttons
 define('_AM_PEDIGREE_NEWPEDIGREE_TEMP', 'Add New pedigree_temp');
-define('_AM_PEDIGREE_PEDIGREE_TEMPLIST', 'List pedigree_temp');//Buttons
+define('_AM_PEDIGREE_PEDIGREE_TEMPLIST', 'List pedigree_temp'); //Buttons
 define('_AM_PEDIGREE_NEWPEDIGREE', 'Add New Pedigree');
-define('_AM_PEDIGREE_PEDIGREELIST', 'List Pedigrees');//Buttons
+define('_AM_PEDIGREE_PEDIGREELIST', 'List Pedigrees'); //Buttons
 define('_AM_PEDIGREE_NEWPEDIGREE_CONFIG', 'Add New Custom Field');
 define('_AM_PEDIGREE_PEDIGREE_CONFIGLIST', 'List Custom Fields');
 //Index
@@ -187,22 +187,26 @@ define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RECENT', 'pedigree_configs Recent');
 define('_AM_PEDIGREE_PERMISSIONS_ACCESS', 'Permissions to access');
 define('_AM_PEDIGREE_PERMISSIONS_VIEW', 'Permissions to view');
 define('_AM_PEDIGREE_PERMISSIONS_SUBMIT', 'Permissions to submit');
-//Error NoFrameworks
-define('_AM_ERROR_NOFRAMEWORKS', 'Error: You don&#39;t use the Frameworks "admin module". Please install this Frameworks');
 define('_AM_PEDIGREE_MAINTAINEDBY', 'is maintained by the');
 
 //Alpha 4
 
 define('_AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA', 'For your Pedigree database to work well it is important that the information contained within is correct.<br>');
 
-define('_AM_PEDIGREE_DATABASE_CHECK_ANCESTORS', _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . "It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal.
+define(
+    '_AM_PEDIGREE_DATABASE_CHECK_ANCESTORS',
+    _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . "It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal.
 If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>
-The database has been searched and the animals below the line require_once your attention.<hr>");
+The database has been searched and the animals below the line require_once your attention.<hr>"
+);
 
-define('_AM_PEDIGREE_DATABASE_CHECK_GENDER', _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . 'It is possible create errors and achieve unexpected results by changing the gender of an animal.
+define(
+    '_AM_PEDIGREE_DATABASE_CHECK_GENDER',
+    _AM_PEDIGREE_DATABASE_CHECK_CORRECT_DATA . 'It is possible create errors and achieve unexpected results by changing the gender of an animal.
 If you discover that a male in the database is really female or the other way around it is possible to create errors
 if accidentilly children have been connected to the wrong gender.<br><br>
-The database has been searched and any animals below the line require_once your attention.<hr>');
+The database has been searched and any animals below the line require_once your attention.<hr>'
+);
 
 define('_AM_PEDIGREE_UPGRADEFAILED', 'Upgrade Failed');
 define('_AM_PEDIGREE_UPGRADEFAILED2', 'Upgrade 2 Failed');

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Pedigree;
+<?php
+
+namespace XoopsModules\Pedigree;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -20,7 +23,12 @@
  * @author      XOOPS Mod Development Team
  */
 
+use XoopsFormLabel;
+use XoopsFormText;
 use XoopsModules\Pedigree;
+
+
+
 
 /**
  * Class Pedigree\SelectBox
@@ -28,11 +36,11 @@ use XoopsModules\Pedigree;
 class UrlField extends Pedigree\HtmlInputAbstract
 {
     // Define class variables
-    private $fieldnumber;
-    private $fieldname;
-    private $value;
-    private $defaultvalue;
-    private $lookuptable;
+    public $fieldnumber;
+    public $fieldname;
+    public $value;
+    public $defaultvalue;
+    public $lookuptable;
 
     /**
      * Constructor
@@ -42,19 +50,20 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function __construct($parentObject, $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname   = $parentObject->fieldname;
+        //        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->value        = isset($animalObject->{'user' . $this->fieldnumber}) ? $animalObject->{'user' . $this->fieldnumber} : ''; //$animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable  = $parentObject->hasLookup();
         if ($this->lookuptable) {
-            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
         if ($parentObject->inAdvanced()) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
+            \xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', \get_class($this));
         }
         if ($parentObject->inPie()) {
-            xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
     }
 
@@ -63,7 +72,7 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function editField()
     {
-        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
+        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->value);
 
         return $textbox;
     }
@@ -75,7 +84,7 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $textbox = new \XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
+        $textbox = new XoopsFormText('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 50, $maxsize = 255, $value = $this->defaultvalue);
 
         return $textbox;
     }
@@ -85,7 +94,7 @@ class UrlField extends Pedigree\HtmlInputAbstract
      */
     public function viewField()
     {
-        $view = new \XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
+        $view = new XoopsFormLabel($this->fieldname, '<a href="' . $this->value . '" target=\"_new\">' . $this->value . '</a>');
 
         return $view;
     }

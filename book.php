@@ -1,9 +1,7 @@
 <?php
 // -------------------------------------------------------------------------
 
-use XoopsModules\Pedigree;
-
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 //$moduleDirName = $xoopsModule->dirname();
@@ -297,7 +295,7 @@ $fok[] = ['id' => 'Curgan de el Siscar', 'firstname' => 'Jesus & Paqui', 'lastna
 $fok[] = [
     'id'        => 'Vitchoura de la Fon de Ce',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Rita 1', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Victoire du Pont', 'firstname' => '', 'lastname' => ''];
@@ -389,12 +387,12 @@ $fok[] = ['id' => 'Akim des Chenaies de Kom Pystou', 'firstname' => 'Sylviane', 
 $fok[] = [
     'id'        => 'Alto des Hauts Tilleuls',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = [
     'id'        => 'Altesse des Hauts Tilleuls',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Allen des Chenaies de Kom Pystou', 'firstname' => 'Sylviane', 'lastname' => 'Tompousky'];
 $fok[] = ['id' => 'Brindille des Chenaies de Kom Pystou', 'firstname' => 'Sylviane', 'lastname' => 'Tompousky'];
@@ -686,7 +684,7 @@ $fok[] = ['id' => 'Danton de la Seigneurie des Chartrons', 'firstname' => '', 'l
 $fok[] = [
     'id'        => 'Dante II de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Cipion de la Font de Pepignon', 'firstname' => 'Mme', 'lastname' => 'Robin'];
 $fok[] = ['id' => 'Divine de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
@@ -694,14 +692,14 @@ $fok[] = ['id' => 'Alpha du Palais Galien', 'firstname' => 'Herbert & Petra', 'l
 $fok[] = [
     'id'        => 'Durandal de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Adonis des Arenes Santones', 'firstname' => '', 'lastname' => 'Berteau la Bauche'];
 $fok[] = ['id' => 'Diesirae de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Albert du Palais Galien',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Amour du Palais Galien', 'firstname' => 'Herbert & Petra', 'lastname' => 'Leiber-Schwendenman'];
 $fok[] = ['id' => 'Diaz de la Huguerie', 'firstname' => 'Chr', 'lastname' => 'Porries'];
@@ -846,7 +844,7 @@ $fok[] = ['id' => 'Firmin des Coteaux de l\'Autan', 'firstname' => '', 'lastname
 $fok[] = [
     'id'        => 'Felicie Kwan d l Seigneurie d Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Lafayette des Crocs Charmants', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Junon des Coteaux de l\' Autan', 'firstname' => '', 'lastname' => ''];
@@ -868,12 +866,12 @@ $fok[] = ['id' => 'Tolede du Mas des Chenes', 'firstname' => '', 'lastname' => '
 $fok[] = [
     'id'        => 'Rebecca Asta d l Seigneurie d Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = [
     'id'        => 'PorthosII de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Swan', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Jolie van Alcarinque', 'firstname' => 'Chantal', 'lastname' => 'Haenen'];
@@ -926,12 +924,12 @@ $fok[] = ['id' => 'Coutchy de la Seigneurie des Chartrons', 'firstname' => 'Yves
 $fok[] = [
     'id'        => 'Camille Kw de la Seigneurie des Chartron',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = [
     'id'        => 'Demys Kwa de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Daffy de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Clarisse', 'firstname' => '', 'lastname' => ''];
@@ -943,14 +941,14 @@ $fok[] = ['id' => 'Eros de la Seigneurie des Chartrons', 'firstname' => 'Yves', 
 $fok[] = [
     'id'        => 'Charlotte de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Ella de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Daisy de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = [
     'id'        => 'Capitane Kwan d l Seigneurie d Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Canelle de Petrucia aux Tamarins', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Cora de la Seugneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
@@ -994,7 +992,7 @@ $fok[] = ['id' => 'Danger the Red Powerpack', 'firstname' => 'Ute & Lothar', 'la
 $fok[] = [
     'id'        => 'Josephine Istarskog Porijekla',
     'firstname' => 'Marek & Margaretha',
-    'lastname'  => 'Tannenbaum'
+    'lastname'  => 'Tannenbaum',
 ];
 $fok[] = ['id' => 'Borba Istarskog Porijekla', 'firstname' => 'Margaretha', 'lastname' => 'Simson'];
 $fok[] = ['id' => 'Cosma Istarskog Porijekla', 'firstname' => 'Margaretha', 'lastname' => 'Simson'];
@@ -1012,7 +1010,7 @@ $fok[] = ['id' => 'Elena Istarskog Porijekla', 'firstname' => '', 'lastname' => 
 $fok[] = [
     'id'        => 'Cassiopee Istarskog Porijekla',
     'firstname' => 'Marek & Margaretha',
-    'lastname'  => 'Tannenbaum'
+    'lastname'  => 'Tannenbaum',
 ];
 $fok[] = ['id' => 'Chantal Istarskog Porijekla', 'firstname' => 'Margaretha', 'lastname' => 'Simson'];
 $fok[] = ['id' => 'Coco Istarskog Porijekla', 'firstname' => 'Margaretha', 'lastname' => 'Simson'];
@@ -1025,7 +1023,7 @@ $fok[] = ['id' => 'Brutus de la Source du Chasseral', 'firstname' => 'A & G', 'l
 $fok[] = [
     'id'        => 'Harold Radja Kong van de Ircomara',
     'firstname' => 'Frea',
-    'lastname'  => 'Schietekatte-Perdock'
+    'lastname'  => 'Schietekatte-Perdock',
 ];
 $fok[] = ['id' => 'Igor-Buster van de Ircomara', 'firstname' => 'Frea', 'lastname' => 'Schietekatte-Perdock'];
 $fok[] = ['id' => 'Hutsch van de Ircomara', 'firstname' => 'Frea', 'lastname' => 'Schietekatte-Perdock'];
@@ -1067,7 +1065,7 @@ $fok[] = ['id' => 'Angelique vom Hause Likarina', 'firstname' => '', 'lastname' 
 $fok[] = [
     'id'        => 'Kimberly vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Bonny vom Hessenbleek', 'firstname' => 'Herbert & Petra', 'lastname' => 'Leiber-Schwendenman'];
 $fok[] = ['id' => 'Diaz vom Achterberg', 'firstname' => 'Joachim', 'lastname' => 'Gerhardt'];
@@ -1082,7 +1080,7 @@ $fok[] = ['id' => 'Byoux vom Hessenbleek', 'firstname' => 'Herbert & Petra', 'la
 $fok[] = [
     'id'        => 'Kochese vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Beau vom Hessenbleek', 'firstname' => 'Herbert & Petra', 'lastname' => 'Leiber-Schwendenman'];
 $fok[] = ['id' => 'Dapper vom Achterberg', 'firstname' => 'Joachim', 'lastname' => 'Gerhardt'];
@@ -1091,7 +1089,7 @@ $fok[] = ['id' => 'Belle Amie vom Hessenbleek', 'firstname' => '', 'lastname' =>
 $fok[] = [
     'id'        => 'Irma la Douce vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Angela vom Hause Likarina', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Benji de la Source du Chasseral', 'firstname' => 'A & G', 'lastname' => 'Fuhrer'];
@@ -1482,7 +1480,7 @@ $fok[] = ['id' => 'Tanja van het Keeliehof', 'firstname' => 'L T W M', 'lastname
 $fok[] = [
     'id'        => 'Bo Gratia van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Rambo 2', 'firstname' => 'T.', 'lastname' => 'Brouwers'];
 $fok[] = ['id' => 'Barry 1', 'firstname' => 'T.', 'lastname' => 'Brouwers'];
@@ -1547,7 +1545,7 @@ $fok[] = ['id' => 'Beauty', 'firstname' => 'M', 'lastname' => 'Konings'];
 $fok[] = [
     'id'        => 'Ebel Gratia van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Hoods', 'firstname' => 'T.', 'lastname' => 'Brouwers'];
 $fok[] = ['id' => 'Gloria', 'firstname' => '', 'lastname' => 'Brouwers-van Schaik'];
@@ -1570,7 +1568,7 @@ $fok[] = ['id' => 'Lady', 'firstname' => 'A J', 'lastname' => 'Timmers-Dapperens
 $fok[] = [
     'id'        => 'Baloe Gratia van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Nero', 'firstname' => 'A J', 'lastname' => 'Timmers-Dapperens'];
 $fok[] = ['id' => 'Bonnie', 'firstname' => 'P M H', 'lastname' => 'de Mol'];
@@ -1655,7 +1653,7 @@ $fok[] = ['id' => 'Max Emely van Bella Donna', 'firstname' => 'A J', 'lastname' 
 $fok[] = [
     'id'        => 'Kalif Gratia van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Omar-i-Shariff Joyce Amber', 'firstname' => 'M.S.', 'lastname' => 'Pirbux'];
 $fok[] = ['id' => 'Tyson', 'firstname' => 'G', 'lastname' => 'Timmers'];
@@ -2027,7 +2025,7 @@ $fok[] = ['id' => 'Dixie van de Bargefenne', 'firstname' => 'Tom', 'lastname' =>
 $fok[] = [
     'id'        => 'Lilly-Marleen vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Graaf Clyde von Ruflohof', 'firstname' => 'Ruud', 'lastname' => 'Floris'];
 $fok[] = ['id' => 'Wing Tsun Apollo', 'firstname' => 'Angelika', 'lastname' => 'Busse'];
@@ -2037,7 +2035,7 @@ $fok[] = ['id' => 'Gravin Wilma von Ruflohof', 'firstname' => 'Ruud', 'lastname'
 $fok[] = [
     'id'        => 'Lucky-Moonchild vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Daisy', 'firstname' => 'G.H.J.', 'lastname' => 'Teterissa'];
 $fok[] = ['id' => 'Lachabor van de Bargefenne', 'firstname' => 'Tom', 'lastname' => 'van Hiel'];
@@ -2064,7 +2062,7 @@ $fok[] = ['id' => 'Girl Simba van de Bargefenne', 'firstname' => 'Tom', 'lastnam
 $fok[] = [
     'id'        => 'Louis-Quatorze vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Wing Tsun Alf', 'firstname' => 'Angelika', 'lastname' => 'Busse'];
 $fok[] = ['id' => 'Sarah de Red Peanuts', 'firstname' => 'George', 'lastname' => 'Backaert-Delmoitie'];
@@ -2124,7 +2122,7 @@ $fok[] = ['id' => 'August vom Holm', 'firstname' => 'Marita', 'lastname' => 'Pyk
 $fok[] = [
     'id'        => 'Caligula vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Birte vom Holm', 'firstname' => 'Marita', 'lastname' => 'Pyka'];
 $fok[] = ['id' => 'Brunhilde vom Holm', 'firstname' => 'Marita', 'lastname' => 'Pyka'];
@@ -2381,7 +2379,7 @@ $fok[] = ['id' => 'Gina vom Hessenbleek', 'firstname' => 'Herbert & Petra', 'las
 $fok[] = [
     'id'        => 'Gandolf vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Ginger vom Hessenbleek', 'firstname' => 'Herbert & Petra', 'lastname' => 'Leiber-Schwendenman'];
 $fok[] = ['id' => 'Ajax vom Dusselstrand', 'firstname' => '', 'lastname' => ''];
@@ -2422,7 +2420,7 @@ $fok[] = ['id' => 'Hanka von der Gniddenborg', 'firstname' => 'H', 'lastname' =>
 $fok[] = [
     'id'        => 'Herkules vom Hessenbleek',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Amos de la Sorciere Rouge', 'firstname' => '', 'lastname' => 'Koppel'];
 $fok[] = ['id' => 'Hilda von der Gniddenborg', 'firstname' => 'H', 'lastname' => 'Piehler'];
@@ -2655,7 +2653,7 @@ $fok[] = ['id' => 'Iziemo les Roux Chiens', 'firstname' => 'Jan', 'lastname' => 
 $fok[] = [
     'id'        => 'Norma Acte I de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Nanou du Terroir Bordelais', 'firstname' => 'Catherine', 'lastname' => 'Ribas'];
 $fok[] = ['id' => 'Jordie du Terroir Bordelais', 'firstname' => 'Catherine', 'lastname' => 'Ribas'];
@@ -2677,14 +2675,14 @@ $fok[] = ['id' => 'Lascaya Istarskog Porijekla', 'firstname' => 'Margaretha', 'l
 $fok[] = [
     'id'        => 'N\' Sisca de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Julie du Terroir Bordelais', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Jenny de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = [
     'id'        => 'L\'Anarchiste Istarskog Porijekla',
     'firstname' => 'Marek & Margaretha',
-    'lastname'  => 'Tannenbaum'
+    'lastname'  => 'Tannenbaum',
 ];
 $fok[] = ['id' => 'Nick de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Fleurie Appellation Controlee', 'firstname' => 'Eric', 'lastname' => 'Planting'];
@@ -2692,7 +2690,7 @@ $fok[] = ['id' => 'Linda du Terroir Bordelais', 'firstname' => 'Catherine', 'las
 $fok[] = [
     'id'        => 'Idem Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Nagor du Terroir Bordelais', 'firstname' => 'Catherine', 'lastname' => 'Ribas'];
 $fok[] = ['id' => 'Precious les Roux Chiens', 'firstname' => 'Jan', 'lastname' => 'van Wanrooy'];
@@ -2703,7 +2701,7 @@ $fok[] = ['id' => 'Ideale de la Seigneurie des Chartrons', 'firstname' => 'Yves'
 $fok[] = [
     'id'        => 'Jeanette de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Lisa Appellation Controlee', 'firstname' => 'Eric', 'lastname' => 'Planting'];
 $fok[] = ['id' => 'Lebeaux Istarskog Porijekla', 'firstname' => 'Marek & Margaretha', 'lastname' => 'Tannenbaum'];
@@ -2714,7 +2712,7 @@ $fok[] = ['id' => 'Jenny de l\'Etang de Mirloup', 'firstname' => 'Claude', 'last
 $fok[] = [
     'id'        => 'Nirvana Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Lascaux I de Fenelon', 'firstname' => 'Maurice', 'lastname' => 'van Cappel'];
 $fok[] = ['id' => 'Jolie de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
@@ -2723,32 +2721,32 @@ $fok[] = ['id' => 'Juliette du Terroir Bordelais', 'firstname' => 'Catherine', '
 $fok[] = [
     'id'        => 'Ippie Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Jarnac de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Nelson du Terroir Bordelais', 'firstname' => 'Catherine', 'lastname' => 'Ribas'];
 $fok[] = [
     'id'        => 'Nidem II de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Naima du Clos des Vigilants', 'firstname' => 'Jean Paul', 'lastname' => 'Dantan'];
 $fok[] = ['id' => 'Irma de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = [
     'id'        => 'Jolie Kwan d la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = [
     'id'        => 'Jalouse Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Joran de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = [
     'id'        => 'Nefertiti de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Teun Appellation Controlee', 'firstname' => 'Eric', 'lastname' => 'Planting'];
 $fok[] = ['id' => 'Nelson du Clos des Vigilants', 'firstname' => 'Jean Paul', 'lastname' => 'Dantan'];
@@ -2759,7 +2757,7 @@ $fok[] = ['id' => 'Lucky de Tropez', 'firstname' => 'Rene', 'lastname' => 'Broch
 $fok[] = [
     'id'        => 'Jasper II de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Ellie les Roux Chiens', 'firstname' => 'Jan', 'lastname' => 'van Wanrooy'];
 $fok[] = ['id' => 'Boldor Les Roux Chiens', 'firstname' => 'Jan', 'lastname' => 'van Wanrooy'];
@@ -2772,7 +2770,7 @@ $fok[] = ['id' => 'Igor II de la Seigneurie des Chartrons', 'firstname' => 'Yves
 $fok[] = [
     'id'        => 'Irun Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'N\' Bacchus de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Ippy de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
@@ -2933,13 +2931,13 @@ $fok[] = ['id' => 'Chasid von der Rombach', 'firstname' => '', 'lastname' => '']
 $fok[] = [
     'id'        => 'Valmy Kwan d l Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'L\'Amoure van Alcarinque', 'firstname' => 'Chantal', 'lastname' => 'Haenen'];
 $fok[] = [
     'id'        => 'Vanoise Kwan de la Seigneurie d Chartron',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Doortje', 'firstname' => 'Roger', 'lastname' => 'Beyerinck'];
 $fok[] = ['id' => 'Otto', 'firstname' => 'Roger', 'lastname' => 'Beyerinck'];
@@ -3032,7 +3030,7 @@ $fok[] = ['id' => 'Ares', 'firstname' => 'N & Manon', 'lastname' => 'Deijzen  va
 $fok[] = [
     'id'        => 'Jerome Damian van \'t Gelre\'s End',
     'firstname' => 'Ton Wilma',
-    'lastname'  => 'Nettenbreijers'
+    'lastname'  => 'Nettenbreijers',
 ];
 $fok[] = ['id' => 'Aaron-Max', 'firstname' => 'N & Manon', 'lastname' => 'Deijzen  van & Hollak'];
 $fok[] = ['id' => 'Osanna de la Maison de Hollande', 'firstname' => '', 'lastname' => ''];
@@ -3122,7 +3120,7 @@ $fok[] = ['id' => 'Noralie', 'firstname' => 'A.A.M.', 'lastname' => 'Schrijvers'
 $fok[] = [
     'id'        => 'Napoleon Bonaparte du Xaverius',
     'firstname' => 'Arno & Theo',
-    'lastname'  => 'Aelberts & Roosen'
+    'lastname'  => 'Aelberts & Roosen',
 ];
 $fok[] = ['id' => 'Balou du Xaverius', 'firstname' => 'Arno & Theo', 'lastname' => 'Aelberts & Roosen'];
 $fok[] = ['id' => 'Prins Daan du Xaverius', 'firstname' => 'Arno & Theo', 'lastname' => 'Aelberts & Roosen'];
@@ -3180,14 +3178,14 @@ $fok[] = ['id' => 'Hooche', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Bas Sherley van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Monga', 'firstname' => 'A.A.M.', 'lastname' => 'Schrijvers'];
 $fok[] = ['id' => 'Ricardo 1', 'firstname' => 'A.A.M.', 'lastname' => 'Schrijvers'];
 $fok[] = [
     'id'        => 'Kim Sherley van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Graaf Herios van Ruflohof', 'firstname' => 'Ruud', 'lastname' => 'Floris'];
 $fok[] = ['id' => 'Gravin Robin von Ruflohof', 'firstname' => 'Ruud', 'lastname' => 'Floris'];
@@ -3200,7 +3198,7 @@ $fok[] = ['id' => 'Trix Sherlie van het Keeliehof', 'firstname' => 'L T W M', 'l
 $fok[] = [
     'id'        => 'Fally Sherley van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Kitanah', 'firstname' => 'J.M.', 'lastname' => 'Adriaans'];
 $fok[] = ['id' => 'Snoet', 'firstname' => 'J.M.', 'lastname' => 'Adriaans'];
@@ -3240,20 +3238,20 @@ $fok[] = ['id' => 'Snoop Doggy Dogs Beau', 'firstname' => 'A J W F', 'lastname' 
 $fok[] = [
     'id'        => 'Bor Sherley van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Brigitte', 'firstname' => 'Robert', 'lastname' => 'van den Broek'];
 $fok[] = [
     'id'        => 'Hooche Sherley van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Graaf Mac von Ruflohof', 'firstname' => 'Ruud', 'lastname' => 'Floris'];
 $fok[] = ['id' => 'Femke', 'firstname' => 'P', 'lastname' => 'Ven  van de'];
 $fok[] = [
     'id'        => 'Vanka Sherley van het Keeliehof',
     'firstname' => 'L.T.W.M.',
-    'lastname'  => 'v.d.Nieuwenhof-vdBogaard'
+    'lastname'  => 'v.d.Nieuwenhof-vdBogaard',
 ];
 $fok[] = ['id' => 'Flodder van \'t Gelre\'s End', 'firstname' => 'Ton Wilma', 'lastname' => 'Nettenbreijers'];
 $fok[] = ['id' => 'Snoop Doggy Dogs Naomi', 'firstname' => '', 'lastname' => ''];
@@ -3812,7 +3810,7 @@ $fok[] = ['id' => 'Risette des Jolies Gueules', 'firstname' => 'Robert', 'lastna
 $fok[] = [
     'id'        => 'Jagger du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = ['id' => 'Lucius Istarskog Porijekla', 'firstname' => 'Marek & Margaretha', 'lastname' => 'Tannenbaum'];
 $fok[] = ['id' => 'Justine du Domaine des Ormes', 'firstname' => '', 'lastname' => 'Dupont Druart'];
@@ -3821,19 +3819,19 @@ $fok[] = ['id' => 'Louxor du Domaine des Ormes', 'firstname' => '', 'lastname' =
 $fok[] = [
     'id'        => 'Lucciano du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = ['id' => 'Mao vom Hessenbleek', 'firstname' => 'Herbert & Petra', 'lastname' => 'Leiber-Schwendenman'];
 $fok[] = ['id' => 'J\' Aimee de la Gaie Maisonnee', 'firstname' => '', 'lastname' => 'Acker'];
 $fok[] = [
     'id'        => 'Marion Mapeza du Domaine de la Verriere',
     'firstname' => 'Christine',
-    'lastname'  => 'Berneron & Lavairriere'
+    'lastname'  => 'Berneron & Lavairriere',
 ];
 $fok[] = [
     'id'        => 'M\' Budcuss du Domaine de la Verriere',
     'firstname' => 'Christine',
-    'lastname'  => 'Berneron & Lavairriere'
+    'lastname'  => 'Berneron & Lavairriere',
 ];
 $fok[] = ['id' => 'Jourj dite Cendrillon', 'firstname' => 'Christine', 'lastname' => 'Berneron & Lavairriere'];
 $fok[] = ['id' => 'Nalko de la Gaie Maisonnee', 'firstname' => '', 'lastname' => 'Acker'];
@@ -3859,7 +3857,7 @@ $fok[] = ['id' => 'Chico Les Roux Chiens', 'firstname' => 'Jan', 'lastname' => '
 $fok[] = [
     'id'        => 'Lanka du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = ['id' => 'Nemesis de la Gaie Maisonnee', 'firstname' => '', 'lastname' => 'Acker'];
 $fok[] = ['id' => 'Baloe Les Roux Chiens', 'firstname' => 'Jan', 'lastname' => 'van Wanrooy'];
@@ -3872,12 +3870,12 @@ $fok[] = ['id' => 'Lucien Gainsbourg du Domaine des Ormes', 'firstname' => '', '
 $fok[] = [
     'id'        => 'Jerk du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = [
     'id'        => 'Jimphy du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = ['id' => 'Amy de Legeane', 'firstname' => 'Jan Sonja', 'lastname' => 'Dijkstra'];
 $fok[] = ['id' => 'Mac du Xaverius', 'firstname' => 'Arno & Theo', 'lastname' => 'Aelberts & Roosen'];
@@ -4156,7 +4154,7 @@ $fok[] = ['id' => 'Ulysse', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Rocky du Bois de Trousse Chemise',
     'firstname' => 'Herbert & Petra',
-    'lastname'  => 'Leiber-Schwendenman'
+    'lastname'  => 'Leiber-Schwendenman',
 ];
 $fok[] = ['id' => 'Tania de Fenelon', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Polline du Domaine des Sources', 'firstname' => 'Jean', 'lastname' => 'Letendart'];
@@ -4219,7 +4217,7 @@ $fok[] = ['id' => 'Ferus du Terroir Bordelais', 'firstname' => 'Catherine', 'las
 $fok[] = [
     'id'        => 'Fernande Kw d l Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Indra du Terroir Bordelais', 'firstname' => 'Catherine', 'lastname' => 'Ribas'];
 $fok[] = ['id' => 'General Gorth du Terroir Bordelais', 'firstname' => 'Catherine', 'lastname' => 'Ribas'];
@@ -4246,19 +4244,19 @@ $fok[] = ['id' => 'Lewis du Mas de Madelis', 'firstname' => 'Mr & Mme', 'lastnam
 $fok[] = [
     'id'        => 'Indienne de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Lea de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Jalna du Clos des Vigilants', 'firstname' => 'Jean Paul', 'lastname' => 'Dantan'];
 $fok[] = [
     'id'        => 'Lancelot Lardimalie Istarskog Porijekla',
     'firstname' => 'Marek & Margaretha',
-    'lastname'  => 'Tannenbaum'
+    'lastname'  => 'Tannenbaum',
 ];
 $fok[] = [
     'id'        => 'Lucrece Kwan de la Seigneurie des Chartr',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Nanka de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Goliath de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
@@ -4276,13 +4274,13 @@ $fok[] = ['id' => 'Gessy de la Seigneurie des Chartrons', 'firstname' => 'Yves',
 $fok[] = [
     'id'        => 'L\'Omerta Istarskog Porijekla',
     'firstname' => 'Marek & Margaretha',
-    'lastname'  => 'Tannenbaum'
+    'lastname'  => 'Tannenbaum',
 ];
 $fok[] = ['id' => 'Julie du Clos des Vigilants', 'firstname' => 'Jean Paul', 'lastname' => 'Dantan'];
 $fok[] = [
     'id'        => 'Lieb Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Levy Istarskog Porijekla', 'firstname' => 'Marek & Margaretha', 'lastname' => 'Tannenbaum'];
 $fok[] = ['id' => 'Margaux de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
@@ -4291,7 +4289,7 @@ $fok[] = ['id' => 'Jim du Clos des Vigilants', 'firstname' => 'Jean Paul', 'last
 $fok[] = [
     'id'        => 'Isabelle de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Ludo du Mas de Madelis', 'firstname' => 'Mr & Mme', 'lastname' => 'Courbin'];
 $fok[] = ['id' => 'Helena de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
@@ -4472,7 +4470,7 @@ $fok[] = ['id' => 'Nelly', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Mad Butcher de la Tour Gelee',
     'firstname' => 'David en Severine',
-    'lastname'  => 'Sapp & Colme'
+    'lastname'  => 'Sapp & Colme',
 ];
 $fok[] = ['id' => 'Marmotte de la Tour Gelee', 'firstname' => 'David en Severine', 'lastname' => 'Sapp & Colme'];
 $fok[] = ['id' => 'Midnight', 'firstname' => '', 'lastname' => ''];
@@ -4635,7 +4633,7 @@ $fok[] = ['id' => 'Graziella de la Combe Saint Thibaud', 'firstname' => '', 'las
 $fok[] = [
     'id'        => 'Gillete Kw de la Seigneurie d Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Hercule de la Combe Saint Thibaud', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Heredia de la Combe Saint Thibaud', 'firstname' => '', 'lastname' => ''];
@@ -4653,7 +4651,7 @@ $fok[] = ['id' => 'Hash de la Combe Saint Thibaud', 'firstname' => '', 'lastname
 $fok[] = [
     'id'        => 'Gabrielle de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Harry de la Combe Saint Thibaud', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Halloween de la Combe Saint Thibaud', 'firstname' => '', 'lastname' => ''];
@@ -4676,7 +4674,7 @@ $fok[] = ['id' => 'Floria de la Seigneurie des Chartrons', 'firstname' => 'Yves'
 $fok[] = [
     'id'        => 'Georgette de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Fernand de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Harmonie de Fenelon', 'firstname' => 'Maurice', 'lastname' => 'van Cappel'];
@@ -4695,7 +4693,7 @@ $fok[] = ['id' => 'Honorin', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Germaine Kw d l Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Heidy du Pre des Dianes', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Hastia des Gueules de Gascogne', 'firstname' => '', 'lastname' => ''];
@@ -4706,7 +4704,7 @@ $fok[] = ['id' => 'Glycine de la Combe Saint Thibaud', 'firstname' => '', 'lastn
 $fok[] = [
     'id'        => 'Fadette Kwan de la Seigneurie des Chartr',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Simba', 'firstname' => 'Robert', 'lastname' => 'van den Broek'];
 $fok[] = ['id' => 'Kayla', 'firstname' => 'Robert', 'lastname' => 'van den Broek'];
@@ -5402,7 +5400,7 @@ $fok[] = ['id' => 'Xobu van de Paterhoek', 'firstname' => 'Bart', 'lastname' => 
 $fok[] = [
     'id'        => 'Naf Naf de la Vallee des Maures',
     'firstname' => '96 Rue de Golan Court',
-    'lastname'  => 'Sahnoune'
+    'lastname'  => 'Sahnoune',
 ];
 $fok[] = ['id' => 'Xtra', 'firstname' => 'Sonja', 'lastname' => 'Wijffels'];
 $fok[] = ['id' => 'Xjoyce des Truffes Rouges', 'firstname' => '', 'lastname' => 'Du Hamel-Corselle'];
@@ -5858,13 +5856,13 @@ $fok[] = ['id' => 'Gina des Demons Noirs', 'firstname' => 'Rene', 'lastname' => 
 $fok[] = [
     'id'        => 'Eva Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Eugenie de Petrucia aux Tamarins', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Esta Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Fanta de Bajhofer', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Erwan de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
@@ -6325,12 +6323,12 @@ $fok[] = ['id' => 'Newton de la Seigneurie des Chartrons', 'firstname' => 'Yves'
 $fok[] = [
     'id'        => 'Numero Six Kwan de l Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = [
     'id'        => 'Nerac Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Narcus du Vieux Bordeaux', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Phenicia des Molosses d\' Aquitaine', 'firstname' => '', 'lastname' => 'Daniaux'];
@@ -6338,17 +6336,17 @@ $fok[] = ['id' => 'Paco', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'O\' Marvin de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = [
     'id'        => 'Navaille Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = [
     'id'        => 'Noiseuse Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Synthia de l\'Etoile Saint Hubert', 'firstname' => 'Hubert', 'lastname' => 'Ducrot'];
 $fok[] = ['id' => 'Siri de l\' Etoile Saint Hubert', 'firstname' => '', 'lastname' => ''];
@@ -6399,7 +6397,7 @@ $fok[] = ['id' => 'Ubu du Vieux Saint Ame', 'firstname' => '', 'lastname' => '']
 $fok[] = [
     'id'        => 'Verveine Kw dl  Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Star', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Wortha de Fenelon', 'firstname' => '', 'lastname' => ''];
@@ -6421,7 +6419,7 @@ $fok[] = ['id' => 'Xeros de l\' Aube Rouge', 'firstname' => 'Andre', 'lastname' 
 $fok[] = [
     'id'        => 'X......onleesbaar de l\' Aube Rouge',
     'firstname' => 'Andre',
-    'lastname'  => 'Vandermynsbruggen'
+    'lastname'  => 'Vandermynsbruggen',
 ];
 $fok[] = ['id' => 'Xystra de l\' Aube Rouge', 'firstname' => 'Andre', 'lastname' => 'Vandermynsbruggen'];
 $fok[] = ['id' => 'Xxl de l\' Aube Rouge', 'firstname' => 'Andre', 'lastname' => 'Vandermynsbruggen'];
@@ -6610,7 +6608,7 @@ $fok[] = ['id' => 'Moloss Baby', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Huguette de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Hayden de la Seigneurie des Chartrons', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Ieka', 'firstname' => '', 'lastname' => ''];
@@ -6791,12 +6789,12 @@ $fok[] = ['id' => 'Malicia d\'ittae villa Bob\'s', 'firstname' => '', 'lastname'
 $fok[] = [
     'id'        => 'Nakao du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = [
     'id'        => 'Nais du Domaine de Rauchbruy',
     'firstname' => '5 Sente des Mernieres',
-    'lastname'  => 'Frauche Mr & Mme'
+    'lastname'  => 'Frauche Mr & Mme',
 ];
 $fok[] = ['id' => 'Lucas de la Font de Pepignon', 'firstname' => '', 'lastname' => 'Demery'];
 $fok[] = ['id' => 'Lena de la Font de Pepignon', 'firstname' => '', 'lastname' => 'Demery'];
@@ -6868,7 +6866,7 @@ $fok[] = ['id' => 'Madie du Domaine des Carlines', 'firstname' => '', 'lastname'
 $fok[] = [
     'id'        => 'Nemo Basker Istarskog Porijekla',
     'firstname' => 'Marek & Margaretha',
-    'lastname'  => 'Tannenbaum'
+    'lastname'  => 'Tannenbaum',
 ];
 $fok[] = ['id' => 'Mele', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Nabucco Istarskog Porijekla', 'firstname' => 'Marek & Margaretha', 'lastname' => 'Tannenbaum'];
@@ -6945,20 +6943,20 @@ $fok[] = ['id' => 'Mascha de la Seigneurie des Chartrons', 'firstname' => 'Yves'
 $fok[] = [
     'id'        => 'Mao Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Nancy de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = [
     'id'        => 'Melchior de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Ours de la Seigneurie des CHartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = ['id' => 'Melfy de la Seigneurie des Chartrons', 'firstname' => 'Yves', 'lastname' => 'Coiffard-Ribas'];
 $fok[] = [
     'id'        => 'Nil Kwan de la Seigneurie des Chartrons',
     'firstname' => 'Yves',
-    'lastname'  => 'Coiffard-Ribas'
+    'lastname'  => 'Coiffard-Ribas',
 ];
 $fok[] = ['id' => 'Minus', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'My Luck', 'firstname' => '', 'lastname' => ''];
@@ -6972,7 +6970,7 @@ $fok[] = ['id' => 'nest pretty/bronson', 'firstname' => '', 'lastname' => ''];
 $fok[] = [
     'id'        => 'Obbo de la Vallee des Maures',
     'firstname' => '96 Rue de Golan Court',
-    'lastname'  => 'Sahnoune'
+    'lastname'  => 'Sahnoune',
 ];
 $fok[] = ['id' => 'Marius III', 'firstname' => '', 'lastname' => ''];
 $fok[] = ['id' => 'Oxa du Domaine de Peyrehaut', 'firstname' => 'Mme', 'lastname' => 'Jardel'];

@@ -104,8 +104,8 @@
         if (direction == 'descending') {
             for (var no = cellArray.length; no >= 0; no--) {
                 for (var no2 = 0; no2 < cellObjArray.length; no2++) {
-                    if (cellObjArray[no2].innerHTML == cellArray[no] && !cellObjArray[no2].getAttribute('allreadySorted')) {
-                        cellObjArray[no2].setAttribute('allreadySorted', '1');
+                    if (cellObjArray[no2].innerHTML == cellArray[no] && !cellObjArray[no2].getAttribute('alreadySorted')) {
+                        cellObjArray[no2].setAttribute('alreadySorted', '1');
                         tBody.appendChild(cellObjArray[no2].parentNode);
                     }
                 }
@@ -113,8 +113,8 @@
         } else {
             for (var no = 0; no < cellArray.length; no++) {
                 for (var no2 = 0; no2 < cellObjArray.length; no2++) {
-                    if (cellObjArray[no2].innerHTML == cellArray[no] && !cellObjArray[no2].getAttribute('allreadySorted')) {
-                        cellObjArray[no2].setAttribute('allreadySorted', '1');
+                    if (cellObjArray[no2].innerHTML == cellArray[no] && !cellObjArray[no2].getAttribute('alreadySorted')) {
+                        cellObjArray[no2].setAttribute('alreadySorted', '1');
                         tBody.appendChild(cellObjArray[no2].parentNode);
                     }
                 }
@@ -122,7 +122,7 @@
         }
 
         for (var no2 = 0; no2 < cellObjArray.length; no2++) {
-            cellObjArray[no2].removeAttribute('allreadySorted');
+            cellObjArray[no2].removeAttribute('alreadySorted');
         }
 
         tableWidget_okToSort = true;

@@ -11,19 +11,30 @@
 
 /**
  * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package      pedigree
  * @since
  * @author       XOOPS Module Dev Team
  */
 
-use XoopsModules\Pedigree;
-use XoopsModules\Pedigree\Common;
+use Xmf\Module\Admin;
+use Xmf\Request;
+use Xmf\Yaml;
+use XoopsModules\Pedigree\{
+    Common,
+    Common\TestdataButtons,
+    Forms,
+    Helper,
+    Utility
+};
 
-//require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+/** @var Utility $utility */
+
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
 //check or upload folders
 $configurator = new Common\Configurator();
@@ -34,22 +45,27 @@ foreach (array_keys($configurator->uploadFolders) as $i) {
 
 $adminObject->displayNavigation(basename(__FILE__));
 
-//------------- Test Data ----------------------------
+//check for latest release
+//$newRelease = $utility::checkVerModule($helper);
+//if (!empty($newRelease)) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
+//------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
-    xoops_loadLanguage('admin/modulesadmin', 'system');
-    require_once  dirname(__DIR__) . '/testdata/index.php';
-
-    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
-
-    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
-
-    //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
-
+    TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');
 }
-
-//------------- End Test Data ----------------------------
+$op = Request::getString('op', 0, 'GET');
+switch ($op) {
+    case 'hide_buttons':
+        TestdataButtons::hideButtons();
+        break;
+    case 'show_buttons':
+        TestdataButtons::showButtons();
+        break;
+}
+//------------- End Test Data Buttons ----------------------------
 
 $adminObject->displayIndex();
 

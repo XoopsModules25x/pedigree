@@ -87,17 +87,16 @@ switch ($op) {
         }
 
         break;
-
     case 'new_pedigree':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $treeHandler->create();
+        $obj = $treeHandler->create();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'save_pedigree':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -132,20 +131,20 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'edit_pedigree':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE, 'pedigree.php?op=new_pedigree', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREELIST, 'pedigree.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $treeHandler->get($_REQUEST['id']);
+        $obj = $treeHandler->get($_REQUEST['id']);
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'delete_pedigree':
         $obj = $treeHandler->get($_REQUEST['id']);
         if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {

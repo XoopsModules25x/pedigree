@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * pedigree module for XOOPS
  *
@@ -19,7 +20,7 @@
 
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 //require_once __DIR__ . '/header.php';
 
 //$moduleDirName = basename(__DIR__);
@@ -42,16 +43,23 @@ list($numdogs) = $GLOBALS['xoopsDB']->fetchRow($result);
 */
 /*
 //get module configuration
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$word = $myts->displayTarea(strtr($helper->getConfig('welcome'), [
-    '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
-    '[animalType]'  => '[b]' . $helper->getConfig('animalType') . '[/b]',
-    '[animalTypes]' => $helper->getConfig('animalTypes'),
-]));
+$word = $myts->displayTarea(
+    strtr(
+        $helper->getConfig('welcome'),
+        [
+            '[numanimals]'  => '[b]' . $numdogs . ' [/b]',
+            '[animalType]'  => '[b]' . $helper->getConfig('animalType') . '[/b]',
+            '[animalTypes]' => $helper->getConfig('animalTypes'),
+        ]
+    )
+);
 
 $GLOBALS['xoopsTpl']->assign('welcome', _MA_PEDIGREE_WELCOME);
 $GLOBALS['xoopsTpl']->assign('word', $word);

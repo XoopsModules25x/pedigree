@@ -25,7 +25,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -34,9 +34,8 @@ xoops_loadLanguage('main', $moduleDirName);
 //check for access
 //$xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
-
 
 // Include any common code for this module.
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
@@ -165,7 +164,7 @@ if (\Xmf\Request::hasVar('pnamel', 'POST')) {
     //    $curval = $_POST['curvalnamel'];
     //    $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $_POST['pnamel'] . "' WHERE id='" . $dogid . "'";
     $curval = Request::getString('curvalnamel', '', 'POST');
-    $pnamel  = Request::getString('pnamel', '', 'POST');
+    $pnamel = Request::getString('pnamel', '', 'POST');
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $GLOBALS['xoopsDB']->escape($pnamel) . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
     $chow = 1;
@@ -175,7 +174,7 @@ if (\Xmf\Request::hasVar('pnamef', 'POST')) {
     //    $curval = $_POST['curvalnamef'];
     //    $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $_POST['pnamef'] . "' WHERE id='" . $dogid . "'";
     $curval = Request::getString('curvalnamef', '', 'POST');
-    $pnamel  = Request::getString('pnamef', '', 'POST');
+    $pnamel = Request::getString('pnamef', '', 'POST');
     $sql    = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix($table) . ' SET ' . $field . "='" . $GLOBALS['xoopsDB']->escape($pnamef) . "' WHERE id='" . $dogid . "'";
     $GLOBALS['xoopsDB']->query($sql);
     $chow = 1;

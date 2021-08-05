@@ -1,10 +1,10 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -19,9 +19,10 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_latest.tpl';
 require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -58,20 +59,20 @@ for ($x = 1; $x < ($numPages + 1); ++$x) {
 }
 
 //query
-$sql = 'SELECT d.id AS d_id, d.pname AS d_pname, d.roft AS d_roft, d.mother AS d_mother, d.father AS d_father, d.foto AS d_foto, d.user AS d_user, f.id AS f_id, f.pname AS f_pname, m.id AS m_id, m.pname AS m_pname, u.uname AS u_uname FROM '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
-               . ' d LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
-               . ' f ON d.father = f.id LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
-               . ' m ON d.mother = m.id LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('users')
-               . ' u ON d.user = u.uid ORDER BY d.id DESC LIMIT '
-               . $st
-               . ', '
-               . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($sql);
-$pathIcon16  = \Xmf\Module\Admin::iconUrl('', 16);
+$sql        = 'SELECT d.id AS d_id, d.pname AS d_pname, d.roft AS d_roft, d.mother AS d_mother, d.father AS d_father, d.foto AS d_foto, d.user AS d_user, f.id AS f_id, f.pname AS f_pname, m.id AS m_id, m.pname AS m_pname, u.uname AS u_uname FROM '
+              . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+              . ' d LEFT JOIN '
+              . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+              . ' f ON d.father = f.id LEFT JOIN '
+              . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+              . ' m ON d.mother = m.id LEFT JOIN '
+              . $GLOBALS['xoopsDB']->prefix('users')
+              . ' u ON d.user = u.uid ORDER BY d.id DESC LIMIT '
+              . $st
+              . ', '
+              . $perPage;
+$result     = $GLOBALS['xoopsDB']->query($sql);
+$pathIcon16 = Admin::iconUrl('', 16);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //reset $gender
@@ -113,7 +114,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'name'    => stripslashes($row['d_pname']) . $camera,
         'gender'  => $gender,
         'parents' => $parents,
-        'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>'
+        'addedby' => '<a href="../../userinfo.php?uid=' . $row['d_user'] . '">' . $row['u_uname'] . '</a>',
     ];
     //reset rights ready for the next dog
     $editdel = '0';

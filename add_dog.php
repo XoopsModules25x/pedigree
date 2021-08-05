@@ -4,7 +4,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 //$moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -30,7 +30,7 @@ if (empty($xoopsUser)) {
 //    addDog();
 //}
 
-$f = Request::getString('f', '', 'GET');
+$f      = Request::getString('f', '', 'GET');
 $random = '';
 //if ($f === 'checkName') {
 //    checkName();
@@ -62,18 +62,19 @@ function addDog()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
     $moduleDirName = basename(__DIR__);
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
     //check for access
     if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+        redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     if (0 == $xoopsUser->getVar('uid')) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+        redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     //create form
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -103,9 +104,10 @@ function checkName()
     global $xoopsTpl, $xoopsDB, $xoopsUser;
     $moduleDirName = basename(__DIR__);
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -113,9 +115,9 @@ function checkName()
     $name = Request::getString('pname', '', 'POST');
     //query
     //$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname LIKE'%" . $name . "%' ORDER BY pname";
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname LIKE'%" . $GLOBALS['xoopsDB']->escape($name) . "%' ORDER BY pname";
-    $result      = $GLOBALS['xoopsDB']->query($sql);
-    $numResults  = $GLOBALS['xoopsDB']->getRowsNum($result);
+    $sql        = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname LIKE'%" . $GLOBALS['xoopsDB']->escape($name) . "%' ORDER BY pname";
+    $result     = $GLOBALS['xoopsDB']->query($sql);
+    $numResults = $GLOBALS['xoopsDB']->getRowsNum($result);
     if ($numResults >= 1 && !isset($_GET['r'])) {
         //create form
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -151,10 +153,12 @@ function checkName()
         $form->addElement(new \XoopsFormLabel('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', stripslashes($_POST['pname'])));
         //gender
         $gender_radio = new \XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft', $value = '0');
-        $gender_radio->addOptionArray([
-                                          '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $moduleConfig['male']]),
-                                          '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']])
-                                      ]);
+        $gender_radio->addOptionArray(
+            [
+                '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $moduleConfig['male']]),
+                '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']]),
+            ]
+        );
         $form->addElement($gender_radio);
         if ('1' == $moduleConfig['ownerbreeder']) {
             //breeder
@@ -192,7 +196,7 @@ function checkName()
 
         foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-            $fieldType   = $userField->getSetting('FieldType');
+            $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive() && !$userField->isLocked()) {
                 $newEntry = $fieldObject->newField();
@@ -214,16 +218,17 @@ function sire()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
     $moduleDirName = basename(__DIR__);
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     $empty         = []; // an empty array
 
     //check for access
     if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+        redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     $user = isset($_POST['user']) ? $_POST['user'] : null;
     if (empty($random)) {
@@ -269,7 +274,7 @@ function sire()
         $usersql = '';
         foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-            $fieldType   = $userField->getSetting('FieldType');
+            $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive()) {
                 //check if _FILES variable exists for user picturefield
@@ -277,7 +282,7 @@ function sire()
                 $pictureField = $_FILES[$currentfield]['name'];
                 if ('Picture' === $fieldType && (!empty($pictureField) || '' != $pictureField)) {
                     $userpicture = Pedigree\Utility::uploadPicture($numPictureField);
-                    $usersql .= ",'" . $userpicture . "'";
+                    $usersql     .= ",'" . $userpicture . "'";
                     ++$numPictureField;
                 } elseif ($userField->isLocked()) {
                     //userfield is locked, substitute default value
@@ -294,26 +299,10 @@ function sire()
 
         //insert into pedigree_temp
         //        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $random . "','" . Pedigree\Utility::unHtmlEntities($name) . "','" . $id_owner . "','" . $id_breeder . "','" . $user . "','" . $roft . "','','','" . $foto . "', ''" . $usersql . ')';
-        $query = 'INSERT INTO '
-                 . $GLOBALS['xoopsDB']->prefix('pedigree_temp')
-                 . " VALUES ('"
-                 . $GLOBALS['xoopsDB']->escape($random)
-                 . "','"
-                 . $GLOBALS['xoopsDB']->escape(Pedigree\Utility::unHtmlEntities($name))
-                 . "','"
-                 . $GLOBALS['xoopsDB']->escape($id_owner)
-                 . "','"
-                 . $GLOBALS['xoopsDB']->escape($id_breeder)
-                 . "','"
-                 . $GLOBALS['xoopsDB']->escape($user)
-                 . "','"
-                 . $GLOBALS['xoopsDB']->escape($roft)
-                 . "','0','0','"
-                 . $GLOBALS['xoopsDB']->escape($foto)
-                 . "', ''"
-                 . $usersql
-                 . ')';
-        //echo $query; die();
+        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " VALUES ('" . $GLOBALS['xoopsDB']->escape($random) . "','" . $GLOBALS['xoopsDB']->escape(Pedigree\Utility::unHtmlEntities($name)) . "','" . $GLOBALS['xoopsDB']->escape($id_owner) . "','" . $GLOBALS['xoopsDB']->escape(
+                $id_breeder
+            ) . "','" . $GLOBALS['xoopsDB']->escape($user) . "','" . $GLOBALS['xoopsDB']->escape($roft) . "','0','0','" . $GLOBALS['xoopsDB']->escape($foto) . "', ''" . $usersql . ')';
+        //echo $query; exit();
         $GLOBALS['xoopsDB']->queryF($query);
         redirect_header('add_dog.php?f=sire&random=' . $random . '&st=' . $st . '&r=1&l=a', 1, strtr(_MA_PEDIGREE_ADD_SIREPLZ, ['[father]' => $moduleConfig['father']]));
     }
@@ -332,7 +321,7 @@ function sire()
     $numDog = 'SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft='0' AND pname LIKE '" . $l . "%'";
     $numRes = $GLOBALS['xoopsDB']->query($numDog);
     //total number of dogs the query will find
-    list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
+    [$numResults] = $GLOBALS['xoopsDB']->fetchRow($numRes);
     //total number of pages
     $numPages = floor($numResults / $perPage) + 1;
     if (($numPages * $perPage) == ($numResults + $perPage)) {
@@ -380,8 +369,8 @@ function sire()
     }
 
     //query
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft = '0' AND pname LIKE '" . $l . "%'ORDER BY pname LIMIT " . $st . ', ' . $perPage;
-    $result      = $GLOBALS['xoopsDB']->query($sql);
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft = '0' AND pname LIKE '" . $l . "%'ORDER BY pname LIMIT " . $st . ', ' . $perPage;
+    $result = $GLOBALS['xoopsDB']->query($sql);
 
     $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
@@ -390,7 +379,7 @@ function sire()
     $columns[]    = ['columnname' => 'Name'];
     foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-        $fieldType   = $userField->getSetting('FieldType');
+        $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
         $lookupValues = '';
@@ -403,7 +392,7 @@ function sire()
             $columns[] = [
                 'columnname'   => $fieldObject->fieldname,
                 'columnnumber' => $userField->getId(),
-                'lookupval'    => $lookupValues
+                'lookupval'    => $lookupValues,
             ];
             ++$numofcolumns;
             unset($lookupValues);
@@ -420,7 +409,7 @@ function sire()
         'link'        => '<a href="add_dog.php?f=dam&random=' . $random . '&selsire=0">' . strtr(_MA_PEDIGREE_ADD_SIREUNKNOWN, ['[father]' => $moduleConfig['father']]) . '</a>',
         'colour'      => '',
         'number'      => '',
-        'usercolumns' => $empty
+        'usercolumns' => $empty,
     ];
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -459,7 +448,7 @@ function sire()
             'link'        => '<a href="add_dog.php?f=dam&random=' . $random . '&selsire=' . $row['id'] . '">' . $name . '</a>',
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => $columnvalue
+            'usercolumns' => $columnvalue,
         ];
     }
 
@@ -476,7 +465,7 @@ function sire()
     //mb =========== FATHER LETTERS =============================
     /** @var Pedigree\Helper $helper */
     $helper = Pedigree\Helper::getInstance();
-    $roft     = 0;
+    $roft   = 0;
     //    $criteria     = $helper->getHandler('Tree')->getActiveCriteria($roft);
     $activeObject = 'Tree';
     $name         = 'pname';
@@ -495,7 +484,6 @@ function sire()
     $fatherArray['letters'] = Pedigree\Utility::lettersChoice($helper, $activeObject, $criteria, $name, $link, $link2);
     //$catarray['toolbar']          = pedigree_toolbar();
     $xoopsTpl->assign('fatherArray', $fatherArray);
-
     //mb ========================================
 }
 
@@ -504,9 +492,10 @@ function dam()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
     $moduleDirName = basename(__DIR__);
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     $empty         = []; // an empty array
@@ -514,7 +503,7 @@ function dam()
     //check for access
     $xoopsModule = XoopsModule::getByDirname($moduleDirName);
     if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-        redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+        redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
     }
     //    if (empty($random)) {
     //$random = isset($_POST['random']) ? $_POST['random'] : null;
@@ -553,7 +542,7 @@ function dam()
     //count total number of dogs
     $numDog = 'SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft='1' AND pname LIKE '" . $l . "%'";
     $numRes = $GLOBALS['xoopsDB']->query($numDog);
-    list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
+    [$numResults] = $GLOBALS['xoopsDB']->fetchRow($numRes);
     $numPages = floor($numResults / $perPage) + 1;
     if (($numPages * $perPage) == ($numResults + $perPage)) {
         --$numPages;
@@ -598,8 +587,8 @@ function dam()
     }
 
     //query
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft = '1' AND pname LIKE '" . $l . "%' ORDER BY pname LIMIT " . $st . ', ' . $perPage;
-    $result      = $GLOBALS['xoopsDB']->query($sql);
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE roft = '1' AND pname LIKE '" . $l . "%' ORDER BY pname LIMIT " . $st . ', ' . $perPage;
+    $result = $GLOBALS['xoopsDB']->query($sql);
 
     $animal = new Pedigree\Animal();
     //test to find out how many user fields there are...
@@ -608,7 +597,7 @@ function dam()
     $columns[]    = ['columnname' => 'Name'];
     foreach ($fields as $i => $iValue) {
         $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-        $fieldType   = $userField->getSetting('FieldType');
+        $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
         $fieldObject = new $fieldType($userField, $animal);
         //create empty string
         $lookupValues = '';
@@ -621,7 +610,7 @@ function dam()
             $columns[] = [
                 'columnname'   => $fieldObject->fieldname,
                 'columnnumber' => $userField->getId(),
-                'lookupval'    => $lookupValues
+                'lookupval'    => $lookupValues,
             ];
             ++$numofcolumns;
             unset($lookupValues);
@@ -638,7 +627,7 @@ function dam()
         'link'        => '<a href="add_dog.php?f=check&random=' . $random . '&seldam=0">' . strtr(_MA_PEDIGREE_ADD_DAMUNKNOWN, ['[mother]' => $moduleConfig['mother']]) . '</a>',
         'colour'      => '',
         'number'      => '',
-        'usercolumns' => $empty
+        'usercolumns' => $empty,
     ];
 
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -677,7 +666,7 @@ function dam()
             'link'        => '<a href="add_dog.php?f=check&random=' . $random . '&seldam=' . $row['id'] . '">' . $name . '</a>',
             'colour'      => '',
             'number'      => '',
-            'usercolumns' => $columnvalue
+            'usercolumns' => $columnvalue,
         ];
     }
 
@@ -693,7 +682,7 @@ function dam()
     //mb ========= MOTHER LETTERS===============================
     /** @var Pedigree\Helper $helper */
     $helper = Pedigree\Helper::getInstance();
-    $roft     = 1;
+    $roft   = 1;
     //    $criteria     = $helper->getHandler('Tree')->getActiveCriteria($roft);
     $activeObject = 'Tree';
     $name         = 'pname';
@@ -708,7 +697,6 @@ function dam()
     $motherArray['letters'] = Pedigree\Utility::lettersChoice($helper, $activeObject, $criteria, $name, $link, $link2);
     //$catarray['toolbar']          = pedigree_toolbar();
     $xoopsTpl->assign('motherArray', $motherArray);
-
     //mb ========================================
 }
 
@@ -717,9 +705,10 @@ function check()
     global $xoopsTpl, $xoopsUser, $xoopsDB;
     $moduleDirName = basename(__DIR__);
     //get module configuration
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     $module        = $moduleHandler->getByDirname($moduleDirName);
+    /** @var \XoopsConfigHandler $configHandler */
     $configHandler = xoops_getHandler('config');
     $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -736,8 +725,8 @@ function check()
     }
 
     //query
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' WHERE id = ' . $random;
-    $result      = $GLOBALS['xoopsDB']->query($sql);
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' WHERE id = ' . $random;
+    $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //create animal object
         $animal = new Pedigree\Animal();
@@ -747,7 +736,7 @@ function check()
         $usersql = '';
         foreach ($fields as $i => $iValue) {
             $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
-            $fieldType   = $userField->getSetting('FieldType');
+            $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             if ($userField->isActive()) {
                 $usersql .= ",'" . addslashes($row['user' . $iValue]) . "'";
@@ -758,29 +747,11 @@ function check()
         }
         //insert into pedigree
         //$query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " VALUES ('','" . addslashes($row['pname']) . "','" . $row['id_owner'] . "','" . $row['id_breeder'] . "','" . $row['user'] . "','" . $row['roft'] . "','" . $_GET['seldam'] . "','" . $row['father'] . "','" . addslashes($row['foto']) . "',''" . $usersql . ')';
-        $sql = 'INSERT INTO '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
-               . " VALUES (0,'"
-               . $GLOBALS['xoopsDB']->escape($row['pname'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($row['id_owner'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($row['id_breeder'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($row['user'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($row['roft'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($_GET['seldam'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($row['father'])
-               . "','"
-               . $GLOBALS['xoopsDB']->escape($row['foto'])
-               . "',''"
-               . $usersql
-               . ')';
+        $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " VALUES (0,'" . $GLOBALS['xoopsDB']->escape($row['pname']) . "','" . $GLOBALS['xoopsDB']->escape($row['id_owner']) . "','" . $GLOBALS['xoopsDB']->escape($row['id_breeder']) . "','" . $GLOBALS['xoopsDB']->escape(
+                $row['user']
+            ) . "','" . $GLOBALS['xoopsDB']->escape($row['roft']) . "','" . $GLOBALS['xoopsDB']->escape($_GET['seldam']) . "','" . $GLOBALS['xoopsDB']->escape($row['father']) . "','" . $GLOBALS['xoopsDB']->escape($row['foto']) . "',''" . $usersql . ')';
         $GLOBALS['xoopsDB']->queryF($sql);
-        //echo $query; die();
+        //echo $query; exit();
     }
     $sqlQuery = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . " WHERE id='" . $random . "'";
     $GLOBALS['xoopsDB']->queryF($sqlQuery);

@@ -102,17 +102,16 @@ switch ($op) {
         }
 
         break;
-
     case 'new_pedigree_fields':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_CONFIGLIST, 'pedigree_fields.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $fieldsHandler->create();
+        $obj = $fieldsHandler->create();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'save_pedigree_fields':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -171,7 +170,6 @@ switch ($op) {
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'edit_pedigree_fields':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_CONFIG, 'pedigree_fields.php?op=new_pedigree_fields', 'add');
@@ -181,7 +179,6 @@ switch ($op) {
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'delete_pedigree_fields':
         $id  = Request::getInt('id', 0);
         $obj = $fieldsHandler->get($id);

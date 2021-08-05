@@ -1,4 +1,4 @@
-<{if $isAdmin == true}>
+<{if $isAdmin === true}>
     <div class="pedigree_adminlinks"><{$pedigree_adminpage}></div>
 <{/if}>
 

@@ -2,9 +2,8 @@
 // -------------------------------------------------------------------------
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -18,7 +17,7 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 global $xoopsTpl, $xoopsDB, $xoopsUser;
@@ -27,8 +26,8 @@ $ownid     = Request::getInt('dogid', 0, 'post');
 $ownername = Request::getString('curname', '', 'post');
 
 if (!empty($ownername)) {
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $ownid;
-    $result      = $GLOBALS['xoopsDB']->query($sql);
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $ownid;
+    $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //check for edit rights
         $access      = 0;

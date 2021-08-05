@@ -21,13 +21,14 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
 
-$trashHandler = \XoopsModules\Pedigree\Helper::getInstance()->getHandler('Trash');
+$trashHandler = Helper::getInstance()->getHandler('Trash');
 
 //It recovered the value of argument op in URL$
 $op = Request::getString('op', 'list');
@@ -91,17 +92,16 @@ switch ($op) {
         }
 
         break;
-
     case 'new_pedigree_trash':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj  = $trashHandler->create();
+        $obj = $trashHandler->create();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'save_pedigree_trash':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -136,20 +136,20 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'edit_pedigree_trash':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TRASH, 'pedigree_trash.php?op=new_pedigree_trash', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TRASHLIST, 'pedigree_trash.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $trashHandler->get($_REQUEST['id']);
+        $obj = $trashHandler->get($_REQUEST['id']);
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'delete_pedigree_trash':
         $obj = $trashHandler->get($_REQUEST['id']);
         if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {

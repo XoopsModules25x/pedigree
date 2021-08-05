@@ -9,7 +9,7 @@
     <tr>
         <!-- intro fields + content fields -->
         <td valign="top">
-			<table width="100%" class = "table">
+            <table width="100%" class = "table">
                 <{foreach item=link from=$dogs}>
                     <tr class="<{cycle values="odd,even"}>">
                         <td>

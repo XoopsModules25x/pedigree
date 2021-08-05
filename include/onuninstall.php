@@ -8,16 +8,14 @@
  * @link            https://xoops.org XOOPS
  */
 
-
 use XoopsModules\Pedigree;
 
 /**
  * Prepares system prior to attempting to uninstall module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to uninstall, false if not
  */
-
 function xoops_module_pre_uninstall_pedigree(\XoopsModule $module)
 {
     // Do some synchronization
@@ -25,28 +23,25 @@ function xoops_module_pre_uninstall_pedigree(\XoopsModule $module)
 }
 
 /**
- *
  * Performs tasks required during uninstallation of the module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if uninstallation successful, false if not
  */
 function xoops_module_uninstall_pedigree(\XoopsModule $module)
 {
-//    return true;
+    //    return true;
 
-    $moduleDirName = basename(dirname(__DIR__));
-    $moduleDirNameUpper = strtoupper($moduleDirName);
+    $moduleDirName      = \basename(\dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
     /** @var Pedigree\Helper $helper */
     $helper = Pedigree\Helper::getInstance();
 
     /** @var Pedigree\Utility $utility */
-    $utility     = new Pedigree\Utility();
-
+    $utility = new Pedigree\Utility();
 
     $success = true;
     $helper->loadLanguage('admin');
-
 
     //------------------------------------------------------------------
     // Remove uploads folder (and all subfolders) if they exist

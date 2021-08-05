@@ -4,7 +4,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $moduleDirName = basename(__DIR__);
@@ -24,9 +24,10 @@ $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
 require_once $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -86,25 +87,25 @@ if ($numPages > 1) {
     }
 }
 //query
-$sql = 'SELECT count( d.'
-               . $com
-               . ' ) AS X, d.'
-               . $com
-               . ', p.pname as p_pname, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
-               . ' d LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
-               . ' p ON d.'
-               . $com
-               . ' = p.id WHERE d.'
-               . $com
-               . ' !=0 GROUP BY d.'
-               . $com
-               . ' ORDER BY X DESC LIMIT '
-               . $st
-               . ', '
-               . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($sql);
+$sql    = 'SELECT count( d.'
+          . $com
+          . ' ) AS X, d.'
+          . $com
+          . ', p.pname as p_pname, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM '
+          . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+          . ' d LEFT JOIN '
+          . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+          . ' p ON d.'
+          . $com
+          . ' = p.id WHERE d.'
+          . $com
+          . ' !=0 GROUP BY d.'
+          . $com
+          . ' ORDER BY X DESC LIMIT '
+          . $st
+          . ', '
+          . $perPage;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $numofcolumns = 2;
@@ -123,7 +124,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $dob = $row['X'];
     //create array for dogs
     if ('' != $row['p_foto']) {
-        $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
+        $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/camera.png">';
     } else {
         $camera = '';
     }
@@ -139,7 +140,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         'link'        => '<a href="pedigree.php?pedid=' . $row[$com] . '">' . $name . '</a>',
         'colour'      => '',
         'number'      => '',
-        'usercolumns' => $columnvalue
+        'usercolumns' => $columnvalue,
     ];
     unset($columnvalue);
 }

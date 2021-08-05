@@ -4,7 +4,7 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -22,9 +22,10 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.p
 global $xoopsTpl, $xoopsDB;
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -58,8 +59,8 @@ function save()
     }
     //    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET pname = '" . $_POST['pname'] . "', roft = '" . $_POST['roft'] . "' WHERE id='" . $a . "'";
     $pname = Request::getString('pname', '', 'post');
-    $roft = Request::getString('roft', '', 'post');
-    $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET pname = '" . $GLOBALS['xoopsDB']->escape($pname) . "', roft = '" . $GLOBALS['xoopsDB']->escape($roft) . "' WHERE id='" . $a . "'";
+    $roft  = Request::getString('roft', '', 'post');
+    $sql   = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET pname = '" . $GLOBALS['xoopsDB']->escape($pname) . "', roft = '" . $GLOBALS['xoopsDB']->escape($roft) . "' WHERE id='" . $a . "'";
     $GLOBALS['xoopsDB']->query($sql);
     $pictureField = $_FILES['photo']['name'];
     if (empty($pictureField) || '' == $pictureField) {
@@ -101,10 +102,12 @@ function edit($id = 0)
         //gender
         $roft         = $row['roft'];
         $gender_radio = new \XoopsFormRadio('<b>' . _MA_PEDIGREE_FLD_GEND . '</b>', 'roft', $value = $roft);
-        $gender_radio->addOptionArray([
-                                          '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $moduleConfig['male']]),
-                                          '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']])
-                                      ]);
+        $gender_radio->addOptionArray(
+            [
+                '0' => strtr(_MA_PEDIGREE_FLD_MALE, ['[male]' => $moduleConfig['male']]),
+                '1' => strtr(_MA_PEDIGREE_FLD_FEMA, ['[female]' => $moduleConfig['female']]),
+            ]
+        );
         $form->addElement($gender_radio);
         //father
         $sql       = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id='" . $row['father'] . "'";
@@ -167,7 +170,7 @@ function edit($id = 0)
         for ($i = 0, $iMax = count($fields); $i < $iMax; ++$i) {
             $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
             if ($userField->isActive()) {
-                $fieldType     = $userField->getSetting('FieldType');
+                $fieldType     = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
                 $fieldObject   = new $fieldType($userField, $animal);
                 $edditable[$i] = $fieldObject->editField();
                 $form->addElement($edditable[$i]);

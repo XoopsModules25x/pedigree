@@ -27,7 +27,6 @@ require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
 
-
 $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
 
 //It recovered the value of argument op in URL$
@@ -89,7 +88,6 @@ switch ($op) {
         }
 
         break;
-
     case 'new_pedigree_temp':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
@@ -100,12 +98,11 @@ switch ($op) {
         $form        = $obj->getForm();
         $form->display();
         break;
-
     case 'save_pedigree_temp':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('pedigree_temp.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (\Xmf\Request::hasVar('id', 'REQUEST') && (0 < ($id = Request::getInt('id', 1)))) {
+        if (\Xmf\Request::hasVar('id', 'REQUEST') && (($id = Request::getInt('id', 1)) > 0)) {
             $obj = $tempHandler->get($id);
         } else {
             $obj = $tempHandler->create();
@@ -135,20 +132,20 @@ switch ($op) {
         }
 
         echo $obj->getHtmlErrors();
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'edit_pedigree_temp':
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj  = $tempHandler->get($_REQUEST['id']);
+        $obj = $tempHandler->get($_REQUEST['id']);
+        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-
     case 'delete_pedigree_temp':
         $obj = $tempHandler->get($_REQUEST['id']);
         if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {

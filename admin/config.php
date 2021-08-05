@@ -33,11 +33,11 @@ use XoopsModules\Pedigree;
 
 //To be deleted?
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
 //require(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
-//require_once dirname(__DIR__) . "/include/pedigree_includes.php";
+//require_once \dirname(__DIR__) . "/include/pedigree_includes.php";
 
-xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
+xoops_loadLanguage('modinfo', basename(dirname(__DIR__, 2)));
 require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 
 // Get HTTP post/get parameters.
@@ -88,11 +88,9 @@ function pedigree_config_form()
 }
 
 /**
- *
  * @todo: create pedigree_admin_hmenu - it doesn't exist
  *
  * Displays the main admin interface
- *
  */
 function pedigree_config_main()
 {
@@ -106,7 +104,6 @@ function pedigree_config_main()
 }
 
 /**
- *
  * @todo: create pedigree_get_config_fields() method, it doesn't exist anywhere
  * @todo: pedigree_fields dB table doesn't exist should this be 'config' or something else?
  *
@@ -130,7 +127,7 @@ function pedigree_config_post()
             $sql .= ', ';
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
-        $param_value = get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
+        $param_value = @get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
         $sql         .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
         $first       = false;
     }

@@ -1,9 +1,10 @@
 <?php
 // -------------------------------------------------------------------------
 
+use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -28,9 +29,10 @@ $GLOBALS['xoopsTpl']->assign('module_home', Pedigree\Utility::getModuleName(fals
 $GLOBALS['xoopsTpl']->assign('pedigree_breadcrumb', $breadcrumb->render());
 
 //get module configuration
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
+/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -38,7 +40,7 @@ if (!isset($f)) {
     $f = 'lastname';
 }
 //find letter on which to start else set to 'a'
-if (\Xmf\Request::hasVar('l', 'GET')) {
+if (Request::hasVar('l', 'GET')) {
     $l = $_GET['l'];
 } else {
     $l = 'a';
@@ -76,7 +78,7 @@ if (!empty($xoopsUser)) {
 $numowner = 'SELECT count(id) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "'";
 $numRes   = $GLOBALS['xoopsDB']->query($numowner);
 //total number of owners the query will find
-list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
+[$numResults] = $GLOBALS['xoopsDB']->fetchRow($numRes);
 //total number of pages
 $numPages = floor($numResults / $perPage) + 1;
 if (($numPages * $perPage) == ($numResults + $perPage)) {
@@ -144,8 +146,8 @@ if ($numPages > 1) {
 }
 
 //query
-$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
-$result      = $GLOBALS['xoopsDB']->query($sql);
+$sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE ' . $f . " LIKE '" . $w . "' ORDER BY " . $o . ' ' . $d . ' LIMIT ' . $st . ', ' . $perPage;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //check for access
@@ -164,7 +166,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $dogs[] = [
         'id'   => $row['id'],
         'name' => $name,
-        'city' => $row['city']
+        'city' => $row['city'],
     ];
 }
 
@@ -199,7 +201,7 @@ $xoopsTpl->assign('pages', $pages);
 //$breederArray['letters']          = Pedigree\Utility::lettersChoice();
 
 /** @var Pedigree\Helper $helper */
-$helper = Pedigree\Helper::getInstance();
+$helper       = Pedigree\Helper::getInstance();
 $criteria     = $helper->getHandler('Tree')->getActiveCriteria();
 $activeObject = 'owner';
 $name         = 'lastname';
