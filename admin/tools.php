@@ -3,39 +3,39 @@
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
-require \dirname(__DIR__, 3) . '/mainfile.php';
-xoops_loadLanguage('main', basename(dirname(__DIR__, 2)));
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
 
 // Include any common code for this module.
-require_once \dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_tools.tpl';
 
-require_once XOOPS_ROOT_PATH . '/header.php';
+include XOOPS_ROOT_PATH . '/header.php';
 //@todo move language string to language file
-$xoopsTpl->assign('page_title', 'Pedigree database - Add owner/breeder');
+$GLOBALS['xoopsTpl']->assign('page_title', 'Pedigree database - Add owner/breeder');
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser'])) {
-    redirect_header('index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    $helper->redirect('admin/index.php', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
 //add JS routines
-//@todo change this to send to Tpl using ./browse.php
-echo '<script language="JavaScript" src="picker.js"></script>';
+//@todo change this to send to Tpl addScript
+echo "<script type=\"text/javascript\" src=\"assets/js/picker.js\"></script>\n";
 
 //set form to be empty
 $form = '';
 
 //get module configuration
-/** @var \XoopsModuleHandler $moduleHandler */
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
-/** @var \XoopsConfigHandler $configHandler */
+$module = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 $op = Request::getString('op', '', 'GET');
 switch ($op) {
@@ -116,7 +116,7 @@ $tools[] = ['title' => 'Logout', 'link' => '../../user.php?op=logout', 'main' =>
 $xoopsTpl->assign('tools', $tools);
 
 //footer
-require_once XOOPS_ROOT_PATH . '/footer.php';
+include XOOPS_ROOT_PATH . '/footer.php';
 
 function index()
 {
@@ -130,10 +130,11 @@ function colours()
 {
     global $xoopsTpl, $femaleTextColour;
     $form = 'This will be the wizard to create and modify the website colourscheme.<hr>';
-    $form .= '<FORM NAME="myForm" action=\'savecolors.php\' method=\'POST\'>';
-    $form .= '<INPUT TYPE="text" id="ftxtcolor" name="ftxtcolor" value="#' . $femaleTextColour . '" size="11" maxlength="7">';
+    $form .= '<form name="myForm" action=\'savecolors.php\' method=\'POST\'>';
+    $form .= $GLOBALS['xoopsSecurity']->getTokenHTML();
+    $form .= '<input type="text" id="ftxtcolor" name="ftxtcolor" value="#' . $femaleTextColour . '" size="11" maxlength="7">';
     $form .= '<a href="javascript:TCP.popup(document.forms[\'myForm\'].elements[\'ftxtcolor\'])">';
-    $form .= '<img width="15" height="13" border="0" alt="Click Here to Pick up the color" src="img/sel.gif"></a>';
+    $form .= '<img width="15" height="13" border="0" alt="Click here to pick the color" src="img/sel.gif"></a>';
     $form .= '</form>';
     $xoopsTpl->assign('form', $form);
 }
@@ -171,15 +172,15 @@ function database()
 function database_oa()
 {
     global $xoopsTpl;
-    $form   = _AM_PEDIGREE_DATABASE_CHECK_ANCESTORS;
-    $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' m ON m.id = d.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' f ON f.id = d.father
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mm ON mm.id = m.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mf ON mf.id = m.father
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fm ON fm.id = f.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ff ON ff.id = f.father
+    $form = _AM_PEDIGREE_DATABASE_CHECK_ANCESTORS;
+    $sql = 'SELECT d.id AS d_id, d.naam AS d_naam
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON m.id = d.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON f.id = d.father
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON mm.id = m.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON mf.id = m.father
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON fm.id = f.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON ff.id = f.father
             WHERE
             d.mother = d.id
             OR d.father = d.id
@@ -198,7 +199,7 @@ function database_oa()
             ';
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<li><a href="pedigree.php?pedid=' . $row['d_id'] . '">' . $row['d_pname'] . '</a> [own parent or grandparent]<br>';
+        $form .= '<li><a href="pedigree.php?pedid=' . $row['d_id'] . '">' . $row['d_naam'] . '</a> [own parent or grandparent]<br>';
     }
     $xoopsTpl->assign('form', $form);
 }
@@ -209,26 +210,26 @@ function database_oa()
 function database_fp()
 {
     global $xoopsTpl;
-    $form   = _AM_PEDIGREE_DATABASE_CHECK_GENDER;
-    $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname, m.roft AS m_roft
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " m ON m.id = d.mother
+    $form = _AM_PEDIGREE_DATABASE_CHECK_GENDER;
+    $sql = 'SELECT d.id AS d_id, d.naam AS d_naam, m.roft AS m_roft
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " m ON m.id = d.mother
             WHERE
             d.mother = m.id
             AND m.roft = '0' ";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_pname'] . '</a> [mother seems to be male]<br>';
+        $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_naam'] . '</a> [mother seems to be male]<br>';
     }
-    $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname, f.roft AS f_roft
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " f ON f.id = d.father
+    $sql = 'SELECT d.id AS d_id, d.naam AS d_naam, f.roft AS f_roft
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " f ON f.id = d.father
             WHERE
             d.father = f.id
             AND f.roft = '1' ";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_pname'] . '</a> [father seems to be female]<br>';
+        $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_naam'] . '</a> [father seems to be female]<br>';
     }
     $xoopsTpl->assign('form', $form);
 }
@@ -249,11 +250,11 @@ function pro()
 function deleted()
 {
     global $xoopsTpl, $moduleConfig;
-    $form   = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
-    $sql    = 'SELECT id, pname  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
+    $form = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
+    $sql = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src="assets/images/delete.png"></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['pname'] . '</a><br>';
+        $form .= '<a href="tools.php?op=delperm&id=' . $row['id'] . '"><img src="assets/images/delete.png"></a>&nbsp;<a href="tools.php?op=restore&id=' . $row['id'] . '">' . $row['naam'] . '</a><br>';
     }
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         $form .= '<hr><a href="tools.php?op=delall">Click here</a> to remove all these ' . $moduleConfig['animalTypes'] . ' permenantly ';
@@ -290,7 +291,7 @@ function delall()
 function restore($id)
 {
     global $xoopsTpl;
-    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         foreach ($row as $key => $values) {
@@ -298,11 +299,11 @@ function restore($id)
             $queryvalues .= "'" . $GLOBALS['xoopsDB']->escape($values) . "',";
         }
         $outgoing = substr_replace($queryvalues, '', -1);
-        $query    = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' VALUES (' . $outgoing . ')';
+        $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' VALUES (' . $outgoing . ')';
         $GLOBALS['xoopsDB']->queryF($query);
         $delquery = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
         $GLOBALS['xoopsDB']->queryF($delquery);
-        $form .= '<li><a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['pname'] . '</a> has been restored into the database.<hr>';
+        $form .= '<li><a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['naam'] . '</a> has been restored into the database.<hr>';
     }
     $xoopsTpl->assign('form', $form);
 }
@@ -313,18 +314,18 @@ function restore($id)
 function settings()
 {
     global $xoopsTpl, $moduleConfig;
-    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm('General settings', 'settings', 'tools.php?op=settingssave', 'POST', 1);
-    $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-    $select  = new \XoopsFormSelect('<b>Number of results per page</b>', 'perpage', $value = $moduleConfig['perpage'], $size = 1, $multiple = false);
+    $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
+    $select = new \XoopsFormSelect('<b>Number of results per page</b>', 'perpage', $value = $moduleConfig['perpage'], $size = 1, $multiple = false);
     $options = [
-        '50'    => 50,
-        '100'   => 100,
-        '250'   => 250,
-        '500'   => 500,
-        '1000'  => 1000,
-        '2000'  => 2000,
-        '5000'  => 5000,
+        '50' => 50,
+        '100' => 100,
+        '250' => 250,
+        '500' => 500,
+        '1000' => 1000,
+        '2000' => 2000,
+        '5000' => 5000,
         '10000' => 10000,
     ];
     foreach ($options as $key => $values) {
@@ -332,21 +333,18 @@ function settings()
     }
     unset($options);
     $form->addElement($select);
-    $form->addElement(
-        new \XoopsFormLabel(
-            _MA_PEDIGREE_EXPLAIN, 'This field is used to set the number of results a page will return from a search. If more results are returned extra pages will be created for easy browsing.<br>Set this number higher as your database grows and the number of pages increase.'
-        )
-    );
+    $form->addElement(new \XoopsFormLabel(
+        _MA_PEDIGREE_EXPLAIN,
+        'This field is used to set the number of results a page will return from a search. If more results are returned extra pages will be created for easy browsing.<br>Set this number higher as your database grows and the number of pages increase.'
+    ));
     $radio = new \XoopsFormRadio('<b>Use owner/breeder fields</b>', 'ownerbreeder', $value = $moduleConfig['ownerbreeder']);
     $radio->addOption(1, $name = 'yes');
     $radio->addOption(0, $name = 'no');
     $form->addElement($radio);
-    $form->addElement(
-        new \XoopsFormLabel(
-            _MA_PEDIGREE_EXPLAIN,
-            'Use this field to set if you would like to use the owner/breeder fields of the database.<br>As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.<br>The owner/breeder menu items will also be affected by this setting.'
-        )
-    );
+    $form->addElement(new \XoopsFormLabel(
+        _MA_PEDIGREE_EXPLAIN,
+        'Use this field to set if you would like to use the owner/breeder fields of the database.<br>As the name suggests the owner/breeder fields let you record and display information about the owner and or breeder.<br>The owner/breeder menu items will also be affected by this setting.'
+    ));
     $radiobr = new \XoopsFormRadio('<b>Show brother & sister field</b>', 'brothers', $value = $moduleConfig['brothers']);
     $radiobr->addOption(1, $name = 'yes');
     $radiobr->addOption(0, $name = 'no');
@@ -372,7 +370,7 @@ function settings()
 function settingssave()
 {
     global $xoopsTpl;
-    $form     = '';
+    $form = '';
     $settings = ['perpage', 'ownerbreeder', 'brothers', 'uselitter', 'pups'];
     foreach ($_POST as $key => $values) {
         if (in_array($key, $settings)) {
@@ -391,29 +389,19 @@ function settingssave()
 function lang()
 {
     global $xoopsTpl, $moduleConfig;
-    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm('Language options', 'language', 'tools.php?op=langsave', 'post', true);
-    $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
+    $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
     $form->addElement(new \XoopsFormText('<b>type of animal</b>', 'animalType', $size = 50, $maxsize = 255, $value = $moduleConfig['animalType']));
-    $form->addElement(
-        new \XoopsFormLabel(
-            _MA_PEDIGREE_EXPLAIN,
-            'Use this field to set the animal type which will be used in the application.<br><i>example : </i>snake, pigeon, dog, owl<br><br>The value should fit in the sentences below.<br>Please add optional information for this <b>'
-            . $moduleConfig['animalType']
-            . '</b>.<br>Select the first letter of the <b>'
-            . $moduleConfig['animalType']
-            . '</b>.'
-        )
-    );
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the animal type which will be used in the application.<br><i>example : </i>snake, pigeon, dog, owl<br><br>The value should fit in the sentences below.<br>Please add optional information for this <b>'
+                                                               . $moduleConfig['animalType']
+                                                               . '</b>.<br>Select the first letter of the <b>'
+                                                               . $moduleConfig['animalType']
+                                                               . '</b>.'));
     $form->addElement(new \XoopsFormText('<b>type of animal</b>', 'animalTypes', $size = 50, $maxsize = 255, $value = $value = $moduleConfig['animalTypes']));
-    $form->addElement(
-        new \XoopsFormLabel(
-            _MA_PEDIGREE_EXPLAIN,
-            'Use this field to set the animal type which will be used in the application.<br>This field is the plural of the previous field<br><i>example : </i>snakes, pigeons, dogs, owls<br><br>The value should fit in the sentence below.<br>No <b>'
-            . $moduleConfig['animalTypes']
-            . '</b> meeting your query have been found.'
-        )
-    );
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the animal type which will be used in the application.<br>This field is the plural of the previous field<br><i>example : </i>snakes, pigeons, dogs, owls<br><br>The value should fit in the sentence below.<br>No <b>'
+                                                               . $moduleConfig['animalTypes']
+                                                               . '</b> meeting your query have been found.'));
     $form->addElement(new \XoopsFormText('<b>male</b>', 'male', $size = 50, $maxsize = 255, $value = $moduleConfig['male']));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the name used for the male animal.<br><i>example : </i>male, buck, sire etc.'));
     $form->addElement(new \XoopsFormText('<b>female</b>', 'female', $size = 50, $maxsize = 255, $value = $moduleConfig['female']));
@@ -428,12 +416,11 @@ function lang()
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the name used for a collection of newborn animals.<br><i>example : </i>litter, nest etc.'));
     $form->addElement(new \XoopsFormTextArea('<b>Welcome text</b>', 'welcome', $value = $moduleConfig['welcome'], $rows = 15, $cols = 50));
 
-    $form->addElement(
-        new \XoopsFormLabel(
-            _MA_PEDIGREE_EXPLAIN,
-            'Use this field to set the text you would like to display for the welcome page.<br><br>You may use the follwing variables :<br>[animalType] = ' . $moduleConfig['animalType'] . '<br>[animalTypes] =' . $moduleConfig['animalTypes'] . '<br>[numanimals] = number of animals in the database.'
-        )
-    );
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, 'Use this field to set the text you would like to display for the welcome page.<br><br>You may use the follwing variables :<br>[animalType] = '
+                                                               . $moduleConfig['animalType']
+                                                               . '<br>[animalTypes] ='
+                                                               . $moduleConfig['animalTypes']
+                                                               . '<br>[numanimals] = number of animals in the database.'));
     $form->addElement(new \XoopsFormButton('', 'button_id', 'Submit', 'submit'));
     $xoopsTpl->assign('form', $form->render());
 }
@@ -444,7 +431,7 @@ function lang()
 function langsave()
 {
     global $xoopsTpl;
-    $form     = '';
+    $form = '';
     $settings = [
         'animalType',
         'animalTypes',

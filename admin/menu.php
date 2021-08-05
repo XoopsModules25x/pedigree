@@ -29,41 +29,52 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Module\Admin;
-use XoopsModules\Pedigree;
-use XoopsModules\Pedigree\Helper;
+use XoopsModules\Pedigree\{
+    Helper
+};
 
-require \dirname(__DIR__) . '/preloads/autoloader.php';
+include dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-/** @var \XoopsModules\Pedigree\Helper $helper */
+/** @var Helper $helper */
 $helper = Helper::getInstance();
+
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
 $pathIcon32 = Admin::menuIconPath('');
-$pathModIcon32 = XOOPS_URL .   '/modules/' . $moduleDirName . '/assets/images/icons/32/';
-if (is_object($helper->getModule()) && false !== $helper->getModule()->getInfo('modicons32')) {
+$pathModIcon32 = '';
+if (is_object($helper->getModule())) {
     $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
-//xoops_cp_header();
-//echo "<h4>Pedigree Administration</h4><table width='100%' border='0' cellspacing='1' class='outer'>";
-//echo "<tr><td class='odd'> - <b><a href='database_table.php?op=sql'>SQL actions</a></b>";
-//echo "<br><br>";
-//echo " - <b><a href='database_table.php?op=main'>Edit entry</a></b>";
-//echo "<br><br>";
-//echo " - <b><a href='database_table.php?op=add'>Add entry</a></b>";
-//echo "<br><br>";
-//echo "- <b><a href='".XOOPS_URL."/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=".$xoopsModule->getVar('mid') ."'>Preferences</a></b></td></tr></table>";
-
-// $adminmenu[0]['link'] = "admin/database_table.php?op=sql";
-// $adminmenu[0]['title'] = "SQL Actions";
-// $adminmenu[1]['link'] = "admin/colors.php";
-// $adminmenu[1]['title'] = "Create colours";
+/*
+xoops_cp_header();
+echo "<h4>Pedigree Administration</h4><table width='100%' border='0' cellspacing='1' class='outer'>";
+echo "<tr><td class='odd'> - <b><a href='database_table.php?op=sql'>SQL actions</a></b>";
+echo "<br><br>";
+echo " - <b><a href='database_table.php?op=main'>Edit entry</a></b>";
+echo "<br><br>";
+echo " - <b><a href='database_table.php?op=add'>Add entry</a></b>";
+echo "<br><br>";
+echo "- <b><a href='".XOOPS_URL."/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=".$xoopsModule->getVar('mid') ."'>Preferences</a></b></td></tr></table>";
+*/
 
 $adminmenu = [];
+/*
+ $adminmenu[] = [
+    'link'  => "admin/database_table.php?op=sql",
+    'title' => "SQL Actions"
+    'icon'  => $pathIcon32 . '/database_go.png',
+];
+$adminmenu[] = [
+    'link'  => "admin/colors.php",
+    'title' => "Create colours"
+    'icon'  => $pathIcon32 . '/type.png',
+];
+*/
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU1,
@@ -73,13 +84,7 @@ $adminmenu[] = [
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU5,
-    'link'  => 'admin/pedigree.php',
-    'icon'  => $pathIcon32 . '/groupmod.png',
-];
-
-$adminmenu[] = [
-    'title' => _MI_PEDIGREE_ADMENU_REGISTRY,
-    'link'  => 'admin/registry.php',
+    'link' => 'admin/pedigree.php',
     'icon'  => $pathIcon32 . '/groupmod.png',
 ];
 
@@ -103,7 +108,7 @@ $adminmenu[] = [
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
-    'link'  => 'admin/pedigree_fields.php',
+    'link'  => 'admin/pedigree_config.php',
     'icon'  => $pathIcon32 . '/administration.png',
 ];
 
@@ -115,7 +120,14 @@ $adminmenu[] = array(
 );
 */
 
-if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+// Blocks Admin
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+    'link'  => 'admin/blocksadmin.php',
+    'icon'  => $pathIcon32 . '/block.png',
+];
+
+if ($helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
         'link'  => 'admin/migrate.php',

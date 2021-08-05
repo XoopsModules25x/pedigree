@@ -24,13 +24,13 @@
     }
 </script>
 
-<table width="100%">
+<table class="width100">
     <tr>
         <!-- first column -->
-        <td width="50%" valign="top">
+        <td class="width50 top">
             <{if $pro}>
                 <!-- top males and females -->
-                <table width="100%" class="outer" cellspacing="1">
+                <table class="width100 outer" cellspacing="1">
                     <tr>
                         <th>
                             <{$title}>
@@ -50,7 +50,7 @@
                 <br>
             <{/if}>
             <!-- total number of males and females -->
-            <table width="100%" class="outer" cellspacing="1">
+            <table class="width100 outer" cellspacing="1">
                 <tr>
                     <th>
                         <{$tnmftitle}>
@@ -68,15 +68,15 @@
                 </tr>
                 <tr>
                     <!-- pie chart -->
-                    <td class="odd" align="center">
-                        <div id="piechart" style="width: 100%; height: 300px;"></div>
+                    <td class="odd center">
+                        <div id="piechart" class="width100" style="height: 300px;"></div>
                     </td>
                 </tr>
             </table>
             <br>
             <{if $pro}>
                 <!-- view orphans -->
-                <table width="100%" class="outer" cellspacing="1">
+                <table class="width100 outer" cellspacing="1">
                     <tr>
                         <th>
                             <{$orptitle}>
@@ -101,11 +101,12 @@
             <{/if}>
         </td>
         <td>&nbsp;</td>
-        <!-- second column -->
-        <td width="50%" valign="top">
+        <!-- second column - only shown if content exists -->
+        <{*<td class="width50 top">}>
             <!-- total number of dogs per pedigreebook -->
-            <{foreach item=chapter from=$totpl}>
-                <table width="100%" class="outer" cellspacing="1">
+            <{foreach item=chapter from=$totpl name=ch}>
+                <{if $smarty.foreach.ch.first}><td class="width50 top"><{/if}>
+                <table class="width100 outer" cellspacing="1">
                     <tr>
                         <th colspan="3">
                             <{$chapter.title}>
@@ -123,10 +124,8 @@
                     <{/foreach}>
                 </table>
                 <br>
+        <{if $smarty.foreach.ch.last}></td><{/if}>
             <{/foreach}>
-        </td>
+        <{*</td>}>
     </tr>
 </table>
-
-
-

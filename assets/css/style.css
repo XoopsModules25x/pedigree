@@ -152,3 +152,18 @@
 .table-striped>tbody>tr:nth-child(odd)>th {
     background-color: #f97777;
 }
+
+.even {
+    background-color: #f1fffd;
+    padding: 5px;
+}
+
+.odd {
+    background-color: #f8ffe4;
+    padding: 5px;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: #f97777;
+}

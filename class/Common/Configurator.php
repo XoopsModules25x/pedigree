@@ -11,15 +11,14 @@ namespace XoopsModules\Pedigree\Common;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
-
-
 /**
  * Configurator Class
  *
+ * @package     \XoopsModules\Pedigree
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
+ * @since       1.05
  */
 
 /**
@@ -28,27 +27,23 @@ namespace XoopsModules\Pedigree\Common;
 class Configurator
 {
     public $name;
-    public $paths           = [];
-    public $uploadFolders   = [];
-    public $copyBlankFiles  = [];
+    public $paths = [];
+    public $uploadFolders = [];
+    public $copyBlankFiles = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles        = [];
-    public $oldFolders      = [];
-    public $renameTables    = [];
-    public $moduleStats     = [];
+    public $oldFiles = [];
+    public $oldFolders = [];
+    public $renameTables = [];
+    public $moduleStats = [];
     public $modCopyright;
-    public $icons;
 
     /**
      * Configurator constructor.
      */
     public function __construct()
     {
-//        $moduleDirName      = \basename(\dirname(__DIR__, 2));
-//        $moduleDirNameUpper =  \mb_strtoupper($moduleDirName);
-
-        $config = require \dirname(__DIR__, 2) . '/config/config.php';
+        $config = include dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;
@@ -61,9 +56,5 @@ class Configurator
         $this->renameTables    = $config->renameTables;
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
-
-        $this->icons = include \dirname(__DIR__, 2) . '/config/icons.php';
-        $this->paths = include \dirname(__DIR__, 2) . '/config/paths.php';
-
     }
 }

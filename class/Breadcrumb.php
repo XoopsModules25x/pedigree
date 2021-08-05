@@ -11,7 +11,6 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Pedigree\Breadcrumb Class
  *
@@ -28,20 +27,21 @@ namespace XoopsModules\Pedigree;
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-
 use XoopsModules\Pedigree;
+
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\Breadcrumb
  */
 class Breadcrumb
 {
-    public  $dirname;
+    public $dirname;
     private $bread = [];
 
     public function __construct()
     {
-        $this->dirname = \basename(\dirname(__DIR__));
+        $this->dirname = basename(dirname(__DIR__));
     }
 
     /**
@@ -52,40 +52,30 @@ class Breadcrumb
      */
     public function addLink($title = '', $link = '')
     {
-        $this->bread[] = [
-            'link'  => $link,
-            'title' => $title,
-        ];
+        if ('' !== $title && '' !== $link) {
+            $this->bread[] = [
+                'link' => $link,
+                'title' => $title,
+            ];
+        }
     }
 
     /**
-     * Render BreadCrumb
+     * Render Pedigree BreadCrumb
      */
     public function render()
     {
-        /*
-        TODO if you want to use the render code below,
-        1) create ./templates/chess_common_breadcrumb.tpl)
-        2) add declaration to  xoops_version.php
-        */
-        /*
-        if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {
-            require $GLOBALS['xoops']->path('class/theme.php');
-
+        if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
+            require_once $GLOBALS['xoops']->path('class/theme.php');
             $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
 
-        require $GLOBALS['xoops']->path('class/template.php');
-
+        require_once $GLOBALS['xoops']->path('class/template.php');
         $breadcrumbTpl = new \XoopsTpl();
-
         $breadcrumbTpl->assign('breadcrumb', $this->bread);
-
         $html = $breadcrumbTpl->fetch('db:' . $this->dirname . '_common_breadcrumb.tpl');
-
         unset($breadcrumbTpl);
 
         return $html;
-        */
     }
 }

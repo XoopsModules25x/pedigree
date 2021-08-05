@@ -11,29 +11,30 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
-
 /**
  * Pedigree module for XOOPS
  *
+ * @package         XoopsModules\Pedigree
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
- * @package         pedigree
- * @since           2.5.x
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use XoopsModules\Pedigree;
+
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\TrashHandler
  */
 class TrashHandler extends \XoopsPersistableObjectHandler
 {
+    use CountOverload;
+
     /**
      * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_trash', Trash::class, 'id', 'pname');
+        parent::__construct($db, 'pedigree_trash', Trash::class, 'id', 'naam');
     }
 }

@@ -16,16 +16,14 @@ namespace XoopsModules\Pedigree\Common;
  */
 
 /**
- *
+ * @package      \XoopsModules\Pedigree
  * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
  * @author       ZySpec <zyspec@yahoo.com>
  * @author       Mamba <mambax7@gmail.com>
  */
 
-use MyTextSanitizer;
-use XoopsFormDhtmlTextArea;
-use XoopsFormTextArea;
+use XoopsFormEditor;
 use XoopsModules\Pedigree\Helper;
 
 /**
@@ -50,6 +48,9 @@ class SysUtility
      * www.gsdesign.ro/blog/cut-html-string-without-breaking-the-tags
      * www.cakephp.org
      *
+     * @TODO: Refactor to consider HTML5 & void (self-closing) elements
+     * @TODO: Consider using https://github.com/jlgrall/truncateHTML/blob/master/truncateHTML.php
+     *
      * @param string $text         String to truncate.
      * @param int    $length       Length of returned string, including ellipsis.
      * @param string $ending       Ending to be appended to the trimmed string.
@@ -58,15 +59,20 @@ class SysUtility
      *
      * @return string Trimmed string.
      */
-    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
+    public static function truncateHtml(
+        string $text,
+        ?int $length = 100,
+        ?string $ending = '...',
+        ?bool $exact = false,
+        ?bool $considerHtml = true): string
     {
         if ($considerHtml) {
             // if the plain text is shorter than the maximum length, return the whole text
-            if (mb_strlen(\preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
+            if (mb_strlen(preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
                 return $text;
             }
             // splits all html-tags to scanable lines
-            \preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, \PREG_SET_ORDER);
+            preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
             $total_length = mb_strlen($ending);
             $open_tags    = [];
             $truncate     = '';
@@ -74,31 +80,31 @@ class SysUtility
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
                     // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (\preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
+                    if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
                         // do nothing
                         // if tag is a closing tag
-                    } elseif (\preg_match('/^<\s*\/(\S+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                         // delete tag from $open_tags list
-                        $pos = \array_search($tag_matchings[1], $open_tags, true);
+                        $pos = array_search($tag_matchings[1], $open_tags, true);
                         if (false !== $pos) {
                             unset($open_tags[$pos]);
                         }
                         // if tag is an opening tag
-                    } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
                         // add tag to the beginning of $open_tags list
-                        \array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
+                        array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
                     }
                     // add html-tag to $truncate'd text
                     $truncate .= $line_matchings[1];
                 }
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = mb_strlen(\preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
                     $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
-                    if (\preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, \PREG_OFFSET_CAPTURE)) {
+                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if ($left >= $entity[1] + 1 - $entities_length) {
@@ -111,7 +117,7 @@ class SysUtility
                         }
                     }
                     $truncate .= mb_substr($line_matchings[2], 0, $left + $entities_length);
-                    // maximum lenght is reached, so get off the loop
+                    // maximum length is reached, so get off the loop
                     break;
                 }
                 $truncate     .= $line_matchings[2];
@@ -150,11 +156,14 @@ class SysUtility
     }
 
     /**
+     * Get correct text editor based on user rights
+     *
      * @param \Xmf\Module\Helper $helper
      * @param array|null         $options
+     *
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
-    public static function getEditor($helper = null, $options = null)
+    public static function getEditor(?\Xmf\Module\Helper $helper = null, ?array $options = null)
     {
         /** @var Helper $helper */
         if (null === $options) {
@@ -173,14 +182,14 @@ class SysUtility
 
         $isAdmin = $helper->isUserAdmin();
 
-        if (\class_exists('XoopsFormEditor')) {
+        if (class_exists('XoopsFormEditor')) {
             if ($isAdmin) {
-                $descEditor = new \XoopsFormEditor(\ucfirst($options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
+                $descEditor = new XoopsFormEditor(ucfirst($options['name']), $helper->getConfig('editorAdmin'), $options, $nohtml = false, $onfailure = 'textarea');
             } else {
-                $descEditor = new \XoopsFormEditor(\ucfirst($options['name']), $helper->getConfig('editorUser'), $options, $nohtml = false, $onfailure = 'textarea');
+                $descEditor = new XoopsFormEditor(ucfirst($options['name']), $helper->getConfig('editorUser'), $options, $nohtml = false, $onfailure = 'textarea');
             }
         } else {
-            $descEditor = new \XoopsFormDhtmlTextArea(\ucfirst($options['name']), $options['name'], $options['value'], '100%', '100%');
+            $descEditor = new \XoopsFormDhtmlTextArea(ucfirst($options['name']), $options['name'], $options['value'], '100%', '100%');
         }
 
         //        $form->addElement($descEditor);
@@ -189,59 +198,65 @@ class SysUtility
     }
 
     /**
-     * @param $fieldname
-     * @param $table
+     * Check if column in dB table exists
      *
-     * @return bool
+     * @deprecated
+     * @param string $fieldname name of dB table field
+     * @param string $table name of dB table (including prefix)
+     *
+     * @return bool true if table exists
      */
-    public static function fieldExists($fieldname, $table)
+    public static function fieldExists(string $fieldname, string $table): bool
     {
-        global $xoopsDB;
-        $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+        trigger_error(__METHOD__ . " is deprecated, use Xmf\Database\Tables instead - instantiated from {$trace[0]['file']} line {$trace[0]['line']},");
 
-        return ($xoopsDB->getRowsNum($result) > 0);
+        $result = $GLOBALS['xoopsDB']->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
+        return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
     }
-
     /**
-     * @param array|string $tableName
-     * @param int          $id_field
-     * @param int          $id
+     * Clone a record in a dB
+     *
+     * @TODO need to exit more gracefully on error. Should throw/trigger error and then return false
+     *
+     * @param string $tableName name of dB table (without prefix)
+     * @param string $idField name of field (column) in dB table
+     * @param int    $id item id to clone
      *
      * @return mixed
      */
-    public static function cloneRecord($tableName, $id_field, $id)
+    public static function cloneRecord(string $tableName, string $idField, int $id)
     {
-        $new_id = false;
+        $newId = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
-        $sql       = "SELECT * FROM $table WHERE $id_field='$id' ";
-        $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), \MYSQLI_ASSOC);
+        $sql       = "SELECT * FROM $table WHERE $idField='" . (int) $id . "' ";
+        $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), MYSQLI_ASSOC);
         if (!$tempTable) {
             exit($GLOBALS['xoopsDB']->error());
         }
         // set the auto-incremented id's value to blank.
-        unset($tempTable[$id_field]);
+        unset($tempTable[$idField]);
         // insert cloned copy of the original  record
-        $sql    = "INSERT INTO $table (" . \implode(', ', \array_keys($tempTable)) . ") VALUES ('" . \implode("', '", \array_values($tempTable)) . "')";
+        $sql    = "INSERT INTO $table (" . implode(', ', array_keys($tempTable)) . ") VALUES ('" . implode("', '", array_values($tempTable)) . "')";
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             exit($GLOBALS['xoopsDB']->error());
         }
         // Return the new id
-        $new_id = $GLOBALS['xoopsDB']->getInsertId();
-
-        return $new_id;
+        return $GLOBALS['xoopsDB']->getInsertId();
     }
 
     /**
-     * @param string $tablename
+     * Check if dB table table exists
      *
-     * @return bool
+     * @param string $tablename dB tablename with prefix
+     * @return bool true if table exists
      */
-    public static function tableExists($tablename)
+    public static function tableExists(string $tablename)
     {
         $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-        return $GLOBALS['xoopsDB']->getRowsNum($result) > 0;
+        return (0 < $GLOBALS['xoopsDB']->getRowsNum($result));
     }
 }

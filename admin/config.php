@@ -33,11 +33,11 @@ use XoopsModules\Pedigree;
 
 //To be deleted?
 
-require \dirname(__DIR__, 3) . '/include/cp_header.php';
-//require(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
-//require_once \dirname(__DIR__) . "/include/pedigree_includes.php";
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
+//require_once dirname(__DIR__) . "/include/pedigree_includes.php";
 
-xoops_loadLanguage('modinfo', basename(dirname(__DIR__, 2)));
+xoops_loadLanguage('modinfo', basename(dirname(dirname(__DIR__))));
 require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 
 // Get HTTP post/get parameters.
@@ -45,14 +45,14 @@ require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 extract($_GET, EXTR_PREFIX_ALL, 'param');
 extract($_POST, EXTR_PREFIX_ALL, 'param');
 
-$op = Request::getString('op', 'main');
+$op = Request::getCmd('op', 'main');
 //
 // Writes out the form to get all config parameters.
 //
 function pedigree_config_form()
 {
     $config_fields = pedigree_get_config_fields();
-    $values        = pedigree_get_config();
+    $values = pedigree_get_config();
     print "
     <form action='config.php' method='POST' enctype='application/x-www-form-urlencoded'>\n
     <table border='1' cellpadding='0' cellspacing='0' width='100%'>\n
@@ -105,7 +105,6 @@ function pedigree_config_main()
 
 /**
  * @todo: create pedigree_get_config_fields() method, it doesn't exist anywhere
- * @todo: pedigree_fields dB table doesn't exist should this be 'config' or something else?
  *
  * Processes the configuration update request, by
  * getting the HTTP parameters, and putting them into the database.
@@ -118,7 +117,7 @@ function pedigree_config_post()
         global $$param;
     }
     $param_config_id = 1;
-    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
+    $sql = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
 
     $first = true;
     foreach ($config_fields as $field => $prompt) {
@@ -127,9 +126,9 @@ function pedigree_config_post()
             $sql .= ', ';
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
-        $param_value = @get_magic_quotes_gpc() ? stripslashes($$param) : $$param;
-        $sql         .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
-        $first       = false;
+        $param_value = $$param;
+        $sql .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
+        $first = false;
     }
     $sql .= ' )';
     if (!$GLOBALS['xoopsDB']->query($sql)) {

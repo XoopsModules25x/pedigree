@@ -8,14 +8,13 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Wfdownloads module
+ * Module: Pedigree
  *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         wfdownload
- * @since           3.23
- * @author          WF-Sections, Xoops Development Team, luciorota
- * @version         svn:$Id$
+ * @package      XoopsModules\Pedigree
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @since        3.23
+ * @author       WF-Sections, XOOPS Module Dev Team, luciorota
  */
 .pedigree_headertable {
     padding: 0;

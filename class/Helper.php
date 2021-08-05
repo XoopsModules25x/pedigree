@@ -12,17 +12,14 @@ namespace XoopsModules\Pedigree;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use CriteriaCompo;
-use RuntimeException;
-use XoopsDatabaseFactory;
-
-
-
 /**
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @package
+ * @since
+ * @author     XOOPS Development Team
  */
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Helper
@@ -30,18 +27,17 @@ use XoopsDatabaseFactory;
 class Helper extends \Xmf\Module\Helper
 {
     public $debug;
-    protected $myTree       = [];
-    protected $fields       = [];
-    protected $configValues = [];
 
     /**
      * @param bool $debug
      */
     public function __construct($debug = false)
     {
-        $this->debug   = $debug;
-        $moduleDirName = \basename(\dirname(__DIR__));
-        parent::__construct($moduleDirName);
+        if (null === $this->dirname) {
+            $dirname = basename(dirname(__DIR__));
+            $this->dirname = $dirname;
+        }
+        parent::__construct($this->dirname);
     }
 
     /**
@@ -77,61 +73,16 @@ class Helper extends \Xmf\Module\Helper
     public function getHandler($name)
     {
         $ret = false;
-
-        $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
-        if (!\class_exists($class)) {
-            throw new RuntimeException("Class '$class' not found");
+        $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
+        if (!class_exists($class)) {
+            throw new \RuntimeException("Class '$class' not found");
         }
         /** @var \XoopsMySQLDatabase $db */
-        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
         $helper = self::getInstance();
-        $ret    = new $class($db, $helper);
+        $ret = new $class($db, $helper);
         $this->addLog("Getting handler '{$name}'");
-        return $ret;
+
+        return new $class($db);
     }
-
-    //===================================
-
-    /**
-     * Number of Fields
-     * @return array
-     */
-    public function getNumOfFields()
-    {
-        $moduleDirName = \basename(\dirname(__DIR__));
-        $fieldsHandler = Pedigree\Helper::getInstance()->getHandler('Fields');
-        $criteria      = new CriteriaCompo();
-        $criteria->setSort('`order`');
-        $criteria->setOrder('ASC');
-        $this->fields       = $fieldsHandler->getIds($criteria); //get all object IDs
-        $this->configValues = $fieldsHandler->getAll($criteria, null, false); //get objects as arrays
-        if (empty($this->configValues)) {
-            $this->configValues = '';
-        }
-        /*
-        $SQL    = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix("pedigree_fields") . " ORDER BY `order`";
-        $result = $GLOBALS['xoopsDB']->query($SQL);
-        $fields = [];
-        while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $fields[] = $row['id'];
-            $configValues[] = $row;
-
-        }
-        $this->configValues = isset($configValues) ? $configValues : '';
-        //print_r ($this->configValues); exit();
-        */
-        unset($fieldsHandler, $criteria);
-
-        return $this->fields;
-    }
-
-    /**
-     * @param null $name
-     * @param null $default
-     * @return array
-     */
-    //    public function getConfig($name = null, $default = null)
-    //    {
-    //        return $this->configValues;
-    //    }
 }

@@ -1,15 +1,16 @@
-<table width="100%" class = "table">
+<table class="width100">
     <!-- header; owner name -->
     <tr>
-        <th colspan="2" style="text-align:center;">
+        <th colspan="2" class="center">
             <{$name}>
         </th>
     </tr>
+    <!-- END header; owner name -->
     <!-- main table -->
     <tr>
         <!-- intro fields + content fields -->
-        <td valign="top">
-            <table width="100%" class = "table">
+        <td class="top">
+            <table>
                 <{foreach item=link from=$dogs}>
                     <tr class="<{cycle values="odd,even"}>">
                         <td>
@@ -40,9 +41,7 @@
                 <{/if}>
             </table>
         </td>
-
+        <!-- END intro fields + content fields -->
     </tr>
+    <!-- END main table -->
 </table>
-
-
-

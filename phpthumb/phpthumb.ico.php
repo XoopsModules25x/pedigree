@@ -9,8 +9,15 @@
 //                                                         ///
 //////////////////////////////////////////////////////////////
 
+/**
+ * Class phpthumb_ico
+ */
 class phpthumb_ico
 {
+    /**
+     * @param $gd_image_array
+     * @return string
+     */
     public function GD2ICOstring(&$gd_image_array)
     {
         $ImageWidths  = [];
@@ -48,14 +55,14 @@ class phpthumb_ico
                     }
                 }
                 // mask bits are 32-bit aligned per scanline
-                while (mb_strlen($icANDmask[$key][$y]) % 32) {
+                while (strlen($icANDmask[$key][$y]) % 32) {
                     $icANDmask[$key][$y] .= '0';
                 }
             }
             $icAND[$key] = '';
             foreach ($icANDmask[$key] as $y => $scanlinemaskbits) {
-                for ($i = 0; $i < mb_strlen($scanlinemaskbits); $i += 8) {
-                    $icAND[$key] .= chr(bindec(str_pad(mb_substr($scanlinemaskbits, $i, 8), 8, '0', STR_PAD_LEFT)));
+                for ($i = 0; $i < strlen($scanlinemaskbits); $i += 8) {
+                    $icAND[$key] .= chr(bindec(str_pad(substr($scanlinemaskbits, $i, 8), 8, '0', STR_PAD_LEFT)));
                 }
             }
         }
@@ -96,13 +103,13 @@ class phpthumb_ico
             $icondata .= "\x01\x00";                                  // wPlanes;         // Color Planes
             $icondata .= chr($bpp[$key]) . "\x00";                      // wBitCount;       // Bits per pixel
 
-            $dwBytesInRes = 40 + mb_strlen($icXOR[$key]) + mb_strlen($icAND[$key]);
+            $dwBytesInRes = 40 + strlen($icXOR[$key]) + strlen($icAND[$key]);
             $icondata     .= phpthumb_functions::LittleEndian2String($dwBytesInRes, 4);       // dwBytesInRes;    // How many bytes in this resource?
 
             $icondata      .= phpthumb_functions::LittleEndian2String($dwImageOffset, 4);      // dwImageOffset;   // Where in the file is this image?
-            $dwImageOffset += mb_strlen($BitmapInfoHeader[$key]);
-            $dwImageOffset += mb_strlen($icXOR[$key]);
-            $dwImageOffset += mb_strlen($icAND[$key]);
+            $dwImageOffset += strlen($BitmapInfoHeader[$key]);
+            $dwImageOffset += strlen($icXOR[$key]);
+            $dwImageOffset += strlen($icAND[$key]);
         }
 
         foreach ($gd_image_array as $key => $gd_image) {

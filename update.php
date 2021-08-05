@@ -4,7 +4,8 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once \dirname(__DIR__, 2) . '/mainfile.php';
+
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
@@ -12,14 +13,14 @@ xoops_loadLanguage('main', $moduleDirName);
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_update.tpl';
-require_once XOOPS_ROOT_PATH . '/header.php';
+include XOOPS_ROOT_PATH . '/header.php';
 
 $xoopsTpl->assign('page_title', 'Pedigree database - Update details');
 
 //check for access
 $xoopsModule = XoopsModule::getByDirname($moduleDirName);
 if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
-    redirect_header('<script>javascript:history.go(-1)</script>', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 // ( $xoopsUser->isAdmin($xoopsModule->mid() ) )
 
@@ -29,14 +30,12 @@ global $xoopsModuleConfig;
 
 //get module configuration
 /*
-/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
-/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
-$helper       = Pedigree\Helper::getInstance(false);
+$helper     = Pedigree\Helper::getInstance(false);
 $moduleConfig = $helper->getConfig();
 
 $myts = \MyTextSanitizer::getInstance();
@@ -49,15 +48,15 @@ $id  = $_GET['id'];
 */
 
 //query (find values for this dog (and format them))
-$sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $id;
-$result = $GLOBALS['xoopsDB']->query($sql);
+$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $id;
+$result      = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
     $id = $row['id'];
     //name
-    $pname    = htmlentities(stripslashes($row['pname']), ENT_QUOTES);
-    $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['pname']) . '</a>';
+    $naam     = htmlentities(stripslashes($row['naam']), ENT_QUOTES);
+    $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>';
     //owner
     $queryeig = 'SELECT id, lastname, firstname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $row['id_owner'];
     $reseig   = $GLOBALS['xoopsDB']->query($queryeig);
@@ -81,18 +80,18 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $curvalroft = $row['roft'];
     //Sire
     if (0 != $row['father']) {
-        $querysire = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $row['father'];
+        $querysire = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $row['father'];
         $ressire   = $GLOBALS['xoopsDB']->query($querysire);
         while (false !== ($rowsire = $GLOBALS['xoopsDB']->fetchArray($ressire))) {
-            $sire = '<img src="assets/images/male.gif"><a href="dog.php?id=' . $row['father'] . '">' . stripslashes($rowsire['pname']) . '</a>';
+            $sire = '<img src="assets/images/male.gif"><a href="dog.php?id=' . $row['father'] . '">' . stripslashes($rowsire['naam']) . '</a>';
         }
     }
     //Dam
     if (0 != $row['mother']) {
-        $querydam = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $row['mother'];
+        $querydam = 'SELECT naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $row['mother'];
         $resdam   = $GLOBALS['xoopsDB']->query($querydam);
         while (false !== ($rowdam = $GLOBALS['xoopsDB']->fetchArray($resdam))) {
-            $dam = '<img src="assets/images/female.gif"><a href="dog.php?id=' . $row['mother'] . '">' . stripslashes($rowdam['pname']) . '</a>';
+            $dam = '<img src="assets/images/female.gif"><a href="dog.php?id=' . $row['mother'] . '">' . stripslashes($rowdam['naam']) . '</a>';
         }
     }
     //picture
@@ -108,22 +107,22 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 }
 
 //create form
-require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new \XoopsThemeForm($pname, 'updatedata', 'updatepage.php', 'post', true);
+include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+$form = new \XoopsThemeForm($naam, 'updatedata', 'updatepage.php', 'post', true);
 $form->setExtra("enctype='multipart/form-data'");
 //hidden value current record owner
 $form->addElement(new \XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID
 $form->addElement(new \XoopsFormHidden('dogid', $id));
-$form->addElement(new \XoopsFormHidden('curname', $pname));
+$form->addElement(new \XoopsFormHidden('curname', $naam));
 $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 //name
 if ('nm' === $fld || 'all' === $fld) {
-    $form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'pname', $size = 50, $maxsize = 255, $value = $pname));
+    $form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_NAME . '</b>', 'naam', $size = 50, $maxsize = 255, $value = $naam));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_NAME_EX));
-    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_registry'));
-    $form->addElement(new \XoopsFormHidden('dbfield', 'pname'));
-    $form->addElement(new \XoopsFormHidden('curvalname', $pname));
+    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
+    $form->addElement(new \XoopsFormHidden('dbfield', 'naam'));
+    $form->addElement(new \XoopsFormHidden('curvalname', $naam));
 } else {
     //owner
     if ('ow' === $fld || 'all' === $fld) {
@@ -136,7 +135,7 @@ if ('nm' === $fld || 'all' === $fld) {
         }
         $form->addElement($owner_select);
         $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_OWNE_EX));
-        $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_registry'));
+        $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
         $form->addElement(new \XoopsFormHidden('dbfield', 'id_owner'));
         $form->addElement(new \XoopsFormHidden('curvaleig', $curvaleig));
     }
@@ -153,7 +152,7 @@ if ('br' === $fld || 'all' === $fld) {
     }
     $form->addElement($breeder_select);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_BREE_EX));
-    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_registry'));
+    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
     $form->addElement(new \XoopsFormHidden('dbfield', 'id_breeder'));
     $form->addElement(new \XoopsFormHidden('curvalfok', $curvalfok));
 }
@@ -164,7 +163,7 @@ if ('sx' === $fld || 'all' === $fld) {
     $gender_radio->addOptionArray(['0' => _MA_PEDIGREE_FLD_MALE, '1' => _MA_PEDIGREE_FLD_FEMA]);
     $form->addElement($gender_radio);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_GEND_EX));
-    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_registry'));
+    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
     $form->addElement(new \XoopsFormHidden('dbfield', 'roft'));
     $form->addElement(new \XoopsFormHidden('curvalroft', $curvalroft));
 }
@@ -177,7 +176,7 @@ if ('pc' === $fld || 'all' === $fld) {
     $img_box->setExtra("size ='50'");
     $form->addElement($img_box);
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, strtr(_MA_PEDIGREE_FLD_PICT_EX, ['[animalType]' => $moduleConfig['animalType']])));
-    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_registry'));
+    $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
     $form->addElement(new \XoopsFormHidden('dbfield', 'foto'));
     $form->addElement(new \XoopsFormHidden('curvalpic', $foto));
 }
@@ -194,13 +193,13 @@ foreach ($fields as $i => $iValue) {
     if ($_GET['fld'] == $iValue) {
         $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
         if ($userField->isActive()) {
-            $fieldType   = '\XoopsModules\Pedigree\\' . $userField->getSetting('fieldtype');
+            $fieldType   = $userField->getSetting('FieldType');
             $fieldObject = new $fieldType($userField, $animal);
             $edditable   = $fieldObject->editField();
             $form->addElement($edditable);
             $explain = $userField->getSetting('FieldExplanation');
             $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, $explain));
-            $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_registry'));
+            $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_tree'));
             $form->addElement(new \XoopsFormHidden('dbfield', 'user' . $iValue));
         }
     }
@@ -214,4 +213,4 @@ if ($fld) {
 $xoopsTpl->assign('form', $form->render());
 
 //footer
-require_once XOOPS_ROOT_PATH . '/footer.php';
+include XOOPS_ROOT_PATH . '/footer.php';

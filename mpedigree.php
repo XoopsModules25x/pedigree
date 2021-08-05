@@ -4,24 +4,26 @@
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
-//require_once \dirname(__DIR__, 2) . '/mainfile.php';
+//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
+/** @var Pedigree\Helper $helper */
+$helper = Pedigree\Helper::getInstance();
+
 $moduleDirName = basename(__DIR__);
-xoops_loadLanguage('main', $moduleDirName);
+$helper->loadLanguage('main');
 
 // Include any common code for this module.
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_mpedigree.tpl';
 
-require_once $GLOBALS['xoops']->path('/header.php');
+include $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
 /** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($moduleDirName);
-/** @var \XoopsConfigHandler $configHandler */
 $configHandler = xoops_getHandler('config');
 $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
@@ -30,104 +32,104 @@ $pedId = Request::getInt('pedid', 0, 'GET');
 //$pedId = $_GET['pedid'];
 //draw pedigree
 
-$sql = '
+$queryString = '
 SELECT d.id as d_id,
-d.pname as d_pname,
+d.naam as d_naam,
 d.roft as d_roft,
 f.id as f_id,
-f.pname as f_pname,
+f.naam as f_naam,
 m.id as m_id,
-m.pname as m_pname,
+m.naam as m_naam,
 ff.id as ff_id,
-ff.pname as ff_pname,
+ff.naam as ff_naam,
 mf.id as mf_id,
-mf.pname as mf_pname,
+mf.naam as mf_naam,
 fm.id as fm_id,
-fm.pname as fm_pname,
+fm.naam as fm_naam,
 mm.id as mm_id,
-mm.pname as mm_pname,
+mm.naam as mm_naam,
 fff.id as fff_id,
-fff.pname as fff_pname,
+fff.naam as fff_naam,
 ffm.id as ffm_id,
-ffm.pname as ffm_pname,
+ffm.naam as ffm_naam,
 fmf.id as fmf_id,
-fmf.pname as fmf_pname,
+fmf.naam as fmf_naam,
 fmm.id as fmm_id,
-fmm.pname as fmm_pname,
+fmm.naam as fmm_naam,
 mmf.id as mmf_id,
-mmf.pname as mmf_pname,
+mmf.naam as mmf_naam,
 mff.id as mff_id,
-mff.pname as mff_pname,
+mff.naam as mff_naam,
 mfm.id as mfm_id,
-mfm.pname as mfm_pname,
+mfm.naam as mfm_naam,
 mmm.id as mmm_id,
-mmm.pname as mmm_pname,
+mmm.naam as mmm_naam,
 ffff.id as ffff_id,
-ffff.pname as ffff_pname,
+ffff.naam as ffff_naam,
 ffmf.id as ffmf_id,
-ffmf.pname as ffmf_pname,
+ffmf.naam as ffmf_naam,
 fmff.id as fmff_id,
-fmff.pname as fmff_pname,
+fmff.naam as fmff_naam,
 fmmf.id as fmmf_id,
-fmmf.pname as fmmf_pname,
+fmmf.naam as fmmf_naam,
 mmff.id as mmff_id,
-mmff.pname as mmff_pname,
+mmff.naam as mmff_naam,
 mfff.id as mfff_id,
-mfff.pname as mfff_pname,
+mfff.naam as mfff_naam,
 mfmf.id as mfmf_id,
-mfmf.pname as mfmf_pname,
+mfmf.naam as mfmf_naam,
 mmmf.id as mmmf_id,
-mmmf.pname as mmmf_pname,
+mmmf.naam as mmmf_naam,
 fffm.id as fffm_id,
-fffm.pname as fffm_pname,
+fffm.naam as fffm_naam,
 ffmm.id as ffmm_id,
-ffmm.pname as ffmm_pname,
+ffmm.naam as ffmm_naam,
 fmfm.id as fmfm_id,
-fmfm.pname as fmfm_pname,
+fmfm.naam as fmfm_naam,
 fmmm.id as fmmm_id,
-fmmm.pname as fmmm_pname,
+fmmm.naam as fmmm_naam,
 mmfm.id as mmfm_id,
-mmfm.pname as mmfm_pname,
+mmfm.naam as mmfm_naam,
 mffm.id as mffm_id,
-mffm.pname as mffm_pname,
+mffm.naam as mffm_naam,
 mfmm.id as mfmm_id,
-mfmm.pname as mfmm_pname,
+mfmm.naam as mfmm_naam,
 mmmm.id as mmmm_id,
-mmmm.pname as mmmm_pname
-    FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' f ON d.father = f.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' m ON d.mother = m.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ff ON f.father = ff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fff ON ff.father = fff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ffm ON ff.mother = ffm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mf ON m.father = mf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mff ON mf.father = mff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mfm ON mf.mother = mfm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fm ON f.mother = fm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmf ON fm.father = fmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmm ON fm.mother = fmm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mm ON m.mother = mm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmf ON mm.father = mmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmm ON mm.mother = mmm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ffff ON fff.father = ffff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ffmf ON ffm.father = ffmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmff ON fmf.father = fmff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmmf ON fmm.father = fmmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmff ON mmf.father = mmff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mfff ON mff.father = mfff.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mfmf ON mfm.father = mfmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmmf ON mmm.father = mmmf.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fffm ON fff.mother = fffm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ffmm ON ffm.mother = ffmm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmfm ON fmf.mother = fmfm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmmm ON fmm.mother = fmmm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmfm ON mmf.mother = mmfm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mffm ON mff.mother = mffm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mfmm ON mfm.mother = mfmm.id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmmm ON mmm.mother = mmmm.id
+mmmm.naam as mmmm_naam
+    FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmm ON mm.mother = mmm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffff ON fff.father = ffff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffmf ON ffm.father = ffmf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmff ON fmf.father = fmff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmmf ON fmm.father = fmmf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmff ON mmf.father = mmff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfff ON mff.father = mfff.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfmf ON mfm.father = mfmf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmmf ON mmm.father = mmmf.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fffm ON fff.mother = fffm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffmm ON ffm.mother = ffmm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmfm ON fmf.mother = fmfm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmmm ON fmm.mother = fmmm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmfm ON mmf.mother = mmfm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mffm ON mff.mother = mffm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfmm ON mfm.mother = mfmm.id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmmm ON mmm.mother = mmmm.id
 WHERE d.id=' . $pedId;
 
-$result = $GLOBALS['xoopsDB']->query($sql);
+$result = $GLOBALS['xoopsDB']->query($queryString);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //crete array to count frequency (to select colour)
@@ -165,132 +167,132 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 
     //create array for dog (and all parents)
     //selected dog
-    $d['d']['name'] = stripslashes($row['d_pname']);
+    $d['d']['name'] = stripslashes($row['d_naam']);
     $d['d']['id']   = $row['d_id'];
     $d['d']['roft'] = $row['d_roft'];
     $d['d']['col']  = 'transparant';
     //father
-    $d['f']['name'] = stripslashes($row['f_pname']);
+    $d['f']['name'] = stripslashes($row['f_naam']);
     $d['f']['id']   = $row['f_id'];
     $d['f']['col']  = crcolour('f', $freq[$row['f_id']]);
     //mother
-    $d['m']['name'] = stripslashes($row['m_pname']);
+    $d['m']['name'] = stripslashes($row['m_naam']);
     $d['m']['id']   = $row['m_id'];
     $d['m']['col']  = crcolour('m', $freq[$row['m_id']]);
     //grandparents
     //father father
-    $d['ff']['name'] = stripslashes($row['ff_pname']);
+    $d['ff']['name'] = stripslashes($row['ff_naam']);
     $d['ff']['id']   = $row['ff_id'];
     $d['ff']['col']  = crcolour('f', $freq[$row['ff_id']]);
     //father mother
-    $d['fm']['name'] = stripslashes($row['fm_pname']);
+    $d['fm']['name'] = stripslashes($row['fm_naam']);
     $d['fm']['id']   = $row['fm_id'];
     $d['fm']['col']  = crcolour('m', $freq[$row['fm_id']]);
     //mother father
-    $d['mf']['name'] = stripslashes($row['mf_pname']);
+    $d['mf']['name'] = stripslashes($row['mf_naam']);
     $d['mf']['id']   = $row['mf_id'];
     $d['mf']['col']  = crcolour('f', $freq[$row['mf_id']]);
     //mother mother
-    $d['mm']['name'] = stripslashes($row['mm_pname']);
+    $d['mm']['name'] = stripslashes($row['mm_naam']);
     $d['mm']['id']   = $row['mm_id'];
     $d['mm']['col']  = crcolour('m', $freq[$row['mm_id']]);
     //great-grandparents
     //father father father
-    $d['fff']['name'] = stripslashes($row['fff_pname']);
+    $d['fff']['name'] = stripslashes($row['fff_naam']);
     $d['fff']['id']   = $row['fff_id'];
     $d['fff']['col']  = crcolour('f', $freq[$row['fff_id']]);
     //father father mother
-    $d['ffm']['name'] = stripslashes($row['ffm_pname']);
+    $d['ffm']['name'] = stripslashes($row['ffm_naam']);
     $d['ffm']['id']   = $row['ffm_id'];
     $d['ffm']['col']  = crcolour('m', $freq[$row['ffm_id']]);
     //father mother father
-    $d['fmf']['name'] = stripslashes($row['fmf_pname']);
+    $d['fmf']['name'] = stripslashes($row['fmf_naam']);
     $d['fmf']['id']   = $row['fmf_id'];
     $d['fmf']['col']  = crcolour('f', $freq[$row['fmf_id']]);
     //father mother mother
-    $d['fmm']['name'] = stripslashes($row['fmm_pname']);
+    $d['fmm']['name'] = stripslashes($row['fmm_naam']);
     $d['fmm']['id']   = $row['fmm_id'];
     $d['fmm']['col']  = crcolour('m', $freq[$row['fmm_id']]);
     //mother father father
-    $d['mff']['name'] = stripslashes($row['mff_pname']);
+    $d['mff']['name'] = stripslashes($row['mff_naam']);
     $d['mff']['id']   = $row['mff_id'];
     $d['mff']['col']  = crcolour('f', $freq[$row['mff_id']]);
     //mother father mother
-    $d['mfm']['name'] = stripslashes($row['mfm_pname']);
+    $d['mfm']['name'] = stripslashes($row['mfm_naam']);
     $d['mfm']['id']   = $row['mfm_id'];
     $d['mfm']['col']  = crcolour('m', $freq[$row['mfm_id']]);
     //mother mother father
-    $d['mmf']['name'] = stripslashes($row['mmf_pname']);
+    $d['mmf']['name'] = stripslashes($row['mmf_naam']);
     $d['mmf']['id']   = $row['mmf_id'];
     $d['mmf']['col']  = crcolour('f', $freq[$row['mmf_id']]);
     //mother mother mother
-    $d['mmm']['name'] = stripslashes($row['mmm_pname']);
+    $d['mmm']['name'] = stripslashes($row['mmm_naam']);
     $d['mmm']['id']   = $row['mmm_id'];
     $d['mmm']['col']  = crcolour('m', $freq[$row['mmm_id']]);
     //great-great-grandparents (fathers)
     //father father father
-    $d['ffff']['name'] = stripslashes($row['ffff_pname']);
+    $d['ffff']['name'] = stripslashes($row['ffff_naam']);
     $d['ffff']['id']   = $row['ffff_id'];
     $d['ffff']['col']  = crcolour('f', $freq[$row['ffff_id']]);
     //father father mother
-    $d['ffmf']['name'] = stripslashes($row['ffmf_pname']);
+    $d['ffmf']['name'] = stripslashes($row['ffmf_naam']);
     $d['ffmf']['id']   = $row['ffmf_id'];
     $d['ffmf']['col']  = crcolour('f', $freq[$row['ffmf_id']]);
     //father mother father
-    $d['fmff']['name'] = stripslashes($row['fmff_pname']);
+    $d['fmff']['name'] = stripslashes($row['fmff_naam']);
     $d['fmff']['id']   = $row['fmff_id'];
     $d['fmff']['col']  = crcolour('f', $freq[$row['fmff_id']]);
     //father mother mother
-    $d['fmmf']['name'] = stripslashes($row['fmmf_pname']);
+    $d['fmmf']['name'] = stripslashes($row['fmmf_naam']);
     $d['fmmf']['id']   = $row['fmmf_id'];
     $d['fmmf']['col']  = crcolour('f', $freq[$row['fmmf_id']]);
     //mother father father
-    $d['mfff']['name'] = stripslashes($row['mfff_pname']);
+    $d['mfff']['name'] = stripslashes($row['mfff_naam']);
     $d['mfff']['id']   = $row['mfff_id'];
     $d['mfff']['col']  = crcolour('f', $freq[$row['mfff_id']]);
     //mother father mother
-    $d['mfmf']['name'] = stripslashes($row['mfmf_pname']);
+    $d['mfmf']['name'] = stripslashes($row['mfmf_naam']);
     $d['mfmf']['id']   = $row['mfmf_id'];
     $d['mfmf']['col']  = crcolour('f', $freq[$row['mfmf_id']]);
     //mother mother father
-    $d['mmff']['name'] = stripslashes($row['mmff_pname']);
+    $d['mmff']['name'] = stripslashes($row['mmff_naam']);
     $d['mmff']['id']   = $row['mmff_id'];
     $d['mmff']['col']  = crcolour('f', $freq[$row['mmff_id']]);
     //mother mother mother
-    $d['mmmf']['name'] = stripslashes($row['mmmf_pname']);
+    $d['mmmf']['name'] = stripslashes($row['mmmf_naam']);
     $d['mmmf']['id']   = $row['mmmf_id'];
     $d['mmmf']['col']  = crcolour('f', $freq[$row['mmmf_id']]);
     //great-great-grandparents (mothers)
     //father father father
-    $d['fffm']['name'] = stripslashes($row['fffm_pname']);
+    $d['fffm']['name'] = stripslashes($row['fffm_naam']);
     $d['fffm']['id']   = $row['fffm_id'];
     $d['fffm']['col']  = crcolour('m', $freq[$row['fffm_id']]);
     //father father mother
-    $d['ffmm']['name'] = stripslashes($row['ffmm_pname']);
+    $d['ffmm']['name'] = stripslashes($row['ffmm_naam']);
     $d['ffmm']['id']   = $row['ffmm_id'];
     $d['ffmm']['col']  = crcolour('m', $freq[$row['ffmm_id']]);
     //father mother father
-    $d['fmfm']['name'] = stripslashes($row['fmfm_pname']);
+    $d['fmfm']['name'] = stripslashes($row['fmfm_naam']);
     $d['fmfm']['id']   = $row['fmfm_id'];
     $d['fmfm']['col']  = crcolour('m', $freq[$row['fmfm_id']]);
     //father mother mother
-    $d['fmmm']['name'] = stripslashes($row['fmmm_pname']);
+    $d['fmmm']['name'] = stripslashes($row['fmmm_naam']);
     $d['fmmm']['id']   = $row['fmmm_id'];
     $d['fmmm']['col']  = crcolour('m', $freq[$row['fmmm_id']]);
     //mother father father
-    $d['mffm']['name'] = stripslashes($row['mffm_pname']);
+    $d['mffm']['name'] = stripslashes($row['mffm_naam']);
     $d['mffm']['id']   = $row['mffm_id'];
     $d['mffm']['col']  = crcolour('m', $freq[$row['mffm_id']]);
     //mother father mother
-    $d['mfmm']['name'] = stripslashes($row['mfmm_pname']);
+    $d['mfmm']['name'] = stripslashes($row['mfmm_naam']);
     $d['mfmm']['id']   = $row['mfmm_id'];
     $d['mfmm']['col']  = crcolour('m', $freq[$row['mfmm_id']]);
     //mother mother father
-    $d['mmfm']['name'] = stripslashes($row['mmfm_pname']);
+    $d['mmfm']['name'] = stripslashes($row['mmfm_naam']);
     $d['mmfm']['id']   = $row['mmfm_id'];
     $d['mmfm']['col']  = crcolour('m', $freq[$row['mmfm_id']]);
     //mother mother mother
-    $d['mmmm']['name'] = stripslashes($row['mmmm_pname']);
+    $d['mmmm']['name'] = stripslashes($row['mmmm_naam']);
     $d['mmmm']['id']   = $row['mmmm_id'];
     $d['mmmm']['col']  = crcolour('m', $freq[$row['mmmm_id']]);
 }
@@ -299,8 +301,8 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 $GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $d['d']['name'] . ' -- mega pedigree');
 //assign dog(s)
 $GLOBALS['xoopsTpl']->assign('d', $d);
-$GLOBALS['xoopsTpl']->assign('male', '<img src="assets/images/male.gif">');
-$GLOBALS['xoopsTpl']->assign('female', '<img src="assets/images/female.gif">');
+$GLOBALS['xoopsTpl']->assign('male', "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">");
+$GLOBALS['xoopsTpl']->assign('female', "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">");
 //assign extra display options
 $GLOBALS['xoopsTpl']->assign('unknown', 'Unknown');
 $GLOBALS['xoopsTpl']->assign('f2', strtr(_MA_PEDIGREE_MPED_F2, ['[animalType]' => $helper->getConfig('animalType')]));
@@ -311,14 +313,30 @@ $GLOBALS['xoopsTpl']->assign('m3', strtr(_MA_PEDIGREE_MPED_M3, ['[animalType]' =
 $GLOBALS['xoopsTpl']->assign('m4', strtr(_MA_PEDIGREE_MPED_M4, ['[animalType]' => $helper->getConfig('animalType')]));
 
 /**
- * @param $sex
- * @param $item
+ * @param string $gender m|f
+ * @param int $item
  *
  * @return string
  * @todo move this to ./include directory
  */
-function crcolour($sex, $item)
+function crcolour($gender, $item)
 {
+    switch ($item) {
+        case '1':
+        default:
+            $col = 'transparent';
+            break;
+        case '2':
+            $col = ('f' === $gender) ? '#C8C8FF' : '#FFC8C8';
+            break;
+        case '3':
+            $col = ('f' === $gender) ? '#6464FF' : '#FF6464';
+            break;
+        case '4':
+            $col = ('f' === $gender) ? '#0000FF' : '#FF0000';
+            break;
+    }
+    /*
     if ('1' == $item) {
         $col = 'transparant';
     } elseif ('2' == $item && 'f' === $sex) {
@@ -336,6 +354,7 @@ function crcolour($sex, $item)
     } else {
         $col = 'transparant';
     }
+    */
 
     return $col;
 }

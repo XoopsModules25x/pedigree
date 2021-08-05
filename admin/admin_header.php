@@ -10,62 +10,45 @@
  */
 
 /**
+ * @package         XoopsModules\Pedigree
  * @copyright       {@link https://xoops.org/ XOOPS Project}
  * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package         pedigree
- * @since
  * @author          XOOPS Module Dev Team
  */
 
-/*
-$path = \dirname(__DIR__, 3);
-require_once $path . '/mainfile.php';
-require_once $path . '/include/cp_functions.php';
-require_once $path . '/include/cp_header.php';
-
-global $xoopsModule;
-
-$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
-
-//if functions.php file exist
-//require_once \dirname(__DIR__) . '/include/functions.php';
-
-// Load language files
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('modinfo', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
-
-$pathIcon16 = '../'.$xoopsModule->getInfo('icons16');
-$pathIcon32 = '../'.$xoopsModule->getInfo('icons32');
-$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
-
-require_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
-
-*/
-
 use Xmf\Module\Admin;
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
 
-require \dirname(__DIR__, 3) . '/include/cp_header.php';
-require \dirname(__DIR__) . '/preloads/autoloader.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-require_once \dirname(__DIR__) . '/include/common.php';
-//require_once  \dirname(__DIR__) . '/config/config.php';
+require_once dirname(__DIR__) . '/include/common.php';
+//require_once dirname(__DIR__) . '/include/config.php';
 
-$moduleDirName = \basename(\dirname(__DIR__));
-/** @var Pedigree\Helper $helper */
-$helper = Pedigree\Helper::getInstance();
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+/** @var Helper $helper */
+$helper = Helper::getInstance();
 
 /** @var Xmf\Module\Admin $adminObject */
-$adminObject = Admin::getInstance();
+$adminObject   = Admin::getInstance();
+$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon32    = Admin::iconUrl('', 32);
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-/** @var \XoopsPersistableObjectHandler $registryHandler */
-$registryHandler = new Pedigree\RegistryHandler($db);
 
 // Load language files
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
 $helper->loadLanguage('common');
 
-//xoops_cp_header();
+/** @var MyTextSanitizer $myts */
+$myts = MyTextSanitizer::getInstance();
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}

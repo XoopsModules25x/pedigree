@@ -1,5 +1,4 @@
 <?php
-
 //menublock
 define('_MA_PEDIGREE_VIEWSEARCH', 'View/Search ');
 define('_MA_PEDIGREE_ADD_A', 'Add a ');
@@ -109,11 +108,11 @@ define('_MA_PEDIGREE_SYNTH6', 'Field will be shown once for all animals n the ad
 define('_MA_PEDIGREE_BGCOLOR', 'Use the fields below to change the colours of the pedigree database. We advice choosing a very light colour for the "Pedigree background color"');
 define(
     '_MA_PEDIGREE_ANCEST_EXPLAN',
-    "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require_once your attention."
+    "For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by accidentily adding the wrong parents to an animal. If an animal is selected to be it's own parent or grandparent in infinite loop will be created when trying to view the pedigree. <br><br>The database has been searched and animals below the line require your attention."
 );
 define(
     '_MA_PEDIGREE_GENDER_EXPLAN',
-    'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require_once your attention.'
+    'For your pedigree database to work well it is important that the information contained within is correct.<br>It is possible create errors and achieve unexpected results by changing the gender of an animal. If you discover that a male in the database is really female or the other way around it is possible to create errors if accidentilly children have been connected to the wrong gender.<br><br>The database has been searched and animals below the line require your attention.'
 );
 define('_MA_PEDIGREE_QUERIE_EXPLAN', 'Shown below are your personal queries.<br>To request a user query, you can visit <a href ="https://xoops.org">XOOPS Support Forums</a>');
 define('_MA_PEDIGREE_LOOKUPFIELD', "Shown below are the user values for this lookupfield.<br>Click on the value to edit it.<br>Click on the 'X' to delete the value from the lookuptable.");
@@ -309,7 +308,7 @@ define('_MA_PEDIGREE_FROM', ' of ');
 
 //coi
 define('_MA_PEDIGREE_COI_WAIT', 'Click here to calculate the inbred percententage for this [animalType].<br>Due to the complexity of these calculations it can take a few minutes to load the page.');
-define('_MA_PEDIGREE_COI_MORE', 'At least both parents need to be known to do an inbreeding calculation.');
+define('_MA_PEDIGREE_COI_MORE', 'At a minimum both parents need to be known to do an inbreeding calculation.');
 define('_MA_PEDIGREE_COI_CKRI', 'Coefficients of Kinship, Relationship and Inbreeding');
 define(
     '_MA_PEDIGREE_COI_CKRI_CT',
@@ -395,7 +394,7 @@ define('_MA_PEDIGREE_ADD_NAMEPLZ', 'You need to enter a name for this dog.');
 define('_MA_PEDIGREE_ADD_SIREOK', 'The information has been stored.<br>Please select the [mother].');
 define('_MA_PEDIGREE_ADD_SIREUNKNOWN', 'Click here if the [father] is unknown.');
 define('_MA_PEDIGREE_ADD_DAMUNKNOWN', 'Click here if the [mother] is unknown.');
-define('_MA_PEDIGREE_ADD_KNOWN', 'The [animalTypes] shown above are already in the database. They do not need to be entered again.');
+define('_MA_PEDIGREE_ADD_KNOWN', 'The [animalTypes] shown above are allready in the database. They do not need to be entered again.');
 define('_MA_PEDIGREE_ADD_KNOWNOK', 'I mean a different [animalType] and would like to continue.');
 
 //add a onwer/breeder
@@ -466,7 +465,7 @@ define('_MA_PEDIGREE_MPED_M4', 'Male [animalType] present four times in 4 genera
 //pedigreebook results
 define('_MA_PEDIGREE_BOOK_INTRO', 'The data on this page is only for the following pedigreebook :  [flag]  [country]');
 
-// Alpha 4
+//v1.31 Alpha 4
 define('_MA_PEDIGREE_QUERY_EXPLAN', 'Please use the menu items on the left to run preset database queries or if you would like to create a new one, please visit <a href ="https://xoops.org">XOOPS Support Forums</a> and ask for help there ');
 
 define('_MA_PEDIGREE_BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse Pedigree Animals in alphabetical order</span><br>");
@@ -474,59 +473,21 @@ define('_MA_PEDIGREE_BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse Pe
 define('_MA_PEDIGREE_TITLE', 'Pedigree Database');
 define('_MA_PEDIGREE_DESC', 'This project documents ancestry of selected animals.<br>');
 
-define('_MA_PEDIGREE_ADD_OWNER_BREEDER', 'Pedigree database - Add owner/breeder');
+define('_MA_PEDIGREE_ADD_OWNER_BREEDER', 'Pedigree database - Add Owner/Breeder');
 
 define('_MA_PEDIGREE_SETTINGS_SAVED_OK', 'Your settings have been saved.');
 
-//Alpha 7
+//v1.31 Alpha 7
 define('_MA_PEDIGREE_RADIOBUTTONFIELD', 'Radiobutton');
 
-//Alpha 8
+//v1.31 Alpha 8
 define('_MA_PEDIGREE_BREEDER_PAGETITLE', "<span style='font-weight: bold;'>Browse Breeders/Owners in alphabetical order</span><br>");
 
-/**
- * @return array
- */
-function pedigreeGetAlphabet()
-{
-    $alphabet = [
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-        'X',
-        'Y',
-        'Z',
-    ];
-
-    return $alphabet;
-}
+//v1.32 Alpha 1
+define('_MA_PEDIGREE_OWNER_PAGETITLE', 'Pedigree database - View Owner/Breeder details');
+define('_MA_PEDIGREE_ADD_LITTER_PAGETITLE', 'Pedigree database - Add a Litter');
+define('_MA_PEDIGREE_VIRTUAL_PAGETITLE', 'Pedigree database - Virtual Mating');
+define('_MA_PEDIGREE_UPDATE', 'Pedigree database - Update details');
+define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');
+define('_MA_PEDIGREE_LTRCHARS', '0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z');
+define('_MA_PEDIGREE_ERR_INVALID', 'Invalid item specified.');

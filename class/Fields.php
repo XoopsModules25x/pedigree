@@ -3,39 +3,31 @@
 namespace XoopsModules\Pedigree;
 
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
-
-/**
- * Pedigree module for XOOPS
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * @copyright       {@link https://xoops.org/ The XOOPS Project}
- * @license         GPL 2.0 or later
- * @package         pedigree
- * @author          XOOPS Module Dev Team
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use XoopsFormButtonTray;
-use XoopsFormHidden;
-use XoopsFormRadio;
-use XoopsFormRadioYN;
-use XoopsFormSelect;
-use XoopsFormText;
-use XoopsModules\Pedigree;
-use XoopsObject;
-use XoopsThemeForm;
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
+ */
+use XoopsModules\Pedigree\{
+    Helper
+};
 
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\Fields
  */
-class Fields extends XoopsObject
+class Fields extends \XoopsObject
 {
     /**
      * Constructor
@@ -43,88 +35,93 @@ class Fields extends XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('id', \XOBJ_DTYPE_INT, null, false, 2);
-        $this->initVar('isactive', \XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('fieldname', \XOBJ_DTYPE_TXTBOX, null, false, 50);
-        $this->initVar('fieldtype', \XOBJ_DTYPE_ENUM, 'textbox', false);
-        $this->initVar('lookuptable', \XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('defaultvalue', \XOBJ_DTYPE_TXTBOX, null, false, 50);
-        $this->initVar('fieldexplanation', \XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('hassearch', \XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('litter', \XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('generallitter', \XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('searchname', \XOBJ_DTYPE_TXTBOX, null, false, 50);
-        $this->initVar('searchexplanation', \XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('viewinpedigree', \XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('viewinadvanced', \XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('viewinpie', \XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('viewinlist', \XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('locked', \XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('order', \XOBJ_DTYPE_INT, 0, false, 3);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 2);
+        $this->initVar('isactive', XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('fieldname', XOBJ_DTYPE_TXTBOX, null, false, 50);
+        $this->initVar('fieldtype', XOBJ_DTYPE_ENUM, 'textbox', false);
+        $this->initVar('lookuptable', XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('defaultvalue', XOBJ_DTYPE_TXTBOX, null, false, 50);
+        $this->initVar('fieldexplanation', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('hassearch', XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('litter', XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('generallitter', XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('searchname', XOBJ_DTYPE_TXTBOX, null, false, 50);
+        $this->initVar('searchexplanation', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('viewinpedigree', XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('viewinadvanced', XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('viewinpie', XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('viewinlist', XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('locked', XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('order', XOBJ_DTYPE_INT, 0, false, 3);
+    }
+
+    public function __toString()
+    {
+        return $this->getVar('fieldname');
     }
 
     /**
-     * @param bool $action
+     * @param null|bool $action
      *
-     * @return object {@see XoopsThemeForm}
      * @todo refactor to eliminate XoopsObjectTree since it's not structured to
      *       handle this type of object
      *
+     * @return object {@see \XoopsThemeForm}
      */
-    public function getForm($action = false)
+    public function getForm(?bool $action = false): \XoopsThemeForm
     {
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
-        $title = $this->isNew() ? \sprintf(\_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : \sprintf(\_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
+        /** @var Helper $helper */
+        $helper = Helper::getInstance();
+        $helper->loadLanguage('admin');
+
+        $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
-        $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
+        $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDNAME, 'fieldName', 50, 255, $this->getVar('fieldname')), true);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE, 'isActive', (int)$this->getVar('isactive')), false);
-        $fieldTypes = new XoopsFormSelect(\_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, 'fieldType', $this->getVar('fieldtype'), false);
-        $fieldTypes->addOptionArray(
-            [
-                'DateSelect'  => 'DateSelect',
-                'Picture'     => 'Picture',
-                'RadioButton' => 'RadioButton',
-                'SelectBox'   => 'SelectBox',
-                'TextArea'    => 'TextArea',
-                'TextBox'     => 'TextBox',
-                'UrlField'    => 'UrlField',
-            ]
-        );
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDNAME, 'fieldname', 50, 255, $this->getVar('fieldname')), true);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE, 'isactive', (int)$this->getVar('isactive')), false);
+        $fieldTypes = new \XoopsFormSelect(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, 'fieldtype', $this->getVar('fieldtype'), false);
+        $fieldTypes->addOptionArray([
+                                        'DateSelect' => 'DateSelect',
+                                        'Picture' => 'Picture',
+                                        'radiobutton' => 'radiobutton',
+                                        'selectbox' => 'selectbox',
+                                        'textarea' => 'textarea',
+                                        'textbox' => 'textbox',
+                                        'urlfield' => 'urlfield',
+                                    ]);
         $form->addElement($fieldTypes);
         //        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, "fieldtype", $this->getVar("fieldtype"), 4, 47), false);
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE, 'lookupTable', 50, 255, $this->getVar('lookuptable')), false);
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_DEFAULTVALUE, 'defaultValue', 50, 255, $this->getVar('defaultvalue')), false);
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDEXPLANATION, 'fieldExplanation', 50, 255, $this->getVar('fieldexplanation')), false);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_HASSEARCH, 'hasSearch', (int)$this->getVar('hassearch')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE, 'lookupTable', 50, 255, $this->getVar('lookuptable')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_DEFAULTVALUE, 'defaultValue', 50, 255, $this->getVar('defaultvalue')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDEXPLANATION, 'fieldExplanation', 50, 255, $this->getVar('fieldexplanation')), false);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_HASSEARCH, 'hasSearch', (int)$this->getVar('hassearch')), false);
         /* @todo: should be single select for either General Litter or Litter, can't have both */
         $currentType = $this->getVar('litter') ? 'litter' : 'generallitter';
-        $litterRadio = new XoopsFormRadio(\_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER_TYPE, 'litterType', $currentType);
-        $litterRadio->addOptionArray(
-            [
-                'litter'        => \_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
-                'generallitter' => \_AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER,
-            ]
-        );
+        $litterRadio = new \XoopsFormRadio(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER_TYPE, 'littertype', $currentType);
+        $litterRadio->addOptionArray([
+                                         'litter' => _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
+                                         'generallitter' => _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER,
+                                     ]);
         $form->addElement($litterRadio, false);
-        //        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER, "Litter", $this->getVar("Litter")), false);
-        //        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER, "Generallitter", $this->getVar("Generallitter")), false);
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHNAME, 'searchName', 50, 255, $this->getVar('searchname')), false);
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHEXPLANATION, 'searchExplanation', 50, 255, $this->getVar('searchexplanation')), false);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPEDIGREE, 'viewInPedigree', (int)$this->getVar('viewinpedigree')), false);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINADVANCED, 'viewInAdvanced', (int)$this->getVar('viewinadvanced')), false);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPIE, 'viewInPie', (int)$this->getVar('viewinpie')), false);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINLIST, 'viewInList', (int)$this->getVar('viewinlist')), false);
-        $form->addElement(new XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, 'locked', (int)$this->getVar('locked')), false);
-        $form->addElement(new XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_ORDER, 'order', 3, 8, (int)$this->getVar('order')), false);
-        //            require(XOOPS_ROOT_PATH."/class/tree.php");
+        //        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER, "litter", $this->getVar("litter")), false);
+        //        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER, "generallitter", $this->getVar("generallitter")), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHNAME, 'searchname', 50, 255, $this->getVar('searchname')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_SEARCHEXPLANATION, 'searchexplanation', 50, 255, $this->getVar('searchexplanation')), false);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPEDIGREE, 'viewinpedigree', (int)$this->getVar('viewinpedigree')), false);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINADVANCED, 'viewinadvanced', (int)$this->getVar('viewinadvanced')), false);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINPIE, 'viewinpie', (int)$this->getVar('viewinpie')), false);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINLIST, 'viewinlist', (int)$this->getVar('viewinlist')), false);
+        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, 'locked', (int)$this->getVar('locked')), false);
+        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_ORDER, 'order', 3, 8, (int)$this->getVar('order')), false);
+        //            include_once(XOOPS_ROOT_PATH."/class/tree.php");
         //            $Handler = xoops_getModuleHandler("animal_", $GLOBALS['xoopsDB']->getVar("dirname"));
         //            $criteria = new \CriteriaCompo();
         //            $criteria->setSort('_id');
@@ -133,7 +130,7 @@ class Fields extends XoopsObject
         //            $mytree = new \XoopsObjectTree($_arr, "_id", "_pid");
         //            $form->addElement(new \XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
         //
-        //            require(XOOPS_ROOT_PATH."/class/tree.php");
+        //            include_once(XOOPS_ROOT_PATH."/class/tree.php");
         //            $Handler = xoops_getModuleHandler("animal_", $GLOBALS['xoopsModule']->getVar("dirname"));
         //            $criteria = new \CriteriaCompo();
         //            $criteria->setSort('_id');
@@ -153,21 +150,21 @@ class Fields extends XoopsObject
                 $mytree = new \XoopsObjectTree($_arr, "ID", "_pid");
                 $form->addElement(new \XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title", "--", $this->getVar("_pid"), false)));
         */
-        $form->addElement(new XoopsFormHidden('op', 'save_pedigree_fields'));
+        $form->addElement(new \XoopsFormHidden('op', 'save_pedigree_config'));
 
         //Submit buttons
-        $form->addElement(new XoopsFormButtonTray('fieldButtons', _SUBMIT, 'submit'));
+        $form->addElement(new \XoopsFormButtonTray('fieldButtons', _SUBMIT, 'submit'));
 
         /*
-                $buttonTray   = new \XoopsFormElementTray("", "");
+                $button_tray   = new \XoopsFormElementTray("", "");
                 $submit_button = new \XoopsFormButton("", "submit", _SUBMIT, "submit");
-                $buttonTray->addElement($submit_button);
+                $button_tray->addElement($submit_button);
 
                 $cancel_button = new \XoopsFormButton("", "", _CANCEL, "cancel");
                 $cancel_button->setExtra('onclick="history.go(-1)"');
-                $buttonTray->addElement($cancel_button);
+                $button_tray->addElement($cancel_button);
 
-                $form->addElement($buttonTray);
+                $form->addElement($button_tray);
         */
 
         return $form;
@@ -176,108 +173,108 @@ class Fields extends XoopsObject
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
-        return (1 == $this->getVar('isactive')); // ? true : false;
+        return (1 == $this->getVar('isactive'));
     }
 
     /**
      * @return bool
      */
-    public function inAdvanced()
+    public function inAdvanced(): bool
     {
-        return (1 == $this->getVar('viewInAdvanced')); // ? true : false;
+        return (1 == $this->getVar('viewinadvanced'));
     }
 
     /**
      * @return bool
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
-        return (1 == $this->getVar('locked')); // ? true : false;
+        return (1 == $this->getVar('locked'));
     }
 
     /**
      * @return bool
      */
-    public function hasSearch()
+    public function hasSearch(): bool
     {
-        return (1 == $this->getVar('hasSearch')); // ? true : false;
+        return (1 == $this->getVar('hassearch'));
     }
 
     /**
      * @return bool
      */
-    public function addLitter()
+    public function addLitter(): bool
     {
-        return (1 == $this->getVar('litter')); // ? true : false;
+        return (1 == $this->getVar('litter'));
     }
 
     /**
      * @return bool
      */
-    public function generalLitter()
+    public function generalLitter(): bool
     {
-        return (1 == $this->getVar('generalLitter')); // ? true : false;
+        return (1 == $this->getVar('generallitter'));
     }
 
     /**
      * @return bool
      */
-    public function hasLookup()
+    public function hasLookup(): bool
     {
-        return (1 == $this->getVar('lookupTable')); // ? true : false;
+        return (1 == $this->getVar('lookuptable'));
     }
 
     /**
      * @return string
      */
-    public function getSearchString()
+    public function getSearchString(): string
     {
-        return '&amp;o=pname&amp;p';
+        return '&amp;o=naam&amp;p';
     }
 
     /**
      * @return bool
      */
-    public function inPie()
+    public function inPie(): bool
     {
-        return (1 == $this->getVar('viewInPie')); // ? true : false;
+        return (1 == $this->getVar('viewinpie'));
     }
 
     /**
      * @return bool
      */
-    public function inPedigree()
+    public function inPedigree(): bool
     {
-        return (1 == $this->getVar('viewInPedigree')); // ? true : false;
+        return (1 == $this->getVar('viewinpedigree'));
     }
 
     /**
      * @return bool
      */
-    public function inList()
+    public function inList(): bool
     {
-        return (1 == $this->getVar('viewInList')); // ? true : false;
+        return (1 == $this->getVar('viewinlist'));
     }
 
     /**
-     * @return int|mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         $id = $this->getVar('id');
 
-        return !empty($id) ? $id : 0;
+        return !empty($id) ? (int) $id : 0;
     }
 
     /**
+     * @deprecated
      * @param $setting
      *
      * @return mixed
-     * @deprecated
      */
-    public function getSetting($setting)
+    public function getSetting(string $setting)
     {
         return isset($this->$setting) ? $this->setting : null;
     }

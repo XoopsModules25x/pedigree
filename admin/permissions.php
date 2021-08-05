@@ -10,37 +10,40 @@
 */
 
 /**
- * Pedigree module for xoops
+ * Module: Pedigree
  *
- * @copyright       {@link https://xoops.org/ XOOPS Project}
- * @license         GPL 2.0 or later
- * @package         pedigree
- * @since
+ * @package         XoopsModules\Pedigree
+ * @copyright       2011-2019 XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author          XOOPS Module Dev Team (https://xoops.org)
+ * @todo Refactor this code - it currently doesn't work as intended
  */
 
-use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 require_once __DIR__ . '/admin_header.php';
+
+/** @var XoopsModules\Pedigree\Helper $helper */
+
 //xoops_cp_header();
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //require_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
 
 if (!empty($_POST['submit'])) {
-    redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/permissions.php', 1, _MP_GPERMUPDATED);
+    $helper->redirect('admin/permissions.php', Constants::REDIRECT_DELAY_SHORT, _MP_GPERMUPDATED);
 }
 
-$permissions_admin = Admin::getInstance();
-echo $permissions_admin->displayNavigation(basename(__FILE__));
+/** @var \Xmf\Module\Admin $adminObject */
+echo $adminObject->displayNavigation(basename(__FILE__));
 
-$permission                = Request::getInt('permission', 1, 'POST');
-$selected                  = ['', '', ''];
+$permission = Request::getInt('permission', 1, 'POST');
+$selected = ['', '', ''];
 $selected[$permission - 1] = ' selected';
 
 echo '
-<form method="post" name="fselperm" action="permissions.php">
+<form method="post" name="fselperm" action="' . $helper->url('admin/permissions.php') . '">
     <table border=0>
         <tr>
             <td>
@@ -54,22 +57,23 @@ echo '
     </table>
 </form>';
 
-$module_id = $xoopsModule->getVar('mid');
+//$module_id = $xoopsModule->getVar('mid');
+$module_id = $helper->getModule()->getVar('mid');
 
 switch ($permission) {
     case 1:
         $formTitle = _AM_PEDIGREE_PERMISSIONS_ACCESS;
-        $permName  = 'xdirectory_access';
+        $permName  = 'pedigree_access';
         $permDesc  = '';
         break;
     case 2:
         $formTitle = _AM_PEDIGREE_PERMISSIONS_SUBMIT;
-        $permName  = 'xdirectory_submit';
+        $permName  = 'pedigree_submit';
         $permDesc  = '';
         break;
     case 3:
         $formTitle = _AM_PEDIGREE_PERMISSIONS_VIEW;
-        $permName  = 'xdirectory_view';
+        $permName  = 'pedigree_view';
         $permDesc  = '';
         break;
 }

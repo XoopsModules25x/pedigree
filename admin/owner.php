@@ -1,168 +1,132 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * Pedigree module for XOOPS
- *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         GPL 2.0 or later
- * @package         pedigree
- * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( https://xoops.org )
+ * @package         XoopsModules\Pedigree
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
  */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-//$adminObject = \Xmf\Module\Admin::getInstance();
 
-$ownerHandler = Pedigree\Helper::getInstance()->getHandler('Owner');
+/**
+ * @var Xmf\Module\Admin $adminObject
+ * @var XoopsModules\Pedigree\Helper $helper
+ * @var XoopsModules\Pedigree\OwnerHandler $ownerHandler
+ */
+$ownerHandler = $helper->getHandler('Owner');
 
-//It recovered the value of argument op in URL$
-$op    = Request::getString('op', 'list');
-$order = Request::getString('order', 'desc');
-$sort  = Request::getString('sort', '');
+$op = Request::getCmd('op', 'list');
 switch ($op) {
     case 'list':
     default:
         $adminObject->displayNavigation(basename(__FILE__));
         $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
-
-        $start                = Request::getInt('start', 0);
-        $ownerPaginationLimit = $helper->getConfig('userpager');
-
         $adminObject->displayButton('left');
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
-        $criteria->setOrder('ASC');
-        $criteria->setLimit($ownerPaginationLimit);
-        $criteria->setStart($start);
-        $numrows   = $ownerHandler->getCount();
-        $owner_arr = $ownerHandler->getAll($criteria);
-
-        $ownerTempRows  = $ownerHandler->getCount();
-        $ownerTempArray = $ownerHandler->getAll($criteria);
-
-        // Display Page Navigation
-        if ($ownerTempRows > $ownerPaginationLimit) {
-            xoops_load('XoopsPageNav');
-
-            $pagenav = new \XoopsPageNav($ownerTempRows, $ownerPaginationLimit, $start, 'start', 'op=list' . '&sort=' . $sort . '&order=' . $order . '');
-            $GLOBALS['xoopsTpl']->assign('pagenav', null === $pagenav ? $pagenav->renderNav() : '');
-        }
-
-        $GLOBALS['xoopsTpl']->assign('ownerRows', $ownerTempRows);
-        $ownerArray = [];
-
-        //    $fields = explode('|', id:int:11::NOT NULL::primary:ID|firstname:varchar:30::NOT NULL:::First Name|lastname:varchar:30::NOT NULL:::Last Name|postcode:varchar:7::NOT NULL:::Postcode|city:varchar:50::NOT NULL:::City|streetname:varchar:40::NOT NULL:::Street name|housenumber:varchar:6::NOT NULL:::House #|phonenumber:varchar:14::NOT NULL:::Phone|emailadres:varchar:40::NOT NULL:::Email|website:varchar:60::NOT NULL:::Website URL|user:varchar:20::NOT NULL:::User);
-        //    $fieldsCount    = count($fields);
-
-        $criteria = new \CriteriaCompo();
-
-        //$criteria->setOrder('DESC');
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setLimit($ownerPaginationLimit);
-        $criteria->setStart($start);
-
-        $ownerCount     = $ownerHandler->getCount($criteria);
-        $ownerTempArray = $ownerHandler->getAll($criteria);
+        $criteria->order = 'ASC';
+        $ownerCount = $ownerHandler->getCount();
+        $ownerObjArray = $ownerHandler->getAll($criteria);
 
         //Table view
-        if ($numrows > 0) {
-            echo "<table width='100%' cellspacing='1' class='outer'>
-                <tr>
-                    <th align=\"left\">" . _AM_PEDIGREE_OWNER_FIRSTNAME . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_LASTNAME . '</th>
-                        <th class="center">' . _AM_PEDIGREE_OWNER_POSTCODE . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_CITY . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_STREETNAME . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_HOUSENUMBER . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_PHONENUMBER . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_EMAILADRES . '</th>
-                        <th class="left">' . _AM_PEDIGREE_OWNER_WEBSITE . '</th>
-                        <th class="center">' . _AM_PEDIGREE_OWNER_USER . "</th>
-
-                    <th align='center' width='10%'>" . _AM_PEDIGREE_FORMACTION . '</th>
-                </tr>';
+        if ($ownerCount > 0) {
+            echo "<table class=\"outer width100\" cellspacing=\"1\">\n"
+               . "<tr>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_FIRSTNAME . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_LASTNAME . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_POSTCODE . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_CITY . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_STREETNAME . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_HOUSENUMBER . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_PHONENUMBER . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_EMAILADRES . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_WEBSITE . "</th>\n"
+               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_USER . "</th>\n"
+               . "     <th class=\"center width10\">" . _AM_PEDIGREE_FORMACTION . "</th>\n"
+               . "</tr>\n";
 
             $class = 'odd';
 
-            //mb            foreach (array_keys($owner_arr) as $i) {
-            //            if (0 == $owner_arr[$i]->getVar('owner_pid')) {
-
-            if ($ownerCount > 0) {
-                foreach (array_keys($ownerTempArray) as $i) {
-                    if (0 == $ownerTempArray[$i]->getVar('owner_pid')) {
-                        echo "<tr class='" . $class . "'>";
-                        $class = ('even' === $class) ? 'odd' : 'even';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('firstname') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('lastname') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('postcode') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('city') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('streetname') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('housenumber') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('phonenumber') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('emailadres') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('website') . '</td>';
-                        echo '<td class="left">' . $ownerTempArray[$i]->getVar('user') . '</td>';
-
-                        echo "<td class='center' width='10%'>
-                        <a href='owner.php?op=edit_owner&id=" . $ownerTempArray[$i]->getVar('id') . "'><img src=" . $pathIcon16 . "/edit.png alt='" . _EDIT . "' title='" . _EDIT . "'></a>
-                        <a href='owner.php?op=delete_owner&id=" . $ownerTempArray[$i]->getVar('id') . "'><img src=" . $pathIcon16 . "/delete.png alt='" . _DELETE . "' title='" . _DELETE . "'></a>
-                        </td>";
-                        echo '</tr>';
-                    }
-                }
-                echo '</table><br><br>';
+            foreach ($ownerObjArray as $ownerObj) {
+                //@todo figure out what the following statement is "suppose" to do, owner_pid isn't defined
+                //if (0 == $ownerObj->getVar('owner_pid')) {
+                    $ownerVals = $ownerObj->getValues();
+                    echo "<tr class=\"{$class}\">\n"
+                       . "    <td class=\"center\">" . $ownerObj['firstname'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['lastname'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['postcode'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['city'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['streetname'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['housenumber'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['phonenumber'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['emailadres'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['website'] . "</td>\n"
+                       . "    <td class=\"center\">" . $ownerObj['user'] . "</td>\n"
+                       . "    <td class=\"center width10\">\n"
+                       . "        <a href=\"" . $helper->url("admin/owner.php?op=edit_owner&id=" . $ownerObj['id']) . "\">{$icons['edit']}</a>\n"
+                       . "        <a href=\"" . $helper->url("admin/owner.php?op=delete_owner&id=" . $ownerObj['id']) . "\">{$icons['delete']}</a>\n"
+                       . "    </td>\n"
+                       . "</tr>\n";
+                    $class = ('even' === $class) ? 'odd' : 'even';
+                //}
             }
+            echo "</table><br><br>";
         }
-
-        //    $GLOBALS['xoopsTpl']->append_by_ref('ownerArrays', $ownerArray);
-        //    unset($ownerArray);
-        //}
-        unset($ownerTempArray);
-        // Display Navigation
-        if ($ownerCount > $ownerPaginationLimit) {
-            xoops_load('XoopsPageNav');
-            $pagenav = new \XoopsPageNav($ownerCount, $ownerPaginationLimit, $start, 'start', 'op=list' . '&sort=' . $sort . '&order=' . $order . '');
-            $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
-        }
-
-        echo $GLOBALS['xoopsTpl']->fetch(XOOPS_ROOT_PATH . '/modules/' . $GLOBALS['xoopsModule']->getVar('dirname') . '/templates/admin/pedigree_admin_owner.tpl');
-
         break;
+
+    case 'edit_owner':
     case 'new_owner':
+        $id = Request::getInt('id', null, 'GET');
         $adminObject->displayNavigation(basename(__FILE__));
+        if (0 !== (int)$id) {
+            $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
+        }
         $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $obj = $ownerHandler->create();
-        /** @var \XoopsThemeForm $form */
+        // if $id is invalid then it will create $obj, else will edit existing $obj
+        $obj  = $ownerHandler->get($id);
         $form = $obj->getForm();
         $form->display();
         break;
+
     case 'save_owner':
         if (!$GLOBALS['xoopsSecurity']->check()) {
-            redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            $helper->redirect('admin/owner.php', Constants::REDIRECT_DELAY_MEDIUM, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (\Xmf\Request::hasVar('id', 'REQUEST')) {
-            $obj = $ownerHandler->get($_REQUEST['id']);
-        } else {
-            $obj = $ownerHandler->create();
-        }
+        $id = Request::getInt('id', null, 'POST');
+        // get object if it exists, create it if not
+        $obj = $ownerHandler->get($id);
 
+        //@todo shouldn't firstname and/or lastname be required?
+        $obj->setVars(['firstname' => Request::getWord('firstname', '', 'POST'),         //Form firstname
+                       'lastname' => Request::getWord('lastname', '', 'POST'),           //Form lastname
+                       'postcode' => Request::getString('postcode', null, 'POST'),       //Form postcode
+                       'city' => Request::getString('city', '', 'POST'),                 //Form city
+                       'streetname' => Request::getString('streetname', '', 'POST'),     //Form streetname
+                       'housenumber' => Request::getString('housenumber', null, 'POST'), //Form housenumber
+                       'phonenumber' => Request::getString('phonenumber', null, 'POST'), //Form phonenumber
+                       'emailadres' => Request::getEmail('emailadres', '', 'POST'),       //Form emailadres
+                       'website' => Request::getUrl('website', '', 'POST'),               //Form website
+                       'user' => Request::getString('user', '', 'POST')                   //Form user
+        ]);
+        /*
         //Form firstname
         $obj->setVar('firstname', $_REQUEST['firstname']);
         //Form lastname
@@ -183,38 +147,31 @@ switch ($op) {
         $obj->setVar('website', $_REQUEST['website']);
         //Form user
         $obj->setVar('user', $_REQUEST['user']);
-
+        */
         if ($ownerHandler->insert($obj)) {
-            redirect_header('owner.php?op=list', 2, _AM_PEDIGREE_FORMOK);
+            $helper->redirect('admin/owner.php?op=list', 2, _AM_PEDIGREE_FORMOK);
         }
 
         echo $obj->getHtmlErrors();
-        /** @var \XoopsThemeForm $form */
         $form = $obj->getForm();
         $form->display();
         break;
-    case 'edit_owner':
-        $adminObject->displayNavigation(basename(__FILE__));
-        $adminObject->addItemButton(_AM_PEDIGREE_NEWOWNER, 'owner.php?op=new_owner', 'add');
-        $adminObject->addItemButton(_AM_PEDIGREE_OWNERLIST, 'owner.php?op=list', 'list');
-        $adminObject->displayButton('left');
-        $obj  = $ownerHandler->get($_REQUEST['id']);
-        $form = $obj->getForm();
-        $form->display();
-        break;
+
     case 'delete_owner':
-        $obj = $ownerHandler->get($_REQUEST['id']);
-        if (\Xmf\Request::hasVar('ok', 'REQUEST') && 1 == $_REQUEST['ok']) {
+        $id = Request::getInt('id');
+        $ok = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
+        $obj = $ownerHandler->get($id);
+        if (Constants::CONFIRM_OK === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('owner.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+                $helper->redirect('admin/owner.php', Constants::REDIRECT_DELAY_MEDIUM, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($ownerHandler->delete($obj)) {
-                redirect_header('owner.php', 3, _AM_PEDIGREE_FORMDELOK);
+                $helper->redirect('admin/owner.php', Constants::REDIRECT_DELAY_MEDIUM, _AM_PEDIGREE_FORMDELOK);
             } else {
                 echo $obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete_owner'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('owner')));
+            xoops_confirm(['ok' => Constants::CONFIRM_OK, 'id' => $id, 'op' => 'delete_owner'], $_SERVER['REQUEST_URI'], sprintf(_AM_PEDIGREE_FORMSUREDEL, $obj->getVar('owner')));
         }
         break;
 }

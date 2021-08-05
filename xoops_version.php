@@ -1,96 +1,87 @@
 <?php
-// -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
-//    Template
-//        Copyright 2004 Thomas Hill
-//        <a href="http://www.worldware.com">worldware.com</a>
-// -------------------------------------------------------------------------
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/* ------------------------------------------------------------------------
+      pedigree
+          Copyright 2004, James Cotton
+           http://www.dobermannvereniging.nl
+      Template
+          Copyright 2004 Thomas Hill
+          <a href="http://www.worldware.com">worldware.com</a>
+   ------------------------------------------------------------------------
+   ------------------------------------------------------------------------
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   You may not change or alter any portion of this comment or credits
+   of supporting developers from this source code or any supporting
+   source code which is considered copyrighted (c) material of the
+   original comment or credit authors.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+   ------------------------------------------------------------------------
+*/
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       Copyright 2004, James Cotton <https://www.dobermannvereniging.nl>
+ * @copyright       Copyright 2004, Thomas Hill <https://www.worldware.com>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
+ */
+
+use XoopsModules\Pedigree\{
+    Constants
+};
+
+include __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-require_once __DIR__ . '/preloads/autoloader.php';
+xoops_loadLanguage('common', $moduleDirName);
 
-$modversion = [
-    'version'             => 1.32,
-    'module_status'       => 'Alpha 1',
-    'release_date'        => '2019/10/05',
-    'name'                => _MI_PEDIGREE_NAME,
-    'description'         => _MI_PEDIGREE_DESC,
-    'release'             => '2017-04-01',
-    'author'              => 'James Cotton, Zyspec, Mamba',
-    'author_mail'         => 'name@site.com',
-    'author_website_url'  => 'https://xoops.org',
-    'author_website_name' => 'XOOPS Project',
-    'credits'             => 'http://tech.groups.yahoo.com/group/animalpedigree/, XOOPS Development Team',
-    //    'license' => 'GPL 2.0 or later',
-    'help'                => 'page=help',
-    'license'             => 'GPL 2.0 or later',
-    'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html',
-    'release_info'        => 'release_info',
-    'release_file'        => XOOPS_URL . "/modules/{$moduleDirName}/docs/release_info file",
-    'manual'              => 'Installation.txt',
-    'manual_file'         => XOOPS_URL . "/modules/{$moduleDirName}/docs/link to manual file",
-    'min_php'             => '7.3',
-    'min_xoops'           => '2.5.10',
-    'min_admin'           => '1.2',
-    'min_db'              => ['mysql' => '5.5'],
-    'image'               => 'assets/images/logoModule.png',
-    'dirname'             => $moduleDirName,
-    'modicons16'          => 'assets/images/icons/16',
-    'modicons32'          => 'assets/images/icons/32',
-    //About
-    'demo_site_url'       => 'https://xoops.org',
-    'demo_site_name'      => 'XOOPS Demo Site',
-    'support_url'         => 'https://xoops.org/modules/newbb',
-    'support_name'        => 'Support Forum',
-    'module_website_url'  => 'www.xoops.org',
-    'module_website_name' => 'XOOPS Project',
-    // Admin system menu
-    'system_menu'         => 1,
-    // Admin things
-    'hasAdmin'            => 1,
-    'adminindex'          => 'admin/index.php',
-    'adminmenu'           => 'admin/menu.php',
-    // Menu
-    'hasMain'             => 1,
-    // Scripts to run upon installation or update
-    //    'onInstall' => 'include/oninstall.php',
-    //    'onUpdate' => 'include/onupdate.php',
-    'onInstall'           => 'include/install_function.php',
-    'onUpdate'            => 'include/update_function.php',
-    'onUninstall'         => 'include/onuninstall.php',
-    // ------------------- Mysql -----------------------------
-    'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
-    // ------------------- Tables ----------------------------
-];
+$modversion['version']       = 1.32;
+$modversion['release_date']  = '2021/08/01';
+$modversion['module_status'] = 'Alpha 2';
 
-//$modversion['help']        = 'page=pedigree_admin';
+$modversion['min_php']       = '7.3';
+$modversion['min_xoops']     = '2.5.10';
+$modversion['min_admin']     = '1.2';
+$modversion['min_db']        = ['mysql' => '5.5'];
+
+$modversion['name']          = _MI_PEDIGREE_NAME;
+$modversion['description']   = _MI_PEDIGREE_DESC;
+$modversion['credits']       = 'http://tech.groups.yahoo.com/group/animalpedigree/';
+$modversion['author']        = 'James Cotton, ZySpec, Mamba, Geekwright';
+//$modversion['help']          = 'page=pedigree_admin';
+$modversion['help']          = 'page=help';
+$modversion['license']       = 'GNU GPL 2.0 or later';
+$modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html';
+$modversion['official']      = 0; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
+$modversion['image']         = 'assets/images/logoModule.png';
+$modversion['dirname']       = basename(__DIR__);
+$modversion['modicons16']    = 'assets/images/icons/16';
+$modversion['modicons32']    = 'assets/images/icons/32';
+$modversion['onInstall']     = 'include/oninstall.php';
+$modversion['onUpdate']      = 'include/onupdate.php';
+$modversion['onUninstall']   = 'include/onuninstall.php';
+$modversion['module_website_url']  = 'www.xoops.org';
+$modversion['module_website_name'] = 'XOOPS';
+
+// SQL file - All tables should not have any prefix!
+$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 
 // Tables created by sql file (without prefix!)
 $modversion['tables'] = [
-    'pedigree_registry',
+    'pedigree_tree',
     'pedigree_fields',
     'pedigree_temp',
     'pedigree_trash',
@@ -103,6 +94,14 @@ $modversion['system_menu'] = 1;
 $modversion['adminindex']  = 'admin/index.php';
 $modversion['adminmenu']   = 'admin/menu.php';
 //admin settings
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = [
+    ['name' => _MI_PEDIGREE_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_PEDIGREE_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_PEDIGREE_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_PEDIGREE_SUPPORT, 'link' => 'page=support'],
+];
 
 $modversion['config'][] = [
     'name'        => 'proversion',
@@ -179,8 +178,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'children',
-    'title'       => '_MI_PEDIGREE_CHILDREN', //'language option children',
-    'description' => '_MI_PEDIGREE_CHILDREN_DESC', //'language option children',
+    'title'       => '_MI_PEDIGREE_CHILDREN',
+    'description' => '_MI_PEDIGREE_CHILDREN_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'textarea',
     'default'     => 'children',
@@ -189,7 +188,7 @@ $modversion['config'][] = [
 $modversion['config'][] = [
     'name'        => 'welcome',
     'title'       => '_MI_PEDIGREE_WELCOME',
-    'description' => '_MI_PEDIGREE_WELCOME_DESC', //'language option children',
+    'description' => '_MI_PEDIGREE_WELCOME_DESC',
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
     'default'     => ' Welcome to the online pedigree database.
@@ -206,94 +205,84 @@ Because so many pedigrees have been merged into one big one lots of interesting 
 To keep a little controle over the [animalTypes] entered into the database only registered members of the website are allowed to enter information into the database. Registration is free and will give you full access to all the elements of this website.',
 ];
 
+// Text to show for mother
 $modversion['config'][] = [
-    'name'        => 'mother',
-    'title'       => '_MI_PEDIGREE_MOTHER',
-    'description' => '_MI_PEDIGREE_MOTHER_DESC', //'language option mother',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'textarea',
-    'default'     => 'mother',
+    'name' => 'mother',
+    'title' => '_MI_PEDIGREE_MOTHER',
+    'description' => '_MI_PEDIGREE_MOTHER_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'textarea',
+    'default' => 'mother',
 ];
 
+// Text to show for father
 $modversion['config'][] = [
-    'name'        => 'father',
-    'title'       => '_MI_PEDIGREE_FATHER',
-    'description' => '_MI_PEDIGREE_FATHER_DESC', //'language option father',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'textarea',
-    'default'     => 'father',
+    'name' => 'father',
+    'title' => '_MI_PEDIGREE_FATHER',
+    'description' => '_MI_PEDIGREE_FATHER_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'textarea',
+    'default' => 'father',
 ];
 
+// Text to show for female
 $modversion['config'][] = [
-    'name'        => 'female',
-    'title'       => '_MI_PEDIGREE_FEMALE',
-    'description' => '_MI_PEDIGREE_FEMALE_DESC', //'language option female',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'textarea',
-    'default'     => 'female',
+    'name' => 'female',
+    'title' => '_MI_PEDIGREE_FEMALE',
+    'description' => '_MI_PEDIGREE_FEMALE_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'textarea',
+    'default' => 'female',
 ];
 
+// Text to show for male
 $modversion['config'][] = [
-    'name'        => 'male',
-    'title'       => '_MI_PEDIGREE_MALE',
-    'description' => '_MI_PEDIGREE_MALE_DESC', //'language option male',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'textarea',
-    'default'     => 'male',
+    'name' => 'male',
+    'title' => '_MI_PEDIGREE_MALE',
+    'description' => '_MI_PEDIGREE_MALE_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'textarea',
+    'default' => 'male',
 ];
 
+// Text to show for litter
 $modversion['config'][] = [
     'name'        => 'litter',
     'title'       => '_MI_PEDIGREE_LITTER',
-    'description' => '_MI_PEDIGREE_LITTER_DESC', //'language option litter',
+    'description' => '_MI_PEDIGREE_LITTER_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'textbox',
     'default'     => 'litter',
 ];
 
+// Should 'litter' feature be enabled
 $modversion['config'][] = [
     'name'        => 'uselitter',
     'title'       => '_MI_PEDIGREE_USELITTER',
-    'description' => '_MI_PEDIGREE_USELITTER_DESC', //'should the litter feature be used ?',
+    'description' => '_MI_PEDIGREE_USELITTER_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
 ];
 
+// Colour scheme used
 $modversion['config'][] = [
     'name'        => 'colourscheme',
     'title'       => '_MI_PEDIGREE_COLOR',
-    'description' => '_MI_PEDIGREE_COLOR_DESC', //'The colour scheme to be used',
+    'description' => '_MI_PEDIGREE_COLOR_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'textbox',
-    'default'     => '#663300,#999966,#B2B27F,#333333,#020000,#80804D,#999999,#663300',
+    'default'     => '#663300;#999966;#B2B27F;#333333;#020000;#80804D;#999999;#663300',
 ];
 
+// Should Welcome be shown?
 $modversion['config'][] = [
     'name'        => 'showwelcome',
     'title'       => '_MI_PEDIGREE_SHOWELCOME',
-    'description' => '_MI_PEDIGREE_SHOWELCOME_DESC', //'Show the welcome screen',
+    'description' => '_MI_PEDIGREE_SHOWELCOME_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
-];
-
-$modversion['config'][] = [
-    'name'        => 'adminpager',
-    'title'       => 'MI_PEDIGREE_ADMINPAGER',
-    'description' => 'MI_PEDIGREE_ADMINPAGER_DESC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'int',
-    'default'     => 10,
-];
-
-$modversion['config'][] = [
-    'name'        => 'userpager',
-    'title'       => 'MI_PEDIGREE_USERPAGER',
-    'description' => 'MI_PEDIGREE_USERPAGER_DESC',
-    'formtype'    => 'textbox',
-    'valuetype'   => 'int',
-    'default'     => 10,
 ];
 
 // Files configs
@@ -306,6 +295,7 @@ $modversion['config'][] = [
     'default'     => 'odd',
 ];
 
+// Path for uploads
 $modversion['config'][] = [
     'name'        => 'uploaddir',
     'title'       => '_MI_PEDIGREE_UPLOADDIR',
@@ -315,6 +305,7 @@ $modversion['config'][] = [
     'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'],
 ];
 
+// Max file size in bytes
 $modversion['config'][] = [
     'name'        => 'maxfilesize',
     'title'       => '_MI_PEDIGREE_MAXFILESIZE',
@@ -324,6 +315,7 @@ $modversion['config'][] = [
     'default'     => 2097152,
 ]; // 2MB
 
+// Max image width in px
 $modversion['config'][] = [
     'name'        => 'maximgwidth',
     'title'       => '_MI_PEDIGREE_IMGWIDTH',
@@ -333,6 +325,7 @@ $modversion['config'][] = [
     'default'     => 1500,
 ];
 
+// Max image height in px
 $modversion['config'][] = [
     'name'        => 'maximgheight',
     'title'       => '_MI_PEDIGREE_IMGHEIGHT',
@@ -342,13 +335,21 @@ $modversion['config'][] = [
     'default'     => 1000,
 ];
 
-/**
- * Make Sample button visible?
- */
+// Make Sample button visible?
 $modversion['config'][] = [
     'name'        => 'displaySampleButton',
-    'title'       => '_MI_XOOPSTUBE_SHOW_SAMPLE_BUTTON',
-    'description' => '_MI_XOOPSTUBE_SHOW_SAMPLE_BUTTON_DESC',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+// Show Developer Tools?
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
@@ -356,36 +357,39 @@ $modversion['config'][] = [
 
 // Menu contents
 $modversion['hasMain'] = 1;
-$i                     = 0;
-$modversion['sub'][]   = [
+$i = 0;
+$modversion['sub'][] = [
     'name' => _MI_PEDIGREE_VIEW_SEARCH,
-    'url'  => 'index.php',
+    'url' => 'index.php',
 ];
-$modversion['sub'][]   = [
-    'name' => _MI_PEDIGREE_ADD_ANIMAL,
-    'url'  => 'add_dog.php',
-];
-$modversion['sub'][]   = [
-    'name' => _MI_PEDIGREE_ADD_LITTER,
-    'url'  => 'add_litter.php',
-];
-$modversion['sub'][]   = [
+// only show options if user is registered
+if ((!empty($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isGuest()) {
+    $modversion['sub'][] = [
+        'name' => _MI_PEDIGREE_ADD_ANIMAL,
+        'url'  => 'add_dog.php',
+    ];
+    $modversion['sub'][] = [
+        'name' => _MI_PEDIGREE_ADD_LITTER,
+        'url'  => 'add_litter.php',
+    ];
+    $modversion['sub'][] = [
+        'name' => _MI_PEDIGREE_ADD_OWNER,
+        'url'  => 'add_breeder.php',
+    ];
+}
+$modversion['sub'][] = [
     'name' => _MI_PEDIGREE_VIEW_OWNERS,
     'url'  => 'breeder.php',
 ];
-$modversion['sub'][]   = [
-    'name' => _MI_PEDIGREE_ADD_OWNER,
-    'url'  => 'add_breeder.php',
-];
-$modversion['sub'][]   = [
+$modversion['sub'][] = [
     'name' => _MI_PEDIGREE_ADVANCED_INFO,
     'url'  => 'advanced.php',
 ];
-$modversion['sub'][]   = [
+$modversion['sub'][] = [
     'name' => _MI_PEDIGREE_VIRTUAL_MATING,
     'url'  => 'virtual.php',
 ];
-$modversion['sub'][]   = [
+$modversion['sub'][] = [
     'name' => _MI_PEDIGREE_LATEST_ADDITIONS,
     'url'  => 'latest.php',
 ];
@@ -393,11 +397,11 @@ $modversion['sub'][]   = [
 if (!empty($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser) && $GLOBALS['xoopsUser']->isAdmin()) {
     $modversion['sub'][] = [
         'name' => _MI_PEDIGREE_WEBMASTER_TOOLS,
-        'url'  => 'tools.php?op=index',
+        'url' => 'tools.php?op=index',
     ];
 }
 
-// ------------------- Templates ------------------- //
+// Templates
 $modversion['templates'] = [
     ['file' => 'pedigree_index.tpl', 'description' => _MI_PEDIGREE_TEMPL_INDEX],
     ['file' => 'pedigree_header.tpl', 'description' => _MI_PEDIGREE_TEMPL_HEADER],
@@ -426,10 +430,9 @@ $modversion['templates'] = [
     ['file' => 'pedigree_common_letterschoice.tpl', 'description' => _MI_PEDIGREE_TEMPL_LETTERCHOICE],
 ];
 
-// ------------------- Blocks ------------------- //
-// (Start indexes with 1, not 0!)
+// Blocks (Start indexes with 1, not 0!)
 
-//this block shows the random pedigrees
+//this block shows the Pedigree menu
 $modversion['blocks'][] = [
     'file'        => 'menu_block.php',
     'name'        => _MI_PEDIGREE_BLOCK_MENU_TITLE,
@@ -440,21 +443,24 @@ $modversion['blocks'][] = [
 
 // Search function
 $modversion['hasSearch'] = 1;
-$modversion['search'][]  = [
+$modversion['search'][] = [
     'file' => 'include/search.inc.php',
     'func' => 'pedigree_search',
 ];
 
 //comments function
-//$modversion['hasComments'] = 1;
-//$modversion['comments'][]  = array(
-//    'itemName' => "id",
-//    'pageName' => "dog.php"
-//);
+/** @TODO: implement comments */
+/*
+$modversion['hasComments'] = 1;
+$modversion['comments'][]  = array(
+    'itemName' => "id",
+    'pageName' => "dog.php"
+);
+*/
 
-//notifications function
+// notifications function
 $modversion['hasNotification'] = 1;
-$modversion['notification'][]  = [
+$modversion['notification'][] = [
     'lookup_file' => 'include/notification.inc.php',
     'lookup_func' => 'lookup',
 ];
@@ -469,7 +475,7 @@ $modversion['notification']['category'][] = [
     'item_name'      => 'id',
     'allow_bookmark' => 1,
 ];
-$modversion['notification']['event'][]    = [
+$modversion['notification']['event'][] = [
     'name'          => 'change_data',
     'category'      => 'dog',
     'title'         => _MI_PEDIGREE_DATA_NOTIFY,
@@ -480,28 +486,30 @@ $modversion['notification']['event'][]    = [
 ];
 
 //comments function
-$modversion['hasComments']          = 1;
+$modversion['hasComments'] = 1;
 $modversion['comments']['itemName'] = 'id';
 $modversion['comments']['pageName'] = 'dog.php';
-//
-////notifications function
-//$modversion['hasNotification']             = 1;
-//$modversion['notification']['lookup_file'] = 'include/notification.inc.php';
-//$modversion['notification']['lookup_func'] = 'lookup';
-//
-////notify of changes in the dog's data
-//
-//$modversion['notification']['category'][1]['name']           = 'dog';
-//$modversion['notification']['category'][1]['title']          = _MI_PEDIGREE_DOG_NOTIFY;
-//$modversion['notification']['category'][1]['description']    = _MI_PEDIGREE_DOG_NOTIFY_DSC;
-//$modversion['notification']['category'][1]['subscribe_from'] = array('dog.php', 'pedigree.php');
-//$modversion['notification']['category'][1]['item_name']      = 'id';
-//$modversion['notification']['category'][1]['allow_bookmark'] = 1;
-//
-//$modversion['notification']['event'][1]['name']          = 'change_data';
-//$modversion['notification']['event'][1]['category']      = 'dog';
-//$modversion['notification']['event'][1]['title']         = _MI_PEDIGREE_DATA_NOTIFY;
-//$modversion['notification']['event'][1]['caption']       = _MI_PEDIGREE_DATA_NOTIFYCAP;
-//$modversion['notification']['event'][1]['description']   = _MI_PEDIGREE_DATA_NOTIFYDSC;
-//$modversion['notification']['event'][1]['mail_template'] = 'dog_data_notify';
-//$modversion['notification']['event'][1]['mail_subject']  = _MI_PEDIGREE_DATA_NOTIFYSBJ;
+
+/** @TODO implement notifications */
+// notifications function
+$modversion['hasNotification']             = 1;
+$modversion['notification']['lookup_file'] = 'include/notification.inc.php';
+$modversion['notification']['lookup_func'] = 'lookup';
+
+//notify of changes in the dog's data
+/*
+$modversion['notification']['category'][1]['name']           = 'dog';
+$modversion['notification']['category'][1]['title']          = _MI_PEDIGREE_DOG_NOTIFY;
+$modversion['notification']['category'][1]['description']    = _MI_PEDIGREE_DOG_NOTIFY_DSC;
+$modversion['notification']['category'][1]['subscribe_from'] = array('dog.php', 'pedigree.php');
+$modversion['notification']['category'][1]['item_name']      = 'id';
+$modversion['notification']['category'][1]['allow_bookmark'] = 1;
+
+$modversion['notification']['event'][1]['name']          = 'change_data';
+$modversion['notification']['event'][1]['category']      = 'dog';
+$modversion['notification']['event'][1]['title']         = _MI_PEDIGREE_DATA_NOTIFY;
+$modversion['notification']['event'][1]['caption']       = _MI_PEDIGREE_DATA_NOTIFYCAP;
+$modversion['notification']['event'][1]['description']   = _MI_PEDIGREE_DATA_NOTIFYDSC;
+$modversion['notification']['event'][1]['mail_template'] = 'dog_data_notify';
+$modversion['notification']['event'][1]['mail_subject']  = _MI_PEDIGREE_DATA_NOTIFYSBJ;
+*/

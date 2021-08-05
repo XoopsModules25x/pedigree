@@ -12,7 +12,7 @@ namespace XoopsModules\Pedigree\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use RuntimeException;
+use \XoopsModules\Pedigree\Common;
 
 /**
  * Class Migrate synchronize existing tables with target schema
@@ -26,32 +26,32 @@ use RuntimeException;
 class Migrate extends \Xmf\Database\Migrate
 {
     private $renameTables;
+    private $moduleDirName;
 
     /**
-     * Migrate constructor.
+     * Migrate constructor
+     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function __construct()
+    public function __construct(?Configurator $configurator = null)
     {
-        $class = __NAMESPACE__ . '\\' . 'Configurator';
-        if (!\class_exists($class)) {
-            throw new RuntimeException("Class '$class' not found");
+        if (null !== $configurator) {
+            $this->renameTables = $configurator->renameTables;
+            $this->moduleDirName = basename(dirname(__DIR__, 2));
+            parent::__construct($this->moduleDirName);
         }
-        $configurator       = new $class();
-        $this->renameTables = $configurator->renameTables;
-
-        $moduleDirName = \basename(\dirname(__DIR__, 2));
-        parent::__construct($moduleDirName);
     }
 
     /**
      * change table prefix if needed
+     *
+     * @return void
      */
-    private function changePrefix()
+    private function changePrefix(): void
     {
         foreach ($this->renameTables as $oldName => $newName) {
-            if ($this->tableHandler->useTable($oldName)) {
+            if ($this->tableHandler->useTable($oldName) && !$this->tableHandler->useTable($newName)) {
                 $this->tableHandler->renameTable($oldName, $newName);
             }
         }
@@ -62,8 +62,10 @@ class Migrate extends \Xmf\Database\Migrate
      *
      * @param string $tableName  table to convert
      * @param string $columnName column with IP address
+     *
+     * @return void
      */
-    private function convertIPAddresses($tableName, $columnName)
+    private function convertIPAddresses(string $tableName, string $columnName): void
     {
         if ($this->tableHandler->useTable($tableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
@@ -79,20 +81,24 @@ class Migrate extends \Xmf\Database\Migrate
     }
 
     /**
+     * @deprecated - not used in Pedigree module
+     *
      * Move do* columns from newbb_posts to newbb_posts_text table
      */
     private function moveDoColumns()
     {
+        return; // added when method was deprecated
         $tableName    = 'newbb_posts_text';
         $srcTableName = 'newbb_posts';
         if ($this->tableHandler->useTable($tableName)
-            && $this->tableHandler->useTable($srcTableName)) {
+            && $this->tableHandler->useTable($srcTableName))
+        {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
             if (false === $attributes) {
                 $this->synchronizeTable($tableName);
                 $updateTable = $GLOBALS['xoopsDB']->prefix($tableName);
-                $joinTable   = $GLOBALS['xoopsDB']->prefix($srcTableName);
-                $sql         = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
+                $joinTable = $GLOBALS['xoopsDB']->prefix($srcTableName);
+                $sql = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
                 $this->tableHandler->addToQueue($sql);
             }
         }
@@ -101,20 +107,20 @@ class Migrate extends \Xmf\Database\Migrate
     /**
      * Perform any upfront actions before synchronizing the schema
      *
-     * Some typical uses include
+     * Some typical uses include:
      *   table and column renames
      *   data conversions
+     *
+     * @return void
      */
-    protected function preSyncActions()
+    protected function preSyncActions(): void
     {
-        /*
         // change 'bb' table prefix to 'newbb'
         $this->changePrefix();
         // columns dohtml, dosmiley, doxcode, doimage and dobr moved between tables as some point
-        $this->moveDoColumns();
+        //$this->moveDoColumns();
         // Convert IP address columns from int to readable varchar(45) for IPv6
-        $this->convertIPAddresses('newbb_posts', 'poster_ip');
-        $this->convertIPAddresses('newbb_report', 'reporter_ip');
-        */
+        //$this->convertIPAddresses('newbb_posts', 'poster_ip');
+        //$this->convertIPAddresses('newbb_report', 'reporter_ip');
     }
 }

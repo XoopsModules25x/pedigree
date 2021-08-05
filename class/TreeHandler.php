@@ -11,7 +11,6 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
-
 /**
  * Pedigree module for XOOPS
  *
@@ -21,31 +20,35 @@ namespace XoopsModules\Pedigree;
  * @since           2.5.x
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-
 use XoopsModules\Pedigree;
+
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\TreeHandler
  */
 class TreeHandler extends \XoopsPersistableObjectHandler
 {
+    use CountOverload;
+
     /**
      * @param null|object|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_registry', Tree::class, 'id', 'pname');
+        parent::__construct($db, 'pedigree_tree', Tree::class, 'id', 'naam');
     }
 
     /**
      * Get criteria for active animals
      *
-     * @param null $roft
+     * @todo Refactor: Currently this routine returns all animals with `roft` = $roft
+     * @param null|string $roft
      * @return \CriteriaCompo
      */
-    public function getActiveCriteria($roft = null)
+    public function getActiveCriteria(?string $roft = null)
     {
-        $grouppermHandler = \xoops_getHandler('groupperm');
+        //$grouppermHandler = xoops_getHandler('groupperm');
 
         //        $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         //        $criteria->add(new \Criteria('published', 0, '>'));
@@ -63,7 +66,7 @@ class TreeHandler extends \XoopsPersistableObjectHandler
         if (null !== $roft) {
             $criteria->add(new \Criteria('roft', $roft));
         }
-        $criteria->setSort('pname ASC');
+        $criteria->setSort('naam ASC');
         $criteria->setOrder('ASC');
 
         return $criteria;

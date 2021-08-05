@@ -82,7 +82,7 @@ define('_MI_PEDIGREE_ADMIN_ABOUT_DESC', 'About this module');
 define('_MI_PEDIGREE_ADMIN_HELP_DESC', 'Help for this module');
 define('_MI_PEDIGREE_ADMIN_DESC', 'This module does the following: ');
 
-//Menu
+//Admin Menu
 define('_MI_PEDIGREE_ADMENU1', 'Home');
 define('_MI_PEDIGREE_ADMENU2', 'Deleted');
 define('_MI_PEDIGREE_ADMENU3', 'Owner');
@@ -91,8 +91,6 @@ define('_MI_PEDIGREE_ADMENU5', 'Pedigree');
 define('_MI_PEDIGREE_ADMENU6', 'Custom Fields');
 define('_MI_PEDIGREE_ADMENU7', 'Permissions');
 define('_MI_PEDIGREE_ADMENU8', 'About');
-define('_MI_PEDIGREE_ADMENU_MIGRATE', 'Migrate');
-define('_MI_PEDIGREE_ADMENU_REGISTRY', 'Registry');
 
 //Blocks
 define('_MI_PEDIGREE_PEDIGREE_TRASH_BLOCK_RECENT', 'Deleted Recent');
@@ -171,9 +169,9 @@ define('_MI_PEDIGREE_MALE_DESC', 'male language option'); // male language optio
 define('_MI_PEDIGREE_FEMALE_DESC', 'female language option'); // female language option");
 define('_MI_PEDIGREE_LITTER_DESC', 'litter language option'); // litter language option");
 define('_MI_PEDIGREE_USELITTER_DESC', 'Should the add a litter feature be used ?'); // Should the add a litter feature be used ?");
-define('_MI_PEDIGREE_SHOWELCOME_DESC', 'Show the welcome screen ?'); // Show the welcome screen ?");
-define('_MI_PEDIGREE_COLOR_DESC', 'Set Color Preferences');
-define('_MI_PEDIGREE_CHILDREN_DESC', 'Children language option'); // "mother language option");
+define('_MI_PEDIGREE_SHOWELCOME_DESC', 'Show the welcome screen?'); // Show the welcome screen?);
+define('_MI_PEDIGREE_COLOR_DESC', 'Set Color Preferences separated by \';\'');
+define('_MI_PEDIGREE_CHILDREN_DESC', 'Children language option'); // children language option);
 
 //Templates
 
@@ -203,8 +201,16 @@ define('_MI_PEDIGREE_TEMPL_BREADCRUMB', 'Breadcrumb');
 define('_MI_PEDIGREE_TEMPL_LETTERCHOICE', 'Letter selection');
 define('_MI_PEDIGREE_TEMPL_HEADER', 'Header Front Page');
 
-//pager
-define('MI_PEDIGREE_ADMINPAGER', 'Admin: records / page');
-define('MI_PEDIGREE_ADMINPAGER_DESC', 'Admin: # of records shown per page');
-define('MI_PEDIGREE_USERPAGER', 'User: records / page');
-define('MI_PEDIGREE_USERPAGER_DESC', 'User: # of records shown per page');
+//Help
+define('_MI_PEDIGREE_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_PEDIGREE_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
+define('_MI_PEDIGREE_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_PEDIGREE_OVERVIEW', 'Overview');
+
+//help multi-page
+define('_MI_PEDIGREE_DISCLAIMER', 'Disclaimer');
+define('_MI_PEDIGREE_LICENSE', 'License');
+define('_MI_PEDIGREE_SUPPORT', 'Support');
+
+// v1.32 Alpha 8
+define('_MI_PEDIGREE_SAVE_SETTINGS', 'Your settings have been saved...');

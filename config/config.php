@@ -10,18 +10,18 @@
  */
 
 /**
- * @copyright    XOOPS Project (https://xoops.org)
+ * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @author      XOOPS Development Team
+ * @package
+ * @since
+ * @author       XOOPS Development Team
  */
 
-use Xmf\Module\Admin;
-
-$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 return (object)[
-    'name'           => $moduleDirNameUpper . ' Module Configurator',
+    'name'           => mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
     'paths'          => [
         'dirname'    => $moduleDirName,
         'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
@@ -32,15 +32,17 @@ return (object)[
     ],
     'uploadFolders'  => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
-        //XOOPS_UPLOAD_PATH . '/flags'
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/owner',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_config',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_trash',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_temp'
+        //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/flags'
     ],
     'copyBlankFiles' => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
-        //XOOPS_UPLOAD_PATH . '/flags'
+        //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
+        //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+        //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/flags'
     ],
 
     'copyTestFolders' => [
@@ -48,10 +50,6 @@ return (object)[
             XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/uploads',
             XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
         ],
-        //            [
-        //                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
-        //                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
-        //            ],
     ],
 
     'templateFolders' => [
@@ -59,16 +57,19 @@ return (object)[
         //            '/templates/blocks/',
         //            '/templates/admin/'
     ],
-    'oldFiles'        => [
+    'oldFiles' => [
         '/class/request.php',
         '/class/registry.php',
         '/class/utilities.php',
         '/class/util.php',
+        '/class/Pedigree.php',
+        '/class/PedigreeHtmlInputAbstract.php',
+        '/include/install_functions.php',
         //            '/include/constants.php',
         //            '/include/functions.php',
         '/ajaxrating.txt',
     ],
-    'oldFolders'      => [
+    'oldFolders' => [
         '/images',
         '/css',
         '/js',
@@ -77,12 +78,13 @@ return (object)[
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
-    'moduleStats'  => [
+    'moduleStats' => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
         //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
         //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
     ],
+    /** @TODO figure out where this constant should be defined & ensure it's loaded */
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
+                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
 ];
 

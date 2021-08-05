@@ -1,11 +1,11 @@
-pedigree_registry:
+pedigree_tree:
     options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
             name: id
             attributes: ' mediumint(7) unsigned  NOT NULL auto_increment'
         -
-            name: pname
+            name: naam
             attributes: ' text  NOT NULL '
         -
             name: id_owner
@@ -55,7 +55,7 @@ pedigree_fields:
             attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
         -
             name: fieldtype
-            attributes: ' enum(''DateSelect'',''TextBox'',''SelectBox'',''RadioButton'',''TextArea'',''UrlField'',''Picture'')  NOT NULL  DEFAULT ''DateSelect'' '
+            attributes: ' enum(''dateselect'',''textbox'',''selectbox'',''radiobutton'',''textarea'',''urlfield'',''picture'')  NOT NULL  DEFAULT ''dateselect'' '
         -
             name: lookuptable
             attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
@@ -109,7 +109,7 @@ pedigree_temp:
             name: id
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
-            name: pname
+            name: naam
             attributes: ' text  NOT NULL '
         -
             name: id_owner
@@ -152,7 +152,7 @@ pedigree_trash:
             name: id
             attributes: ' int(11)  NOT NULL auto_increment'
         -
-            name: pname
+            name: naam
             attributes: ' text  NOT NULL '
         -
             name: id_owner

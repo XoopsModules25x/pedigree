@@ -1,28 +1,22 @@
 <?php
-
 namespace XoopsModules\Pedigree;
 
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
-
-/**
- * Pedigree module for XOOPS
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * @copyright   {@link http://sourceforge.net/projects/thmod/ The TXMod XOOPS Project}
- * @copyright   {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
- * @license     GPL 2.0 or later
- * @package     pedigree
- * @subpackage  class
- * @author      XOOPS Mod Development Team
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
+ */
 use XoopsModules\Pedigree;
 
 /**
@@ -44,20 +38,19 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @param Pedigree\Field  $parentObject
-     * @param Pedigree\Animal $animalObject
+     * @param \XoopsModules\Pedigree\Field  $parentObject
+     * @param \XoopsModules\Pedigree\Animal $animalObject
      * @todo move hard coded language string to language file
-     *
      */
     public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
     {
-        $this->fieldnumber  = $parentObject->getId();
-        $this->fieldname    = $parentObject->fieldname;
-        $this->value        = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber = $parentObject->getId();
+        $this->fieldname = $parentObject->fieldname;
+        $this->value = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
-        $this->lookuptable  = $parentObject->LookupTable;
+        $this->lookuptable = $parentObject->LookupTable;
         if (0 == $this->lookuptable) {
-            echo "<span style='color: red;'><h3>A lookuptable must be specified for userfield" . $this->fieldnumber . '</h3></span>';
+            echo "<span style='color: #ff0000;'><h3>A lookuptable must be specified for userfield" . $this->fieldnumber . '</h3></span>';
         }
     }
 
@@ -66,9 +59,9 @@ class RadioButton extends Pedigree\HtmlInputAbstract
      */
     public function editField()
     {
-        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
+        $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = \count($lookupcontents);
+        $lcCount = count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $radio->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
@@ -83,9 +76,9 @@ class RadioButton extends Pedigree\HtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $radio          = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', "{$name}user" . $this->fieldnumber, $value = $this->defaultvalue);
+        $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', "{$name}user" . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = \count($lookupcontents);
+        $lcCount = count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $radio->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
@@ -99,7 +92,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     public function viewField()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = \count($lookupcontents);
+        $lcCount = count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -111,13 +104,13 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     }
 
     /**
-     * @return string
      * @todo error checking
+     * @return string
      */
     public function showField()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = \count($lookupcontents);
+        $lcCount = count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -147,18 +140,14 @@ class RadioButton extends Pedigree\HtmlInputAbstract
      */
     public function searchField()
     {
-        $select         = "<select size='1' name='query' style='width: 140px;'>";
+        $select = "<select size='1' name='query' style='width: 140px;'>";
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount        = \count($lookupcontents);
+        $lcCount = count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $select .= "<option value='" . $lookupcontents[$i]['id'] . "'>" . $lookupcontents[$i]['value'] . '</option>';
         }
         $select .= '</select>';
 
         return $select;
-    }
-
-    public function getSearchString()
-    {
     }
 }

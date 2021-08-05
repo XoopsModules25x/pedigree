@@ -1,75 +1,54 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * Verify that a mysql table exists
- *
- * @param $tablename
- *
- * @return bool
- * @copyright (c) Hervé Thouzard
- *
- * @package       News
- * @author        Hervé Thouzard (http://www.herve-thouzard.com)
+ * @package     XoopsModules\Pedigree
+ * @copyright   XOOPS Project https://xoops.org/
+ * @license     GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @author      XOOPS Development Team
  */
-{
-    global $xoopsDB;
-    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
-}
+use \Xmf\Database\Tables;
 
 /**
+ * Make updates to module tables, files, configs, etc. during module update
+ *
+ * @param \XoopsModule $module
+ * @param string $prev_ver
+ *
  * @return bool
  */
-function xoops_module_update_animal()
+function xoops_module_update_pedigree(\XoopsModule $module, string $prev_ver)
 {
-    global $xoopsDB;
+    /**
+     * {@internal Both success and failure messages can be sent back to the calling
+     * routine via the $module->setErrors() method. }}
+     */
 
-    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('owner'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('owner') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;
-            ++$errors;
-        }
+    $tableMap = [
+        //from tablename    =>  to tablename
+        ['from' => 'owner',           'to' => 'pedigree_owner'],
+        ['from' => 'stamboom',        'to' => 'pedigree_tree'],
+        ['from' => 'pedigree_config', 'to' => 'pedigree_fields'],
+    ];
+
+    $success = true;
+
+    $tables = new Tables();
+    foreach ($tableMap as $map) {
+        $success = $success && $tables->renameTable($map['from'], $map['to']);
+        /** @TODO move hard coded language string to language file */
+        $msg = $success ? sprintf('Successfully renamed %s table', $map['to']) : sprintf('Failed to rename table %s to %s', $map['from'], $map['to']);
+        $module->setErrors($msg);
     }
 
-    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('stamboom'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('stamboom') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;
-            ++$errors;
-        }
-    }
-
-    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('pedigree_fields'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;
-            ++$errors;
-        }
-    }
-
-    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('pedigree_temp'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;
-            ++$errors;
-        }
-    }
-
-    if (Utility::tableExists($GLOBALS['xoopsDB']->prefix('pedigree_trash'))) {
-        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash'));
-        $result = $GLOBALS['xoopsDB']->queryF($sql);
-        if (!$result) {
-            echo '<br>' . _AM_PEDIGREE_UPGRADEFAILED . ' ' . _AM_PEDIGREE_UPGRADEFAILED2;
-            ++$errors;
-        }
-    }
-
-    return true;
+    return $success;
 }
-

@@ -101,6 +101,13 @@ class ZervWizard
      * @param bool        $process True if the step is being processed, false if being prepared
      * @todo    Need a way to jump between steps, e.g. from step 2 to 4 and validating all data
      *
+<<<<<<< HEAD:class/ZervWizard.php
+=======
+     * @param string|null $action  The step being processed. This should correspond
+     *                        to a step created in addStep()
+     * @param array  &$form   The unmodified form values to process
+     * @param bool   $process True if the step is being processed, false if being prepared
+>>>>>>> 8b5e26b59bbc5a0b60765ff6aef51d5971ad7222:include/ZervWizard.php
      */
     public function process($action, $form, $process = true)
     {
@@ -228,10 +235,10 @@ class ZervWizard
     public function setCurrentStep($step)
     {
         if (null === $step || !$this->stepExists($step)) {
-            $this->_complete                            = true;
+            $this->_complete = true;
             $this->container[$this->_step_expected_key] = null;
         } else {
-            $this->_currentStep                         = $step;
+            $this->_currentStep = $step;
             $this->container[$this->_step_expected_key] = $step;
         }
     }
@@ -287,8 +294,13 @@ class ZervWizard
      */
     public function getStepNumber($step = null)
     {
+<<<<<<< HEAD:class/ZervWizard.php
         $steps    = \array_keys($this->_steps);
         $numSteps = \count($steps);
+=======
+        $steps = array_keys($this->_steps);
+        $numSteps = count($steps);
+>>>>>>> 8b5e26b59bbc5a0b60765ff6aef51d5971ad7222:include/ZervWizard.php
 
         if ('' === $step) {
             $step = $this->getStepName();
@@ -311,8 +323,13 @@ class ZervWizard
      */
     public function stepCanBeProcessed($step)
     {
+<<<<<<< HEAD:class/ZervWizard.php
         $steps    = \array_keys($this->_steps);
         $numSteps = \count($steps);
+=======
+        $steps = array_keys($this->_steps);
+        $numSteps = count($steps);
+>>>>>>> 8b5e26b59bbc5a0b60765ff6aef51d5971ad7222:include/ZervWizard.php
 
         foreach ($steps as $iValue) {
             $_step = $iValue;
@@ -363,10 +380,20 @@ class ZervWizard
         return \count($steps) > 0 ? $steps[0] : null;
     }
 
+<<<<<<< HEAD:class/ZervWizard.php
     public function getFirstIncompleteStep()
     {
         $steps    = \array_keys($this->_steps);
         $numSteps = \count($steps);
+=======
+    /**
+     * @return mixed|null
+     */
+    public function getFirstIncompleteStep()
+    {
+        $steps = array_keys($this->_steps);
+        $numSteps = count($steps);
+>>>>>>> 8b5e26b59bbc5a0b60765ff6aef51d5971ad7222:include/ZervWizard.php
 
         foreach ($steps as $iValue) {
             $_step = $iValue;
@@ -392,8 +419,13 @@ class ZervWizard
      */
     public function getPreviousStep($step)
     {
+<<<<<<< HEAD:class/ZervWizard.php
         $ret   = null;
         $steps = \array_keys($this->_steps);
+=======
+        $ret = null;
+        $steps = array_keys($this->_steps);
+>>>>>>> 8b5e26b59bbc5a0b60765ff6aef51d5971ad7222:include/ZervWizard.php
 
         $done = false;
         foreach ($steps as $s) {
@@ -419,8 +451,13 @@ class ZervWizard
      */
     public function getFollowingStep($step)
     {
+<<<<<<< HEAD:class/ZervWizard.php
         $ret   = null;
         $steps = \array_keys($this->_steps);
+=======
+        $ret = null;
+        $steps = array_keys($this->_steps);
+>>>>>>> 8b5e26b59bbc5a0b60765ff6aef51d5971ad7222:include/ZervWizard.php
 
         $ready = false;
         foreach ($steps as $s) {
