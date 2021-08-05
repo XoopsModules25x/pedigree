@@ -366,7 +366,7 @@ class Zebra_Image {
                         if (defined('IMG_FILTER_' . strtoupper($arguments[0]))) {
 
                             // try to apply the filter...
-                            if (!@call_user_func_array('\imagefilter', array_merge(array($target_identifier, constant('IMG_FILTER_' . strtoupper($arguments[0]))), array_slice($arguments, 1))))
+                            if (!@call_user_func_array('imagefilter', array_merge(array($target_identifier, constant('IMG_FILTER_' . strtoupper($arguments[0]))), array_slice($arguments, 1))))
 
                                 // ...and trigger an error if the filter could not be applied
                                 trigger_error('Invalid arguments used for "' . strtoupper($arguments[0]) . '" filter', E_USER_WARNING);
@@ -381,7 +381,7 @@ class Zebra_Image {
                     $arguments = func_get_args();
 
                     // try to apply the filter...
-                    if (!@call_user_func_array('\imagefilter', array_merge(array($target_identifier, constant('IMG_FILTER_' . strtoupper($filter))), array_slice($arguments, 1))))
+                    if (!@call_user_func_array('imagefilter', array_merge(array($target_identifier, constant('IMG_FILTER_' . strtoupper($filter))), array_slice($arguments, 1))))
 
                         // ...and trigger an error if the filter could not be applied
                         trigger_error('Invalid arguments used for "' . strtoupper($arguments[0]) . '" filter', E_USER_WARNING);
@@ -1620,7 +1620,7 @@ class Zebra_Image {
             );
 
             // the divisor of the matrix
-            $divisor = array_sum(array_map('\array_sum', $matrix));
+            $divisor = array_sum(array_map('array_sum', $matrix));
 
             // color offset
             $offset = 0;

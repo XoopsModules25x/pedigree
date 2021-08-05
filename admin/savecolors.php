@@ -24,7 +24,7 @@ use XoopsModules\Pedigree;
 use XoopsModules\Pedigree\Constants;
 
 /** @var XoopsModules\Pedigree\Helper $helper */
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 $helper->loadLanguage('modinfo');
 
 require_once $helper->path('admin/menu.php');

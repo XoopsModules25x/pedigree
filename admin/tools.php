@@ -5,8 +5,8 @@ use Xmf\Request;
 use XoopsModules\Pedigree;
 use XoopsModules\Pedigree\Constants;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-xoops_loadLanguage('main', basename(dirname(dirname(__DIR__))));
+require_once dirname(__DIR__, 3) . '/mainfile.php';
+xoops_loadLanguage('main', basename(dirname(__DIR__, 2)));
 
 // Include any common code for this module.
 require_once dirname(__DIR__) . '/include/common.php';
