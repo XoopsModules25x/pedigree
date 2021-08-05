@@ -394,7 +394,7 @@ define('_MA_PEDIGREE_ADD_NAMEPLZ', 'You need to enter a name for this dog.');
 define('_MA_PEDIGREE_ADD_SIREOK', 'The information has been stored.<br>Please select the [mother].');
 define('_MA_PEDIGREE_ADD_SIREUNKNOWN', 'Click here if the [father] is unknown.');
 define('_MA_PEDIGREE_ADD_DAMUNKNOWN', 'Click here if the [mother] is unknown.');
-define('_MA_PEDIGREE_ADD_KNOWN', 'The [animalTypes] shown above are allready in the database. They do not need to be entered again.');
+define('_MA_PEDIGREE_ADD_KNOWN', 'The [animalTypes] shown above are already in the database. They do not need to be entered again.');
 define('_MA_PEDIGREE_ADD_KNOWNOK', 'I mean a different [animalType] and would like to continue.');
 
 //add a onwer/breeder
@@ -491,3 +491,50 @@ define('_MA_PEDIGREE_UPDATE', 'Pedigree database - Update details');
 define('_MA_PEDIGREE_ADDED_TO_DB', 'The data has been stored.');
 define('_MA_PEDIGREE_LTRCHARS', '0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z');
 define('_MA_PEDIGREE_ERR_INVALID', 'Invalid item specified.');
+
+/**
+ * @return array
+ */
+function pedigreeGetAlphabet()
+{
+    $alphabet = [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z',
+    ];
+
+    return $alphabet;
+}

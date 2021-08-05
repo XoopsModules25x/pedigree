@@ -91,6 +91,8 @@ define('_MI_PEDIGREE_ADMENU5', 'Pedigree');
 define('_MI_PEDIGREE_ADMENU6', 'Custom Fields');
 define('_MI_PEDIGREE_ADMENU7', 'Permissions');
 define('_MI_PEDIGREE_ADMENU8', 'About');
+define('_MI_PEDIGREE_ADMENU_MIGRATE', 'Migrate');
+define('_MI_PEDIGREE_ADMENU_REGISTRY', 'Registry');
 
 //Blocks
 define('_MI_PEDIGREE_PEDIGREE_TRASH_BLOCK_RECENT', 'Deleted Recent');
@@ -200,6 +202,13 @@ define('_MI_PEDIGREE_TEMPL_TABLE_SORT', "Template for javascript table sort'");
 define('_MI_PEDIGREE_TEMPL_BREADCRUMB', 'Breadcrumb');
 define('_MI_PEDIGREE_TEMPL_LETTERCHOICE', 'Letter selection');
 define('_MI_PEDIGREE_TEMPL_HEADER', 'Header Front Page');
+
+//pager
+define('MI_PEDIGREE_ADMINPAGER', 'Admin: records / page');
+define('MI_PEDIGREE_ADMINPAGER_DESC', 'Admin: # of records shown per page');
+define('MI_PEDIGREE_USERPAGER', 'User: records / page');
+define('MI_PEDIGREE_USERPAGER_DESC', 'User: # of records shown per page');
+
 
 //Help
 define('_MI_PEDIGREE_DIRNAME', basename(dirname(dirname(__DIR__))));
