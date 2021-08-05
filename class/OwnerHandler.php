@@ -22,7 +22,7 @@ namespace XoopsModules\Pedigree;
  */
 use XoopsModules\Pedigree;
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\OwnerHandler

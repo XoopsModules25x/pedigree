@@ -42,9 +42,9 @@ class Utility
     public static function prepareFolder($folder)
     {
         //        $filteredFolder = XoopsFilterInput::clean($folder, 'PATH');
-        if (!is_dir($folder)) {
-            if (!mkdir($folder) && !is_dir($folder)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $folder));
+        if (!\is_dir($folder)) {
+            if (!\mkdir($folder) && !\is_dir($folder)) {
+                throw new \RuntimeException(\sprintf('Directory "%s" was not created', $folder));
             }
             file_put_contents($folder . '/index.php', "<?php\n\nheader('HTTP/1.0 404 Not Found');\n");
         }
@@ -82,11 +82,11 @@ class Utility
     {
         // same as strrpos, except $needle can be a string
         $strrpos = false;
-        if (is_string($haystack) && is_string($needle) && is_numeric($offset)) {
-            $strlen = mb_strlen($haystack);
-            $strpos = mb_strpos(strrev(mb_substr($haystack, $offset)), strrev($needle));
-            if (is_numeric($strpos)) {
-                $strrpos = $strlen - $strpos - mb_strlen($needle);
+        if (\is_string($haystack) && \is_string($needle) && \is_numeric($offset)) {
+            $strlen = \mb_strlen($haystack);
+            $strpos = \mb_strpos(\strrev(\mb_substr($haystack, $offset)), \strrev($needle));
+            if (\is_numeric($strpos)) {
+                $strrpos = $strlen - $strpos - \mb_strlen($needle);
             }
         }
 
@@ -204,7 +204,7 @@ class Utility
 
         foreach ($thumbnail_widths as $thumbnail_width) {
             // generate & output thumbnail
-            $output_filename = PEDIGREE_UPLOAD_PATH . '/images/thumbnails/' . basename($filename) . "_{$thumbnail_width}.{$config_output_format}";
+            $output_filename = PEDIGREE_UPLOAD_PATH . '/images/thumbnails/' . \basename($filename) . "_{$thumbnail_width}.{$config_output_format}";
             $image->target_path = $output_filename;
             // since in this example we're going to have a jpeg file, let's set the output
             // image's quality
@@ -278,7 +278,7 @@ class Utility
      */
     public static function unHtmlEntities($string)
     {
-        $trans_tbl = array_flip(get_html_translation_table(HTML_ENTITIES));
+        $trans_tbl = \array_flip(\get_html_translation_table(\HTML_ENTITIES));
 
         return strtr($string, $trans_tbl);
     }
@@ -350,13 +350,13 @@ class Utility
             } else {
                 $gender = '<img src="assets/images/female.gif">';
             }
-            $name = stripslashes($rowres['d_naam']);
+            $name = \stripslashes($rowres['d_naam']);
             //empty array
             unset($columnvalue);
             //fill array
             for ($i = 1; $i < $numofcolumns; ++$i) {
                 $x = $columns[$i]['columnnumber'];
-                if (is_array($columns[$i]['lookupval'])) {
+                if (\is_array($columns[$i]['lookupval'])) {
                     foreach ($columns[$i]['lookupval'] as $key => $keyvalue) {
                         if ($keyvalue['id'] == $rowres['user' . $x]) {
                             $value = $keyvalue['value'];
@@ -365,7 +365,7 @@ class Utility
                     //debug information
                     ///echo $columns[$i]['columnname']."is an array !";
                 } //format value - cant use object because of query count
-                elseif (0 === strncmp($rowres['user' . $x], 'http://', 7)) {
+                elseif (0 === \strncmp($rowres['user' . $x], 'http://', 7)) {
                     $value = '<a href="' . $rowres['user' . $x] . '">' . $rowres['user' . $x] . '</a>';
                 } else {
                     $value = $rowres['user' . $x];
@@ -437,14 +437,14 @@ class Utility
             } else {
                 $gender = "<img src='assets/images/female.gif'>";
             }
-            $name = stripslashes($rowres['naam']);
+            $name = \stripslashes($rowres['naam']);
             //empty array
             //        unset($columnvalue1);
             $columnvalue1 = [];
             //fill array
             for ($i = 1; $i < $numofcolumns1; ++$i) {
                 $x = $columns1[$i]['columnnumber'];
-                if (is_array($columns1[$i]['lookupval'])) {
+                if (\is_array($columns1[$i]['lookupval'])) {
                     foreach ($columns1[$i]['lookupval'] as $key => $keyvalue) {
                         if ($keyvalue['id'] == $rowres['user' . $x]) {
                             $value = $keyvalue['value'];
@@ -453,7 +453,7 @@ class Utility
                     //debug information
                     ///echo $columns[$i]['columnname']."is an array !";
                 } //format value - cant use object because of query count
-                elseif (0 === strncmp($rowres['user' . $x], 'http://', 7)) {
+                elseif (0 === \strncmp($rowres['user' . $x], 'http://', 7)) {
                     $value = '<a href="' . $rowres['user' . $x] . '">' . $rowres['user' . $x] . '</a>';
                 } else {
                     $value = $rowres['user' . $x];
@@ -586,11 +586,11 @@ class Utility
         $id = 0;
         $treeHandler = XoopsModules\Pedigree\Helper::getInstance()->getHandler('Tree');
         //@todo need to filter $naam_hond
-        $criteria = new \Criteria('naam', mb_strtolower($naam_hond), '=', null, "lower(%s)");
+        $criteria = new \Criteria('naam', \mb_strtolower($naam_hond), '=', null, "lower(%s)");
         $criteria->setLimit(1);
         $treeIdArray = $treeHandler->getIds($criteria);
-        if (0 !== count($treeIdArray)) {
-            $id = (int)key($treeObjArray);
+        if (0 !== \count($treeIdArray)) {
+            $id = (int)\key($treeObjArray);
         }
         return $id;
         /*
@@ -641,7 +641,7 @@ class Utility
         }
 
         //add preliminary row to array if passed
-        if (is_array($prefix)) {
+        if (\is_array($prefix)) {
             $dogs[] = $prefix;
         }
 
@@ -665,24 +665,24 @@ class Utility
             } else {
                 $camera = '';
             }
-            $name = stripslashes($row['naam']) . $camera;
+            $name = \stripslashes($row['naam']) . $camera;
             unset($columnvalue);
 
             //fill array
-            $columnCount = count($columns);
+            $columnCount = \count($columns);
             $columnvalue = []; // init
             foreach ($columns as $thisColumn) {
                 $value = ''; // init
                 $x = $thisColumn['columnnumber'];
                 $lookupArray = $thisColumn['lookuparray'];
-                if (is_array($lookupArray)) {
+                if (\is_array($lookupArray)) {
                     foreach ($lookupArray as $key => $value) {
                         if ($value['id'] == $row['user' . $x]) {
                             $value = $value['value'];
                         }
                     }
                     //@todo need to refactor using preg_match to allow for http[s]
-                } elseif (0 === strncmp($row["user{$x}"], 'http://', 7)) { //format value - can't use object because of query count
+                } elseif (0 === \strncmp($row["user{$x}"], 'http://', 7)) { //format value - can't use object because of query count
                     $value = "<a href=\"" . $row["user{$x}"] . "\">" . $row["user{$x}"] . "</a>\n";
                 } else {
                     $value = $row["user{$x}"];
@@ -746,9 +746,9 @@ class Utility
     public static function animal_block_addCatSelect($cats)
     {
         $cat_sql = '';
-        if (is_array($cats)) {
-            $cats = array_map('intval', $cats); // make sure all cats are numbers
-            $cat_sql = '(' . implode(',', $cats) . ')';
+        if (\is_array($cats)) {
+            $cats = \array_map('\intval', $cats); // make sure all cats are numbers
+            $cat_sql = '(' . \implode(',', $cats) . ')';
         /*
                     $cat_sql = '(' . current($cats);
                     array_shift($cats);
@@ -777,11 +777,11 @@ class Utility
     {
         switch ($type) {
             case 'string':
-                $ret = isset($global[$key]) ? filter_var($global[$key], FILTER_SANITIZE_MAGIC_QUOTES) : $default;
+                $ret = isset($global[$key]) ? \filter_var($global[$key], \FILTER_SANITIZE_MAGIC_QUOTES) : $default;
                 break;
             case 'int':
             default:
-                $ret = isset($global[$key]) ? filter_var($global[$key], FILTER_SANITIZE_NUMBER_INT) : $default;
+                $ret = isset($global[$key]) ? \filter_var($global[$key], \FILTER_SANITIZE_NUMBER_INT) : $default;
                 break;
         }
         if (false === $ret) {
@@ -800,10 +800,10 @@ class Utility
         global $xoTheme;
         $myts = \MyTextSanitizer::getInstance();
         $content = $myts->undoHtmlSpecialChars($myts->sanitizeForDisplay($content));
-        if (isset($xoTheme) && is_object($xoTheme)) {
-            $xoTheme->addMeta('meta', 'keywords', strip_tags($content));
+        if (isset($xoTheme) && \is_object($xoTheme)) {
+            $xoTheme->addMeta('meta', 'keywords', \strip_tags($content));
         } else {    // Compatibility for old Xoops versions
-            $GLOBALS['xoopsTpl']->assign('xoops_meta_keywords', strip_tags($content));
+            $GLOBALS['xoopsTpl']->assign('xoops_meta_keywords', \strip_tags($content));
         }
     }
 
@@ -816,10 +816,10 @@ class Utility
         global $xoTheme;
         $myts = \MyTextSanitizer::getInstance();
         $content = $myts->undoHtmlSpecialChars($myts->displayTarea($content));
-        if (isset($xoTheme) && is_object($xoTheme)) {
-            $xoTheme->addMeta('meta', 'description', strip_tags($content));
+        if (isset($xoTheme) && \is_object($xoTheme)) {
+            $xoTheme->addMeta('meta', 'description', \strip_tags($content));
         } else {    // Compatibility for old Xoops versions
-            $GLOBALS['xoopsTpl']->assign('xoops_meta_description', strip_tags($content));
+            $GLOBALS['xoopsTpl']->assign('xoops_meta_description', \strip_tags($content));
         }
     }
 
@@ -865,7 +865,7 @@ class Utility
         /** @var \XoopsModules\Pedigree\Helper $helper */
         $helper = Pedigree\Helper::getInstance();
         $helper->loadLanguage('main');
-        xoops_load('XoopsLocal');
+        \xoops_load('XoopsLocal');
         /*
 
         $criteria = $helper->getHandler('tree')->getActiveCriteria();
@@ -917,7 +917,7 @@ class Utility
         //        xoops_load('XoopsLocal');
         //        $xLocale        = new \XoopsLocal;
         //        $alphabet       = $xLocale->getAlphabet();
-        $alphabet = explode(',', _MA_PEDIGREE_LTRCHARS);
+        $alphabet = \explode(',', _MA_PEDIGREE_LTRCHARS);
         //$alphabet       = pedigreeGetAlphabet();
         $alphabet_array = [];
         foreach ($alphabet as $letter) {
@@ -959,7 +959,7 @@ class Utility
         }
 
         // Render output
-        if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
+        if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('class/theme.php');
             $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
@@ -999,8 +999,8 @@ class Utility
         $colValues = $helper->getConfig('colourscheme');
         $patterns = ['\s', '\,'];
         $replacements = ['', ';'];
-        $colValues = preg_replace($patterns, $replacements, $colValues); // remove spaces and commas - backward compatibility
-        $colors = explode(';', $colValues);
+        $colValues = \preg_replace($patterns, $replacements, $colValues); // remove spaces and commas - backward compatibility
+        $colors = \explode(';', $colValues);
 
         return $colors;
     }
@@ -1049,12 +1049,12 @@ class Utility
     public static function getMeta($key)
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = sprintf('SELECT metavalue FROM `%s` WHERE metakey= `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+        $sql = \sprintf('SELECT metavalue FROM `%s` WHERE metakey= `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key));
         $ret = $GLOBALS['xoopsDB']->query($sql);
         if (!$ret) {
             $value = false;
         } else {
-            list($value) = $GLOBALS['xoopsDB']->fetchRow($ret);
+            [$value] = $GLOBALS['xoopsDB']->fetchRow($ret);
         }
 
         return $value;
@@ -1075,9 +1075,9 @@ class Utility
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
         if (false !== ($ret = self::getMeta($key))) {
-            $sql = sprintf('UPDATE `%s` SET metavalue = `%s` WHERE metakey = `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
+            $sql = \sprintf('UPDATE `%s` SET metavalue = `%s` WHERE metakey = `%s` ', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($value), $GLOBALS['xoopsDB']->quoteString($key));
         } else {
-            $sql = sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (`%s`, `%s` )', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
+            $sql = \sprintf('INSERT INTO `%s` (metakey, metavalue) VALUES (`%s`, `%s` )', $GLOBALS['xoopsDB']->prefix('pedigree_meta'), $GLOBALS['xoopsDB']->quoteString($key), $GLOBALS['xoopsDB']->quoteString($value));
         }
         $ret = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$ret) {
@@ -1095,9 +1095,9 @@ class Utility
     public static function setCookieVar($name, $value, $time = 0)
     {
         if (0 == $time) {
-            $time = time() + 3600 * 24 * 365;
+            $time = \time() + 3600 * 24 * 365;
         }
-        setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
+        setcookie($name, $value, $time, '/', \ini_get('session.cookie_domain'), \ini_get('session.cookie_secure'), \ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -1120,7 +1120,7 @@ class Utility
      */
     public static function getCurrentUrls()
     {
-        $http = (false === mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
+        $http = (false === \mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
         $phpSelf = $_SERVER['SCRIPT_NAME'];
         $httpHost = $_SERVER['HTTP_HOST'];
         $queryString = $_SERVER['QUERY_STRING'];

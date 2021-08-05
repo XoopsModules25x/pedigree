@@ -308,9 +308,9 @@ class ImageColor
     private function splitColor($color)
     {
         $color = \str_replace('#', '', $color);
-        $c[]   = \hexdec(mb_substr($color, 0, 2));
-        $c[]   = \hexdec(mb_substr($color, 2, 2));
-        $c[]   = \hexdec(mb_substr($color, 4, 2));
+        $c[]   = \hexdec(\mb_substr($color, 0, 2));
+        $c[]   = \hexdec(\mb_substr($color, 2, 2));
+        $c[]   = \hexdec(\mb_substr($color, 4, 2));
 
         return $c;
     }
@@ -667,7 +667,7 @@ class ImageColor
             ];
         }
 
-        $color = mb_strtolower($color);
+        $color = \mb_strtolower($color);
 
         if (isset($colornames[$color])) {
             return $colornames[$color];

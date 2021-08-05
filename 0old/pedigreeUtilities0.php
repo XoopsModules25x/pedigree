@@ -939,7 +939,7 @@ class pedigreeUtilities0
      */
     public static function getCurrentUrls()
     {
-        $http        = (false === mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
+        $http        = (false === \mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
         $phpSelf     = $_SERVER['PHP_SELF'];
         $httpHost    = $_SERVER['HTTP_HOST'];
         $queryString = $_SERVER['QUERY_STRING'];

@@ -38,7 +38,7 @@ class Migrate extends \Xmf\Database\Migrate
     {
         if (null !== $configurator) {
             $this->renameTables = $configurator->renameTables;
-            $this->moduleDirName = basename(dirname(__DIR__, 2));
+            $this->moduleDirName = \basename(\dirname(__DIR__, 2));
             parent::__construct($this->moduleDirName);
         }
     }
@@ -69,8 +69,8 @@ class Migrate extends \Xmf\Database\Migrate
     {
         if ($this->tableHandler->useTable($tableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
-            if (false !== mb_strpos($attributes, ' int(')) {
-                if (false === mb_strpos($attributes, 'unsigned')) {
+            if (false !== \mb_strpos($attributes, ' int(')) {
+                if (false === \mb_strpos($attributes, 'unsigned')) {
                     $this->tableHandler->alterColumn($tableName, $columnName, " bigint(16) NOT NULL  DEFAULT '0' ");
                     $this->tableHandler->update($tableName, [$columnName => "4294967296 + $columnName"], "WHERE $columnName < 0", false);
                 }

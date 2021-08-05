@@ -48,13 +48,13 @@ class TextBox extends Pedigree\HtmlInputAbstract
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable = $parentObject->lookuptable;
         if ('1' == $this->lookuptable) {
-            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
         if ('1' == $parentObject->viewinadvanced) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
+            \xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', \get_class($this));
         }
         if ('1' == $parentObject->viewinpie) {
-            xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
     }
 

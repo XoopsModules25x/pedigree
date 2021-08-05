@@ -48,13 +48,13 @@ class UrlField extends Pedigree\HtmlInputAbstract
         $this->defaultvalue = $parentObject->defaultvalue;
         $this->lookuptable = $parentObject->hasLookup();
         if ($this->lookuptable) {
-            xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
         if ($parentObject->inAdvanced()) {
-            xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', get_class($this));
+            \xoops_error('userfield ' . $this->fieldnumber . ' cannot be shown in advanced info', \get_class($this));
         }
         if ($parentObject->inPie()) {
-            xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, get_class($this));
+            \xoops_error('A Pie-chart cannot be specified for userfield ' . $this->fieldnumber, \get_class($this));
         }
     }
 

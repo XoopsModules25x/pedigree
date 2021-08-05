@@ -20,7 +20,7 @@ namespace XoopsModules\Pedigree;
 
 use XoopsModules\Pedigree;
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\Temp
@@ -32,16 +32,16 @@ class Temp extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('naam', XOBJ_DTYPE_TXTAREA, null, true);
-        $this->initVar('id_owner', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('id_breeder', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('user', XOBJ_DTYPE_TXTBOX, null, false, 25);
-        $this->initVar('roft', XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('mother', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('father', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('foto', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('coi', XOBJ_DTYPE_TXTBOX, null, false, 10);
+        $this->initVar('id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('naam', \XOBJ_DTYPE_TXTAREA, null, true);
+        $this->initVar('id_owner', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('id_breeder', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('user', \XOBJ_DTYPE_TXTBOX, null, false, 25);
+        $this->initVar('roft', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('mother', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('father', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('foto', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('coi', \XOBJ_DTYPE_TXTBOX, null, false, 10);
     }
 
     /**
@@ -65,13 +65,13 @@ class Temp extends \XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
 
-        $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_TEMP_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_TEMP_EDIT);
+        $title = $this->isNew() ? \sprintf(_AM_PEDIGREE_PEDIGREE_TEMP_ADD) : \sprintf(_AM_PEDIGREE_PEDIGREE_TEMP_EDIT);
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
         $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_TEMP_NAAM, 'naam', $this->getVar('naam'), 10, 47), true);
+        $form->addElement(new \XoopsFormTextArea(\_AM_PEDIGREE_PEDIGREE_TEMP_NAAM, 'naam', $this->getVar('naam'), 10, 47), true);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_ID_OWNER, 'id_owner', 10, 11, $this->getVar('id_owner')), false);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_ID_BREEDER, 'id_breeder', 10, 11, $this->getVar('id_breeder')), false);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_TEMP_USER, 'user', 25, 25, $this->getVar('user')), false);

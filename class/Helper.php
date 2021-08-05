@@ -19,7 +19,7 @@ namespace XoopsModules\Pedigree;
  * @since
  * @author     XOOPS Development Team
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Helper
@@ -34,7 +34,7 @@ class Helper extends \Xmf\Module\Helper
     public function __construct($debug = false)
     {
         if (null === $this->dirname) {
-            $dirname = basename(dirname(__DIR__));
+            $dirname = \basename(\dirname(__DIR__));
             $this->dirname = $dirname;
         }
         parent::__construct($this->dirname);
@@ -73,8 +73,8 @@ class Helper extends \Xmf\Module\Helper
     public function getHandler($name)
     {
         $ret = false;
-        $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
-        if (!class_exists($class)) {
+        $class = __NAMESPACE__ . '\\' . \ucfirst($name) . 'Handler';
+        if (!\class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }
         /** @var \XoopsMySQLDatabase $db */

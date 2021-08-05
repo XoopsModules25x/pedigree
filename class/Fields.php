@@ -22,7 +22,7 @@ use XoopsModules\Pedigree\{
     Helper
 };
 
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+\defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Pedigree\Fields
@@ -35,24 +35,24 @@ class Fields extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 2);
-        $this->initVar('isactive', XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('fieldname', XOBJ_DTYPE_TXTBOX, null, false, 50);
-        $this->initVar('fieldtype', XOBJ_DTYPE_ENUM, 'textbox', false);
-        $this->initVar('lookuptable', XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('defaultvalue', XOBJ_DTYPE_TXTBOX, null, false, 50);
-        $this->initVar('fieldexplanation', XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('hassearch', XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('litter', XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('generallitter', XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('searchname', XOBJ_DTYPE_TXTBOX, null, false, 50);
-        $this->initVar('searchexplanation', XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar('viewinpedigree', XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('viewinadvanced', XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('viewinpie', XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('viewinlist', XOBJ_DTYPE_INT, 1, false, 1);
-        $this->initVar('locked', XOBJ_DTYPE_INT, 0, false, 1);
-        $this->initVar('order', XOBJ_DTYPE_INT, 0, false, 3);
+        $this->initVar('id', \XOBJ_DTYPE_INT, null, false, 2);
+        $this->initVar('isactive', \XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('fieldname', \XOBJ_DTYPE_TXTBOX, null, false, 50);
+        $this->initVar('fieldtype', \XOBJ_DTYPE_ENUM, 'textbox', false);
+        $this->initVar('lookuptable', \XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('defaultvalue', \XOBJ_DTYPE_TXTBOX, null, false, 50);
+        $this->initVar('fieldexplanation', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('hassearch', \XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('litter', \XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('generallitter', \XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('searchname', \XOBJ_DTYPE_TXTBOX, null, false, 50);
+        $this->initVar('searchexplanation', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('viewinpedigree', \XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('viewinadvanced', \XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('viewinpie', \XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('viewinlist', \XOBJ_DTYPE_INT, 1, false, 1);
+        $this->initVar('locked', \XOBJ_DTYPE_INT, 0, false, 1);
+        $this->initVar('order', \XOBJ_DTYPE_INT, 0, false, 3);
     }
 
     public function __toString()
@@ -78,7 +78,7 @@ class Fields extends \XoopsObject
         $helper = Helper::getInstance();
         $helper->loadLanguage('admin');
 
-        $title = $this->isNew() ? sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
+        $title = $this->isNew() ? \sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : \sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 

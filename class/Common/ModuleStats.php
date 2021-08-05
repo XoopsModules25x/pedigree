@@ -31,8 +31,8 @@ trait ModuleStats
      */
     public static function getModuleStats(Configurator $configurator, array $moduleStats): array
     {
-        if (0 < count($configurator->moduleStats)) {
-            foreach (array_keys($configurator->moduleStats) as $i) {
+        if (0 < \count($configurator->moduleStats)) {
+            foreach (\array_keys($configurator->moduleStats) as $i) {
                 $moduleStats[$i] = $configurator->moduleStats[$i];
             }
         }

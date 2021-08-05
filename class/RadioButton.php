@@ -61,7 +61,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     {
         $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $value = $this->value);
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount = count($lookupcontents);
+        $lcCount = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $radio->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
@@ -78,7 +78,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     {
         $radio = new \XoopsFormRadio('<b>' . $this->fieldname . '</b>', "{$name}user" . $this->fieldnumber, $value = $this->defaultvalue);
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount = count($lookupcontents);
+        $lcCount = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $radio->addOption($lookupcontents[$i]['id'], $lookupcontents[$i]['value']);
         }
@@ -92,7 +92,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     public function viewField()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount = count($lookupcontents);
+        $lcCount = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -110,7 +110,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     public function showField()
     {
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount = count($lookupcontents);
+        $lcCount = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             if ($lookupcontents[$i]['id'] == $this->value) {
                 $choosenvalue = $lookupcontents[$i]['value'];
@@ -142,7 +142,7 @@ class RadioButton extends Pedigree\HtmlInputAbstract
     {
         $select = "<select size='1' name='query' style='width: 140px;'>";
         $lookupcontents = parent::lookupField($this->fieldnumber);
-        $lcCount = count($lookupcontents);
+        $lcCount = \count($lookupcontents);
         foreach ($lookupcontents as $i => $iValue) {
             $select .= "<option value='" . $lookupcontents[$i]['id'] . "'>" . $lookupcontents[$i]['value'] . '</option>';
         }

@@ -107,7 +107,7 @@ class ImageColor
         $color3[2] = (int)((($this->color1[2] + $this->color2[2]) / 2) + 0.5);
 
         if ($this->websafeb) {
-            array_walk($color3, '_makeWebSafe');
+            \array_walk($color3, '\_makeWebSafe');
         }
 
         return $this->rgb2hex($color3);
@@ -198,7 +198,7 @@ class ImageColor
             }
 
             if ($this->websafeb) {
-                array_walk($newcolor, '_makeWebSafe');
+                \array_walk($newcolor, '\_makeWebSafe');
             }
 
             $allcolors[] = $this->rgb2hex($newcolor);
@@ -267,7 +267,7 @@ class ImageColor
     public function getTextColor($color, $light = '#FFFFFF', $dark = '#000000')
     {
         $color = $this->splitColor($color);
-        if ($color[1] > hexdec('66')) {
+        if ($color[1] > \hexdec('66')) {
             return $dark;
         }
 
@@ -305,10 +305,10 @@ class ImageColor
      */
     private function splitColor($color)
     {
-        $color = str_replace('#', '', $color);
-        $c[] = hexdec(mb_substr($color, 0, 2));
-        $c[] = hexdec(mb_substr($color, 2, 2));
-        $c[] = hexdec(mb_substr($color, 4, 2));
+        $color = \str_replace('#', '', $color);
+        $c[] = \hexdec(\mb_substr($color, 0, 2));
+        $c[] = \hexdec(\mb_substr($color, 2, 2));
+        $c[] = \hexdec(\mb_substr($color, 4, 2));
 
         return $c;
     }
@@ -342,7 +342,7 @@ class ImageColor
      */
     public function rgb2hex($color)
     {
-        return sprintf('%02X%02X%02X', $color[0], $color[1], $color[2]);
+        return \sprintf('%02X%02X%02X', $color[0], $color[1], $color[2]);
     }
 
     /**
@@ -411,7 +411,7 @@ class ImageColor
             return '';
         }
         $h = $h / 256.0 * 6.0;
-        $i = floor($h);
+        $i = \floor($h);
         $f = $h - $i;
 
         $v *= 256.0;
@@ -473,7 +473,7 @@ class ImageColor
     {
         $color = $this->color2RGB($color);
 
-        return imagefilledarc($img, $color[0], $color[1], $color[2]);
+        return \imagefilledarc($img, $color[0], $color[1], $color[2]);
     }
 
     /**
@@ -665,7 +665,7 @@ class ImageColor
             ];
         }
 
-        $color = mb_strtolower($color);
+        $color = \mb_strtolower($color);
 
         if (isset($colornames[$color])) {
             return $colornames[$color];
@@ -686,11 +686,11 @@ class ImageColor
     public function percentageColor2RGB($color)
     {
         // remove spaces
-        $color = str_replace(' ', '', $color);
+        $color = \str_replace(' ', '', $color);
         // remove the percent signs
-        $color = str_replace('%', '', $color);
+        $color = \str_replace('%', '', $color);
         // split the string by commas
-        $color = explode(',', $color);
+        $color = \explode(',', $color);
 
         $ret = [];
         foreach ($color as $k => $v) {

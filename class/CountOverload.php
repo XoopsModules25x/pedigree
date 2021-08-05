@@ -53,7 +53,7 @@ trait CountOverload
     public function getCounts(?\CriteriaElement $criteria = null): array
     {
         $countArray = parent::getCounts($criteria = null);
-        array_walk($countArray, 'self::castType', 'int');
+        \array_walk($countArray, 'self::castType', 'int');
 
         return $countArray;
     }
@@ -69,8 +69,8 @@ trait CountOverload
     {
         $validTypes = ['bool', 'boolean', 'int', 'integer', 'float', 'double', 'string', 'array', 'object', 'null'];
         $success    = false;
-        if (in_array($type, $validTypes)) {
-            $success = settype($var, $type);
+        if (\in_array($type, $validTypes)) {
+            $success = \settype($var, $type);
         }
         return $success;
     }
