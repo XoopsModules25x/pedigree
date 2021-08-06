@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -33,7 +34,7 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_delete.tpl';
-include XOOPS_ROOT_PATH . '/header.php';
+require XOOPS_ROOT_PATH . '/header.php';
 
 $id = Request::getInt('id', 0, 'GET');
 if (empty($id)) {
@@ -42,22 +43,22 @@ if (empty($id)) {
 }
 //query - find values for this animal
 $treeHandler = $helper->getHandler('Tree');
-$treeObj = $treeHandler->get($id);
+$treeObj     = $treeHandler->get($id);
 
 if ($treeObj instanceof Pedigree\Tree && !$treeObj->isNew()) {
-    $naam = $treeObj->getVar('naam', 's');
-    //$namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$naam}</a>";
+    $pname = $treeObj->getVar('pname', 's');
+    //$namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$pname}</a>";
 
     //Create form
-    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new \XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'post');
+    require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    $form = new \XoopsThemeForm($pname, 'deletedata', 'deletepage.php', 'post');
     //hidden value current record owner
     $form->addElement(new \XoopsFormHidden('dbuser', $treeObj->getVar('user')));
     //hidden value dog ID
     $form->addElement(new \XoopsFormHidden('dogid', $id));
-    $form->addElement(new \XoopsFormHidden('curname', $naam));
+    $form->addElement(new \XoopsFormHidden('curname', $pname));
     $form->addElement(new \XoopsFormHiddenToken('XOOPS_TOKEN_REQUEST', Constants::TOKEN_TIMEOUT));
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $helper->getConfig('animalType') . " : <span style=\"font-weight: bold;\">{$naam}</span>?"));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $helper->getConfig('animalType') . " : <span style=\"font-weight: bold;\">{$pname}</span>?"));
     //@todo move pups() function to Tree class method
     $pups = pups($id, (int)$treeObj->getVar('roft'));
     $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $helper->getConfig('children') . _MA_PEDIGREE_ALL_ORPH . $pups));
@@ -70,4 +71,4 @@ if ($treeObj instanceof Pedigree\Tree && !$treeObj->isNew()) {
 }
 
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require XOOPS_ROOT_PATH . '/footer.php';

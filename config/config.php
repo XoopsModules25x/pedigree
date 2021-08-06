@@ -17,7 +17,9 @@
  * @author       XOOPS Development Team
  */
 
-$moduleDirName      = basename(dirname(__DIR__));
+use Xmf\Module\Admin;
+
+$moduleDirName      = basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 return (object)[
@@ -35,13 +37,17 @@ return (object)[
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/owner',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_config',
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_trash',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_temp'
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_temp',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' .  'images'
         //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/flags'
     ],
     'copyBlankFiles' => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/owner',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_config',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_trash',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' . $moduleDirName . '_temp',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/' .  'images'
         //XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/flags'
     ],
 
@@ -57,7 +63,7 @@ return (object)[
         //            '/templates/blocks/',
         //            '/templates/admin/'
     ],
-    'oldFiles' => [
+    'oldFiles'        => [
         '/class/request.php',
         '/class/registry.php',
         '/class/utilities.php',
@@ -69,7 +75,7 @@ return (object)[
         //            '/include/functions.php',
         '/ajaxrating.txt',
     ],
-    'oldFolders' => [
+    'oldFolders'      => [
         '/images',
         '/css',
         '/js',
@@ -78,13 +84,12 @@ return (object)[
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
-    'moduleStats' => [
+    'moduleStats'  => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
         //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
         //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
     ],
-    /** @TODO figure out where this constant should be defined & ensure it's loaded */
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
+                     <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];
 

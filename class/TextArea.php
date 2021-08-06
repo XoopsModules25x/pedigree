@@ -1,4 +1,5 @@
 <?php
+
 namespace XoopsModules\Pedigree;
 
 /*
@@ -17,12 +18,11 @@ namespace XoopsModules\Pedigree;
  * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author          XOOPS Module Dev Team
  */
-use XoopsModules\Pedigree;
 
 /**
  * Class Pedigree\SelectBox
  */
-class TextArea extends Pedigree\HtmlInputAbstract
+class TextArea extends HtmlInputAbstract
 {
     // Define class variables
     private $fieldnumber;
@@ -36,15 +36,15 @@ class TextArea extends Pedigree\HtmlInputAbstract
     /**
      * Constructor
      *
-     * @todo move hard coded language strings to language file
-     * @param Field                         $parentObject
+     * @param \XoopsModules\Pedigree\Field  $parentObject
      * @param \XoopsModules\Pedigree\Animal $animalObject
+     * @todo move hard coded language strings to language file
      */
-    public function __construct(Pedigree\Field $parentObject, Pedigree\Animal $animalObject)
+    public function __construct(Field $parentObject, Animal $animalObject)
     {
-        $this->fieldnumber = $parentObject->getId();
-        $this->fieldname = $parentObject->fieldname;
-        $this->value = $animalObject->{'user' . $this->fieldnumber};
+        $this->fieldnumber  = $parentObject->getId();
+        $this->fieldname    = $parentObject->fieldname;
+        $this->value        = $animalObject->{'user' . $this->fieldnumber};
         $this->defaultvalue = $parentObject->defaultvalue;
         if ($parentObject->hasLookup()) {
             \xoops_error('No lookuptable may be specified for userfield ' . $this->fieldnumber, \get_class($this));
@@ -84,7 +84,7 @@ class TextArea extends Pedigree\HtmlInputAbstract
      */
     public function getSearchString()
     {
-        return '&amp;o=naam&amp;l=1';
+        return '&amp;o=pname&amp;l=1';
     }
 
     /**

@@ -68,10 +68,10 @@ function b_waiting_animal()
     }
     $ret[] = $block;
 
-    // waiting pedigree_config
+    // waiting pedigree_fields
     $block = [];
 
-    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE pedigree_config_waiting=1');
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE pedigree_fields_waiting=1');
     if ($result) {
         $block['adminlink'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/pedigree_fields.php?op=listWaiting';
         [$block['pendingnum']] = $GLOBALS['xoopsDB']->fetchRow($result);

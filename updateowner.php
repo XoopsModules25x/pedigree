@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -30,7 +31,7 @@ $helper->loadLanguage('main');
 require_once $helper->path('include/common.php');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_update.tpl';
-include XOOPS_ROOT_PATH . '/header.php';
+require XOOPS_ROOT_PATH . '/header.php';
 
 $GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_UPDATE);
 
@@ -40,37 +41,37 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
 }
 
 $fld = Request::getWord('fld', '', 'GET');
-$id = Request::getInt('id', 0, 'GET');
+$id  = Request::getInt('id', 0, 'GET');
 
 //query (find values for this owner/breeder (and format them))
 $ownerHandler = $helper->getHandler('Owner');
-$thisOwner = $ownerHandler->get($id);
+$thisOwner    = $ownerHandler->get($id);
 
 if ($thisOwner && $thisOwner instanceof Pedigree\Owner) {
     //get owner's name
     $ownerVals = $thisOwner->getValues(['housenumber', 'streetname', 'postcode', 'city', 'phonenumber', 'emailadres', 'website', 'user']);
     /*
-    $naaml = $thisOwner->getVar('lastname');
-    $naamf = $thisOwner->getVar('firstname');
-    $naam = $naaml . ', ' . $naamf;
+    $pnamel = $thisOwner->getVar('lastname');
+    $pnamef = $thisOwner->getVar('firstname');
+    $pname = $pnamel . ', ' . $pnamef;
     */
-    $naam = $thisOwner->getFullName(true);
-    $namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$naam}</a>";
+    $pname     = $thisOwner->getFullName(true);
+    $namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$pname}</a>";
     //street
-    list ($housenumber, $street, $postcode, $city, $phonenumber, $email, $web, $dbuser) = $ownerVals;
+    [$housenumber, $street, $postcode, $city, $phonenumber, $email, $web, $dbuser] = $ownerVals;
 }
 /*
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
-$result = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE id=' . $id;
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //ID
     $id = $row['id'];
     //name
-    $naaml = htmlentities(stripslashes($row['lastname']), ENT_QUOTES);
-    $naamf = htmlentities(stripslashes($row['firstname']), ENT_QUOTES);
-    $naam = $naaml . ', ' . $naamf;
-    $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['naam']) . '</a>';
+    $pnamel = htmlentities(stripslashes($row['lastname']), ENT_QUOTES);
+    $pnamef = htmlentities(stripslashes($row['firstname']), ENT_QUOTES);
+    $pname = $pnamel . ', ' . $pnamef;
+    $namelink = '<a href="dog.php?id=' . $row['id'] . '">' . stripslashes($row['pname']) . '</a>';
     //street
     $street = stripslashes($row['streetname']);
     //housenumber
@@ -91,31 +92,31 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
 }
 */
 //create form
-include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-$form = new \XoopsThemeForm($naam, 'updatedata', 'updatepage.php', 'post', true);
+require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+$form = new \XoopsThemeForm($pname, 'updatedata', 'updatepage.php', 'post', true);
 //hidden value current record owner
 $form->addElement(new \XoopsFormHidden('dbuser', $dbuser));
 //hidden value dog ID
 $form->addElement(new \XoopsFormHidden('ownerid', $id));
-$form->addElement(new \XoopsFormHidden('curname', $naam));
+$form->addElement(new \XoopsFormHidden('curname', $pname));
 $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
 //name last
 if ('nl' === $fld || 'all' === $fld) {
-    $form->addElement(new \XoopsFormText('<span style="font-weight: bold;">' . _MA_PEDIGREE_OWN_LNAME . '</span>', 'naaml', $size = 50, $maxsize = 255, $value = $naaml));
+    $form->addElement(new \XoopsFormText('<span style="font-weight: bold;">' . _MA_PEDIGREE_OWN_LNAME . '</span>', 'pnamel', $size = 50, $maxsize = 255, $value = $pnamel));
     $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new \XoopsFormHidden('dbfield', 'lastname'));
-    $form->addElement(new \XoopsFormHidden('curvalnamel', $naaml));
+    $form->addElement(new \XoopsFormHidden('curvalnamel', $pnamel));
 } else {
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_OWN_LNAME, $naaml));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_OWN_LNAME, $pnamel));
 }
 //name first
 if ('nf' === $fld || 'all' === $fld) {
-    $form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_OWN_FNAME . '</b>', 'naamf', $size = 50, $maxsize = 255, $value = $naamf));
+    $form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_OWN_FNAME . '</b>', 'pnamef', $size = 50, $maxsize = 255, $value = $pnamef));
     $form->addElement(new \XoopsFormHidden('dbtable', 'pedigree_owner'));
     $form->addElement(new \XoopsFormHidden('dbfield', 'firstname'));
-    $form->addElement(new \XoopsFormHidden('curvalnamef', $naamf));
+    $form->addElement(new \XoopsFormHidden('curvalnamef', $pnamef));
 } else {
-    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_OWN_FNAME, $naamf));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_OWN_FNAME, $pnamef));
 }
 //street
 if ('st' === $fld || 'all' === $fld) {
@@ -189,4 +190,4 @@ if ($fld) {
 $GLOBALS['xoopsTpl']->assign('form', $form->render());
 
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require XOOPS_ROOT_PATH . '/footer.php';

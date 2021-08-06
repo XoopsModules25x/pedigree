@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -17,11 +18,12 @@
  * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  */
+
 use Xmf\Request;
 use XoopsModules\Pedigree;
 use XoopsModules\Pedigree\Constants;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once  \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 
 $helper->loadLanguage('main');
@@ -30,7 +32,7 @@ require_once $helper->path('include/common.php');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require XOOPS_ROOT_PATH . '/header.php';
 
 $GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_ADD_OWNER_BREEDER);
 
@@ -43,15 +45,15 @@ $f = Request::getString('f', '', 'POST');
 if ('check' === $f) {
     //check for access
     $objVars = [
-        'firstname' => Request::getString('voornaam', '', 'POST'),
-         'lastname' => Request::getString('achternaam', '', 'POST'),
-       'emailadres' => Request::getEmail('email', '', 'POST'),
-          'website' => Request::getUrl('website', '', 'POST'),
-             'user' => Request::getString('user', '', 'POST'),
+        'firstname'  => Request::getString('firstname', '', 'POST'),
+        'lastname'   => Request::getString('lastname', '', 'POST'),
+        'emailadres' => Request::getEmail('email', '', 'POST'),
+        'website'    => Request::getUrl('website', '', 'POST'),
+        'user'       => Request::getString('user', '', 'POST'),
     ];
 
     $ownerHandler = $helper->getHandler('Owner');
-    $oObj = $ownerHandler->create();
+    $oObj         = $ownerHandler->create();
     $oObj->setVars($objVars);
     $ownerHandler->insert($oObj);
 
@@ -59,15 +61,15 @@ if ('check' === $f) {
 }
 
 //create form
-include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $form = new \XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'post');
 $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
 $form->addElement(new \XoopsFormHidden('user', $GLOBALS['xoopsUser']->getVar('uid')));
 //lastname
-$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_LNAME . '</b>', 'achternaam', $size = 30, $maxsize = 30, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_LNAME . '</b>', 'lastname', $size = 30, $maxsize = 30, $value = ''));
 
 //firstname
-$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_FNAME . '</b>', 'voornaam', $size = 3050, $maxsize = 30, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_FNAME . '</b>', 'firstname', $size = 3050, $maxsize = 30, $value = ''));
 
 //email
 $form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_EMAIL . '</b>', 'email', $size = 30, $maxsize = 40, $value = ''));
@@ -83,4 +85,4 @@ $form->addElement(new \XoopsFormButton('', 'button_id', _MA_PEDIGREE_ADD_OWNER, 
 $GLOBALS['xoopsTpl']->assign('form', $form->render());
 
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require XOOPS_ROOT_PATH . '/footer.php';

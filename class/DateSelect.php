@@ -68,7 +68,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      */
     public function editField()
     {
-        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', 'user' . $this->fieldnumber, $size = 15, $this->value);
 
         return $textarea;
     }
@@ -80,7 +80,7 @@ class DateSelect extends Pedigree\HtmlInputAbstract
      */
     public function newField($name = '')
     {
-        $textarea = new XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
+        $textarea = new \XoopsFormTextDateSelect('<b>' . $this->fieldname . '</b>', $name . 'user' . $this->fieldnumber, $size = 15, $this->defaultvalue);
 
         return $textarea;
     }

@@ -1,41 +1,51 @@
 <?php
-// -------------------------------------------------------------------------
-//  pedigree
-//      Copyright 2004, James Cotton
-//      http://www.dobermannvereniging.nl
-//  Template
-//      Copyright 2004 Thomas Hill
-//      <a href="http://www.worldware.com">worldware.com</a>
-// -------------------------------------------------------------------------
-// ------------------------------------------------------------------------- //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------- //
+/* ------------------------------------------------------------------------
+      pedigree
+          Copyright 2004, James Cotton
+           http://www.dobermannvereniging.nl
+      Template
+          Copyright 2004 Thomas Hill
+          <a href="http://www.worldware.com">worldware.com</a>
+   ------------------------------------------------------------------------
+   ------------------------------------------------------------------------
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   You may not change or alter any portion of this comment or credits
+   of supporting developers from this source code or any supporting
+   source code which is considered copyrighted (c) material of the
+   original comment or credit authors.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+   ------------------------------------------------------------------------
+*/
+
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       Copyright 2004, James Cotton <https://www.dobermannvereniging.nl>
+ * @copyright       Copyright 2004, Thomas Hill <https://www.worldware.com>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
+ */
 
 use Xmf\Module\Admin;
 use XoopsModules\Pedigree\{
     Helper
 };
 
-include dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /** @var Helper $helper */
@@ -44,7 +54,7 @@ $helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
-$pathIcon32 = Admin::menuIconPath('');
+$pathIcon32    = Admin::menuIconPath('');
 $pathModIcon32 = '';
 if (is_object($helper->getModule())) {
     $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
@@ -84,7 +94,13 @@ $adminmenu[] = [
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU5,
-    'link' => 'admin/pedigree.php',
+    'link'  => 'admin/pedigree.php',
+    'icon'  => $pathIcon32 . '/groupmod.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_PEDIGREE_ADMENU_REGISTRY,
+    'link'  => 'admin/registry.php',
     'icon'  => $pathIcon32 . '/groupmod.png',
 ];
 
@@ -108,7 +124,7 @@ $adminmenu[] = [
 
 $adminmenu[] = [
     'title' => _MI_PEDIGREE_ADMENU6,
-    'link'  => 'admin/pedigree_config.php',
+    'link'  => 'admin/pedigree_fields.php',
     'icon'  => $pathIcon32 . '/administration.png',
 ];
 
@@ -127,7 +143,7 @@ $adminmenu[] = [
     'icon'  => $pathIcon32 . '/block.png',
 ];
 
-if ($helper->getConfig('displayDeveloperTools')) {
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
         'link'  => 'admin/migrate.php',

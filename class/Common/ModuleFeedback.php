@@ -68,7 +68,7 @@ class ModuleFeedback extends \XoopsObject
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         // Get Theme Form
         \xoops_load('XoopsFormLoader');
@@ -105,8 +105,8 @@ class ModuleFeedback extends \XoopsObject
         $editorConfigs['width']  = '100%';
         $editorConfigs['height'] = '400px';
         /** @var \XoopsModuleHandler $moduleHandler */
-        $moduleHandler           = \xoops_getHandler('module');
-        $module                  = $moduleHandler->getByDirname('system');
+        $moduleHandler = \xoops_getHandler('module');
+        $module        = $moduleHandler->getByDirname('system');
         /** @var \XoopsConfigHandler $configHandler */
         $configHandler           = \xoops_getHandler('config');
         $config                  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));

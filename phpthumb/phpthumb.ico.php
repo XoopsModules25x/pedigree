@@ -9,15 +9,8 @@
 //                                                         ///
 //////////////////////////////////////////////////////////////
 
-/**
- * Class phpthumb_ico
- */
 class phpthumb_ico
 {
-    /**
-     * @param $gd_image_array
-     * @return string
-     */
     public function GD2ICOstring(&$gd_image_array)
     {
         $ImageWidths  = [];
@@ -42,9 +35,9 @@ class phpthumb_ico
                     $g    = $argb['green'];
                     $b    = $argb['blue'];
 
-                    if (32 == $bpp[$key]) {
+                    if ($bpp[$key] == 32) {
                         $icXOR[$key] .= chr($b) . chr($g) . chr($r) . chr($a);
-                    } elseif (24 == $bpp[$key]) {
+                    } elseif ($bpp[$key] == 24) {
                         $icXOR[$key] .= chr($b) . chr($g) . chr($r);
                     }
 
@@ -61,7 +54,7 @@ class phpthumb_ico
             }
             $icAND[$key] = '';
             foreach ($icANDmask[$key] as $y => $scanlinemaskbits) {
-                for ($i = 0; $i < strlen($scanlinemaskbits); $i += 8) {
+                for ($i = 0, $iMax = strlen($scanlinemaskbits); $i < $iMax; $i += 8) {
                     $icAND[$key] .= chr(bindec(str_pad(substr($scanlinemaskbits, $i, 8), 8, '0', STR_PAD_LEFT)));
                 }
             }

@@ -25,12 +25,9 @@ namespace XoopsModules\Pedigree;
  */
 
 use Xmf\Module\Helper\Permission;
-use XoopsModules\Pedigree;
-use XoopsObject;
-
-
-
-
+use XoopsModules\Pedigree\{
+    Helper
+};
 
 
 //$permHelper = new \Xmf\Module\Helper\Permission();
@@ -38,7 +35,7 @@ use XoopsObject;
 /**
  * Class Registry
  */
-class Registry extends XoopsObject
+class Registry extends \XoopsObject
 {
     public $helper;
     public $permHelper;
@@ -52,7 +49,7 @@ class Registry extends XoopsObject
     {
         parent::__construct();
         /** @var Pedigree\Helper $helper */
-        $this->helper     = Pedigree\Helper::getInstance();
+        $this->helper     = Helper::getInstance();
         $this->permHelper = new Permission();
 
         $this->initVar('id', \XOBJ_DTYPE_INT);

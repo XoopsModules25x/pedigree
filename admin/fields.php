@@ -1,43 +1,53 @@
 <?php
-// -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
-//    Template
-//        Copyright 2004 Thomas Hill
-//        <a href="http://www.worldware.com">worldware.com</a>
-// -------------------------------------------------------------------------
-// ------------------------------------------------------------------------- //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-// ------------------------------------------------------------------------- //
+/* ------------------------------------------------------------------------
+      pedigree
+          Copyright 2004, James Cotton
+           http://www.dobermannvereniging.nl
+      Template
+          Copyright 2004 Thomas Hill
+          <a href="http://www.worldware.com">worldware.com</a>
+   ------------------------------------------------------------------------
+   ------------------------------------------------------------------------
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   You may not change or alter any portion of this comment or credits
+   of supporting developers from this source code or any supporting
+   source code which is considered copyrighted (c) material of the
+   original comment or credit authors.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+   ------------------------------------------------------------------------
+*/
+
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       Copyright 2004, James Cotton <https://www.dobermannvereniging.nl>
+ * @copyright       Copyright 2004, Thomas Hill <https://www.worldware.com>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
+ */
 
 use Xmf\Request;
 use XoopsModules\Pedigree;
 
 //To be deleted?
 
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
-//require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php");
-//require_once dirname(__DIR__) . "/include/pedigree_includes.php";
+require_once \dirname(__DIR__, 3) . '/include/cp_header.php';
+//require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/pedigree_includes.php";
+//require_once \dirname(__DIR__) . "/include/pedigree_includes.php";
 
-xoops_loadLanguage('modinfo', basename(dirname(__DIR__, 2)));
+xoops_loadLanguage('modinfo', basename(\dirname(__DIR__, 2)));
 require_once $GLOBALS['xoops']->path('modules/pedigree/admin/menu.php');
 
 // Get HTTP post/get parameters.
@@ -49,12 +59,12 @@ $op = Request::getCmd('op', 'main');
 //
 // Writes out the form to get all config parameters.
 //
-function pedigree_config_form()
+function pedigree_fields_form()
 {
     $config_fields = pedigree_get_config_fields();
-    $values = pedigree_get_config();
+    $values        = pedigree_get_config();
     print "
-    <form action='config.php' method='POST' enctype='application/x-www-form-urlencoded'>\n
+    <form action='fields.php' method='POST' enctype='application/x-www-form-urlencoded'>\n
     <table border='1' cellpadding='0' cellspacing='0' width='100%'>\n
         <tr><th>" . _AM_PEDIGREE_CTITLE . "</th></tr>\n
         <tr>\n
@@ -92,13 +102,13 @@ function pedigree_config_form()
  *
  * Displays the main admin interface
  */
-function pedigree_config_main()
+function pedigree_fields_main()
 {
     //xoops_cp_header();
     $p_title = _AM_PEDIGREE_CONFIGURE;
     print "<h4 style='text-align:left;'>$p_title</h4>";
     pedigree_admin_hmenu();
-    pedigree_config_form();
+    pedigree_fields_form();
     xoops_cp_footer();
     exit();
 }
@@ -109,7 +119,7 @@ function pedigree_config_main()
  * Processes the configuration update request, by
  * getting the HTTP parameters, and putting them into the database.
  */
-function pedigree_config_post()
+function pedigree_fields_post()
 {
     $config_fields = pedigree_get_config_fields();
     foreach ($config_fields as $field => $prompt) {
@@ -117,7 +127,7 @@ function pedigree_config_post()
         global $$param;
     }
     $param_config_id = 1;
-    $sql = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
+    $sql             = 'REPLACE INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' (' . pedigree_to_string($config_fields) . ') VALUES (';
 
     $first = true;
     foreach ($config_fields as $field => $prompt) {
@@ -127,8 +137,8 @@ function pedigree_config_post()
         }
         // Handle a 'feature' of PHP that adds backslashes to HTTP parameters.
         $param_value = $$param;
-        $sql .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
-        $first = false;
+        $sql         .= "'" . $GLOBALS['xoopsDB']->escape($param_value) . "'";
+        $first       = false;
     }
     $sql .= ' )';
     if (!$GLOBALS['xoopsDB']->query($sql)) {
@@ -137,17 +147,17 @@ function pedigree_config_post()
         pedigree_show_sql_error(_AM_PEDIGREE_ERR_ADD_FAILED, $error, $sql);
         xoops_cp_footer();
     } else {
-        redirect_header('config.php', 1, _AM_PEDIGREE_OK_DB);
+        redirect_header('fields.php', 1, _AM_PEDIGREE_OK_DB);
     }
     exit();
 }
 
 switch ($op) {
     case 'main':
-        pedigree_config_main();
+        pedigree_fields_main();
         break;
     case 'config':
-        pedigree_config_post();
+        pedigree_fields_post();
         break;
     default:
         //xoops_cp_header();

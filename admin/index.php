@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -19,35 +20,40 @@
  * @since     1.32
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
+use Xmf\Yaml;
 use XoopsModules\Pedigree\{
     Common,
-    Constants,
     Common\TestdataButtons,
+    Constants,
+    Forms,
+    Helper,
     Utility
 };
 
-/**
- * @var \Xmf\Module\Admin $adminObject
- * @var \XoopsModules\Pedigree\Helper $helper
- */
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+/** @var Utility $utility */
+
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
+$adminObject = Admin::getInstance();
 
 //check or upload folders
 $configurator = new Common\Configurator();
 foreach (array_keys($configurator->uploadFolders) as $i) {
-    Utility::createFolder($configurator->uploadFolders[$i]);
+    $utility::createFolder($configurator->uploadFolders[$i]);
     $adminObject->addConfigBoxLine($configurator->uploadFolders[$i], 'folder');
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
-$newRelease = Utility::checkVerModule($helper);
-if (!empty($newRelease)) {
-    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color: Red"');
-}
+//$newRelease = $utility::checkVerModule($helper);
+//if (!empty($newRelease)) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
 //------------- Test Data ----------------------------
 
@@ -71,8 +77,8 @@ switch ($op) {
 }
 //------------- End Test Data Buttons ----------------------------
 
-
 $adminObject->displayIndex();
-echo Utility::getServerStats();
+
+echo $utility::getServerStats();
 
 require __DIR__ . '/admin_footer.php';

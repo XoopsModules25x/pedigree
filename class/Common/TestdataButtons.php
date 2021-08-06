@@ -37,7 +37,7 @@ use XoopsModules\Pedigree\{
 /**
  * Class TestdataButtons
  *
- * Contains methods for to create the Test buttons and change their visibility
+ * Contains methods to create the Test buttons and change their visibility
  */
 class TestdataButtons
 {

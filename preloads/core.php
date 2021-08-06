@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -21,12 +22,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class PedigreeCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
-
     /**
      * @param $args
      */
     public static function eventCoreIncludeCommonEnd($args)
     {
-        include __DIR__ . '/autoloader.php';
+        require __DIR__ . '/autoloader.php';
     }
 }

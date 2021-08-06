@@ -33,12 +33,12 @@ namespace XoopsModules\Pedigree\Common;
  */
 class Breadcrumb
 {
-    public $dirname;
+    public  $dirname;
     private $bread = [];
 
     public function __construct()
     {
-        $this->dirname = \basename(\dirname(__DIR__));
+        $this->dirname = \basename(\dirname(__DIR__, 2));
     }
 
     /**
@@ -52,13 +52,13 @@ class Breadcrumb
     public function addLink(?string $title = '', ?string $link = ''): void
     {
         $this->bread[] = [
-            'link' => $link,
+            'link'  => $link,
             'title' => $title,
         ];
     }
 
     /**
-     * Render Pedigree BreadCrumb
+     * Render BreadCrumb
      *
      * @return false|mixed|string HTML rendered text
      */

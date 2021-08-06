@@ -1,4 +1,5 @@
 <?php
+
 //menublock
 define('_MA_PEDIGREE_VIEWSEARCH', 'View/Search ');
 define('_MA_PEDIGREE_ADD_A', 'Add a ');

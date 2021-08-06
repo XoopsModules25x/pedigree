@@ -25,7 +25,7 @@ use XoopsModules\Pedigree\{
     Utility
 };
 
-require dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 /**
  * Prepares system prior to attempting to uninstall module
@@ -47,7 +47,7 @@ function xoops_module_pre_uninstall_pedigree(\XoopsModule $module): bool
  */
 function xoops_module_uninstall_pedigree(\XoopsModule $module): bool
 {
-    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirName      = basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
     $helper       = Helper::getInstance();
@@ -65,7 +65,7 @@ function xoops_module_uninstall_pedigree(\XoopsModule $module): bool
     //------------------------------------------------------------------
     if (0 < count($configurator->uploadFolders)) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
-           $success = $success && Utility::deleteDirectory($configurator->uploadFolders[$i]);
+            $success = $success && Utility::deleteDirectory($configurator->uploadFolders[$i]);
         }
     }
 

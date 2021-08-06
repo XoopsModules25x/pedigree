@@ -2,8 +2,8 @@
 //
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
-//                  Copyright (c) 2000-2016 XOOPS.org                        //
-//                       <https://xoops.org/>                             //
+//                  Copyright (c) 2000-2021 XOOPS.org                        //
+//                       <https://xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -30,7 +30,13 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
+use Xmf\Module\Admin;
+use XoopsModules\Pedigree\{
+    Common\Configurator,
+    Common\Migrate
+};
+
+/** @var Admin $adminObject */
 
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
@@ -51,26 +57,25 @@ echo <<<EOF
 </form>
 EOF;
 
-//XoopsLoad::load('migrate', 'newbb');
-
-/** @var Pedigree\Common\Configurator $configurator */
-$configurator = new Pedigree\Common\Configurator();
+/** @var \XoopsModules\Pedigree\Common\Configurator $configurator */
+$configurator = new Configurator();
 
 /** @var \XoopsModules\Pedigree\Common\Migrate $migrator */
-$migrator = new \XoopsModules\Pedigree\Common\Migrate($configurator);
+$migrator = new Migrate($configurator);
 
-$op = Request::getCmd('op', 'default');
-$opShow = Request::getCmd('show', null, 'POST');
+$op        = Request::getCmd('op', 'default');
+$opShow    = Request::getCmd('show', null, 'POST');
 $opMigrate = Request::getCmd('migrate', null, 'POST');
-$opSchema = Request::getCmd('schema', null, 'POST');
-$op = !empty($opShow) ? 'show' : $op;
-$op = !empty($opMigrate) ? 'migrate' : $op;
-$op = !empty($opSchema) ? 'schema' : $op;
+$opSchema  = Request::getCmd('schema', null, 'POST');
+$op        = !empty($opShow) ? 'show' : $op;
+$op        = !empty($opMigrate) ? 'migrate' : $op;
+$op        = !empty($opSchema) ? 'schema' : $op;
 
 $message = '';
 
 switch ($op) {
     case 'show':
+    default:
         $queue = $migrator->getSynchronizeDDL();
         if (!empty($queue)) {
             echo "<pre>\n";
@@ -82,15 +87,16 @@ switch ($op) {
         break;
     case 'migrate':
         $migrator->synchronizeSchema();
-        $message = 'Database migrated to current schema.';
+        $message = constant('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_OK');
         break;
     case 'schema':
-        xoops_confirm(['op' => 'confirmwrite'], 'migrate.php', 'Warning! This is intended for developers only. Confirm write schema file from current database.', 'Confirm');
+        xoops_confirm(['op' => 'confirmwrite'], 'migrate.php', constant('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_WARNING'), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'));
         break;
     case 'confirmwrite':
         if ($GLOBALS['xoopsSecurity']->check()) {
             $migrator->saveCurrentSchema();
-            $message = 'Current schema file written';
+
+            $message = constant('CO_' . $moduleDirNameUpper . '_' . 'MIGRATE_SCHEMA_OK');
         }
         break;
 }

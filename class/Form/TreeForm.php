@@ -38,24 +38,17 @@ use XoopsFormSelectUser;
 use XoopsFormText;
 use XoopsFormTextArea;
 use XoopsLists;
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper,
+    Utility
+};
 use XoopsObjectTree;
 use XoopsThemeForm;
-
-
-
-
-
-
-
-
-
-
 
 require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 $moduleDirName = \basename(\dirname(__DIR__, 2));
-//$helper = Pedigree\Helper::getInstance();
+//$helper = Helper::getInstance();
 $permHelper = new Permission();
 
 \xoops_load('XoopsFormLoader');
@@ -84,23 +77,23 @@ class TreeForm extends XoopsThemeForm
 
         //include ID field, it's needed so the module knows if it is a new form or an edited form
 
-        $hidden = new XoopsFormHidden('id', $this->targetObject->getVar('id'));
+        $hidden = new \XoopsFormHidden('id', $this->targetObject->getVar('id'));
         $this->addElement($hidden);
         unset($hidden);
 
         // Id
-        $this->addElement(new XoopsFormLabel(AM_PEDIGREE_TREE_ID, $this->targetObject->getVar('id'), 'id'));
+        $this->addElement(new \XoopsFormLabel(AM_PEDIGREE_TREE_ID, $this->targetObject->getVar('id'), 'id'));
         // Pname
-        $this->addElement(new XoopsFormTextArea(AM_PEDIGREE_TREE_PNAME, 'pname', $this->targetObject->getVar('pname'), 4, 47), false);
+        $this->addElement(new \XoopsFormTextArea(AM_PEDIGREE_TREE_PNAME, 'pname', $this->targetObject->getVar('pname'), 4, 47), false);
         // Id_owner
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TREE_ID_OWNER, 'id_owner', 50, 255, $this->targetObject->getVar('id_owner')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TREE_ID_OWNER, 'id_owner', 50, 255, $this->targetObject->getVar('id_owner')), false);
         // Id_breeder
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TREE_ID_BREEDER, 'id_breeder', 50, 255, $this->targetObject->getVar('id_breeder')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TREE_ID_BREEDER, 'id_breeder', 50, 255, $this->targetObject->getVar('id_breeder')), false);
         // User
-        $this->addElement(new XoopsFormSelectUser(AM_PEDIGREE_TREE_USER, 'user', false, $this->targetObject->getVar('user'), 1, false), false);
+        $this->addElement(new \XoopsFormSelectUser(AM_PEDIGREE_TREE_USER, 'user', false, $this->targetObject->getVar('user'), 1, false), false);
         // Roft
-        $roft         = new XoopsFormSelect(AM_PEDIGREE_TREE_ROFT, 'roft', $this->targetObject->getVar('roft'));
-        $optionsArray = Pedigree\Utility::enumerate('pedigree_tree', 'roft');
+        $roft         = new \XoopsFormSelect(AM_PEDIGREE_TREE_ROFT, 'roft', $this->targetObject->getVar('roft'));
+        $optionsArray = Utility::enumerate('pedigree_tree', 'roft');
         if (!\is_array($optionsArray)) {
             throw new RuntimeException($optionsArray . ' must be an array.');
         }
@@ -118,14 +111,14 @@ class TreeForm extends XoopsThemeForm
         $criteria      = new CriteriaCompo();
         $categoryArray = $treeHandler->getObjects($criteria);
         if ($categoryArray) {
-            $categoryTree = new XoopsObjectTree($categoryArray, 'id', 'pid');
+            $categoryTree = new \XoopsObjectTree($categoryArray, 'id', 'pid');
 
-            if (Pedigree\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+            if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $treePid = $categoryTree->makeSelectElement('pid', 'title', '--', $this->targetObject->getVar('pname'), true, 0, '', AM_PEDIGREE_TREE_MOTHER);
                 $this->addElement($treePid);
             } else {
                 $treePid = $categoryTree->makeSelBox('pname', 'title', '--', $this->targetObject->getVar('pname', 'e'), true);
-                $this->addElement(new XoopsFormLabel(AM_PEDIGREE_TREE_MOTHER, $treePid));
+                $this->addElement(new \XoopsFormLabel(AM_PEDIGREE_TREE_MOTHER, $treePid));
             }
         }
         // Father
@@ -138,39 +131,39 @@ class TreeForm extends XoopsThemeForm
         $criteria      = new CriteriaCompo();
         $categoryArray = $treeHandler->getObjects($criteria);
         if ($categoryArray) {
-            $categoryTree = new XoopsObjectTree($categoryArray, 'id', 'pid');
+            $categoryTree = new \XoopsObjectTree($categoryArray, 'id', 'pid');
 
-            if (Pedigree\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+            if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $treePid = $categoryTree->makeSelectElement('pid', 'title', '--', $this->targetObject->getVar('pname'), true, 0, '', AM_PEDIGREE_TREE_FATHER);
                 $this->addElement($treePid);
             } else {
                 $treePid = $categoryTree->makeSelBox('pname', 'title', '--', $this->targetObject->getVar('pname', 'e'), true);
-                $this->addElement(new XoopsFormLabel(AM_PEDIGREE_TREE_FATHER, $treePid));
+                $this->addElement(new \XoopsFormLabel(AM_PEDIGREE_TREE_FATHER, $treePid));
             }
         }
         // Foto
         $foto = $this->targetObject->getVar('foto') ?: 'blank.png';
 
         $uploadDir   = '/uploads/pedigree/images/';
-        $imgtray     = new XoopsFormElementTray(AM_PEDIGREE_TREE_FOTO, '<br>');
-        $imgpath     = \sprintf(AM_PEDIGREE_FORMIMAGE_PATH, $uploadDir);
-        $imageselect = new XoopsFormSelect($imgpath, 'foto', $foto);
+        $imgtray     = new \XoopsFormElementTray(AM_PEDIGREE_TREE_FOTO, '<br>');
+        $imgpath     = \sprintf(\AM_PEDIGREE_FORMIMAGE_PATH, $uploadDir);
+        $imageselect = new \XoopsFormSelect($imgpath, 'foto', $foto);
         $imageArray  = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $uploadDir);
         foreach ($imageArray as $image) {
             $imageselect->addOption((string)$image, $image);
         }
         $imageselect->setExtra("onchange='showImgSelected(\"image_foto\", \"foto\", \"" . $uploadDir . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageselect);
-        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadDir . '/' . $foto . "' name='image_foto' id='image_foto' alt='' >"));
-        $fileseltray = new XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new XoopsFormFile(AM_PEDIGREE_FORMUPLOAD, 'foto', \xoops_getModuleOption('maxsize')));
-        $fileseltray->addElement(new XoopsFormLabel(''));
+        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadDir . '/' . $foto . "' name='image_foto' id='image_foto' alt='' >"));
+        $fileseltray = new \XoopsFormElementTray('', '<br>');
+        $fileseltray->addElement(new \XoopsFormFile(\AM_PEDIGREE_FORMUPLOAD, 'foto', \xoops_getModuleOption('maxsize')));
+        $fileseltray->addElement(new \XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $this->addElement($imgtray);
         // Coi
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TREE_COI, 'coi', 50, 255, $this->targetObject->getVar('coi')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TREE_COI, 'coi', 50, 255, $this->targetObject->getVar('coi')), false);
 
-        $this->addElement(new XoopsFormHidden('op', 'save'));
-        $this->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $this->addElement(new \XoopsFormHidden('op', 'save'));
+        $this->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
     }
 }

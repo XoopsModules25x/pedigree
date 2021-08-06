@@ -11,14 +11,16 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
- * @package         XoopsModules\Ppedigree
+ * @package         XoopsModules\Pedigree
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
+
 use XoopsModules\Pedigree;
 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -28,13 +30,15 @@ use XoopsModules\Pedigree;
  */
 class TempHandler extends \XoopsPersistableObjectHandler
 {
-    use CountOverload;  // changed getCount() and getCounts() return values to integers
+    use CountOverload;
+
+    // changed getCount() and getCounts() return values to integers
 
     /**
      * @param null|\XoopsDatabase $db
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'pedigree_temp', Temp::class, 'id', 'naam');
+        parent::__construct($db, 'pedigree_temp', Temp::class, 'id', 'pname');
     }
 }

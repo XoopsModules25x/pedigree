@@ -30,18 +30,15 @@ use XoopsFormHidden;
 use XoopsFormLabel;
 use XoopsFormSelectUser;
 use XoopsFormText;
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
 use XoopsThemeForm;
-
-
-
-
-
 
 require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 $moduleDirName = \basename(\dirname(__DIR__, 2));
-//$helper = Pedigree\Helper::getInstance();
+//$helper = Helper::getInstance();
 $permHelper = new Permission();
 
 \xoops_load('XoopsFormLoader');
@@ -70,34 +67,34 @@ class OwnerForm extends XoopsThemeForm
 
         //include ID field, it's needed so the module knows if it is a new form or an edited form
 
-        $hidden = new XoopsFormHidden('id', $this->targetObject->getVar('id'));
+        $hidden = new \XoopsFormHidden('id', $this->targetObject->getVar('id'));
         $this->addElement($hidden);
         unset($hidden);
 
         // Id
-        $this->addElement(new XoopsFormLabel(AM_PEDIGREE_OWNER_ID, $this->targetObject->getVar('id'), 'id'));
+        $this->addElement(new \XoopsFormLabel(AM_PEDIGREE_OWNER_ID, $this->targetObject->getVar('id'), 'id'));
         // Firstname
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_FIRSTNAME, 'firstname', 50, 255, $this->targetObject->getVar('firstname')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_FIRSTNAME, 'firstname', 50, 255, $this->targetObject->getVar('firstname')), false);
         // Lastname
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_LASTNAME, 'lastname', 50, 255, $this->targetObject->getVar('lastname')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_LASTNAME, 'lastname', 50, 255, $this->targetObject->getVar('lastname')), false);
         // Postcode
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_POSTCODE, 'postcode', 50, 255, $this->targetObject->getVar('postcode')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_POSTCODE, 'postcode', 50, 255, $this->targetObject->getVar('postcode')), false);
         // City
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_CITY, 'city', 50, 255, $this->targetObject->getVar('city')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_CITY, 'city', 50, 255, $this->targetObject->getVar('city')), false);
         // Streetname
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_STREETNAME, 'streetname', 50, 255, $this->targetObject->getVar('streetname')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_STREETNAME, 'streetname', 50, 255, $this->targetObject->getVar('streetname')), false);
         // Housenumber
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_HOUSENUMBER, 'housenumber', 50, 255, $this->targetObject->getVar('housenumber')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_HOUSENUMBER, 'housenumber', 50, 255, $this->targetObject->getVar('housenumber')), false);
         // Phonenumber
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_PHONENUMBER, 'phonenumber', 50, 255, $this->targetObject->getVar('phonenumber')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_PHONENUMBER, 'phonenumber', 50, 255, $this->targetObject->getVar('phonenumber')), false);
         // Emailadres
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_EMAILADRES, 'emailadres', 50, 255, $this->targetObject->getVar('emailadres')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_EMAILADRES, 'emailadres', 50, 255, $this->targetObject->getVar('emailadres')), false);
         // Website
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_OWNER_WEBSITE, 'website', 50, 255, $this->targetObject->getVar('website')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_OWNER_WEBSITE, 'website', 50, 255, $this->targetObject->getVar('website')), false);
         // User
-        $this->addElement(new XoopsFormSelectUser(AM_PEDIGREE_OWNER_USER, 'user', false, $this->targetObject->getVar('user'), 1, false), false);
+        $this->addElement(new \XoopsFormSelectUser(AM_PEDIGREE_OWNER_USER, 'user', false, $this->targetObject->getVar('user'), 1, false), false);
 
-        $this->addElement(new XoopsFormHidden('op', 'save'));
-        $this->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $this->addElement(new \XoopsFormHidden('op', 'save'));
+        $this->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
     }
 }

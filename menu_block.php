@@ -10,10 +10,15 @@
  * @author       James Cotton {@link http://www.dobermannvereniging.nl James Cotton}
  * @author       XOOPS Module Dev Team
  */
-use XoopsModules\Pedigree;
+
+use XoopsModules\Pedigree\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
 
 $moduleDirName = basename(__DIR__);
-$helper = Pedigree\Helper::getInstance();
+$helper        = Helper::getInstance();
 $helper->loadLanguage('main');
 
 // Include any common code for this module.
@@ -24,10 +29,9 @@ require_once $helper->path('include/common.php');
  */
 function menu_block()
 {
-    /** @var \XoopsModules\Pedigree\Helper $helper */
-    $helper = Pedigree\Helper::getInstance();
+    $helper = Helper::getInstance();
 
-    list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+    [$actlink, $even, $odd, $text, $hovlink, $head, $body, $title] = Utility::getColourScheme();
     /*
     $actlink = $colors[0];
     $even    = $colors[1];
@@ -67,12 +71,12 @@ function menu_block()
         $isAdmin = false;
     }
 
-    $counter = 1;
+    $counter   = 1;
     $menuwidth = 4;
 
-    $x = $_SERVER['SCRIPT_NAME'];
-    $lastpos = Pedigree\Utility::myStrRpos($x, '/');
-    $len = mb_strlen($x);
+    $x       = $_SERVER['SCRIPT_NAME'];
+    $lastpos = Utility::myStrRpos($x, '/');
+    $len     = mb_strlen($x);
     $curpage = mb_substr($x, $lastpos, $len);
     if ('1' == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
@@ -86,7 +90,7 @@ function menu_block()
             $counter = 1;
         }
     }
-    if ('/index.php' === $curpage || '/result.php' == $curpage) {
+    if ('/index.php' === $curpage || '/result.php' === $curpage) {
         $title = '<b>' . _MA_PEDIGREE_VIEWSEARCH . $helper->getConfig('animalTypes') . '</b>';
     } else {
         $title = '_MA_PEDIGREE_VIEWSEARCH ' . $helper->getConfig('animalTypes');
@@ -106,18 +110,21 @@ function menu_block()
     if ($counter == $menuwidth) {
         $counter = 1;
     }
-    if ('1' == $helper->getConfig('uselitter') {
+
+    if ('1' == $helper->getConfig('uselitter')) {
         if ('/index.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_ADD_LITTER . $helper->getConfig('litter') . '</b>';
         } else {
             $title = '_MA_PEDIGREE_ADD_LITTER ' . $helper->getConfig('litter');
         }
+
         $menuarray[] = ['title' => $title, 'link' => 'add_litter.php', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {
             $counter = 1;
         }
     }
+
     if ('1' == $helper->getConfig('ownerbreeder')) {
         if ('/index.php' === $curpage || '/owner.php' === $curpage) {
             $title = '<b>' . _MA_PEDIGREE_VIEW_OWNBREED . '</b>';
@@ -184,7 +191,7 @@ function menu_block()
             $counter = 1;
         }
 
-        $title = _MA_PEDIGREE_USER_LOGOUT;
+        $title       = _MA_PEDIGREE_USER_LOGOUT;
         $menuarray[] = ['title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {

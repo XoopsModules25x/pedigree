@@ -18,6 +18,7 @@ namespace XoopsModules\Pedigree;
  * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @author          XOOPS Module Dev Team
  */
+
 use XoopsModules\Pedigree\{
     Helper
 };
@@ -63,10 +64,10 @@ class Fields extends \XoopsObject
     /**
      * @param null|bool $action
      *
+     * @return object {@see \XoopsThemeForm}
      * @todo refactor to eliminate XoopsObjectTree since it's not structured to
      *       handle this type of object
      *
-     * @return object {@see \XoopsThemeForm}
      */
     public function getForm(?bool $action = false): \XoopsThemeForm
     {
@@ -78,7 +79,7 @@ class Fields extends \XoopsObject
         $helper = Helper::getInstance();
         $helper->loadLanguage('admin');
 
-        $title = $this->isNew() ? \sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : \sprintf(_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
+        $title = $this->isNew() ? \sprintf(\_AM_PEDIGREE_PEDIGREE_CONFIG_ADD) : \sprintf(\_AM_PEDIGREE_PEDIGREE_CONFIG_EDIT);
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
@@ -89,25 +90,25 @@ class Fields extends \XoopsObject
         $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_ISACTIVE, 'isactive', (int)$this->getVar('isactive')), false);
         $fieldTypes = new \XoopsFormSelect(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, 'fieldtype', $this->getVar('fieldtype'), false);
         $fieldTypes->addOptionArray([
-                                        'DateSelect' => 'DateSelect',
-                                        'Picture' => 'Picture',
+                                        'DateSelect'  => 'DateSelect',
+                                        'Picture'     => 'Picture',
                                         'radiobutton' => 'radiobutton',
-                                        'selectbox' => 'selectbox',
-                                        'textarea' => 'textarea',
-                                        'textbox' => 'textbox',
-                                        'urlfield' => 'urlfield',
+                                        'selectbox'   => 'selectbox',
+                                        'textarea'    => 'textarea',
+                                        'textbox'     => 'textbox',
+                                        'urlfield'    => 'urlfield',
                                     ]);
         $form->addElement($fieldTypes);
         //        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDTYPE, "fieldtype", $this->getVar("fieldtype"), 4, 47), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE, 'lookupTable', 50, 255, $this->getVar('lookuptable')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_DEFAULTVALUE, 'defaultValue', 50, 255, $this->getVar('defaultvalue')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDEXPLANATION, 'fieldExplanation', 50, 255, $this->getVar('fieldexplanation')), false);
-        $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_HASSEARCH, 'hasSearch', (int)$this->getVar('hassearch')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_LOOKUPTABLE, 'lookupTable', 50, 255, $this->getVar('lookuptable')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_DEFAULTVALUE, 'defaultValue', 50, 255, $this->getVar('defaultvalue')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_CONFIG_FIELDEXPLANATION, 'fieldExplanation', 50, 255, $this->getVar('fieldexplanation')), false);
+        $form->addElement(new \XoopsFormRadioYN(\_AM_PEDIGREE_PEDIGREE_CONFIG_HASSEARCH, 'hasSearch', (int)$this->getVar('hassearch')), false);
         /* @todo: should be single select for either General Litter or Litter, can't have both */
         $currentType = $this->getVar('litter') ? 'litter' : 'generallitter';
         $litterRadio = new \XoopsFormRadio(_AM_PEDIGREE_PEDIGREE_CONFIG_LITTER_TYPE, 'littertype', $currentType);
         $litterRadio->addOptionArray([
-                                         'litter' => _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
+                                         'litter'        => _AM_PEDIGREE_PEDIGREE_CONFIG_LITTER,
                                          'generallitter' => _AM_PEDIGREE_PEDIGREE_CONFIG_GENERALLITTER,
                                      ]);
         $form->addElement($litterRadio, false);
@@ -121,7 +122,7 @@ class Fields extends \XoopsObject
         $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_VIEWINLIST, 'viewinlist', (int)$this->getVar('viewinlist')), false);
         $form->addElement(new \XoopsFormRadioYN(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, 'locked', (int)$this->getVar('locked')), false);
         $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_CONFIG_ORDER, 'order', 3, 8, (int)$this->getVar('order')), false);
-        //            include_once(XOOPS_ROOT_PATH."/class/tree.php");
+        //            require_once XOOPS_ROOT_PATH."/class/tree.php";
         //            $Handler = xoops_getModuleHandler("animal_", $GLOBALS['xoopsDB']->getVar("dirname"));
         //            $criteria = new \CriteriaCompo();
         //            $criteria->setSort('_id');
@@ -130,7 +131,7 @@ class Fields extends \XoopsObject
         //            $mytree = new \XoopsObjectTree($_arr, "_id", "_pid");
         //            $form->addElement(new \XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title","--", $this->getVar("_pid"),false)));
         //
-        //            include_once(XOOPS_ROOT_PATH."/class/tree.php");
+        //            require_once XOOPS_ROOT_PATH."/class/tree.php";
         //            $Handler = xoops_getModuleHandler("animal_", $GLOBALS['xoopsModule']->getVar("dirname"));
         //            $criteria = new \CriteriaCompo();
         //            $criteria->setSort('_id');
@@ -141,7 +142,7 @@ class Fields extends \XoopsObject
         /*
                 require_once $GLOBALS['xoops']->path("class/tree.php");
         //      $Handler = xoops_getModuleHandler("animal_", $GLOBALS['xoopsModule']->getVar("dirname"));
-                $Handler = Pedigree\Helper::getInstance()->getHandler('Fields');
+                $Handler = Helper::getInstance()->getHandler('Fields');
         //        $Handler = & $fieldsHandler;
                 $criteria = new \CriteriaCompo();
                 $criteria->setSort('id');
@@ -150,21 +151,21 @@ class Fields extends \XoopsObject
                 $mytree = new \XoopsObjectTree($_arr, "ID", "_pid");
                 $form->addElement(new \XoopsFormLabel(_AM_PEDIGREE_PEDIGREE_CONFIG_LOCKED, $mytree->makeSelBox("_pid", "_title", "--", $this->getVar("_pid"), false)));
         */
-        $form->addElement(new \XoopsFormHidden('op', 'save_pedigree_config'));
+        $form->addElement(new \XoopsFormHidden('op', 'save_pedigree_fields'));
 
         //Submit buttons
         $form->addElement(new \XoopsFormButtonTray('fieldButtons', _SUBMIT, 'submit'));
 
         /*
-                $button_tray   = new \XoopsFormElementTray("", "");
+                $buttonTray   = new \XoopsFormElementTray("", "");
                 $submit_button = new \XoopsFormButton("", "submit", _SUBMIT, "submit");
-                $button_tray->addElement($submit_button);
+                $buttonTray->addElement($submit_button);
 
                 $cancel_button = new \XoopsFormButton("", "", _CANCEL, "cancel");
                 $cancel_button->setExtra('onclick="history.go(-1)"');
-                $button_tray->addElement($cancel_button);
+                $buttonTray->addElement($cancel_button);
 
-                $form->addElement($button_tray);
+                $form->addElement($buttonTray);
         */
 
         return $form;
@@ -231,7 +232,7 @@ class Fields extends \XoopsObject
      */
     public function getSearchString(): string
     {
-        return '&amp;o=naam&amp;p';
+        return '&amp;o=pname&amp;p';
     }
 
     /**
@@ -265,14 +266,14 @@ class Fields extends \XoopsObject
     {
         $id = $this->getVar('id');
 
-        return !empty($id) ? (int) $id : 0;
+        return !empty($id) ? (int)$id : 0;
     }
 
     /**
-     * @deprecated
      * @param $setting
      *
      * @return mixed
+     * @deprecated
      */
     public function getSetting(string $setting)
     {

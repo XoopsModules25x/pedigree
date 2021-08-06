@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * animal module for xoops
  *
@@ -25,7 +26,8 @@ use XoopsModules\Pedigree\{
     Helper,
     Utility
 };
-require dirname(__DIR__) . '/preloads/autoloader.php';
+
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
 /**
  * Prepares system prior to attempting to install module
@@ -47,8 +49,8 @@ function xoops_module_pre_install_pedigree(\XoopsModule $module)
     if (false !== $xoopsSuccess && false !== $phpSuccess) {
         $moduleTables = $module->getInfo('tables');
         foreach ($moduleTables as $table) {
-            $success = $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
-            $success = false === $success || true;
+            $success    = $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+            $success    = false === $success || true;
             $sqlSuccess = $sqlSuccess && $success;
         }
     }
@@ -81,16 +83,15 @@ function xoops_module_install_pedigree(\XoopsModule $module)
     $permHandler->savePermissionForItem($moduleDirName . '_submit', 1, [XOOPS_GROUP_ADMIN]);
     $permHandler->savePermissionForItem($moduleDirName . '_view', 1, [XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS, XOOPS_GROUP_ANONYMOUS]);
 
-    //$moduleName = $module->getVar('name');
-    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    //$moduleName = $module->getVar('name'); /** @var \XoopsGroupPermHandler $grouppermHandler */
     /*
-        $grouppermHandler = xoops_getHandler('groupperm');
-        // access rights ------------------------------------------
-        $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
-        $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
-        $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
-        $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
-        $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
+    $grouppermHandler = xoops_getHandler('groupperm');
+    // access rights ------------------------------------------
+    $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
     */
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator->uploadFolders) > 0) {
@@ -110,7 +111,7 @@ function xoops_module_install_pedigree(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file = dirname(__DIR__) . '/assets/images/blank.png';
+        $file = \dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             Utility::copyFile($file, $dest);
@@ -119,7 +120,7 @@ function xoops_module_install_pedigree(\XoopsModule $module)
 
     //  ---  COPY test folder files ---------------
     if (count($configurator->copyTestFolders) > 0) {
-        //$file =  dirname(__DIR__) . '/testdata/images/';
+        //$file =  \dirname(__DIR__) . '/testdata/images/';
         foreach (array_keys($configurator->copyTestFolders) as $i) {
             $src  = $configurator->copyTestFolders[$i][0];
             $dest = $configurator->copyTestFolders[$i][1];

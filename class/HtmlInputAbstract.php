@@ -12,6 +12,7 @@ namespace XoopsModules\Pedigree;
  * @author     zyspec <zyspec@yahoo.com>
  * @since      1.3.1
  */
+
 use XoopsModules\Pedigree;
 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -40,7 +41,6 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
      * @return mixed
      */
     abstract public function newField($name);
-
 
     /**
      * @return mixed|void
@@ -98,10 +98,10 @@ abstract class HtmlInputAbstract //extends Pedigree\Field
 
         /** @var \Xmf\Database\Tables $pTables */
         $pTables = new \Xmf\Database\Tables();
-        $exists = $pTables->useTable('pedigree_lookup' . $fieldnumber);
+        $exists  = $pTables->useTable('pedigree_lookup' . $fieldnumber);
         if ($exists) {
             $tableName = $pTables->name('pedigree_lookup' . $fieldnumber);
-            $SQL = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
+            $SQL       = "SELECT * FROM `{$tableName}` ORDER BY 'order'";
             //$SQL    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
             $result = $GLOBALS['xoopsDB']->query($SQL);
             while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {

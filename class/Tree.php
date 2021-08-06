@@ -11,16 +11,16 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
  * @copyright       {@link http://sourceforge.net/projects/xoops/ The XOOPS Project}
  * @license         GPL 2.0 or later
  * @package         pedigree
- * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
-use XoopsModules\Pedigree;
+
 use XoopsModules;
 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -36,7 +36,7 @@ class Tree extends \XoopsObject
     {
         parent::__construct();
         $this->initVar('id', \XOBJ_DTYPE_INT, null, false, 7);
-        $this->initVar('naam', \XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('pname', \XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('id_owner', \XOBJ_DTYPE_INT, null, false, 5);
         $this->initVar('id_breeder', \XOBJ_DTYPE_INT, null, false, 5);
         $this->initVar('user', \XOBJ_DTYPE_TXTBOX, null, false, 25);
@@ -47,8 +47,9 @@ class Tree extends \XoopsObject
         $this->initVar('coi', \XOBJ_DTYPE_TXTBOX, null, false, 10);
     }
 
-    public function __toString(){
-        return $this->getVar('naam');
+    public function __toString()
+    {
+        return $this->getVar('pname');
     }
 
     /**
@@ -63,17 +64,18 @@ class Tree extends \XoopsObject
         if (!$this->getVar('mother')) {
             $motherObj = $treeHandler->get($this->getVar('mother'));
             if ($motherObj instanceof XoopsModules\Pedigree\Tree && !$motherObj->isNew()) {
-                $parents['mother'] = ['id' => $motherObj->geVar('id'), 'name' => $motherObj->getVar('naam')];
+                $parents['mother'] = ['id' => $motherObj->geVar('id'), 'name' => $motherObj->getVar('pname')];
             }
         }
         if (!$this->getVar('father')) {
             $fatherObj = $treeHandler->get($this->getVar('father'));
             if ($fatherObj instanceof XoopsModules\Pedigree\Tree && !$fatherObj->isNew()) {
-                $parents['father'] = ['id' => $fatherObj->geVar('id'), 'name' => $fatherObj->getVar('naam')];
+                $parents['father'] = ['id' => $fatherObj->geVar('id'), 'name' => $fatherObj->getVar('pname')];
             }
         }
         return $parents;
     }
+
     /**
      * @param bool $action
      *
@@ -87,35 +89,35 @@ class Tree extends \XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
 
-        $title = $this->isNew() ? \sprintf(_AM_PEDIGREE_PEDIGREE_ADD) : \sprintf(_AM_PEDIGREE_PEDIGREE_EDIT);
+        $title = $this->isNew() ? \sprintf(\_AM_PEDIGREE_PEDIGREE_ADD) : \sprintf(\_AM_PEDIGREE_PEDIGREE_EDIT);
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $form->addElement(new \XoopsFormTextArea(\_AM_PEDIGREE_PEDIGREE_NAAM, 'naam', $this->getVar('naam'), 4, 47), true);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_USER, 'user', 50, 255, $this->getVar('user')), false);
-        $form->addElement(new \XoopsFormTextArea(_AM_PEDIGREE_PEDIGREE_ROFT, 'roft', $this->getVar('roft'), 4, 47), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_MOTHER, 'mother', 50, 255, $this->getVar('mother')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_FATHER, 'father', 50, 255, $this->getVar('father')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_FOTO, 'foto', 50, 255, $this->getVar('foto')), false);
-        $form->addElement(new \XoopsFormText(_AM_PEDIGREE_PEDIGREE_COI, 'coi', 50, 255, $this->getVar('coi')), false);
+        $form->addElement(new \XoopsFormTextArea(\_AM_PEDIGREE_PEDIGREE_PNAME, 'pname', $this->getVar('pname'), 4, 47), true);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_ID_OWNER, 'id_owner', 50, 255, $this->getVar('id_owner')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_ID_BREEDER, 'id_breeder', 50, 255, $this->getVar('id_breeder')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_USER, 'user', 50, 255, $this->getVar('user')), false);
+        $form->addElement(new \XoopsFormTextArea(\_AM_PEDIGREE_PEDIGREE_ROFT, 'roft', $this->getVar('roft'), 4, 47), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_MOTHER, 'mother', 50, 255, $this->getVar('mother')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_FATHER, 'father', 50, 255, $this->getVar('father')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_FOTO, 'foto', 50, 255, $this->getVar('foto')), false);
+        $form->addElement(new \XoopsFormText(\_AM_PEDIGREE_PEDIGREE_COI, 'coi', 50, 255, $this->getVar('coi')), false);
 
         $form->addElement(new \XoopsFormHidden('op', 'save_pedigree'));
 
         //Submit buttons
-        $button_tray = new \XoopsFormElementTray('', '');
+        $buttonTray   = new \XoopsFormElementTray('', '');
         $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
-        $button_tray->addElement($submit_button);
+        $buttonTray->addElement($submit_button);
 
         $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'cancel');
         $cancel_button->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($cancel_button);
+        $buttonTray->addElement($cancel_button);
 
-        $form->addElement($button_tray);
+        $form->addElement($buttonTray);
 
         return $form;
     }

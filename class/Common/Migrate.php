@@ -12,8 +12,6 @@ namespace XoopsModules\Pedigree\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use \XoopsModules\Pedigree\Common;
-
 /**
  * Class Migrate synchronize existing tables with target schema
  *
@@ -37,7 +35,7 @@ class Migrate extends \Xmf\Database\Migrate
     public function __construct(?Configurator $configurator = null)
     {
         if (null !== $configurator) {
-            $this->renameTables = $configurator->renameTables;
+            $this->renameTables  = $configurator->renameTables;
             $this->moduleDirName = \basename(\dirname(__DIR__, 2));
             parent::__construct($this->moduleDirName);
         }
@@ -91,14 +89,13 @@ class Migrate extends \Xmf\Database\Migrate
         $tableName    = 'newbb_posts_text';
         $srcTableName = 'newbb_posts';
         if ($this->tableHandler->useTable($tableName)
-            && $this->tableHandler->useTable($srcTableName))
-        {
+            && $this->tableHandler->useTable($srcTableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
             if (false === $attributes) {
                 $this->synchronizeTable($tableName);
                 $updateTable = $GLOBALS['xoopsDB']->prefix($tableName);
-                $joinTable = $GLOBALS['xoopsDB']->prefix($srcTableName);
-                $sql = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
+                $joinTable   = $GLOBALS['xoopsDB']->prefix($srcTableName);
+                $sql         = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
                 $this->tableHandler->addToQueue($sql);
             }
         }

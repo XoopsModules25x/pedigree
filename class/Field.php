@@ -25,7 +25,6 @@ namespace XoopsModules\Pedigree;
 use XoopsFormLabel;
 use XoopsModules\Pedigree;
 
-
 /**
  * Class Field
  */
@@ -181,7 +180,7 @@ class Field
      */
     public function viewField()
     {
-        $view = new XoopsFormLabel($this->fieldname, $this->value);
+        $view = new \XoopsFormLabel($this->fieldname, $this->value);
 
         return $view;
     }

@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -19,12 +20,17 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-use XoopsModules\Pedigree\Constants;
+use XoopsModules\Pedigree\{
+    Constants,
+    Helper,
+    Utility
+};
+
+/** @var Helper $helper */
 
 require_once __DIR__ . '/header.php';
 
-/** @var XoopsModules\Pedigree\Helper $helper */
+
 $helper->loadLanguage('main');
 
 // Include any common code for this module.
@@ -37,19 +43,19 @@ extract($_GET, EXTR_PREFIX_ALL, "param");
 extract($_POST, EXTR_PREFIX_ALL, "param");
 */
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_result.tpl';
-include $GLOBALS['xoops']->path('/header.php');
+require $GLOBALS['xoops']->path('/header.php');
 
 //get module configuration
 /** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$module = $moduleHandler->getByDirname($moduleDirName);
+$module        = $moduleHandler->getByDirname($moduleDirName);
 $configHandler = xoops_getHandler('config');
-$moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+$moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
 $perPage = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE);
 $perPage = (int)$perPage > 0 ? (int)$perPage : Constants::DEFAULT_PER_PAGE; // default if invalid number in module param
 
-$st = Request::getInt('st', 0, 'GET');
+$st  = Request::getInt('st', 0, 'GET');
 $com = Request::getString('com', 'father', 'GET');
 /*
 $st = isset($_GET['st']) ? $_GET['st'] : null;
@@ -62,12 +68,12 @@ if (!$com) {
 }
 */
 
-$dogs = []; // an empty array
+$dogs         = []; // an empty array
 $numofcolumns = 0;
-$pages = '';
+$pages        = '';
 
 //count total number of dogs
-$numDog = "SELECT COUNT( {$com} ) AS X, {$com} FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE {$com} !=0 GROUP BY {$com}";
+$numDog = "SELECT COUNT( {$com} ) AS X, {$com} FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE {$com} !=0 GROUP BY {$com}";
 $numRes = $GLOBALS['xoopsDB']->query($numDog);
 //total number of dogs the query will find
 $numResults = $GLOBALS['xoopsDB']->getRowsNum($numRes);
@@ -103,14 +109,14 @@ if ($numPages > 1) {
     }
 }
 //query
-$queryString = 'SELECT count( d.'
+$sql    = 'SELECT count( d.'
                . $com
                . ' ) AS X, d.'
                . $com
-               . ', p.naam as p_NAAM, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+          . ', p.pname as p_pname, p.father as p_father, p.mother as p_mother, p.coi as p_coi, p.foto as p_foto FROM '
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' d LEFT JOIN '
-               . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+               . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                . ' p ON d.'
                . $com
                . ' = p.id WHERE d.'
@@ -121,11 +127,11 @@ $queryString = 'SELECT count( d.'
                . $st
                . ', '
                . $perPage;
-$result = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($sql);
 
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     $numofcolumns = 2;
-    $gender = ('father' === $com) ? "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">" : "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">";
+    $gender       = ('father' === $com) ? "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">" : "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">";
 
     //read coi% information if exists or create link if not
     if ('' == $row['p_coi'] || '0' == $row['p_coi']) {
@@ -138,22 +144,22 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     //create array for dogs
     if ('' != $row['p_foto']) {
         //@todo figure out what this file is and where it should be placed
-        $camera = ' <img src="' . PEDIGREE_UPLOAD_URL . '/images/dog-icon25.png">';
+        $camera = ' <img src="' . PEDIGREE_IMAGE_URL . '/images/camera.png">';
     } else {
         $camera = '';
     }
-    $name = stripslashes($row['p_NAAM']) . $camera;
+    $name = stripslashes($row['p_pname']) . $camera;
     for ($i = 1; $i < $numofcolumns; ++$i) {
         $columnvalue[] = ['value' => $coi];
         $columnvalue[] = ['value' => $row['X']];
     }
     $dogs[] = [
-        'id' => $row[$com],
-        'name' => $name,
-        'gender' => $gender,
-        'link' => '<a href="pedigree.php?pedid=' . $row[$com] . '">' . $name . '</a>',
-        'colour' => '',
-        'number' => '',
+        'id'          => $row[$com],
+        'name'        => $name,
+        'gender'      => $gender,
+        'link'        => '<a href="pedigree.php?pedid=' . $row[$com] . '">' . $name . '</a>',
+        'colour'      => '',
+        'number'      => '',
         'usercolumns' => $columnvalue,
     ];
     unset($columnvalue);
@@ -167,7 +173,7 @@ $columns[] = ['columnname' => 'Offspring', 'columnnumber' => 3];
 $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
 $GLOBALS['xoopsTpl']->assign('columns', $columns);
 $GLOBALS['xoopsTpl']->assign('numofcolumns', $numofcolumns);
-$GLOBALS['xoopsTpl']->assign('tsarray', Pedigree\Utility::sortTable($numofcolumns));
+$GLOBALS['xoopsTpl']->assign('tsarray', Utility::sortTable($numofcolumns));
 //find last shown number
 if (($st + $perPage) > $numResults) {
     $lastshown = $numResults;
@@ -175,10 +181,10 @@ if (($st + $perPage) > $numResults) {
     $lastshown = $st + $perPage;
 }
 //create string
-$matches = _MA_PEDIGREE_MATCHES;
+$matches     = _MA_PEDIGREE_MATCHES;
 $nummatchstr = $numResults . $matches . ($st + 1) . '-' . $lastshown . ' (' . $numPages . ' pages)';
-$GLOBALS['xoopsTpl']->assign('nummatch', strtr($nummatchstr, ['[animalTypes]' => $moduleConfig['animalTypes']]));
+$GLOBALS['xoopsTpl']->assign('nummatch', strtr($nummatchstr, ['[animalTypes]' => $helper->getConfig('animalTypes')]));
 $GLOBALS['xoopsTpl']->assign('pages', $pages);
 
 //comments and footer
-include $GLOBALS['xoops']->path('/footer.php');
+require $GLOBALS['xoops']->path('/footer.php');

@@ -17,16 +17,18 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-use XoopsModules\Pedigree\Constants;
+use XoopsModules\Pedigree\{
+    Constants,
+    Helper
+};
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
 /**
- * @var Xmf\Module\Admin $adminObject
- * @var XoopsModules\Pedigree\Helper $helper
+ * @var Xmf\Module\Admin                   $adminObject
+ * @var XoopsModules\Pedigree\Helper       $helper
  * @var XoopsModules\Pedigree\OwnerHandler $ownerHandler
  */
 $ownerHandler = $helper->getHandler('Owner');
@@ -41,49 +43,95 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->order = 'ASC';
-        $ownerCount = $ownerHandler->getCount();
-        $ownerObjArray = $ownerHandler->getAll($criteria);
+        $ownerCount      = $ownerHandler->getCount();
+        $ownerObjArray   = $ownerHandler->getAll($criteria);
 
         //Table view
         if ($ownerCount > 0) {
             echo "<table class=\"outer width100\" cellspacing=\"1\">\n"
-               . "<tr>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_FIRSTNAME . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_LASTNAME . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_POSTCODE . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_CITY . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_STREETNAME . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_HOUSENUMBER . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_PHONENUMBER . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_EMAILADRES . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_WEBSITE . "</th>\n"
-               . "     <th class=\"center\">" . _AM_PEDIGREE_OWNER_USER . "</th>\n"
-               . "     <th class=\"center width10\">" . _AM_PEDIGREE_FORMACTION . "</th>\n"
-               . "</tr>\n";
+                 . "<tr>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_FIRSTNAME
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_LASTNAME
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_POSTCODE
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_CITY
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_STREETNAME
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_HOUSENUMBER
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_PHONENUMBER
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_EMAILADRES
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_WEBSITE
+                 . "</th>\n"
+                 . "     <th class=\"center\">"
+                 . _AM_PEDIGREE_OWNER_USER
+                 . "</th>\n"
+                 . "     <th class=\"center width10\">"
+                 . _AM_PEDIGREE_FORMACTION
+                 . "</th>\n"
+                 . "</tr>\n";
 
             $class = 'odd';
 
             foreach ($ownerObjArray as $ownerObj) {
                 //@todo figure out what the following statement is "suppose" to do, owner_pid isn't defined
                 //if (0 == $ownerObj->getVar('owner_pid')) {
-                    $ownerVals = $ownerObj->getValues();
-                    echo "<tr class=\"{$class}\">\n"
-                       . "    <td class=\"center\">" . $ownerObj['firstname'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['lastname'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['postcode'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['city'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['streetname'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['housenumber'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['phonenumber'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['emailadres'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['website'] . "</td>\n"
-                       . "    <td class=\"center\">" . $ownerObj['user'] . "</td>\n"
-                       . "    <td class=\"center width10\">\n"
-                       . "        <a href=\"" . $helper->url("admin/owner.php?op=edit_owner&id=" . $ownerObj['id']) . "\">{$icons['edit']}</a>\n"
-                       . "        <a href=\"" . $helper->url("admin/owner.php?op=delete_owner&id=" . $ownerObj['id']) . "\">{$icons['delete']}</a>\n"
-                       . "    </td>\n"
-                       . "</tr>\n";
-                    $class = ('even' === $class) ? 'odd' : 'even';
+                $ownerVals = $ownerObj->getValues();
+                echo "<tr class=\"{$class}\">\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['firstname']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['lastname']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['postcode']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['city']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['streetname']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['housenumber']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['phonenumber']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['emailadres']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['website']
+                     . "</td>\n"
+                     . "    <td class=\"center\">"
+                     . $ownerObj['user']
+                     . "</td>\n"
+                     . "    <td class=\"center width10\">\n"
+                     . "        <a href=\""
+                     . $helper->url("admin/owner.php?op=edit_owner&id=" . $ownerObj['id'])
+                     . "\">{$icons['edit']}</a>\n"
+                     . "        <a href=\""
+                     . $helper->url("admin/owner.php?op=delete_owner&id=" . $ownerObj['id'])
+                     . "\">{$icons['delete']}</a>\n"
+                     . "    </td>\n"
+                     . "</tr>\n";
+                $class = ('even' === $class) ? 'odd' : 'even';
                 //}
             }
             echo "</table><br><br>";
@@ -115,17 +163,18 @@ switch ($op) {
         $obj = $ownerHandler->get($id);
 
         //@todo shouldn't firstname and/or lastname be required?
-        $obj->setVars(['firstname' => Request::getWord('firstname', '', 'POST'),         //Form firstname
-                       'lastname' => Request::getWord('lastname', '', 'POST'),           //Form lastname
-                       'postcode' => Request::getString('postcode', null, 'POST'),       //Form postcode
-                       'city' => Request::getString('city', '', 'POST'),                 //Form city
-                       'streetname' => Request::getString('streetname', '', 'POST'),     //Form streetname
-                       'housenumber' => Request::getString('housenumber', null, 'POST'), //Form housenumber
-                       'phonenumber' => Request::getString('phonenumber', null, 'POST'), //Form phonenumber
-                       'emailadres' => Request::getEmail('emailadres', '', 'POST'),       //Form emailadres
-                       'website' => Request::getUrl('website', '', 'POST'),               //Form website
-                       'user' => Request::getString('user', '', 'POST')                   //Form user
-        ]);
+        $obj->setVars([
+                          'firstname'   => Request::getWord('firstname', '', 'POST'),         //Form firstname
+                          'lastname'    => Request::getWord('lastname', '', 'POST'),           //Form lastname
+                          'postcode'    => Request::getString('postcode', null, 'POST'),       //Form postcode
+                          'city'        => Request::getString('city', '', 'POST'),                 //Form city
+                          'streetname'  => Request::getString('streetname', '', 'POST'),     //Form streetname
+                          'housenumber' => Request::getString('housenumber', null, 'POST'), //Form housenumber
+                          'phonenumber' => Request::getString('phonenumber', null, 'POST'), //Form phonenumber
+                          'emailadres'  => Request::getEmail('emailadres', '', 'POST'),       //Form emailadres
+                          'website'     => Request::getUrl('website', '', 'POST'),               //Form website
+                          'user'        => Request::getString('user', '', 'POST')                   //Form user
+                      ]);
         /*
         //Form firstname
         $obj->setVar('firstname', $_REQUEST['firstname']);
@@ -158,8 +207,8 @@ switch ($op) {
         break;
 
     case 'delete_owner':
-        $id = Request::getInt('id');
-        $ok = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
+        $id  = Request::getInt('id');
+        $ok  = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
         $obj = $ownerHandler->get($id);
         if (Constants::CONFIRM_OK === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {

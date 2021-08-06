@@ -21,29 +21,18 @@
 //   otherwise warnings are generated if error_reporting == E_ALL
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @param     $lpszFileName
- * @param int $iIndex
- * @return bool|\CGIF
- */
 function gif_loadFile($lpszFileName, $iIndex = 0)
 {
     $gif = new CGIF();
     if ($gif->loadFile($lpszFileName, $iIndex)) {
         return $gif;
     }
-
     return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Added by James Heinrich <info@silisoftware.com> - December 10, 2003
-/**
- * @param     $gifFilename
- * @param int $bgColor
- * @return bool|resource
- */
 function gif_loadFileToGDimageResource($gifFilename, $bgColor = -1)
 {
     if ($gif = gif_loadFile($gifFilename)) {
@@ -54,11 +43,9 @@ function gif_loadFileToGDimageResource($gifFilename, $bgColor = -1)
         // general strategy: convert raw data to PNG then convert PNG data to GD image resource
         $PNGdata = $gif->getPng($bgColor);
         if ($img = @imagecreatefromstring($PNGdata)) {
-
             // excellent - PNG image data successfully converted to GD image
             return $img;
         } elseif ($img = $gif->getGD_PixelPlotterVersion()) {
-
             // problem: imagecreatefromstring() didn't like the PNG image data.
             //   This has been known to happen in PHP v4.0.6
             // solution: take the raw image data and create a new GD image and plot
@@ -67,21 +54,14 @@ function gif_loadFileToGDimageResource($gifFilename, $bgColor = -1)
             return $img;
         }
     }
-
     return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @param     $gif
- * @param     $lpszFileName
- * @param int $bgColor
- * @return bool
- */
 function gif_outputAsBmp($gif, $lpszFileName, $bgColor = -1)
 {
-    if (!isset($gif) || ('cgif' !== @get_class($gif)) || !$gif->loaded() || ('' == $lpszFileName)) {
+    if (!isset($gif) || (@get_class($gif) <> 'cgif') || !$gif->loaded() || ($lpszFileName == '')) {
         return false;
     }
 
@@ -96,21 +76,14 @@ function gif_outputAsBmp($gif, $lpszFileName, $bgColor = -1)
     @fwrite($fh, $fd, strlen($fd));
     @fflush($fh);
     @fclose($fh);
-
     return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @param     $gif
- * @param     $lpszFileName
- * @param int $bgColor
- * @return bool
- */
 function gif_outputAsPng($gif, $lpszFileName, $bgColor = -1)
 {
-    if (!isset($gif) || ('cgif' !== @get_class($gif)) || !$gif->loaded() || ('' == $lpszFileName)) {
+    if (!isset($gif) || (@get_class($gif) <> 'cgif') || !$gif->loaded() || ($lpszFileName == '')) {
         return false;
     }
 
@@ -125,22 +98,15 @@ function gif_outputAsPng($gif, $lpszFileName, $bgColor = -1)
     @fwrite($fh, $fd, strlen($fd));
     @fflush($fh);
     @fclose($fh);
-
     return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @param     $gif
- * @param     $lpszFileName
- * @param int $bgColor
- * @return bool
- */
 function gif_outputAsJpeg($gif, $lpszFileName, $bgColor = -1)
 {
     // JPEG output that does not require cjpeg added by James Heinrich <info@silisoftware.com> - December 10, 2003
-    if (('WIN' !== strtoupper(substr(PHP_OS, 0, 3))) && (file_exists('/usr/local/bin/cjpeg') || shell_exec('which cjpeg'))) {
+    if ((strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') && (file_exists('/usr/local/bin/cjpeg') || shell_exec('which cjpeg'))) {
         if (gif_outputAsBmp($gif, $lpszFileName . '.bmp', $bgColor)) {
             exec('cjpeg ' . $lpszFileName . '.bmp >' . $lpszFileName . ' 2>/dev/null');
             @unlink($lpszFileName . '.bmp');
@@ -154,7 +120,6 @@ function gif_outputAsJpeg($gif, $lpszFileName, $bgColor = -1)
             }
         }
     } else {
-
         // either Windows, or cjpeg not found in path
         if ($img = @imagecreatefromstring($gif->getPng($bgColor))) {
             if (@imagejpeg($img, $lpszFileName)) {
@@ -168,15 +133,9 @@ function gif_outputAsJpeg($gif, $lpszFileName, $bgColor = -1)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @param $gif
- * @param $width
- * @param $height
- * @return bool
- */
 function gif_getSize($gif, &$width, &$height)
 {
-    if (isset($gif) && ('cgif' === @get_class($gif)) && $gif->loaded()) {
+    if (isset($gif) && (@get_class($gif) == 'cgif') && $gif->loaded()) {
         $width  = $gif->width();
         $height = $gif->height();
     } elseif (@file_exists($gif)) {
@@ -193,31 +152,11 @@ function gif_getSize($gif, &$width, &$height)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Class CGIFLZW
- */
 class CGIFLZW
 {
     public $MAX_LZW_BITS;
-    public $Fresh;
-    public $CodeSize;
-    public $SetCodeSize;
-    public $MaxCode;
-    public $MaxCodeSize;
-    public $FirstCode;
-    public $OldCode;
-    public $ClearCode;
-    public $EndCode;
-    public $Next;
-    public $Vals;
-    public $Stack;
-    public $sp;
-    public $Buf;
-    public $CurBit;
-    public $LastBit;
-    public $Done;
-    public $LastByte;
-
+    public $Fresh, $CodeSize, $SetCodeSize, $MaxCode, $MaxCodeSize, $FirstCode, $OldCode;
+    public $ClearCode, $EndCode, $Next, $Vals, $Stack, $sp, $Buf, $CurBit, $LastBit, $Done, $LastByte;
     ///////////////////////////////////////////////////////////////////////////
 
     // CONSTRUCTOR
@@ -237,11 +176,6 @@ class CGIFLZW
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $data
-     * @param $datLen
-     * @return bool|string
-     */
     public function deCompress($data, &$datLen)
     {
         $stLen  = strlen($data);
@@ -257,7 +191,7 @@ class CGIFLZW
 
         $datLen = $stLen - strlen($data);
 
-        if (-2 != $iIndex) {
+        if ($iIndex != -2) {
             return false;
         }
 
@@ -266,15 +200,10 @@ class CGIFLZW
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $data
-     * @param $bInit
-     * @return int
-     */
     public function LZWCommand(&$data, $bInit)
     {
         if ($bInit) {
-            $this->SetCodeSize = ord($data{0});
+            $this->SetCodeSize = ord($data[0]);
             $data              = substr($data, 1);
 
             $this->CodeSize    = $this->SetCodeSize + 1;
@@ -297,7 +226,6 @@ class CGIFLZW
             }
 
             $this->sp = 0;
-
             return 1;
         }
 
@@ -313,7 +241,6 @@ class CGIFLZW
 
         if ($this->sp > 0) {
             $this->sp--;
-
             return $this->Stack[$this->sp];
         }
 
@@ -354,7 +281,8 @@ class CGIFLZW
                 $this->Stack[$this->sp] = $this->Vals[$Code];
                 $this->sp++;
 
-                if ($Code == $this->Next[$Code]) { // Circular table entry, big GIF Error!
+                if ($Code == $this->Next[$Code]) // Circular table entry, big GIF Error!
+                {
                     return -1;
                 }
 
@@ -379,7 +307,6 @@ class CGIFLZW
             $this->OldCode = $InCode;
             if ($this->sp > 0) {
                 $this->sp--;
-
                 return $this->Stack[$this->sp];
             }
         }
@@ -389,11 +316,6 @@ class CGIFLZW
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $data
-     * @param $bInit
-     * @return int
-     */
     public function GetCode(&$data, $bInit)
     {
         if ($bInit) {
@@ -401,7 +323,6 @@ class CGIFLZW
             $this->LastBit  = 0;
             $this->Done     = 0;
             $this->LastByte = 2;
-
             return 1;
         }
 
@@ -411,19 +332,18 @@ class CGIFLZW
                     // Ran off the end of my bits
                     return 0;
                 }
-
                 return -1;
             }
 
             $this->Buf[0] = $this->Buf[$this->LastByte - 2];
             $this->Buf[1] = $this->Buf[$this->LastByte - 1];
 
-            $Count = ord($data{0});
+            $Count = ord($data[0]);
             $data  = substr($data, 1);
 
             if ($Count) {
                 for ($i = 0; $i < $Count; $i++) {
-                    $this->Buf[2 + $i] = ord($data{$i});
+                    $this->Buf[2 + $i] = ord($data[$i]);
                 }
                 $data = substr($data, $Count);
             } else {
@@ -437,25 +357,20 @@ class CGIFLZW
 
         $iRet = 0;
         for ($i = $this->CurBit, $j = 0; $j < $this->CodeSize; $i++, $j++) {
-            $iRet |= (0 != ($this->Buf[(int)($i / 8)] & (1 << ($i % 8)))) << $j;
+            $iRet |= (($this->Buf[(int)($i / 8)] & (1 << ($i % 8))) != 0) << $j;
         }
 
         $this->CurBit += $this->CodeSize;
-
         return $iRet;
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Class CGIFCOLORTABLE
- */
 class CGIFCOLORTABLE
 {
     public $m_nColors;
     public $m_arColors;
-
     ///////////////////////////////////////////////////////////////////////////
 
     // CONSTRUCTOR
@@ -467,11 +382,6 @@ class CGIFCOLORTABLE
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $lpData
-     * @param $num
-     * @return bool
-     */
     public function load($lpData, $num)
     {
         $this->m_nColors  = 0;
@@ -483,7 +393,7 @@ class CGIFCOLORTABLE
                 return false;
             }
 
-            $this->m_arColors[] = (ord($rgb{2}) << 16) + (ord($rgb{1}) << 8) + ord($rgb{0});
+            $this->m_arColors[] = (ord($rgb[2]) << 16) + (ord($rgb[1]) << 8) + ord($rgb[0]);
             $this->m_nColors++;
         }
 
@@ -492,9 +402,6 @@ class CGIFCOLORTABLE
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @return string
-     */
     public function toString()
     {
         $ret = '';
@@ -510,9 +417,6 @@ class CGIFCOLORTABLE
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @return string
-     */
     public function toRGBQuad()
     {
         $ret = '';
@@ -529,10 +433,6 @@ class CGIFCOLORTABLE
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $rgb
-     * @return int
-     */
     public function colorIndex($rgb)
     {
         $rgb = (int)$rgb & 0xFFFFFF;
@@ -548,7 +448,7 @@ class CGIFCOLORTABLE
             $b2 = ($this->m_arColors[$i] & 0x00FF0000) >> 16;
             $d  = abs($r2 - $r1) + abs($g2 - $g1) + abs($b2 - $b1);
 
-            if ((-1 == $idx) || ($d < $dif)) {
+            if (($idx == -1) || ($d < $dif)) {
                 $idx = $i;
                 $dif = $d;
             }
@@ -560,9 +460,6 @@ class CGIFCOLORTABLE
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Class CGIFFILEHEADER
- */
 class CGIFFILEHEADER
 {
     public $m_lpVer;
@@ -575,7 +472,6 @@ class CGIFFILEHEADER
     public $m_nBgColor;
     public $m_nPixelRatio;
     public $m_colorTable;
-
     ///////////////////////////////////////////////////////////////////////////
 
     // CONSTRUCTOR
@@ -595,17 +491,12 @@ class CGIFFILEHEADER
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $lpData
-     * @param $hdrLen
-     * @return bool
-     */
     public function load($lpData, &$hdrLen)
     {
         $hdrLen = 0;
 
         $this->m_lpVer = substr($lpData, 0, 6);
-        if (('GIF87a' !== $this->m_lpVer) && ('GIF89a' !== $this->m_lpVer)) {
+        if (($this->m_lpVer <> 'GIF87a') && ($this->m_lpVer <> 'GIF89a')) {
             return false;
         }
 
@@ -615,13 +506,13 @@ class CGIFFILEHEADER
             return false;
         }
 
-        $b                   = ord(substr($lpData, 10, 1));
+        $b                   = ord($lpData[10]);
         $this->m_bGlobalClr  = ($b & 0x80) ? true : false;
         $this->m_nColorRes   = ($b & 0x70) >> 4;
         $this->m_bSorted     = ($b & 0x08) ? true : false;
         $this->m_nTableSize  = 2 << ($b & 0x07);
-        $this->m_nBgColor    = ord(substr($lpData, 11, 1));
-        $this->m_nPixelRatio = ord(substr($lpData, 12, 1));
+        $this->m_nBgColor    = ord($lpData[11]);
+        $this->m_nPixelRatio = ord($lpData[12]);
         $hdrLen              = 13;
 
         if ($this->m_bGlobalClr) {
@@ -637,21 +528,14 @@ class CGIFFILEHEADER
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $str
-     * @return int
-     */
     public function w2i($str)
     {
-        return ord(substr($str, 0, 1)) + (ord(substr($str, 1, 1)) << 8);
+        return ord($str[0]) + (ord($str[1]) << 8);
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Class CGIFIMAGEHEADER
- */
 class CGIFIMAGEHEADER
 {
     public $m_nLeft;
@@ -663,7 +547,6 @@ class CGIFIMAGEHEADER
     public $m_bSorted;
     public $m_nTableSize;
     public $m_colorTable;
-
     ///////////////////////////////////////////////////////////////////////////
 
     // CONSTRUCTOR
@@ -682,11 +565,6 @@ class CGIFIMAGEHEADER
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $lpData
-     * @param $hdrLen
-     * @return bool
-     */
     public function load($lpData, &$hdrLen)
     {
         $hdrLen = 0;
@@ -700,7 +578,7 @@ class CGIFIMAGEHEADER
             return false;
         }
 
-        $b                  = ord($lpData{8});
+        $b                  = ord($lpData[8]);
         $this->m_bLocalClr  = ($b & 0x80) ? true : false;
         $this->m_bInterlace = ($b & 0x40) ? true : false;
         $this->m_bSorted    = ($b & 0x20) ? true : false;
@@ -720,21 +598,14 @@ class CGIFIMAGEHEADER
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $str
-     * @return int
-     */
     public function w2i($str)
     {
-        return ord(substr($str, 0, 1)) + (ord(substr($str, 1, 1)) << 8);
+        return ord($str[0]) + (ord($str[1]) << 8);
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Class CGIFIMAGE
- */
 class CGIFIMAGE
 {
     public $m_disp;
@@ -764,17 +635,12 @@ class CGIFIMAGE
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $data
-     * @param $datLen
-     * @return bool
-     */
     public function load($data, &$datLen)
     {
         $datLen = 0;
 
         while (true) {
-            $b    = ord($data{0});
+            $b    = ord($data[0]);
             $data = substr($data, 1);
             $datLen++;
 
@@ -804,7 +670,6 @@ class CGIFIMAGE
                     if ($this->m_gih->m_bInterlace) {
                         $this->deInterlace();
                     }
-
                     return true;
 
                 case 0x3B: // EOF
@@ -812,37 +677,31 @@ class CGIFIMAGE
                     return false;
             }
         }
-
         return false;
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $data
-     * @param $extLen
-     * @return bool
-     */
     public function skipExt(&$data, &$extLen)
     {
         $extLen = 0;
 
-        $b    = ord($data{0});
+        $b    = ord($data[0]);
         $data = substr($data, 1);
         $extLen++;
 
         switch ($b) {
             case 0xF9: // Graphic Control
-                $b              = ord($data{1});
+                $b              = ord($data[1]);
                 $this->m_disp   = ($b & 0x1C) >> 2;
                 $this->m_bUser  = ($b & 0x02) ? true : false;
                 $this->m_bTrans = ($b & 0x01) ? true : false;
                 $this->m_nDelay = $this->w2i(substr($data, 2, 2));
-                $this->m_nTrans = ord($data{4});
+                $this->m_nTrans = ord($data[4]);
                 break;
 
             case 0xFE: // Comment
-                $this->m_lpComm = substr($data, 1, ord($data{0}));
+                $this->m_lpComm = substr($data, 1, ord($data[0]));
                 break;
 
             case 0x01: // Plain text
@@ -853,29 +712,24 @@ class CGIFIMAGE
         }
 
         // SKIP DEFAULT AS DEFS MAY CHANGE
-        $b    = ord($data{0});
+        $b    = ord($data[0]);
         $data = substr($data, 1);
         $extLen++;
         while ($b > 0) {
             $data   = substr($data, $b);
             $extLen += $b;
-            $b      = ord($data{0});
+            $b      = ord($data[0]);
             $data   = substr($data, 1);
             $extLen++;
         }
-
         return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $str
-     * @return int
-     */
     public function w2i($str)
     {
-        return ord(substr($str, 0, 1)) + (ord(substr($str, 1, 1)) << 8);
+        return ord($str[0]) + (ord($str[1]) << 8);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -923,16 +777,12 @@ class CGIFIMAGE
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Class CGIF
- */
 class CGIF
 {
     public $m_gfh;
     public $m_lpData;
     public $m_img;
     public $m_bLoaded;
-
     ///////////////////////////////////////////////////////////////////////////
 
     // CONSTRUCTOR
@@ -946,11 +796,6 @@ class CGIF
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $lpszFileName
-     * @param $iIndex
-     * @return bool
-     */
     public function loadFile($lpszFileName, $iIndex)
     {
         if ($iIndex < 0) {
@@ -978,18 +823,11 @@ class CGIF
         } while ($iIndex-- > 0);
 
         $this->m_bLoaded = true;
-
         return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $lpszFileName
-     * @param $width
-     * @param $height
-     * @return bool
-     */
     public function getSize($lpszFileName, &$width, &$height)
     {
         if (!($fh = @fopen($lpszFileName, 'rb'))) {
@@ -1005,16 +843,11 @@ class CGIF
 
         $width  = $gfh->m_nWidth;
         $height = $gfh->m_nHeight;
-
         return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $bgColor
-     * @return string
-     */
     public function getBmp($bgColor)
     {
         $out = '';
@@ -1027,13 +860,13 @@ class CGIF
         if ($this->m_img->m_gih->m_bLocalClr) {
             $nColors = $this->m_img->m_gih->m_nTableSize;
             $rgbq    = $this->m_img->m_gih->m_colorTable->toRGBQuad();
-            if (-1 != $bgColor) {
+            if ($bgColor != -1) {
                 $bgColor = $this->m_img->m_gih->m_colorTable->colorIndex($bgColor);
             }
         } elseif ($this->m_gfh->m_bGlobalClr) {
             $nColors = $this->m_gfh->m_nTableSize;
             $rgbq    = $this->m_gfh->m_colorTable->toRGBQuad();
-            if (-1 != $bgColor) {
+            if ($bgColor != -1) {
                 $bgColor = $this->m_gfh->m_colorTable->colorIndex($bgColor);
             }
         } else {
@@ -1054,19 +887,19 @@ class CGIF
                     && ($x < ($this->m_img->m_gih->m_nLeft + $this->m_img->m_gih->m_nWidth))
                     && ($y < ($this->m_img->m_gih->m_nTop + $this->m_img->m_gih->m_nHeight))) {
                     // PART OF IMAGE
-                    if (@$this->m_img->m_bTrans && (ord($data{$nPxl}) == $this->m_img->m_nTrans)) {
+                    if (@$this->m_img->m_bTrans && (ord($data[$nPxl]) == $this->m_img->m_nTrans)) {
                         // TRANSPARENT -> BACKGROUND
-                        if (-1 == $bgColor) {
+                        if ($bgColor == -1) {
                             $bmp .= chr($this->m_gfh->m_nBgColor);
                         } else {
                             $bmp .= chr($bgColor);
                         }
                     } else {
-                        $bmp .= $data{$nPxl};
+                        $bmp .= $data[$nPxl];
                     }
                 } else {
                     // BACKGROUND
-                    if (-1 == $bgColor) {
+                    if ($bgColor == -1) {
                         $bmp .= chr($this->m_gfh->m_nBgColor);
                     } else {
                         $bmp .= chr($bgColor);
@@ -1114,10 +947,6 @@ class CGIF
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $bgColor
-     * @return string
-     */
     public function getPng($bgColor)
     {
         $out = '';
@@ -1130,13 +959,13 @@ class CGIF
         if ($this->m_img->m_gih->m_bLocalClr) {
             $nColors = $this->m_img->m_gih->m_nTableSize;
             $pal     = $this->m_img->m_gih->m_colorTable->toString();
-            if (-1 != $bgColor) {
+            if ($bgColor != -1) {
                 $bgColor = $this->m_img->m_gih->m_colorTable->colorIndex($bgColor);
             }
         } elseif ($this->m_gfh->m_bGlobalClr) {
             $nColors = $this->m_gfh->m_nTableSize;
             $pal     = $this->m_gfh->m_colorTable->toString();
-            if (-1 != $bgColor) {
+            if ($bgColor != -1) {
                 $bgColor = $this->m_gfh->m_colorTable->colorIndex($bgColor);
             }
         } else {
@@ -1157,10 +986,10 @@ class CGIF
                     && ($x < ($this->m_img->m_gih->m_nLeft + $this->m_img->m_gih->m_nWidth))
                     && ($y < ($this->m_img->m_gih->m_nTop + $this->m_img->m_gih->m_nHeight))) {
                     // PART OF IMAGE
-                    $bmp .= $data{$nPxl};
+                    $bmp .= $data[$nPxl];
                 } else {
                     // BACKGROUND
-                    if (-1 == $bgColor) {
+                    if ($bgColor == -1) {
                         $bmp .= chr($this->m_gfh->m_nBgColor);
                     } else {
                         $bmp .= chr($bgColor);
@@ -1222,9 +1051,6 @@ class CGIF
 
     // Takes raw image data and plots it pixel-by-pixel on a new GD image and returns that
     // It's extremely slow, but the only solution when imagecreatefromstring() fails
-    /**
-     * @return bool|resource
-     */
     public function getGD_PixelPlotterVersion()
     {
         if (!$this->m_bLoaded) {
@@ -1244,7 +1070,12 @@ class CGIF
         $NumColorsInPal = floor(strlen($pal) / 3);
         $ThisImageColor = [];
         for ($i = 0; $i < $NumColorsInPal; $i++) {
-            $ThisImageColor[$i] = imagecolorallocate($PlottingIMG, ord($pal{($i * 3) + 0}), ord($pal{($i * 3) + 1}), ord($pal{($i * 3) + 2}));
+            $ThisImageColor[$i] = imagecolorallocate(
+                $PlottingIMG,
+                ord($pal{($i * 3) + 0}),
+                ord($pal{($i * 3) + 1}),
+                ord($pal{($i * 3) + 2})
+            );
         }
 
         // PREPARE BITMAP BITS
@@ -1260,10 +1091,10 @@ class CGIF
                     && ($x < ($this->m_img->m_gih->m_nLeft + $this->m_img->m_gih->m_nWidth))
                     && ($y < ($this->m_img->m_gih->m_nTop + $this->m_img->m_gih->m_nHeight))) {
                     // PART OF IMAGE
-                    if (@$this->m_img->m_bTrans && (ord($data{$nPxl}) == $this->m_img->m_nTrans)) {
+                    if (@$this->m_img->m_bTrans && (ord($data[$nPxl]) == $this->m_img->m_nTrans)) {
                         imagesetpixel($PlottingIMG, $x, $this->m_gfh->m_nHeight - $y - 1, $ThisImageColor[$this->m_gfh->m_nBgColor]);
                     } else {
-                        imagesetpixel($PlottingIMG, $x, $this->m_gfh->m_nHeight - $y - 1, $ThisImageColor[ord($data{$nPxl})]);
+                        imagesetpixel($PlottingIMG, $x, $this->m_gfh->m_nHeight - $y - 1, $ThisImageColor[ord($data[$nPxl])]);
                     }
                 } else {
                     // BACKGROUND
@@ -1278,27 +1109,17 @@ class CGIF
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $val
-     * @return string
-     */
     public function dword($val)
     {
         $val = (int)$val;
-
         return chr($val & 0xFF) . chr(($val & 0xFF00) >> 8) . chr(($val & 0xFF0000) >> 16) . chr(($val & 0xFF000000) >> 24);
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @param $val
-     * @return string
-     */
     public function ndword($val)
     {
         $val = (int)$val;
-
         return chr(($val & 0xFF000000) >> 24) . chr(($val & 0xFF0000) >> 16) . chr(($val & 0xFF00) >> 8) . chr($val & 0xFF);
     }
 
@@ -1325,9 +1146,6 @@ class CGIF
 
     ///////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @return bool
-     */
     public function loaded()
     {
         return $this->m_bLoaded;

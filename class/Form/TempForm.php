@@ -30,18 +30,15 @@ use XoopsFormHidden;
 use XoopsFormLabel;
 use XoopsFormText;
 use XoopsFormTextArea;
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
 use XoopsThemeForm;
-
-
-
-
-
 
 require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 $moduleDirName = \basename(\dirname(__DIR__, 2));
-//$helper = Pedigree\Helper::getInstance();
+//$helper = Helper::getInstance();
 $permHelper = new Permission();
 
 \xoops_load('XoopsFormLoader');
@@ -70,32 +67,32 @@ class TempForm extends XoopsThemeForm
 
         //include ID field, it's needed so the module knows if it is a new form or an edited form
 
-        $hidden = new XoopsFormHidden('id', $this->targetObject->getVar('id'));
+        $hidden = new \XoopsFormHidden('id', $this->targetObject->getVar('id'));
         $this->addElement($hidden);
         unset($hidden);
 
         // Id
-        $this->addElement(new XoopsFormLabel(AM_PEDIGREE_TEMP_ID, $this->targetObject->getVar('id'), 'id'));
+        $this->addElement(new \XoopsFormLabel(AM_PEDIGREE_TEMP_ID, $this->targetObject->getVar('id'), 'id'));
         // Pname
-        $this->addElement(new XoopsFormTextArea(AM_PEDIGREE_TEMP_PNAME, 'pname', $this->targetObject->getVar('pname'), 4, 47), false);
+        $this->addElement(new \XoopsFormTextArea(AM_PEDIGREE_TEMP_PNAME, 'pname', $this->targetObject->getVar('pname'), 4, 47), false);
         // Id_owner
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_ID_OWNER, 'id_owner', 50, 255, $this->targetObject->getVar('id_owner')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_ID_OWNER, 'id_owner', 50, 255, $this->targetObject->getVar('id_owner')), false);
         // Id_breeder
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_ID_BREEDER, 'id_breeder', 50, 255, $this->targetObject->getVar('id_breeder')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_ID_BREEDER, 'id_breeder', 50, 255, $this->targetObject->getVar('id_breeder')), false);
         // User
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_USER, 'user', 50, 255, $this->targetObject->getVar('user')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_USER, 'user', 50, 255, $this->targetObject->getVar('user')), false);
         // Roft
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_ROFT, 'roft', 50, 255, $this->targetObject->getVar('roft')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_ROFT, 'roft', 50, 255, $this->targetObject->getVar('roft')), false);
         // Mother
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_MOTHER, 'mother', 50, 255, $this->targetObject->getVar('mother')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_MOTHER, 'mother', 50, 255, $this->targetObject->getVar('mother')), false);
         // Father
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_FATHER, 'father', 50, 255, $this->targetObject->getVar('father')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_FATHER, 'father', 50, 255, $this->targetObject->getVar('father')), false);
         // Foto
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_FOTO, 'foto', 50, 255, $this->targetObject->getVar('foto')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_FOTO, 'foto', 50, 255, $this->targetObject->getVar('foto')), false);
         // Coi
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_TEMP_COI, 'coi', 50, 255, $this->targetObject->getVar('coi')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_TEMP_COI, 'coi', 50, 255, $this->targetObject->getVar('coi')), false);
 
-        $this->addElement(new XoopsFormHidden('op', 'save'));
-        $this->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $this->addElement(new \XoopsFormHidden('op', 'save'));
+        $this->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
     }
 }

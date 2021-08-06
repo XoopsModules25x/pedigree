@@ -1,27 +1,32 @@
 <?php
 /*
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 /**
- * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
- * @author         XOOPS Development Team
+ * Module: Pedigree
+ *
+ * @package   XoopsModules\Pedigree
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  */
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+
+use Xmf\Request;
+
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 if (!isset($_GET['target']) && !isset($_POST['target'])) {
     exit();
 }
 $op = 'list';
-if (isset($_GET['op']) && 'upload' === $_GET['op']) {
+if (isset($_GET['op']) && 'upload' === Request::getCmd('op', '', 'GET')) {
     $op = 'upload';
 }
 if (isset($_POST)) {
@@ -42,20 +47,20 @@ if ('list' === $op) {
     $target = htmlspecialchars($_GET['target'], ENT_QUOTES);
     $xoopsTpl->assign('target', $target);
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $catlist = $imgcatHandler->getList($group, 'imgcat_read', 1);
-    $catcount = count($catlist);
+    $catlist       = $imgcatHandler->getList($group, 'imgcat_read', 1);
+    $catcount      = count($catlist);
     $xoopsTpl->assign('lang_align', _ALIGN);
     $xoopsTpl->assign('lang_add', _ADD);
     $xoopsTpl->assign('lang_close', _CLOSE);
     if ($catcount > 0) {
         $xoopsTpl->assign('lang_go', _GO);
-        $catshow = \Xmf\Request::getInt('cat_id', 0, 'GET');
+        $catshow = Request::getInt('cat_id', 0, 'GET');
         $catshow = (!empty($catshow) && array_key_exists($catshow, $catlist)) ? $catshow : 0;
         $xoopsTpl->assign('show_cat', $catshow);
         if ($catshow > 0) {
             $xoopsTpl->assign('lang_addimage', _ADDIMAGE);
         }
-        $catlist = ['0' => '--'] + $catlist;
+        $catlist     = ['0' => '--'] + $catlist;
         $cat_options = '';
         foreach ($catlist as $c_id => $c_name) {
             $sel = '';
@@ -67,17 +72,17 @@ if ('list' === $op) {
         $xoopsTpl->assign('cat_options', $cat_options);
         if ($catshow > 0) {
             $imageHandler = xoops_getHandler('image');
-            $criteria = new \CriteriaCompo(new \Criteria('imgcat_id', $catshow));
+            $criteria     = new \CriteriaCompo(new \Criteria('imgcat_id', $catshow));
             $criteria->add(new \Criteria('image_display', 1));
             $total = $imageHandler->getCount($criteria);
             if ($total > 0) {
                 $imgcatHandler = xoops_getHandler('imagecategory');
-                $imgcat = $imgcatHandler->get($catshow);
+                $imgcat        = $imgcatHandler->get($catshow);
                 $xoopsTpl->assign('image_total', $total);
                 $xoopsTpl->assign('lang_image', _IMAGE);
                 $xoopsTpl->assign('lang_imagename', _IMAGENAME);
                 $xoopsTpl->assign('lang_imagemime', _IMAGEMIME);
-                $start = \Xmf\Request::getInt('start', 0, 'GET');
+                $start = Request::getInt('start', 0, 'GET');
                 $criteria->setLimit(10);
                 $criteria->setStart($start);
                 $storetype = $imgcat->getVar('imgcat_storetype');
@@ -87,28 +92,28 @@ if ('list' === $op) {
                     $images = $imageHandler->getObjects($criteria, false, false);
                 }
                 $imgcount = count($images);
-                $max = ($imgcount > 10) ? 10 : $imgcount;
+                $max      = ($imgcount > 10) ? 10 : $imgcount;
 
                 for ($i = 0; $i < $max; ++$i) {
                     if ('db' === $storetype) {
                         $lcode = '[img align=left id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
-                        $code = '[img id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
+                        $code  = '[img id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
                         $rcode = '[img align=right id=' . $images[$i]->getVar('image_id') . ']' . $images[$i]->getVar('image_nicename') . '[/img]';
-                        $src = XOOPS_URL . '/image.php?id=' . $images[$i]->getVar('image_id');
+                        $src   = XOOPS_URL . '/image.php?id=' . $images[$i]->getVar('image_id');
                     } else {
                         $lcode = '[img align=left]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
-                        $code = '[img]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
+                        $code  = '[img]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
                         $rcode = '[img align=right]' . XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name') . '[/img]';
-                        $src = XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name');
+                        $src   = XOOPS_UPLOAD_URL . '/' . $images[$i]->getVar('image_name');
                     }
                     $xoopsTpl->append('images', [
-                        'id' => $images[$i]->getVar('image_id'),
+                        'id'       => $images[$i]->getVar('image_id'),
                         'nicename' => $images[$i]->getVar('image_nicename'),
                         'mimetype' => $images[$i]->getVar('image_mimetype'),
-                        'src' => $src,
-                        'lxcode' => $lcode,
-                        'xcode' => $code,
-                        'rxcode' => $rcode,
+                        'src'      => $src,
+                        'lxcode'   => $lcode,
+                        'xcode'    => $code,
+                        'rxcode'   => $rcode,
                     ]);
                 }
                 if ($total > 10) {
@@ -132,9 +137,9 @@ if ('list' === $op) {
 
 if ('upload' === $op) {
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $imgcat_id = \Xmf\Request::getInt('imgcat_id', 0, 'GET');
-    $imgcat = $imgcatHandler->get($imgcat_id);
-    $error = false;
+    $imgcat_id     = Request::getInt('imgcat_id', 0, 'GET');
+    $imgcat        = $imgcatHandler->get($imgcat_id);
+    $error         = false;
     if (!is_object($imgcat)) {
         $error = true;
     } else {
@@ -183,8 +188,8 @@ if ('upload' === $op) {
 if ('doupload' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/uploader.php';
     $imgcatHandler = xoops_getHandler('imagecategory');
-    $imgcat = $imgcatHandler->get($imgcat_id);
-    $error = false;
+    $imgcat        = $imgcatHandler->get((int)$imgcat_id);
+    $error         = false;
     if (!is_object($imgcat)) {
         $error = true;
     } else {
@@ -212,7 +217,7 @@ if ('doupload' === $op) {
             $err = $uploader->getErrors();
         } else {
             $imageHandler = xoops_getHandler('image');
-            $image = $imageHandler->create();
+            $image        = $imageHandler->create();
             $image->setVar('image_name', $uploader->getSavedFileName());
             $image->setVar('image_nicename', $image_nicename);
             $image->setVar('image_mimetype', $uploader->getMediaType());
@@ -221,7 +226,7 @@ if ('doupload' === $op) {
             $image->setVar('image_weight', 0);
             $image->setVar('imgcat_id', $imgcat_id);
             if ('db' === $imgcat->getVar('imgcat_storetype')) {
-                $fp = @fopen($uploader->getSavedDestination(), 'rb');
+                $fp      = @fopen($uploader->getSavedDestination(), 'rb');
                 $fbinary = @fread($fp, filesize($uploader->getSavedDestination()));
                 @fclose($fp);
                 $image->setVar('image_body', addslashes($fbinary));

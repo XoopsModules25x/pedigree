@@ -18,27 +18,31 @@
 
 use Xmf\Module\Admin;
 use XoopsModules\Pedigree\{
-    Helper
+    Helper,
+    RegistryHandler
 };
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+/** @var RegistryHandler $registryHandler */
 
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
+require_once \dirname(__DIR__, 3) . '/include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-require_once dirname(__DIR__) . '/include/common.php';
-//require_once dirname(__DIR__) . '/include/config.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
+require_once \dirname(__DIR__) . '/include/common.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-/** @var Helper $helper */
 $helper = Helper::getInstance();
 
-/** @var Xmf\Module\Admin $adminObject */
+$registryHandler = $helper->getHandler('Registry');
+
 $adminObject   = Admin::getInstance();
+
 $pathIcon16    = Admin::iconUrl('', 16);
 $pathIcon32    = Admin::iconUrl('', 32);
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
-
 
 // Load language files
 $helper->loadLanguage('admin');
@@ -50,5 +54,5 @@ $myts = MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new XoopsTpl();
+    $xoopsTpl = new \XoopsTpl();
 }

@@ -17,7 +17,7 @@
         <!-- second column -->
         <td width="66%" valign="top">
             <!-- form for tools -->
-            <{$form}>
+            <{$form|default:''}>
         </td>
     </tr>
 </table>

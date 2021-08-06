@@ -1,7 +1,7 @@
-<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.10, PHP 7.3.10
+<h5>1.32 Alpha 1   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: Xoops 2.5.11, PHP 7.4.22, PHP 8.09
 <hr>
 - namespaces, autoloading (mamba)
-- use Xmf\Request to sanitize input (zysoec)
+- use Xmf\Request to sanitize input (zyspec)
 - minor bug fixes (zyspec)
 - minor code/HTML cleanup & add some PhpDoc comments (zyspec)
 -  use configs ($icons[]) to simplify HTML rendering (zyspec)
@@ -13,22 +13,21 @@
 - moved picker.js and picker.html to ./assets/js folder (zyspec)
 - moved some hard coded language strings to language file(s) (zyspec)
 - begin conversion from direct SQL SELECT calls to use object classes (zyspec)
-- added Pedigree\Constants Interface
+- added Pedigree\Constants Interface (zyspec)
 - reduce use of globals (zyspec)
-- remove require_once for ./include/common.php in files that already include ./header.php since it's included there
-- add validation to 'perPage' preference setting to ensure it's a reasonable value, set default if not
-- combine some template assign statements to reduce code overhead
-- mark several unused functions as @deprecated
-- add \Animal::getFormFieldsElements() method
-- add \Owner::getFullName() method
-- add \Tree::getParents() method
-- fix bug in 'coi' default value in \Temp::getForm() method
+- remove require_once for ./include/common.php in files that already include ./header.php since it's included there (zyspec)
+- add validation to 'perPage' preference setting to ensure it's a reasonable value, set default if not (zyspec)
+- combine some template assign statements to reduce code overhead (zyspec)
+- mark several unused functions as @deprecated (zyspec)
+- add \Animal::getFormFieldsElements() method (zyspec)
+- add \Owner::getFullName() method (zyspec)
+- add \Tree::getParents() method (zyspec)
+- fix bug in 'coi' default value in \Temp::getForm() method (zyspec)
 
 WORK IN PROGRESS
 
----------------------------------------
-1.31 Alpha 8             NOT RELEASED
----------------------------------------
+<h5>1.31 Alpha 8             NOT RELEASED</h5>
+<hr>
 - split ./include/class_field.php into individual class files in ./class (zyspec)
 - moved Pedigree\Utility from Pedigree\Utility.php to utility.php (zyspec)
 - utilize Pedigree\Helper module helper (zyspec)
@@ -65,9 +64,8 @@ TODO (suggested by ZySpec):
 - Make form entry fields match dB varchar length so users can know what's being stored.
 - rewrite Waiting module plugin - currently doesn't work
 
----------------------------------------
-1.31 Alpha 6                2016-04-22
----------------------------------------
+<h5>1.31 Alpha 6                2016-04-22</h5>
+<hr>
 - Convert mysql_* calls to database connector (geekwright)
 - Template name fixes (geekwright)
 - Cleanup (geekwright)
@@ -83,9 +81,8 @@ TODO (suggested by ZySpec):
 - process input with XoopsRequest (geekwright)
 - add escape() calls in sql builds (geekwright)
 
----------------------------------------
-1.31 Alpha 5  NOT RELEASED
----------------------------------------
+<h5>1.31 Alpha 5  NOT RELEASED</h5>
+<hr>
 - replaced phpThumbnail with Zebra Image (mamba)
 - added "Magnific Popup" for images (mamba)
 - moved uploads to /uploads/pedigree (mamba)
@@ -100,36 +97,31 @@ TODO:
 - improve security with XoopsRequest
 
 
----------------------------------------
-1.31 Alpha 4  NOT RELEASED
----------------------------------------
+<h5>1.31 Alpha 4  NOT RELEASED</h5>
+<hr>
 - changes to COI templates  (mamba)
 - replaced ColorPicker with jsColor (mamba)
 - English corrections (mamba)
 
----------------------------------------
-1.31 Alpha 3  2014-01-25
----------------------------------------
+<h5>1.31 Alpha 3  2014-01-25</h5>
+<hr>
 - converting more Dutch terms to English  (mamba)
 - fixing bugs reported originally by luwie  (mamba)
 
----------------------------------------
-1.31 Alpha 2  2013-05-21
----------------------------------------
+<h5>1.31 Alpha 2  2013-05-21</h5>
+<hr>
 - fixed wrong table names in handlers (luwie/mamba)
 
----------------------------------------
-1.31 Alpha 1  2013-04-12
----------------------------------------
+<h5>1.31 Alpha 1  2013-04-12</h5>
+<hr>
 - renamed to Pedigree (Mamba)
 - fixed several PHP 5.4 related bugs (Mamba)
 - standardized names of language variables (Mamba)
 - added cloning with SmartClone (Mamba)
 - sub-menus names will come from language files (mamba)
 
----------------------------------------
-1.30 Beta 1  2013-03-03
----------------------------------------
+<h5>1.30 Beta 1  2013-03-03</h5>
+<hr>
 - Converted to XOOPS 2.5.5 Admin GUI (Mamba)
 - Added classes for tables
 - renamed tables to follow XOOPS new standard "mod_module_table"
@@ -137,7 +129,6 @@ TODO:
 - added menu items to main menu
 - fixed two wrong handlers (flipse/mamba)
 
----------------------------------------
-1.29 Final  ??????
----------------------------------------
+<h5>1.29 Final  ??????</h5>
+<hr>
 released by James Cotton

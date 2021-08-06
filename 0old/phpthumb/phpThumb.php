@@ -61,17 +61,21 @@ function RedirectToCachedFile()
     $nModified = filemtime($phpThumb->cache_filename);
 
     if ($phpThumb->config_nooffsitelink_enabled && !empty(\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')) && !in_array(@$parsed_url['host'], $phpThumb->config_nooffsitelink_valid_domains, true)) {
-        $phpThumb->DebugMessage('Would have used cached (image/'
-                                . $phpThumb->thumbnailFormat
-                                . ') file "'
-                                . $phpThumb->cache_filename
-                                . '" (Last-Modified: '
-                                . gmdate('D, d M Y H:i:s', $nModified)
-                                . ' GMT), but skipping because $_SERVER[HTTP_REFERER] ('
-                                . @\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')
-                                . ') is not in $phpThumb->config_nooffsitelink_valid_domains ('
-                                . implode(';', $phpThumb->config_nooffsitelink_valid_domains)
-                                . ')', __FILE__, __LINE__);
+        $phpThumb->DebugMessage(
+            'Would have used cached (image/'
+            . $phpThumb->thumbnailFormat
+            . ') file "'
+            . $phpThumb->cache_filename
+            . '" (Last-Modified: '
+            . gmdate('D, d M Y H:i:s', $nModified)
+            . ' GMT), but skipping because $_SERVER[HTTP_REFERER] ('
+            . @\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')
+            . ') is not in $phpThumb->config_nooffsitelink_valid_domains ('
+            . implode(';', $phpThumb->config_nooffsitelink_valid_domains)
+            . ')',
+            __FILE__,
+            __LINE__
+        );
     } elseif ($phpThumb->phpThumbDebug) {
         $phpThumb->DebugTimingMessage('skipped using cached image', __FILE__, __LINE__);
         $phpThumb->DebugMessage('Would have used cached file, but skipping due to phpThumbDebug', __FILE__, __LINE__);

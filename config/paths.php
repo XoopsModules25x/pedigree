@@ -3,9 +3,8 @@
 /**
  * @return object
  */
-function getPaths()
-{
-    $moduleDirName      = basename(dirname(__DIR__));
+
+$moduleDirName      = \basename(\dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     return (object)[
@@ -25,4 +24,4 @@ function getPaths()
             //XOOPS_UPLOAD_PATH . '/flags'
         ],
     ];
-}
+

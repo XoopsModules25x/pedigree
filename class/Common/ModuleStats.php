@@ -19,13 +19,12 @@ namespace XoopsModules\Pedigree\Common;
  * @license        GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author         Michael Beck <mambax7@gmailc.com>
  */
-
 trait ModuleStats
 {
     /**
      *
      * @param \XoopsModules\Pedigree\Common\Configurator $configurator
-     * @param array $moduleStats
+     * @param array                                      $moduleStats
      *
      * @return array
      */

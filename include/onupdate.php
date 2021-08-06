@@ -17,15 +17,19 @@
  */
 
 use \Xmf\Database\Tables;
+use XoopsModules\Pedigree\{
+  Utility
+};
 
 /**
  * Make updates to module tables, files, configs, etc. during module update
  *
  * @param \XoopsModule $module
- * @param string $prev_ver
+ * @param string       $prev_ver
  *
  * @return bool
  */
+
 function xoops_module_update_pedigree(\XoopsModule $module, string $prev_ver)
 {
     /**
@@ -35,8 +39,8 @@ function xoops_module_update_pedigree(\XoopsModule $module, string $prev_ver)
 
     $tableMap = [
         //from tablename    =>  to tablename
-        ['from' => 'owner',           'to' => 'pedigree_owner'],
-        ['from' => 'stamboom',        'to' => 'pedigree_tree'],
+        ['from' => 'owner', 'to' => 'pedigree_owner'],
+        ['from' => 'stamboom', 'to' => 'pedigree_registry'],
         ['from' => 'pedigree_config', 'to' => 'pedigree_fields'],
     ];
 

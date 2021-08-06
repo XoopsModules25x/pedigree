@@ -25,7 +25,7 @@ trait VersionChecks
      * Verifies XOOPS version meets minimum requirements for this module
      *
      * @param \XoopsModule|null $module
-     * @param null|string $requiredVer
+     * @param null|string       $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(?\XoopsModule $module = null, ?string $requiredVer = null): bool
@@ -62,7 +62,7 @@ trait VersionChecks
      */
     public static function checkVerPhp(?\XoopsModule $module = null): bool
     {
-        $moduleDirName = \basename(\dirname(__DIR__, 2 ));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -90,8 +90,8 @@ trait VersionChecks
      * Compares current module version with latest GitHub release
      *
      * @static
-     * @param \Xmf\Module\Helper $helper module helper object
-     * @param string|null        $source repository location
+     * @param \Xmf\Module\Helper $helper  module helper object
+     * @param string|null        $source  repository location
      * @param string|null        $default repository branch to check
      *
      * @return array info about the latest module version, if newer
@@ -99,20 +99,20 @@ trait VersionChecks
     public static function checkVerModule(
         \Xmf\Module\Helper $helper,
         ?string $source = 'github',
-        ?string $default = 'master'): array
-    {
-        $moduleDirName = \basename(dirname(__DIR__, 2));
+        ?string $default = 'master'
+    ): array {
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
-        $update = '';
-        $repository = 'XoopsModules25x/' . $moduleDirName;
+        $update             = '';
+        $repository         = 'XoopsModules25x/' . $moduleDirName;
         //$repository = 'XoopsModules25x/publisher'; //for testing only
-        $ret = [];
+        $ret             = [];
         $infoReleasesUrl = "https://api.github.com/repos/$repository/releases";
         if ('github' === $source) {
             if (\function_exists('curl_init') && false !== ($curlHandle = \curl_init())) {
                 \curl_setopt($curlHandle, \CURLOPT_URL, $infoReleasesUrl);
                 \curl_setopt($curlHandle, \CURLOPT_RETURNTRANSFER, true);
-                \curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, false);
+                \curl_setopt($curlHandle, \CURLOPT_SSL_VERIFYPEER, true); //TODO: how to avoid an error when 'Peer's Certificate issuer is not recognized'
                 \curl_setopt($curlHandle, \CURLOPT_HTTPHEADER, ["User-Agent:Publisher\r\n"]);
                 $curlReturn = \curl_exec($curlHandle);
                 if (false === $curlReturn) {
@@ -120,10 +120,10 @@ trait VersionChecks
                 } elseif (false !== \mb_strpos($curlReturn, 'Not Found')) {
                     \trigger_error('Repository Not Found: ' . $infoReleasesUrl);
                 } else {
-                    $file = \json_decode($curlReturn, false);
+                    $file              = \json_decode($curlReturn, false);
                     $latestVersionLink = \sprintf("https://github.com/$repository/archive/%s.zip", $file ? \reset($file)->tag_name : $default);
-                    $latestVersion = $file[0]->tag_name;
-                    $prerelease = $file[0]->prerelease;
+                    $latestVersion     = $file[0]->tag_name;
+                    $prerelease        = $file[0]->prerelease;
                     if ('master' !== $latestVersionLink) {
                         $update = \constant('CO_' . $moduleDirNameUpper . '_' . 'NEW_VERSION') . $latestVersion;
                     }
@@ -139,7 +139,7 @@ trait VersionChecks
                     //                    $moduleVersion = '1.0'; //for testing only
                     //                    $moduleDirName = 'publisher'; //for testing only
                     if (!$prerelease && \version_compare($moduleVersion, $latestVersion, '<')) {
-                        $ret = [];
+                        $ret   = [];
                         $ret[] = $update;
                         $ret[] = $latestVersionLink;
                     }

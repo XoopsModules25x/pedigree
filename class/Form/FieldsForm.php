@@ -26,27 +26,15 @@ namespace XoopsModules\Pedigree\Form;
 
 use RuntimeException;
 use Xmf\Module\Helper\Permission;
-use XoopsFormButton;
-use XoopsFormHidden;
-use XoopsFormLabel;
-use XoopsFormSelect;
-use XoopsFormText;
-use XoopsModules\Pedigree;
-use XoopsThemeForm;
-
-
-
-
-
-
-
-
-
+use XoopsModules\Pedigree\{
+    Helper,
+    Utility
+};
 
 require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 $moduleDirName = \basename(\dirname(__DIR__, 2));
-//$helper = Pedigree\Helper::getInstance();
+//$helper = Helper::getInstance();
 $permHelper = new Permission();
 
 \xoops_load('XoopsFormLoader');
@@ -75,19 +63,19 @@ class FieldsForm extends XoopsThemeForm
 
         //include ID field, it's needed so the module knows if it is a new form or an edited form
 
-        $hidden = new XoopsFormHidden('id', $this->targetObject->getVar('id'));
+        $hidden = new \XoopsFormHidden('id', $this->targetObject->getVar('id'));
         $this->addElement($hidden);
         unset($hidden);
 
         // Id
-        $this->addElement(new XoopsFormLabel(AM_PEDIGREE_FIELDS_ID, $this->targetObject->getVar('id'), 'id'));
+        $this->addElement(new \XoopsFormLabel(AM_PEDIGREE_FIELDS_ID, $this->targetObject->getVar('id'), 'id'));
         // Isactive
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_ISACTIVE, 'isactive', 50, 255, $this->targetObject->getVar('isactive')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_ISACTIVE, 'isactive', 50, 255, $this->targetObject->getVar('isactive')), false);
         // Fieldname
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_FIELDNAME, 'fieldname', 50, 255, $this->targetObject->getVar('fieldname')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_FIELDNAME, 'fieldname', 50, 255, $this->targetObject->getVar('fieldname')), false);
         // Fieldtype
-        $fieldtype    = new XoopsFormSelect(AM_PEDIGREE_FIELDS_FIELDTYPE, 'fieldtype', $this->targetObject->getVar('fieldtype'));
-        $optionsArray = Pedigree\Utility::enumerate('pedigree_fields', 'fieldtype');
+        $fieldtype    = new \XoopsFormSelect(AM_PEDIGREE_FIELDS_FIELDTYPE, 'fieldtype', $this->targetObject->getVar('fieldtype'));
+        $optionsArray = Utility::enumerate('pedigree_fields', 'fieldtype');
         if (!\is_array($optionsArray)) {
             throw new RuntimeException($optionsArray . ' must be an array.');
         }
@@ -96,35 +84,35 @@ class FieldsForm extends XoopsThemeForm
         }
         $this->addElement($fieldtype, false);
         // Lookuptable
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_LOOKUPTABLE, 'lookuptable', 50, 255, $this->targetObject->getVar('lookuptable')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_LOOKUPTABLE, 'lookuptable', 50, 255, $this->targetObject->getVar('lookuptable')), false);
         // Defaultvalue
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_DEFAULTVALUE, 'defaultvalue', 50, 255, $this->targetObject->getVar('defaultvalue')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_DEFAULTVALUE, 'defaultvalue', 50, 255, $this->targetObject->getVar('defaultvalue')), false);
         // Fieldexplanation
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_FIELDEXPLANATION, 'fieldexplanation', 50, 255, $this->targetObject->getVar('fieldexplanation')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_FIELDEXPLANATION, 'fieldexplanation', 50, 255, $this->targetObject->getVar('fieldexplanation')), false);
         // Hassearch
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_HASSEARCH, 'hassearch', 50, 255, $this->targetObject->getVar('hassearch')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_HASSEARCH, 'hassearch', 50, 255, $this->targetObject->getVar('hassearch')), false);
         // Litter
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_LITTER, 'litter', 50, 255, $this->targetObject->getVar('litter')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_LITTER, 'litter', 50, 255, $this->targetObject->getVar('litter')), false);
         // Generallitter
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_GENERALLITTER, 'generallitter', 50, 255, $this->targetObject->getVar('generallitter')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_GENERALLITTER, 'generallitter', 50, 255, $this->targetObject->getVar('generallitter')), false);
         // Searchname
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_SEARCHNAME, 'searchname', 50, 255, $this->targetObject->getVar('searchname')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_SEARCHNAME, 'searchname', 50, 255, $this->targetObject->getVar('searchname')), false);
         // Searchexplanation
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_SEARCHEXPLANATION, 'searchexplanation', 50, 255, $this->targetObject->getVar('searchexplanation')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_SEARCHEXPLANATION, 'searchexplanation', 50, 255, $this->targetObject->getVar('searchexplanation')), false);
         // Viewinpedigree
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINPEDIGREE, 'viewinpedigree', 50, 255, $this->targetObject->getVar('viewinpedigree')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINPEDIGREE, 'viewinpedigree', 50, 255, $this->targetObject->getVar('viewinpedigree')), false);
         // Viewinadvanced
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINADVANCED, 'viewinadvanced', 50, 255, $this->targetObject->getVar('viewinadvanced')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINADVANCED, 'viewinadvanced', 50, 255, $this->targetObject->getVar('viewinadvanced')), false);
         // Viewinpie
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINPIE, 'viewinpie', 50, 255, $this->targetObject->getVar('viewinpie')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINPIE, 'viewinpie', 50, 255, $this->targetObject->getVar('viewinpie')), false);
         // Viewinlist
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINLIST, 'viewinlist', 50, 255, $this->targetObject->getVar('viewinlist')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_VIEWINLIST, 'viewinlist', 50, 255, $this->targetObject->getVar('viewinlist')), false);
         // Locked
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_LOCKED, 'locked', 50, 255, $this->targetObject->getVar('locked')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_LOCKED, 'locked', 50, 255, $this->targetObject->getVar('locked')), false);
         // Order
-        $this->addElement(new XoopsFormText(AM_PEDIGREE_FIELDS_ORDER, 'order', 50, 255, $this->targetObject->getVar('order')), false);
+        $this->addElement(new \XoopsFormText(AM_PEDIGREE_FIELDS_ORDER, 'order', 50, 255, $this->targetObject->getVar('order')), false);
 
-        $this->addElement(new XoopsFormHidden('op', 'save'));
-        $this->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $this->addElement(new \XoopsFormHidden('op', 'save'));
+        $this->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
     }
 }

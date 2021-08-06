@@ -37,25 +37,14 @@ difference in colour values that is allowed between the original and the mask. I
 this means that low-contrast areas of the picture are left unrendered whereas edges
 are treated normally. This is good for pictures of e.g. skin or blue skies.
 
-Any suggenstions for improvement of the algorithm, expecially regarding the speed
+Any suggenstions for improvement of the algorithm, especially regarding the speed
 and the roundoff errors in the Gaussian blur process, are welcome.
 */
 
-/**
- * Class phpUnsharpMask
- */
 class phpUnsharpMask
 {
-    /**
-     * @param $img
-     * @param $amount
-     * @param $radius
-     * @param $threshold
-     * @return bool
-     */
     public static function applyUnsharpMask(&$img, $amount, $radius, $threshold)
     {
-
         // $img is an image that is already created within php using
         // imgcreatetruecolor. No url! $img must be a truecolor image.
 
@@ -63,7 +52,7 @@ class phpUnsharpMask
         $amount    = min($amount, 500) * 0.016;
         $radius    = abs(round(min(50, $radius) * 2)); // Only integers make sense.
         $threshold = min(255, $threshold);
-        if (0 == $radius) {
+        if ($radius == 0) {
             return true;
         }
         $w         = imagesx($img);
@@ -83,12 +72,11 @@ class phpUnsharpMask
             $matrix = [
                 [1, 2, 1],
                 [2, 4, 2],
-                [1, 2, 1]
+                [1, 2, 1],
             ];
             imagecopy($imgBlur, $img, 0, 0, 0, 0, $w, $h);
             imageconvolution($imgBlur, $matrix, 16, 0);
         } else {
-
             // Move copies of the image around one pixel at the time and merge them with weight
             // according to the matrix. The same matrix is simply repeated for higher radii.
             for ($i = 0; $i < $radius; $i++) {
@@ -154,7 +142,6 @@ class phpUnsharpMask
         }
         imagedestroy($imgCanvas);
         imagedestroy($imgBlur);
-
         return true;
     }
 }

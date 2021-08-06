@@ -17,12 +17,14 @@
  * @author          XOOPS Module Dev Team
  */
 
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
 
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
+require_once \dirname(__DIR__, 3) . '/include/cp_header.php';
 
 /** @var XoopsModules\Pedigree\Helper $helper */
-$helper = Pedigree\Helper::getInstance();
+$helper = Helper::getInstance();
 $helper->loadLanguage('main');
 
 require_once $helper->path('admin/menu.php');
@@ -31,7 +33,7 @@ xoops_cp_header();
 
 $c = Request::getString('c', null, 'GET');
 
-if (null == $c) {
+if (null === $c) {
     $SQL    = 'SELECT conf_value FROM ' . $GLOBALS['xoopsDB']->prefix('config') . " WHERE conf_name = 'pedigreeColours'";
     $result = $GLOBALS['xoopsDB']->query($SQL);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -61,8 +63,7 @@ $borderStyle        = $colors[16];
 $borderWidth        = $colors[17];
 $borderColour       = $colors[18];
 
-echo "<script type=\"text/javascript\" src=\"assets/js/picker.js\"></script>\n"
-   . "<script type=\"text/javascript\" src=\"assets/js/colors.js\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"assets/js/picker.js\"></script>\n" . "<script type=\"text/javascript\" src=\"assets/js/colors.js\"></script>\n";
 echo '
 <table id="background" cellspacing="0" style="width: 90%; background-color: #'
      . $mainBackColour
@@ -425,8 +426,8 @@ echo '
         <td style="width: 25%; vertical-align: top;">
             <div style="text-align: center;">Selected properties</div>
             <form name="myForm" action=\'savecolors.php\' method=\'POST\'>'
-         . $GLOBALS['xoopsSecurity']->getTokenHTML()
-         . '<hr style="width: 90%;">
+     . $GLOBALS['xoopsSecurity']->getTokenHTML()
+     . '<hr style="width: 90%;">
             <table>
                 <tr>
                     <td style="width: 50%;">Background colour</td>

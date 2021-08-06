@@ -18,15 +18,20 @@
  * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
+
 use Xmf\Request;
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
+
+/** @var \XoopsThemeForm $form */
 
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 //$adminObject = \Xmf\Module\Admin::getInstance();
 
-$tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
+$tempHandler = Helper::getInstance()->getHandler('Temp');
 
 //It recovered the value of argument op in URL$
 $op = Request::getCmd('op', 'list');
@@ -39,7 +44,7 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numrows = $tempHandler->getCount();
+        $numrows           = $tempHandler->getCount();
         $pedigree_temp_arr = $tempHandler->getAll($criteria);
 
         //Table view
@@ -47,7 +52,7 @@ switch ($op) {
             echo "<table cellspacing='1' class='outer width100'>
                 <thead>
                 <tr>
-                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_NAAM . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_PNAME . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_ID_OWNER . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_ID_BREEDER . "</th>
                         <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TEMP_USER . "</th>
@@ -66,7 +71,7 @@ switch ($op) {
                 if (0 == $pedigree_temp_arr[$i]->getVar('pedigree_temp_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
-                    echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('naam') . '</td>';
+                    echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('pname') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('id_breeder') . '</td>';
                     echo "<td class='txtcenter'>" . $pedigree_temp_arr[$i]->getVar('user') . '</td>';
@@ -92,9 +97,9 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
 
-        $tempHandler = Pedigree\Helper::getInstance()->getHandler('Temp');
-        $obj = $tempHandler->create();
-        $form = $obj->getForm();
+        $tempHandler = Helper::getInstance()->getHandler('Temp');
+        $obj         = $tempHandler->create();
+        $form        = $obj->getForm();
         $form->display();
         break;
     case 'save_pedigree_temp':
@@ -107,8 +112,8 @@ switch ($op) {
             $obj = $tempHandler->create();
         }
 
-        //Form naam
-        $obj->setVar('naam', $_REQUEST['naam']);
+        //Form pname
+        $obj->setVar('pname', $_REQUEST['pname']);
         //Form id_owner
         $obj->setVar('id_owner', $_REQUEST['id_owner']);
         //Form id_breeder
@@ -139,7 +144,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_PEDIGREE_NEWPEDIGREE_TEMP, 'pedigree_temp.php?op=new_pedigree_temp', 'add');
         $adminObject->addItemButton(_AM_PEDIGREE_PEDIGREE_TEMPLIST, 'pedigree_temp.php?op=list', 'list');
         $adminObject->displayButton('left');
-        $obj = $tempHandler->get($_REQUEST['id']);
+        $obj  = $tempHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;

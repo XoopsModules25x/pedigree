@@ -20,72 +20,72 @@
 
 use Xmf\Request;
 
-//require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once  \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/header.php';
 $moduleDirName = basename(__DIR__);
 xoops_loadLanguage('main', $moduleDirName);
-require_once __DIR__ . '/include/config.php';
+require_once __DIR__ . '/config/config.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 $dogid = Request::getInt('dogid', 0, 'GET');
 
 //create data and variables
-$queryString = '
+$sql = '
 SELECT d.Id as d_id,
-d.NAAM as d_naam,
+d.pname as d_pname,
 d.roft as d_roft,
 d.foto as d_foto,
 f.Id as f_id,
-f.NAAM as f_naam,
+f.pname as f_pname,
 f.foto as f_foto,
 m.Id as m_id,
-m.NAAM as m_naam,
+m.pname as m_pname,
 m.foto as m_foto,
 ff.Id as ff_id,
-ff.NAAM as ff_naam,
+ff.pname as ff_pname,
 ff.foto as ff_foto,
 mf.Id as mf_id,
-mf.NAAM as mf_naam,
+mf.pname as mf_pname,
 mf.foto as mf_foto,
 fm.Id as fm_id,
-fm.NAAM as fm_naam,
+fm.pname as fm_pname,
 fm.foto as fm_foto,
 mm.Id as mm_id,
-mm.NAAM as mm_naam,
+mm.pname as mm_pname,
 mm.foto as mm_foto,
 fff.Id as fff_id,
-fff.NAAM as fff_naam,
+fff.pname as fff_pname,
 ffm.Id as ffm_id,
-ffm.NAAM as ffm_naam,
+ffm.pname as ffm_pname,
 fmf.Id as fmf_id,
-fmf.NAAM as fmf_naam,
+fmf.pname as fmf_pname,
 fmm.Id as fmm_id,
-fmm.NAAM as fmm_naam,
+fmm.pname as fmm_pname,
 mmf.Id as mmf_id,
-mmf.NAAM as mmf_naam,
+mmf.pname as mmf_pname,
 mff.Id as mff_id,
-mff.NAAM as mff_naam,
+mff.pname as mff_pname,
 mfm.Id as mfm_id,
-mfm.NAAM as mfm_naam,
+mfm.pname as mfm_pname,
 mmm.Id as mmm_id,
-mmm.NAAM as mmm_naam
-FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON d.father = f.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON d.mother = m.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON f.father = ff.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fff ON ff.father = fff.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ffm ON ff.mother = ffm.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON m.father = mf.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mff ON mf.father = mff.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mfm ON mf.mother = mfm.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON f.mother = fm.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmf ON fm.father = fmf.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fmm ON fm.mother = fmm.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON m.mother = mm.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mmf ON mm.father = mmf.Id
-LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " mmm ON mm.mother = mmm.Id
+mmm.pname as mmm_pname
+FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' f ON d.father = f.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' m ON d.mother = m.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ff ON f.father = ff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fff ON ff.father = fff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ffm ON ff.mother = ffm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mf ON m.father = mf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mff ON mf.father = mff.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mfm ON mf.mother = mfm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fm ON f.mother = fm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmf ON fm.father = fmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fmm ON fm.mother = fmm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mm ON m.mother = mm.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mmf ON mm.father = mmf.Id
+LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " mmm ON mm.mother = mmm.Id
 where d.Id=$dogid";
 
-$result = $GLOBALS['xoopsDB']->query($queryString);
+$result = $GLOBALS['xoopsDB']->query($sql);
 $male   = "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">";
 $female = "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">";
 $gender = '';
@@ -108,7 +108,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "      <tr>\n"
          . "          <th colspan='4' style='text-align:center;'>\n"
          . '              '
-         . stripslashes($row['d_naam'])
+         . stripslashes($row['d_pname'])
          . "\n"
          . "          </th>\n"
          . "      </tr>\n"
@@ -116,16 +116,16 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "          <!-- selected dog -->\n"
          . "          <td width='25%' rowspan='8'>\n"
          . "              {$gender}"
-         . stripslashes($row['d_naam'])
+         . stripslashes($row['d_pname'])
          . "\n";
     if ('' != $row['d_foto']) {
         echo "              <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['d_foto'] . "_150.jpeg' width='150px;'>";
     }
-    echo "          </td>\n" . "             <!-- father -->\n" . "             <td width='25%' rowspan='4'>\n" . "                 {$male}" . stripslashes($row['f_naam']) . "\n";
+    echo "          </td>\n" . "             <!-- father -->\n" . "             <td width='25%' rowspan='4'>\n" . "                 {$male}" . stripslashes($row['f_pname']) . "\n";
     if ('' != $row['f_foto']) {
         echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['f_foto'] . "_150.jpeg' width='150px;'>\n";
     }
-    echo "          </td>\n" . "             <!-- father father -->\n" . "             <td width='25%' rowspan='2'>\n" . "                 {$male}" . stripslashes($row['ff_naam']) . "\n";
+    echo "          </td>\n" . "             <!-- father father -->\n" . "             <td width='25%' rowspan='2'>\n" . "                 {$male}" . stripslashes($row['ff_pname']) . "\n";
     if ('' != $row['ff_foto']) {
         echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['ff_foto'] . "_150.jpeg' width='150px;'>\n";
     }
@@ -133,7 +133,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "             <!-- father father father -->\n"
          . "             <td width='25%'>\n"
          . "                 {$male}"
-         . stripslashes($row['fff_naam'])
+         . stripslashes($row['fff_pname'])
          . "\n"
          . "             </td>\n"
          . "         </tr>\n"
@@ -141,7 +141,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "             <!-- father father mother -->\n"
          . "             <td width='25%'>\n"
          . "                 {$female}"
-         . stripslashes($row['ffm_naam'])
+         . stripslashes($row['ffm_pname'])
          . "\n"
          . "             </td>\n"
          . "         </tr>\n"
@@ -149,7 +149,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "         <!-- father mother -->\n"
          . "             <td width='25%' rowspan='2'>\n"
          . "                 {$female}"
-         . stripslashes($row['fm_naam'])
+         . stripslashes($row['fm_pname'])
          . "\n";
     if ('' != $row['fm_foto']) {
         echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['fm_foto'] . "_150.jpeg' width='150px;'>\n";
@@ -158,7 +158,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                <!-- father mother father -->\n"
          . "                <td width='25%'>\n"
          . "                    {$male}"
-         . stripslashes($row['fmf_naam'])
+         . stripslashes($row['fmf_pname'])
          . "\n"
          . "                </td>\n"
          . "            </tr>\n"
@@ -166,7 +166,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                <!-- father mother mother -->\n"
          . "                <td width='25%'>\n"
          . "                    {$female}"
-         . stripslashes($row['fmm_naam'])
+         . stripslashes($row['fmm_pname'])
          . "\n"
          . "                </td>\n"
          . "            </tr>\n"
@@ -174,12 +174,12 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                <!-- mother -->\n"
          . "                <td width='25%' rowspan='4'>\n"
          . "                    {$female}"
-         . stripslashes($row['m_naam'])
+         . stripslashes($row['m_pname'])
          . "\n";
     if ('' != $row['m_foto']) {
         echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['m_foto'] . "_150.jpeg' width='150px;'>\n";
     }
-    echo "             </td>\n" . "                <!- mother father -->\n" . "                <td width='25%' rowspan='2'>\n" . "                    {$male}" . stripslashes($row['mf_naam']) . "\n";
+    echo "             </td>\n" . "                <!- mother father -->\n" . "                <td width='25%' rowspan='2'>\n" . "                    {$male}" . stripslashes($row['mf_pname']) . "\n";
     if ('' != $row['mf_foto']) {
         echo "                 <br><img src='" . PEDIGREE_UPLOAD_URL . '/images/thumbnails/' . $row['mf_foto'] . "_150.jpeg' width='150px;'>\n";
     }
@@ -187,7 +187,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                    <!-- mother father father -->\n"
          . "                    <td width='25%'>\n"
          . "                      {$male}"
-         . stripslashes($row['mff_naam'])
+         . stripslashes($row['mff_pname'])
          . "\n"
          . "                    </td>\n"
          . "                </tr>\n"
@@ -195,7 +195,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                    <!-- mother father mother -->\n"
          . "                    <td width='25%'>\n"
          . "                        {$female}"
-         . stripslashes($row['mfm_naam'])
+         . stripslashes($row['mfm_pname'])
          . "\n"
          . "                    </td>\n"
          . "                </tr>\n"
@@ -203,13 +203,13 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                    <!-- mother mother -->\n"
          . "                    <td width='25%' rowspan='2'>\n"
          . "                        {$female}"
-         . stripslashes($row['mm_naam'])
+         . stripslashes($row['mm_pname'])
          . "\n"
          . "                    </td>\n"
          . "                    <!-- mother mother father -->\n"
          . "                    <td width='25%'>\n"
          . "                        {$male}"
-         . stripslashes($row['mmf_naam'])
+         . stripslashes($row['mmf_pname'])
          . "\n"
          . "                    </td>\n"
          . "                </tr>\n"
@@ -217,7 +217,7 @@ while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
          . "                    <!-- mother mother mother -->\n"
          . "                    <td width='25%'>\n"
          . "                        {$female}"
-         . stripslashes($row['mmm_naam'])
+         . stripslashes($row['mmm_pname'])
          . "\n"
          . "                    </td>\n"
          . "                </tr>\n"

@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -34,11 +35,11 @@ $GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_VIRTUAL_PAGETITLE);
 
 $f = Request::getCmd('f', '', 'GET');
 
-switch($f) {
+switch ($f) {
     case 'dam':
-        $pages = '';
-        $st = Request::getString('st', 0, 'GET');
-        $l = Request::getString('l', 'A', 'GET');
+        $pages   = '';
+        $st      = Request::getString('st', 0, 'GET');
+        $l       = Request::getString('l', 'A', 'GET');
         $selsire = Request::getInt('selsire', 0, 'GET');
 
         $GLOBALS['xoopsTpl']->assign('sire', '1');
@@ -48,20 +49,20 @@ switch($f) {
 
         //Count total number of dogs
         $numDog = 'SELECT COUNT(d.id) FROM '
-                  . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                  . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                   . ' d LEFT JOIN '
-                  . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                  . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                   . ' m ON m.id = d.mother LEFT JOIN '
-                  . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                  //  . " f ON f.id = d.father WHERE d.roft = '1' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.naam LIKE '" . $l . "%'";
-                  . " f ON f.id = d.father WHERE d.roft = '1' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.naam LIKE '"
+                  . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                  //  . " f ON f.id = d.father WHERE d.roft = '1' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.pname LIKE '" . $l . "%'";
+                  . " f ON f.id = d.father WHERE d.roft = '1' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.pname LIKE '"
                   . $GLOBALS['xoopsDB']->escape($l)
                   . "%'";
 
         $numRes = $GLOBALS['xoopsDB']->query($numDog);
 
         //total number of dogs the query will find
-        list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
+        [$numResults] = $GLOBALS['xoopsDB']->fetchRow($numRes);
         //total number of pages
         $numPages = floor($numResults / $perPage) + 1;
         if (($numPages * $perPage) == ($numResults + $perPage)) {
@@ -128,28 +129,28 @@ switch($f) {
         }
 
         //query
-        $queryString = 'SELECT d.*, d.id AS d_id, d.naam AS d_naam FROM '
-                       . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+        $sql = 'SELECT d.*, d.id AS d_id, d.pname AS d_pname FROM '
+                       . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                        . ' d LEFT JOIN '
-                       . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
+                       . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
                        . ' m ON m.id = d.mother LEFT JOIN '
-                       . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                       . " f ON f.id = d.father WHERE d.roft = '1' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.naam LIKE '"
+                       . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                       . " f ON f.id = d.father WHERE d.roft = '1' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.pname LIKE '"
                        . $l
-                       . "%' ORDER BY d.naam LIMIT "
+                       . "%' ORDER BY d.pname LIMIT "
                        . $st
                        . ', '
                        . $perPage;
-        $result = $GLOBALS['xoopsDB']->query($queryString);
+        $result      = $GLOBALS['xoopsDB']->query($sql);
 
         $animal = new Pedigree\Animal();
         //test to find out how many user fields there are...
-        $fields = $animal->getFieldsIds();
+        $fields       = $animal->getNumOfFields();
         $numOfColumns = 1;
-        $columns[] = ['columnname' => 'Name'];
+        $columns[]    = ['columnname' => 'Name'];
         foreach ($fields as $i => $iValue) {
-            $userField = new Pedigree\Field($fields[$i], $animal->getConfig());
-            $fieldType = $userField->getSetting('fieldtype');
+            $userField   = new Pedigree\Field($fields[$i], $animal->getConfig());
+            $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
             $lookupValues = '';
@@ -160,9 +161,9 @@ switch($f) {
                     //print_r($lookupValues);
                 }
                 $columns[] = [
-                    'columnname' => $fieldObject->fieldname,
+                    'columnname'   => $fieldObject->fieldname,
                     'columnnumber' => $userField->getId(),
-                    'lookupval' => $lookupValues,
+                    'lookupval'    => $lookupValues,
                 ];
                 ++$numOfColumns;
                 unset($lookupValues);
@@ -176,7 +177,7 @@ switch($f) {
             } else {
                 $camera = '';
             }
-            $name = stripslashes($row['d_naam']) . $camera;
+            $name = stripslashes($row['d_pname']) . $camera;
             //empty array
             unset($columnvalue);
             //fill array
@@ -202,50 +203,51 @@ switch($f) {
                 unset($value);
             }
             $dogs[] = [
-                'id' => $row['d_id'],
-                'name' => $name,
+                'id'          => $row['d_id'],
+                'name'        => $name,
                 //@todo add alt and title tags
-                'gender' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">",
-                'link' => "<a href=\"" / $helper->url("virtual.php?f=check&selsire={$selsire}&seldam={$row['d_id']}") . "\">{$name}</a>",
-                'colour' => '',
-                'number' => '',
+                'gender'      => "<img src=\"" . PEDIGREE_IMAGE_URL . "/female.gif\">",
+                'link'        => "<a href=\"" / $helper->url("virtual.php?f=check&selsire={$selsire}&seldam={$row['d_id']}") . "\">{$name}</a>",
+                'colour'      => '',
+                'number'      => '',
                 'usercolumns' => isset($columnvalue) ? $columnvalue : 0,
             ];
         }
 
         //add data to smarty template
         $GLOBALS['xoopsTpl']->assign([
-            'dogs' => $dogs,
-            'columns' => $columns,
-            'numofcolumns' => $numOfColumns,
-            'tsarray' => Pedigree\Utility::sortTable($numOfColumns),
-            'nummatch' => strtr(_MA_PEDIGREE_ADD_SELDAM, ['[mother]' => $helper->getConfig('mother')]),
-            'pages' => $pages,
-            'virtualtitle' => _MA_PEDIGREE_VIRUTALTIT,
-            'virtualstory' => strtr(_MA_PEDIGREE_VIRUTALSTO, [
-                '[mother]' => $helper->getConfig('mother'),
-                '[father]' => $helper->getConfig('father'),
-                '[children]' => $helper->getConfig('children')]),
-            'nextaction' => '<span style="font-weight: bold;">' . strtr(_MA_PEDIGREE_VIRT_DAM, ['[mother]' => $helper->getConfig('mother')]) . '</span>',
-            'virtualsiretitle' => strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $helper->getConfig('father')])
-        ]);
+                                         'dogs'             => $dogs,
+                                         'columns'          => $columns,
+                                         'numofcolumns'     => $numOfColumns,
+                                         'tsarray'          => Pedigree\Utility::sortTable($numOfColumns),
+                                         'nummatch'         => strtr(_MA_PEDIGREE_ADD_SELDAM, ['[mother]' => $helper->getConfig('mother')]),
+                                         'pages'            => $pages,
+                                         'virtualtitle'     => _MA_PEDIGREE_VIRUTALTIT,
+                                         'virtualstory'     => strtr(_MA_PEDIGREE_VIRUTALSTO, [
+                                             '[mother]'   => $helper->getConfig('mother'),
+                                             '[father]'   => $helper->getConfig('father'),
+                                             '[children]' => $helper->getConfig('children'),
+                                         ]),
+                                         'nextaction'       => '<span style="font-weight: bold;">' . strtr(_MA_PEDIGREE_VIRT_DAM, ['[mother]' => $helper->getConfig('mother')]) . '</span>',
+                                         'virtualsiretitle' => strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $helper->getConfig('father')]),
+                                     ]);
 
         //Find Father
         //@todo - this looks wrong, shouldn't this be looking at 'father' field, not 'id'
         $sireArray = $treeHandler->get($selsire);
-        $vsire = $sireArray instanceof Pedigree\Tree ? $sireArray->getVar('naam') : '';
+        $vsire     = $sireArray instanceof Pedigree\Tree ? $sireArray->getVar('pname') : '';
         /*
-        $query = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $selsire;
+        $query = 'SELECT id, pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $selsire;
         $result = $GLOBALS['xoopsDB']->query($query);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $vsire = stripslashes($row['naam']);
+            $vsire = stripslashes($row['pname']);
         }
         */
         $GLOBALS['xoopsTpl']->assign('virtualsire', $vsire);
 
         //mb ========= MOTHER LETTERS===============================
         $roft = 1;
-        $name = 'naam';
+        $name = 'pname';
         $link = "virtual.php?r=1&st=0&l=";
 
         $criteria = $helper->getHandler('Tree')->getActiveCriteria($roft);
@@ -259,30 +261,30 @@ switch($f) {
     case 'check':
 
         $selsire = Request::getInt('selsire', 0, 'GET');
-        $seldam = Request::getInt('seldam', 0, 'GET');
+        $seldam  = Request::getInt('seldam', 0, 'GET');
 
         $treeHandler = $helper->getHandler('Tree');
 
         $GLOBALS['xoopsTpl']->assign([
-            'virtualtitle' => _MA_PEDIGREE_VIRUTALTIT,
-            'virtualstory' => strtr(_MA_PEDIGREE_VIRUTALSTO, [
-                                '[mother]' => $helper->getConfig('mother'),
-                                '[father]' => $helper->getConfig('father'),
-                                '[children]' => $helper->getConfig('children')
-            ]),
-            'virtualsiretitle' => strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $helper->getConfig('father')]),
-            'virtualdamtitle' => strtr(_MA_PEDIGREE_VIRTUALDTIT, ['[mother]' => $helper->getConfig('mother')]),
-            'form' => "<a href=\"" . $helper->url("coi.php?s={$selsire}&d={$seldam}&dogid=&detail=1") . "\">" . _MA_PEDIGREE_VIRTUALBUT . "</a>"
-        ]);
+                                         'virtualtitle'     => _MA_PEDIGREE_VIRUTALTIT,
+                                         'virtualstory'     => strtr(_MA_PEDIGREE_VIRUTALSTO, [
+                                             '[mother]'   => $helper->getConfig('mother'),
+                                             '[father]'   => $helper->getConfig('father'),
+                                             '[children]' => $helper->getConfig('children'),
+                                         ]),
+                                         'virtualsiretitle' => strtr(_MA_PEDIGREE_VIRTUALSTIT, ['[father]' => $helper->getConfig('father')]),
+                                         'virtualdamtitle'  => strtr(_MA_PEDIGREE_VIRTUALDTIT, ['[mother]' => $helper->getConfig('mother')]),
+                                         'form'             => "<a href=\"" . $helper->url("coi.php?s={$selsire}&d={$seldam}&dogid=&detail=1") . "\">" . _MA_PEDIGREE_VIRTUALBUT . "</a>",
+                                     ]);
         //Find Father
         //@todo - this looks wrong, shouldn't this be looking at 'father' field, not 'id'
         $sireArray = $treeHandler->get($selsire);
-        $vsire = $sireArray instanceof Pedigree\Tree ? $sireArray->getVar('naam') : '';
+        $vsire     = $sireArray instanceof Pedigree\Tree ? $sireArray->getVar('pname') : '';
         /*
-        $query = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $selsire;
+        $query = 'SELECT id, pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $selsire;
         $result = $GLOBALS['xoopsDB']->query($query);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $vsire = stripslashes($row['naam']);
+            $vsire = stripslashes($row['pname']);
         }
         */
         $GLOBALS['xoopsTpl']->assign('virtualsire', $vsire);
@@ -290,12 +292,12 @@ switch($f) {
         //Find Mother
         //@todo - this looks wrong, shouldn't this be looking at 'mother' field, not 'id'
         $damArray = $treeHandler->get($seldam);
-        $vdam = $damArray instanceof Pedigree\Tree ? $damArray->getVar('naam') : '';
+        $vdam     = $damArray instanceof Pedigree\Tree ? $damArray->getVar('pname') : '';
         /*
-        $query = 'SELECT id, naam FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $seldam;
+        $query = 'SELECT id, pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $seldam;
         $result = $GLOBALS['xoopsDB']->query($query);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $vdam = stripslashes($row['naam']);
+            $vdam = stripslashes($row['pname']);
         }
         */
         $GLOBALS['xoopsTpl']->assign('virtualdam', $vdam);
@@ -303,7 +305,7 @@ switch($f) {
 
     default:
         $st = Request::getInt('st', 0, 'GET');
-        $l = Request::getString('l', 'a', 'GET');
+        $l  = Request::getString('l', 'a', 'GET');
 
         $GLOBALS['xoopsTpl']->assign('sire', '1');
         //create list of males dog to select from
@@ -311,18 +313,18 @@ switch($f) {
         $perPage = (int)$perPage > 0 ? (int)$perPage : Constants::DEFAULT_PER_PAGE; // make sure $perPage is 'valid'
         //count total number of dogs
         $numDog = 'SELECT COUNT(d.id) FROM '
-                . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                . ' d LEFT JOIN '
-                . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                . ' m ON m.id = d.mother LEFT JOIN '
-                . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                //. " f ON f.id = d.father WHERE d.roft = '0' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.naam LIKE '" . $l . "%'";
-                . " f ON f.id = d.father WHERE d.roft = '0' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.naam LIKE '"
-                . $GLOBALS['xoopsDB']->escape($l)
-                . "%'";
+                  . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                  . ' d LEFT JOIN '
+                  . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                  . ' m ON m.id = d.mother LEFT JOIN '
+                  . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                  //. " f ON f.id = d.father WHERE d.roft = '0' and d.mother != '0' and d.father != '0' and m.mother != '0' and m.father != '0' and f.mother != '0' and f.father != '0' and d.pname LIKE '" . $l . "%'";
+                  . " f ON f.id = d.father WHERE d.roft = '0' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.pname LIKE '"
+                  . $GLOBALS['xoopsDB']->escape($l)
+                  . "%'";
         $numRes = $GLOBALS['xoopsDB']->query($numDog);
         //total number of dogs the query will find
-        list($numResults) = $GLOBALS['xoopsDB']->fetchRow($numRes);
+        [$numResults] = $GLOBALS['xoopsDB']->fetchRow($numRes);
         //total number of pages
         $numPages = floor($numResults / $perPage) + 1;
         if (($numPages * $perPage) == ($numResults + $perPage)) {
@@ -369,28 +371,28 @@ switch($f) {
         }
 
         //query
-        $queryString = 'SELECT d.*, d.id AS d_id, d.naam AS d_naam FROM '
-                     . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                     . ' d LEFT JOIN '
-                     . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                     . ' m ON m.id = d.mother LEFT JOIN '
-                     . $GLOBALS['xoopsDB']->prefix('pedigree_tree')
-                     . " f ON f.id = d.father WHERE d.roft = '0' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.naam LIKE '"
-                     . $l
-                     . "%' ORDER BY d.naam LIMIT "
-                     . $st
-                     . ', '
-                     . $perPage;
-        $result = $GLOBALS['xoopsDB']->query($queryString);
-        $animal = new Pedigree\Animal();
+        $sql = 'SELECT d.*, d.id AS d_id, d.pname AS d_pname FROM '
+                       . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                       . ' d LEFT JOIN '
+                       . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                       . ' m ON m.id = d.mother LEFT JOIN '
+                       . $GLOBALS['xoopsDB']->prefix('pedigree_registry')
+                       . " f ON f.id = d.father WHERE d.roft = '0' AND d.mother != '0' AND d.father != '0' AND m.mother != '0' AND m.father != '0' AND f.mother != '0' AND f.father != '0' AND d.pname LIKE '"
+                       . $l
+                       . "%' ORDER BY d.pname LIMIT "
+                       . $st
+                       . ', '
+                       . $perPage;
+        $result      = $GLOBALS['xoopsDB']->query($sql);
+        $animal      = new Pedigree\Animal();
         //test to find out how many user fields there are...
-        $fields = $animal->getFieldsIds();
+        $fields       = $animal->getNumOfFields();
         $animalConfig = $animal->getConfig();
         $numOfColumns = 1;
-        $columns[] = ['columnname' => 'Name'];
+        $columns[]    = ['columnname' => 'Name'];
         foreach ($fields as $i => $iValue) {
-            $userField = new Pedigree\Field($fields[$i], $animalConfig);
-            $fieldType = $userField->getSetting('fieldtype');
+            $userField   = new Pedigree\Field($fields[$i], $animalConfig);
+            $fieldType   = $userField->getSetting('fieldtype');
             $fieldObject = new $fieldType($userField, $animal);
             //create empty string
             $lookupValues = '';
@@ -401,9 +403,9 @@ switch($f) {
                     //print_r($lookupValues);
                 }
                 $columns[] = [
-                    'columnname' => $fieldObject->fieldname,
+                    'columnname'   => $fieldObject->fieldname,
                     'columnnumber' => $userField->getId(),
-                    'lookupval' => $lookupValues,
+                    'lookupval'    => $lookupValues,
                 ];
                 ++$numOfColumns;
                 unset($lookupValues);
@@ -417,7 +419,7 @@ switch($f) {
             } else {
                 $camera = '';
             }
-            $name = stripslashes($row['d_naam']) . $camera;
+            $name = stripslashes($row['d_pname']) . $camera;
             //empty array
             unset($columnvalue);
             //fill array
@@ -443,13 +445,13 @@ switch($f) {
                 unset($value);
             }
             $dogs[] = [
-                'id' => $row['d_id'],
-                'name' => $name,
+                'id'          => $row['d_id'],
+                'name'        => $name,
                 //@todo add alt and title tags
-                'gender' => "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">",
-                'link' => "<a href=\"" . $helper->url("virtual.php?f=dam&selsire=" . $row['d_id']) . "\">{$name}</a>",
-                'colour' => '',
-                'number' => '',
+                'gender'      => "<img src=\"" . PEDIGREE_IMAGE_URL . "/male.gif\">",
+                'link'        => "<a href=\"" . $helper->url("virtual.php?f=dam&selsire=" . $row['d_id']) . "\">{$name}</a>",
+                'colour'      => '',
+                'number'      => '',
                 'usercolumns' => isset($columnvalue) ? $columnvalue : 0,
             ];
         }
@@ -460,23 +462,24 @@ switch($f) {
             $GLOBALS['xoopsTpl']->assign('dogs', $dogs);
         }
         $GLOBALS['xoopsTpl']->assign([
-            'columns' => $columns,
-            'numofcolumns' => $numOfColumns,
-            'tsarray' => Pedigree\Utility::sortTable($numOfColumns),
-            'nummatch' => strtr(_MA_PEDIGREE_ADD_SELSIRE, ['[father]' => $helper->getConfig('father')]),
-            'pages' => $pages,
-            'virtualtitle' => strtr(_MA_PEDIGREE_VIRUTALTIT, ['[mother]' => $helper->getConfig('mother')]),
-            'virtualstory' => strtr(_MA_PEDIGREE_VIRUTALSTO, [
-                '[mother]' => $helper->getConfig('mother'),
-                '[father]' => $helper->getConfig('father'),
-                '[children]' => $helper->getConfig('children')]),
-            'nextaction' => '<span style="font-weight: bold;">' . strtr(_MA_PEDIGREE_VIRT_SIRE, ['[father]' => $helper->getConfig('father')]) . '</span>'
-        ]);
+                                         'columns'      => $columns,
+                                         'numofcolumns' => $numOfColumns,
+                                         'tsarray'      => Pedigree\Utility::sortTable($numOfColumns),
+                                         'nummatch'     => strtr(_MA_PEDIGREE_ADD_SELSIRE, ['[father]' => $helper->getConfig('father')]),
+                                         'pages'        => $pages,
+                                         'virtualtitle' => strtr(_MA_PEDIGREE_VIRUTALTIT, ['[mother]' => $helper->getConfig('mother')]),
+                                         'virtualstory' => strtr(_MA_PEDIGREE_VIRUTALSTO, [
+                                             '[mother]'   => $helper->getConfig('mother'),
+                                             '[father]'   => $helper->getConfig('father'),
+                                             '[children]' => $helper->getConfig('children'),
+                                         ]),
+                                         'nextaction'   => '<span style="font-weight: bold;">' . strtr(_MA_PEDIGREE_VIRT_SIRE, ['[father]' => $helper->getConfig('father')]) . '</span>',
+                                     ]);
 
         //mb =========== FATHER LETTERS =============================
-        $roft = 0;
-        $name = 'naam';
-        $link = "virtual.php?r=1&st=0&l=";
+        $roft  = 0;
+        $name  = 'pname';
+        $link  = "virtual.php?r=1&st=0&l=";
         $link2 = '';
 
         $criteria = $helper->getHandler('Tree')->getActiveCriteria($roft);

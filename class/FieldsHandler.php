@@ -11,6 +11,7 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -19,6 +20,7 @@ namespace XoopsModules\Pedigree;
  * @package         pedigree
  * @author          XOOPS Module Dev Team
  */
+
 use XoopsModules\Pedigree;
 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -29,7 +31,9 @@ use XoopsModules\Pedigree;
  */
 class FieldsHandler extends \XoopsPersistableObjectHandler
 {
-    use CountOverload;  // changed getCount() and getCounts() return values to integers
+    use CountOverload;
+
+    // changed getCount() and getCounts() return values to integers
 
     /**
      * @param null|\XoopsDatabase $db
@@ -46,9 +50,9 @@ class FieldsHandler extends \XoopsPersistableObjectHandler
      */
     public function lookupField(int $fieldnumber): array
     {
-        $ret = [];
-        $query = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
-        $result = $GLOBALS['xoopsDB']->query($query);
+        $ret    = [];
+        $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $fieldnumber) . " ORDER BY 'order'";
+        $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             $ret[] = ['id' => $row['id'], 'value' => $row['value']];
         }

@@ -27,23 +27,26 @@ namespace XoopsModules\Pedigree\Common;
 class Configurator
 {
     public $name;
-    public $paths = [];
-    public $uploadFolders = [];
-    public $copyBlankFiles = [];
+    public $paths           = [];
+    public $uploadFolders   = [];
+    public $copyBlankFiles  = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles = [];
-    public $oldFolders = [];
-    public $renameTables = [];
-    public $moduleStats = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
+    public $renameTables    = [];
+    public $renameColumns   = [];
+    public $moduleStats     = [];
     public $modCopyright;
+    public $icons;
 
     /**
      * Configurator constructor.
      */
     public function __construct()
     {
-        $config = include \dirname(__DIR__, 2) . '/config/config.php';
+
+        $config = require \dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;
@@ -54,7 +57,11 @@ class Configurator
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;
         $this->renameTables    = $config->renameTables;
+        $this->renameColumns   = $config->renameColumns;
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
+
+        $this->icons = include \dirname(__DIR__, 2) . '/config/icons.php';
+        $this->paths = include \dirname(__DIR__, 2) . '/config/paths.php';
     }
 }

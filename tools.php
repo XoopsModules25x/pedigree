@@ -18,8 +18,11 @@
  * @subpackage  class
  * @author      XOOPS Module Dev Team
  */
+
 use Xmf\Request;
-use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\{
+    Helper
+};
 
 /** @var XoopsModules\Pedigree\Helper $helper */
 require_once __DIR__ . '/header.php';
@@ -63,7 +66,7 @@ $field = Request::getInt('field', null, 'GET');
 
 switch ($op) {
     case 'lang':
-        include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_NAME, 'language', $helper->url('tools.php?op=langsave'), 'post', true);
         $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
         $form->addElement(new \XoopsFormText(_MA_PEDIGREE_TYPE_AN, 'animalType', $size = 50, $maxsize = 255, $value = $helper->getConfig('animalType')));
@@ -89,7 +92,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'langsave':
-        $form = '';
+        $form     = '';
         $settings = [
             'animalType',
             'animalTypes',
@@ -112,7 +115,7 @@ switch ($op) {
         break;
     case 'colours':
         //colour variables
-        list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+        [$actlink, $even, $odd, $text, $hovlink, $head, $body, $title] = Pedigree\Utility::getColourScheme();
         /*
         $actlink = $colors[0];
         $even    = $colors[1];
@@ -124,106 +127,133 @@ switch ($op) {
         $title   = $colors[7];
         */
         echo "<script type=\"text/javascript\">\n"
-           . "  $('.color-box').colpick({\n"
-           . "    colorScheme: 'dark',\n"
-           . "    layout: 'rgbhex',\n"
-           . "    color: 'ff8800',\n"
-           . "    onSubmit: function (hsb, hex, rgb, el) {\n"
-           . "      $(el).css('background-color', '#' + hex);\n"
-           . "      $(el).colpickHide();\n"
-           . "    }\n"
-           . "  })\n"
-           . "  .css('background-color', '#ff8800');\n"
-           . "  $('#picker').colpick({\n"
-           . "    layout: 'hex',\n"
-           . "    submit: 0,\n"
-           . "    colorScheme: 'dark',\n"
-           . "    onChange: function (hsb, hex, rgb, el, bySetColor) {\n"
-           . "      $(el).css('border-color', '#' + hex);\n"
-                    // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
-           . "      if (!bySetColor) $(el).val(hex);\n"
-           . "    }\n"
-           . "  }).keyup(function () {\n"
-           . "  $(this).colpickSetColor(this.value);\n"
-           . "  });\n"
-           . "</script>\n"
-           . "<script type=\"text/javascript\" src=\"assets/js/jscolor/jscolor.js\"></script>\n"
-           . "<script type=\"text/javascript\">\n"
-           . "  function changeBackgroundColor(objDivID, colorvalue) {\n"
-           . "    document.getElementById(objDivID).style.backgroundColor = colorvalue;\n"
-           . "  }\n"
-           . "  function changeTextColor(objDivID, colorvalue) {\n"
-           . "    document.getElementById(objDivID).style.color = colorvalue;\n"
-           . "  }\n"
-           . "</script>\n";
+             . "  $('.color-box').colpick({\n"
+             . "    colorScheme: 'dark',\n"
+             . "    layout: 'rgbhex',\n"
+             . "    color: 'ff8800',\n"
+             . "    onSubmit: function (hsb, hex, rgb, el) {\n"
+             . "      $(el).css('background-color', '#' + hex);\n"
+             . "      $(el).colpickHide();\n"
+             . "    }\n"
+             . "  })\n"
+             . "  .css('background-color', '#ff8800');\n"
+             . "  $('#picker').colpick({\n"
+             . "    layout: 'hex',\n"
+             . "    submit: 0,\n"
+             . "    colorScheme: 'dark',\n"
+             . "    onChange: function (hsb, hex, rgb, el, bySetColor) {\n"
+             . "      $(el).css('border-color', '#' + hex);\n"
+             // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+             . "      if (!bySetColor) $(el).val(hex);\n"
+             . "    }\n"
+             . "  }).keyup(function () {\n"
+             . "  $(this).colpickSetColor(this.value);\n"
+             . "  });\n"
+             . "</script>\n"
+             . "<script type=\"text/javascript\" src=\"assets/js/jscolor/jscolor.js\"></script>\n"
+             . "<script type=\"text/javascript\">\n"
+             . "  function changeBackgroundColor(objDivID, colorvalue) {\n"
+             . "    document.getElementById(objDivID).style.backgroundColor = colorvalue;\n"
+             . "  }\n"
+             . "  function changeTextColor(objDivID, colorvalue) {\n"
+             . "    document.getElementById(objDivID).style.color = colorvalue;\n"
+             . "  }\n"
+             . "</script>\n";
 
         $form = _MA_PEDIGREE_BGCOLOR . '<br><br>';
         $form .= "<form name=\"myForm\" action=\"tools.php?op=savecolours\" method=\"POST\">\n"
-              . $GLOBALS['xoopsSecurity']->getTokenHTML() . "\n"
-               . "<table>\n"
-               . "<!--\n"
-                 . '<tr><td>' . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input type=\"text\" id=\"text\" name=\"text\" value=\"{$text}\" size=\"11\" maxlength=\"7\">\n"
-               . "  <a href=\"TCP.popup(document.forms['myForm'].elements['text'])\">\n"
-               . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to pick the color\" src=\"assets/images/sel.gif\"></a>\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input type=\"text\" id=\"actlink\" name=\"actlink\" value=\"{$actlink}\" size=\"11\" maxlength=\"7\">\n"
-               . "  <a href=\"TCP.popup(document.forms['myForm'].elements['actlink'])\">\n"
-               . "  <img width=\15\ height=\13\ border=\0\ alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input type=\"text\" id=\"even\" name=\"even\" value=\"{$even}\" size=\"11\" maxlength=\"7\">\n"
-               . "  <a href=\"TCP.popup(document.forms['myForm'].elements['even'])\">\n"
-               . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
-               . "</td></tr>\n"
-               . "<tr><td>\n" . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
-               . " <td>\n"
-               . "  <input type=\"text\" id=\"body\" name=\"body\" value=\"{$body}\" size=\"11\" maxlength=\"7\">\n"
-               . "  <a href=\"TCP.popup(document.forms['myForm'].elements['body'])\">\n"
-               . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
-               . "</td></tr>\n"
-               . "-->\n"
-               . "<!--\n"
-                 . '<tr><td>' . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  #<input type=\"text\" id=\"picker\" name=\"text\" value=\"{$text}\" size=\"11\" maxlength=\"7\">\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  #<input type=\"text\" id=\"picker\" name=\"actlink\" value=\"{$actlink}\" size=\"11\" maxlength=\"7\">\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  #<input type=\"text\" id=\"picker\" name=\"even\" value=\"{$even}\" size=\"11\" maxlength=\"7\">\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  #<input type=\"text\" id=\"picker\" name=\"body\" value=\"{$body}\" size=\"11\" maxlength=\"7\">\n"
-               . "</td></tr>\n"
-               . "-->\n"
-                 . '<tr><td>' . _MA_PEDIGREE_TXT_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"text\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$text}\">\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_LINK_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"actlink\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$actlink}\">\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_BACK1_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"even\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$even}\">\n"
-               . "</td></tr>\n"
-                 . '<tr><td>' . _MA_PEDIGREE_BACK2_COLOR . "</td>\n"
-               . "<td>\n"
-               . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"body\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$body}\">\n"
-               . "</td></tr>\n"
-               . "<tr><td>\n<input type=\"submit\" value=\"" . _MA_PEDIGREE_SUBMIT_BUTTON . "\"></td><td>&nbsp;</td></tr>\n"
-               . "</table>\n"
-               . "</form>\n";
+                 . $GLOBALS['xoopsSecurity']->getTokenHTML()
+                 . "\n"
+                 . "<table>\n"
+                 . "<!--\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_TXT_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input type=\"text\" id=\"text\" name=\"text\" value=\"{$text}\" size=\"11\" maxlength=\"7\">\n"
+                 . "  <a href=\"TCP.popup(document.forms['myForm'].elements['text'])\">\n"
+                 . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to pick the color\" src=\"assets/images/sel.gif\"></a>\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_LINK_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input type=\"text\" id=\"actlink\" name=\"actlink\" value=\"{$actlink}\" size=\"11\" maxlength=\"7\">\n"
+                 . "  <a href=\"TCP.popup(document.forms['myForm'].elements['actlink'])\">\n"
+                 . "  <img width=\15\ height=\13\ border=\0\ alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_BACK1_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input type=\"text\" id=\"even\" name=\"even\" value=\"{$even}\" size=\"11\" maxlength=\"7\">\n"
+                 . "  <a href=\"TCP.popup(document.forms['myForm'].elements['even'])\">\n"
+                 . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
+                 . "</td></tr>\n"
+                 . "<tr><td>\n"
+                 . _MA_PEDIGREE_BACK2_COLOR
+                 . "</td>\n"
+                 . " <td>\n"
+                 . "  <input type=\"text\" id=\"body\" name=\"body\" value=\"{$body}\" size=\"11\" maxlength=\"7\">\n"
+                 . "  <a href=\"TCP.popup(document.forms['myForm'].elements['body'])\">\n"
+                 . "  <img width=\"15\" height=\"13\" border=\"0\" alt=\"Click Here to Pick the color\" src=\"assets/images/sel.gif\"></a>\n"
+                 . "</td></tr>\n"
+                 . "-->\n"
+                 . "<!--\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_TXT_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  #<input type=\"text\" id=\"picker\" name=\"text\" value=\"{$text}\" size=\"11\" maxlength=\"7\">\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_LINK_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  #<input type=\"text\" id=\"picker\" name=\"actlink\" value=\"{$actlink}\" size=\"11\" maxlength=\"7\">\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_BACK1_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  #<input type=\"text\" id=\"picker\" name=\"even\" value=\"{$even}\" size=\"11\" maxlength=\"7\">\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_BACK2_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  #<input type=\"text\" id=\"picker\" name=\"body\" value=\"{$body}\" size=\"11\" maxlength=\"7\">\n"
+                 . "</td></tr>\n"
+                 . "-->\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_TXT_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"text\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$text}\">\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_LINK_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"actlink\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$actlink}\">\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_BACK1_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"even\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$even}\">\n"
+                 . "</td></tr>\n"
+                 . '<tr><td>'
+                 . _MA_PEDIGREE_BACK2_COLOR
+                 . "</td>\n"
+                 . "<td>\n"
+                 . "  <input class=\"color {hash:true,caps:false}\" onMouseOver=\"changeTextColor('back4', this.value)\" type=\"text\" name=\"body\" maxlength=\"7\" size=\"7\" id=\"colorpickerField1\" value=\"{$body}\">\n"
+                 . "</td></tr>\n"
+                 . "<tr><td>\n<input type=\"submit\" value=\""
+                 . _MA_PEDIGREE_SUBMIT_BUTTON
+                 . "\"></td><td>&nbsp;</td></tr>\n"
+                 . "</table>\n"
+                 . "</form>\n";
 
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
@@ -234,9 +264,9 @@ switch ($op) {
         $color = new \XoopsModules\Pedigree\ImageColor();
         //create darker link hover colour
         $actLink = Request::getString('actlink', '', 'POST');  //active link color in hex
-        $even = Request::getString('even', '', 'POST');     // even color in hex
-        $text = Request::getString('text', '', 'POST');
-        $body = Request::getString('body', '', 'POST');
+        $even    = Request::getString('even', '', 'POST');     // even color in hex
+        $text    = Request::getString('text', '', 'POST');
+        $body    = Request::getString('body', '', 'POST');
 
         $color->setColors($actLink, $actLink);
         $color->changeLightness(-100);
@@ -287,8 +317,8 @@ switch ($op) {
         break;
     case 'togglelocked':
         //find current status
-        $id = Request::getInt('id', 0);
-        $sql = 'SELECT locked FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id = '{$id}'";
+        $id     = Request::getInt('id', 0);
+        $sql    = 'SELECT locked FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE id = '{$id}'";
         $result = $GLOBALS['xoopsDB']->query($sql);
 
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
@@ -308,14 +338,14 @@ switch ($op) {
         fieldmove($field, $move);
         break;
     case 'deluserfield':
-        $id = Request::getInt('id', 0, 'get');
+        $id  = Request::getInt('id', 0, 'get');
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " SET isActive = '0' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($sql);
         $form = listuserfields();
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'restoreuserfield':
-        $id = Request::getInt('id', 0, 'get');
+        $id  = Request::getInt('id', 0, 'get');
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " SET isActive = '1' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($sql);
         $form = listuserfields();
@@ -326,7 +356,7 @@ switch ($op) {
         editlookup($id);
         break;
     case 'lookupmove':
-        $id = Request::getInt('id', 0, 'get');
+        $id   = Request::getInt('id', 0, 'get');
         $move = Request::getCmd('move', '', 'get');
         lookupmove($field, $id, $move);
         break;
@@ -338,20 +368,18 @@ switch ($op) {
         addlookupvalue($field);
         break;
     case 'editlookupvalue':
-        $id = Request::getInt('id', 0, 'get');
-        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
+        $id     = Request::getInt('id', 0, 'get');
+        $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id =' . $id;
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= '<form method="post" action="' . $helper->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n"
-                     . "<input type=\"text\" name=\"value\" value=\"{$row['value']}\" style=\"width: 140px;\">&nbsp;\n"
-                     . "<input type=\"submit\" value=\"Save value\">\n";
+            $form .= '<form method="post" action="' . $helper->url("tools.php?op=savelookupvalue&field={$field}&id={$id}") . "\">\n" . "<input type=\"text\" name=\"value\" value=\"{$row['value']}\" style=\"width: 140px;\">&nbsp;\n" . "<input type=\"submit\" value=\"Save value\">\n";
         }
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'savelookupvalue':
-        $id = Request::getInt('id', 0, 'get');
+        $id    = Request::getInt('id', 0, 'get');
         $value = Request::getString('value', '', 'POST');
-        $SQL = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . " SET value = '{$value}' WHERE id = {$id}";
+        $SQL   = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . " SET value = '{$value}' WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($SQL);
         redirect_header($helper->url("tools.php?op=editlookup&id={$field}"), 2, 'The value has been saved.');
         break;
@@ -359,7 +387,7 @@ switch ($op) {
         deleted();
         break;
     case 'delperm':
-        $id = Request::getInt('id', 0);
+        $id  = Request::getInt('id', 0);
         $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . " WHERE id = {$id}";
         $GLOBALS['xoopsDB']->queryF($sql);
         deleted();
@@ -370,20 +398,20 @@ switch ($op) {
         deleted();
         break;
     case 'restore':
-        $id = Request::getInt('id', 0, 'get');
+        $id          = Request::getInt('id', 0, 'get');
         $queryvalues = '';
-        $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
-        $result = $GLOBALS['xoopsDB']->query($sql);
+        $sql         = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
+        $result      = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
             foreach ($row as $key => $values) {
                 $queryvalues .= "'" . $values . "',";
             }
             $outgoing = substr_replace($queryvalues, '', -1);
-            $query = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' VALUES (' . $outgoing . ')';
+            $query    = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' VALUES (' . $outgoing . ')';
             $GLOBALS['xoopsDB']->queryF($query);
             $delquery = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE id = ' . $id;
             $GLOBALS['xoopsDB']->queryF($delquery);
-            $form = '<li><a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['naam'] . '</a> has been restored into the database.<hr>';
+            $form = '<li><a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['pname'] . '</a> has been restored into the database.<hr>';
         }
         if (isset($form)) {
             $GLOBALS['xoopsTpl']->assign('form', $form);
@@ -396,8 +424,8 @@ switch ($op) {
         break;
     case 'userq':
         $form = _MA_PEDIGREE_QUERIE_EXPLAN;
-        $d = $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/userqueries/');
-        $dir = opendir($d);
+        $d    = $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/userqueries/');
+        $dir  = opendir($d);
         while (false !== ($f = readdir($dir))) {
             if (!preg_match("/\.jpg$/", $f) && ('.' !== $f) && ('..' !== $f)) {
                 $form .= "<li><a href='tools.php?op=userqrun&f={$f}'>{$f}</a>";
@@ -414,15 +442,15 @@ switch ($op) {
         $db = true;
         break;
     case 'dbanc':
-        $form = _MA_PEDIGREE_ANCEST_EXPLAN;
-        $sql = 'SELECT d.id AS d_id, d.naam AS d_naam
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' m ON m.id = d.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' f ON f.id = d.father
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mm ON mm.id = m.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' mf ON mf.id = m.father
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' fm ON fm.id = f.mother
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' ff ON ff.id = f.father
+        $form   = _MA_PEDIGREE_ANCEST_EXPLAN;
+        $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' m ON m.id = d.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' f ON f.id = d.father
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mm ON mm.id = m.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' mf ON mf.id = m.father
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' fm ON fm.id = f.mother
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' ff ON ff.id = f.father
             WHERE
             d.mother = d.id
             OR d.father = d.id
@@ -441,42 +469,42 @@ switch ($op) {
             ';
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= "<li><a href='pedigree.php?pedid={$row['d_id']}'>{$row['d_naam']}</a> [own parent or grandparent]<br>";
+            $form .= "<li><a href='pedigree.php?pedid={$row['d_id']}'>{$row['d_pname']}</a> [own parent or grandparent]<br>";
         }
         $GLOBALS['xoopsTpl']->assign('form', $form);
         $db = true;
         break;
     case 'fltypar':
-        $form = _MA_PEDIGREE_GENDER_EXPLAN;
-        $sql = 'SELECT d.id AS d_id, d.naam AS d_naam, d.mother AS d_mother, m.roft AS m_roft
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " m ON m.id = d.mother
+        $form   = _MA_PEDIGREE_GENDER_EXPLAN;
+        $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname, d.mother AS d_mother, m.roft AS m_roft
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " m ON m.id = d.mother
             WHERE
             d.mother = m.id
             AND m.roft = '0' ";
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= "<li><a href='dog.php?id={$row['d_id']}'>{$row['d_naam']}</a> [mother seems to be male]<br>";
+            $form .= "<li><a href='dog.php?id={$row['d_id']}'>{$row['d_pname']}</a> [mother seems to be male]<br>";
         }
-        $sql = 'SELECT d.id AS d_id, d.naam AS d_naam, d.father AS d_father, f.roft AS f_roft
-            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' d
-            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " f ON f.id = d.father
+        $sql    = 'SELECT d.id AS d_id, d.pname AS d_pname, d.father AS d_father, f.roft AS f_roft
+            FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' d
+            LEFT JOIN ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " f ON f.id = d.father
             WHERE
             d.father = f.id
             AND f.roft = '1' ";
         $result = $GLOBALS['xoopsDB']->query($sql);
         while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-            $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_naam'] . '</a> [father seems to be female]<br>';
+            $form .= '<li><a href="dog.php?id=' . $row['d_id'] . '">' . $row['d_pname'] . '</a> [father seems to be female]<br>';
         }
         $GLOBALS['xoopsTpl']->assign('form', $form);
         $db = true;
         break;
     case 'credits':
         $form = 'Pedigree database module<br><br><li>Programming : James Cotton<br><li>Design & Layout : Ton van der Hagen<br><li>Version : '
-              . round($helper->getModule()->getVar('version') / 100, 2)
-              . ' '
-              . $helper->getModule()->getVar('module_status')
-              . '<br><br>Technical support :<br><li><a href="https://xoops.org">www.xoops.org</a><hr>';
+                . round($helper->getModule()->getVar('version') / 100, 2)
+                . ' '
+                . $helper->getModule()->getVar('module_status')
+                . '<br><br>Technical support :<br><li><a href="https://xoops.org">www.xoops.org</a><hr>';
         $GLOBALS['xoopsTpl']->assign('form', $form);
         break;
     case 'index':
@@ -514,20 +542,19 @@ $tools[] = ['title' => _MA_PEDIGREE_USER_LOGOUT, 'link' => '../../user.php?op=lo
 $GLOBALS['xoopsTpl']->assign('tools', $tools);
 
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require XOOPS_ROOT_PATH . '/footer.php';
 
 /**
  * @return string HTML code to be appended to form for display
  */
 function listuserfields()
 {
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
-    $result = $GLOBALS['xoopsDB']->query($sql);
+    $sql     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
+    $result  = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
-    $count = 0;
-    $form = _MA_PEDIGREE_FIELD_EXPLAIN4 . _MA_PEDIGREE_FIELD_FORM1 . "\n"
-          . "<tr><td colspan=\"7\"><hr></td></tr>\n";
-    $mark = "<td><span style='font-weight: bold;'>X</span></td>\n";
+    $count   = 0;
+    $form    = _MA_PEDIGREE_FIELD_EXPLAIN4 . _MA_PEDIGREE_FIELD_FORM1 . "\n" . "<tr><td colspan=\"7\"><hr></td></tr>\n";
+    $mark    = "<td><span style='font-weight: bold;'>X</span></td>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "<tr>\n";
         //@todo move hard coded language strings to language file
@@ -543,10 +570,18 @@ function listuserfields()
         } elseif ($count == $numrows - 1) { //last row
             $form .= '<td><a href="' . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . '">' . "<img src=\"" . PEDIGREE_IMAGE_URL . "/up.gif\" alt=\"move field up\"></a></td>\n" . "<td>&nbsp;</td>\n";
         } else { //other rows
-            $form .= "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up") . "\>"
-                   . "<img src=\"" . PEDIGREE_IMAGE_URL . "/up.gif\" alt=\"move field up\"></a></td>\n"
-                   . "<td><a href=\"" . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down") . "\">\n"
-                   . "<img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\" alt=\"move field down\"></a></td>\n";
+            $form .= "<td><a href=\""
+                     . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=up")
+                     . "\>"
+                     . "<img src=\""
+                     . PEDIGREE_IMAGE_URL
+                     . "/up.gif\" alt=\"move field up\"></a></td>\n"
+                     . "<td><a href=\""
+                     . $helper->url("tools.php?op=fieldmove&field={$row['id']}&move=down")
+                     . "\">\n"
+                     . "<img src=\""
+                     . PEDIGREE_IMAGE_URL
+                     . "/down.gif\" alt=\"move field down\"></a></td>\n";
         }
         $form .= "<td><a href=\"" . $helper->url("tools.php?op=deluserfield&id={$row['id']}") . "\">{$icons['delete']}</a>&nbsp;<a href=\"" . $helper->url("tools.php?op=userfields&field={$row['id']}") . "\">{$row['fieldName']}</a></td>\n";
         //can the filed be shown in a list
@@ -558,8 +593,8 @@ function listuserfields()
         $form .= "</tr>\n";
         ++$count;
     }
-    $form .= "</table>\n";
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '0' ORDER BY 'id'";
+    $form   .= "</table>\n";
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '0' ORDER BY 'id'";
     $result = $GLOBALS['xoopsDB']->query($sql);
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         $form .= _MA_PEDIGREE_FIELD_EXPLAIN5;
@@ -586,11 +621,11 @@ function listuserfields()
 function fieldmove($field, $move)
 {
     //find next id
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . " WHERE isActive = '1' ORDER BY `order`";
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $valorder[] = $row['order'];
-        $valid[] = $row['id'];
+        $valid[]    = $row['id'];
     }
     foreach ($valid as $key => $value) {
         //find current ID location
@@ -600,7 +635,7 @@ function fieldmove($field, $move)
     }
     //currentorder
     $currentorder = $valorder[$x];
-    $currentid = $valid[$x];
+    $currentid    = $valid[$x];
 
     if ('down' === $move) {
         $nextorder = $valorder[$x + 1];
@@ -622,75 +657,80 @@ function fieldmove($field, $move)
 }
 
 /**
+ * @param $field
  * @todo: move hard coded language string to language file
  *
- * @param $field
  */
 function editlookup($field)
 {
-    $form = _MA_PEDIGREE_LOOKUPFIELD;
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
-    $result = $GLOBALS['xoopsDB']->query($sql);
+    $form    = _MA_PEDIGREE_LOOKUPFIELD;
+    $sql     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
+    $result  = $GLOBALS['xoopsDB']->query($sql);
     $numrows = $GLOBALS['xoopsDB']->getRowsNum($result);
-    $count = 0;
-    $form .= "<table>\n";
+    $count   = 0;
+    $form    .= "<table>\n";
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $form .= "  <tr>\n";
         if (0 == $count) { //first row
             $form .= "    <td style=\"width: 15px;\">&nbsp;</td>\n"
-                   . "    <td style=\"width: 15px;\">\n"
-                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down\"><img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\"></a>\n"
-                   . "    </td>\n"
-                   . "    <td>\n"
-                   . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
-                   . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
-                   . "    </td>\n";
-      } elseif ($count == $numrows - 1) { //last row
+                     . "    <td style=\"width: 15px;\">\n"
+                     . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down\"><img src=\""
+                     . PEDIGREE_IMAGE_URL
+                     . "/down.gif\"></a>\n"
+                     . "    </td>\n"
+                     . "    <td>\n"
+                     . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
+                     . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
+                     . "    </td>\n";
+        } elseif ($count == $numrows - 1) { //last row
             $form .= "    <td>\n"
-                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up\"><img src=\"" . PEDIGRE_IMAGE_URL . "/up.gif\"></a>\n"
-                   . "    </td>\n"
-                   . "    <td>&nbsp;</td>\n"
-                   . "    <td>\n"
-                   . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
-                   . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
-                   . "    </td>\n";
+                     . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up\"><img src=\""
+                     . PEDIGRE_IMAGE_URL
+                     . "/up.gif\"></a>\n"
+                     . "    </td>\n"
+                     . "    <td>&nbsp;</td>\n"
+                     . "    <td>\n"
+                     . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
+                     . "      &nbsp;<a href='tools.php?op=editlookupvalue&field={$field}&id={$row['id']}'>{$row['value']}</a>\n"
+                     . "    </td>\n";
         } else { //other rows
             $form .= "    <td>\n"
-                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up\"><img src=\"" . PEDIGREE_IMAGE_URL . "/up.gif\"></a>\n"
-                   . "    </td>\n"
-                   . "    <td>\n"
-                   . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down\"><img src=\"" . PEDIGREE_IMAGE_URL . "/down.gif\"></a>\n"
-                   . "    </td>\n"
-                   . "    <td>\n"
-                   . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
-                   . "      &nbsp;<a href=\"tools.php?op=editlookupvalue&field={$field}&id={$row['id']}\">{$row['value']}</a>\n"
-                   . "    </td>\n";
+                     . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=up\"><img src=\""
+                     . PEDIGREE_IMAGE_URL
+                     . "/up.gif\"></a>\n"
+                     . "    </td>\n"
+                     . "    <td>\n"
+                     . "      <a href=\"tools.php?op=lookupmove&field={$field}&id={$row['id']}&move=down\"><img src=\""
+                     . PEDIGREE_IMAGE_URL
+                     . "/down.gif\"></a>\n"
+                     . "    </td>\n"
+                     . "    <td>\n"
+                     . "      <a href=\"tools.php?op=dellookupvalue&field={$field}&id={$row['id']}\">{$icons['delete']}</a>\n"
+                     . "      &nbsp;<a href=\"tools.php?op=editlookupvalue&field={$field}&id={$row['id']}\">{$row['value']}</a>\n"
+                     . "    </td>\n";
         }
         $form .= "</tr>\n";
         ++$count;
     }
-    $form .= "</table>\n" . "<form method='post' action='tools.php?op=addlookupvalue&field={$field}'>\n"
-           . "<input type='text' name='value' style='width: 140px;'>&nbsp;\n"
-           . "<input type='submit' value='Add value'>\n"
-           . _MA_PEDIGREE_DELVALUE . "\n";
+    $form .= "</table>\n" . "<form method='post' action='tools.php?op=addlookupvalue&field={$field}'>\n" . "<input type='text' name='value' style='width: 140px;'>&nbsp;\n" . "<input type='submit' value='Add value'>\n" . _MA_PEDIGREE_DELVALUE . "\n";
     //    $form .= '<br><br><input type="submit" name="reset" value=Exit>&nbsp;';
     $GLOBALS['xoopsTpl']->assign('form', $form);
 }
 
 /**
  * @param         $field
- * @param int $id
+ * @param int     $id
  * @param string  $move up|down
  */
 function lookupmove($field, $id, $move)
 {
     //find next id
-    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
+    $sql    = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY `order`';
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $values[] = ['id' => $row['id'], 'content' => $row['value'], 'orderof' => $row['order']];
     }
-    $arraycount = 0;
+    $arraycount    = 0;
     $arraylocation = 0;
     foreach ($values as $key => $value) {
         //find current ID location
@@ -702,13 +742,13 @@ function lookupmove($field, $id, $move)
     unset($arraycount);
 
     $currentorder = $values[$arraylocation]['orderof'];
-    $currentid = $values[$arraylocation]['id'];
+    $currentid    = $values[$arraylocation]['id'];
 
     if ('down' === $move) {
-        $nextid = $values[$arraylocation + 1]['id'];
+        $nextid    = $values[$arraylocation + 1]['id'];
         $nextorder = $values[$arraylocation + 1]['orderof'];
     } else {
-        $nextid = $values[$arraylocation - 1]['id'];
+        $nextid    = $values[$arraylocation - 1]['id'];
         $nextorder = $values[$arraylocation - 1]['orderof'];
     }
     $sql = 'UPDATE `draaf_pedigree_lookup' . $field . "` SET `order` = '" . $nextorder . "' WHERE `id` = '" . $id . "'";
@@ -724,10 +764,10 @@ function lookupmove($field, $id, $move)
  */
 function dellookupvalue($field, $id)
 {
-    $animal = new Pedigree\Animal();
-    $fields = $animal->getFieldsIds();
-    $userField = new Pedigree\Field($field, $animal->getConfig());
-    $fieldType = $userField->getSetting('fieldtype');
+    $animal      = new Pedigree\Animal();
+    $fields      = $animal->getNumOfFields();
+    $userField   = new Pedigree\Field($field, $animal->getConfig());
+    $fieldType   = $userField->getSetting('fieldtype');
     $fieldObject = new $fieldType($userField, $animal);
     //    $default     = $fieldObject->defaultvalue;
     $default = $GLOBALS['xoopsDB']->escape($fieldObject->defaultvalue);
@@ -737,7 +777,7 @@ function dellookupvalue($field, $id)
     $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' WHERE id = ' . $id;
     $GLOBALS['xoopsDB']->queryF($sql);
     //change current values to default for deleted value
-    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET user' . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
+    $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' SET user' . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
     $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' SET user' . $field . " = '" . $default . "' WHERE user" . $field . " = '" . $id . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
@@ -751,7 +791,7 @@ function dellookupvalue($field, $id)
  */
 function addlookupvalue($field)
 {
-    $SQL = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY id DESC LIMIT 1';
+    $SQL    = 'SELECT id FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_lookup' . $field) . ' ORDER BY id DESC LIMIT 1';
     $result = $GLOBALS['xoopsDB']->query($SQL);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $count = $row['id'];
@@ -916,7 +956,7 @@ function userfields($field = 0)
                 $form .= '>' . _MA_PEDIGREE_SHOWFIELD_ADDLITTGLOBAL . '<br>';
             } else {
                 if ('search' === $wizard->getStepName()) {
-                    $form .= _MA_PEDIGREE_SEARCH_NAME;
+                    $form              .= _MA_PEDIGREE_SEARCH_NAME;
                     $currentsearchname = $wizard->getValue('searchname');
                     if ('' == $currentsearchname) {
                         $currentsearchname = htmlspecialchars($wizard->getValue('name'), ENT_QUOTES | ENT_HTML5);
@@ -940,8 +980,8 @@ function userfields($field = 0)
                 } elseif ('defaultvalue' === $wizard->getStepName()) {
                     if ('selectbox' === $wizard->getValue('fieldtype')
                         || 'radiobutton' === $wizard->getValue('fieldtype')) {
-                        $count = $wizard->getValue('fc');
-                        $form .= "Default value : <select size='1' name='defaultvalue'>";
+                        $count      = $wizard->getValue('fc');
+                        $form       .= "Default value : <select size='1' name='defaultvalue'>";
                         $radioarray = $wizard->getValue('radioarray');
                         foreach ($radioarray as $x => $xValue) {
                             $form .= "<option value='" . $radioarray[$x]['id'] . "'";
@@ -972,11 +1012,11 @@ function userfields($field = 0)
                     $count = $wizard->getValue('fc');
                     for ($x = 1; $x < $count + 1; ++$x) {
                         $radioarray[] = [
-                            'id' => $wizard->getValue('id' . $x),
+                            'id'    => $wizard->getValue('id' . $x),
                             'value' => $wizard->getValue('lookup' . $x),
                         ];
                     }
-                    $val = $wizard->getValue('defaultvalue');
+                    $val  = $wizard->getValue('defaultvalue');
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('lookup' . $val) . '</b><br>';
                 } else {
                     $form .= '<b>' . _MA_PEDIGREE_FIELDCONTROL7 . $wizard->getValue('defaultvalue') . '</b><br>';
@@ -1025,12 +1065,12 @@ function userfields($field = 0)
  */
 function deleted()
 {
-    $helper = Pedigree\Helper::getInstance();
-    $form = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
-    $sql = 'SELECT id, naam  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
+    $helper = Helper::getInstance();
+    $form   = "Below the line are the animals which have been deleted from your database.<br><br>By clicking on the name you can reinsert them into the database.<br>By clicking on the 'X' in front of the name you can permanently delete the animal.<hr>";
+    $sql    = 'SELECT id, pname  FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash');
     $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-        $form .= "<a href=\"tools.php?op=delperm&id={$row['id']}\">{$icons['delete']}</a>&nbsp;<a href=\"tools.php?op=restore&id={$row['id']}\">{$row['naam']}</a><br>";
+        $form .= "<a href=\"tools.php?op=delperm&id={$row['id']}\">{$icons['delete']}</a>&nbsp;<a href=\"tools.php?op=restore&id={$row['id']}\">{$row['pname']}</a><br>";
     }
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         //@todo move hard coded language string to language file
@@ -1041,21 +1081,21 @@ function deleted()
 
 function settings()
 {
-    $helper = Pedigree\Helper::getInstance();
+    $helper = Helper::getInstance();
 
-    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $form = new \XoopsThemeForm(_MA_PEDIGREE_BLOCK_SETTING, 'settings', $helper->url('tools.php?op=settingssave'), 'POST', 1);
     $form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-    $select = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE), $size = 1, $multiple = false);
+    $select  = new \XoopsFormSelect(_MA_PEDIGREE_RESULT, 'perpage', $value = $helper->getConfig('perpage', Constants::DEFAULT_PER_PAGE), $size = 1, $multiple = false);
     $options = [
-        '10' => 10,
-        '50' => 50,
-        '100' => 100,
-        '250' => 250,
-        '500' => 500,
-        '1000' => 1000,
-        '2000' => 2000,
-        '5000' => 5000,
+        '10'    => 10,
+        '50'    => 50,
+        '100'   => 100,
+        '250'   => 250,
+        '500'   => 500,
+        '1000'  => 1000,
+        '2000'  => 2000,
+        '5000'  => 5000,
         '10000' => 10000,
     ];
     foreach ($options as $key => $values) {

@@ -102,30 +102,30 @@
         </td>
         <td>&nbsp;</td>
         <!-- second column - only shown if content exists -->
-        <{*<td class="width50 top">}>
-            <!-- total number of dogs per pedigreebook -->
-            <{foreach item=chapter from=$totpl name=ch}>
-                <{if $smarty.foreach.ch.first}><td class="width50 top"><{/if}>
-                <table class="width100 outer" cellspacing="1">
-                    <tr>
-                        <th colspan="3">
-                            <{$chapter.title}>
-                        </th>
-                    </tr>
-                    <{foreach item=link from=$chapter.content}>
-                        <tr class="<{cycle values="even,odd"}>">
-                            <td>
-                                <{$link.book}>
-                            </td>
-                            <td>
-                                <{$link.country}>
-                            </td>
-                        </tr>
-                    <{/foreach}>
-                </table>
-                <br>
-        <{if $smarty.foreach.ch.last}></td><{/if}>
-            <{/foreach}>
-        <{*</td>}>
+<{*        <{<td class="width50 top">}>*}>
+<{*            <!-- total number of dogs per pedigreebook -->*}>
+<{*            <{foreach item=chapter from=$totpl name=ch}>*}>
+<{*                <{if $smarty.foreach.ch.first}><td class="width50 top"><{/if}>*}>
+<{*                <table class="width100 outer" cellspacing="1">*}>
+<{*                    <tr>*}>
+<{*                        <th colspan="3">*}>
+<{*                            <{$chapter.title}>*}>
+<{*                        </th>*}>
+<{*                    </tr>*}>
+<{*                    <{foreach item=link from=$chapter.content}>*}>
+<{*                        <tr class="<{cycle values="even,odd"}>">*}>
+<{*                            <td>*}>
+<{*                                <{$link.book}>*}>
+<{*                            </td>*}>
+<{*                            <td>*}>
+<{*                                <{$link.country}>*}>
+<{*                            </td>*}>
+<{*                        </tr>*}>
+<{*                    <{/foreach}>*}>
+<{*                </table>*}>
+<{*                <br>*}>
+<{*        <{if $smarty.foreach.ch.last}></td><{/if}>*}>
+<{*            <{/foreach}>*}>
+<{*        <{</td>}>*}>
     </tr>
 </table>

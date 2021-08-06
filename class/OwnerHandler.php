@@ -11,6 +11,7 @@ namespace XoopsModules\Pedigree;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -20,6 +21,7 @@ namespace XoopsModules\Pedigree;
  * @since
  * @author          XOOPS Module Dev Team (https://xoops.org)
  */
+
 use XoopsModules\Pedigree;
 
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -29,7 +31,9 @@ use XoopsModules\Pedigree;
  */
 class OwnerHandler extends \XoopsPersistableObjectHandler
 {
-    use CountOverload;  // changed getCount() and getCounts() return values to integers
+    use CountOverload;
+
+    // changed getCount() and getCounts() return values to integers
 
     /**
      * @param null|object|\XoopsDatabase $db

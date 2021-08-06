@@ -1,4 +1,5 @@
 <?php
+
 namespace XoopsModules\Pedigree;
 
 /*
@@ -28,7 +29,7 @@ interface Constants
 {
     /**#@+
      * Constant definition
-    */
+     */
     /**
      * XOOPSTOKEN Request Timeout value
      */
@@ -145,7 +146,6 @@ interface Constants
      * is general litter
      */
     const GENERAL_LITTER = 1;
-
     // Navigation
     /**
      * no delay XOOPS redirect delay (in seconds)

@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -30,7 +31,7 @@ $helper->loadLanguage('main');
 require_once $helper->path('include/common.php');
 
 $GLOBALS['xoopsOption']['template_main'] = 'pedigree_delete.tpl';
-include XOOPS_ROOT_PATH . '/header.php';
+require XOOPS_ROOT_PATH . '/header.php';
 
 //check XOOPS security token
 if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -42,16 +43,16 @@ if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUse
     redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-$dogid = Request::getInt('dogid', 0, 'post');
+$dogid   = Request::getInt('dogid', 0, 'post');
 $dogname = Request::getString('curname', '', 'post');
 
 if (!empty($dogname)) {
     $treeHandler = $helper->getHandler('Tree');
-    $treeObj = $treeHandler->get($dogid);
+    $treeObj     = $treeHandler->get($dogid);
     if ($treeObj instanceof Pedigree\Tree && !$treeObj->isNew()) {
-        $treeValues = $treeObj->getValues();
+        $treeValues   = $treeObj->getValues();
         $trashHandler = $helper->getHandler('Trash');
-        $trashObj = $trashHandler->create();
+        $trashObj     = $trashHandler->create();
         $trashObj->setVars($treeValues);
         $trashHandler->insert($trashObj);
         $treeHandler->delete($treeObj);
@@ -68,21 +69,21 @@ if (!empty($dogname)) {
         $helper->redirect("dog.php?id={$dogid}", Constants::REDIRECT_DELAY_SHORT, 'ERROR!!');
     }
     /*
-    $queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE id=' . $dogid;
-    $result = $GLOBALS['xoopsDB']->query($queryString);
+    $sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id=' . $dogid;
+    $result = $GLOBALS['xoopsDB']->query($sql);
     while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
         //check for edit rights
         $access = 0;
         $xoopsModule = XoopsModule::getByDirname($moduleDirName);
         if ($helper->isUserAdmin() || $row['user'] == $GLOBALS['xoopsUser']->getVar('uid')) {
-            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' WHERE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ".id='" . $dogid . "'";
+            $sql = 'INSERT INTO ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ".id='" . $dogid . "'";
             $GLOBALS['xoopsDB']->query($sql);
-            $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE id ='" . $row['id'] . "'";
+            $delsql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE id ='" . $row['id'] . "'";
             $GLOBALS['xoopsDB']->query($delsql);
             if ('0' == $row['roft']) {
-                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET father = '0' where father = '" . $row['id'] . "'";
+                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET father = '0' where father = '" . $row['id'] . "'";
             } else {
-                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " SET mother = '0' where mother = '" . $row['id'] . "'";
+                $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET mother = '0' where mother = '" . $row['id'] . "'";
             }
             $GLOBALS['xoopsDB']->query($sql);
             $changed = true;
@@ -93,4 +94,4 @@ if (!empty($dogname)) {
     //@todo dog name was empty so send user back to try again
 }
 //footer
-include XOOPS_ROOT_PATH . '/footer.php';
+require XOOPS_ROOT_PATH . '/footer.php';

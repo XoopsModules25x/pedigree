@@ -209,9 +209,8 @@ define('MI_PEDIGREE_ADMINPAGER_DESC', 'Admin: # of records shown per page');
 define('MI_PEDIGREE_USERPAGER', 'User: records / page');
 define('MI_PEDIGREE_USERPAGER_DESC', 'User: # of records shown per page');
 
-
 //Help
-define('_MI_PEDIGREE_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_PEDIGREE_DIRNAME', \basename(\dirname(__DIR__, 2)));
 define('_MI_PEDIGREE_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_PEDIGREE_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_PEDIGREE_OVERVIEW', 'Overview');

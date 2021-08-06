@@ -179,9 +179,9 @@ define('_AM_PEDIGREE_PEDIGREE_BLOCK_DAY', 'pedigrees of Today');
 define('_AM_PEDIGREE_PEDIGREE_BLOCK_RANDOM', 'pedigrees Random');
 define('_AM_PEDIGREE_PEDIGREE_BLOCK_RECENT', 'pedigrees Recent');
 
-define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_DAY', 'pedigree_configs of Today');
-define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RANDOM', 'pedigree_configs Random');
-define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RECENT', 'pedigree_configs Recent');
+define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_DAY', 'pedigree_fieldss of Today');
+define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RANDOM', 'pedigree_fieldss Random');
+define('_AM_PEDIGREE_PEDIGREE_CONFIG_BLOCK_RECENT', 'pedigree_fieldss Recent');
 
 //Permissions
 define('_AM_PEDIGREE_PERMISSIONS_ACCESS', 'Permissions to access');
@@ -214,3 +214,20 @@ define('_AM_PEDIGREE_ERR_ADD_FAILED', 'Add Failed');
 
 //Alpha 8
 define('_AM_PEDIGREE_ERR_INVALID', 'Invalid item specified.');
+
+define('AM_PEDIGREE_ADD_REGISTRY', 'Add Registry');
+define('AM_PEDIGREE_REGISTRY_LIST', 'Registry List');
+
+define('AM_PEDIGREE_REGISTRY_ADD', AM_PEDIGREE_ADD_REGISTRY);
+define('AM_PEDIGREE_REGISTRY_ID', 'Registry ID');
+define('AM_PEDIGREE_REGISTRY_PNAME', 'Registry Name');
+define('AM_PEDIGREE_REGISTRY_ID_OWNER', 'Owner');
+define('AM_PEDIGREE_REGISTRY_ID_BREEDER', 'Breeder');
+define('AM_PEDIGREE_REGISTRY_USER', 'User');
+define('AM_PEDIGREE_REGISTRY_ROFT', 'ROFT');
+define('AM_PEDIGREE_REGISTRY_MOTHER', 'Mother');
+define('AM_PEDIGREE_REGISTRY_FATHER', 'Father');
+define('AM_PEDIGREE_REGISTRY_FOTO', 'Photo');
+define('AM_PEDIGREE_FORMIMAGE_PATH', 'Image Path');
+define('AM_PEDIGREE_FORMUPLOAD', 'Form Upload');
+define('AM_PEDIGREE_REGISTRY_COI', 'COI');

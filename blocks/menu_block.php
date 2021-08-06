@@ -1,31 +1,64 @@
 <?php
-// -------------------------------------------------------------------------
-//    pedigree
-//        Copyright 2004, James Cotton
-//         http://www.dobermannvereniging.nl
+/* ------------------------------------------------------------------------
+      pedigree
+          Copyright 2004, James Cotton
+           http://www.dobermannvereniging.nl
+   ------------------------------------------------------------------------
+   ------------------------------------------------------------------------
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
 
-use XoopsModules\Pedigree;
+   You may not change or alter any portion of this comment or credits
+   of supporting developers from this source code or any supporting
+   source code which is considered copyrighted (c) material of the
+   original comment or credit authors.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+   ------------------------------------------------------------------------
+*/
+
+/**
+ * @package         XoopsModules\Pedigree
+ * @copyright       Copyright 2004, James Cotton <https://www.dobermannvereniging.nl>
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
+ */
+
+use XoopsModules\Pedigree\{
+    Helper,
+    Utility
+};
 
 // Include any constants used for internationalizing templates.
-$moduleDirName = basename(dirname(__DIR__));
-$helper = Pedigree\Helper::getInstance();
+$moduleDirName = \basename(\dirname(__DIR__));
+$helper        = Helper::getInstance();
 $helper->loadLanguage('main');
 
 // Include any common code for this module.
 require_once $helper->path('include/common.php');
 
 /**
+ * @return XoopsTpl
  * @todo: move hard coded language strings to language file
  *
- * @return XoopsTpl
  */
 function menu_block()
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    $helper = Pedigree\Helper::getInstance();
+    $moduleDirName = basename(\dirname(__DIR__));
+    $helper        = Helper::getInstance();
 
     //colour variables
-    list($actlink, $even, $odd, $text, $hovlink, $head, $body, $title) = Pedigree\Utility::getColourScheme();
+    [$actlink, $even, $odd, $text, $hovlink, $head, $body, $title] = Utility::getColourScheme();
     /*
     $actlink = $colors[0];
     $even    = $colors[1];
@@ -59,12 +92,12 @@ function menu_block()
         echo '</style>';
     */
 
-    $counter = 1;
+    $counter   = 1;
     $menuwidth = 4;
-    $x = $_SERVER['SCRIPT_NAME'];
-    $lastpos = Pedigree\Utility::myStrRpos($x, '/');
-    $len = mb_strlen($x);
-    $curpage = mb_substr($x, $lastpos, $len);
+    $x         = $_SERVER['SCRIPT_NAME'];
+    $lastpos   = Utility::myStrRpos($x, '/');
+    $len       = mb_strlen($x);
+    $curpage   = mb_substr($x, $lastpos, $len);
 
     if (1 == $helper->getConfig('showwelcome')) {
         if ('/welcome.php' === $curpage) {
@@ -175,7 +208,7 @@ function menu_block()
         if ($counter == $menuwidth) {
             $counter = 1;
         }
-        $title = 'Logout';
+        $title       = 'Logout';
         $menuarray[] = ['title' => $title, 'link' => '../../user.php?op=logout', 'counter' => $counter];
         ++$counter;
         if ($counter == $menuwidth) {

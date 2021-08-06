@@ -1,6 +1,6 @@
 -
     id: '1'
-    naam: 'Father 1'
+    pname: 'Father 1'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -11,7 +11,7 @@
     coi: ''
 -
     id: '2'
-    naam: 'Mother 2'
+    pname: 'Mother 2'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -22,7 +22,7 @@
     coi: ''
 -
     id: '3'
-    naam: 'Son 1'
+    pname: 'Son 1'
     id_owner: '2'
     id_breeder: '2'
     user: '1'
@@ -33,7 +33,7 @@
     coi: ''
 -
     id: '4'
-    naam: 'GrandMother 4'
+    pname: 'GrandMother 4'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -44,7 +44,7 @@
     coi: ''
 -
     id: '5'
-    naam: 'GrandFather 5'
+    pname: 'GrandFather 5'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -55,7 +55,7 @@
     coi: ''
 -
     id: '6'
-    naam: 'GrandMother 6'
+    pname: 'GrandMother 6'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -66,7 +66,7 @@
     coi: ''
 -
     id: '7'
-    naam: 'GrandFather 7'
+    pname: 'GrandFather 7'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -77,7 +77,7 @@
     coi: ''
 -
     id: '8'
-    naam: 'GrandMother 8'
+    pname: 'GrandMother 8'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -88,7 +88,7 @@
     coi: ''
 -
     id: '9'
-    naam: 'GrandFather 9'
+    pname: 'GrandFather 9'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -99,7 +99,7 @@
     coi: ''
 -
     id: '10'
-    naam: 'GrandMother 10'
+    pname: 'GrandMother 10'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -110,7 +110,7 @@
     coi: ''
 -
     id: '11'
-    naam: 'GrandFather 11'
+    pname: 'GrandFather 11'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -121,7 +121,7 @@
     coi: ''
 -
     id: '12'
-    naam: 'GrandMother 12'
+    pname: 'GrandMother 12'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -132,7 +132,7 @@
     coi: ''
 -
     id: '13'
-    naam: 'GrandFather 13'
+    pname: 'GrandFather 13'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -143,7 +143,7 @@
     coi: ''
 -
     id: '14'
-    naam: 'GrandMother 14'
+    pname: 'GrandMother 14'
     id_owner: '1'
     id_breeder: '1'
     user: '1'
@@ -154,7 +154,7 @@
     coi: ''
 -
     id: '15'
-    naam: 'GrandFather 15'
+    pname: 'GrandFather 15'
     id_owner: '1'
     id_breeder: '1'
     user: '1'

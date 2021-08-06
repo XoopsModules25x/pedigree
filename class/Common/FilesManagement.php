@@ -67,7 +67,9 @@ trait FilesManagement
     {
         $dir = \opendir($src);
         //        @mkdir($dst);
-        if (!\mkdir($dst) && !\is_dir($dst)) {
+        if (!@\mkdir($dst) && !\is_dir($dst)) {
+            throw new RuntimeException('The directory ' . $dst . ' could not be created.');
+        }
             while (false !== ($file = \readdir($dir))) {
                 if (('.' !== $file) && ('..' !== $file)) {
                     if (\is_dir($src . '/' . $file)) {
@@ -77,7 +79,6 @@ trait FilesManagement
                     }
                 }
             }
-        }
         \closedir($dir);
     }
 
@@ -86,10 +87,10 @@ trait FilesManagement
      *
      * @param string $src source directory to delete
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      */
     public static function deleteDirectory(string $src): bool
     {
@@ -111,13 +112,10 @@ trait FilesManagement
                     if (!$success = self::deleteDirectory($fileInfo->getRealPath())) {
                         break;
                     }
-                } else {
-                    // delete the file
-                    if (!($success = \unlink($fileInfo->getRealPath()))) {
+                } elseif (!($success = \unlink($fileInfo->getRealPath()))) {
                         break;
                     }
                 }
-            }
             // now delete this (sub)directory if all the files are gone
             if ($success) {
                 $success = \rmdir($dirInfo->getRealPath());
@@ -158,7 +156,7 @@ trait FilesManagement
         foreach ($iterator as $fObj) {
             if ($fObj->isFile()) {
                 $filename = $fObj->getPathname();
-                $fObj = null; // clear this iterator object to close the file
+                $fObj     = null; // clear this iterator object to close the file
                 if (!\unlink($filename)) {
                     return false; // couldn't delete the file
                 }
@@ -217,10 +215,10 @@ trait FilesManagement
      * @param string $src  - Source of files being moved
      * @param string $dest - Destination of files being moved
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      */
     public static function rcopy(string $src, string $dest): bool
     {

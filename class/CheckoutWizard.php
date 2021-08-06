@@ -78,14 +78,14 @@ class CheckoutWizard extends ZervWizard
     public function processFieldname($form)
     {
         $name = $this->coalesce($form['name']);
-        if (mb_strlen($name) > 0) {
+        if (\mb_strlen($name) > 0) {
             $this->setValue('name', $name);
         } else {
             $this->addError('name', \_MA_PEDIGREE_FIELD_NAM);
         }
 
         $fieldexplanation = $this->coalesce($form['explain']);
-        if (mb_strlen($fieldexplanation) > 0) {
+        if (\mb_strlen($fieldexplanation) > 0) {
             $this->setValue('explain', $fieldexplanation);
         } else {
             $this->addError('explain', _MA_PEDIGREE_FIELD_EXPLAN1);
@@ -132,7 +132,7 @@ class CheckoutWizard extends ZervWizard
         $this->setValue('fc', $fc);
         $lookup   = $this->coalesce($form['lookup' . $fc]);
         $lookupid = $this->coalesce($form['id' . $fc]);
-        if (mb_strlen($lookup) > 0) {
+        if (\mb_strlen($lookup) > 0) {
             $this->setValue('lookup' . $fc, $lookup);
             $this->setValue('id' . $fc, $lookupid);
         }
@@ -245,14 +245,14 @@ class CheckoutWizard extends ZervWizard
     public function processSearch($form)
     {
         $searchname = $this->coalesce($form['searchname']);
-        if (mb_strlen($searchname) > 0) {
+        if (\mb_strlen($searchname) > 0) {
             $this->setValue('searchname', $searchname);
         } else {
             $this->addError('searchname', 'Please enter the searchname');
         }
 
         $fieldexplanation = $this->coalesce($form['searchexplain']);
-        if (mb_strlen($fieldexplanation) > 0) {
+        if (\mb_strlen($fieldexplanation) > 0) {
             $this->setValue('searchexplain', $fieldexplanation);
         } else {
             $this->addError('searchexplain', 'Please enter the search explanation for this field');
@@ -295,7 +295,7 @@ class CheckoutWizard extends ZervWizard
     public function processDefaultValue($form)
     {
         $defaultvalue = $this->coalesce($form['defaultvalue']);
-        if (mb_strlen($defaultvalue) >= 0) {
+        if (\mb_strlen($defaultvalue) >= 0) {
             $this->setValue('defaultvalue', $defaultvalue);
         } else {
             $this->addError('defaultvalue', 'Please enter a defaultvalue');

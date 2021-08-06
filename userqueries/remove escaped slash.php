@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Pedigree module for XOOPS
  *
@@ -20,10 +21,10 @@
 use XoopsModules\Pedigree;
 
 $form        = 'The following animals have been found in your database with a slash. Any escape characters have been removed.<hr>';
-$queryString = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . " WHERE naam LIKE '%\'%'";
-$result      = $GLOBALS['xoopsDB']->query($queryString);
+$sql = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " WHERE pname LIKE '%\'%'";
+$result      = $GLOBALS['xoopsDB']->query($sql);
 while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
-    $form .= '<a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['naam'] . '</a><br>';
-    $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_tree') . ' SET naam = "' . stripslashes($row['naam']) . "\" WHERE id = '" . $row['id'] . "'";
+    $form .= '<a href="pedigree.php?pedid=' . $row['id'] . '">' . $row['pname'] . '</a><br>';
+    $sql  = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' SET pname = "' . stripslashes($row['pname']) . "\" WHERE id = '" . $row['id'] . "'";
     $GLOBALS['xoopsDB']->queryF($sql);
 }

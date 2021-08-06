@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -18,17 +19,20 @@
  * @author          XOOPS Module Development Team
  */
 
-use XoopsModules\Pedigree;
+use Xmf\Module\Admin;
+use XoopsModules\Pedigree\{
+    Helper
+};
+/** @var Helper $helper */
 
-require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
-/** @var \XoopsModules\Pedigree\Helper $helper */
-$helper       = \XoopsModules\Pedigree\Helper::getInstance();
+$helper        = Helper::getInstance();
 $moduleDirName = $helper->getDirname();
 $helper->loadLanguage('main');
 
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16 = Admin::iconUrl('', 16);
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');

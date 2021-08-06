@@ -19,14 +19,18 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-
+use Xmf\Module\Admin;
+use XoopsModules\Pedigree\{
+    Helper
+};
+/** @var \XoopsThemeForm $form */
+/** @var \Xmf\Module\Admin $adminObject */
+        
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-/** @var \Xmf\Module\Admin $adminObject */
 
-$trashHandler = Pedigree\Helper::getInstance()->getHandler('Trash');
+$trashHandler = Helper::getInstance()->getHandler('Trash');
 
 $op = Request::getCmd('op', 'list');
 switch ($op) {
@@ -38,7 +42,7 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setSort('id');
         $criteria->setOrder('ASC');
-        $numRows = $trashHandler->getCount();
+        $numRows          = $trashHandler->getCount();
         $pedigreeTrashArr = $trashHandler->getAll($criteria);
 
         //Table view
@@ -46,7 +50,7 @@ switch ($op) {
             echo "<table cellspacing='1' class='outer width100'>
                 <thead>
                 <tr>
-                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_NAAM . "</th>
+                    <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_PNAME . "</th>
                     <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_ID_OWNER . "</th>
                     <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_ID_BREEDER . "</th>
                     <th class='txtcenter'>" . _AM_PEDIGREE_PEDIGREE_TRASH_USER . "</th>
@@ -66,7 +70,7 @@ switch ($op) {
                 if (0 == $trashObj->getVar('pedigree_trash_pid')) {
                     echo "<tr class='{$class}'>";
                     $class = ('even' === $class) ? 'odd' : 'even';
-                    echo "<td class='txtcenter'>" . $trashObj->getVar('naam') . '</td>';
+                    echo "<td class='txtcenter'>" . $trashObj->getVar('pname') . '</td>';
                     echo "<td class='txtcenter'>" . $trashObj->getVar('id_owner') . '</td>';
                     echo "<td class='txtcenter'>" . $trashObj->getVar('id_breeder') . '</td>';
                     echo "<td class='txtcenter'>" . $trashObj->getVar('user') . '</td>';
@@ -96,7 +100,8 @@ switch ($op) {
 
         /** @var Pedigree\Trash $trashObj */
         $trashObj = $trashHandler->create();
-        $form = $trashObj->getForm();
+        /** @var \XoopsThemeForm $form */
+        $form     = $trashObj->getForm();
         $form->display();
         break;
 
@@ -104,7 +109,7 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             $helper->redirect('admin/pedigree_trash.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        $tId = Request::getInt('id', null, 'POST');
+        $tId      = Request::getInt('id', null, 'POST');
         $trashObj = $trashHandler->get($tId); // gets object or creates one if tId is empty
         /*
         if (isset($_REQUEST['id'])) {
@@ -114,7 +119,7 @@ switch ($op) {
         }
         */
 
-        $trashObj->setVar('naam', Request::getString('naam', '', 'POST')); //Form naam
+        $trashObj->setVar('pname', Request::getString('pname', '', 'POST')); //Form pname
         $trashObj->setVar('id_owner', Request::getInt('id_owner', 0, 'POST')); //Form id_owner
         $trashObj->setVar('id_breeder', Request::getInt('id_breeder', 0, 'POST')); //Form id_breeder
         $trashObj->setVar('user', Request::getString('user', '', 'POST')); //Form user

@@ -16,17 +16,19 @@
  * @copyright       2011-2019 XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author          XOOPS Module Dev Team (https://xoops.org)
- * @todo Refactor this code - it currently doesn't work as intended
+ * @todo            Refactor this code - it currently doesn't work as intended
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Pedigree;
-use XoopsModules\Pedigree\Constants;
+use XoopsModules\Pedigree\{
+    Constants,
+    Helper
+};
+/** @var Helper $helper */
+/** @var Admin $adminObject */
 
 require_once __DIR__ . '/admin_header.php';
-
-/** @var XoopsModules\Pedigree\Helper $helper */
-
 //xoops_cp_header();
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 //require_once XOOPS_ROOT_PATH."/class/xoopsform/FormHiddenToken.php";
@@ -35,11 +37,10 @@ if (!empty($_POST['submit'])) {
     $helper->redirect('admin/permissions.php', Constants::REDIRECT_DELAY_SHORT, _MP_GPERMUPDATED);
 }
 
-/** @var \Xmf\Module\Admin $adminObject */
-echo $adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayNavigation(basename(__FILE__));
 
-$permission = Request::getInt('permission', 1, 'POST');
-$selected = ['', '', ''];
+$permission                = Request::getInt('permission', 1, 'POST');
+$selected                  = ['', '', ''];
 $selected[$permission - 1] = ' selected';
 
 echo '

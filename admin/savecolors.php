@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Pedigree
  *
@@ -20,11 +21,13 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Pedigree;
-use XoopsModules\Pedigree\Constants;
+use XoopsModules\Pedigree\{
+    Constants,
+    Helper
+};
+/** @var Helper $helper */
 
-/** @var XoopsModules\Pedigree\Helper $helper */
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
+require_once \dirname(__DIR__, 3) . '/include/cp_header.php';
 $helper->loadLanguage('modinfo');
 
 require_once $helper->path('admin/menu.php');
@@ -40,46 +43,46 @@ xoops_cp_header();
  * Then a preg_replace is used to restrict chars to HEX
  */
 
-$settings = []; // initialize array
-$mainBgColor = Request::getCmd('mainbgcolor', 0, 'POST');
-$settings['mainBgColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $mainBgColor); // restrict to HEX chars
+$settings                = []; // initialize array
+$mainBgColor             = Request::getCmd('mainbgcolor', 0, 'POST');
+$settings['mainBgColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $mainBgColor); // restrict to HEX chars
 
-$sBgColor = Request::getCmd('sbgcolor', 0, 'POST');
-$settings['sBgColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $sBgColor);
+$sBgColor             = Request::getCmd('sbgcolor', 0, 'POST');
+$settings['sBgColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $sBgColor);
 
-$sTxtColor = Request::getCmd('stxtcolor', 0, 'POST');
-$settings['sTxtColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $sTxtColor);
+$sTxtColor             = Request::getCmd('stxtcolor', 0, 'POST');
+$settings['sTxtColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $sTxtColor);
 
-$settings['sFont'] = Request::getWord('sfont', '', 'POST');
-$settings['sFontSize'] = Request::getCmd('sfontsize', '', 'POST');
+$settings['sFont']      = Request::getWord('sfont', '', 'POST');
+$settings['sFontSize']  = Request::getCmd('sfontsize', '', 'POST');
 $settings['sFontStyle'] = Request::getWord('sfontstyle', '', 'POST');
 
-$mBgColor = Request::getCmd('mbgcolor', 0, 'POST');
-$settings['mBgColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $mBgColor);
+$mBgColor             = Request::getCmd('mbgcolor', 0, 'POST');
+$settings['mBgColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $mBgColor);
 
-$mTxtColor = Request::getCmd('mtxtcolor', 0, 'POST');
-$settings['mTxtColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $mTxtColor);
+$mTxtColor             = Request::getCmd('mtxtcolor', 0, 'POST');
+$settings['mTxtColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $mTxtColor);
 
-$settings['mFont'] = Request::getWord('mfont', '', 'POST');
-$settings['mFontSize'] = Request::getCmd('mfontsize', '', 'POST');
+$settings['mFont']      = Request::getWord('mfont', '', 'POST');
+$settings['mFontSize']  = Request::getCmd('mfontsize', '', 'POST');
 $settings['mFontStyle'] = Request::getWord('mfontstyle', '', 'POST');
 
-$fBgColor = Request::getCmd('fbgcolor', 0, 'POST');
-$settings['fBgColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $fBgColor);
+$fBgColor             = Request::getCmd('fbgcolor', 0, 'POST');
+$settings['fBgColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $fBgColor);
 
-$fTxtColor = Request::getCmd('ftxtcolor', 0, 'POST');
-$settings['fTxtColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $fTxtColor);
+$fTxtColor             = Request::getCmd('ftxtcolor', 0, 'POST');
+$settings['fTxtColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $fTxtColor);
 
-$settings['fFont'] = Request::getWord('ffont', '', 'POST');
-$settings['fFontSize'] = Request::getCmd('ffontsize', '', 'POST');
+$settings['fFont']      = Request::getWord('ffont', '', 'POST');
+$settings['fFontSize']  = Request::getCmd('ffontsize', '', 'POST');
 $settings['fFontStyle'] = Request::getWord('ffontstyle', '', 'POST');
 
 $settings['bStyle'] = Request::getWord('bstyle', '', 'POST');
 $settings['bWidth'] = Request::getString('bwidth', 0, 'POST');
 $settings['bWidth'] = mb_substr($bWidth, 0, 1);
 
-$bColor = Request::getCmd('bcolor', 0, 'POST');
-$settings['bColor'] = (string) preg_replace('/[^A-F0-9]/i', '', $bColor);
+$bColor             = Request::getCmd('bcolor', 0, 'POST');
+$settings['bColor'] = (string)preg_replace('/[^A-F0-9]/i', '', $bColor);
 
 $colourString = implode(';', $settings);
 /*
