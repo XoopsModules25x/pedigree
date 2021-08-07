@@ -1,0 +1,668 @@
+newbb_archive:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: topic_id
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: post_text
+            attributes: ' text  NOT NULL '
+newbb_categories:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: cat_id
+            attributes: ' smallint(3) unsigned  NOT NULL auto_increment'
+        -
+            name: cat_image
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: cat_title
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
+        -
+            name: cat_description
+            attributes: ' text  NOT NULL '
+        -
+            name: cat_order
+            attributes: ' smallint(3) unsigned  NOT NULL  DEFAULT ''99'' '
+        -
+            name: cat_url
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    keys:
+        cat_order:
+            columns: cat_order
+            unique: false
+        PRIMARY:
+            columns: cat_id
+            unique: true
+newbb_votedata:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: ratingid
+            attributes: ' int(11) unsigned  NOT NULL auto_increment'
+        -
+            name: topic_id
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ratinguser
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rating
+            attributes: ' tinyint(3) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ratinghostname
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+        -
+            name: ratingtimestamp
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        PRIMARY:
+            columns: ratingid
+            unique: true
+        ratinghostname:
+            columns: ratinghostname
+            unique: false
+        ratinguser:
+            columns: ratinguser
+            unique: false
+        topic_id:
+            columns: topic_id
+            unique: false
+newbb_forums:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: forum_id
+            attributes: ' smallint(4) unsigned  NOT NULL auto_increment'
+        -
+            name: forum_name
+            attributes: ' varchar(150)  NOT NULL  DEFAULT '''' '
+        -
+            name: forum_desc
+            attributes: ' text '
+        -
+            name: parent_forum
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: forum_moderator
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: forum_topics
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: forum_posts
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: forum_last_post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: cat_id
+            attributes: ' smallint(3) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: hot_threshold
+            attributes: ' tinyint(3) unsigned  NOT NULL  DEFAULT ''10'' '
+        -
+            name: forum_order
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''99'' '
+        -
+            name: attach_maxkb
+            attributes: ' smallint(3) unsigned  NOT NULL  DEFAULT ''1000'' '
+        -
+            name: attach_ext
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: allow_polls
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        cat_forum:
+            columns: 'cat_id, forum_order'
+            unique: false
+        cat_id:
+            columns: cat_id
+            unique: false
+        forum_last_post_id:
+            columns: forum_last_post_id
+            unique: false
+        forum_order:
+            columns: forum_order
+            unique: false
+        PRIMARY:
+            columns: forum_id
+            unique: true
+newbb_posts:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL auto_increment'
+        -
+            name: pid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_id
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: forum_id
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: post_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: uid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: poster_name
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: poster_ip
+            attributes: ' varchar(45)  NOT NULL  DEFAULT '''' '
+        -
+            name: subject
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: icon
+            attributes: ' varchar(25)  NOT NULL  DEFAULT '''' '
+        -
+            name: attachsig
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: approved
+            attributes: ' smallint(2)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: post_karma
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: attachment
+            attributes: ' text '
+        -
+            name: require_reply
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        approved:
+            columns: approved
+            unique: false
+        forumid_approved_postid:
+            columns: 'forum_id, approved, post_id'
+            unique: false
+        forumid_uid:
+            columns: 'forum_id, uid'
+            unique: false
+        forum_id:
+            columns: forum_id
+            unique: false
+        pid:
+            columns: pid
+            unique: false
+        post_time:
+            columns: post_time
+            unique: false
+        PRIMARY:
+            columns: post_id
+            unique: true
+        search:
+            columns: subject
+            unique: false
+        subject:
+            columns: 'subject (40)'
+            unique: false
+        topicid_uid:
+            columns: 'topic_id, uid'
+            unique: false
+        topic_id:
+            columns: topic_id
+            unique: false
+        uid:
+            columns: uid
+            unique: false
+newbb_posts_text:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: post_text
+            attributes: ' text '
+        -
+            name: post_edit
+            attributes: ' text '
+        -
+            name: dohtml
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: dosmiley
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doxcode
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doimage
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dobr
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''1'' '
+    keys:
+        PRIMARY:
+            columns: post_id
+            unique: true
+        search:
+            columns: post_text
+            unique: false
+newbb_topics:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: topic_id
+            attributes: ' int(8) unsigned  NOT NULL auto_increment'
+        -
+            name: topic_title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: topic_poster
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_views
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_replies
+            attributes: ' mediumint(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_last_post_id
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: forum_id
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_status
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: type_id
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_sticky
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_digest
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: digest_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: approved
+            attributes: ' tinyint(2)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: poster_name
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: rating
+            attributes: ' double(6,4)  NOT NULL  DEFAULT ''0.0000'' '
+        -
+            name: votes
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_haspoll
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: poll_id
+            attributes: ' mediumint(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: topic_tags
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    keys:
+        approved:
+            columns: approved
+            unique: false
+        digest_time:
+            columns: digest_time
+            unique: false
+        forum_id:
+            columns: forum_id
+            unique: false
+        PRIMARY:
+            columns: topic_id
+            unique: true
+        topic_digest:
+            columns: topic_digest
+            unique: false
+        topic_forum:
+            columns: 'topic_id, forum_id'
+            unique: false
+        topic_last_post_id:
+            columns: topic_last_post_id
+            unique: false
+        topic_poster:
+            columns: topic_poster
+            unique: false
+        topic_sticky:
+            columns: topic_sticky
+            unique: false
+        topic_time:
+            columns: topic_time
+            unique: false
+        type_id:
+            columns: type_id
+            unique: false
+newbb_online:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: online_forum
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: online_topic
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: online_uid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: online_uname
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: online_ip
+            attributes: ' varchar(45)  NOT NULL  DEFAULT '''' '
+        -
+            name: online_updated
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        online_forum:
+            columns: online_forum
+            unique: false
+        online_topic:
+            columns: online_topic
+            unique: false
+        online_updated:
+            columns: online_updated
+            unique: false
+newbb_digest:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: digest_id
+            attributes: ' int(8) unsigned  NOT NULL auto_increment'
+        -
+            name: digest_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: digest_content
+            attributes: ' text '
+    keys:
+        digest_time:
+            columns: digest_time
+            unique: false
+        PRIMARY:
+            columns: digest_id
+            unique: true
+newbb_report:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: report_id
+            attributes: ' int(8) unsigned  NOT NULL auto_increment'
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: reporter_uid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: reporter_ip
+            attributes: ' varchar(45)  NOT NULL  DEFAULT '''' '
+        -
+            name: report_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: report_text
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: report_result
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: report_memo
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    keys:
+        post_id:
+            columns: post_id
+            unique: false
+        PRIMARY:
+            columns: report_id
+            unique: true
+newbb_attachments:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: attach_id
+            attributes: ' int(8) unsigned  NOT NULL auto_increment'
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: name_saved
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: name_disp
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: mimetype
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: online
+            attributes: ' tinyint(1) unsigned  NOT NULL  DEFAULT ''1'' '
+        -
+            name: attach_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: download
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        post_id:
+            columns: post_id
+            unique: false
+        PRIMARY:
+            columns: attach_id
+            unique: true
+newbb_moderates:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: mod_id
+            attributes: ' int(10) unsigned  NOT NULL auto_increment'
+        -
+            name: mod_start
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: mod_end
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: mod_desc
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: uid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ip
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: forum_id
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        forum_id:
+            columns: forum_id
+            unique: false
+        mod_end:
+            columns: mod_end
+            unique: false
+        PRIMARY:
+            columns: mod_id
+            unique: true
+        uid:
+            columns: uid
+            unique: false
+newbb_reads_forum:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: read_id
+            attributes: ' int(10) unsigned  NOT NULL auto_increment'
+        -
+            name: uid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: read_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: read_item
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        post_id:
+            columns: post_id
+            unique: false
+        PRIMARY:
+            columns: read_id
+            unique: true
+        read_item:
+            columns: read_item
+            unique: false
+        read_item_uid:
+            columns: 'read_item, uid'
+            unique: false
+        uid:
+            columns: uid
+            unique: false
+newbb_reads_topic:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: read_id
+            attributes: ' int(10) unsigned  NOT NULL auto_increment'
+        -
+            name: uid
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: read_time
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: read_item
+            attributes: ' int(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: post_id
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        post_id:
+            columns: post_id
+            unique: false
+        PRIMARY:
+            columns: read_id
+            unique: true
+        read_item:
+            columns: read_item
+            unique: false
+        read_item_uid:
+            columns: 'read_item, uid'
+            unique: false
+        uid:
+            columns: uid
+            unique: false
+newbb_type:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: type_id
+            attributes: ' smallint(4) unsigned  NOT NULL auto_increment'
+        -
+            name: type_name
+            attributes: ' varchar(64)  NOT NULL  DEFAULT '''' '
+        -
+            name: type_color
+            attributes: ' varchar(10)  NOT NULL  DEFAULT '''' '
+        -
+            name: type_description
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    keys:
+        PRIMARY:
+            columns: type_id
+            unique: true
+newbb_type_forum:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: tf_id
+            attributes: ' mediumint(4) unsigned  NOT NULL auto_increment'
+        -
+            name: type_id
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: forum_id
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: type_order
+            attributes: ' smallint(4) unsigned  NOT NULL  DEFAULT ''99'' '
+    keys:
+        forum_id:
+            columns: forum_id
+            unique: false
+        PRIMARY:
+            columns: tf_id
+            unique: true
+        type_order:
+            columns: type_order
+            unique: false
+newbb_stats:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: stats_id
+            attributes: ' smallint(4)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: stats_value
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: stats_type
+            attributes: ' smallint(2) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: stats_period
+            attributes: ' smallint(2) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: time_update
+            attributes: ' date '
+        -
+            name: time_format
+            attributes: ' varchar(32)  NOT NULL  DEFAULT '''' '
+    keys:
+        stats_id:
+            columns: stats_id
+            unique: false
+        stats_type:
+            columns: 'stats_type, stats_period'
+            unique: false
+newbb_user_stats:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: uid
+            attributes: ' mediumint(8) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user_topics
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user_digests
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user_posts
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user_lastpost
+            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+    keys:
+        uid:
+            columns: uid
+            unique: true

@@ -1,49 +1,57 @@
 <?php
-// -------------------------------------------------------------------------
-
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-
 /*
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
-} else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
-}
-*/
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
-include XOOPS_ROOT_PATH . '/header.php';
+/**
+ * Module: Pedigree
+ *
+ * @package   XoopsModules\Pedigree
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ */
+
+use Xmf\Request;
+use XoopsModules\Pedigree;
+
+require_once __DIR__ . '/header.php';
+/** @var XoopsModules\Pedigree\Helper $helper */
+$helper->loadLanguage('main');
+
+require XOOPS_ROOT_PATH . '/header.php';
+
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/include/common.php';
 
-global $xoopsTpl, $xoopsDB;
+$naar = Request::getCmd('naar', '', 'POST');
+$van  = Request::getString('van', '', 'POST');
 
-//get module configuration
-$module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname("pedigree");
-$config_handler = xoops_getHandler('config');
-$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+echo "<form method=\"post\" action=\"convert.php\" method=\"post\">\n" . "convert:<input type=\"text\" name=\"van\">\n" . "to:<input type=\"text\" name=\"naar\">\n" . "<input type=\"submit\"></form>\n";
 
-echo "<form method=\"post\" action=\"convert.php\">convert:<input type=\"text\" name=\"van\">";
-echo "to:<input type=\"text\" name=\"naar\">";
-echo "<input type=\"submit\"></form>";
-
-if ($_POST['naar'] != "") {
-    $query = "update " . $xoopsDB->prefix("pedigree_tree") . " set user4 = '" . $_POST['naar'] . "' where user4 = '" . $_POST['van'] . "'";
-    echo $query . "<br />";
-    $xoopsDB->queryF($query);
+//@todo refactor code to use Tree object access methods
+if ('' != $_POST['naar']) {
+    $query = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " SET user4 = '" . $naar . "' WHERE user4 = '" . $van . "'";
+    echo $query . '<br>';
+    $GLOBALS['xoopsDB']->query($query);
 }
 
-$result = $xoopsDB->query("select user4, count('user4') as X from " . $xoopsDB->prefix("pedigree_tree") . " group by 'user4'");
+$result = $GLOBALS['xoopsDB']->query("SELECT user4, COUNT('user4') AS X FROM " . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . " GROUP BY 'user4'");
 $count  = 0;
 $total  = 0;
-while ($row = $xoopsDB->fetchArray($result)) {
+while (false !== ($row = $GLOBALS['xoopsDB']->fetchArray($result))) {
     ++$count;
-    echo $row['user4'] . " - " . $row['X'] . "<br>";
-    $total = $total + $row['X'];
+    echo $row['user4'] . ' - ' . $row['X'] . '<br>';
+    $total += $row['X'];
 }
-echo "<hr>" . $count . "-" . $total;
+echo '<hr>' . $count . '-' . $total;
 
 //comments and footer
-include XOOPS_ROOT_PATH . "/footer.php";
+require XOOPS_ROOT_PATH . '/footer.php';

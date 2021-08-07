@@ -1,0 +1,227 @@
+pedigree_registry:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: id
+            attributes: ' mediumint(7) unsigned  NOT NULL auto_increment'
+        -
+            name: pname
+            attributes: ' text  NOT NULL '
+        -
+            name: id_owner
+            attributes: ' smallint(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: id_breeder
+            attributes: ' smallint(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user
+            attributes: ' varchar(25)  NOT NULL  DEFAULT '''' '
+        -
+            name: roft
+            attributes: ' enum(''0'',''1'')  NOT NULL  DEFAULT ''0'' '
+        -
+            name: mother
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: father
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: foto
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: coi
+            attributes: ' varchar(10)  NOT NULL  DEFAULT '''' '
+    keys:
+        father:
+            columns: father
+            unique: false
+        mother:
+            columns: mother
+            unique: false
+        PRIMARY:
+            columns: id
+            unique: true
+pedigree_fields:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: id
+            attributes: ' tinyint(2)  NOT NULL auto_increment'
+        -
+            name: isactive
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: fieldname
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: fieldtype
+            attributes: ' enum(''DateSelect'',''TextBox'',''SelectBox'',''RadioButton'',''TextArea'',''UrlField'',''Picture'')  NOT NULL  DEFAULT ''DateSelect'' '
+        -
+            name: lookuptable
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: defaultvalue
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: fieldexplanation
+            attributes: ' tinytext  NOT NULL '
+        -
+            name: hassearch
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: litter
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: generallitter
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: searchname
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: searchexplanation
+            attributes: ' tinytext  NOT NULL '
+        -
+            name: viewinpedigree
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: viewinadvanced
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: viewinpie
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: viewinlist
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: locked
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: order
+            attributes: ' tinyint(3)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        ID:
+            columns: id
+            unique: true
+pedigree_temp:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: id
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: pname
+            attributes: ' text  NOT NULL '
+        -
+            name: id_owner
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: id_breeder
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user
+            attributes: ' varchar(25)  NOT NULL  DEFAULT '''' '
+        -
+            name: roft
+            attributes: ' tinytext  NOT NULL '
+        -
+            name: mother
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: father
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: foto
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: coi
+            attributes: ' varchar(10)  NOT NULL  DEFAULT '''' '
+    keys:
+        father:
+            columns: father
+            unique: false
+        mother:
+            columns: mother
+            unique: false
+        PRIMARY:
+            columns: id
+            unique: true
+pedigree_trash:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: id
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: pname
+            attributes: ' text  NOT NULL '
+        -
+            name: id_owner
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: id_breeder
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: user
+            attributes: ' varchar(25)  NOT NULL  DEFAULT '''' '
+        -
+            name: roft
+            attributes: ' char(1)  NOT NULL  DEFAULT '''' '
+        -
+            name: mother
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: father
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: foto
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: coi
+            attributes: ' varchar(10)  NOT NULL  DEFAULT '''' '
+    keys:
+        PRIMARY:
+            columns: id
+            unique: true
+pedigree_owner:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: id
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: firstname
+            attributes: ' varchar(30)  NOT NULL  DEFAULT '''' '
+        -
+            name: lastname
+            attributes: ' varchar(30)  NOT NULL  DEFAULT '''' '
+        -
+            name: postcode
+            attributes: ' varchar(7)  NOT NULL  DEFAULT '''' '
+        -
+            name: city
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: streetname
+            attributes: ' varchar(40)  NOT NULL  DEFAULT '''' '
+        -
+            name: housenumber
+            attributes: ' varchar(6)  NOT NULL  DEFAULT '''' '
+        -
+            name: phonenumber
+            attributes: ' varchar(14)  NOT NULL  DEFAULT '''' '
+        -
+            name: emailadres
+            attributes: ' varchar(40)  NOT NULL  DEFAULT '''' '
+        -
+            name: website
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+        -
+            name: user
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
+    keys:
+        lastname:
+            columns: 'lastname (5)'
+            unique: false
+        PRIMARY:
+            columns: id
+            unique: true

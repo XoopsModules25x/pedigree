@@ -80,15 +80,17 @@
         top: 1px;
     }
 </style>
-<{$smarty.const._MD_WFDOWNLOADS_BROWSETOTOPIC}>
-<br/>
+<{*<{$smarty.const._MA_PEDIGREE_BROWSETOTOPIC}>*}>
+<{$pageTitle}>
+<{$pageTitle2}>
+<br>
 <div>
     <{assign var="alphabetcount" value=$alphabet|@count}>
     <{foreach name=letters item=letter from=$alphabet}>
     <{if ($letter.count > 0)}>
-    <a class='button_green' href='<{$letter.url}>' title='<{$letter.count}>'><{$letter.letter}></a>
+        <a class='button_green' href='<{$letter.url}>' title='<{$letter.count}>'><{$letter.letter}></a>
     <{else}>
-    <span class='button_grey'><{$letter.letter}></span>
+        <span class='button_grey'><{$letter.letter}></span>
     <{/if}>
     <{if ($smarty.foreach.letters.iteration == (round($alphabetcount/2))+1)}>
 </div>

@@ -2,42 +2,47 @@
 
 
 CREATE TABLE `pedigree_owner` (
-  `ID` int(11) NOT NULL auto_increment,
-  `firstname` varchar(30) NOT NULL default '',
-  `lastname` varchar(30) NOT NULL default '',
-  `postcode` varchar(7) NOT NULL default '',
-  `city` varchar(50) NOT NULL default '',
-  `streetname` varchar(40) NOT NULL default '',
-  `housenumber` varchar(6) NOT NULL default '',
-  `phonenumber` varchar(14) NOT NULL default '',
-  `emailadres` varchar(40) NOT NULL default '',
-  `website` varchar(60) NOT NULL default '',
-  `user` varchar(20) NOT NULL default '',
-  PRIMARY KEY  (`ID`),
+  `id`          INT(11)     NOT NULL AUTO_INCREMENT,
+  `firstname`   VARCHAR(30) NOT NULL DEFAULT '',
+  `lastname`    VARCHAR(30) NOT NULL DEFAULT '',
+  `postcode`    VARCHAR(7)  NOT NULL DEFAULT '',
+  `city`        VARCHAR(50) NOT NULL DEFAULT '',
+  `streetname`  VARCHAR(40) NOT NULL DEFAULT '',
+  `housenumber` VARCHAR(6)  NOT NULL DEFAULT '',
+  `phonenumber` VARCHAR(14) NOT NULL DEFAULT '',
+  `emailadres`  VARCHAR(40) NOT NULL DEFAULT '',
+  `website`     VARCHAR(60) NOT NULL DEFAULT '',
+  `user`        VARCHAR(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
   KEY `lastname` (`lastname`(5))
-) ENGINE=MyISAM AUTO_INCREMENT=1  COMMENT='owner information tree';
+)
+  ENGINE = MyISAM
+  AUTO_INCREMENT = 1
+  COMMENT = 'owner information tree';
 
 # --------------------------------------------------------
 
 
-# Table structure for table `pedigree_tree`
+# Table structure for table `pedigree_registry`
 
 
-CREATE TABLE `pedigree_tree` (
-  `ID` mediumint(7) unsigned NOT NULL auto_increment,
-  `NAAM` text NOT NULL,
-  `id_owner` smallint(5) NOT NULL default '0',
-  `id_breeder` smallint(5) NOT NULL default '0',
-  `user` varchar(25) NOT NULL default '',
-  `roft` enum('0','1') NOT NULL default '0',
-  `mother` int(5) NOT NULL default '0',
-  `father` int(5) NOT NULL default '0',
-  `foto` varchar(255) NOT NULL default '',
-  `coi` varchar(10) NOT NULL default '',
-  PRIMARY KEY  (`ID`),
+CREATE TABLE `pedigree_registry` (
+  `id`         MEDIUMINT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pname`       TEXT                  NOT NULL,
+  `id_owner`   SMALLINT(5)           NOT NULL DEFAULT '0',
+  `id_breeder` SMALLINT(5)           NOT NULL DEFAULT '0',
+  `user`       VARCHAR(25)           NOT NULL DEFAULT '',
+  `roft`       ENUM ('0', '1')       NOT NULL DEFAULT '0',
+  `mother`     INT(5)                NOT NULL DEFAULT '0',
+  `father`     INT(5)                NOT NULL DEFAULT '0',
+  `foto`       VARCHAR(255)          NOT NULL DEFAULT '',
+  `coi`        VARCHAR(10)           NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
   KEY `mother` (`mother`),
   KEY `father` (`father`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+)
+  ENGINE = MyISAM
+  AUTO_INCREMENT = 1;
 
 # --------------------------------------------------------
 
@@ -46,26 +51,28 @@ CREATE TABLE `pedigree_tree` (
 
 
 CREATE TABLE `pedigree_fields` (
-  `ID` tinyint(2) NOT NULL auto_increment,
-  `isActive` tinyint(1) NOT NULL default '0',
-  `FieldName` varchar(50) NOT NULL default '',
-  `FieldType` enum('dateselect','textbox','selectbox','radiobutton','textarea','urlfield','Picture') NOT NULL default 'dateselect',
-  `LookupTable` tinyint(1) NOT NULL default '0',
-  `DefaultValue` varchar(50) NOT NULL default '',
-  `FieldExplenation` tinytext NOT NULL,
-  `HasSearch` tinyint(1) NOT NULL default '0',
-  `Litter` tinyint(1) NOT NULL default '0',
-  `Generallitter` tinyint(1) NOT NULL default '0',
-  `SearchName` varchar(50) NOT NULL default '',
-  `SearchExplenation` tinytext NOT NULL,
-  `ViewInPedigree` tinyint(1) NOT NULL default '0',
-  `ViewInAdvanced` tinyint(1) NOT NULL default '0',
-  `ViewInPie` tinyint(1) NOT NULL default '0',
-  `ViewInList` tinyint(1) NOT NULL default '0',
-  `locked` tinyint(1) NOT NULL default '0',
-  `order` tinyint(3) NOT NULL default '0',
-  UNIQUE KEY `ID` (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1;
+  `id`                TINYINT(2)                                                                                    NOT NULL AUTO_INCREMENT,
+  `isactive`          TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `fieldname`         VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
+  `fieldtype`         ENUM ('DateSelect', 'TextBox', 'SelectBox', 'RadioButton', 'TextArea', 'UrlField', 'Picture') NOT NULL DEFAULT 'DateSelect',
+  `lookuptable`       TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `defaultvalue`      VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
+  `fieldexplanation`  TINYTEXT                                                                                      NOT NULL,
+  `hassearch`         TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `litter`            TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `generallitter`     TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `searchname`        VARCHAR(50)                                                                                   NOT NULL DEFAULT '',
+  `searchexplanation` TINYTEXT                                                                                      NOT NULL,
+  `viewinpedigree`    TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `viewinadvanced`    TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `viewinpie`         TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `viewinlist`        TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `locked`            TINYINT(1)                                                                                    NOT NULL DEFAULT '0',
+  `order`             TINYINT(3)                                                                                    NOT NULL DEFAULT '0',
+  UNIQUE KEY `ID` (`id`)
+)
+  ENGINE = MyISAM
+  AUTO_INCREMENT = 1;
 
 # --------------------------------------------------------
 
@@ -74,20 +81,22 @@ CREATE TABLE `pedigree_fields` (
 
 
 CREATE TABLE `pedigree_temp` (
-  `ID` int(11) NOT NULL default '0',
-  `NAAM` text NOT NULL,
-  `id_owner` int(11) NOT NULL default '0',
-  `id_breeder` int(11) NOT NULL default '0',
-  `user` varchar(25) NOT NULL default '',
-  `roft` tinytext NOT NULL,
-  `mother` int(5) NOT NULL default '0',
-  `father` int(5) NOT NULL default '0',
-  `foto` varchar(255) NOT NULL default '',
-  `coi` varchar(10) NOT NULL default '',
-  PRIMARY KEY  (`ID`),
+  `id`         INT(11)      NOT NULL DEFAULT '0',
+  `pname`       TEXT        NOT NULL,
+  `id_owner`   INT(11)      NOT NULL DEFAULT '0',
+  `id_breeder` INT(11)      NOT NULL DEFAULT '0',
+  `user`       VARCHAR(25)  NOT NULL DEFAULT '',
+  `roft`       TINYTEXT     NOT NULL,
+  `mother`     INT(5)       NOT NULL DEFAULT '0',
+  `father`     INT(5)       NOT NULL DEFAULT '0',
+  `foto`       VARCHAR(255) NOT NULL DEFAULT '',
+  `coi`        VARCHAR(10)  NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
   KEY `mother` (`mother`),
   KEY `father` (`father`)
-) ENGINE=MyISAM COMMENT='temporary pedigree table to create detailed extracts';
+)
+  ENGINE = MyISAM
+  COMMENT = 'temporary pedigree table to create detailed extracts';
 
 # --------------------------------------------------------
 
@@ -96,15 +105,18 @@ CREATE TABLE `pedigree_temp` (
 
 
 CREATE TABLE `pedigree_trash` (
-  `ID` int(11) NOT NULL auto_increment,
-  `NAAM` text NOT NULL,
-  `id_owner` int(11) NOT NULL default '0',
-  `id_breeder` int(11) NOT NULL default '0',
-  `user` varchar(25) NOT NULL default '',
-  `roft` char(1) NOT NULL default '',
-  `mother` int(5) NOT NULL default '0',
-  `father` int(5) NOT NULL default '0',
-  `foto` varchar(255) NOT NULL default '',
-  `coi` varchar(10) NOT NULL default '',
-  PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 COMMENT='pedigree chart for deleted dogs' ;
+  `id`         INT(11)      NOT NULL AUTO_INCREMENT,
+  `pname`       TEXT         NOT NULL,
+  `id_owner`   INT(11)      NOT NULL DEFAULT '0',
+  `id_breeder` INT(11)      NOT NULL DEFAULT '0',
+  `user`       VARCHAR(25)  NOT NULL DEFAULT '',
+  `roft`       CHAR(1)      NOT NULL DEFAULT '',
+  `mother`     INT(5)       NOT NULL DEFAULT '0',
+  `father`     INT(5)       NOT NULL DEFAULT '0',
+  `foto`       VARCHAR(255) NOT NULL DEFAULT '',
+  `coi`        VARCHAR(10)  NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM
+  AUTO_INCREMENT = 1
+  COMMENT = 'pedigree chart for deleted dogs';

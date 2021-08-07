@@ -8,79 +8,76 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * animal module for xoops
  *
  * @copyright       The TXMod XOOPS Project http://sourceforge.net/projects/thmod/
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GPL 2.0 or later
  * @package         animal
  * @since           2.5.x
- * @author          XOOPS Development Team ( name@site.com ) - ( http://xoops.org )
- * @version         $Id: const_entete.php 9860 2012-07-13 10:41:41Z txmodxoops $
+ * @author          XOOPS Development Team ( name@site.com ) - ( https://xoops.org )
  */
-
 function b_waiting_animal()
 {
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-    $ret     = array();
+    $xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
+    $ret     = [];
 
     // waiting pedigree_trash
-    $block = array();
+    $block = [];
 
-    $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("pedigree_trash") . " WHERE pedigree_trash_waiting=1");
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_trash') . ' WHERE pedigree_trash_waiting=1');
     if ($result) {
-        $block['adminlink'] = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/pedigree_trash.php?op=listWaiting";
-        list($block['pendingnum']) = $xoopsDB->fetchRow($result);
+        $block['adminlink'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/pedigree_trash.php?op=listWaiting';
+        [$block['pendingnum']] = $GLOBALS['xoopsDB']->fetchRow($result);
         $block['lang_linkname'] = _PI_WAITING_WAITINGS;
     }
     $ret[] = $block;
 
     // waiting mod_owner
-    $block = array();
+    $block = [];
 
-    $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("pedigree_owner") . " WHERE owner_waiting=1");
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_owner') . ' WHERE owner_waiting=1');
     if ($result) {
-        $block['adminlink'] = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/owner.php?op=listWaiting";
-        list($block['pendingnum']) = $xoopsDB->fetchRow($result);
+        $block['adminlink'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/owner.php?op=listWaiting';
+        [$block['pendingnum']] = $GLOBALS['xoopsDB']->fetchRow($result);
         $block['lang_linkname'] = _PI_WAITING_WAITINGS;
     }
     $ret[] = $block;
 
     // waiting pedigree_temp
-    $block = array();
+    $block = [];
 
-    $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("pedigree_temp") . " WHERE pedigree_temp_waiting=1");
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_temp') . ' WHERE pedigree_temp_waiting=1');
     if ($result) {
-        $block['adminlink'] = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/pedigree_temp.php?op=listWaiting";
-        list($block['pendingnum']) = $xoopsDB->fetchRow($result);
+        $block['adminlink'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/pedigree_temp.php?op=listWaiting';
+        [$block['pendingnum']] = $GLOBALS['xoopsDB']->fetchRow($result);
         $block['lang_linkname'] = _PI_WAITING_WAITINGS;
     }
     $ret[] = $block;
 
     // waiting pedigree
-    $block = array();
+    $block = [];
 
-    $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("pedigree_tree") . " WHERE pedigree_waiting=1");
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE pedigree_waiting=1');
     if ($result) {
-        $block['adminlink'] = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/pedigree.php?op=listWaiting";
-        list($block['pendingnum']) = $xoopsDB->fetchRow($result);
+        $block['adminlink'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/pedigree.php?op=listWaiting';
+        [$block['pendingnum']] = $GLOBALS['xoopsDB']->fetchRow($result);
         $block['lang_linkname'] = _PI_WAITING_WAITINGS;
     }
     $ret[] = $block;
 
-    // waiting pedigree_config
-    $block = array();
+    // waiting pedigree_fields
+    $block = [];
 
-    $result = $xoopsDB->query("SELECT COUNT(*) FROM " . $xoopsDB->prefix("pedigree_fields") . " WHERE pedigree_config_waiting=1");
+    $result = $GLOBALS['xoopsDB']->query('SELECT COUNT(*) FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_fields') . ' WHERE pedigree_fields_waiting=1');
     if ($result) {
-        $block['adminlink'] = XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/admin/pedigree_config.php?op=listWaiting";
-        list($block['pendingnum']) = $xoopsDB->fetchRow($result);
+        $block['adminlink'] = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/pedigree_fields.php?op=listWaiting';
+        [$block['pendingnum']] = $GLOBALS['xoopsDB']->fetchRow($result);
         $block['lang_linkname'] = _PI_WAITING_WAITINGS;
     }
     $ret[] = $block;
 
     return $ret;
 }
-
-;

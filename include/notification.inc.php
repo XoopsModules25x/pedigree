@@ -1,29 +1,21 @@
 <?php
-// $Id: notification.inc.php,v 1.1 2006/04/30 13:44:19 Administrator Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright      {@link https://xoops.org/ XOOPS Project}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author         XOOPS Development Team
+ * @param mixed $category
+ * @param mixed $item_id
+ */
 
 /**
  * @param $category
@@ -34,67 +26,63 @@
 function lookup($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
-
-    if (empty($xoopsModule) || $xoopsModule->getVar('dirname') != 'pedigree') {
-        $module_handler = xoops_getHandler('module');
-        $module         = $module_handler->getByDirname("pedigree");
-        $config_handler = xoops_getHandler('config');
-        $config         = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $moduleDirName = \basename(\dirname(__DIR__));
+    if (empty($xoopsModule) || $xoopsModule->getVar('dirname') !== $moduleDirName) {
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = xoops_getHandler('module');
+        $module        = $moduleHandler->getByDirname($moduleDirName);
+        /** @var \XoopsConfigHandler $configHandler */
+        $configHandler = xoops_getHandler('config');
+        $config        = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     } else {
         $module = $xoopsModule;
         $config = $xoopsModuleConfig;
     }
 
-    if ($category == 'global') {
+    if ('global' === $category) {
         $item['name'] = '';
         $item['url']  = '';
 
         return $item;
     }
-    $item_id = intval($item_id);
+    $item_id = (int)$item_id;
 
     global $xoopsDB;
-    if ($category == 'dog') {
+    if ('dog' === $category) {
         // Assume we have a valid forum id
-        $sql = 'SELECT NAAM FROM ' . $xoopsDB->prefix('pedigree_tree') . ' WHERE ID = ' . $item_id;
-        if (!$result = $xoopsDB->query($sql)) {
-            redirect_header("index.php", 2, _MD_ERRORFORUM);
-            exit();
+        $sql = 'SELECT pname FROM ' . $GLOBALS['xoopsDB']->prefix('pedigree_registry') . ' WHERE id = ' . $item_id;
+        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+            redirect_header('index.php', 2, _MD_ERRORFORUM);
         }
-        $result_array = $xoopsDB->fetchArray($result);
-        $item['name'] = $result_array['NAAM'];
+        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
+        $item['name'] = $result_array['pname'];
         $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/dog.php?id=' . $item_id;
 
         return $item;
     }
 
-    if ($category == 'thread') {
+    if ('thread' === $category) {
         // Assume we have a valid topid id
-        $sql = 'SELECT t.topic_title,f.forum_id,f.forum_name FROM ' . $xoopsDB->prefix('bb_topics') . ' t, ' . $xoopsDB->prefix('bb_forums') . ' f WHERE t.forum_id = f.forum_id AND t.topic_id = '
-            . $item_id . ' limit 1';
-        if (!$result = $xoopsDB->query($sql)) {
-            redirect_header("index.php", 2, _MD_ERROROCCURED);
-            exit();
+        $sql = 'SELECT t.topic_title,f.forum_id,f.forum_name FROM ' . $GLOBALS['xoopsDB']->prefix('bb_topics') . ' t, ' . $GLOBALS['xoopsDB']->prefix('bb_forums') . ' f WHERE t.forum_id = f.forum_id AND t.topic_id = ' . $item_id . ' LIMIT 1';
+        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+            redirect_header('index.php', 2, _MD_ERROROCCURED);
         }
-        $result_array = $xoopsDB->fetchArray($result);
+        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['topic_title'];
         $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum=' . $result_array['forum_id'] . '&topic_id=' . $item_id;
 
         return $item;
     }
 
-    if ($category == 'post') {
+    if ('post' === $category) {
         // Assume we have a valid post id
-        $sql = 'SELECT subject,topic_id,forum_id FROM ' . $xoopsDB->prefix('bb_posts') . ' WHERE post_id = ' . $item_id . ' LIMIT 1';
-        if (!$result = $xoopsDB->query($sql)) {
-            redirect_header("index.php", 2, _MD_ERROROCCURED);
-            exit();
+        $sql = 'SELECT subject,topic_id,forum_id FROM ' . $GLOBALS['xoopsDB']->prefix('bb_posts') . ' WHERE post_id = ' . $item_id . ' LIMIT 1';
+        if (!$result = $GLOBALS['xoopsDB']->query($sql)) {
+            redirect_header('index.php', 2, _MD_ERROROCCURED);
         }
-        $result_array = $xoopsDB->fetchArray($result);
+        $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['subject'];
-        $item['url']
-                      =
-            XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum= ' . $result_array['forum_id'] . '&amp;topic_id=' . $result_array['topic_id'] . '#forumpost' . $item_id;
+        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/viewtopic.php?forum= ' . $result_array['forum_id'] . '&amp;topic_id=' . $result_array['topic_id'] . '#forumpost' . $item_id;
 
         return $item;
     }

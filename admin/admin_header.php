@@ -10,71 +10,49 @@
  */
 
 /**
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
- * @author       XOOPS Development Team
- * @version      $Id $
+ * @package         XoopsModules\Pedigree
+ * @copyright       {@link https://xoops.org/ XOOPS Project}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author          XOOPS Module Dev Team
  */
-/*
-$path = dirname(dirname(dirname(__DIR__)));
-include_once $path . '/mainfile.php';
-include_once $path . '/include/cp_functions.php';
-require_once $path . '/include/cp_header.php';
 
-global $xoopsModule;
+use Xmf\Module\Admin;
+use XoopsModules\Pedigree\{
+    Helper,
+    RegistryHandler
+};
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+/** @var RegistryHandler $registryHandler */
 
-$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+require_once \dirname(__DIR__, 3) . '/include/cp_header.php';
+require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-//if functions.php file exist
-//require_once dirname(__DIR__) . '/include/functions.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
+require_once \dirname(__DIR__) . '/include/common.php';
+
+$moduleDirName      = basename(\dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+$helper = Helper::getInstance();
+
+$registryHandler = $helper->getHandler('Registry');
+
+$adminObject   = Admin::getInstance();
+
+$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon32    = Admin::iconUrl('', 32);
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 // Load language files
-xoops_loadLanguage('admin', $thisModuleDir);
-xoops_loadLanguage('modinfo', $thisModuleDir);
-xoops_loadLanguage('main', $thisModuleDir);
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('common');
 
-$pathIcon16 = '../'.$xoopsModule->getInfo('icons16');
-$pathIcon32 = '../'.$xoopsModule->getInfo('icons32');
-$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
-
-include_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
-
-*/
-
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
-include_once dirname(__DIR__) . '/include/config.php';
-include_once dirname(__DIR__) . '/include/functions.php';
-include_once dirname(__DIR__) . '/include/common.php';
-
-$thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
-
-$pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
-$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
-$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
-//load handlers
-$pedigreeTrashHandler  = xoops_getModuleHandler('trash', $thisDirname);
-$pedigreeOwnerHandler  = xoops_getModuleHandler('owner', $thisDirname);
-$pedigreeTempHandler   = xoops_getModuleHandler('temp', $thisDirname);
-$pedigreeTreeHandler   = xoops_getModuleHandler('tree', $thisDirname);
-$pedigreeFieldsHandler = xoops_getModuleHandler('fields', $thisDirname);
-
+/** @var MyTextSanitizer $myts */
 $myts = MyTextSanitizer::getInstance();
-if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once(XOOPS_ROOT_PATH . "/class/template.php");
-    $xoopsTpl = new XoopsTpl();
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new \XoopsTpl();
 }
-
-$xoopsTpl->assign('pathIcon16', $pathIcon16);
-$xoopsTpl->assign('pathIcon32', $pathIcon32);
-//Load languages
-xoops_loadLanguage('admin', $thisDirname);
-xoops_loadLanguage('modinfo', $thisDirname);
-xoops_loadLanguage('main', $thisDirname);
-// Locad admin menu class
-include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');
-
-xoops_cp_header();
-$adminMenu = new ModuleAdmin();

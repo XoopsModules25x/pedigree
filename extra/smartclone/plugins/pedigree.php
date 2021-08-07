@@ -1,7 +1,6 @@
 <?php
 
 /**
- * $Id: pedigree.php,v 1.1 2006/11/02 17:25:05 marcan Exp $
  * Module: SmartClone
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU

@@ -1,93 +1,88 @@
 <?php
-// -------------------------------------------------------------------------
-
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-
 /*
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
-} else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
-}
-*/
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
+/**
+ * Module: Pedigree
+ *
+ * @package   XoopsModules\Pedigree
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ */
+
+use Xmf\Request;
+use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
+
+//require_once  \dirname(__DIR__, 2) . '/mainfile.php';
+require_once __DIR__ . '/header.php';
+
+$helper->loadLanguage('main');
 // Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
+require_once $helper->path('include/common.php');
 
-$xoopsOption['template_main'] = "pedigree_adddog.tpl";
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_adddog.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
-$xoopsTpl->assign('page_title', "Pedigree database - Add owner/breeder");
+require XOOPS_ROOT_PATH . '/header.php';
+
+$GLOBALS['xoopsTpl']->assign('page_title', _MA_PEDIGREE_ADD_OWNER_BREEDER);
 
 //check for access
-$xoopsModule = XoopsModule::getByDirname("pedigree");
-if (empty($xoopsUser)) {
-    redirect_header("index.php", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
-    exit();
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
+    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
 }
 
-$f = isset($_GET['f']) ? $_GET['f'] : '';
-if ($f == "check") {
-    check();
-}
-
-function check()
-{
-    global $xoopsTpl, $xoopsUser, $xoopsDB, $xoopsModuleConfig;
+$f = Request::getString('f', '', 'POST');
+if ('check' === $f) {
     //check for access
-    $xoopsModule = XoopsModule::getByDirname("pedigree");
-    if (empty($xoopsUser)) {
-        redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
-        exit();
-    }
-    $achternaam = XoopsRequest::getString('achternaam', '', 'post');
-    $voornaam   = XoopsRequest::getString('voornaam', '', 'post');
-    $email      = XoopsRequest::getEmail('email', '', 'post');
-    $website    = XoopsRequest::getUrl('website', '', 'post');
-    $user       = XoopsRequest::getString('user', '', 'post');
-    //insert into owner
-    $query = "INSERT INTO " . $xoopsDB->prefix("pedigree_owner") . " VALUES ('','"
-        . $xoopsDB->escape($voornaam) . "','"
-        . $xoopsDB->escape($achternaam) . "','','','','','','"
-        . $xoopsDB->escape($email) . "','"
-        . $xoopsDB->escape($website) . "','"
-        . $xoopsDB->escape($user) . "')";
-    $xoopsDB->query($query);
-    redirect_header("index.php", 1, "The data has been stored.");
+    $objVars = [
+        'firstname'  => Request::getString('firstname', '', 'POST'),
+        'lastname'   => Request::getString('lastname', '', 'POST'),
+        'emailadres' => Request::getEmail('email', '', 'POST'),
+        'website'    => Request::getUrl('website', '', 'POST'),
+        'user'       => Request::getString('user', '', 'POST'),
+    ];
+
+    $ownerHandler = $helper->getHandler('Owner');
+    $oObj         = $ownerHandler->create();
+    $oObj->setVars($objVars);
+    $ownerHandler->insert($oObj);
+
+    $helper->redirect('', 3, _MA_PEDIGREE_ADDED_TO_DB);
 }
 
-global $xoopsTpl, $xoopsUser, $xoopsDB;
-//check for access
-$xoopsModule = XoopsModule::getByDirname("pedigree");
-if (empty($xoopsUser)) {
-    redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
-    exit();
-}
 //create form
-include XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-$form = new XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'POST');
-$form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-$form->addElement(new XoopsFormHidden('user', $xoopsUser->getVar("uid")));
+require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+$form = new \XoopsThemeForm(_MA_PEDIGREE_ADD_OWNER, 'breedername', 'add_breeder.php?f=check', 'post');
+$form->addElement(new \XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = Constants::TOKEN_TIMEOUT));
+$form->addElement(new \XoopsFormHidden('user', $GLOBALS['xoopsUser']->getVar('uid')));
 //lastname
-$form->addElement(new XoopsFormText("<b>" . _MA_PEDIGREE_FLD_OWN_LNAME . "</b>", 'achternaam', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_LNAME . '</b>', 'lastname', $size = 30, $maxsize = 30, $value = ''));
 
 //firstname
-$form->addElement(new XoopsFormText("<b>" . _MA_PEDIGREE_FLD_OWN_FNAME . "</b>", 'voornaam', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_FNAME . '</b>', 'firstname', $size = 3050, $maxsize = 30, $value = ''));
 
 //email
-$form->addElement(new XoopsFormText("<b>" . _MA_PEDIGREE_FLD_OWN_EMAIL . "</b>", 'email', $size = 50, $maxsize = 255, $value = ''));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_EMAIL . '</b>', 'email', $size = 30, $maxsize = 40, $value = ''));
 
 //website
-$form->addElement(new XoopsFormText("<b>" . _MA_PEDIGREE_FLD_OWN_WEB . "</b>", 'website', $size = 50, $maxsize = 255, $value = ''));
-$form->addElement(new XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_OWN_WEB_EX));
+$form->addElement(new \XoopsFormText('<b>' . _MA_PEDIGREE_FLD_OWN_WEB . '</b>', 'website', $size = 30, $maxsize = 60, $value = ''));
+$form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_EXPLAIN, _MA_PEDIGREE_FLD_OWN_WEB_EX));
 
 //submit button
-$form->addElement(new XoopsFormButton('', 'button_id', _MA_PEDIGREE_ADD_OWNER, 'submit'));
+$form->addElement(new \XoopsFormButton('', 'button_id', _MA_PEDIGREE_ADD_OWNER, 'submit'));
 
 //add data (form) to smarty template
-$xoopsTpl->assign("form", $form->render());
+$GLOBALS['xoopsTpl']->assign('form', $form->render());
 
 //footer
-include XOOPS_ROOT_PATH . "/footer.php";
+require XOOPS_ROOT_PATH . '/footer.php';

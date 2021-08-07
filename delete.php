@@ -1,73 +1,74 @@
 <?php
-// -------------------------------------------------------------------------
-
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-
 /*
-if (file_exists(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php")) {
-    require_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php";
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * Module: Pedigree
+ *
+ * @package   XoopsModules\Pedigree
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @author    XOOPS Module Development Team
+ */
+
+use Xmf\Request;
+use XoopsModules\Pedigree;
+use XoopsModules\Pedigree\Constants;
+
+require_once __DIR__ . '/header.php';
+
+/** @var XoopsModules\Pedigree\Helper $helper */
+$helper->loadLanguage('main');
+
+//check for access - only allow registered users
+if (empty($GLOBALS['xoopsUser']) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
+    redirect_header('javascript:history.go(-1)', 3, _NOPERM . '<br>' . _MA_PEDIGREE_REGIST);
+}
+
+$GLOBALS['xoopsOption']['template_main'] = 'pedigree_delete.tpl';
+require XOOPS_ROOT_PATH . '/header.php';
+
+$id = Request::getInt('id', 0, 'GET');
+if (empty($id)) {
+    //re-route user if we didn't get a valid id
+    $helper->redirect('', Constants::REDIRECT_DELAY_MEDIUM, _MA_PEDIGREE_INVALID_ID);
+}
+//query - find values for this animal
+$treeHandler = $helper->getHandler('Tree');
+$treeObj     = $treeHandler->get($id);
+
+if ($treeObj instanceof Pedigree\Tree && !$treeObj->isNew()) {
+    $pname = $treeObj->getVar('pname', 's');
+    //$namelink = "<a href=\"" . $helper->url("dog.php?id={$id}") . "\">{$pname}</a>";
+
+    //Create form
+    require XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    $form = new \XoopsThemeForm($pname, 'deletedata', 'deletepage.php', 'post');
+    //hidden value current record owner
+    $form->addElement(new \XoopsFormHidden('dbuser', $treeObj->getVar('user')));
+    //hidden value dog ID
+    $form->addElement(new \XoopsFormHidden('dogid', $id));
+    $form->addElement(new \XoopsFormHidden('curname', $pname));
+    $form->addElement(new \XoopsFormHiddenToken('XOOPS_TOKEN_REQUEST', Constants::TOKEN_TIMEOUT));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $helper->getConfig('animalType') . " : <span style=\"font-weight: bold;\">{$pname}</span>?"));
+    //@todo move pups() function to Tree class method
+    $pups = pups($id, (int)$treeObj->getVar('roft'));
+    $form->addElement(new \XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $helper->getConfig('children') . _MA_PEDIGREE_ALL_ORPH . $pups));
+    $form->addElement(new \XoopsFormButton('', 'button_id', _DELETE, 'submit'));
+    //add data (form) to smarty template
+    $GLOBALS['xoopsTpl']->assign('form', $form->render());
 } else {
-    include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/english/main.php";
+    //redirect because this animal wasn't found
+    $helper->redirect('', Constants::REDIRECT_DELAY_MEDIUM, _MA_PEDIGREE_INVALID_ID);
 }
-*/
-
-xoops_loadLanguage('main', basename(dirname(__DIR__)));
-
-// Include any common code for this module.
-require_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/include/functions.php");
-
-$xoopsOption['template_main'] = "pedigree_delete.tpl";
-
-include XOOPS_ROOT_PATH . '/header.php';
-
-//get module configuration
-$module_handler = xoops_getHandler('module');
-$module         = $module_handler->getByDirname("pedigree");
-$config_handler = xoops_getHandler('config');
-$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
-
-//check for access
-$xoopsModule = XoopsModule::getByDirname("pedigree");
-if (empty($xoopsUser)) {
-    redirect_header("javascript:history.go(-1)", 3, _NOPERM . "<br />" . _MA_PEDIGREE_REGIST);
-    exit();
-}
-
-global $xoopsTpl;
-global $xoopsDB;
-global $xoopsModuleConfig;
-
-$id = $_GET['id'];
-//query (find values for this dog (and format them))
-$queryString = "SELECT ID, NAAM, user, roft from " . $xoopsDB->prefix("pedigree_tree") . " WHERE ID=" . $id;
-$result      = $xoopsDB->query($queryString);
-
-while ($row = $xoopsDB->fetchArray($result)) {
-    //ID
-    $id = $row['ID'];
-    //name
-    $naam     = htmlentities(stripslashes($row['NAAM']), ENT_QUOTES);
-    $namelink = "<a href=\"dog.php?id=" . $row['ID'] . "\">" . stripslashes($row['NAAM']) . "</a>";
-    //user who entered the info
-    $dbuser = $row['user'];
-    $roft   = $row['roft'];
-}
-
-//create form
-include XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-$form = new XoopsThemeForm($naam, 'deletedata', 'deletepage.php', 'POST');
-//hidden value current record owner
-$form->addElement(new XoopsFormHidden('dbuser', $dbuser));
-//hidden value dog ID
-$form->addElement(new XoopsFormHidden('dogid', $_GET['id']));
-$form->addElement(new XoopsFormHidden('curname', $naam));
-$form->addElement(new XoopsFormHiddenToken($name = 'XOOPS_TOKEN_REQUEST', $timeout = 360));
-$form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_SURE, _MA_PEDIGREE_DEL_MSG . $moduleConfig['animalType'] . " : <b>" . $naam . "</b> ?"));
-$pups = pups($_GET['id'], $roft);
-$form->addElement(new XoopsFormLabel(_MA_PEDIGREE_DELE_WARN, _MA_PEDIGREE_ALL . $moduleConfig['children'] . _MA_PEDIGREE_ALL_ORPH . $pups));
-$form->addElement(new XoopsFormButton('', 'button_id', _MA_PEDIGREE_BTN_DELE, 'submit'));
-//add data (form) to smarty template
-$xoopsTpl->assign("form", $form->render());
 
 //footer
-include XOOPS_ROOT_PATH . "/footer.php";
+require XOOPS_ROOT_PATH . '/footer.php';

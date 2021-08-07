@@ -1,4 +1,3 @@
-
 Hello {X_UNAME},
 
 There has been a modification to the information regarding "{X_ITEM_NAME}".
@@ -7,7 +6,7 @@ Click on the link below to view the dog:
 {X_ITEM_URL}
 
 -----------
-{X_SITENAME} ({X_SITEURL}) 
+{X_SITENAME} ({X_SITEURL})
 administrator/webmaster
 {X_ADMINMAIL}
 
